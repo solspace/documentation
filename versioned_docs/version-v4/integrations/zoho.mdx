@@ -1,0 +1,139 @@
+---
+title: 'Zoho'
+sidebar_position: 25
+---
+
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Zoho<Badge type="pro" text="Pro" />
+
+## Zoho Deal CRM Integration
+
+This documentation page assumes you have read over the [CRM Integration Overview](./index.mdx#crm). If you have not yet read it, please do so now. We also assume that you have a [Zoho CRM](https://crm.zoho.com) account already. This integration requires that you have _Freeform Pro_. If you currently have Freeform Lite, you can purchase an upgrade to Freeform Pro.
+
+:::info
+[Click here if you're looking for the Zoho _Lead_ integration.](#zoho-lead-crm-integration)
+:::
+
+### Compatibility
+
+- Field mapping to standard and custom fields.
+- Maps data to Deals, Contacts and Accounts modules.
+
+### Setup Instructions
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+
+#### Prepare Freeform's end for Integration
+
+- Go to the [CRM section in Freeform Settings](../configuration/settings.mdx#crm) (**Freeform → Settings → CRM**).
+- Click the **New CRM Integration** at the top right.
+- Select _Zoho Deal_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration.
+- Leave this page open and open a new tab to go to the Zoho site...
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+#### Prepare Zoho's end for Integration
+
+- Go to the Zoho _Developer Console_ website ([accounts.zoho.com/developerconsole](https://accounts.zoho.com/developerconsole)).
+- Click the **Add Client** button to begin:
+- Choose the **Server-based Applications** card
+  - For **Client Name**, enter whatever you like, e.g. `My Website`.
+  - For **Homepage URL**, enter the URL of the website you're using this one, e.g. `https://my-precio.us`.
+  - For **Authorized Redirect URIs**, enter the automatically generated **OAuth 2.0 Return URI** from the **Freeform CRM Integration** page. e.g. `https://my-precio.us/admin/freeform/settings/crm/myZohoIntegration`
+  - Then click **Create** to save the new Client ID.
+- On the next page, take note and copy the _Client ID_ and _Client Secret_ tokens and paste into your Freeform CP integration page (flip back to your other browser tab) in the _Client ID_ and _Client Secret_ fields respectively.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+#### Finish the Integration
+
+- Flip back to the Freeform CP browser tab, and click **Save** at the top right corner of Freeform page.
+- You will be redirected to a Zoho login page.
+  - Fill in your credentials.
+  - Click **Allow** when asked for permissions.
+- You will then be redirected back to the **Freeform CRM Integration** page.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+#### Verify Authorization
+
+- Confirm that there is green circle with **Authorized** in the middle of the page.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>
+
+## Zoho Lead CRM Integration
+
+:::info
+[Click here if you're looking for the Zoho _Deal_ integration.](#zoho-deal-crm-integration)
+:::
+
+### Compatibility
+
+- Field mapping to standard and custom fields.
+- Maps data to Leads module only.
+
+### Setup Instructions
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+
+#### Prepare Freeform's end for Integration
+
+- Go to the [CRM section in Freeform Settings](../configuration/settings.mdx#crm) (**Freeform → Settings → CRM**).
+- Click the **New CRM Integration** at the top right.
+- Select _Zoho Lead_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration. e.g. `My Zoho Integration`
+- Leave this page open and open a new tab to go to the Zoho site...
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+#### Prepare Zoho's end for Integration
+
+- Go to the Zoho _Developer Console_ website ([accounts.zoho.com/developerconsole](https://accounts.zoho.com/developerconsole)).
+- Click the **Add Client** button to begin:
+  - Choose the **Server-based Applications** card
+    - For **Client Name**, enter whatever you like, e.g. `My Website`.
+    - For **Homepage URL**, enter the URL of the website you're using this one, e.g. `https://my-precio.us`.
+    - For **Authorized Redirect URIs**, enter the automatically generated **OAuth 2.0 Return URI** from the **Freeform CRM Integration** page. e.g. `https://my-precio.us/admin/freeform/settings/crm/myZohoIntegration`
+    - Then click **Create** to save the new Client ID.
+- On the next page, take note and copy the _Client ID_ and _Client Secret_ tokens and paste into your Freeform CP integration page (flip back to your other browser tab) in the _Client ID_ and _Client Secret_ fields respectively.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+#### Finish the Integration
+
+- Flip back to the Freeform CP browser tab, and click **Save** at the top right corner of Freeform page.
+- You will be redirected to a Zoho login page
+  - Fill in your credentials
+  - Click **Allow** when asked for permissions
+- You will then be redirected back to the **Freeform CRM Integration** page
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+#### Verify Authorization
+
+- Confirm that there is green circle with **Authorized** in the middle of the page.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>

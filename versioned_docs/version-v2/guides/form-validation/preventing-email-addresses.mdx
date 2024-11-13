@@ -1,0 +1,21 @@
+---
+sidebar_position: 5
+---
+
+# Preventing Certain Email Addresses
+
+If you'd like to prevent users from using certain types of email addresses (for example, you don't want them using common free ones like Gmail, Yahoo, etc), you can do this by somewhat "misusing" the [Block Email addresses](../../configuration/settings.mdx#spam-protection) feature inside Freeform's Spam Settings area. It's meant to allow you to block common sources of spam, but technically can allow you to prevent legitimate users from using certain email address domains, and you can display an error for them too. Here's how you would set it up:
+
+1. Go to **CP** -> **Freeform** -> **Settings** -> **Spam Settings**.
+2. In the **Block Email addresses** field, add some email address domains with wildcards like:
+
+- `*@yahoo.com`
+- `*@gmail.com`
+- `*@hotmail.com`
+- `*@aol.com`
+
+3. Enable the **Display errors about blocked email(s) under each email field?** setting.
+4. Under that setting, in the **Blocked Emails Error Message** setting, add a message such as `Email not allowed. Please use your company email address.`
+5. Save settings.
+
+When that is all applied, any user submitting the form with an email address like `hairylover28@aol.com` will see an error when the form is submitted, and below the Email field it will say: `Email not allowed. Please use your company email address.`.

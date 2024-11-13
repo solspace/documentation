@@ -1,0 +1,59 @@
+---
+title: Cache
+sidebar_position: 4
+---
+
+# Cache tag
+
+Calendar event data and calendar data can be cached with the [Cache tag](https://craftcms.com/docs/4.x/dev/tags.html#cache). However, if you want the cache to refresh whenever you create, update or remove an event or calendar, you will need to specify a **cache key** when doing so.
+
+For example, caching a calendars list would look like this, and will refresh automatically whenever you create, update or delete a calendar:
+
+```twig showLineNumbers
+{% set calendars = craft.calendar.calendars %}
+
+{% cache using key craft.calendar.calendarsCacheKey %}
+  <h2>Calendars</h2>
+  {% for calendar in calendars %}
+    <div>
+      {{ calendar.title }}
+    </div>
+  {% endfor %}
+{% endcache %}
+```
+
+To cache an events list, it would look like this, and will refresh automatically whenever you create, update or delete an event:
+
+```twig showLineNumbers
+{% set events = craft.calendar.events %}
+
+{% cache using key craft.calendar.eventsCacheKey %}
+  <h2>Events</h2>
+  {% for event in events %}
+    <div>
+      {{ event.title }}
+    </div>
+  {% endfor %}
+{% endcache %}
+```
+
+In this example however, only the event data cache will be refreshed. Since calendars and their data is separate, updating a calendar will not refresh any related calendar specific data in the above example (such as calendar name, handle, color, etc).
+
+To work around this, you would include a **cache key** for both _calendar_ data and _event_ data, so that all of the cache would refresh if a calendar or event is created, updated or deleted.
+
+For example:
+
+```twig showLineNumbers
+{% set events = craft.calendar.events %}
+
+{% cache using key (craft.calendar.calendarsCacheKey ~ craft.calendar.eventsCacheKey) %}
+  <h2>Event calendars</h2>
+  {% for event in events %}
+    <div>
+      {{ calendar.title }} in {{ event.calendar.name }}
+    </div>
+  {% endfor %}
+{% endcache %}
+```
+
+You can also clear your cache manually by going into Craft's Settings, and clicking the **Clear Caches** button (choose the **Template caches** option).

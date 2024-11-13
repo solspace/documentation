@@ -1,0 +1,61 @@
+---
+sidebar_position: 1
+title: 'Submissions'
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Submissions
+
+Similar to Channel Entries, every time a user submits a form, we refer to those as submissions. Currently, submissions can be viewed and edited in the control panel, and displayed on the front end in templates as a list and individually.
+
+## In the Control Panel
+
+Each form contains it's own grouping of submissions. You can view these by clicking on the submissions count in the **Submissions** column of the forms list. When presented the list of submissions, you can adjust which field columns are shown, and click into any of the submissions to edit them.
+
+<Photo
+  img={require('@site/static/img/ee-freeform/v3/cp_submissions-list.png')}
+  alt="Submissions"
+/>
+
+<Photo
+  img={require('@site/static/img/ee-freeform/v3/cp_submissions-edit.png')}
+  alt="Edit Submissions"
+/>
+
+## Exporting Submissions
+
+Freeform includes 3 options for exporting. Please refer to the [Exporting](./exporting.mdx) documentation for more information.
+
+## In Front End Templates
+
+One common use-case might be displaying the contents of the form submission to the user that submitted it right after they have successfully submitted the form, allowing them to review what they submitted. Of course, be aware that there are security implications here if the submissions contain sensitive content.
+
+If the information is not sensitive, and meant to be public - like comments, you can also display submissions in a paginated (or not) list.
+
+For more information about this, please visit the [Freeform_Next:Submissions](../templating/submissions.mdx) template tag documentation.
+
+## Editing Submissions
+
+Freeform allows you to edit submissions via the front end templates as well. Currently, this feature has no member/author check, and requires you use/provide `{submission:token}` to work (as opposed to the ID). The editing uses the same [Freeform_Next:Form](../templating/form.mdx) template tag, but knows you're in **edit mode** when you feed the `submission_token` parameter a valid value.
+
+:::warning
+There are currently some limitations with this feature. Please note that not all types of forms can be intuitively edited (e.g. forms with API integrations will likely create new CRM contact instead of update existing ones (unless the integration is setup that way), etc).
+:::
+
+When linking to the form edit, you might use something like this inside the [Freeform_Next:Submissions](../templating/submissions.mdx) template tag:
+
+```twig
+<a href="{path='my/template'}/edit/{submission:token}/">Edit</a>
+```
+
+Then in your template that includes the [Freeform_Next:Form](../templating/form.mdx) template tag, be sure that the `submission_token` parameter is included and checking the URL for a value:
+
+```twig{2}
+{exp:freeform_next:form form="my_form"
+    submission_token="{segment_4}"
+    return_url="{path='my/template/submission/SUBMISSION_ID'}"
+}
+```
+
+You can also check out the example in the [demo templates](../configuration/demo-templates.mdx) if you wish to see it in action.

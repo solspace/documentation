@@ -1,0 +1,552 @@
+---
+title: Changelog
+sidebar_label: Changelog
+sidebar_position: 5
+---
+
+import { TitleDate } from '@site/src/components/docs';
+
+## 1.8.14<TitleDate date="2015-08-26" />
+
+### Additions
+
+- Added a `force_update="yes"` parameter for Calendar:ICS_Update to allow the overriding of ICS_Update's checking for `LAST-MODIFIED` or `DTSTAMP` changes before upgrading an imported event from the iCalendar format. Apple and Outlook (web) do not properly support the iCalendar specification and thus do not update `DTSTAMP` or include `LAST-MODIFIED` on the `VEVENT` block when an event is updated.
+- Added back in erroneously removed debugging log lines from within calendar tag processing (seen when EE's template debugging is enabled).
+- Added an `allow_logged_out="yes"` parameter to ICS_Update to allow updates to function when the user is logged out for easier use of cron jobs and remote fetching of the template. This is gated behind a parameter in case there are security concerns.
+
+### Fixes
+
+- Fixed a bug where date comparisons within Calendar:ICS_Update were using an inaccurate date comparison method in MySQL which could result in false negatives for update intervals.
+- Fixed a bug where modern pagination was not functioning correctly and wasn't allowing the use of the `{calendar_pagination_links}` variable pair.
+- Fixed a bug where some combinations of recurring events could cause an infinite loop to occur during event building.
+- Fixed a bug where Calendar:ICS_Update could throw an error during update in some ExpressionEngine versions.
+
+## 1.8.13<TitleDate date="2015-04-28" />
+
+### Changes
+
+- Updated for compatibility with ExpressionEngine 2.10+.
+
+### Fixes
+
+- Fixed a bug with Calendar:ICS_Update where interval comparisons might not correctly update.
+- Fixed a bug where an Assets field could trigger errors when used with a Calendar channel.
+
+## 1.8.12<TitleDate date="2015-02-02" />
+
+### Additions
+
+- Added an adjustment to the date format parameter `%U` that adjusts the timestamp against the offset of the calendar. This can be further adjusted with a timezone ID and a `tz_id_my-calendar-url-title="America/New_York"` parameter. Note that this ONLY affects the `%U` format on date params.
+
+### Changes
+
+- Made some minor adjustments and improvements to the Demo Templates.
+
+## 1.8.11<TitleDate date="2014-12-10" />
+
+### Changes
+
+- Updated and refreshed demo templates.
+
+## 1.8.10<TitleDate date="2014-11-21" />
+
+### Fixes
+
+- Fixed a bug where Calendar could display errors in PHP 5.6.0.
+- Fixed a bug where caching of some data items could take up a lot of system memory.
+
+## 1.8.9<TitleDate date="2014-06-18" />
+
+### Fixes
+
+- Fixed an issue with date conditionals in the Occurrences tag and variable pairs that could occur in ExpressionEngine 2.9+.
+
+## 1.8.8<TitleDate date="2014-05-20" />
+
+### Fixes
+
+- Fixed an issue with date conditionals that could occur in ExpressionEngine 2.9+.
+
+## 1.8.7<TitleDate date="2014-05-08" />
+
+### Fixes
+
+- Fixed an issue with date conditionals that could occur in ExpressionEngine 2.8.2+.
+
+## 1.8.6<TitleDate date="2014-04-13" />
+
+### Changes
+
+- Updated for compatibility with EE 2.8.
+
+### Fixes
+
+- Fixed a bug with ICS import where missing elements could possibly cause a PHP error.
+- Fixed a potential bug with permissions and incomplete channel data.
+- Fixed a bug where ICS imports/updates could malform `end_by` rules on repeating events.
+
+## 1.8.5<TitleDate date="2013-09-12" />
+
+### Changes
+
+- Updated iCalendar class to 2.16.12.
+
+### Fixes
+
+- Fixed a bug where ICS updates would error and not create entries due to an `entry_date` error.
+- Fixed a bug where new ICS imports in new Calendars could result in a PHP error on publish.
+- Verified compatibility with EE 2.7.
+
+## 1.8.4<TitleDate date="2013-05-14" />
+
+### Fixes
+
+- Fixed a bug where pagination would fail to work in some situations.
+- Fixed a critical bug with installing Calendar on ExpressionEngine 2.6+.
+
+## 1.8.3<TitleDate date="2013-05-01" />
+
+### Additions
+
+- Added `summary_field` parameter to Calendar:iCalendar to allow changing of the default `{event_title}` for export. [With thanks to Aaron Gustafson]
+- Added a preference for default behavior for deletion of events with the Calendar:ICS_Update tag.
+- Added `delete_missing="yes"` parameter to Calendar:ICS_Update to override 'ICS Update Default Delete Behavior' preference.
+
+### Changes
+
+- Updated for compatibility with ExpressionEngine 2.6.
+
+### Fixes
+
+- Fixed a bug where PHP errors would occur in the CP on PHP 5.2.x.
+- Fixed a bug where large amounts of events (over 500) would have issues showing all events within a time range.
+- Fixed a bug where updated events from Calendar:ICS_Update would create new events instead of updating the older imported items with the same UUID.
+- Fixed a bug where Calendar permissions might not be able to load group data.
+
+## 1.8.2<TitleDate date="2013-03-08" />
+
+### Additions
+
+- Added internal Demo Templates tab in control panel (replaces older "code pack" approach).
+
+### Changes
+
+- Updates are now automatic and no longer require a manual update screen.
+
+### Fixes
+
+- Fixed a bug where using the Calendar widget with SafeCracker and an alternate form ID would cause javascript errors.
+- Fixed a bug where after many events were displayed on a page with Calendar:Cal, a PHP error could occur in some rare situations.
+
+## 1.8.1<TitleDate date="2012-12-29" />
+
+### Fixes
+
+- Fixed a bug where Calendar would error on upgrades or new installs.
+
+## 1.8.0<TitleDate date="2012-12-11" />
+
+### Additions
+
+- Added offline documentation files to the download package.
+- Added two new hooks for manipulating pagination data: `calendar_build_calendar_create_pagination` and `calendar_events_create_pagination`.
+- Added `{event_count}` and `{event_total}` variables to the `{events}` variable pair for use in Calendar:Cal tag.
+- Added extra instructions to the Calendar channel field 'ICS URL' to note that all imported times are adjusted to that calendar's offset.
+
+### Changes
+
+- Updated the `date_range_end` parameter to have a default value of end of the day instead of the current date and time as the `date_range_start` parameter.
+
+### Fixes
+
+- Fixed a bug where Calendar was incorrectly putting defaults on text type columns that aren't compatible with MySQL strict mode.
+- Fixed a bug where Calendar inserts on install were not MySQL Strict mode compliant.
+- Fixed a bug where imported entry titles would get auto-truncated in non-MySQL Strict mode silently, and error in MySQL Strict mode. Titles are all now restricted to 100 characters in length before sending to the database, as that is the column limit for channel entry titles.
+- Fixed a bug where some Calendar ICS imports running BYDAY rules could cause errors during the import stage of a new calendar.
+- Fixed a bug where imported events with no title were not receiving a default title value of "No Title".
+- Fixed a bug where events imported from ICS files would incorrectly adjust event times if the system was currently observing Daylight Savings Time.
+- Fixed a bug where the Calendar channel timezone field was not properly defaulting to the Default Timezone in Calendar Preferences.
+- Fixed a bug where pagination would attempt to run even when the limit parameter was not present and would throw PHP errors.
+- Fixed a bug where the default status group on install was `1` and could error if status group id `1` did not exist. Calendar now searches for the lowest status group ID as the default and uses '0' if none are present. This affects new installs only.
+- Fixed a bug where event data could be affected by third-party addons hooking into the Channel module and resulted in missing event errors.
+- Fixed a bug where errors would occur when using the Calendar:Cal tag with PHP 5.4.x.
+- Fixed a bug where creating new event rules could cause errors to occur when using MySQL in strict mode.
+- Fixed a bug where setting the Calendar events 'Dates & Options' field to be required, and editing an event occurrence would result in the inability to submit the entry.
+- Fixed a bug where using `%I` in a date format could result in a PHP error being shown.
+- Fixed a bug where using `%F` in a date format could result in an invalid language line loaded.
+- Fixed a bug where iCalendar format export for Calendars with a timezone of `GMT-0` would incorrectly set `TZOFFSETTO` to `0000` instead of `+0000`, causing imports into certain calendar software (including Google Calendar) to error and fail the import.
+- Fixed a bug where an infinite update loop could occur if Calendar extensions were disabled but the module ## number was up to date.
+- Fixed a bug where recurring events would not take into account `date_range_start` and `date_range_end` hours and minutes.
+- Fixed a bug where giving non-integer values to the `event_id` or `calendar_id` parameters could result in a MySQL error instead of gracefully falling back to default.
+- Fixed a bug where the `event_offset` parameter in the Calendar:Events tag wouldn't function without the `event_limit` parameter being set.
+- Fixed a bug where new rules added in the Calendar widget of the publish page would not use alternate languages set by the system.
+- Fixed some bugs that could occur when upgrading ExpressionEngine 1.x to 2.x with Calendar installed.
+- Fixed a bug where adding exceptions or occurrences could result in a MySQL error when MySQL was running in Strict mode.
+- Fixed a bug where 'Reply To' and 'Reply Name' were not being parsed for variables or sent through to hooks.
+- Fixed a bug where, given no start and end date ranges, the default date range would not end at the end of the last day.
+- Fixed a bug where `pad_short_weeks` would lose the end time of `time_range_end` and would set it inadvertently to the beginning of the last day.
+- Fixed a bug where the rule removal button in the publish area would not function in some situations when editing events.
+- Fixed a bug where the text time parser would mistakenly consider `12:00 pm` as `00:00` military time rather than `12:00` and conversely would consider `12:00 am` as `12:00` military time rather than `00:00`.
+- Fixed a bug where foreign language translation files would not load for Calendar unless the system default was set to the language desired and not just the currently logged-in users' language preference.
+- Fixed some rendering bugs with the Calendar widget that could cause javascript errors when foreign languages were used.
+- Fixed a bug where pagination would not properly load foreign language lines for first and last link names.
+- Fixed a bug where EE 1.x would not properly alert users if an update failed because of extensions being disabled.
+- Fixed a bug where some date formats were too aggressively cached and would result in incorrect output.
+- Fixed a bug where Calendar was not compatible with EE 2.5.x's ability to move the third-party themes folder.
+
+### Removals
+
+- Removed support for ExpressionEngine 1.x (Calendar is now EE2 only).
+
+## 1.7.0<TitleDate date="2012-01-25" />
+
+### Additions
+
+- Added member group permissions feature to Calendar, which includes a Permission tab in the Calendar module CP, and permissions blocks for Calendar events in the EE Edit page Publish area (EE2-only).
+
+### Changes
+
+- Updated pagination to support ExpressionEngine 2.4.
+
+### Fixes
+
+- Fixed a bug where the `rules` variable pair would not get the proper hour and minutes for `rule_start_date` and `rule_end_date` variables.
+- Fixed a bug where calculating date ranges would possibly add the timezone offset twice, resulting in incorrect ranges.
+
+## 1.6.4<TitleDate date="2011-11-16" />
+
+### Fixes
+
+- Fixed a bug where the update function could run more than once if fired automatically by EE during the manual running of the module update.
+- Fixed a bug where the `{occurrence_count}` conditional was not working in the `{occurrences}{/occurrences}` variable pair.
+- Fixed a bug where using an invalid item with the `event_name=""` parameter in Calendar:Events would show all events instead of no results.
+- Fixed a bug where date formatting variable `%G` did not render the hour in 24-hour format without leading 0.
+- Fixed a bug where date formatting variable `%h` did not render the hour in 12-hour format with leading 0.
+- Fixed a bug where the `{occurrence_duration_hours}` variable was showing `0` for all-day events instead of `24 hours`.
+- Fixed a bug where Calendar data would not save on submit/update of an entry if the site has a third-party addon that modifies the Submit button area in the EE CP Publish page.
+
+## 1.6.3<TitleDate date="2011-09-14" />
+
+### Fixes
+
+- Fixed a bug where using show_days/weeks/months/years parameters would not work in Calendar:Cal tag.
+- Fixed a bug where `category_url_title`'s would not work with the category parameter.
+
+## 1.6.2<TitleDate date="2011-08-23" />
+
+### Fixes
+
+- Fixed a bug where events could not be deleted from the Calendar CP if their parent channel entry had been deleted by other means.
+- Fixed a bug where dates could show before they were supposed to exist due to a calculation bug in time advancement.
+- Fixed a bug where a SQL error would be shown when trying to publish an entry in any channel on another MSM site.
+- Fixed a bug where inclusive (`&`) category searching was not working.
+- Fixed a bug where the adjustment words 'begin' and 'end' were not being parsed from phonetic date range parameters.
+- Fixed a bug where the default end range for Calendar:Cal tag was `1 day from start date`, and not `today`.
+- Fixed a bug where events with just 1 occurrence would not show up in the Occurrences tag.
+- Fixed a bug where the calendar icon and "selected" day style in the datepickers were missing.
+
+## 1.6.1<TitleDate date="2011-08-12" />
+
+### Additions
+
+- Added defaults to all NOT NULL type columns in Calendar's SQL tables to support MySQL with Strict Mode enabled.
+
+### Changes
+
+- Modified code in event checking to improve performance for repeating events that began far before the start date range.
+- Updated Exclude rules to now default to "Select Dates" for repeat type.
+
+### Fixes
+
+- Fixed a bug where updating the iCalcreator library to 2.8.x no longer fetched URIs in its parse stage.
+- Fixed a bug where repeat events across multiple days would not show up on the days in between the start and end dates.
+- Fixed a bug where showing events over multiple months in Calendar:Cal tag that spanned across years would incorrectly display the month data once a new year was hit.
+- Fixed a bug where event counts in month, week, and day were off.
+- Fixed a bug where 'U%' date formatting would output from the current month instead of the date in question.
+- Fixed a bug where repeat events would stop showing up after a period of time.
+- Fixed a visual bug in EE 2.2.0+ where days overlapped one another in the calendar publish widget.
+- Fixed a bug where multiple dates in the same day were not respected by `upcoming_occurrences_limit` and `prior_occurrences_limit` parameters in the Calendar:Occurrences tag.
+- Fixed a bug where pagination would not parse `{pagination_links}` variable in Calendar:Events when the `{occurrences}` variable pair was present.
+- Fixed a bug where if the Calendar Event Channel's Dates & Options field were set to 'required', the publish form would never be able to be submitted, even if rules were created.
+- Fixed a bug where the 'event_never_ends' conditional would not properly parse when another rule in the same event as a never-ending item had an end date.
+- Fixed a bug where adding a new rule when editing an event would sometimes throw an error.
+- Fixed a bug where the 'exclude' rule type in the Calendar Event publish area was allowing a date range to be selected when it is not supported for excludes.
+
+### Removals
+
+- Removed some expensive 'table_exists' queries where they were not needed.
+
+## 1.6.0<TitleDate date="2011-07-11" />
+
+### Additions
+
+- Converted Calendar to use Solspace Add-on Builder Framework, and Solspace Bridge for EE 1.x.
+- Added `event_offset=""` parameter in Events and Cal tags to offset events by the given number.
+- Added `offset=""` and `limit=""` parameters to Calendars tag.
+- Added `{event_timeframe_total}` variable in Events and Cal tags to show the number of all events returned before event_limit is added.
+- Added pagination to all Calendar tags.
+- Added Calendar:Date_Widget tag in order to allow editing functionality with SafeCracker in EE 2.x.
+- Added `category=""` parameter to Calendar:Cal tag.
+- Added sorting by 'event_title' and 'event_start_time' to Calendar:Events tag.
+- Added `{event_author_id}`, `{event_author}`, `{event_status}` variables in the Calendar:Events tag and `{events}` variable pair in Calendar:Cal tag.
+- Added `{calendar_author_id}`, `{calendar_author}`, `{calendar_status}` variables in the Events, Cal, and Calendars tags.
+- Added `{occurrence_author_id}`, `{occurrence_author}`, `{occurrence_status}` variables in the Calendar:Occurrences tag and `{occurrences}` variable pair in Calendar:Events tag.
+- Added `occurrences_limit=""`, `occurrences_offset=""`, and `paginate=""` params to the Calendar:Occurrences tag.
+- Added support for 'not' in event_id and calendar_id parameters.
+
+### Changes
+
+- Changed themes folder paths to now be themes/calendar in EE 1.x and themes/third_party/calendar in EE 2.x.
+- Changed `{display_each_month}` current month calculation so the removal of `{display_each_week}` from between it would not affect it.
+
+### Fixes
+
+- Fixed a bug where calendar fields didn't get assigned order numbers on install.
+- Fixed a bug where the installed channels/weblogs were not specifically using the default status_group, which could cause issues if default statuses change in the future.
+- Fixed a bug in ICS export where unique ID's were unique for the ICS instead of per event, making it where only 1 event per file would properly export.
+- Fixed a bug with iCalendar export where all-day events would go in as `12am to 12pm` instead of all day.
+- Fixed a bug in the Calendar Event publish JavaScript that conflicted with jQuery 1.6.1 (Default for ExpressionEngine 2.2.0).
+- Fixed a bug where `month/week/day/hour_event_count` were being counted as compounding totals when wrapped in parent display_each_year/month/week tag pairs instead of resetting at the beginning of each's respective loops.
+- Fixed a bug where `event_last_date` variable would parse as the current day instead of the last date of the event in the Calendar:Events tag.
+
+## 1.5.4<TitleDate date="2011-03-10" />
+
+### Additions
+
+- Added NSM Add-on Updater support.
+- Added extra filtering to the Edit Occurrences page in the Control Panel to allow proper editing of never-ending repeating events after 100 events have been reached.
+- Added reverse="true" parameter to the Calendar:Occurrences tag to allow reversing of the order of the results displayed.
+
+### Changes
+
+- Modified the behavior of the `show_years=`, `show_months=`, `show_weeks=`, and `show_days=` parameters across the module. They now count the current year, month, week, and day (respectively) in their counts and go to the END day of the point of direction.
+- Modified the `{date format=""}` to now parse within any `{display_each_` variable pair. Deprecated the `{year format=""}`, `{month format=""}`, `{week format=""}`, `{day format=""}` variable pairs.
+- Modified all ICS import entry dates for events to be pre-dated 2 days from the date of import to avoid future-dated event channel entries from not showing up. This will positively affect the displaying of ICS imported events and will have no bearing on the actual event dates.
+
+### Fixes
+
+- Fixed a bug where a blank action was being inserted on update or install.
+- Fixed a bug where never-ending events would stop showing up after 100 events had occurred.
+- Fixed a bug where phonetic times like 'midnight' and 'now' were ONLY parsing locale instead of default English and locale.
+- Fixed a bug where using the phonetic time 'now' was inaccurately getting the current localized time.
+- Fixed a bug where subsequent rules in the Publish area were not getting properly set when the first rule contained the date picker.
+- Fixed a bug where checking for leap year for phonetic dates would only work in the current year.
+- Fixed a bug where recurring dates on a second rule when an event was edited would not show up correctly.
+- Fixed a bug where a rule with a single day would be skipped over during event display parsing if the second rule was more complex.
+- Fixed a bug with the Calendar:Mini tag where time_range_end was not set and caused all events to always be skipped.
+- Fixed a bug where creating an event with an end date past 2012-12-31 would result in an 'end of world' error when the calendar was set to 'Mayan'.
+- Fixed a bug with `{exception_` style tags in the Events loop which was causing them to never parse.
+- Fixed a bug where exception parsing was incorrectly caching the formatted date.
+- Fixed a bug where exclusions (EXDATE) were never getting inserted into items exported as iCalendar files.
+- Fixed a bug where `previous_occurrences_limit=""` parameter was not being respected when showing events that never ended.
+- Fixed a bug where occurrences were not getting all event data or conditionals.
+- Fixed a bug where the Channel Entries API was not always being loaded in EE 2.x.
+
+### Removals
+
+- Removed the `CALENDAR_ACTIONS` constant as it was unused.
+
+## 1.5.3<TitleDate date="2011-01-12" />
+
+### Additions
+
+- Added an `{if event_never_ends}` conditional to the Calendar:Events tag to check to see if an event repeats endlessly.
+
+### Changes
+
+- Updated and enhanced Calendar module CP area (in EE 2.x) to conform completely to native EE styling.
+- Updated and enhanced Calendar UI in Publish page to match the rest of native EE 1.x styling.
+- Modified the Calendar JS and CSS output to no longer display on non-Calendar channels.
+
+### Fixes
+
+- Fixed a bug where filtering, sorting, and pagination did not work on the Events and Occurrences Edit page in Calendar CP.
+- Fixed a bug where the Calendar Publish UI would not properly respect the "Datepicker Date Format" preference when adding rules.
+- Fixed a bug where deleting a Calendar channel entry would not remove all Event entries assigned to it.
+- Fixed a bug where ICS importing would not work correctly in EE 2.x.
+- Fixed a bug where the SAEF date pickers would appear behind some fields/divs in EE 1.x.
+- Fixed a bug where the hour, day, week, month, and year `_event_count` and `_event_total` variables and conditionals did not always parse correctly.
+- Fixed a bug where the "First Day of the Week" preference was not being respected on date pickers.
+
+## 1.5.2<TitleDate date="2010-11-24" />
+
+### Additions
+
+- Added a helper function because `gregoriantojd` may not exist if the php-calendar module isn't installed with PHP.
+
+### Fixes
+
+- Fixed a bug where the Calendar channels `site_id` was being incorrectly called on sites with MSM installed.
+- Fixed a bug where some events with a date that did not belong in the requested range were showing up in the Cal tag.
+- Fixed a bug on install where an expected constant was missing for installing preference defaults.
+- Fixed a bug where occurrence data did not properly get removed on edit.
+- Fixed a bug where the ICS_Update tag would not work on the front end because the DSP class was not yet initialized.
+- Fixed a bug where live auto `url_title` creation was not working in the Publish page in EE 2.x.
+- Fixed a bug where an occurrence edit would not receive the correct 'all day' information on publish edit.
+- Fixed a bug where retrieval of occurrence data that was all day would give the end time as 0000 instead of 2400.
+- Fixed a bug where the `end_by_date` of an event would be set to the current date if it was set to an earlier date than the current day.
+- Fixed a bug where the all day checkbox was not respected for occurrence includes if the select dates date picker was used.
+- Fixed a bug where occurrences that lasted more than one day were being lumped into a select date widget and only respected the starting day when editing an entry with include dates.
+- Fixed a bug where flexible Date parsing (ex: `start_date="8 months ago"`) wouldn't work when alternate language files were loaded.
+- Fixed a bug where the `{event_first_date}` variable would output the incorrect time.
+- Fixed a bug where the end_by_date dropdown would appear incorrectly in some instances in EE 2.x.
+
+### Deprecations
+
+- Deprecated the `{event_start_time}`, `{event_start_year}`, `{event_start_month}`, `{event_start_day}`, `{event_start_hour}`, `{event_start_minute}` variables in favor of `{event_start_date format=""}`.
+- Deprecated the `{event_end_time}`, `{event_end_year}`, `{event_end_month}`, `{event_end_day}`, `{event_end_hour}`, `{event_end_minute}` variables in favor of `{event_end_date format=""}`.
+- Deprecated the `{occurrence_start_time}`, `{occurrence_start_year}`, `{occurrence_start_month}`, `{occurrence_start_day}` variables in favor of `{occurrence_start_date format=""}`.
+- Deprecated the `{occurrence_end_time}`, `{occurrence_end_year}`, `{occurrence_end_month}`, `{occurrence_end_day}` variables in favor of `{occurrence_end_date format=""}`.
+
+## 1.5.1<TitleDate date="2010-11-03" />
+
+### Additions
+
+- Added new `calendar_delete_events` extension hook for Calendar to better handle deleting of event data.
+
+### Changes
+
+- Modified the channel/weblog default limit to be "500" instead of "100" for sites with a larger amount of events.
+
+### Fixes
+
+- Fixed a bug where saving Preferences in the Calendar module CP would erase the default Calendar channels/weblogs from the prefs. **NOTE:** If you changed the channel/weblog shortnames, you MUST change them back to defaults (Calendars: calendar_calendars, Events: calendar_events) BEFORE you upgrade so the upgrade script can fix it for you. You can change them back afterwards.
+- Fixed a bug where ICS input into a Calendar entry would trigger errors for calendar entries in EE 2.x Publish page.
+- Fixed a bug where the `dynamic=""` parameter was defaulting to ON instead of OFF.
+- Fixed a bug where the Occurrences area in the Calendar module CP was triggering a PHP error in some cases.
+
+## 1.5.0<TitleDate date="2010-10-28" />
+
+### Additions
+
+- Added a `calendar_submit` class to the list of things that, upon click, can trigger Calendar's JS to kick into action for saving entries in the SAEF. Just add `class="calendar_submit"` to a submit button or whatever. Useful for when name="submit" is used by some other script on the page.
+- Added the `{event_first_date}` variable to the Calendar:Cal tag.
+- Added ability to use "not " in calendar_id and calendar_name parameters in the Calendar:Calendars tag.
+- Added `{if calendar_no_results}` conditional (to replace `no_results`) to all template tags to avoid variable collisions.
+- Added `{if edited_occurrence}` conditional to Calendar:Cal tag, which evaluates to TRUE if the event occurrence has been edited. Also paired this with a subsequent `{event_parent_id}` to parse the parent event entry ID.
+- Added `include_jqui="off"` parameter to `{exp:calendar:datepicker_js}` and `{exp:calendar:datepicker_css}` tags to stop Calendar's jQuery UI and CSS from loading in the event you have another instance of jQuery UI loading.
+
+### Changes
+
+- Updated Calendar to support jQuery 1.4.2 and jQuery UI 1.8.4.
+- Modified Calendar to look at the weblog ID of the special "Calendars" and "Events" weblogs instead of short_name.
+- Modified the Calendar UI to contain a checkbox option for events with custom edited occurrences that lets the user delete them all automatically if they make DATE changes to an event (rather than have those occurrences be orphaned).
+- Modified `dynamic=""` parameter to now default to "off" in the Calendar:Cal tag.
+
+### Fixes
+
+- Fixed a bug that caused modified occurrences to be wiped out if the parent entry was edited.
+- Fixed a bug where the `{occurrence_start_time}` and `{occurrence_end_time}` variables (without formatting parameters) outputted a date in YMD format rather than a 24-hour time.
+- Fixed a bug where events with multiple rules applying to the same day would only have one of those rules actually applied each day.
+- Fixed a bug where all-day events didn't display correctly in the absence of an `{events}` tag pair in the Calendar:Cal tag.
+- Fixed a bug where specifying more than one calendar in the calendar_name="" parameter would behave as though no calendar name had been specified.
+- Fixed a bug where the word "tomorrow" as a date parameter might be parsed incorrectly.
+- Fixed a bug where if a calendar with a `{display_each_month}` variable pair did not end on the last day of the month, the last month's `{month}` variables would be set to the previous month.
+- Fixed a bug where some icon images in the CP were referencing an incorrect URL path.
+- Fixed a bug that caused all-day events to not be counted for the purposes of variables like `{month_event_total}`.
+- Fixed a bug where the `event_limit=""` parameter incorrectly sorted the event array before applying the limit.
+- Fixed a bug where a multi-day, repeating event that spans across two or more months will not display after the initial occurrence in some circumstances.
+- Fixed a bug in the Calendar:Events tag where no results may be returned in cases where start and end date parameters are not provided.
+- Fixed a bug where the `{event_duration_minutes}` variable would output "0" instead of expected minutes.
+- Fixed a bug where `%U` date variable formatting character did not work in date variables.
+- Fixed a bug where literal newline indicators (`\n`) in incoming ICS files were being trimmed to `n`, rather than being treated as actual newlines.
+- Fixed a bug where carriage returns (`\r`) in incoming ICS files were resulting in newlines in incoming data where there shouldn't have been newlines.
+- Fixed a JS bug where fiddling with one rule's "End" settings would affect other rules' "End" settings as well.
+- Fixed a bug where the `{time}` variable with date formatting did not parse.
+- Fixed a bug with Calendar:Week tag where the output of the `{week}` variable was often incorrect.
+- Fixed a bug where Calendar would have some theme issue if the EE install was inside a subdirectory.
+- Fixed a bug where when using an alternate language on your site, and using the Calendar SAEF Form, the words in the UI on additional rules were incorrectly translated.
+- Fixed a bug where the `{week_event_count}` and `{week_event_total}` variables did not parse.
+- Fixed a bug where clicking on the label for the "All Day Event" checkbox could check/uncheck the wrong rule's checkbox.
+
+## 1.0.4<TitleDate date="2010-05-24" />
+
+### Fixes
+
+- Fixed a bug where `{day_is_today}` wasn't always true on the current day when using the Mini, Week, Day, and Month tags.
+- Fixed a bug where events with a stop_by rule and over 100 occurrences would be truncated at the 100th occurrence thanks to an incorrectly set last_date value in the DB.
+- Fixed a bug where the `dynamic="on"` parameter did not work.
+- Fixed a couple of bugs that sometimes prevented the `enable=""` parameter from working correctly.
+- Fixed a bug where the `{event_last_date}` variable could cause PHP errors to be displayed.
+- Fixed a bug where PHP errors would display when using the iCalendar export feature.
+- Fixed a bug where the `calendar_name=""` parameter was not working properly in the Calendars tag.
+- Fixed a bug where the date_range_start= and date_range_end= parameters did not work with " ...ago" in the timeframes.
+- Fixed a bug where specifying Time in date range parameters had no effect on the Cal and Events tags.
+- Fixed a bug where dates that didn't fall within the proscribed range were added to an event object's dates array.
+- Fixed a bug where the `status=""` parameter would not work with "not" syntax.
+
+## 1.0.3<TitleDate date="2010-05-13" />
+
+### Additions
+
+- Added `event_limit=""` parameter to Cal, Day, Today, Week, Month, and Mini tags. Limits the number of events that will be displayed. Defaults to no limit.
+- Added the `{event_first_date}` date variable to Calendar:Events tag.
+
+### Changes
+
+- Modified the `{rule_days_of_week}` and `{rule_days_of_month}` variable pairs to output the full day of the week (ex "Monday"), and day of month (ex: "15") rather than a shorthand value.
+- Modified Calendar to play nicer with data for other addons such as Playa. Added `{calendar_ignore_title}` and `{calendar_ignore_url_title}` variables for use in these circumstances, which display the equivalent of `{title}` and `{url_title}`.
+
+### Fixes
+
+- Fixed a bug where the `first_day_of_week=""` parameter was not working in the Calendar:Cal tag.
+- Fixed a bug where some extensions could cause submit_new_entry_end to run without a valid entry ID, causing blank events.
+- Fixed a bug where two or more multi-day events would be merged into a single rule if their start and end times were the same.
+- Fixed a bug where rule data would sometimes not display correctly after Quick Save.
+- Fixed a bug where repeating events that spanned across years (ex: December 31 - January 1) would sometimes not display in the latter year.
+- Fixed a bug where events that start before 10am would sometimes not show up in the Calendar:Cal tag.
+- Fixed a bug where specifying multiple statuses in the Calendar:Cal tag would result in no results being returned.
+- Fixed a bug where the `{event_start_hour}`, `{event_start_minute}`, `{event_end_hour}`, `{event_end_minute}` variables would not parse in the Calendar:Events tag.
+- Fixed a bug where PHP would display when using the iCalendar export feature.
+
+## 1.0.2<TitleDate date="2010-04-19" />
+
+### Additions
+
+- Added support for Quick Save in the EE CP publish/edit form.
+- Added a "date format" preference for customizing the date as displayed in the datepicker.
+- Added event deletion capabilities to Events tab in module CP.
+- Added `event_limit=""` and `event_offset=""` parameters to `{exp:calendar:events}`.
+
+### Changes
+
+- Changed how EE's Extensions class is called (requires Bridge 1.0.3+).
+
+### Fixes
+
+- Fixed a bug where a masked CP path (i.e. not index.php) caused problems.
+- Fixed a bug where in certain circumstances the month data returned by `{exp:calendar:cal}` would be off by one month.
+- Fixed a bug in iCalendar parsing where an over-enthusiastic find/replace had mangled some variable names.
+
+### Removals
+
+- Removed a couple of leftover references to `$TMPL`.
+
+## 1.0.1<TitleDate date="2010-04-13" />
+
+### Additions
+
+- Added a feature where changing an event's calendar back to "Select a Calendar" will delete that event's calendar data.
+
+### Changes
+
+- Modified Flow UI CSS to stop the Sites dropdown menu from hiding behind Flow UI elements in MSM installs.
+- Modified how "multi-day" is defined in the code so that late-night events (i.e. 11:00pm - 12:30am) are treated correctly.
+- Changed the default timezone for new calendars to UTC.
+- Improved time and timezone handling in iCalendar import process.
+- Improved date caching for improved performance.
+
+### Fixes
+
+- Fixed a bug where the `show_years=""` parameter did not work.
+- Fixed a bug where editing an event that didn't have calendar/date details set would throw a MySQL error.
+- Fixed a JS bug that led to rules not being removed correctly in some circumstances.
+- Fixed a bug where an extra event occurrence might be output if a rule's first occurrence comes after the start date of the rule.
+- Fixed a bug where related events weren't parsing correctly inside the `{events}{/events}` variable pair.
+- Fixed a JS bug that allowed an event to be submitted with only exclude rules.
+
+## 1.0.0<TitleDate date="2010-04-09" />
+
+### Additions
+
+- Initial release.

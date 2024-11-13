@@ -1,0 +1,17 @@
+---
+sidebar_position: 3
+---
+
+# Deleting Submissions By Token
+
+Freeform includes a way for users to delete their own submissions. This can be done with the **token** feature. A typical setup might have you include a link inside an email notification sent to a user that filled out a form. You would include the `submission.token` in the URL you generate that is linked to a template with the below example code to allow the user to delete their own submission.
+
+```twig showLineNumbers
+{% set token = craft.app.request.segment(4) %}
+
+{% if freeform.deleteSubmissionByToken(token) %}
+	Removed successfully
+{% else %}
+	Nothing to remove
+{% endif %}
+```

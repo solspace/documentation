@@ -1,0 +1,62 @@
+---
+title: 'Campaign Monitor'
+sidebar_position: 3
+---
+
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Campaign Monitor Integration <Badge type="pro" text="Pro" />
+
+This documentation page assumes you have read over the [Email Marketing Integration Overview](./index.mdx#email-marketing). If you have not yet read it, please do so now. We also assume that you have a [Campaign Monitor](http://campaignmonitor.com) account already, along with mailing list(s) already created. This integration requires that you have _Freeform Pro_. If you currently have Freeform Lite, you can purchase an upgrade to Freeform Pro.
+
+## Compatibility
+
+- Field mapping to standard and custom fields of the following types:
+  - Text
+  - Number
+  - Multiple Options (can only select one)
+  - Multiple Options (can select many)
+  - Date
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+
+### Create & get API Key from Campaign Monitor
+
+- Go to the [Campaign Monitor website](https://campaignmonitor.com) and log into your account.
+- At the top right corner, click on the profile icon and select **Account Settings**.
+- On the next page, click the **API keys** link near the bottom of the page.
+- After the page reloads, click the **Show API Key** link to reveal your API key.
+- Leave this page open and open a new tab to go to the Craft control panel...
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Set up Integration on your site
+
+- Go to the [Email Marketing section in Freeform Settings](../configuration/settings.mdx#email-marketing) (**Freeform → Settings → Email Marketing**).
+- Click the **New Integration** at the top right.
+- Select _Campaign Monitor_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration.
+- Copy the value in the **API Key** field from Campaign Monitor and paste it into the **API Key** field in Freeform.
+- Copy the value in the **Client ID** field from Campaign Monitor and paste it into the **Client ID** field in Freeform.
+- At the top right corner of the Freeform page, click the **Save** button.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Verify Authorization
+
+- After the integration is saved, it'll return you to the list of Email Marketing integrations.
+- Click on the newly created integration.
+- Confirm that there is a green circle with **Authorized** in the middle of the page.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>

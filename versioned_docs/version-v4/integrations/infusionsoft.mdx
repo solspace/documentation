@@ -1,0 +1,94 @@
+---
+title: 'Infusionsoft'
+sidebar_position: 13
+---
+
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Infusionsoft CRM Integration<Badge type="pro" text="Pro" />
+
+This documentation page assumes you have read over the [CRM Integration Overview page](./index.mdx#crm). If you have not yet read it, please do so now. We also assume that you have an [Infusionsoft](https://keap.com/infusionsoft) account already. If you currently have Freeform Lite, you can purchase an upgrade to Freeform Pro.
+
+## Compatibility
+
+- Field mapping to standard and custom fields in _Contacts_.
+
+## Duplicate Check & Update
+
+- Duplicate detection is based on the email address.
+
+## Setup Instructions
+
+The Infusionsoft API integration is a little uglier since they include another layer of API calls by using _Mashery_ API Management. Don't trust your instincts and just follow the steps below closely and it won't be as bad as it looks. Please follow the steps below:
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+
+### Prepare your site's end for Integration
+
+- Go to the [CRM section in Freeform Settings](../configuration/settings.mdx#crm) (**Freeform → Settings → CRM**).
+- Click the **New CRM Integration** at the top right.
+- Select _Infusionsoft_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration.
+  - In the **OAuth 2.0 Return URI** field, a URL will be automatically populated for you. Do not change or adjust this.
+- Copy the URL in the **OAuth 2.0 Return URI** field to your clipboard.
+- Leave this page open.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Sign up for a Mashery API Management account
+
+- Infusionsoft runs it's API through Mashery, so you will need to sign up or log into a Mashery account inside the Infusionsoft Developers site.
+- [Visit the Infusionsoft Developers site site to sign up for or log into a Mashery account](https://keys.developer.infusionsoft.com/apps/myapps)
+- Fill out the form and then click **Register** button.
+- You'll receive a confirmation email with a link to click to verify your account.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Create Mashery API Application
+
+- After verifying your account, click the [create a new application](https://keys.developer.infusionsoft.com/apps/register) button to begin creating your API app.
+- Fill out the form, and paste the **OAuth 2.0 Return URI** value from Freeform into the **Register Callback URL** field in Mashery.
+- Then click the **Register Application** button.
+- You'll be returned to a page that shows you your `client_id` and `client_secret`. Please take note of these and/or leave the browser tab open.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Prepare the Connection
+
+- Go back to your your Craft/Freeform browser tab.
+- Copy the `client_id` value from Infusionsoft and paste it into the the **Client ID** field in Freeform.
+- Copy the `client_secret` value from Infusionsoft and paste it into the the **Client Secret** field in Freeform.
+- At the top right corner of Freeform page, click **Save** button.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Finish the Connection
+
+- You will then be presented an Infusionsoft OAuth login form.
+- If not already logged in, enter in your Infusionsoft login details and click **Log In** button.
+- Once logged in, you'll be presented an OAuth form, asking if you want to allow access. Click **Allow** button.
+- You should now be returned to the Freeform CRM setting page.
+- Confirm that there is a green circle with **Authorized** in the middle of the page.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>
+
+:::info
+There are some odd things with Infusionsoft to note (hopefully this save you some time and frustration when setting up):
+
+- For mapping to Provinces or States, you'll map to the **Region** field. The **Region** field expects values like `US-CA` for California state in USA, or `CA-MB` for Manitoba province in Canada. When mapping to Regions, it's required you map the Country code as well.
+- Country code mapping uses 3-digit codes like `USA` for United States of America, `CAN` for Canada, `GBR` for United Kingdom, etc.
+
+:::

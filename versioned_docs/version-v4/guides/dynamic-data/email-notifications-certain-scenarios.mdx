@@ -1,0 +1,61 @@
+---
+sidebar_position: 4
+---
+
+# Send Email Notifications only in Certain Scenarios
+
+If you have complex flows where you're allowing users to submit, edit, approve, etc the same form submission on the front end, and only wish to have an email notification sent out a certain part(s) of the flow and/or different messages sent, there's a way to workaround the current limitations.
+
+You can achieve a dynamic template level email notification by using the [Dynamic Template Notifications](../../forms/email-notifications/#dynamic-template-notifications) feature. You would use this in place of regular [Admin Notifications](../../forms/email-notifications.mdx#admin), which are not flexible.
+
+## Overview
+
+Flows can vary greatly in the number of steps, and how and where notifications may occur, but for the purpose of this example, imagine your flow is like this:
+
+1. User submits a form submission, **don't send any notifications**.
+2. User goes back to edit/complete their form submission, **send notification alerting admin of new submission**.
+3. Admin goes to front end to approve (edit) the form submission, **send notification alerting admin of approved submission**.
+
+What you need to accomplish here is NOT sending an email notification the first time, sending a notification once the form submission is complete, and sending a different notification once the form submission is approved.
+
+You can achieve this by having 3 different form templates that load the same form, but no [Admin Notifications](../../forms/email-notifications/#admin-notifications) and only use [Dynamic Template Notifications](../../forms/email-notifications/#dynamic-template-notifications) to generate them.
+
+Example code would look something like this:
+
+```twig showLineNumbers
+dynamicNotification: {
+    recipients: "admin@example.com",
+    template: "test"
+}
+```
+
+## Instructions
+
+Enter the email address you wish to receive the email notification in place of `recipients: "admin@example.com"`, and enter the handle name of the email notification template you wish to use in place of `template: "test"`. If you're using a Database-based email notification, it would be something like `myNotificationTemplate`. If using Template File-based email notifications, you need to include the file name extension, so it would be something like `my-notification-template.html`.
+
+So to match the exact flow described above, you might have something like this:
+
+1. User submits a form submission, **don't send any notifications**.
+   ```twig showLineNumbers
+   {{ freeform.form("myForm").render() }}
+   ```
+2. User goes back to edit/complete their form submission, **send notification alerting admin of new submission**.
+   ```twig showLineNumbers {2-5}
+   {{ freeform.form("myForm", {
+       dynamicNotification: {
+           recipients: "admin@example.com",
+           template: "new-submission"
+       }
+   }).render() }}
+   ```
+3. Admin goes to front end to approve (edit) the form submission, **send notification alerting admin of approved submission**.
+   ```twig showLineNumbers {2-5}
+   {{ freeform.form("myForm", {
+       dynamicNotification: {
+           recipients: "admin@example.com",
+           template: "approved-submission"
+       }
+   }).render() }}
+   ```
+
+You can of course have as many steps as you like, and do more things with email notifications, etc, but this example should get you in the right direction.

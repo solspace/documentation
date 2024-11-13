@@ -1,0 +1,98 @@
+---
+sidebar_position: 8
+---
+
+# Project Config
+
+If you wish to manage the configuration of Freeform settings via Craft's [Project Config](https://craftcms.com/docs/5.x/system/project-config.html), here's a list of every setting currently available:
+
+```yaml showLineNumbers
+freeform:
+  edition: pro # You'll get license errors if you set this to 'pro' and don't have a valid Pro license.
+  enabled: true
+  licenseKey: EXAMPLETEST12EXAMPLETEST
+  schemaVersion: 4.0.0
+  settings:
+    ajaxByDefault: true # AJAX enabled for forms by default.
+    alertNotificationRecipients: bob@acmewidgets.net # Email addresses to receive email alerts about failed email notifications.
+    allowFileTemplateEdit: '1' # Allow File-based Email Templates to be created inside the CP?
+    autoScroll: '1' # Automatically scroll to top of the form on AJAX submit.
+    autoScrollToErrors: '1' # Automatically scroll to form on errors and multipage forms.
+    badgeType: all # The options you'd like to be included in the plugin badge count. Options are: '' (Don't Show), 'all' (Update Notices, What's New, Logged Errors), 'notices' (Update Notices only), 'errors' (Logged Errors only), 'submissions' (Submission Count), or 'spam' (Spam Folder Count).
+    blockedEmails: '*@yahoo.com\n*.ru' # Email addresses you would like blocked from being used in Email fields. Separate multiples with '\n'.
+    blockedEmailsError: 'Invalid Email Address' # Error message to be shown when a blocked email address is used.
+    blockedIpAddresses: '' # IP addresses you would like blocked. Separate multiples with '\n'.
+    blockedKeywords: "viagra\ncheesies\ntuna\r\n*Д*" # Keywords you would like blocked. Separate multiples with '\n'.
+    blockedKeywordsError: 'Invalid Entry Data' # Error message to be shown when a blocked keyword is used.
+    clientDigestFrequency: -1 # Frequency of weekly or daily Stats digest. Options are '-1' (Daily), '0' (Weekly - Sundays), '1' (Weekly - Mondays), etc.
+    clientDigestRecipients: bob@acmewidgets.net # Email addresses to send weekly or daily Stats digest emails to. Similar to the Developer one, but only includes a snapshot of the previous period's performance.
+    customErrorMessage: 'No thanks' # If form fails due to Spam protection AND Spam Protection Behavior setting is set to 'Display Errors', show this error message instead of the default.
+    customHoneypotName: '' # Change default name of the Freeform Honeypot field. Default is 'freeform_form_handle'.
+    defaultTemplates: '1' # Disable to hide the default Freeform formatting templates in the Formatting Template options list inside the form builder.
+    defaultView: dashboard # Default page to go to when clicking the Freeform nav item. Options are 'dashboard', 'forms', 'submissions'.
+    digestFrequency: 2 # Frequency of weekly or daily Developer digest. Options are '-1' (Daily), '0' (Weekly - Sundays), '1' (Weekly - Mondays), etc.
+    digestOnlyOnProduction: false # Send digest notifications on live environment only.
+    digestRecipients: harry@acmewidgets.net # Email addresses to send weekly or daily Developer digest emails to. Includes a snapshot of the previous period's performance and any logged errors and upgrade notices.
+    displayFeed: true # Display update warnings & notices on the Freeform dashboard.
+    emailTemplateStorageType: files_database # Enable email notification templates stored as files, in the database, or have both options available.
+    emailTemplateDefault: files # Select which storage method to use when creating new email notifications with 'Add New Template' option in the form builder.
+    emailTemplateDirectory: _freeform_emails/ # Where Email Notification Templates are stored. Use complete path or Relative path to Craft templates directory.
+    exportLabels: '1' # Enable this to have fields with options use the submission's option labels instead of values when exporting.
+    feedInfo: # Additional optional checks for dashboard update warnings & notices (each line included means Freeform will check on it)
+      - jsFramework # Site uses a JS framework like Vue.js
+      - caching # Caching on at least some forms
+      - customModule # Custom module or plugin for Freeform
+      - gdpr # Alert me on any GDPR-related improvements or fixes
+      - editingSubmissions # Make use of Editing submissions on front-end
+      - displayingSubmissions # Display submission data on front-end
+    fieldDisplayOrder: type # Display order for the list of available fields in the form builder. Options are 'name' or 'type'.
+    fillWithGet: '1' # Fill form values from the GET query string.
+    formFieldShowOnlyAllowedForms: '' # Restrict form options in Form Field Type to User permissions.
+    formSubmitDisable: '1' # Disable submit button on form submit.
+    formSubmitExpiration: '' # Maximum amount of time (in minutes) a user has to submit the form before the form expires.
+    formTemplateDirectory: _freeform_formatting/ # Where Formatting Templates are stored. Use complete path or relative path to Craft templates directory.
+    formattingTemplate: flexbox.html # Default formatting template to be used for new forms.
+    freeformHoneypot: '' # Enable Freeform's built in Honeypot spam protection.
+    freeformHoneypotEnhancement: '1' # Require users have JS enabled in browser for Honeypot.
+    hideBannerDemo: '1' # Hide 'Install Demo' alert message banner.
+    hideBannerOldFreeform: false # Hide 'Old Freeform 2.x still installed' alert message banner.
+    minimumSubmitTime: '5' # Minimum amount of time (in seconds) that has to go by since loading the form for the user to be able to submit the form successfully.
+    pluginName: '' # Custom name for plugin (Pro).
+    purgableSpamAgeInDays: '60' # Number of days Freeform should wait to purge spam submission data. Use '0' to disable.
+    purgableSubmissionAgeInDays: '365' # Number of days Freeform should wait to purge submissions data. Use '0' to disable.
+    purgableUnfinalizedAssetAgeInMinutes: 180 # Number of days Freeform should wait to purge spam submission data. Use '0' to disable.
+    recaptchaBehaviour: spam # The behavior to be used when reCAPTCHA fails. Options are 'spam' (send to Spam Folder) or 'display_error' (display error message in form).
+    recaptchaEnabled: '1' # Enable a Captcha service for forms.
+    recaptchaErrorMessage: 'This is a custom error message'
+    recaptchaKey: FAKEdf89g7dgfh0_df87g66gfdg60fdsg6sfh6df # Captcha service API key.
+    recaptchaSecret: FAKEfd7g6df7g6df08df8f_df87g6df9g6df8g68 # Captcha service API key secret.
+    recaptchaLazyLoad: '' # Only load Captcha scripts once the user interacts with the form.
+    recaptchaMinScore: '0.7' # Enter the minimum score needed to pass the reCAPTCHA v3 test (Pro).
+    recaptchaSize: normal # Adjust the size of the reCAPTCHA v2 Checkbox field. Options are 'normal' or 'compact'.
+    recaptchaTheme: dark # Adjust the theme/colors of the reCAPTCHA v2 Checkbox field. Options are 'dark' or 'light'.
+    recaptchaType: v2_checkbox # Which type of reCAPTCHA you want to use. Options are 'v2_checkbox', 'v2_invisible' (Pro) or 'v3' (Pro).
+    rememberPageSubmitOrder: '1' # Remember the page order (for the 'Previous' submit button) in multi-page forms.
+    removeNewlines: '1' # Have newlines removed from Textarea fields in submissions when exporting.
+    renderFormHtmlInCpViews: '1' # Enable live rendering of HTML inside the form builder & Submissions views.
+    saveFormSessionLimit: '5' # The maximum number of saved forms per session for Save & Continue Later feature.
+    saveFormTtl: '14' # The number of days to store saved form progress in the database before clearing for Save & Continue Later feature.
+    scriptInsertLocation: footer # Location of where you want Freeform to insert its scripts for form and field functionality. Options are 'form', 'footer' or 'manual'.
+    scriptInsertType: pointers # Specify the way Freeform scripts are inserted. Options are: 'pointers' (as Static URLs - recommended), 'files' or 'inline'.
+    sessionContext: payload # Choose the way form context is passed between form submits. Options are: 'payload' (as an Encrypted Payload - recommended), 'session' (PHP Sessions) or 'database' (in a Database Table).
+    sessionContextSecret: '' # (Encrypted Payload only) Specify a secret key to encrypt the form payload with. Will use server key if left empty.
+    sessionContextCount: '100' # (PHP Sessions and Database Table only) Specify the amount of active forms a user can have.
+    sessionContextTimeToLiveMinutes: '180' # (PHP Sessions and Database Table only) Specify when the sessions should expire. Set to 0 for unlimited.
+    sessionEntryMaxCount: 50 # PHP Session entry limit
+    sessionEntryTTL: 10800 # PHP Session timeout (in seconds) - default 3hrs.
+    showErrorsForBlockedEmails: '' # Show errors under affected fields.
+    showErrorsForBlockedKeywords: '' # Show errors under affected fields.
+    showTutorial: '' # Show the interactive tutorial again in the form builder.
+    spamFolderEnabled: '1' # Enable Freeform's built-in spam folder.
+    spamProtectionBehaviour: simulate_success # The behavior you'd like Freeform to take when it detects a submission as being spam. Options are 'simulate_success', 'display_errors' or 'reload_form' (deprecated).
+    submissionThrottlingCount: '' # Timeframe for form submission throttling.
+    submissionThrottlingTimeFrame: m # Timeframe for form submission throttling. Options are 'm' (minutes) or 's' (seconds).
+    successTemplateDirectory: _freeform_success # Where Success Templates are stored. Use complete path or relative path to Craft templates directory.
+    twigInHtml: '1' # Allow Twig to be enabled for HTML blocks.
+    twigInHtmlIsolatedMode: '1' # When Twig is allowed in HTML blocks, only use Freeform 'form' and 'fields' variables (and none of Craft's).
+    updateSearchIndexes: '1' # Have Craft update search indexes whenever a new submission is created.
+```

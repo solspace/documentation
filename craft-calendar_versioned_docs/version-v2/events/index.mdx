@@ -1,0 +1,151 @@
+---
+title: Managing Events
+---
+
+import Player from 'react-player';
+
+import { Photo } from '@site/src/components/utils';
+
+# Managing Events
+
+_Solspace Calendar_ is an **Element Type** that allows you create and manage event entries similar to regular Craft Entries. The control panel also includes a groundbreaking approach to event management that feels very similar to popular calendaring apps like _Apple Calendar_ and _Google Calendar_.
+
+You can also manage a set of calendars that become available to assign to each event.
+
+## Month, Week & Day views
+
+Similar to popular calendaring apps, _Solspace Calendar_ allows you to view a full month, week and day view of your existing events, and click on any day of the month or time slot to quickly "pencil in" new events, click on existing events to edit them, and drag and drop events to move them to other days or times.
+
+Also available is an optional sidebar for Month/Week/Day views that allows you to filter your events by calendar, and quickly navigate to certain days.
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_month.png')}
+  alt="Month Events view with Side bar"
+/>
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_week.png')}
+  alt="Week Events view"
+/>
+
+Just to be clear, while these views will closely resemble popular calendaring apps, there are some limitations with more complex things.
+
+The following actions are currently available:
+
+- **Create Events** <a href="#create-events" id="create-events" class="docs-anchor">#</a>
+  - Allows you to set event **title**, **calendar**, **start date** and **time**, **end date** and **time**, **all day** event.
+    - Currently, all other field data has to be done within _Edit Event_ area.
+      :::info
+      This feature currently bypasses required fields. Since we currently don't support displaying any fields here, and cannot make an exception for required fields to display (especially if a field layout contains complex and/or third party fields and/or many fields), we feel it's the lesser of two evils to bypass required fields at this time. The intended workflow is that this feature is used to quickly "pencil in" an event or set of events, and then edit the details of them later.
+      :::
+  - **Click anywhere** on the page to **create an event**. If you click on May 14th in month view, it'll assume you want the event created for that start date. If you click on 8:00 am slot for May 14th of Day or Week view, it will assume you want the event created for that start date and time.
+  - **Click and hold** on a date in Month view, then drag your mouse to another date and let go to create **multi-day events**. If you click on May 14th, and let go on May 17th, it will assume you're wanting an event that starts May 14th and ends May 17th.
+  - **Click and hold** on an hour slot in Week or Day view, then drag your mouse to another time slot and let go to specifically **set the duration** of an event. If you click and hold on 8:00 am time slot for May 14th, and let go on 1:30 pm time slot, it will assume you're wanting an event on May 14th that starts at 8:00 am and ends at 1:30 pm. In Month view, dragging can span multiple days as well.
+- **Modify Events** <a href="#modify-events" id="modify-events" class="docs-anchor">#</a>
+  - **Click, drag and drop** on event blocks to **move** them to different dates or times. In Month view, if you click on an event on May 14th, and drag it to May 15th, it'll update to that date. In Week or Day view, if you click on an event that's on May 14th from 8:00 am to 11:00 am, and drag it to 3:00 pm, it will be updated to be May 14th from 1:00 pm to 4:00 pm.
+  - **Click and drag** handle at bottom of event blocks to **shorten or lengthen the duration** of events in Week and Day views.
+  - **Click, and hold** on events in **all day** time slot, and drag them to any time slot to switch them from all day and specify a start time. Click and drag the handle at the bottom of event block to shorten or lengthen the event duration. Events can also be switched to **all day** events by dragging an event block into the **All Day** area.
+  - **Hover mouse** over an event to **view more information** for it.
+  - **Hover mouse** over an event and click on **Edit** button to edit the event in the _Edit Event_ area.
+- **Delete Events or Occurrences** <a href="#delete-events" id="delete-events" class="docs-anchor">#</a>
+  - **Hover mouse** over an event and click on **Delete** button to delete the entire event and its recurrences (if applicable). If this is a recurring event, this will remove ALL occurrences BEFORE and AFTER the date you selected, not just that one and future ones.
+  - **Hover mouse** over a **recurring event** and click on **Delete Occurrence** button to delete only that specific recurrence of the event. An exception will be made for that particular date.
+- **Switch Site** <a href="#switch-site" id="switch-site" class="docs-anchor">#</a>
+  - Calendar includes a site switcher dropdown menu at the top right of the Month/Week/Day CP pages. Simply select the applicable site if you wish to see events for that site and their localized titles.
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_quickevent.png')}
+  alt="Quick create events"
+/>
+
+### Current Limitations
+
+_Solspace Calendar_ attempts to adjust start dates, end dates, repeat rule options and exclusions when you modify events in the Month, Week and Day views. However, some complex recurring events currently may not update as you expect (particularly with the **On the First/Second/etc** rule option):
+
+- Events that repeat **Monthly** with the **On the First/Second/etc** rule will only stay within its current **On the First/Second/etc** rule. So for example, dragging an event with the rule of **On the Second Thursday** to the equivalent of **On the Third Wednesday** will change the rule to **On the Second Wednesday**, while the first start date will be set at the date of the Third Wednesday, so you may also notice that you have missing or extra occurrence(s) at the beginning.
+- Events that repeat **Yearly** with the **On the First/Second/etc** rule will only stay within its current **On the First/Second/etc** rule. SO for example, dragging an event with the rule of **On the Second Monday** to the equivalent of **On the Third Wednesday** will change the rule to **On the Second Wednesday**, while the first start date will be set at the date of the Third Wednesday, so you may also notice that you have missing or extra occurrence(s) at the beginning. If events like these are modified enough times, it's very possible that all the event data for the event will get very out of whack, such as repeating into the next month, etc.
+- Expected behavior when **moving occurrences** with the **Select Date** repeat rule type is that only the touched occurrence will be moved (all other occurrences will stay in their current days). However, when adjusting the time of one of these occurrences will update the time for ALL occurrences, as event times must be uniform.
+- When dragging an event across 3 months (skipping the main month being viewed) may have the event(s) skip the number of days the month is short of `31` days, e.g. Dragging an event from _March 1_ to _January 28_ may have the event shoot forward 3 days to _January 31_, presumably because February contains only `28` days, `3` short of `31`. This appears to be due to a bug in PHP where the date interval does not work as expected. If you experience this, you can work around it by dragging the event one more time to the appropriate date and it should work correctly.
+
+## Managing Events
+
+This area will appear very similar to traditional Craft Entries approach. You can view, filter and sort a list of available events, as well as create, edit or delete events.
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_events.png')}
+  alt="Events List"
+/>
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_event-create2.png')}
+  alt="Create a New Event"
+/>
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_event-create1.png')}
+  alt="Create a New Event"
+/>
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_event-live-preview.png')}
+  alt="Live Preview"
+/>
+
+### Event Options
+
+<Player
+  url="https://player.vimeo.com/video/167296348"
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
+<i>
+  You can watch the video to see all of the available Event Element UI options
+  and interactions. A list of this is available below the video.
+</i>
+
+The _Solspace Calendar_ Event Element UI allows you to create events with the following options:
+
+- **Calendar**
+  - Displays the calendar the event is assigned to.
+  - This currently cannot be changed.
+- **Date** (required)
+  - Datepicker & timepickers in 15, 30 or 60 minute increments for start date, start time, and end time. If the event will span more than one day, toggle the **Multi-Day** lightswitch.
+- **All Day** event option
+  - If selected, the Start and End Time fields hide.
+- **Multi-Day** event option
+  - If selected, an End Date field becomes visible to specify the end date.
+- **Repeats** option
+  - When enabled, additional options are displayed for recurrence rules:
+    - Every **# Days**
+    - Every **# Weeks** on
+      - **S M T W T F S** (multiple select)
+    - Every **# Months**
+      - Each:
+        - **1** through **31** full month calendar picker table view (multiple select)
+      - On the **First**/**Second**/**Third**/**Fourth**/**Last**
+        - **S M T W T F S** (multiple select)
+    - Every **# Years**
+      - On same month and day selected in Start Date (default)
+      - (optional) On the **First**/**Second**/**Third**/**Fourth**/**Last**
+        - **S M T W T F S** (multiple select) of
+        - **January** through **December** (multiple select)
+    - on **Select Dates** - displays a date picker that allows you to select days to manually include recurrences. Select date inclusions can be applied either by clicking the date in the date picker, or by typing the date in the input field and hitting **Enter**.
+      - For each date selected, they are displayed in a list. Each selected date can be removed by clicking the `-` beside it.
+        :::info
+        Selected dates cannot be used in conjunction with other rule types. All selected dates cannot have different times, as event times must be uniform.
+        :::
+    - **End Repeat**
+      - **Never ends** (default) - event will repeat forever
+      - **On date** - use the date picker or type the date in the input field
+      - **After # times** - enter the number of times you'd like the event to repeat, including the first instance
+    - **Except On** - displays a date picker that allows you to select days to exclude recurrences from displaying in the front end. Exclusions can be applied either by clicking the date in the date picker, or by typing the date in the input field and hitting **Enter**.
+      - For each date selected, they are displayed in a list. Each selected date can be removed by clicking the **-** beside it.
+
+### Element Field Types
+
+Because _Calendar_ is an Element Type, you're able to assign/relate events to other element types such as Entries and even other events themselves. Calendar also allows you to assign/relate entire calendars (their calendar ID) to other element types such as Entries and even other events themselves.
+
+To create and use the _Calendar_ Event and Calendars field types, refer to the [Element Field Types](./fieldtype.mdx) documentation.

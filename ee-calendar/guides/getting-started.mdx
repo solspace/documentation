@@ -1,0 +1,128 @@
+---
+sidebar_position: 1
+title: 'Getting Started'
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Introduction to Calendar
+
+The Solspace Calendar add-on is very powerful and flexible, and therefore complex and can require a bit of time to learn and understand how things all work. Included with Calendar is a set of [Demo Templates](./control-panel.mdx) that can be installed on your site, instantaneously giving you a working set of templates. To help you better understand each template tag and their use, we've also included this resource.
+
+The document below serves as a templating guide. For information about using the Calendar fieldtype and creating events, [view the Calendar fieldtype documentation](./fieldtype.mdx).
+
+Calendar includes 7 template tags and 1 fieldtype:
+
+While each of these tags serves a different purpose, it may be helpful to know that the event data in the [Calendar:Month](../templating/month.mdx), [Calendar:Week](../templating/week.mdx) and [Calendar:Day](../templating/day.mdx) template tags is all powered by the [Calendar:Events](../templating/events.mdx) template tag. What does this mean? It means that event data in each of those template tags is loaded by the [Calendar:Events](../templating/events.mdx) template tag, helping streamline your setup for the special needs of each type of calendar (month, week, day), and all of the [Calendar:Events](../templating/events.mdx) variables are available to each of those template tags.
+
+:::info
+For performance reasons, please be sure to update any Calendar template tags to use the `channel="my_channel|my_other_channel"` parameter, similar to how you would do it for `{exp:channel:entries}`. The demo templates don't include this by default since there's no automated way of knowing which channel(s) you're using.
+:::
+
+## Calendar:Calendars
+
+`{exp:calendar:calendars}`
+
+The [Calendar:Calendars](../templating/calendars.mdx) template tag simply lets you display lists of calendars and information about each one. You would commonly use this template tag to display a list of available calendars, letting your users filters lists of events by calendars, etc. If you wish to display the calendar that is assigned to your event, there are variables available for use within other Calendar template tags.
+
+## Calendar:Events
+
+`{exp:calendar:events}`
+
+The [Calendar:Events](../templating/events.mdx) template tag allows you to display lists of events and their recurrences ordered chronologically. You can set start and end dates however you wish to filter the list to a specific timeframe. You can also filter events by calendars they're associated with. This is also an important template tag as it ultimately powers the event data handling in the [Calendar:Month](../templating/month.mdx), [Calendar:Week](../templating/week.mdx) and [Calendar:Day](../templating/day.mdx) template tags. All of the parameters, variables, conditionals, etc become available for use within the above template tags.
+
+Inside of the _Calendar:Events_ tag is the [calendar:recurrences variable pair](../templating/events.mdx#calendar_recurrences), which allows you to display an events other recurrences while viewing a specific occurrence.
+
+It would be most common to use this template tag if you wish to just display a specific timeframe of events in a simple list. If you're looking for extra format handling for specialty calendar displays (like full month, etc), then use the applicable template tags.
+
+## Calendar:Month
+
+`{exp:calendar:month}`
+
+The [Calendar:Month](../templating/month.mdx) template tag lets you to display a traditional month calendar grid view for a specified month, or the current month. It comes ready to go with variable pairs, variables and conditionals that help you create the full month view table. It also automatically knows to make sure each week at the beginning and end of the month is displayed as full week with the previous and next months overflowing. For example, if the current month is March, and March 1st starts on Tuesday, _Calendar:Month_ will automatically include Sunday & Monday of February at the beginning of the month table.
+
+The result is that your calendar full month view will look and behave similar to Apple Calendar or Google Calendar, etc.
+
+## Calendar:Week
+
+`{exp:calendar:week}`
+
+The [Calendar:Week](../templating/week.mdx) template tag lets you to display a week view of events for a specified week, or the current week. It comes ready to go with variable pairs, variables and conditionals to assist with formatting. It also automatically knows to make sure each week is displayed as full week. If you enter a timeframe that is less than 1 week long, _Calendar:Month_ will automatically include the left of days of the week.
+
+The result is that you're able to construct a week view calendar that can look somewhat similar to Apple Calendar or Google Calendar, etc.
+
+## Calendar:Day
+
+`{exp:calendar:day}`
+
+The [Calendar:Day](../templating/day.mdx) template tag lets you to display a full day view of events for a specified day, or the current day / today, broken down by each hour. It comes ready to go with variable pairs, variables and conditionals to assist with formatting. It also automatically knows to make sure each week is displayed as full week.
+
+The result is that you're able to construct a day view calendar that can look somewhat similar to Apple Calendar or Google Calendar, etc.
+
+## Calendar:ICS_Export
+
+`{exp:calendar:ics_export}`
+
+The [Calendar:ICS_Export](../templating/ics-export.mdx) tag is available for event exporting purposes. It outputs an [ICS (RFC-2445)](http://www.ietf.org/rfc/rfc2445.txt) compatible file, which can then be imported into other programs such as [Google Calendar](https://calendar.google.com), [Apple Calendar](https://support.apple.com/guide/calendar/welcome/mac), [Microsoft Outlook](https://www.microsoft.com/microsoft-365/outlook/email-and-calendar-software-microsoft-outlook), etc.
+
+This tag contains pre-formatted info, so you just need to specify the template tag and apply some parameters and link to it. When the template that contains this tag is accessed, the browser will instantly download an ICS file to the users computer.
+
+## Calendar:Month_List
+
+`{exp:calendar:month_list}`
+
+The [Calendar:Month_List](../templating/month-list.mdx) loop is a helper function that outputs an archive list of months for the purpose of generating simple lists to link to full Month calendars. For example, you might want to display a rolling year list of all 12 months, but relative to current month. And each month can be clicked to take the user to that month on the full month view calendar page.
+
+## Fieldtype for use inside Channel:Entries
+
+The [Calendar fieldtype](../guides/fieldtype.mdx) allows you to display event data for any entry directly within the [EE Channel:Entries](https://docs.expressionengine.com/v7/channels/entries.html) template tag:
+
+```html showLineNumbers
+{CALENDAR_FIELD_NAME} content {/CALENDAR_FIELD_NAME}
+```
+
+Most of the [variables](../templating/events.mdx#variables) and [conditionals](../templating/events.mdx#conditionals) listed in the [Calendar:Events](../templating/events.mdx) template tag are available for use here, inside of the **\{CALENDAR_FIELD_NAME}\{/CALENDAR_FIELD_NAME}** variable pair.
+
+For more information about using the Calendar fieldtype in the _Channel:Entries_ tag, please [refer to the documentation](../templating/channel-entries.mdx).
+
+## Understanding how Recurrences are handled
+
+ALl of the Calendar template tags display events and their recurrences in chronological order. Every event is an entry that holds Calendar event data. If the event repeats / recurs, then we consider the main event entry (also the first occurrence) as the parent, and its recurrences as its children. These children occurrences are not actually unique channel entries, but are instead artificially displayed into Calendar template tags. So an event that recurs 5 other times does not have 6 entries - all occurrences have the same entry ID. This is important to understand because most users like to link events from their Month, Week or Day calendars to an event detail page that shows in-depth information about the event or its recurrence(s). There is a way around this though - we'll revisit this in a few minutes...
+
+The below diagram is a visual representation of how events and their recurrences are handled within Calendar tags and the fieldtype inside the _Channel:Entries_ tag. You'll see how Calendar looks at all events in chronological order, and then allows you to look at chunks of time frames by using the [Calendar:Month](../templating/month.mdx), [Calendar:Week](../templating/week.mdx) and [Calendar:Day](../templating/day.mdx) template tags.
+
+<Photo
+  img={require('@site/static/img/ee-calendar/v5/calendar-overview-diagram.png')}
+  alt="Understanding how Recurrences are handled"
+/>
+
+## Getting around recurrence date limitations on Event Detail page
+
+Because all recurrences share the same entry ID, unfortunately there isn't an automatic way for your **event detail** page to know which dates to display (for example - if you have an event that starts on February 6 and repeats every week on Wednesday, the recurrences on February 13, 20, etc of course happen on different days). While you will likely want to display the date of the recurrence when clicked to, Calendar will generally only know how to display the very first start/end date of the parent event.
+
+A simple way around this is to include fake date segments in the URI when you link to your event detail page. So for example, if you have a full month view template, instead of just linking each recurrence to its parent entry ID, be sure to also include the date of the recurrence in the URI as fake segments as well.
+
+```html showLineNumbers
+<a
+  href="
+  {path='calendar/event'}/{calendar:entry_id}/
+  {if calendar:event_recurs}
+    {calendar:event_start_date format='%Y/%m/%d'}/
+  {/if}
+"
+>
+  {calendar:title}
+</a>
+```
+
+When using Calendar template tags such as [Calendar:Month](../templating/month.mdx), the **calendar:event_start_date format='%Y/%m/%d'** variable will parse to the correct date of each recurrence. So simply sneak that into your link to the event detail page, and you will now have some data to work with.
+
+Then, within your event detail page, use the [Calendar:Date](../templating/date.mdx) helper tag inside your [\{CALENDAR_FIELD_NAME/CALENDAR_FIELD_NAME}](../templating/channel-entries.mdx) custom field variable pair (inside [EE Channel:Entries](https://docs.expressionengine.com/v7/channels/entries.html) template tag) to grab those date segments and parse to the formatting of your choice:
+
+```html showLineNumbers
+{if calendar:event_recurs} {exp:calendar:date
+base_date="{segment_4}-{segment_5}-{segment_6}" output_date="today"
+output_format="%l, %F %j, %Y" } {if calendar:event_all_day} (all day) {if:else}
+at {calendar:event_start_date format="%g:%i%a"} {/if} {if:else}
+{calendar:event_start_date format="%l, %F %j, %Y at %g:%i%a"} {/if}
+```

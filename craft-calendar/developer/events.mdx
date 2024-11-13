@@ -1,0 +1,85 @@
+---
+title: Events
+sidebar_position: 1
+---
+
+# Developer Events
+
+If you wish to extend the capabilities of Calendar, you can use any of the events below:
+
+## Events for Calendar Events
+
+`\Solspace\Calendar\Services\EventsService`
+
+- `::EVENT_BEFORE_SAVE` <a href="#beforesave-event" id="beforesave-event" class="docs-anchor">#</a>
+  - Called before saving the event data
+  - `\Solspace\Calendar\Events\SaveElementEvent` contains these methods:
+    - `getElement()` - returns `\Solspace\Calendar\Elements\Event`
+    - `isNew()` - bool
+- `::EVENT_AFTER_SAVE` <a href="#aftersave-event" id="aftersave-event" class="docs-anchor">#</a>
+  - Called after saving the event data
+  - `\Solspace\Calendar\Events\SaveElementEvent` contains these methods:
+    - `getElement()` - returns `\Solspace\Calendar\Elements\Event`
+    - `isNew()` - bool
+- `::EVENT_BEFORE_DELETE` <a href="#beforedelete-event" id="beforedelete-event" class="docs-anchor">#</a>
+  - Called before deleting an event
+  - `\Solspace\Calendar\Events\DeleteElementEvent` contains these methods:
+    - `getElement()` - returns `\Solspace\Calendar\Elements\Event`
+- `::EVENT_AFTER_DELETE` <a href="#afterdelete-event" id="afterdelete-event" class="docs-anchor">#</a>
+  - Called after deleting an event
+  - `\Solspace\Calendar\Events\DeleteElementEvent` contains these methods:
+    - `getElement()` - returns `\Solspace\Calendar\Elements\Event`
+
+## Events for Calendars
+
+`\Solspace\Calendar\Services\CalendarsService`
+
+- `::EVENT_BEFORE_SAVE` <a href="#beforesave-calendar" id="beforesave-calendar" class="docs-anchor">#</a>
+  - Called before saving the calendar data
+  - `\Solspace\Calendar\Events\SaveModelEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Calendar\Models\CalendarModel`
+    - `isNew()` - bool
+- `::EVENT_AFTER_SAVE` <a href="#aftersave-calendar" id="aftersave-calendar" class="docs-anchor">#</a>
+  - Called after saving the calendar data
+  - `\Solspace\Calendar\Events\SaveModelEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Calendar\Models\CalendarModel`
+    - `isNew()` - bool
+- `::EVENT_BEFORE_DELETE` <a href="#beforedelete-calendar" id="beforedelete-calendar" class="docs-anchor">#</a>
+  - Called before deleting a calendar
+  - `\Solspace\Calendar\Events\DeleteModelEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Calendar\Models\CalendarModel`
+- `::EVENT_AFTER_DELETE` <a href="#afterdelete-calendar" id="afterdelete-calendar" class="docs-anchor">#</a>
+  - Called after deleting a calendar
+  - `\Solspace\Calendar\Events\DeleteModelEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Calendar\Models\CalendarModel`
+
+## Usage Examples
+
+In your plugin's `::init()` method, subscribe to any of these events by using the `Event::on()` static method:
+
+```php showLineNumbers
+<?php
+
+namespace Your\Plugin\Namespace;
+
+use Solspace\Calendar\Events\SaveElementEvent;
+
+class YourPlugin extends BasePlugin
+{
+  public function init()
+  {
+    parent::init();
+
+    // Forms
+    Event::on(
+      EventsService::class,
+      EventsService::EVENT_BEFORE_SAVE,
+      function (SaveElementEvent $event) {
+		$isNew = $event->isNew();
+        $event = $event->getElement();
+        // Do something with this data
+      }
+    );
+  }
+}
+```

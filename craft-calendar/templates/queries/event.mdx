@@ -1,0 +1,35 @@
+---
+title: Event
+sidebar_position: 4
+---
+
+# Event Query
+
+The _calendar.event_ template query fetches a single event by its unique ID or slug.
+
+## Parameters
+
+First parameter is the ID or slug of the event, the second parameter is an object of optional parameter:
+
+- `targetDate`
+  - The recurrence date you'd like to specifically target. Accepts formats like `2019-01-20`. You would typically pass date segments in the URI to achieve this. See example below...
+
+## Usage in Templates
+
+```twig showLineNumbers
+{% set occurrenceDate = null %}
+{% if craft.app.request.segment(3) and craft.app.request.segment(4) and craft.app.request.segment(5) %}
+    {% set occurrenceDate = craft.app.request.segment(3)~"-"~craft.app.request.segment(4)~"-"~craft.app.request.segment(5) %}
+{% endif %}
+
+{% set event = craft.calendar.event(segment2, {targetDate: occurrenceDate}) %}
+
+<ul>
+{% if event %}
+    <li>
+        {{ event.title }} - {{ event.startDate.format("l d, Y") }}<br />
+        {{ event.eventDescription }}
+    </li>
+{% endif %}
+</ul>
+```

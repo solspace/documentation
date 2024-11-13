@@ -1,0 +1,49 @@
+---
+sidebar_position: 12
+---
+
+# Miscellaneous Events
+
+## Adding Attributes to Injected JS and CSS Scripts
+
+You can use this event if you need to attach any attributes to the `<script>` and `<style>` tags which are added by Freeform.
+
+```php showLineNumbers
+use Solspace\Freeform\Events\Forms\RegisterRenderObjectOptionsEvent;
+use Solspace\Freeform\Library\DataObjects\FormRenderObject\AbstractFormRenderObject;
+use yii\base\Event;
+
+Event::on(
+    AbstractFormRenderObject::class,
+    AbstractFormRenderObject::EVENT_REGISTER_OPTIONS,
+    function (RegisterRenderObjectOptionsEvent $event) {
+        $nonce = 'abc'; // Get your nonce here
+        $event->addOption('nonce', $nonce);
+    }
+);
+```
+
+## Altering the Honeypot Markup
+
+If you need to change something on the honeypot markup which is added by Freeform, use this event.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\HoneypotService;
+use Solspace\Freeform\Events\Honeypot\RenderHoneypotEvent;
+
+Event::on(
+    HoneypotService::class,
+    HoneypotService::EVENT_RENDER_HONEYPOT,
+    function (RenderHoneypotEvent $event) {
+        $output = $event->getOutput();
+
+        $output = str_replace(
+            ' class="',
+            ' nonce="my-nonce" class="',
+            $output
+        );
+
+        $event->setOutput($output);
+    }
+);
+```

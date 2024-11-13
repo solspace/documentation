@@ -1,0 +1,78 @@
+---
+title: Notification
+sidebar_position: 5
+---
+
+# Notification Events
+
+To extend Freeform's Email Notifications, use the events listed below:
+
+## Before saving a notification
+
+```php showLineNumbers
+use Solspace\Freeform\Services\NotificationsService;
+use Solspace\Freeform\Events\Notifications\SaveEvent;
+
+Event::on(
+  NotificationsService::class,
+  NotificationsService::EVENT_BEFORE_SAVE,
+  function (SaveEvent $event) {
+    $notificationRecord = $event->getRecord();
+    $isNew = $event->isNew();
+
+    // Perform some action here
+  }
+)
+```
+
+## After saving a notification
+
+```php showLineNumbers
+use Solspace\Freeform\Services\NotificationsService;
+use Solspace\Freeform\Events\Notifications\SaveEvent;
+
+Event::on(
+  NotificationsService::class,
+  NotificationsService::EVENT_AFTER_SAVE,
+  function (SaveEvent $event) {
+    $notificationRecord = $event->getRecord();
+    $isNew = $event->isNew();
+
+    // Perform some action here
+  }
+)
+```
+
+## Before deleting a notification
+
+```php showLineNumbers
+use Solspace\Freeform\Services\NotificationsService;
+use Solspace\Freeform\Events\Notifications\DeleteEvent;
+
+Event::on(
+  NotificationsService::class,
+  NotificationsService::EVENT_BEFORE_DELETE,
+  function (DeleteEvent $event) {
+    $notificationRecord = $event->getRecord();
+
+    // Perform some action here
+  }
+)
+```
+
+## After deleting a notification
+
+```php showLineNumbers
+use Solspace\Freeform\Services\NotificationsService;
+use Solspace\Freeform\Events\Notifications\DeleteEvent;
+
+Event::on(
+  NotificationsService::class,
+  NotificationsService::EVENT_AFTER_DELETE,
+  function (DeleteEvent $event) {
+    $notificationRecord = $event->getRecord();
+
+    // Perform some action here
+  }
+)
+```

@@ -1,0 +1,72 @@
+---
+sidebar_position: 7
+title: 'ICS_Export'
+---
+
+# Calendar:ICS_Export template tag
+
+The _Calendar:ICS_Export_ tag is available for event exporting purposes. It outputs an [ICS (RFC-2445)](http://www.ietf.org/rfc/rfc2445.txt) compatible file, which can then be imported into other programs such as [Google Calendar](https://calendar.google.com), [Apple Calendar](https://support.apple.com/guide/calendar/welcome/mac), [Microsoft Outlook](https://www.microsoft.com/microsoft-365/outlook/email-and-calendar-software-microsoft-outlook), etc.
+
+This tag contains pre-formatted info, so you just need to specify the template tag and apply some parameters and link to it. When the template that contains this tag is accessed, the browser will instantly download an ICS file to the users computer.
+
+For **ICS Subscriptions** (one way sync), please see the [Calendar:ICS_Subscription](./ics-subscription.mdx) template tag documentation.
+
+:::info
+All event date data is stored as `UTC+0`, and retrieved as `UTC+0`. So, no matter where you are in the world, an event start date entered at **6pm** will be stored and displayed always as **6pm**. The _Calendar:ICS_Export_ template tag compensates for this by setting the timezone to be floating, which (in the current example) means the event will show up at **6pm** no matter what timezone the user is located in.
+:::
+
+```html showLineNumbers
+{exp:calendar:ics_export}
+```
+
+## Parameters
+
+### date_range_start=
+
+`date_range_start="2 months ago"`
+
+This parameter allows you to show a specific date range to export events for. Enter the beginning day you'd like this tag to show results for. If this parameter is NOT specified or an incorrect date value is passed to this parameter, the current day (today) will be displayed. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter. Used in conjunction with the [date_range_end](#date-range-end) parameter.
+
+### date_range_end=
+
+`date_range_end="100 months"`
+
+This parameter allows you to show a specific date range to export events for. Enter the ending day you'd like this tag to show results for.If this parameter is NOT specified or an incorrect date value is passed to this parameter, the current day (today) will be displayed. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter. Used in conjunction with the [date_range_start](#date-range-start) parameter.
+
+### calendar_id=
+
+`calendar_id="{segment_4}"`
+
+This parameter allows you to export a specific calendar by specifying its ID. You can hardcode a calendar ID, pass it through an embed, or grab it from the URI. This link should be generated in another template by using the `{calendar:calendar_id}` variable.
+
+### event_id=
+
+`event_id="{segment_4}"`
+
+This parameter allows you to export a specific event by specifying its ID. You can hardcode an event entry ID, pass it through an embed, or grab it from the URI. This link should be generated in another template by using the `{entry_id}` or `{calendar:entry_id}` variable.
+
+### category=
+
+`category="{segment_5}"`
+
+This parameter allows you to export a specific set of events that belong to a category within a certain calendar by specifying a category ID. You can hardcode an category ID, pass it through an embed, or grab it from the URI.
+
+## Examples
+
+The below code example is a complete example of how you would use this feature to export a range of events:
+
+```html showLineNumbers
+{exp:calendar:ics_export date_range_start="2 months ago" date_range_end="100
+months" }
+```
+
+If you wish to export a single event or calendar, your code would look something more like this:
+
+```html {3,6} showLineNumbers
+{exp:calendar:ics_export {if segment_3 == "event"} event_id="{segment_4}" {!--
+Assuming you're linking to this template at something like
+site.com/calendar/export/event/53 --} {/if} {if segment_3 == "calendar"}
+calendar_id="{segment_4}" {!-- Assuming you're linking to this template at
+something like site.com/calendar/export/calendar/4 --} {/if} date_range_start="2
+months ago" date_range_end="100 months" }
+```

@@ -1,0 +1,65 @@
+---
+title: 'Freshdesk'
+sidebar_position: 8
+---
+
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Freshdesk CRM Integration<Badge type="pro" text="Pro" />
+
+This documentation page assumes you have read over the [CRM Integration Overview](./index.mdx#crm). If you have not yet read it, please do so now. We also assume that you have a [Freshdesk](https://freshdesk.com) account already. If you currently have Freeform Lite, you can purchase an upgrade to Freeform Pro.
+
+## Compatibility
+
+- Field mapping to standard and most custom fields.
+- Maps data to [Tickets](https://developers.freshdesk.com/api/#tickets) endpoint.
+
+## Duplicate Check & Update
+
+- Duplicate detection will automatically be applied to the email address and a Contact will be created or updated automatically by Freshdesk.
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+
+### Create & get API Key from Freshdesk
+
+- Go to your [Freshdesk](https://freshdesk.com) account (e.g. `https://yourcompany.freshdesk.com`) and login.
+- At the top right corner, click on the profile icon and select **Profile Settings**.
+- On the next page, toward the top right side you'll see an input labelled **Your API Key**.
+- Copy that API key to your clipboard.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Set up Integration on your site
+
+- Go to the [CRM section in Freeform Settings](../configuration/settings.mdx#crm) (**Freeform → Settings → CRM**).
+- Click the **New CRM Integration** at the top right.
+- Select _Freshdesk_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration.
+- Paste the API Key from Freshdesk into the **API Key** field in Freeform.
+- In the **Domain** field, enter your Freshdesk helpdesk domain, e.g. `https://yourcompany.freshdesk.com`.
+- Complete the rest of the following optional fields:
+  - **Default Type** - set the default **Type** for tickets, e.g. `Question`.
+  - **Default Priority** - set the default **Priority** for tickets, e.g. `1` (low).
+  - **Default Status** - set the default **Status** for tickets, e.g. `2` (open).
+  - **Default Source** - set the default **Source** for tickets, e.g. `1` (email), `2` (portal), etc.
+- At the top of the page, click the **Save** button.
+
+</StepMarkdown>
+<StepMarkdown>
+
+### Verify Authorization
+
+- After the integration is saved, it'll return you to the list of CRM integrations.
+- Click into the newly created integration.
+- Confirm that there is green circle with **Authorized** in the middle of the page.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>

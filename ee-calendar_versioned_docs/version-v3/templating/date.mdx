@@ -1,0 +1,61 @@
+---
+sidebar_position: 9
+title: 'Date'
+---
+
+# Calendar:Date template tag
+
+_Calendar:Date_ is useful for situations where you want to output formatted date data for any arbitrary date. So, you would typically use this in these three circumstances:
+
+1. you need full date formatting for a some random date.
+2. you want to find out information about a date that falls relative to some other date.
+3. you need to turn date segments into a formattable date in your template (Calendar-related or not).
+
+The advantage is that you can format the outgoing date however you please. Since this function uses Calendar's powerful date parameters you can not only output absolute dates (ex: **2016-04-15**), you can also output relative dates (ex: **2 weeks ago**). Even better - using the [base_date](#base-date) parameter, the dates can be relative to ANY date, not just today.
+
+```html showLineNumbers
+{exp:calendar:date}
+```
+
+## Parameters
+
+### base_date=
+
+`base_date="2016-06-01"`
+
+The base date for relative date calculations. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter. Only relevant if the [output_date](#output-date) parameter is set to a relative value (ex: **1 week ago**). Default is equivalent to **today**.
+
+### output_date=
+
+`output_date="2016-06-last"`
+
+The date you want to display. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter. If the value is a relative date, the date will be relative to the value of [base_date](#base-date).
+
+### output_format=
+
+`output_format="%Y-%m-%d"`
+
+Controls formatting of the output date, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html). If this parameter is not specified, the format defaults to _%Y%m%d_ (ex: **20160415**).
+
+## Examples
+
+The following example is how you would generate **tomorrow**'s date:
+
+```html showLineNumbers
+Weather forecast for Tomorrow ({exp:calendar:date base_date="today"
+output_date="tomorrow" output_format="%F %j, %Y" })
+```
+
+Or **1 year** from **tomorrow**'s date would be done like this:
+
+```html showLineNumbers
+1 Year from Tomorrow would be {exp:calendar:date base_date="tomorrow"
+output_date="1 year" output_format="%F %j, %Y" }
+```
+
+If you've ever needed to turn date segments in the URL into a formattable date in your template, this is the perfect tag to use (Calendar related or not):
+
+```html showLineNumbers
+{exp:calendar:date base_date="{segment_3}-{segment_4}-{segment_5}"
+output_date="today" output_format="%F %j, %Y" }
+```

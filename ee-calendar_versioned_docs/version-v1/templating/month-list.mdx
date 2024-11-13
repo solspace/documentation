@@ -1,0 +1,92 @@
+---
+sidebar_position: 10
+title: 'Month_List'
+---
+
+# Calendar:Month_List template tag
+
+The _Calendar:Month_List_ loop outputs an archive list of months for the purpose of generating simple lists to link to Month calendars.
+
+```html showLineNumbers
+{exp:calendar:month_list} content {/exp:calendar:month_list}
+```
+
+## Parameters
+
+### date_range_start=
+
+`date_range_start="2009-06-01"`
+
+Limits output to months on or after this date. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter. Default value is `year-01-01`.
+
+### date_range_end=
+
+`date_range_end="2010-06-last"`
+
+Limits output to months on or before this date. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter.
+
+### limit=
+
+`limit="18"`
+
+This parameter allows you to limit the amount of month results to be displayed in the list. Default is `12`.
+
+## Variables
+
+### month
+
+`{month format="%F, %Y"}`
+
+Displays the given month, formatted using EE-style format characters. If `format=""` is not specified, it will parse as `MM` (ex: `03`).
+
+### year
+
+`{year format="%Y"}`
+
+Displays the given year, formatted using EE-style format characters. If `format=""` is not specified, it will parse as `YYYY` (ex: `2009`).
+
+## Conditionals
+
+### is_current_month
+
+`{if is_current_month}Current Month{/if}`
+
+If the month in the list of results is the current month, this conditional will display its contents.
+
+### is_not_current_month
+
+`{if is_not_current_month}NOT Current Month{/if}`
+
+If the month in the list of results is NOT the current month, this conditional will display its contents.
+
+### is_current_year
+
+`{if is_current_year}Current Year{/if}`
+
+If the month in the list of results is the current year, this conditional will display its contents.
+
+### is_not_current_year
+
+`{if is_not_current_year}NOT Current Year{/if}`
+
+If the month in the list of results is NOT the current year, this conditional will display its contents.
+
+## Examples
+
+The following code will display a list of months during the period of `January, 2009 - December, 2012`:
+
+```html showLineNumbers
+<ul>
+  {exp:calendar:month_list
+    date_range_start="2009-01-01"
+    date_range_end="2012-12-last"
+    limit="100"
+  }
+    <li>
+      <a href="{path='calendar/month'}/{month format="%Y/%m"}/">
+        {month format="%F, %Y"}
+      </a>
+    </li>
+  {/exp:calendar:month_list}
+</ul>
+```

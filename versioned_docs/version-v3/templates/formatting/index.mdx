@@ -1,0 +1,412 @@
+# Formatting Template Examples
+
+Freeform offers the most flexible and customizable options for handling the formatting templates for forms. You can simply choose from one of our popular framework examples and add your own CSS to style them further, or you can create your very own formatting templates. If you wish to create your own (and we certainly encourage that), feel free to use an existing sample one as a starting point.
+
+:::youtube[78LAmvZ0yoA]
+
+<i>Video: Preview of Formatting Template Examples</i>
+
+:::
+
+## Overview
+
+Forms can be generated inside your front end templates one of 2 different ways:
+
+1. Using [freeform.form render()](../queries/form#usage-in-templates) method **_(recommended)_**.
+   - Your form formatting code is stored in a separate template and can be reused across as many of your forms as you wish (just like an include).
+     - Formatting templates are Twig template files and are stored in a separate directory inside your **craft/templates** directory, so they can still work nicely with version control.
+     - Freeform includes several formatting template examples for you to use or user as a starting point for creating your own.
+   - In template(s) that you want your form(s) to show up in, you simply just insert 1 line of code:
+   ```twig
+   {{ craft.freeform.form("formHandle").render() }}
+   ```
+   - You can have as many formatting templates as you wish. Just specify in the form builder which formatting template the form should use. You won't need to even adjust the page template the form is placed into.
+     - If you wish to override the formatting template for the form at template level, you can also specify the `formattingTemplate` parameter:
+     ```twig {2}
+     {{ craft.freeform.form("formHandle" {
+     	formattingTemplate: 'template-name.html'
+     }).render() }}
+     ```
+   - Lends itself well when rendering forms that have been attached/related forms to entries or other element types.
+2. With the [freeform.form](../queries/form.mdx) template function.
+   - Your form formatting code is contained directly within the template that you want the form to appear in.
+   - No matter what formatting template your form may have assigned to it in the Form Builder, the form always conforms to the template formatting used in this template.
+
+:::warning
+Be sure to switch or unassign a formatting template from any/all forms using it BEFORE deleting the actual formatting template file from your **craft/templates** directory. If you delete the template file while it is still assigned to a form, when loading the form in your template on the front end it may display an error that needs to be corrected. If you're already experiencing this issue, simply update the form to use a different formatting template and it will resolve the issue.
+:::
+
+Have a look at [freeform.form function](../queries/form.mdx) and [Form object](../queries/form.mdx) for a full list of properties and parameters.
+
+## Examples
+
+### Basic Formatting Template
+
+The following is a basic example of what your formatting template can look like to generate form display. A starting template like this (along with CSS) can be generated for you by visiting the [Formatting Templates](../../configuration/settings#formatting-templates) section in Freeform Settings.
+
+```twig showLineNumbers
+{{ form.renderTag }}
+
+{% if form.pages|length > 1 %}
+  <ul class="freeform-pages">
+  {% for page in form.pages %}
+    <li>
+    {% if form.currentPage.index == loop.index0 %}
+      <a href="javascript:;">{{ page.label }}</a>
+    {% else %}
+      {{ page.label }}
+    {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+{% endif %}
+
+{% for row in form %}
+  <div class="freeform-row {{ form.customAttributes.rowClass }}">
+  {% for field in row %}
+    {% set columnClass = "freeform-column " ~ form.customAttributes.columnClass %}
+    {% if field.type == "submit" %}
+      {% set columnClass = columnClass ~ " freeform-column-content-align-" ~ field.position %}
+    {% endif %}
+    <div class="{{ columnClass }}"{{ field.rulesHtmlData }}>
+      {{ field.render({
+        class: field.type != "submit" ? "freeform-input" : "",
+        labelClass: "freeform-label" ~ (field.inputOnly ? " freeform-input-only-label" : "") ~ (field.required ? " freeform-required" : ""),
+        errorClass: "freeform-errors",
+        instructionsClass: "freeform-instructions",
+      }) }}
+    </div>
+  {% endfor %}
+  </div>
+{% endfor %}
+
+{{ form.renderClosingTag }}
+```
+
+### Complex Formatting Template
+
+A more complex example, complete with scripts to style AJAX success/error banners, accounting for checkbox groups, radios, etc with Bootstrap 5 formatting may look like this:
+
+```twig showLineNumbers
+{{ form.renderTag() }}
+
+{% if form.pages|length > 1 %}
+    <ul class="nav nav-tabs">
+    {% for page in form.pages %}
+        <li class="nav-item">
+            <span class="nav-link{{ form.currentPage.index == page.index ? ' font-weight-bold active' : ' disabled' }}">{{ page.label }}</span>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{% if form.hasErrors %}
+    <div class="alert alert-danger">
+        {{ form.errorMessage | t }}
+
+        {% if form.errors|length %}
+            <ul class="mb-0">
+                {% for error in form.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% for row in form %}
+    <div class="row {{ form.customAttributes.rowClass }}">
+        {% for field in row %}
+            {% set width = (12 / (row|length)) %}
+
+            {% set isCheckbox = field.type in ["checkbox","mailing_list"] %}
+
+            {% set columnClass = "mb-3" %}
+            {% set columnClass = columnClass ~ form.customAttributes.columnClass %}
+            {% set columnClass = columnClass ~ " col-sm-" ~ width ~ " col-12" %}
+
+            {% set class = "form-control" ~ (field.hasErrors ? " is-invalid has-validation") %}
+            {% if field.type == "file" %}
+                {% set class = "form-control-file" ~ (field.hasErrors ? " is-invalid") %}
+            {% elseif field.type == "select" %}
+                {% set class = "form-select" %}
+            {% elseif field.type == "signature" %}
+                {% set class = "btn btn-light" %}
+            {% elseif field.type == "table" %}
+                {% set class = "table" %}
+            {% elseif isCheckbox %}
+                {% set class = "checkbox" %}
+            {% endif %}
+
+            {% set labelClass = (field.required ? " required" : "") %}
+            {% set errorClass = "invalid-feedback" %}
+            {% set instructionClass = "form-text text-muted" %}
+
+            {% if field.type == "submit" %}
+                {% set columnClass = columnClass ~ " submit-align-" ~ field.position %}
+            {% endif %}
+
+            <div class="{{ columnClass }}"{{ field.rulesHtmlData }}>
+                {% if field.type == "checkbox_group" %}
+
+                    {{ field.renderLabel({
+                        labelClass: labelClass,
+                        instructionsClass: instructionClass,
+                        errorClass: errorClass,
+                    }) }}
+
+                    {{ field.oneLine ? "<div>"|raw }}
+
+                    {% for index, option in field.options %}
+                        <div class="form-check{{ field.oneLine ? " form-check-inline" }}">
+                            <input type="checkbox"
+                                   name="{{ field.handle }}[]"
+                                   value="{{ option.value }}"
+                                   id="{{ field.idAttribute }}-{{ index }}"
+                                   class="form-check-input{{ field.hasErrors ? " is-invalid" }}"
+                                    {{ option.checked ? "checked" : "" }}
+                            />
+
+                            <label class="form-check-label" for="{{ field.idAttribute }}-{{ index }}">
+                                {{ option.label|t|raw }}
+                            </label>
+                        </div>
+                    {% endfor %}
+
+                    {{ field.oneLine ? "</div>"|raw }}
+
+                    {{ field.renderInstructions() }}
+                    {{ field.renderErrors({ errorClass: errorClass }) }}
+
+                {% elseif field.type == "radio_group" %}
+
+                    {{ field.renderLabel({
+                        labelClass: labelClass,
+                        instructionsClass: instructionClass,
+                        errorClass: errorClass,
+                    }) }}
+
+                    {{ field.oneLine ? "<div>"|raw }}
+
+                    {% for index, option in field.options %}
+                        <div class="form-check{{ field.oneLine ? " form-check-inline" }}">
+                            <input type="radio"
+                                   name="{{ field.handle }}"
+                                   value="{{ option.value }}"
+                                   id="{{ field.idAttribute }}-{{ index }}"
+                                   class="form-check-input{{ field.hasErrors ? " is-invalid" }}"
+                                    {{ option.checked ? "checked" : "" }}
+                            />
+                            <label class="form-check-label" for="{{ field.idAttribute }}-{{ index }}">
+                                {{ option.label|t|raw }}
+                            </label>
+                        </div>
+                    {% endfor %}
+
+                    {{ field.oneLine ? "</div>"|raw }}
+
+                    {{ field.renderInstructions() }}
+                    {{ field.renderErrors() }}
+
+                {% elseif field.type == "dynamic_recipients" and (field.showAsRadio or field.showAsCheckboxes) %}
+
+                    {{ field.renderLabel({
+                        labelClass: labelClass,
+                        instructionsClass: instructionClass,
+                        errorClass: errorClass,
+                    }) }}
+
+                    {{ field.oneLine ? "<div>"|raw }}
+
+                    {% for index, option in field.options %}
+                        <div class="form-check{{ field.oneLine ? " form-check-inline" }}">
+                            <input type="{{ field.showAsRadio ? "radio" : "checkbox" }}"
+                                   name="{{ field.handle }}[]"
+                                   value="{{ loop.index0 }}"
+                                   class="form-check-input"
+                                   id="{{ field.idAttribute }}-{{ index }}"
+                                    {{ option.checked ? "checked" : "" }}
+                            />
+
+                            <label class="form-check-label" for="{{ field.idAttribute }}-{{ index }}">
+                                {{ option.label|t|raw }}
+                            </label>
+                        </div>
+                    {% endfor %}
+
+                    {{ field.oneLine ? "</div>"|raw }}
+
+                    {{ field.renderInstructions() }}
+                    {{ field.renderErrors() }}
+
+                {% elseif field.type in ["checkbox", "mailing_list"] %}
+
+                    <div class="form-check">
+                        {{ field.renderInput({ class: class ~ " form-check-input" ~ (field.hasErrors ? " is-invalid") }) }}
+                        {{ field.renderLabel({ labelClass: "form-check-label" ~ (field.hasErrors ? " is-invalid") ~ (field.required ? " required") }) }}
+                        {{ field.renderErrors({ errorClass: errorClass }) }}
+                    </div>
+
+                {% elseif field.type == "submit" %}
+
+                    {{ field.render({ class: "btn btn-primary" }) }}
+
+                {% elseif field.type == "table" %}
+
+                    {{ field.render({
+                        class: class,
+                        labelClass: labelClass,
+                        instructionsClass: instructionClass,
+                        instructionsBelowField: true,
+                        errorClass: errorClass,
+                        addButtonLabel: "Add +",
+                        addButtonClass: "btn btn-sm btn-primary",
+                        removeButtonLabel: "x",
+                        removeButtonClass: "btn btn-sm btn-danger",
+                        tableTextInputClass: "form-control",
+                        tableSelectInputClass: "form-select",
+                        tableCheckboxInputClass: "form-check-input"
+                    }) }}
+
+                {% elseif field.type == "cc_details" %}
+
+                    {# FOR FREEFORM PAYMENTS #}
+
+                    {{ field.renderLabel({
+                        labelClass: (field.required ? " required" : ""),
+                        instructionsClass: "help-block",
+                        errorClass: "help-block",
+                    }) }}
+
+                    {% for layoutRow in field.layoutRows %}
+                        <div class="row mb-3{{ form.customAttributes.rowClass }}">
+                            {% for layoutField in layoutRow %}
+                                {% set layoutWidth = (12 / (layoutRow|length)) %}
+                                {% set columnClass = columnClass|replace(' col-sm-' ~ width) %}
+                                {% set columnClass = columnClass ~ " col-sm-" ~ layoutWidth %}
+                                <div class="{{ columnClass }}">
+                                    {{ layoutField.render({
+                                        class: isCheckbox ? "checkbox" : "form-control",
+                                        instructionsClass: "help-block",
+                                        instructionsBelowField: true,
+                                        labelClass: (layoutField.required ? " required" : ""),
+                                        errorClass: "help-block",
+                                    }) }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+                    {{ field.renderInput({
+                        instructionsClass: "help-block",
+                        instructionsBelowField: true,
+                        labelClass: (field.required ? " required" : ""),
+                        errorClass: "help-block",
+                    }) }}
+
+                    {{ field.renderInstructions }}
+                    {{ field.renderErrors }}
+
+                {% else %}
+
+                    {{ field.render({
+                        class: class,
+                        labelClass: labelClass,
+                        instructionsClass: instructionClass,
+                        instructionsBelowField: true,
+                        errorClass: errorClass,
+                    }) }}
+
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}
+
+{{ form.renderClosingTag }}
+
+<script>
+  var form = document.querySelector('[data-id="{{ form.anchor }}"]');
+  if (form) {
+    form.addEventListener("freeform-ready", function (event) {
+      var freeform = event.target.freeform;
+
+      freeform.setOption("errorClassBanner", ["alert", "alert-danger", "errors"]);
+      freeform.setOption("errorClassList", ["help-block", "errors", "invalid-feedback"]);
+      freeform.setOption("errorClassField", ["is-invalid", "has-error"]);
+      freeform.setOption("successClassBanner", ["alert", "alert-success", "form-success"]);
+    })
+
+    form.addEventListener("freeform-stripe-styling", function (event) {
+      event.detail.base = {
+        fontSize: "16px",
+        fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\"",
+      }
+    })
+  }
+</script>
+```
+
+### Manually Formatted Form Template
+
+Form formatting can also be extremely manual, if that is something you prefer. Here's an example of different levels of manual you can use:
+
+```twig showLineNumbers
+{% set form = craft.freeform.form("myForm") %}
+
+{{ form.renderTag({returnUrl: "contact/success"}) }}
+
+  {% if form.hasErrors %}
+    <div class="freeform-form-has-errors">
+      {{ "Error! Please review the form and try submitting again."|t('freeform') }}
+    </div>
+  {% endif %}
+
+  {% set firstName = form.get("firstName") %}
+  {% set company = form.get("company") %}
+  {% set lastName = form.get("lastName") %}
+
+  <label>{{ firstName.label }}</label>
+  <input name="{{ firstName.handle }}" value="{{ firstName.value }}" />
+  {{ firstName.renderErrors() }}
+
+  <label>{{ lastName.label }}</label>
+  <input name="{{ lastName.handle }}" value="{{ lastName.value }}" />
+  {{ lastName.renderErrors() }}
+
+  {{ company.renderLabel() }}
+  {{ company.renderInput() }}
+  {{ company.renderErrors() }}
+
+  <label>Email Address</label>
+  <input name="email" />
+  {{ form.get("email").renderErrors() }}
+
+  <label>Phone</label>
+  <input name="phone" />
+  {% if form.get("phone").hasErrors %}
+    This field is required!
+  {% endif %}
+
+  <button type="submit">Submit</button>
+
+{{ form.renderClosingTag }}
+```
+
+### Populate Freeform Field Data
+
+If you'd like to populate a Freeform field with data from another element such as [Craft Entries](https://craftcms.com/docs/3.x/entries.html), you might introduce a conditional with code that looks something like this:
+
+```twig showLineNumbers
+{% elseif field.handle == "myFieldHandle") %}
+
+  <select name="{{ field.handle }}">
+  {% for entry in craft.entries.section('news').limit(10) %}
+    <option value="{{ entry.handle }}"{% if field.value == entry.handle %} selected{% endif %}>
+      {{ entry.title }}
+    </option>
+  {% endfor %}
+  </select>
+
+{% else %}
+```

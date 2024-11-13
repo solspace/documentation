@@ -1,0 +1,176 @@
+---
+sidebar_position: 7
+title: Form_Info
+---
+
+# Freeform:Form_Info template tag
+
+The _Freeform:Form_Info_ tag is used to display information about a specific form, or display a list of available forms.
+
+```html
+{exp:freeform:form_info} content {/exp:freeform:form_info}
+```
+
+## Parameters
+
+### form_id=
+
+`form_id="4"`
+
+This parameter can be used if you wish to limit the results to just display a single form, or specify a select few forms. Use the unique ID of the form(s), and separate multiples with the pipe character (**|**). Alternatively, you can use the [form_name](#form-name) parameter.
+
+### form_name=
+
+`form_name="contact_form"`
+
+This parameter can be used if you wish to limit the results to just display a single form, or specify a select few forms. Use the short names of the form(s), and separate multiples with the pipe character (**|**). Alternatively, you can use the [form_id](#form-id) parameter.
+
+### limit=
+
+`limit="10"`
+
+This parameter allows you to limit the amount of results returned. The default is **20**.
+
+### orderby=
+
+`orderby="total_entries"`
+
+This parameter is used to order your list of forms. You can order your form results by **label** (default), **name**, **id** and **total_entries** (total number of submissions the form has).
+
+### sort=
+
+`sort="desc"`
+
+This parameter lets you sort your results in ascending (**asc**) or descending (**desc**) order.
+
+## Variables
+
+### freeform:count
+
+`{freeform:count}`
+
+This variable outputs the display order number for each result in the list of forms.
+
+### freeform:total_results
+
+`{freeform:total_results}`
+
+This variable outputs the total amount of forms in the results. You would typically use this in a conditional statement.
+
+### freeform:form_id
+
+`{freeform:form_id}`
+
+This variable displays the unique ID of the form.
+
+### freeform:form_name
+
+`{freeform:form_name}`
+
+This variable displays the unique short name of the form.
+
+### freeform:form_label
+
+`{freeform:form_label}`
+
+This variable displays the label of the form.
+
+### freeform:form_description
+
+`{freeform:form_description}`
+
+This variable displays the description of the form.
+
+### freeform:site_id
+
+`{freeform:site_id}`
+
+This variable displays the Site ID that the form belongs to. May become important when Multiple Site Manager (MSM) is installed.
+
+### freeform:total_entries
+
+`{freeform:total_entries}`
+
+This variable displays the total entries for each form (not including incomplete multipage forms).
+
+### freeform:switch
+
+`{freeform:switch="black|grey"}`
+
+This variable allows you to switch a CSS class back and fourth for all outputted results.
+
+### freeform:author
+
+`{freeform:author}`
+
+This variable displays the screen name of the user that created the form.
+
+### freeform:author_id
+
+`{freeform:author_id}`
+
+This variable displays the member ID of the user that created the form.
+
+### freeform:entry_date
+
+`{freeform:entry_date format="%F %j, %Y}`
+
+This variable will display the date the form was created. This variable should be formatted using standard EE date formatting.
+
+### freeform:edit_date
+
+`{freeform:edit_date format="%F %j, %Y}`
+
+This variable will display the date the form was last edited. This variable should be formatted using standard EE date formatting.
+
+## Conditionals
+
+### freeform:no_results
+
+`{if freeform:no_results}Sorry, no results were found.{/if}`
+
+This conditional displays its contents when there are no results found for this tag with the given set of parameters.
+
+## Examples
+
+- [Display a list of all forms](#display-a-list-of-all-forms)
+- [Display detailed information about a form](#display-detailed-information-about-a-form)
+
+### Display a list of all forms
+
+The below example will display a list of all available forms on your site:
+
+```html
+<ul>
+  {exp:freeform:form_info orderby="label" sort="asc" limit="10" }
+  <li style="color:{freeform:switch='white|grey'};">
+    <a href="{path='my_forms/form'}/{freeform:form_name}"
+      >{freeform:form_label}</a
+    >
+    ({freeform:total_entries} entries)
+  </li>
+  {/exp:freeform:form_info}
+</ul>
+```
+
+### Display detailed information about a form
+
+The below example will display detailed information for a specific form:
+
+```html
+{exp:freeform:form_info form_name="food_survey" }
+
+<h2>{freeform:form_label}</h2>
+<p>{freeform:form_description}</p>
+<ul>
+  <li>
+    Form created by:
+    <a href="{path='members/profile'}/{freeform:author_id}"
+      >{freeform:author}</a
+    >
+  </li>
+  <li>Created on: {freeform:entry_date format="%F %j, %Y}</li>
+  <li>Last edited on: {freeform:edit_date format="%F %j, %Y}</li>
+</ul>
+{/exp:freeform:form_info}
+```

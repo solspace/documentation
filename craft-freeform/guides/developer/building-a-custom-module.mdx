@@ -1,0 +1,124 @@
+---
+sidebar_position: 1
+---
+
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Building a Custom Module
+
+Freeform has a wide variety of [developer events](../../developer/events/form.mdx) and is very customizable, allowing you to easily extend Freeform for all of your needs! This guide assumes you have some level of PHP and Craft custom development experience.
+
+## Instructions
+
+In the example below, we'll be making a [Craft module](https://craftcms.com/docs/5.x/extend/module-guide.html) that sends an email notification to a recipient, based upon the selection of a Dropdown/Checkboxes/Radios fields' options. This will be done using the [`EVENT_AFTER_SUBMIT`](../../developer/events/form.mdx#after-submitting) event.
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Create a new file named `MyFreeformModule.php` inside of the Craft `modules` directory:
+
+```php showLineNumbers
+<?php
+
+namespace modules;
+
+use Solspace\Freeform\Events\Submissions\SubmitEvent;
+use Solspace\Freeform\Freeform;
+use Solspace\Freeform\Services\SubmissionsService;
+use yii\base\Event;
+
+class MyFreeformModule extends Module
+{
+    public function init()
+    {
+        parent::init();
+
+        // Subscribe to the AFTER_SUBMIT event
+        Event::on(
+            SubmissionsService::class,
+            SubmissionsService::EVENT_AFTER_SUBMIT,
+            function (SubmitEvent $event) {
+                // ===============================
+                // Set the notification ID here
+                // This is the notification ID from the database
+                // ===============================
+                $notificationId = 5;
+
+                $form = $event->getForm();
+                $submission = $event->getSubmission();
+
+                // Skip all other forms except "my-form-handle" form
+                if ($form->getHandle() !== 'my-form-handle') {
+                    return;
+                }
+
+                // Get the submitted value by which we'll be gathering recipients
+                $selectedStates = $submission->state->getValue();
+                if (!is_array($selectedStates)) {
+                    $selectedStates = [$selectedStates];
+                }
+
+                $recipients = [];
+                foreach ($selectedStates as $selectedState) {
+                    switch ($selectedState) {
+                        // Assign "first@recipient.com" if any of the following states is selected
+                        case 'AL':
+                        case 'CA':
+                        case 'ID':
+                        case 'IL':
+                            $recipients[] = 'first@recipient.com';
+                            break;
+
+                        // Assign two recipients if some other states are selected
+                        case 'MI':
+                        case 'NE':
+                        case 'NV':
+                            $recipients[] = 'second@recipient.com';
+                            $recipients[] = 'third@recipient.com';
+                            break;
+
+                        // Assign these recipients if ANY OTHER state is selected from the ones listed above
+                        default:
+                            $recipients[] = 'first@recipient.com';
+                            $recipients[] = 'fourth@recipient.com';
+                            break;
+                    }
+                }
+
+                // Send the notification
+                Freeform::getInstance()->mailer->sendEmail(
+                    $form,
+                    $recipients,
+                    $notificationId,
+                    $form->getLayout()->getFields(),
+                    $submission
+                );
+            }
+        );
+    }
+}
+```
+
+</StepMarkdown>
+<StepMarkdown>
+
+Enable the module in the `config/app.php` config file:
+
+```php showLineNumbers
+<?php
+
+return [
+    'modules' => [
+        // Make the module available in Craft
+        'my-freeform-module' => \modules\MyFreeformModule::class,
+    ],
+    'bootstrap' => [
+        // Initialize the module on every craft request
+        'my-freeform-module',
+    ],
+];
+```
+
+</StepMarkdown>
+
+</VerticalStepWrapper>

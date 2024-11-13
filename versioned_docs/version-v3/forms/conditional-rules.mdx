@@ -1,0 +1,121 @@
+---
+title: 'Conditional Rules'
+sidebar_position: 6
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+
+import ConditionalRulesPhoto from './assets/img/conditional-rules.png';
+
+# Conditional Rules<Badge type="pro" text="Pro" />
+
+Freeform Pro edition includes Conditional Rules logic that can be added to forms. This feature allows you to effortlessly set fields to **show or hide** based on the contents/selection of other fields, and even **skip pages** for multi-page forms based on the contents/selection of fields on a previous page.
+
+To begin adding rules inside your form, click on the **Conditional Rules** (lines icon) tab in the Property Editor column at the top right and follow the options.
+
+<Photo img={ConditionalRulesPhoto} alt="Form Builder - Conditional Rules" />
+
+## Quick Setup Guide for Fields
+
+1. Click the **Conditional Rules** (lines icon) tab in the Property Editor column at the top right.
+2. Click **Select page to add rules to** select dropdown, and select the page you'd like to add rules for.
+3. Beside _Field Rules_, click the **Add...** select dropdown, and select the **field** from the list you'd like to be **shown or hidden**, based on criteria of other field(s).
+4. The word _show_ can be toggled to _hide_, and _any_ can be toggled to _all_ if you wish.
+5. Click the **Add criteria...** select dropdown and select the field you'd like to affect this field.
+6. The word _is_ can be toggled to _is not_ if you wish.
+7. Enter a value or select and option (if multi-option fieldtype) or check the checkbox (if checkbox fieldtype).
+8. If you wish to add more criteria for this field, click the **Add criteria...** select dropdown and repeat the above process.
+9. Save your form and try it out!
+
+## Quick Setup Guide for Page Skip
+
+This applies only to [multi-page forms](./multi-page-forms)...
+
+1. Click the **Conditional Rules** (lines icon) tab in the Property Editor column at the top right.
+2. If you don't already have [field conditional rules](#conditional-rules-logic-for-fields-and-pages) for the page you're wanting to make rules for, click **Select page to add rules to** select dropdown, and select the page you'd like to add rules for.
+3. Beside _Page Rules_, click the **Add...** select dropdown, and select the **page** from the list you'd like to have your form **go to**, based on criteria of other field(s).
+4. The word _any_ can be toggled to _all_ if you wish.
+5. Click the **Add criteria...** select dropdown and select the field you'd like to cause the page skip.
+6. The word _is_ can be toggled to _is not_ if you wish.
+7. Enter a value or select and option (if multi-option fieldtype) or check the checkbox (if checkbox fieldtype).
+8. If you wish to add more criteria for this field, click the **Add criteria...** select dropdown and repeat the above process.
+9. Save your form and try it out!
+
+## Reference
+
+- Rules are applied directly inside the form builder for each form through the **Conditional Rules** (lines icon) tab in the Property Editor column.
+- Rules can be applied to both [Fields](#fields) and [Pages](#pages).
+- You can have multiple criteria for each rule.
+- You can have as many rules as you wish.
+- Wildcards can be set for criteria values with the asterisk character (`*`), e.g. `cat*` will match `cat`, `cats`, `cat litter`, etc.
+- Criteria values/options will automatically display as the following:
+  - Text input (where you type out the criteria) for basic text/number field types.
+  - Select dropdown (where you select a predefined option as criteria) for multi-option fieldtypes such as Checkbox group, Radio groups, Select, etc.
+  - Checkbox (where you check the checkbox) for single Checkbox fieldtypes.
+
+### Fields
+
+- Rules can be set to **show** or **hide** the applicable field.
+- Rules can be set to have **any** or require **all** criteria (across multiple field criteria) to affect the show/hide.
+- Criteria can be set to have content be (**is**) or not be (**is not**) certain data.
+- Includes support for showing/hiding Submit buttons, HTML blocks, Confirm fields and Password fields.
+- Currently no support for [Payments](../integrations/stripe-payments.mdx) and Captcha special fields.
+
+### Pages
+
+This feature applies to [multi-page forms](./multi-page-forms) only.
+
+- Rules are set only to **go to** / **skip** pages based on the criteria of field(s) for the given page.
+- Rules can be set to have **any** or require **all** criteria (across multiple field criteria) to affect the page skip.
+- Criteria can be set to have content be (**is**) or not be (**is not**) certain data.
+- Rules cannot be delayed in any way. For example, you can't have a page skip rule on Page 1 that lets you through to Page 2 and Page 3, but skips page 4. The skip is always immediate.
+- A page can be set to bypass all other pages and directly submit the form early (use **Submit form** option).
+- If you have **Previous** buttons enabled for your pages and you have rules that skip pages, the user will technically be able to see skipped pages if they click the **Previous** button to go back pages.
+
+:::info
+Please be cautious about the order of your rules, and be careful not to make any complicated rules that contradict each other.
+:::
+
+## Usage in Formatting Templates
+
+Due to the complex nature of this feature and its reliance on automation, it generally assumes you're automating the render (rather than manually hardcoding each field, etc). All of the Solspace demo templates and sample default formatting templates include this already (and work out of the box), but if you're customizing a formatting template, be sure that `{{ field.rulesHtmlData }}` is on the `div` wrapper for each field inside of `{% for field in row %}`. For example:
+
+```twig {25} showLineNumbers
+{{ form.renderTag({rowClass: "sample-row-class"}) }}
+
+{% if form.hasErrors %}
+  <div class="freeform-form-has-errors">
+    {{ "Error! Please review the form and try submitting again."|t('freeform') }}
+
+    {% if form.errors|length %}
+      <ul>
+        {% for error in form.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+{% endif %}
+
+{% for row in form %}
+  <div class="{{ form.customAttributes.rowClass }}">
+    {% for field in row %}
+      {% set columnClass = "sample-column " ~ form.customAttributes.columnClass %}
+      {% if field.type == "submit" %}
+        {% set columnClass = columnClass ~ " submit-column" %}
+      {% endif %}
+
+      <div class="{{ columnClass }}"{{ field.rulesHtmlData }}>
+        {{ field.render({
+          class: field.type != "submit" ? "freeform-input" : "",
+          labelClass: "sample-label" ~ (field.required ? " required" : ""),
+          errorClass: "sample-errors",
+          instructionsClass: "sample-instructions",
+        }) }}
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}
+
+{{ form.renderClosingTag }}
+```

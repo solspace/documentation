@@ -1,0 +1,223 @@
+---
+title: Submitting a File using NextJS + AJAX
+sidebar_position: 5
+---
+
+import { Photo } from '@site/src/components/utils';
+
+import NextjsFileUpload1Photo from './assets/img/nextjs-file-upload-1.png';
+import NextjsFileUpload2Photo from './assets/img/nextjs-file-upload-2.png';
+import NextjsFileUpload3Photo from './assets/img/nextjs-file-upload-3.png';
+import NextjsFileUpload4Photo from './assets/img/nextjs-file-upload-4.png';
+import NextjsFileUpload5Photo from './assets/img/nextjs-file-upload-5.png';
+import NextjsFileUpload6Photo from './assets/img/nextjs-file-upload-6.png';
+
+# Submitting a File using NextJS + AJAX
+
+This is a very basic working example based on the [Next.js + AJAX headless demo](https://github.com/solspace/craft-freeform-demo-nextjs-ajax) we provide.
+
+## Instructions
+
+```tsx showLineNumbers
+'use client';
+
+import React, { useEffect, useState } from 'react';
+
+type FormData = {
+  fileUpload: File | string;
+};
+
+type FormProperties = {
+  csrf: {
+    name: string;
+    token: string;
+  };
+  hash: string;
+  freeform_payload: string;
+  settings: {
+    behavior: {
+      processingText: string;
+      successMessage: string;
+      errorMessage: string;
+    };
+  };
+};
+
+type Params = {
+  formData: FormData;
+  formProperties: FormProperties;
+};
+
+const defaultFormData: FormData = {
+  fileUpload: '',
+};
+
+const defaultFormProperties: FormProperties = {
+  csrf: {
+    name: '',
+    token: '',
+  },
+  hash: '',
+  freeform_payload: '',
+  settings: {
+    behavior: {
+      processingText: '',
+      successMessage: '',
+      errorMessage: '',
+    },
+  },
+};
+
+async function getFormProperties(formId: number) {
+  const response = await fetch(`/freeform/form/properties/${formId}`, {
+    headers: { Accept: 'application/json' },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch Craft Freeform Form properties');
+  }
+
+  return response.json();
+}
+
+async function saveFormSubmission(params: Params) {
+  const { formData, formProperties } = params;
+  const { csrf, hash, freeform_payload } = formProperties;
+
+  const body = new FormData();
+  body.append(csrf.name, csrf.token);
+  body.append('formHash', hash);
+  body.append('freeform_payload', freeform_payload);
+  body.append('fileUpload', formData.fileUpload);
+
+  const response = await fetch('/actions/freeform/submit', {
+    method: 'POST',
+    headers: {
+      'X-CSRF-Token': csrf.token,
+      'Cache-Control': 'no-cache',
+      'X-Requested-With': 'XMLHttpRequest',
+      HTTP_X_REQUESTED_WITH: 'XMLHttpRequest',
+      'X-Craft-Solspace-Freeform-Mode': 'Headless',
+    },
+    body,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to submit Craft Freeform Form');
+  }
+
+  return response.json();
+}
+
+const MyForm = () => {
+  const [formData, setFormData] = useState(defaultFormData);
+  const [formProperties, setFormProperties] = useState(defaultFormProperties);
+
+  const handleSubmit = async (event: React.FormEvent): Promise<void> => {
+    event.preventDefault();
+
+    const response = await saveFormSubmission({ formData, formProperties });
+
+    // Do something with the response
+  };
+
+  useEffect(() => {
+    let ignore = false;
+
+    // Set your Freeform Form ID from Craft.
+    const formId = 5;
+
+    getFormProperties(formId).then((formProperties) => {
+      if (!ignore) {
+        setFormProperties(formProperties);
+      }
+    });
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="fileUpload">
+        <input
+          name="fileUpload"
+          type="file"
+          id="fileUpload"
+          accept="image/*"
+          onClick={(event) => (event.currentTarget.value = '')}
+          onChange={(event) =>
+            setFormData({
+              ...formData,
+              fileUpload: event.target.files ? event.target.files[0] : '',
+            })
+          }
+        />
+      </label>
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export default function Form() {
+  return <MyForm />;
+}
+```
+
+```php showLineNumbers
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    async rewrites() {
+        return [
+            {
+                source: '/actions/freeform/submit',
+                // destination: 'https://demo.solspace.net/craft/actions/freeform/submit',
+                destination: 'https://local-freeform-5.craft.test/actions/freeform/submit',
+            },
+            {
+                source: '/freeform/form/properties/:formId(\\d{1,})',
+                // destination: 'https://demo.solspace.net/craft/freeform/form/properties/:formId(\\d{1,})',
+                destination: 'https://local-freeform-5.craft.test/freeform/form/properties/:formId(\\d{1,})',
+            },
+        ];
+    },
+};
+
+module.exports = nextConfig;
+```
+
+Also read the [How to Render a Form](./graphql.mdx#how-to-render-a-form) guide.
+
+<Photo
+  img={NextjsFileUpload1Photo}
+  alt="Submitting a File using NextJS + AJAX 1"
+/>
+<Photo
+  img={NextjsFileUpload2Photo}
+  alt="Submitting a File using NextJS + AJAX 2"
+/>
+<Photo
+  img={NextjsFileUpload3Photo}
+  alt="Submitting a File using NextJS + AJAX 3"
+/>
+<Photo
+  img={NextjsFileUpload4Photo}
+  alt="Submitting a File using NextJS + AJAX 4"
+/>
+<Photo
+  img={NextjsFileUpload5Photo}
+  alt="Submitting a File using NextJS + AJAX 5"
+/>
+
+For GraphQL, have a look at our NextJS + GraphQL demo. The only difference is we need to Base64 encode our file:
+
+```graphql showLineNumbers
+fileUpload: [FreeformFileUploadInputType]
+```
+
+<Photo
+  img={NextjsFileUpload6Photo}
+  scale="60"
+  alt="Submitting a File using NextJS + AJAX 6"
+/>

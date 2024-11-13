@@ -1,0 +1,195 @@
+---
+title: 'reCAPTCHA'
+sidebar_position: 19
+---
+
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import {
+  VerticalStepWrapper,
+  StepMarkdown,
+  CodeTabs,
+  CodeTabItem,
+  FolderTitle,
+  TabItems,
+} from '@site/src/components/docs';
+
+# reCAPTCHA<Badge type="feature" text="Improved in 5.0+" />
+
+Freeform includes an integration for Google [reCAPTCHA](https://www.google.com/recaptcha/). The options below are compatible with the Enterprise API and the Classic legacy keys.
+
+## Overview
+
+All **reCAPTCHA** offerings will be automatically loaded and handled by Freeform (when enabled for the form). The **reCAPTCHA v2 Checkbox** field will be automatically inserted above the Submit button(s).
+
+Each _reCAPTCHA_ integration is managed inside the _Captchas_ area under Settings and then further configurable per form inside the form builder. Every integration is a little bit different, so please follow the detailed instructions for setting up the integration below.
+
+## Supported Types
+
+Below is a list of the _reCAPTCHA_ integrations supported by Freeform and how each of them work. These are each compatible with the Enterprise API and the Classic legacy keys.
+
+### reCAPTCHA v2 Checkbox
+
+All users submitting your form must check off the reCAPTCHA checkbox, and in some cases, users will be presented the puzzle to solve to submit the form successfully. This is available in all editions of Freeform.
+
+### Challenge - Invisible (v2)<Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" />
+
+Most users will not even know it's automatically validating them, but like the Challenge Checkbox (v2) described above, some users will be presented a modal on the page with the puzzle to solve when they click the submit button.
+
+### Score Based (v3)<Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" />
+
+Users are never presented any puzzle to solve, etc. Instead, users are automatically validated by Google based on a score assigned to them. You have control over that score threshold inside Freeform settings. We suggest starting with something like `0.5` and see how that goes (where a `0.0` score means that it's almost certain a bot and a `1.0` score means it's a user). If the user does not pass this threshold, the submission will follow the behavior you set out for it in the settings (send to spam folder / reject it entirely / show an error to the user, etc). The user has no ability to validate themselves like in **Challenge (v2)** reCAPTCHAs.
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+
+### Set up App on reCAPTCHA site
+
+- Go to the [reCAPTCHA admin site](https://www.google.com/recaptcha/admin) and log into your account.
+- If you don't already have an app created, click on the **+** icon button at the top right.
+  - Enter a name for it in the **Label** setting.
+  - Choose a type in the **reCAPTCHA Type** setting.
+  - In the **Domains** section, enter in any domain(s) you plan on using the captcha for, e.g. `mysite.net`.
+  - Click the **Submit** button.
+  - On the next page, you'll be presented a **Site Key** and **Secret Key**. Copy both of these.
+- If you have already created an app, select it from the dropdown at the top left and click on the **cog** settings icon at the top right.
+  - In the **Domains** section, enter in any domain(s) you plan on using the captcha for, e.g. `mysite.net`.
+  - Click on the **reCAPTCHA Keys** area above and copy the **Site Key** and **Secret Key** values.
+  - If you have made any changes to this app, scroll to the bottom and click **Save** button.
+- Leave this page open and open a new tab...
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Set up Integration on your site
+
+- Go to the [Captchas section in Freeform Settings](../configuration/settings.mdx#captchas) (**Freeform → Settings → Captchas**).
+- Click the **New Integration** button at the top right.
+- Select _reCAPTCHA_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration. e.g. `My reCAPTCHA Integration`.
+- Choose a reCAPTCHA version and type from the **Captcha Type** select dropdown. These are each compatible with the Enterprise API and the Classic legacy keys.
+- In the **Site Key** and **Secret Key** settings, paste in the **Site Key** and **Secret Key** values from the reCAPTCHA site.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Additional Configuration
+
+- Complete the rest of the following optional fields (these will only be the default value when configuring the integration in the form builder later):
+  - **Only load Captcha scripts once the user interacts with the form?**
+  - **Failure Behavior** - set to `Display Error Message` or `Send to Spam Folder`.
+    - **Error Message** - set a custom error message if using `Display Error Message` failure behavior.
+  - If using **Score Based (v3)**, set the defaults for the following:
+    - **Score Threshold** - the minimum score (between `0.0` and `1.0`) required for the Captcha to pass validation.
+    - **Action** - the action to use when validating the Captcha, e.g. `submit`.
+  - If using **reCAPTCHA v2 Checkbox**, set the defaults for the following:
+    - **Theme** - set to `Light` or `Dark`.
+    - **Size** - set to `Normal` or `Compact`.
+- Click the **Save** button.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Configure the Form
+
+To use this integration on your form(s), you'll need to configure each form individually.
+
+- Visit the form inside the form builder.
+- Click on the **Integrations** tab.
+- Click on **reCAPTCHA** in the list of available integrations.
+- On the right side of the page:
+  - Enable the integration.
+  - Adjust any of the settings as needed.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>
+
+## Behavior & Overrides
+
+The following options are available for adjusting the behavior of _reCAPTCHA_ and overriding at the template-level.
+
+### Only load Captcha scripts once the user interacts with the form
+
+If you'd like to have the associated Captcha scripts load only once a user begins filling out the form, enable the corresponding setting inside the **Captchas** settings page. If you'd like your forms to be ready to go at page load, disable this setting.
+
+### Disabling Captchas
+
+To disable Captchas per form at template level, add the `disableCaptcha: true` parameter to the [Form query](../templates/queries/form.mdx).
+
+### Manual Placement<Badge type="feature" text="New in 5.7+" />
+
+If you need full control over the placement of the visible _reCAPTCHA v2 Checkbox_, please see the [Captcha Placement](../templates/formatting/index.mdx#captcha-placement-) guide.
+
+### Add Attributes to Wrapper <Badge type="feature" text="New in 5.1+" />
+
+You can add attributes to the main Captcha wrapper that is automatically inserted by Freeform.
+
+<CodeTabs>
+<TabItems>
+<CodeTabItem filetype="twig" value="index" label="index.twig" default>
+```twig showLineNumbers
+{{ form.render({
+    captchas: {
+        class: ["custom-class", "another-class"],
+        "data-test": true,
+    }
+}) }}
+```
+</CodeTabItem>
+
+<CodeTabItem filetype="html" value="index" label="output" default>
+```twig showLineNumbers
+// Output (truncated for example)
+...
+<div class="custom-class another-class" data-test data-freeform-recaptcha-container>
+    <div class="g-recaptcha">
+...
+```
+</CodeTabItem>
+
+</TabItems>
+</CodeTabs>
+
+### Load reCAPTCHA JS Manually
+
+If you're loading an entire form via AJAX, you'll need to load the reCAPTCHA JS yourself, since it's considered insecure otherwise and the browser blocks it. You should add this script tag anywhere on your page, preferably the footer:
+
+```html showLineNumbers
+<script
+  type="text/javascript"
+  src="https://www.google.com/recaptcha/api.js?render=explicit"
+></script>
+```
+
+### Set the Action for Score Based (v3)
+
+To set the action of Score Based (v3), add `recaptchaAction: "myaction"` to your `form.renderTag`, like this:
+
+```twig showLineNumbers
+{{ form.renderTag({ recaptchaAction: "myaction" }) }}
+```
+
+### Hiding the reCAPTCHA floating badge
+
+_Challenge - Invisible (v2)_ and _Score Based (v3)_ will automatically load a reCAPTCHA icon in the bottom right corner of your site containing the form. This is required by Google's terms of service. There are CSS workarounds if you wish to locate the icon to the left side of the browser page, etc.
+
+If you'd like to hide the reCAPTCHA floating badge (bottom right for _v2 Invisible_ and _v3_), you are allowed to do so as along as you provide reference to reCAPTCHA in the user flow. Quote and example from the [Google reCAPTCHA docs](https://developers.google.com/recaptcha/docs/faq#id-like-to-hide-the-recaptcha-badge.-what-is-allowed):
+
+> You are allowed to hide the badge as long as you include the reCAPTCHA branding visibly in the user flow. Please include the following text:
+>
+> ```twig showLineNumbers
+> This site is protected by reCAPTCHA and the Google
+> <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+> ```
+>
+> Note: if you choose to hide the badge, please use:
+>
+> ```twig
+> .grecaptcha-badge { visibility: hidden; }
+> ```

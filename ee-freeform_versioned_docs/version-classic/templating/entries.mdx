@@ -1,0 +1,339 @@
+---
+sidebar_position: 4
+title: Entries
+---
+
+# Freeform:Entries template tag
+
+The _Freeform:Entries_ tag allows you to display Freeform Classic entries in your EE templates, similar to the way _Channel:Entries_ works. You can filter the results by a variety of parameters, and display as much or as little data as you wish from the submissions. This tag can be used to display a list of entries, or use as a single entry view where just a single entry is shown.
+
+```html
+{exp:freeform:entries} content {/exp:freeform:entries}
+```
+
+## Parameters
+
+### author_id=
+
+`author_id="7"`
+
+This parameter lets you filter all results down to a specific author/submitter of Freeform entries. You can hardcode this value or feed an ID through the URI or through an embed. To specify multiples, separate with pipe character (**|**).
+
+### backspace=
+
+`backspace="2"`
+
+This parameter can be used to remove excess formatting from the contents of your _Freeform:Entries_ tag. It works by removing the specified amount of characters from the end of what is parsed. This would typically be used in a case like separating simple values by commas, but removing the last trailing comma, etc.
+
+### date_range=
+
+    date_range="this month"
+
+This parameter is used to control the results to show only entries within a specified timeframe given this accepted list of simple keywords:
+
+- _today_
+- _this week_
+- _this month_
+- _last month_
+- _this year_
+
+These are the only accepted keywords for this parameter.
+
+### date_range_start=
+
+`date_range_start="2012-01-01 12:00 PM"`
+
+This parameter is used to control the results to show only entries within a specified timeframe. Specify a date in which you want entry submissions to start at (be no older than), using standard EE date syntax, or [PHP datetime and relative formats](http://php.net/manual/en/datetime.formats.php) like **2 weeks ago**. May be used in conjunction with [date_range_end](#date-range-end) parameter.
+
+### date_range_end=
+
+`date_range_end="2012-06-30 12:00 PM"`
+
+This parameter is used to control the results to show only entries within a specified timeframe. Specify a date in which you want entry submissions to stop at (be no newer than), using standard EE date syntax, or [PHP datetime and relative formats](http://php.net/manual/en/datetime.formats.php) like **2 weeks ago**. May be used in conjunction with [date_range_start](#date-range-start) parameter.
+
+### entry_id=
+
+`entry_id="{segment_3}"`
+
+This parameter is necessary to limit the results to display a specific Freeform entry by specifying its entry ID. If there's an ID in the URI, and the [dynamic](#dynamic) parameter is not set to no, Freeform Classic will automatically serve an entry matching that ID. You can hardcode an entry ID, pass it through an embed, or grab it from the URI.
+
+### form_id=
+
+`form_id="{segment_3}"`
+
+To filter results by entries that belong to a specific form, specify the ID of the form you created in the Freeform Classic control panel. Alternatively, you can use the [form_name](#form-name) parameter.
+
+### form_name=
+
+`form_name="{segment_3}"`
+
+To filter results by entries that belong to a specific form, specify the short name of the form you created in the Freeform Classic control panel. Alternatively, you can use the [form_id](#form-id) parameter.
+
+### limit=
+
+`limit="10"`
+
+This parameter allows you to limit the amount of results returned. The default is **20**.
+
+### offset=
+
+`offset="1"`
+
+This parameter will skip the first specified amount of entries in the results. For example, if you specify **2**, it will not show the first two results in the list.
+
+### orderby=
+
+`orderby="entry_date"`
+
+This parameter is used to order your entries. You can order your entries by **date**, any custom Freeform Classic field name, or **random**.
+
+### paginate=
+
+`paginate="both"`
+
+This parameter allows you to control where the pagination will display. Options are **top**, **bottom**, or **both**. Used in conjunction with the [freeform:paginate](#freeform-paginate) variable pair.
+
+### site_id=
+
+`site_id="2|3"`
+
+If using MSM, you can specify a Site ID in this parameter to filter entries down to that site.
+
+### sort=
+
+`sort="asc"`
+
+This parameter lets you sort your results in ascending (**asc**) or descending (**desc**) order.
+
+### status=
+
+`status="open|closed"`
+
+This parameter allows you to filter entries by status. If not specified, Freeform Classic will display entries in open status only. Separate multiple statuses with the pipe character (**|**).
+
+### search:FIELD_NAME=
+
+`search:city="winnipeg"`
+
+This parameter is used to filter your entry results by a hardcoded search term. For example, if you wanted only entries that contained Winnipeg in the city field, you would construct the parameter as seen in example above. It works just like the [search:field="value"](https://docs.expressionengine.com/v4/channel/channel_entries.html#search-field-name) parameter in the [Channel:Entries](https://docs.expressionengine.com/v4/channel/channel_entries.html) tag. All of the advanced "matching" syntax is available as well.
+
+## Variables
+
+### freeform:field:FIELD_NAME
+
+`{freeform:field:FIELD_NAME}`
+
+All Freeform Classic fields are available for use as variables here to display submitted data. To display a Freeform fields' data, just specify the **short_name** of the field, prepended with `freeform:field:` (ex: **comments** becomes `freeform:field:comments`).
+
+For more information about each field types' output and special handling capabilities, please refer to the [Default Fieldtypes](../guides/default-fieldtypes.mdx) documentation. For any 3rd party field types, please refer to any documentation provided by its developer.
+
+### freeform:label :FIELD_NAME
+
+`{freeform:label:FIELD_NAME}`
+
+This variable parses out as the label for the field. Simply construct your variables like this: `freeform:label:` + **FREEFORM_FIELD_NAME**. So if you have a field with a short name of **favorite_food**, the variable would look like this: `{freeform:label:favorite_food}`.
+
+### freeform:description:FIELD_NAME
+
+`{freeform:description:FIELD_NAME}`
+
+This variable parses out as the description for the field. Simply construct your variables like this: `freeform:description:` + **FREEFORM_FIELD_NAME**. So if you have a field with a short name of **favorite_food**, the variable would look like this: `{freeform:description:favorite_food}`.
+
+### freeform:absolute_count
+
+`{freeform:absolute_count}`
+
+This variable will return the absolute position number of the entry within the list of results, including paginated results.
+
+### freeform:absolute_results
+
+`{freeform:absolute_results}`
+
+This variable will return the absolute total amount of entries being displayed in the results, including paginated results. You would typically use this in a conditional statement.
+
+### freeform:attachment_count
+
+`{freeform:attachment_count}`
+
+This variable will output the total number of files uploaded across all file upload fields for the entry. For example, if you had 2 fields that were the **file upload** field type, and one had 2 file uploads within it, while the other had one, and each contained files uploaded, the total value would be **3**.
+
+### freeform:author_id
+
+`{freeform:author_id}`
+
+This variable will display the member ID of the form submitter IF they were logged in when they submitted the form. It will return **0** for guests / logged out users. If you're looking to display standard or custom member fields for the author of the Freeform entry (if they were logged in when submitting the form), you can feed the author ID to the native EE [Custom Profile Data](https://docs.expressionengine.com/v4/member/index.html#custom-profile-data-tag) tag.
+
+### freeform:author
+
+`{freeform:author}`
+
+This variable will display the screen name of the form submitter IF they were logged in when they submitted the form. Will return empty value for guests / logged out users. You could create a conditional like this if you have a combination of members and guests submitting the form:
+
+`{if freeform:author}{freeform:author}{if:else}{name} (guest){/if}`
+
+If you're looking to display standard or custom member fields for the author of the Freeform entry (if they were logged in when submitting the form), you can feed the author ID to the native EE [Custom Profile Data](https://docs.expressionengine.com/v4/member/index.html#custom-profile-data-tag) tag.
+
+### freeform:complete
+
+`{freeform:complete}`
+
+This variable will parse out to **y** or **n**, based on whether or not the form submission has been completed. This would typically apply to multipage forms.
+
+### freeform:count
+
+`{freeform:count}`
+
+This variable outputs the display order number for each result in the list of entries (within the page, if using pagination).
+
+### freeform:edit_date
+
+`{freeform:edit_date format="%F %j, %Y at %g:%i %a"}`
+
+This variable will display the date the Freeform entry was last edited. If the entry has not been edited, this variable will not output anything. This variable should be formatted using standard EE date formatting.
+
+### freeform:entry_date
+
+`{freeform:entry_date format="%F %j, %Y at %g:%i %a"}`
+
+This variable will display the date the Freeform entry was submitted. This variable should be formatted using standard EE date formatting.
+
+### freeform:entry_id
+
+`{freeform:entry_id}`
+
+This variable will display the unique ID for the Freeform entry.
+
+### freeform:form_id
+
+`{freeform:form_id}`
+
+This variable will display the unique ID of the Freeform form.
+
+### freeform:form_label
+
+`{freeform:form_label}`
+
+This variable will display the label of the Freeform form.
+
+### freeform:form_name
+
+`{freeform:form_name}`
+
+This variable will display the short name of the Freeform form.
+
+### freeform:ip_address
+
+`{freeform:ip_address}`
+
+This variable will be display the IP Address of the user that submitted the form.
+
+### freeform:reverse_count
+
+`{freeform:reverse_count}`
+
+This variable outputs the display order number for each result in reverse order in the list of entries.
+
+### freeform:status
+
+`{freeform:status}`
+
+This variable will display the status of the Freeform entry.
+
+### freeform:switch
+
+`{freeform:switch="style_one|style_two"}`
+
+This variable allows you to switch a CSS class back and fourth for all outputted results.
+
+### freeform:total_results
+
+`{freeform:total_results}`
+
+This variable outputs the total amount of entries in the results (within the page, if using pagination). You would typically use this in a conditional statement.
+
+## Variable Pairs
+
+### freeform:all_form_fields
+
+```html
+{freeform:all_form_fields}
+<p>
+  <label>{freeform:field_label}</label>
+  {freeform:field_output} {if freeform:field_type == 'text'} hello! {/if}
+</p>
+{/freeform:all_form_fields}
+```
+
+In the event you wish to have Freeform Classic just populate your field data automatically for you, this variable pair, along with other variables are available to use. Just apply the formatting of your choice and wrap that around the variables and Freeform Classic will do the rest. The following variables are available for use within this variable pair:
+
+- _\{freeform:field_id}_ - the unique ID of the field
+- _\{freeform:field_name}_ - the short name of the field
+- _\{freeform:field_label}_ - the label for the field
+- _\{freeform:field_type}_ - the type of field the form field is (most likely used for creating conditionals on what kind of formatting to use around certain field types).
+- _\{freeform:field_output}_ - data output from field (This is the entry data after having given the field type a chance to make it consumable).
+
+### freeform:paginate
+
+```html
+{freeform:paginate} Page {freeform:current_page} of {freeform:total_pages} pages
+&nbsp; {freeform:pagination_links} {/freeform:paginate}
+```
+
+Pagination is available for this tag and works just like regular EE pagination, but each variable/variable pair is prepended with freeform: (except for any variables/variable pairs inside of the _freeform:pagination_links_ variable pair). Used in conjunction with the [paginate](#paginate) parameter.
+
+## Conditionals
+
+### freeform:no_results
+
+`{if freeform:no_results}Sorry, no results were found.{/if}`
+
+This conditional evaluates to true and displays its contents when there are no results found for this tag with the given set of parameters.
+
+## Examples
+
+The following is a basic example of how you can display a simple list of submitted Freeform entries:
+
+```html
+<ul>
+  {exp:freeform:entries form_name="cheese_survey" orderby="name" sort="asc"
+  limit="20" }
+  <li><b>{freeform:field:name}</b> - {freeform:field:favorite_cheese}</li>
+  {if freeform:no_results}
+  <li>No Results</li>
+  {/if} {/exp:freeform:entries}
+  <ul></ul>
+</ul>
+```
+
+The following is a slightly more advanced example of how you can display several details of a submitted Freeform entry:
+
+```html
+{exp:freeform:entries form_id="1" orderby="date" sort="desc" limit="20"
+paginate="both" }
+
+<p>Submitted: {freeform:entry_date format="%F %j, %Y at %g:%i %a"}</p>
+
+<h3>
+  By: {freeform:field:name} {if freeform:field:urgent == "yes"} (URGENT!) {/if}
+</h3>
+
+<p>Email Address: {freeform:field:email}</p>
+
+<p>Home Phone: {freeform:field:home_phone}</p>
+
+{if freeform:field:cell_phone}
+<p>Cell Phone: {freeform:field:cell_phone}</p>
+{/if}
+
+<p>Subject: {freeform:field:subject}</p>
+<p>Questions or Comments:<br />{freeform:field:question}</p>
+
+{if freeform:no_results}
+<p>No results found.</p>
+{/if} {freeform:paginate}
+<p>
+  Page {freeform:current_page} of {freeform:total_pages} pages &nbsp;
+  {freeform:pagination_links}
+</p>
+{/freeform:paginate} {/exp:freeform:entries}
+```

@@ -1,0 +1,99 @@
+---
+sidebar_position: 11
+---
+
+import { Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+import GTMPhoto from './assets/img/gtm.png';
+import GTMCheckPhoto from './assets/img/check-gtm.png';
+
+# Google Tag Manager
+
+Freeform includes built-in support for [Google Tag Manager](https://tagmanager.google.com/) if you wish to use that with your forms.
+
+This guide assumes you are familiar with [Google Tag Manager](https://tagmanager.google.com/). We cannot provide any assistance with setting this up, aside from the basics.
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+<StepMarkdown>
+### Enable Google Tag Manager inside Freeform
+- Go to the ['Single' integration section in Freeform Settings](../configuration/settings.mdx#email-marketing) (**Freeform → Settings → Integrations → Single**).
+- Click on **Google Tag Manager** in the list.
+- Enable it by toggling on the **Enabled** setting.
+- If you'd like GTM to be enabled for all forms by default, toggle on the **Enabled by default** setting.
+- If you wish to have Freeform insert its own scripts, enter your GTM ID (`GTM-XXXXXX`) in the **Container ID** setting and a custom event name (if applicable) in the **Event Name** setting.
+- Save the form.
+
+<Photo img={GTMPhoto} alt="Range Slider" />
+
+</StepMarkdown>
+<StepMarkdown>
+### Configure the Form
+
+To use this integration on your form(s), you'll need to configure each form individually. If you toggled on the **Enabled by default** setting in the Freeform Settings, it will automatically be ON for all forms. You can disable them for each form as necessary.
+
+- Visit the form inside the form builder.
+- Click on the **Integrations** tab.
+- Click on **Google Tag Manager** in the list of available integrations.
+- On the right side of the page:
+  - Enable (or disable) the integration.
+  - Adjust any of the settings as needed.
+- Save the form.
+
+</StepMarkdown>
+<StepMarkdown>
+### Customizing
+
+To customise what gets sent to the events, you can write your own JS and add an event listener in your template, like this:
+
+```js showLineNumbers
+window.addEventListener('freeform-gtm-data-layer-push', function (event) {
+  event.payload.myCustomValue = 'something_here';
+  event.payload.otherCustomValue = 'other_value';
+});
+```
+
+This would then attach whatever you add to the payload to the event that is being pushed to GTM.
+
+</StepMarkdown>
+<StepMarkdown>
+### Submit a Test Submission
+
+- Visit your form on your site.
+- Fill out the form and submit it.
+- The data should have been pushed to GTM using the specified event name.
+
+:::info
+The success of this is not observable on your site, as this event goes to GTM via some sockets, so there's nothing in the network tab.
+:::
+
+</StepMarkdown>
+<StepMarkdown>
+### Submit a Test Submission
+
+- Visit your form on your site.
+- Fill out the form and submit it.
+- The data should have been pushed to GTM using the specified event name.
+
+:::info
+The success of this is not observable on your site, as this event goes to GTM via some sockets, so there's nothing in the network tab.
+:::
+
+</StepMarkdown>
+<StepMarkdown>
+### Check Google Tag Manager
+
+To see if your test worked correctly, visit the [Google Tag Manager](https://tagmanager.google.com/) website and open your project workspace. Then click on the **PREVIEW** button near the top right side of the page.
+
+<Photo img={GTMCheckPhoto} alt="Range Slider" />
+</StepMarkdown>
+<StepMarkdown>
+### Troubleshooting
+
+Google offers a [Tag Assistant](https://tagassistant.google.com/) tool along with a [Tag Assistant Companion](https://chrome.google.com/webstore/detail/tag-assistant-companion/jmekfmbnaedfebfnmakmokmlfpblbfdm) Chrome extension. These help troubleshoot installation of `gtag.js` and **Google Tag Manager**. When the Chrome extension is present, it enables additional features for Tag Assistant including debugging iframes and debugging multiple windows from the same debug session.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>

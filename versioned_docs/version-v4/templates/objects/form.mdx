@@ -1,0 +1,245 @@
+---
+sidebar_position: 1
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Form object
+
+The Form object contains its metadata and field objects. You can either render the form using the pre-selected formatting template by calling `form.render()` or achieve a more fine-grained control over it by iterating over its rows and fields and using `form.renderTag` and `form.renderClosingTag` methods.
+
+:::info
+Freeform will automatically insert javascript in the footer of the page for features such as [Spam Protection](../../forms/spam-protection.mdx), Submit disable on click, and other special fieldtypes. If you prefer to have this load inside the `<form></form>` tags, you can adjust the [Freeform Javascript Insertion Location](../../configuration/settings#scripts-location) setting.
+:::
+
+## Properties
+
+### `name`
+
+Outputs the name of the form.
+
+### `handle`
+
+Outputs the handle of the form.
+
+### `id`
+
+Outputs the unique ID of the form.
+
+### `description`
+
+Outputs the description of the form.
+
+### `submissionTitleFormat`
+
+Outputs the submission title format used when creating new submissions based on this form.
+
+### `returnUrl`
+
+Outputs the return URL of the form.
+
+### `successMessage`
+
+Outputs the custom success message configured in the Validation tab for your form inside the form builder.
+
+### `errorMessage`
+
+Outputs the custom error message configured in the Validation tab for your form inside the form builder.
+
+### `hasErrors`
+
+A bool variable, which will be `true` if there are any errors in any of the fields or the form. It might be `true` even if `form.errors` list is empty, (e.g. if one or more fields have an error). This can be used in conjunction with the [Errors object](./errors.mdx) for displaying special and general errors.
+
+### `pages`
+
+Returns a list of [Page objects](./page.mdx) each containing its label and index.
+
+### `currentPage`
+
+Returns the current [Page object](./page.mdx) containing its label and index.
+
+### `ajaxEnabled`
+
+A bool variable, which will be `true` if the form has the built-in AJAX setting enabled.
+
+### `limitFormSubmissions`
+
+A bool variable, which will be `true` if the form has the submit limit setting enabled.
+
+You can run a conditional check on this with the following:
+
+- `auth_unlimited` - Logged in Users only (no limit)
+- `cookie` - Once per Cookie only
+- `ip_cookie` - Once per IP/Cookie combo
+- `auth` - Once per logged in Users only
+- `auth_cookie` - Once per logged in User or Guest Cookie only
+- `auth_ip_cookie` - Once per logged in User or Guest IP/Cookie combo
+
+### `submissionLimitReached` <Badge type="feature" text="4.0.9+" />
+
+A bool variable, which will be `true` if the form has the **Limit Form Submission Rate** setting enabled ([duplicate submission check](../../submissions/submission-limits#per-user)) and the user has already submitted the form.
+
+### **Custom Attributes** (`customAttributes`)
+
+The following properties are available to ease the customizability of field rendering if set as parameters (each one is `null` if not set):
+
+- `id` - the ID attribute of the HTML form tag.
+- `class` - the CLASS attribute of the HTML form tag.
+- `method` - the METHOD attribute for the form tag.
+- `action` - the ACTION attribute for the form tag.
+- `status` - the status ID or handle.
+- `returnUrl` - allows overriding the return URL of the form upon successful submit.
+  - You can override the return URL manually with a hidden field or checkbox, etc named `formReturnUrl`, allowing for a more dynamic return URL dependent on the user's choice or action, as long as you hash the value (e.g. `<input type="checkbox" name="formReturnUrl" value="{{ 'whatever/my-url'|hash }}" />`).
+- `rowClass` - the CLASS attribute of all HTML row tags.
+- `columnClass` - the CLASS attribute of all HTML column tags.
+- `submitClass` - the CLASS attribute of submit field input elements.
+- `inputClass` - the CLASS attribute of all HTML input fields.
+- `labelClass` - the CLASS attribute of all HTML label fields.
+- `errorClass` - the CLASS attribute of all HTML error lists.
+- `instructionsClass` - the CLASS attribute of all instruction fields.
+- `instructionsBelowField` - set to true to render instructions below, not above the input field.
+- `overrideValues` - allows you to override the value inside Text fields, or pre-select a default option for multi-option field types (specify option values in this case).
+  - Specify the field `handle` as key, and provide the custom value override as its value.
+  - If a [Field](./field.mdx) uses an `overrideValue` attribute, it will take precedence over the value specified in this attribute.
+  - E.g.:
+    - `hiddenFieldHandle: entry.id` - pull in an entry ID from a Craft Entry.
+    - `stateSelect: "AZ"` - pre-select **Arizona** state in a State select field.
+    - `availability: ["tue", "thu"]` - pre-check **Tuesday** and **Thursday** checkbox options in a checkbox group field type.
+    - `firstName: currentUser.name` - pull in the currently logged in user's name into the Name field.
+- `formAttributes` - an object of attributes which will be added to the form.
+  - E.g. `formAttributes: { "novalidate": true, "data-form-id": "test" }`
+- `inputAttributes` - an object of attributes which will be added to all input fields.
+  - E.g. `inputAttributes: { "readonly": true, "data-field-id": "test" }`
+- `useRequiredAttribute: true` - adds `required` attribute to input fields that have been set to be required in the form builder.
+
+:::info
+If displaying the exact same form more than once in a single template, some of the `<form>` tag attributes set on one form may carry over to other ones. To work around this, you can unset the attribute on the other forms (unless they have their own attributes set). For example, if one form has `class: 'something'`, it may end up applying to other instances of the form, but you can add `class: null` to those others to work around it.
+:::
+
+When iterating over the form, you will iterate through [Row](./row.mdx) objects for the currently active [Page](./page.mdx), each [Row](./row.mdx) can be iterated over to get [Field](./field.mdx) objects. Check the [Field](./field.mdx) documentation to see available parameters for those objects.
+
+:::tip
+[Need to pass a custom property to a formatting template, e.g. toggle display of the form title, etc?](../../guides/dynamic-data/passing-custom-property-to-formatting-template.mdx)
+:::
+
+## Usage in Templates
+
+### Simple Render
+
+Render the form using its formatting template:
+
+```twig showLineNumbers
+{{ form.render() }}
+```
+
+### Override Classes & Values
+
+Render the form using its formatting template, but overriding some classes and default values:
+
+```twig showLineNumbers
+{{ form.render({
+    labelClass: "form-label",
+    inputClass: "form-control",
+    instructionsBelowField: true,
+    submitClass: "btn btn-success",
+    overrideValues: {
+        hiddenFieldHandle: entry.id,
+        stateSelect: "AZ",
+        availability: ["tue", "thu"],
+    },
+    formAttributes: {
+        "novalidate": true,
+        "data-form-id": "whatever",
+    },
+    inputAttributes: {
+        "readonly": true,
+        "data-field-id": field.id,
+    }
+}) }}
+```
+
+### Manually Iterate
+
+Manually iterate through form fields:
+
+```twig showLineNumbers
+{{ form.renderTag({rowClass: "sample-row-class"}) }}
+
+{% if form.hasErrors %}
+    <div class="freeform-form-has-errors">
+        {{ "Error! Please review the form and try submitting again."|t('freeform') }}
+
+        {% if form.errors|length %}
+            <ul>
+            {% for error in form.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% for row in form %}
+    <div class="{{ form.customAttributes.rowClass }}">
+        {% for field in row %}
+            {% set columnClass = "sample-column " ~ form.customAttributes.columnClass %}
+            {% if field.type == "submit" %}
+                {% set columnClass = columnClass ~ " submit-column" %}
+            {% endif %}
+
+            <div class="{{ columnClass }}"{{ field.rulesHtmlData }}>
+                {{ field.render({
+                    class: field.type != "submit" ? "freeform-input" : "",
+                    labelClass: "sample-label" ~ (field.required ? " required" : ""),
+                    errorClass: "sample-errors",
+                    instructionsClass: "sample-instructions",
+                }) }}
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}
+
+{{ form.renderClosingTag }}
+```
+
+### Iterate over `layout.fields`
+
+You can also iterate over fields directly with `layout.fields` instead of [Row objects](./row.mdx):
+
+```twig {3-5} showLineNumbers
+{% set form = craft.freeform.form("myForm") %}
+
+{% for field in form.layout.fields %}
+    <div>{{ field.label }}</div>
+{% endfor %}
+```
+
+### Success Flash
+
+Use session success flash message variable (displays only once) for when form is successfully submitted:
+
+```twig {3-5} showLineNumbers
+{% set form = craft.freeform.form("myForm") %}
+
+{% if form.submittedSuccessfully %}
+    <div>You've successfully submitted this form!</div>
+{% endif %}
+
+{{ form.render }}
+```
+
+### Error when Limit Reached
+
+Display a message when form [submission limit (per user)](../../submissions/submission-limits#per-user) is reached:
+
+```twig {3-6} showLineNumbers
+{% set form = craft.freeform.form("myForm") %}
+
+{% if form.submissionLimitReached %}
+    <div class="alert alert-warning submission-limit-reached" role="alert">
+        You've already submitted this form!
+    </div>
+{% else %}
+    {{ form.render }}
+{% endif %}
+```

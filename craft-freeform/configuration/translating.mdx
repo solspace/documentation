@@ -1,0 +1,105 @@
+---
+sidebar_position: 10
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Translating
+
+There are a variety of approaches that can be taken to translate various aspects of Freeform and the forms you build.
+
+- [Localization](#localization-)
+- [Static Translations](#static-translations)
+- [AJAX Handling](#ajax-handling)
+
+## Localization <Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.7+" />
+
+It is now possible to manage translations for form settings, field labels and more directly inside the control panel form builder.
+
+### Site-Aware Forms <Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.7+" />
+
+You can optionally enable [Site](https://craftcms.com/docs/5.x/system/sites.html) awareness in Freeform to show/hide them for specific Sites and enable translations per site for forms to have unique labels and messages on the front end.
+
+When this feature is enabled, forms become aware of the currently active [Site](https://craftcms.com/docs/5.x/system/sites.html) when loaded on the front end. In the control panel, you can filter form lists by Site and prevent other admins from accessing forms that belong to Sites they don't have access to. By default, any new forms created will be visible for the Site they were created on (with the ability to enable additional sites).
+
+### Translations
+
+To enable translations on forms per Site, go to the form builder and enable the 'Translatable' setting under the 'Settings' tab.
+
+See the [Site-Aware Forms](../configuration/sites.mdx) documentation for more information.
+
+## Static Translations
+
+To make a translation, follow Craft's instructions for [Translating Static Text](https://craftcms.com/docs/5.x/system/sites.html#static-message-translations). Then continue with this Freeform-specific guide.
+
+### Control Panel
+
+To translate the Freeform control panel, you can simply duplicate the _freeform.php_ file inside the Freeform plugin located at the **./vendor/solspace/craft-freeform/packages/plugin/src/translations/en-US** folder. Then move it into the language ID folder (e.g. `de`) of your Craft **./translations/** directory. If the _translations_ directory does not yet exist, you'll need to create it (e.g. `./translations/de/freeform.php`). You can then update those language keys inside your Freeform translation file.
+
+Freeform currently includes complete control panel translations in the following languages:
+
+- **English** (`en-US`)
+- **French** (`fr`)
+- **Dutch** (`nl`)
+- **German** (`de`)
+
+### Front End Template Translations
+
+You have full control over what and how it's translated. You need to make sure you're consistent with applying `|t` or `|t('freeform')` as that will dictate whether the translation needs to happen inside a file named `site.php` or `freeform.php`, respectively.
+
+To see how all parts of form formatting templates are translated, [have a look at the examples we've included](../templates/formatting/index.mdx). When using `render` helpers, Freeform will generally handle the translation (`|t('freeform')`) setting for you. However, once you go manual or semi-manual, for example, radio and checkbox field options should look something like this in your templates:
+
+```twig {15}
+{{ field.renderLabel() }}
+
+{{ field.oneLine ? "<div>"|raw }}
+
+{% for index, option in field.options %}
+    <div class="form-check{{ field.oneLine ? " form-check-inline" }}">
+        <input type="radio"
+                name="{{ field.handle }}"
+                value="{{ option.value }}"
+                id="{{ field.idAttribute }}-{{ index }}"
+                class="form-check-input{{ field.hasErrors ? " is-invalid" }}"
+                {{ option.value in field.value ? "checked" }}
+        />
+        <label class="form-check-label" for="{{ field.idAttribute }}-{{ index }}">
+            {{ option.label|t('freeform')|raw }}
+        </label>
+    </div>
+{% endfor %}
+
+{{ field.oneLine ? "</div>"|raw }}
+
+{{ field.renderInstructions() }}
+{{ field.renderErrors() }}
+```
+
+## AJAX Handling
+
+Some parts are handled with JS and therefore need to be translated differently. Specifically, if you're using the [built-in AJAX feature](../guides/templating/ajax-forms.mdx) and need to translate the success/error banner, you'll need to override the [Freeform JS Plugin](../developer/js-plugin.mdx) and translate those with:
+
+```js
+freeform.setOption('successBannerMessage', 'My custom success message');
+freeform.setOption('errorBannerMessage', 'My custom error message');
+```
+
+That _might_ look something like the below example, but **depending on several factors**, _please_ see the [AJAX Forms documentation guide](../guides/templating/ajax-forms.mdx) for more information about how to use this and where to place it, etc:
+
+```js
+const form = document.getElementById('my-form');
+form.addEventListener('freeform-ready', function (event) {
+  event.freeform.setOption(
+    'successBannerMessage',
+    'This is a custom success message.'
+  );
+  event.freeform.setOption(
+    'errorBannerMessage',
+    'This is a custom error message.'
+  );
+});
+```
+
+## Share a Translation
+
+If you'd like to share your translation with others, [send us an email](/support/) with a link to the translation file, and we'll consider including it in the main Solspace Freeform plugin package.

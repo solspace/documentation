@@ -1,0 +1,70 @@
+---
+sidebar_position: 5
+title: Demo Templates
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Demo Templates
+
+Calendar includes a complete set of demo templates. These demo templates let you have a fully functioning area on your website with just a couple clicks! Further to this, it allows you to see real world examples of the template code in action, which will help you get acquainted with Calendar quicker.
+
+Included in the demo templates is an implementation of the [FullCalendar JS library](http://fullcalendar.io). Users with appropriate administrative privileges will also be able to modify events.
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v1/cp_demo.png')}
+  alt="Demo Templates Install"
+/>
+
+## Installing the Demo Templates
+
+To install the Demo Templates, simply visit the **Settings** page for Calendar and click on the **Demo Templates** nav item (**Calendar > Settings > Demo Templates**).
+
+By default, the Demo Templates page will have **calendar-demo** as the _Install Path_ for your template path. You can change this to whatever you like. So for example, if you set the _Install Path_ value as `my-precious`, the demo templates will be installed to **site.com/my-precious/**.
+
+During installation of demo templates, Calendar will copy the template folders and files (as shown on page) to the Craft **/templates/** directory. So using the above example, your templates would be located at **/templates/my-precious/**.
+
+Calendar will also look for an **assets** folder in your **public** directory and attempt to load files such as CSS, JS, fonts and image files (as shown on page) to a folder inside that, named **my-precious** (using the example above). If an **/assets/** directory does not exist, Calendar will attempt to create that directory as well.
+
+And lastly, Calendar will create several template routes for you (as shown on page) for the demo templates to work correctly.
+
+If you ever want to refresh the demo templates back to what they were by default (or if there's been an update to them in a new version), you can simply reinstall the Demo Templates and use the same _Install Path_ value. Calendar will then overwrite the files and only add new routes (if applicable), rather than installing duplicate routes.
+
+If you encounter any issues while attempting to install the demo templates, please see the [Troubleshooting](#troubleshooting) guide.
+
+## Troubleshooting
+
+If you encounter any issues trying to install the demo templates, it's likely that your database user does not have sufficient privileges or your server configuration does not allow some or all of the actions.
+
+If you cannot change or adjust your permissions or configuration, you can install the demo templates manually. To install them manually, refer to the [Manual Install](#manual-install) instructions below.
+
+## Manual Install
+
+To install the demo templates manually, just follow the instructions below:
+
+1. Inside the **/vendor/solspace/craft-calendar/src/codepack/** directory, copy the **templates** folder into the Craft **/templates/** directory, and rename the Calendar **templates** folder to **demo** (so it should now be located at **/templates/demo/**).
+2. In your root public directory, create a directory called **assets** if it does not already exist.
+3. Inside the **/vendor/solspace/craft-calendar/src/codepack/** directory, copy the **assets** folder into the public **/assets/** directory, and rename the Calendar **assets** folder to **demo** (so it should now be located at **/assets/demo/**).
+4. Copy and paste the following routes into your _routes.php_ configuration file (**/config/routes.php**):
+
+```php showLineNumbers
+'demo/month/(?P<year>\d{4})/(?P<month>\d{2})'                                          => 'demo/month',
+'demo/month/calendar/(?P<slug>[^\/]+)'                                                 => 'demo/month',
+'demo/month/calendar/(?P<slug>[^\/]+)/(?P<year>\d{4})/(?P<month>\d{2})'                => 'demo/month',
+'demo/week/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})'                            => 'demo/week',
+'demo/week/calendar/(?P<slug>[^\/]+)'                                                  => 'demo/week',
+'demo/week/calendar/(?P<slug>[^\/]+)/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})'  => 'demo/week',
+'demo/day/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})'                             => 'demo/day',
+'demo/day/calendar/(?P<slug>[^\/]+)'                                                   => 'demo/day',
+'demo/day/calendar/(?P<slug>[^\/]+)/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})'   => 'demo/day',
+'demo/calendars/(?P<slug>[^\/]+)'                                                      => 'demo/calendars',
+'demo/event/(?P<id>\d+)'                                                               => 'demo/event',
+'demo/event/(?P<id>\d+)/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})'               => 'demo/event',
+'demo/events/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})'                          => 'demo/events',
+'demo/export/event/(?P<id>\d+)'                                                        => 'demo/export',
+'demo/export/calendar/(?P<id>\d+)'                                                     => 'demo/export',
+'demo/fullcalendar/(?P<slug>[^\/]+)/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})'   => 'demo/fullcalendar',
+'demo/resources/event_data/(?P<id>\d+)'                                                => 'demo/resources/event_data'
+```
+
+Visit your demo templates at: **yoursite.com/demo**

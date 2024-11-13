@@ -1,0 +1,72 @@
+---
+title: 'Console Commands'
+sidebar_position: 6
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Console Commands
+
+Freeform includes several console commands to allow you to run cleanup tasks and other tasks.
+
+## Purge Commands
+
+### Purge Submissions <Badge type="feature" text="3.8+" />
+
+Allows you to purge all submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Submission Data** setting.
+
+```sh
+./craft freeform/purge/submissions --age-in-days=30
+```
+
+### Purge Spam <Badge type="feature" text="3.8+" />
+
+Allows you to purge all spam submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Spam Submissions** setting.
+
+```sh
+./craft freeform/purge/spam --age-in-days=30
+```
+
+### Purge Unfinalized Assets <Badge type="feature" text="3.8+" />
+
+Allows you to purge all unfinalized assets older than a specific number of minutes. Freeform automatically attempts to execute this service every 3 hours.
+
+```sh
+./craft freeform/purge/unfinalized-assets --age-in-minutes=180
+```
+
+## Field Commands
+
+### Create Fields <Badge type="feature" text="3.12+" />
+
+Allows you to create new fields from the command line.
+
+- `--label="My Field"` - the name of the field to be created. Handles will automatically be converted as camel case to match, e.g. `myField`.
+- `--iterations=5` (optional) - the number of fields you'd like created as this type and set. Additional fields will be automatically suffixed with numbers, e.g. `My Field, My Field 1, My Field 2`.
+- `--type=select` - the field type you'd like the new field to be created as. Options are:
+  - `checkbox`
+  - `checkbox_group`
+  - `datetime`
+  - `dynamic_recipients`
+  - `email`
+  - `file`
+  - `file_drag_and_drop`
+  - `hidden`
+  - `invisible`
+  - `multiple_select`
+  - `number`
+  - `opinion_scale`
+  - `phone`
+  - `radio_group`
+  - `rating`
+  - `regex`
+  - `select`
+  - `signature`
+  - `table`
+  - `text`
+  - `textarea`
+  - `website`
+
+```sh
+./craft freeform/fields/create --label="My Field" --iterations=5 --type=select
+```

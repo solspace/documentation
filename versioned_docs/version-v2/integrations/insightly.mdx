@@ -1,0 +1,56 @@
+---
+title: 'Insightly'
+sidebar_position: 14
+---
+
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Insightly CRM Integration <Badge type="pro" text="Pro" />
+
+This documentation page assumes you have read over the [CRM Integration Overview](./index.mdx#crm). If you have not yet read it, please do so now. We also assume that you have an [Insightly](https://www.insightly.com/) account already. If you currently have Freeform Lite, you can purchase an upgrade to Freeform Pro.
+
+Includes support for the following:
+
+- Field mapping to standard and custom fields.
+- Maps data to [Leads](https://api.insightly.com/v3.1/Help#!/Leads/AddEntity) endpoint only.
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+
+### Create & get API Key from Insightly
+
+- Go to [Insightly](https://www.insightly.com/) and log into your account.
+- At the top right corner, click on the profile icon and select **User Settings**.
+- On the next page, towards the bottom under the **API Key** section, copy the token that is there.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Set up Integration on your site
+
+- Go to the [CRM section in Freeform Settings](../configuration/settings.mdx#crm) (**Freeform → Settings → CRM**).
+- Click the **New Integration** at the top right.
+- Select _Insightly_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration.
+- Paste the Insightly API token into the **API Key** field in Freeform.
+- At the top right of the page, click the **Save** button.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Verify Authorization
+
+    * After the integration is saved, it'll return you to the list of CRM integrations.
+    * Click into the newly created integration.
+    * Confirm that there is green circle with **Authorized** in the middle of the page.
+    * That's it! You can now use this integration inside Composer.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>

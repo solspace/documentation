@@ -1,0 +1,110 @@
+---
+sidebar_position: 2
+title: 'Forms'
+---
+
+# Freeform_Next:Forms tag
+
+The _Freeform_Next:Forms_ template tag displays a list of available forms on your site.
+
+## Parameters
+
+### `form`
+
+Specify the handle of the form you'd like to be displayed.
+
+### `form_id`
+
+Specify the ID of the form you'd like to be displayed.
+
+## Variables
+
+### `{form:name}`
+
+Outputs the name of the form.
+
+### `{form:handle}`
+
+Outputs the handle of the form.
+
+### `{form:id}`
+
+Outputs the unique ID of the form.
+
+### `{form:description}`
+
+Outputs the description of the form.
+
+### `{form:return_url}`
+
+Outputs the return URL of the form.
+
+## Conditionals
+
+### `{if form:no_results}{/if}`
+
+Displays its contents when there are no results found for this template tag with the given set of parameters.
+
+## Examples
+
+### Basic List of Forms
+
+The following is a simple example of how to display a list of available forms:
+
+```html
+<ul>
+  {exp:freeform_next:forms}
+  <li>
+    <a href="{path='freeform/form/{form:handle}'}">{form:name}</a>
+    <a href="{path='freeform/form/{form:handle}/submissions'}">
+      ({form:submission_count} submissions)
+    </a>
+  </li>
+  {if form:no_results}
+  <li>There are currently no forms for this site.</li>
+  {/if} {/exp:freeform_next:forms}
+</ul>
+```
+
+### Basic Table of Forms
+
+The following example is similar to the one in the demo templates. It shows a list of available forms and number of submissions, likely used as a way of administrating forms/submissions.
+
+```html
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Form Name</th>
+      <th>Description</th>
+      {if logged_in_group_id == "1"}
+      <th>Submissions</th>
+      {/if}
+    </tr>
+  </thead>
+  <tbody>
+    {exp:freeform_next:forms}
+    <tr>
+      <td>{form:id}</td>
+      <td>
+        <a href="{path='freeform/form/{form:handle}'}"> {form:name} </a>
+      </td>
+      <td>{form:description}</td>
+      {if logged_in_group_id == "1"}
+      <td>
+        <a href="{path='freeform/form/{form:handle}/submissions'}">
+          {form:submission_count} submissions
+        </a>
+      </td>
+      {/if}
+    </tr>
+    {if form:no_results}
+    <tr>
+      <th colspan="{if logged_in_group_id=='1'}4{if:else}3{/if}">
+        There are currently no forms for this site.
+      </th>
+    </tr>
+    {/if} {/exp:freeform_next:forms}
+  </tbody>
+</table>
+```

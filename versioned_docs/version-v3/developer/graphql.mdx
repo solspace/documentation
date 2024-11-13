@@ -1,0 +1,936 @@
+---
+title: GraphQL
+sidebar_position: 7
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+import GraphqlPhoto from './assets/img/graphql.png';
+
+# GraphQL<Badge type="feature" text="3.10+" />
+
+Freeform supports querying form layouts and form submission mutations via GraphQL. This guide assumes you have some GraphQL experience. To learn more about GraphQL and Craft, please check out the [Fetch content with GraphQL](https://craftcms.com/docs/getting-started-tutorial/build/graphql.html) guide and [Craft's GraphQL API](https://craftcms.com/docs/5.x/development/graphql.html).
+
+<Photo img={GraphqlPhoto} alt="GraphQL" />
+
+## Queries
+
+### Querying Freeform data
+
+Freeform has a root `freeform` query, which contains all the possible queries nested inside it to avoid conflicts with other plugins.
+
+### Querying multiple Forms
+
+To query all or some forms, you have to use the `forms` query:
+
+```graphql {3} showLineNumbers
+query {
+  freeform {
+    forms {
+      name
+      handle
+      pages {
+        label
+        rows {
+          fields {
+            id
+            type
+            label
+            handle
+            required
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Example response data:
+
+```json showLineNumbers
+{
+  "data": {
+    "freeform": {
+      "forms": [
+        {
+          "name": "My Form",
+          "handle": "myForm",
+          "pages": [
+            {
+              "label": "First Page",
+              "rows": [
+                {
+                  "fields": [
+                    {
+                      "type": "text",
+                      "label": "First Name",
+                      "handle": "firstName",
+                      "required": false
+                    },
+                    {
+                      "type": "text",
+                      "label": "Last Name",
+                      "handle": "lastName",
+                      "required": true
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "type": "submit",
+                      "label": "Submit",
+                      "handle": null,
+                      "required": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+### Querying a single Form
+
+You can query a single form directly by using the `form` query:
+
+```graphql {3} showLineNumbers
+query {
+  freeform {
+    form (handle: "my-form") {
+      name
+      handle
+      pages {
+        # ...
+      }
+    }
+  }
+}
+```
+
+Example response data:
+
+```json showLineNumbers
+{
+  "data": {
+    "freeform": {
+      "form": {
+        "name": "My Form",
+        "handle": "myForm",
+        "pages": [
+          {
+            "label": "First Page",
+            "rows": [
+              {
+                "fields": [
+                  {
+                    "type": "text",
+                    "label": "First name",
+                    "handle": "firstName",
+                    "required": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
+### Querying a form field on a Craft Entry
+
+You can query an Entry form field by using the form field name in the query:
+Assuming the form field's handle is `myFormFieldHandle` and the section is called `Blog`
+
+```graphql {5-15} showLineNumbers
+query {
+  entries {
+    id
+    title
+    ... on blog_blog_Entry {
+      myFormFieldHandle {
+        id
+        name
+        fields {
+          handle
+          label
+          type
+        }
+      }
+    }
+  }
+}
+```
+
+Example response data:
+
+```json showLineNumbers
+{
+  "data": {
+    "entries": [
+      {
+        "id": "226",
+        "title": "Some Entry title",
+        "myFormFieldHandle": {
+          "id": 1,
+          "name": "Simple Form",
+          "fields": [
+            {
+              "handle": "firstName",
+              "label": "First Name",
+              "type": "text"
+            },
+            {
+              "handle": null,
+              "label": "Submit",
+              "type": "submit"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+### Form Query Arguments
+
+The following arguments are available when querying single or multiple forms:
+
+| Argument  | Type       | Description                                          |
+| --------- | ---------- | ---------------------------------------------------- |
+| `id`      | `[Int]`    | Narrow the queried forms by one or more form ID's    |
+| `uid`     | `[String]` | Narrow the queried forms by one or more form UID's   |
+| `handle`  | `[String]` | Narrow the queried forms by one or more form handles |
+| `limit`   | `Int`      | Limit the amount of returned form results            |
+| `offset`  | `Int`      | Offset the returned form results                     |
+| `orderBy` | `String`   | Order the forms by a specific property               |
+| `sort`    | `String`   | Sort by `asc` or `desc` order                        |
+
+```graphql showLineNumbers
+query {
+  freeform {
+    # This is just an example
+    # For `id`, `uid` and `handle` - you can either pass a single value
+    # or an array of values for each argument
+    form(
+      id: 1
+      handle: "test"
+      limit: 1
+      offset: 2
+      orderBy: "name"
+      sort: "desc"
+    ) {
+      id
+    }
+  }
+}
+```
+
+### Field Query Arguments
+
+You can query fields by the following arguments:
+
+| Argument | Type       | Description                                              |
+| -------- | ---------- | -------------------------------------------------------- |
+| `id`     | `[Int]`    | Narrow the queried fields by one or more field's ID's    |
+| `hash`   | `[String]` | Narrow the queried fields by one or more field's UID's   |
+| `handle` | `[String]` | Narrow the queried fields by one or more field's handles |
+
+```graphql showLineNumbers
+query {
+  freeform {
+    forms {
+      # This is just an example
+      # You can either pass a single value or an array of values for each argument
+      fields(
+        id: [1, 2, 3]
+        handle: ["firstName", "lastName"]
+        hash: "some-hash"
+      ) {
+        id
+        handle
+        hash
+      }
+    }
+  }
+}
+```
+
+## Interfaces
+
+### Form Interface
+
+These are the fields available for the `FreeformFormInterface`:
+
+| Field                    | Type                                                          | Description                                                                                                                                                   |
+| ------------------------ | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                     | `Int`                                                         | ID                                                                                                                                                            |
+| `uid`                    | `String`                                                      | UID                                                                                                                                                           |
+| `name`                   | `String`                                                      | Name                                                                                                                                                          |
+| `handle`                 | `String`                                                      | Handle                                                                                                                                                        |
+| `hash`                   | `String`                                                      | The form's hash needed to submit forms                                                                                                                        |
+| `color`                  | `String`                                                      | Color                                                                                                                                                         |
+| `description`            | `String`                                                      | Description                                                                                                                                                   |
+| `returnUrl`              | `String`                                                      | The specified return URL                                                                                                                                      |
+| `storeData`              | `Boolean`                                                     | Are submissions being stored for this form                                                                                                                    |
+| `submissionTitleFormat`  | `String`                                                      | Title format used for new submission titles                                                                                                                   |
+| `submissionMutationName` | `String`                                                      | The forms GraphQL mutation name for submissions                                                                                                               |
+| `extraPostUrl`           | `String`                                                      | An URL that will get a POST call with the submitted data                                                                                                      |
+| `extraPostTriggerPhrase` | `String`                                                      | A keyword or phrase Freeform should check for in the output of the POST URL to know if and when there’s an error to log, e.g. ‘error’ or ‘an error occurred’. |
+| `ipCollectingEnabled`    | `Boolean`                                                     | Are the IP addresses being stored                                                                                                                             |
+| `ajaxEnabled`            | `Boolean`                                                     | Is the ajax enabled for this form                                                                                                                             |
+| `showSpinner`            | `Boolean`                                                     | Should the submit button show a spinner when submitting                                                                                                       |
+| `showLoadingText`        | `Boolean`                                                     | Should the submit button change the button label while submitting                                                                                             |
+| `loadingText`            | `String`                                                      | The submit button loading label text                                                                                                                          |
+| `defaultStatus`          | `Int`                                                         | The assigned default status ID of new submissions                                                                                                             |
+| `formTemplate`           | `String`                                                      | The assigned default formatting template                                                                                                                      |
+| `gtmEnabled`             | `Boolean`                                                     | Is the Google Tag Manager enabled for this form?                                                                                                              |
+| `gtmId`                  | `String`                                                      | The Google Tag Manager ID                                                                                                                                     |
+| `gtmEventName`           | `String`                                                      | The name of the Event that will be added to Google Tag Manager's data layer                                                                                   |
+| `honeypot`               | [`FreeformHoneypotInterface`](#honeypot-interface)            | A fresh honeypot instance                                                                                                                                     |
+| `csrfToken`              | [`FreeformCsrfTokenInterface`](#csrf-token-interface)         | A fresh csrf token                                                                                                                                            |
+| `reCaptcha`              | [`FreeformFormReCaptchaInterface`](#form-recaptcha-interface) | The ReCaptcha for this form                                                                                                                                   |
+| `fields`                 | [`[FreeformFieldInterface]`](#field-interface)                | A list of Form's `Field`                                                                                                                                      |
+| `pages`                  | [`[FreeformPageInterface]`](#page-interface)                  | A list of Form's `Page` entities                                                                                                                              |
+
+### Field Interface
+
+The base `FreeformFieldInterface` implemented by all field types. You can see specific Field Type fields [here](#field-types).
+
+| Field                   | Type                                                   | Description                              |
+| ----------------------- | ------------------------------------------------------ | ---------------------------------------- |
+| `id`                    | `Int`                                                  | ID                                       |
+| `type`                  | `String`                                               | Type                                     |
+| `label`                 | `String`                                               | Label                                    |
+| `hash`                  | `String`                                               | Generated unique field hash              |
+| `handle`                | `String`                                               | Handle                                   |
+| `instruction`           | `String`                                               | Instructions                             |
+| `required`              | `Boolean`                                              | Is the field required                    |
+| `pageIndex`             | `Int`                                                  | The page index this field is assigned to |
+| `inputAttributes`       | [`[FreeformAttributeInterface]`](#attribute-interface) | Field's input attributes                 |
+| `labelAttributes`       | [`[FreeformAttributeInterface]`](#attribute-interface) | Field's label attributes                 |
+| `errorAttributes`       | [`[FreeformAttributeInterface]`](#attribute-interface) | Field's error attributes                 |
+| `instructionAttributes` | [`[FreeformAttributeInterface]`](#attribute-interface) | Field's instruction attributes           |
+
+### Page Interface
+
+Each page contains a list of [`FreeformRowInterface`](#row-interface) objects:
+
+| Field   | Type                                       | Description                              |
+| ------- | ------------------------------------------ | ---------------------------------------- |
+| `index` | `Int`                                      | Index of the page                        |
+| `label` | `String`                                   | Page's label                             |
+| `rows`  | [`[FreeformRowInterface]`](#row-interface) | A list of `FreeformRowInterface` objects |
+
+### Row Interface
+
+Each row contains a list of [fields](#field-interface):
+
+| Field    | Type                                           | Description                                |
+| -------- | ---------------------------------------------- | ------------------------------------------ |
+| `id`     | `String`                                       | A unique hash generated for each row       |
+| `fields` | [`[FreeformFieldInterface]`](#field-interface) | A list of `FreeformFieldInterface` objects |
+
+## Field Types
+
+### Text
+
+| Field         | Type     | Description                                    |
+| ------------- | -------- | ---------------------------------------------- |
+| `value`       | `String` | The default value                              |
+| `maxLength`   | `Int`    | Maximum length of chars allowed for this field |
+| `placeholder` | `String` | Input's placeholder attribute                  |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_Text {
+    value
+    maxLength
+    placeholder
+  }
+}
+```
+
+### Textarea
+
+| Field         | Type     | Description                                    |
+| ------------- | -------- | ---------------------------------------------- |
+| `value`       | `String` | The default value                              |
+| `maxLength`   | `Int`    | Maximum length of chars allowed for this field |
+| `rows`        | `Int`    | Number of rows shown for this textarea         |
+| `placeholder` | `String` | Input's placeholder attribute                  |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_Textarea {
+    value
+    maxLength
+    rows
+    placeholder
+  }
+}
+```
+
+### Select
+
+| Field     | Type                                             | Description          |
+| --------- | ------------------------------------------------ | -------------------- |
+| `value`   | `String`                                         | The default value    |
+| `options` | [`[FreeformOptionInterface]`](#option-interface) | The assigned options |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_Select {
+    value
+    options {
+      value
+      label
+      checked
+    }
+  }
+}
+```
+
+### Checkbox
+
+| Field     | Type      | Description                               |
+| --------- | --------- | ----------------------------------------- |
+| `value`   | `String`  | The default value                         |
+| `checked` | `Boolean` | Should the checkbox be checked by default |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_Checkbox {
+    value
+    checked
+  }
+}
+```
+
+### Multi-Select
+
+| Field     | Type                                             | Description          |
+| --------- | ------------------------------------------------ | -------------------- |
+| `values`  | `[String]`                                       | The default values   |
+| `options` | [`[FreeformOptionInterface]`](#option-interface) | The assigned options |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_MultipleSelect {
+    values
+    options {
+      value
+      label
+      checked
+    }
+  }
+}
+```
+
+### Checkbox Group
+
+| Field     | Type                                             | Description                           |
+| --------- | ------------------------------------------------ | ------------------------------------- |
+| `values`  | `[String]`                                       | The default values                    |
+| `oneLine` | `Boolean`                                        | Should this be shown in a single line |
+| `options` | [`[FreeformOptionInterface]`](#option-interface) | The assigned options                  |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_CheckboxGroup {
+    values
+    oneLine
+    options {
+      value
+      label
+      checked
+    }
+  }
+}
+```
+
+### Radio Group
+
+| Field     | Type                                             | Description          |
+| --------- | ------------------------------------------------ | -------------------- |
+| `value`   | `String`                                         | The default value    |
+| `options` | [`[FreeformOptionInterface]`](#option-interface) | The assigned options |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_RadioGroup {
+    value
+    options {
+      value
+      label
+      checked
+    }
+  }
+}
+```
+
+### Email
+
+| Field            | Type     | Description                                  |
+| ---------------- | -------- | -------------------------------------------- |
+| `notificationId` | `String` | The ID or the filename of the email template |
+| `placeholder`    | `String` | Input's placeholder attribute                |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_Email {
+    notificationId
+    placeholder
+  }
+}
+```
+
+### Dynamic Recipients
+
+| Field              | Type                                             | Description                                               |
+| ------------------ | ------------------------------------------------ | --------------------------------------------------------- |
+| `values`           | `[String]`                                       | The default values                                        |
+| `notificationId`   | `String`                                         | The ID or the filename of the email template              |
+| `showAsRadio`      | `Boolean`                                        | Should the field be shown as a list of radio inputs       |
+| `showAsCheckboxes` | `Boolean`                                        | Should the field be shown as a list of checkbox inputs    |
+| `oneLine`          | `Boolean`                                        | Should radios or checkboxes be displayed in a single line |
+| `options`          | [`[FreeformOptionInterface]`](#option-interface) | The assigned options                                      |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_DynamicRecipients {
+    values
+    notificationId
+    showAsRadio
+    showAsCheckboxes
+    oneLine
+    options {
+      valuel
+      label
+      checked
+    }
+  }
+}
+```
+
+### Number
+
+| Field                | Type     | Description                   |
+| -------------------- | -------- | ----------------------------- |
+| `value`              | `String` | The default value             |
+| `minLength`          | `Int`    | Minimum length of the number  |
+| `minValue`           | `Int`    | Minimum value of the number   |
+| `maxValue`           | `Int`    | Maximum length of the number  |
+| `decimalCount`       | `Int`    | Number of decimals            |
+| `decimalSeparator`   | `String` | The decimal separator         |
+| `thousandsSeparator` | `String` | The thousands separator       |
+| `allowNegative`      | `Bool`   | Allow negative numbers        |
+| `placeholder`        | `String` | Input's placeholder attribute |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_Number {
+    value
+    minLength
+    minValue
+    maxValue
+    decimalCount
+    decimalSeparator
+    thousandsSeparator
+    allowNegative
+    placeholder
+  }
+}
+```
+
+### File
+
+| Field           | Type       | Description                                 |
+| --------------- | ---------- | ------------------------------------------- |
+| `fileKinds`     | `[String]` | Allowed file kinds                          |
+| `maxFileSizeKB` | `Int`      | Maximum allowed filesize in KB              |
+| `fileCount`     | `Int`      | Number of allowed simultaneous file uploads |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_File {
+    fileKinds
+    maxFileSizeKB
+    fileCount
+  }
+}
+```
+
+### Confirmation
+
+| Field             | Type     | Description                                |
+| ----------------- | -------- | ------------------------------------------ |
+| `targetFieldHash` | `String` | Hash of the field that has to be confirmed |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_Confirmation {
+    targetFieldHash
+  }
+}
+```
+
+### Date & Time
+
+| Field                 | Type      | Description                                                     |
+| --------------------- | --------- | --------------------------------------------------------------- |
+| `value`               | `String`  | The default value                                               |
+| `dateTimeType`        | `String`  | Type of the date field. ("date", "time", "both")                |
+| `generatePlaceholder` | `Boolean` | Should a placeholder be auto-generated for this field           |
+| `dateOrder`           | `String`  | Order of the date chunks.                                       |
+| `date4DigitYear`      | `Boolean` | Determines if the year should be displayed with 4 digits or two |
+| `dateLeadingZero`     | `Boolean` | Determines if the dates should use a leading zero               |
+| `dateSeparator`       | `String`  | Date separator                                                  |
+| `clock24h`            | `Boolean` | Should the clock use a 24h format                               |
+| `clockSeparator`      | `String`  | Clock separator                                                 |
+| `clockAMPMSeparate`   | `Boolean` | Should the AM/PM be separated from the time by a space          |
+| `useDatepicker`       | `Boolean` | Should the built-in datepicker be used                          |
+| `minDate`             | `String`  | Specifies the minimum allowed date that can be picked           |
+| `maxDate`             | `String`  | Specifies the maximum allowed date that can be picked           |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_Datetime {
+    value
+    dateTimeType
+    generatePlaceholder
+    dateOrder
+    date4DigitYear
+    dateLeadingZero
+    dateSeparator
+    clock24h
+    clockSeparator
+    clockAMPMSeparate
+    useDatepicker
+    minDate
+    maxDate
+  }
+}
+```
+
+### Opinion Scale
+
+| Field     | Type                                                          | Description                                                            |
+| --------- | ------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `value`   | `String`                                                      | The default value                                                      |
+| `legends` | `[String]`                                                    | A list of all the assigned Legends                                     |
+| `scales`  | [`[FreeformOpinionScaleInterface]`](#opinion-scale-interface) | The assigned [FreeformOpinionScaleInterface](#opinion-scale-interface) |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_OpinionScale {
+    value
+    legends
+    scales {
+      value
+      label
+    }
+  }
+}
+```
+
+### Phone
+
+| Field       | Type      | Description                                               |
+| ----------- | --------- | --------------------------------------------------------- |
+| `value`     | `String`  | The default value                                         |
+| `pattern`   | `String`  | Phone number pattern                                      |
+| `useJsMask` | `Boolean` | Should the built-in pattern matcher javascript be enabled |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_Phone {
+    value
+    pattern
+    useJsMask
+  }
+}
+```
+
+### Rating
+
+| Field           | Type     | Description                                    |
+| --------------- | -------- | ---------------------------------------------- |
+| `value`         | `String` | The default value                              |
+| `maxValue`      | `Int`    | Phone number pattern                           |
+| `colorIdle`     | `String` | Color of the unselected, unhovered rating star |
+| `colorHover`    | `String` | Color of the hovered rating star               |
+| `colorSelected` | `String` | Color of the selected rating star              |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_Rating {
+    value
+    maxValue
+    colorIdle
+    colorHover
+    colorSelected
+  }
+}
+```
+
+### Regex
+
+| Field     | Type     | Description                       |
+| --------- | -------- | --------------------------------- |
+| `value`   | `String` | The default value                 |
+| `pattern` | `String` | Regex pattern                     |
+| `message` | `String` | The error message to be displayed |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_Regex {
+    value
+    pattern
+    message
+  }
+}
+```
+
+### Signature
+
+| Field             | Type      | Description                                          |
+| ----------------- | --------- | ---------------------------------------------------- |
+| `width`           | `Int`     | Width in pixels                                      |
+| `height`          | `Int`     | Height in pixels                                     |
+| `showClearButton` | `Boolean` | Determines if the "clear" button should be displayed |
+| `borderColor`     | `String`  | Signature field border color                         |
+| `backgroundColor` | `String`  | Signature field background color                     |
+| `penColor`        | `String`  | Signature field pen color                            |
+| `penDotSize`      | `Float`   | The size of the pen dot                              |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_Signature {
+    width
+    height
+    showClearButton
+    borderColor
+    backgroundColor
+    penColor
+    penDotSize
+  }
+}
+```
+
+### Table
+
+| Field                | Type      | Description                                                    |
+| -------------------- | --------- | -------------------------------------------------------------- |
+| `useScript`          | `Boolean` | Should the built-in javascript for handling table rows be used |
+| `maxRows`            | `Int`     | Number of maximum allowed rows this table can have             |
+| `addButtonLabel`     | `Boolean` | The label for the "add row" button                             |
+| `addButtonMarkup`    | `String`  | Custom html for the "add row" button                           |
+| `removeButtonLabel`  | `String`  | The label for the "delete row" button                          |
+| `removeButtonMarkup` | `String`  | Custom html for the "delete row" button                        |
+| `tableLayout`        | `String`  | JSON of the table layout                                       |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_Table {
+    useScript
+    maxRows
+    addButtonLabel
+    addButtonMarkup
+    removeButtonLabel
+    removeButtonMarkup
+    tableLayout
+  }
+}
+```
+
+### Email Marketing
+
+| Field    | Type      | Description                                       |
+| -------- | --------- | ------------------------------------------------- |
+| `hidden` | `Boolean` | Should this field be a hidden field or a checkbox |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_MailingList {
+    hidden
+  }
+}
+```
+
+### Submit
+
+| Field         | Type      | Description                       |
+| ------------- | --------- | --------------------------------- |
+| `labelNext`   | `String`  | Label for the "next" button       |
+| `labelPrev`   | `String`  | Label for the "previous" button   |
+| `disablePrev` | `Boolean` | Is the "previous" button disabled |
+| `position`    | `String`  | Position of the buttons           |
+
+```graphql showLineNumbers
+fields {
+  ... on FreeformField_Submit {
+    labelNext
+    labelPrev
+    disablePrev
+    position
+  }
+}
+```
+
+## Additional Interfaces
+
+### Option Interface
+
+| Field     | Type      | Description           |
+| --------- | --------- | --------------------- |
+| `value`   | `string`  | Option's value        |
+| `label`   | `string`  | Option's label        |
+| `checked` | `boolean` | Is the option checked |
+
+### KeyValueMap Interface
+
+| Field   | Type     | Description |
+| ------- | -------- | ----------- |
+| `key`   | `string` | Key name    |
+| `value` | `string` | Value       |
+
+### Scales Interface
+
+| Field   | Type     | Description |
+| ------- | -------- | ----------- |
+| `value` | `string` | Value       |
+| `label` | `string` | Label       |
+
+### Honeypot Interface
+
+| Field       | Type     | Description                    |
+| ----------- | -------- | ------------------------------ |
+| `name`      | `string` | Value                          |
+| `hash`      | `string` | Hash                           |
+| `timestamp` | `int`    | Timestamp of the creation date |
+
+### CSRF Token Interface
+
+| Field   | Type     | Description             |
+| ------- | -------- | ----------------------- |
+| `name`  | `string` | Name of the CSRF token  |
+| `value` | `string` | Value of the CSRF token |
+
+## How to Render a Form
+
+Below are the steps for being able to render your own form in the front-end using GraphQL data and another headless solution such as (but not limited to) Vue.js, Next.js, or React JS.
+
+### Overview
+
+To be able to make a form submittable you will need several things:
+
+- An `action` entry in the POST payload that points to `freeform/submit`.
+- A `formHash` entry which you will have to retrieve from an endpoint you create.
+- A `honeypot` entry if you're using the [Freeform Honeypot](../forms/spam-protection.mdx#freeform-honeypot).
+- A `reCaptcha` entry if you're using the [Freeform Captchas](../forms/spam-protection.mdx#captchas).
+- A `csrfToken` entry if you're using [Craft's CSRF tokens](https://craftcms.com/docs/4.x/dev/controller-actions.html#csrf).
+- A `freeform_payload` entry if you're using `Encrypted Payload` as the session storage type.
+
+To get a valid `formHash`, `honeypot`, `reCaptcha`, `csrfToken` and `freeform_payload`, you will have to create an endpoint on your site.
+
+If you're using **Twig**, here's how to return the data as JSON:
+
+```twig showLineNumbers
+{# You can attach custom form properties #}
+{# https://docs.solspace.com/craft/freeform/v3/template-functions/freeform.form.html#parameters #}
+{% set formProperties = {} %}
+{% set form = craft.freeform.form('your_form_handle') %}
+{{ form.json(formProperties) }}
+```
+
+If you're making your own endpoint via **PHP**, then you could do this in your controller action:
+
+```php showLineNumbers
+// You can attach whatever form properties you would normally via twig
+// https://docs.solspace.com/craft/freeform/v3/template-functions/freeform.form.html#parameters
+$formProperties = [];
+
+$formModel = Freeform::getInstance()->forms->getFormById(123);
+$form = $formModel->getForm();
+
+return $form->json($formProperties);
+```
+
+The JSON response looks like this:
+
+```json showLineNumbers
+{
+  "hash": "xxxxxxxx-xxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "handle": "my-form-handle",
+  "ajax": true,
+  "disableSubmit": true,
+  "disableReset": false,
+  "showSpinner": false,
+  "showLoadingText": false,
+  "loadingText": "Loading...",
+  "class": "",
+  "method": "post",
+  "enctype": "application/x-www-form-urlencoded",
+  "successMessage": "Form has been submitted successfully!",
+  "errorMessage": "Sorry, there was an error submitting the form. Please try again.",
+  "honeypot": {
+    "name": "freeform_form_handle",
+    "value": ""
+  },
+  // If using encrypted payloads:
+  "freeform_payload": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "anchor": "xxxxxx-form-xxxxxxxx-xxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "csrf": {
+    "name": "CRAFT_CSRF_TOKEN",
+    "token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  "action": "freeform/submit"
+}
+```
+
+Then in your form building javascript code you would add the hidden inputs or attach this data to the POST payload. Below is a simple example just to give you an idea of what would have to happen:
+
+```js showLineNumbers
+// Get the form in whatever way your framework allows you to
+const form = document.getElementById('your-form-id');
+
+// Retreive a fresh session data for a form
+const formDataResponse = await axios.get('/your/endpoint');
+const data = formDataResponse.data;
+
+// Attach the inputs or add this data directly to FormData, depending on your flow
+const action = document.createElement('input');
+action.name = 'action';
+action.value = data.action;
+form.appendChild(action);
+
+const hashInput = document.createElement('input');
+hashInput.name = 'formHash';
+hashInput.value = data.hash;
+form.appendChild(hashInput);
+
+const honeypot = document.createElement('input');
+honeypot.name = data.honeypot.name;
+honeypot.value = data.honeypot.value;
+form.appendChild(honeypot);
+
+const csrf = document.createElement('input');
+csrf.name = data.csrf.name;
+csrf.value = data.csrf.token;
+form.appendChild(csrf);
+
+// Then submit the form with this data to any front-end endpoint and Craft will take care
+// of passing the form data to freeform via the `action` specified
+```

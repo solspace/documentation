@@ -1,0 +1,455 @@
+---
+sidebar_position: 2
+title: 'Default Fieldtypes'
+---
+
+# Default Fieldtypes
+
+Freeform Classic includes these default fieldtypes:
+
+## Checkbox
+
+The Checkbox fieldtype is simple and outputs a checkbox with data set to **y** with **n** as the default.
+
+#### Freeform:Form Output
+
+#### attr:NAME
+
+```html
+{freeform:field:FIELD_NAME attr:id="my_id" attr:class="my_class"
+attr:onclick="myFunction();" }
+```
+
+This field type allows the usage of form field attributes such as **class**, **id**, and **onclick**. Just call these as parameters on the field variable, and use the construct of: _attr:_ + **ATTRIBUTE_NAME** = **attr:ATTRIBUTE_NAME**. For example, the **class** attribute would be _attr:class_.
+
+#### Freeform:Entries Output
+
+The output can be handled with two different approaches. It can be parsed as a regular variable: `{freeform:field:FIELD_NAME}`
+
+Or it can also be used as a variable pair: `{freeform:field:FIELD_NAME} stuff {/freeform:field:FIELD_NAME}`
+
+If using the variable pair method, the value of the field is parsed with the _\{freeform:data:value}_ and _\{freeform:data:label}_ variables, inside of the variable pair.
+
+## Checkbox Group
+
+Checkbox Group sets use the multi-list item choice settings and can load single items, value label lists, load from a channel field, or load from a text area (newline delimited).
+
+#### Freeform:Form Output
+
+When you are displaying a checkbox group field on the front end, you have some parameters you can supply to the _\{freeform:field:FIELD_NAME}_ variable:
+
+#### attr:NAME
+
+```html
+{freeform:field:FIELD_NAME attr:id="my_id" attr:class="my_class"
+attr:onclick="myFunction();" }
+```
+
+This field type allows the usage of form field attributes such as **class**, **id**, and **onclick**. Just call these as parameters on the field variable, and use the construct of: _attr:_ + **ATTRIBUTE_NAME** = **attr:ATTRIBUTE_NAME**. For example, the **class** attribute would be _attr:class_.
+
+#### wrapper_open
+
+`wrapper_open="<ul style="list-style:none; padding:0;">"`
+
+This parameter allows you to control the opening wrapper around all checkbox options/rows. Default is: `<ul style="list-style:none; padding:0;"\>`
+
+#### wrapper_close
+
+`wrapper_close="</ul>"`
+
+This parameter allows you to control the closing wrapper around all checkbox options/rows. Default is: `</ul>`
+
+#### row_wrapper_open
+
+`row_wrapper_open="<li>"`
+
+This parameter allows you to control the opening wrapper for each checkbox option/row. Default is: `<li>`
+
+#### row_wrapper_close
+
+`row_wrapper_close="</li>"`
+
+This parameter allows you to control the closing wrapper for each checkbox option/row. Default is: `</li>`
+
+#### label_wrapper_open
+
+`label_wrapper_open="<label for="%id%">"`
+
+Lets you control the opening wrapper for the checkbox's label. _%id%_ is available, and will get replaced with the accompanying ID for the checkbox so that clicking the label will activate its related checkbox. Default is: `<label for="%id%">`
+
+#### label_wrapper_close
+
+`label_wrapper_close="</label>"`
+
+Lets you control the closing wrapper for the checkbox's label. Default is: `</label>`
+
+#### input_wrapper_open
+
+`input_wrapper_open=""`
+
+This parameter allows you to set the opening wrapper for each checkbox. You would likely use this to have something like an opening **\<li\>** or **\<p\>** tag. Default is empty value.
+
+#### input_wrapper_close
+
+`input_wrapper_close=""`
+
+This parameter allows you to set the opening wrapper for each checkbox. It comes after each file input HTML element. You would likely use this to have something like a closing **\</li\>** or **\</p\>** tag. Default value is: `&nbsp;&nbsp;`
+
+#### order
+
+`order="CL"`
+
+This controls the order the label and checkboxes are displayed. For checkbox then label, use **CL**. For label then checkbox, use **CR**. Default is: **CL**.
+
+#### Freeform:Entries Output
+
+```html
+{freeform:field:FIELD_NAME backspace="2"} {freeform:data:value} -
+{freeform:data:label} {/freeform:field:FIELD_NAME}
+```
+
+This fieldtype can be used as a variable pair in order to control output and set formatting. The backspace parameter is available to strip any last stray formatting from the parsed value. If your data is stored in the **value** and **label** type approach, the _\{freeform:data:value}_ and _\{freeform:data:label}_ variables are available.
+
+## Country Select
+
+A select box of countries pulled from **./system/expressionengine/config/countries.php**.
+
+#### Freeform:Form Output
+
+#### attr:NAME
+
+```html
+{freeform:field:FIELD_NAME attr:id="my_id" attr:class="my_class"
+attr:onclick="myFunction();" }
+```
+
+This field type allows the usage of form field attributes such as **class**, **id**, and **onclick**. Just call these as parameters on the field variable, and use the construct of: _attr:_ + **ATTRIBUTE_NAME** = **attr:ATTRIBUTE_NAME**. For example, the **class** attribute would be _attr:class_.
+
+#### Freeform:Entries Output
+
+The fields' value(s) can be displayed by using a regular variable: `{freeform:field:FIELD_NAME}`
+
+## File Upload
+
+A field for uploading one or more files.
+
+#### Field Options
+
+When you create the field you have 3 extra options:
+
+#### Allowed Upload Count
+
+Allowed Upload Count is the total files uploadable, limited by PHP's **max_file_uploads** directive in the _PHP.ini_ config file. This limit is not per field, but per form, so you cannot trick it by having two file upload fields, both with the maximum limit. It also is limited by total upload file size of all items uploaded at once by the _PHP.ini_ parameters, in this order (lower cannot override the upper):
+
+- _memory_limit_
+- _post_max_size_
+- _upload_max_filesize_
+
+#### File Upload Location
+
+The file upload location choices are loaded from [ExpressionEngine File Upload Preferences](https://docs.expressionengine.com/v4/cp/files/uploads/form.html). It is required to have at least one to choose from in order to use the File Upload field.
+
+#### Allowed File Types
+
+Allowed file upload types are separated by a pipe (ex: **jpg|png|gif**). Simply putting a star (**\***), will allow all files types available if the mime type is avaialble in **./system/expressionengine/config/mimes.php**.
+
+#### Freeform:Form Output
+
+When you are displaying the file upload field on the front end, you have some display options you can include:
+
+#### attr:NAME
+
+`attr:class="classname"`
+
+This parameter supports all form field attributes such as id, class, onsubmit, etc, and will apply them to each output element. Consider this difference when displaying multiple file upload fields.
+
+#### input_wrapper_open
+
+`input_wrapper_open="<li>"`
+
+This parameter allows you to set the opening tag for HTML output to handle formatting. It comes before each file input HTML element. You would likely use this to have something like an opening **\<li\>** or **\<p\>** tag. Default is empty value.
+
+#### input_wrapper_close
+
+`input_wrapper_close="</li>"`
+
+This parameter allows you to set the closing tag for HTML output to handle formatting. It comes after each file input HTML element. You would likely use this to have something like a closing **\</li\>** or **\</p\>** tag. Default value is **\<br/\>**.
+
+#### backspace
+
+`backspace="2"`
+
+This parameter works as it does in other ExpressionEngine tags and removes the specified number of characters from the end of the resulting HTML. If [input_wrapper_open](#fileupload_input_wrapper_open) is empty and [input_wrapper_close](#fileupload_input_wrapper_close) is set to **\<br/\>** (default), the backspace parameter defaults to **5**. In all other cases, it defaults to **0**.
+
+#### show
+
+`show="2"`
+
+This parameter allows you to manually limit the amount of file upload fields shown. By default, it respects the [Allowed Upload Count](#fileupload_allowed-upload-count) setting for the field.
+
+#### Freeform:Entries Output
+
+```html
+<ul>
+  {freeform:field:FIELD_NAME}
+  <li>
+    <a href="{freeform:fileurl}"> {freeform:filename} </a>
+    ({freeform:filesize}k)
+  </li>
+  {/freeform:field:FIELD_NAME}
+</ul>
+```
+
+This fieldtype can be used as a variable pair in order to control output and set formatting. The following variables are available for use:
+
+The following variables are available for use within this variable pair:
+
+- _\{freeform:filename}_ - the name of the file that was uploaded (ex: **funky-town.jpg**)
+- _\{freeform:extension}_ - the extension for the uploaded file (ex: **.jpg**)
+- *\{freeform:filesize}*k - the size of the uploaded file, in kilobytes (ex: **230**k)
+- _\{freeform:fileurl}_ - the full URL path for the uploaded file, including file name (ex: **http://site.com/images/uploads/directory/Proposal.pdf**)
+- _\{freeform:server_path}_ - the full server path to the directory containing the uploaded file (ex: **www/name/public_html/images/uploads/directory/**)
+
+## Hidden
+
+This is a standard hidden input fieldtype.
+
+#### Freeform:Form Output
+
+#### attr:NAME
+
+```html
+{freeform:field:FIELD_NAME attr:id="my_id" attr:class="my_class" }
+```
+
+This field type allows the usage of form field attributes such as **class**, **id**, and **onclick**. Just call these as parameters on the field variable, and use the construct of: _attr:_ + **ATTRIBUTE_NAME** = **attr:ATTRIBUTE_NAME**. For example, the **class** attribute would be _attr:class_.
+
+#### Freeform:Entries Output
+
+The fields' value(s) can be parsed in the template by using a regular variable: `{freeform:field:FIELD_NAME}`
+
+## Multi-Select
+
+This fieldtype lets you have a multi-list form field with choices of single terms, value label lists, load from a channel field, or load from a text area (newline delimited). It outputs to a standard multi-select HTML element.
+
+#### Freeform:Form Output
+
+#### attr:NAME
+
+```html
+{freeform:field:FIELD_NAME attr:id="my_id" attr:class="my_class"
+attr:onclick="myFunction();" }
+```
+
+This field type allows the usage of form field attributes such as **class**, **id**, and **onclick**. Just call these as parameters on the field variable, and use the construct of: _attr:_ + **ATTRIBUTE_NAME** = **attr:ATTRIBUTE_NAME**. For example, the **class** attribute would be _attr:class_.
+
+#### Freeform:Entries Output
+
+```html
+{freeform:field:FIELD_NAME backspace="2"} {freeform:data:value} -
+{freeform:data:label} {/freeform:field:FIELD_NAME}
+```
+
+This fieldtype can be used as a variable pair in order to control output and set formatting. The backspace parameter is available to strip any last stray formatting from the parsed value. If your data is stored in the **value** and **label** type approach, the _\{freeform:data:value}_ and _\{freeform:data:label}_ variables are available.
+
+## Province Select
+
+A select box of Canadian Provinces pulled from the Freeform Classic Language file: **./system/expressionengine/third_party/freeform/language/english/freeform_lang.php**.
+
+#### Freeform:Form Output
+
+#### attr:NAME
+
+```html
+{freeform:field:FIELD_NAME attr:id="my_id" attr:class="my_class"
+attr:onclick="myFunction();" }
+```
+
+This field type allows the usage of form field attributes such as **class**, **id**, and **onclick**. Just call these as parameters on the field variable, and use the construct of: _attr:_ + **ATTRIBUTE_NAME** = **attr:ATTRIBUTE_NAME**. For example, the **class** attribute would be _attr:class_.
+
+#### Freeform:Entries Output
+
+The fields' value(s) can be displayed by using a regular variable: `{freeform:field:FIELD_NAME}`
+
+## Radio
+
+Radio sets use the multi-list item choice settings and can load single items, value label lists, load from a channel field, or load from a text area (newline delimited).
+
+#### Freeform:Form Output
+
+When you are displaying a radio field on the front end, you have some display options you can include:
+
+#### attr:NAME
+
+```html
+{freeform:field:FIELD_NAME attr:id="my_id" attr:class="my_class"
+attr:onclick="myFunction();" }
+```
+
+This field type allows the usage of form field attributes such as **class**, **id**, and **onclick**. Just call these as parameters on the field variable, and use the construct of: _attr:_ + **ATTRIBUTE_NAME** = **attr:ATTRIBUTE_NAME**. For example, the **class** attribute would be _attr:class_.
+
+#### wrapper_open
+
+`wrapper_open="<ul style="list-style:none; padding:0;">"`
+
+This parameter allows you to control the opening wrapper around all radio options/rows. Default is: `<ul style="list-style:none; padding:0;">`
+
+#### wrapper_close
+
+`wrapper_close="</ul>"`
+
+This parameter allows you to control the closing wrapper around all radio options/rows. Default is: `</ul>`
+
+#### row_wrapper_open
+
+`row_wrapper_open="<li>"`
+
+This parameter allows you to control the opening wrapper for each radio option/row. Default is: `<li>`
+
+#### row_wrapper_close
+
+`row_wrapper_close="</li>"`
+
+This parameter allows you to control the closing wrapper for each radio option/row. Default is: `</li>`
+
+#### label_wrapper_open
+
+`label_wrapper_open="<label for="%id%">"`
+
+Lets you control the opening wrapper for the radio's label. _%id%_ is available, and will get replaced with the accompanying ID for the radio button so that clicking the label will activate its related radio. Default is: `<label for="%id%">`
+
+#### label_wrapper_close
+
+`label_wrapper_close="</label>"`
+
+Lets you control the closing wrapper for the radio's label. Default is: `</label>`
+
+<a name="radio_input_wrapper_open"></a>
+#### input_wrapper_open `input_wrapper_open=""`
+
+This parameter allows you to set the opening wrapper for each radio. You would likely use this to have something like an opening **\<li\>** or **\<p\>** tag. Default is empty value.
+
+#### input_wrapper_close
+
+`input_wrapper_close=""`
+
+This parameter allows you to set the opening wrapper for each radio. It comes after each file input HTML element. You would likely use this to have something like a closing **\</li\>** or **\</p\>** tag. Default value is: `&nbsp;&nbsp;`
+
+#### order
+
+`order="RL"`
+
+This controls the order the label and radios are displayed. For radio then label, use RL. For label then radio, use **LR**. Default is: **RL**
+
+#### Freeform:Entries Output
+
+The fields' value(s) can be displayed by using a regular variable: `{freeform:field:FIELD_NAME}`
+
+It may also be used as a tagpair:
+
+```html
+{freeform:field:FIELD_NAME backspace="2"} {freeform:data:value} -
+{freeform:data:label} {/freeform:field:FIELD_NAME}
+```
+
+This fieldtype can be used as a variable pair in order to control output and set formatting. The backspace parameter is available to strip any last stray formatting from the parsed value. If your data is stored in the **value** and **label** type approach, the _\{freeform:data:value}_ and _\{freeform:data:label}_ variables are available.
+
+## Select
+
+This fieldtype lets you have a multi-list form field with choices of single terms, value label lists, load from a channel field, or load from a text area (newline delimited). It outputs to a standard multiselect HTML element.
+
+#### Freeform:Form Output
+
+#### attr:NAME
+
+```html
+{freeform:field:FIELD_NAME attr:id="my_id" attr:class="my_class"
+attr:onclick="myFunction();" }
+```
+
+This field type allows the usage of form field attributes such as **class**, **id**, and **onclick**. Just call these as parameters on the field variable, and use the construct of: _attr:_ + **ATTRIBUTE_NAME** = **attr:ATTRIBUTE_NAME**. For example, the **class** attribute would be _attr:class_.
+
+#### Freeform:Entries Output
+
+The fields' value(s) can be displayed by using a regular variable: `{freeform:field:FIELD_NAME}`
+
+## State Select
+
+A select box of U.S. States pulled from the Freeform Classic language file: **./system/expressionengine/third_party/freeform/language/english/freeform_lang.php**.
+
+#### Freeform:Form Output
+
+#### attr:NAME
+
+```html
+{freeform:field:FIELD_NAME attr:id="my_id" attr:class="my_class"
+attr:onclick="myFunction();" }
+```
+
+This field type allows the usage of form field attributes such as **class**, **id**, and **onclick**. Just call these as parameters on the field variable, and use the construct of: _attr:_ + **ATTRIBUTE_NAME** = **attr:ATTRIBUTE_NAME**. For example, the **class** attribute would be _attr:class_.
+
+#### Freeform:Entries Output
+
+The fields' value(s) can be displayed by using a regular variable: `{freeform:field:FIELD_NAME}`
+
+## Text
+
+This is a standard text input fieldtype.
+
+#### Field Options
+
+When you create the field you have 2 extra options:
+
+#### Field Content Type
+
+Sets the validation for the content type. Options are:
+
+- _Any_ - any text available.
+- _Email_ - validates email addresses
+- _Integer_ - validates as positive, whole numbers
+- _Number_ - validates as any number
+- _Decimal_ - validates as decimal
+
+#### Field Length
+
+Default maximum field length for the field. Overrideable with the _attr:maxlength=""_
+
+#### Freeform:Form Output
+
+#### attr:NAME
+
+```html
+{freeform:field:FIELD_NAME attr:id="my_id" attr:class="my_class"
+attr:onclick="myFunction();" }
+```
+
+This field type allows the usage of form field attributes such as **class**, **id**, and **onclick**. Just call these as parameters on the field variable, and use the construct of: _attr:_ + **ATTRIBUTE_NAME** = **attr:ATTRIBUTE_NAME**. For example, the **class** attribute would be _attr:class_.
+
+#### Freeform:Entries Output
+
+The fields' value(s) can be displayed by using a regular variable: `{freeform:field:FIELD_NAME}`
+
+## Textarea
+
+This is a standard textarea input fieldtype.
+
+#### Field Options
+
+#### Textarea Rows
+
+Default rows displayed for the textarea element. Overridable with: `attr:rows=""`
+
+#### Freeform:Form Output
+
+#### attr:NAME
+
+```html
+{freeform:field:FIELD_NAME attr:id="my_id" attr:class="my_class"
+attr:onclick="myFunction();" }
+```
+
+This field type allows the usage of form field attributes such as **class**, **id**, and **onclick**. Just call these as parameters on the field variable, and use the construct of: _attr:_ + **ATTRIBUTE_NAME** = **attr:ATTRIBUTE_NAME**. For example, the **class** attribute would be _attr:class_.
+
+#### Freeform:Entries Output
+
+The fields' value(s) can be displayed by using a regular variable: `{freeform:field:FIELD_NAME}`

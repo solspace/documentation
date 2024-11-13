@@ -1,0 +1,343 @@
+---
+sidebar_position: 11
+title: 'Occurrences'
+---
+
+# Calendar:Occurrences template tag
+
+The _Calendar:Occurrences_ loop outputs information about an events' occurrence(s).
+
+```html showLineNumbers
+{exp:calendar:occurrences} content {/exp:calendar:occurrences}
+```
+
+## Parameters
+
+Most parameters available in the `Channel:Entries` loop are available here. Additionally, these are also available:
+
+### event_id=
+
+`event_id="25"`
+
+This parameter allows you to display occurrences for a specific event by specifying an events entry ID. You can hardcode an event ID, pass it through an embed, or grab it from the URI. You can only specify a single event ID.
+
+### event_name=
+
+`event_name="dodgeball"`
+
+This parameter allows you to display occurrences for a specific event by specifying an events url_title. You can hardcode an event url_title, pass it through an embed, or grab it from the URI. You can only specify a single event url_title.
+
+### occurrence_id=
+
+`occurrence_id="35|72|108"`
+
+This parameter allows you to display specific occurrences for an event by specifying their unique ID(s). You can hardcode an occurrence ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### date_range_start=
+
+`date_range_start="2010-01-31 @ 8:00 am"`
+
+Limits output to occurrences on or after this date. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter.
+
+### date_range_end=
+
+`date_range_end="2010-02-14 @ 10:00 pm"`
+
+Limits output to occurrences on or before this date. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter.
+
+### show_days=
+
+`show_days="14"`
+
+Specifies the number of days to show going forward from [date_range_start](#date-range-start), or backward from [date_range_end](#date-range-end). Default is `28`. Used in conjunction with either [date_range_start](#date-range-start) or [date_range_end](#date-range-end) parameters, and used in place of the one not used.
+
+### show_weeks=
+
+`show_weeks="3"`
+
+Specifies the number of weeks to show going forward from [date_range_start](#date-range-start), or backward from [date_range_end](#date-range-end). Used in conjunction with either [date_range_start](#date-range-start) or [date_range_end](#date-range-end) parameters, and used in place of the one not used.
+
+### show_months=
+
+`show_months="6"`
+
+Specifies the number of months to show going forward from [date_range_start](#date-range-start), or backward from [date_range_end](#date-range-end). Used in conjunction with either [date_range_start](#date-range-start) or [date_range_end](#date-range-end) parameters, and used in place of the one not used.
+
+### show_years=
+
+`show_years="2"`
+
+Specifies the number of years to show going forward from [date_range_start](#date-range-start), or backward from [date_range_end](#date-range-end). Used in conjunction with either [date_range_start](#date-range-start) or [date_range_end](#date-range-end) parameters, and used in place of the one not used.
+
+### occurrences_limit=
+
+`occurrences_limit="5"`
+
+This parameter limits the number of past and future occurrences to be displayed.
+
+### occurrences_offset=
+
+`occurrences_offset="1"`
+
+This parameter lets you offset the results of occurrences displayed. For example, if you'd like the first result to be skipped from the results, specify a value of `1`.
+
+### prior_occurrences_limit=
+
+`prior_occurrences_limit="3"`
+
+This parameter limits the number of prior (before today) occurrences to be displayed. By default, no prior occurrences will be shown.
+
+### upcoming_occurrences_limit=
+
+`upcoming_occurrences_limit="10"`
+
+This parameter limits the number of upcoming (today and beyond) occurrences to be displayed. By default, `10` upcoming occurrences will be shown.
+
+### prior_exceptions_limit=
+
+`prior_exceptions_limit="2"`
+
+This parameter limits the number of prior (before today) exceptions to the occurrences to be displayed.
+
+### upcoming_exceptions_limit=
+
+`upcoming_exceptions_limit="2"`
+
+This parameter limits the number of upcoming (today and beyond) exceptions to the occurrences to be displayed.
+
+### reverse=
+
+`reverse="true"`
+
+This parameter allows you to reverse the display order of the results. This is handy if you wish to display an ordered list of both prior and upcoming occurrences for an event.
+
+### paginate=
+
+`paginate="both"`
+
+This parameter allows you to control where the pagination will display. Options are top, bottom, or both. Used in conjunction with the [calendar_paginate](#calendar-paginate) variable pair and [occurrences_limit](#occurrences-limit) parameter.
+
+## Variables
+
+Most variables available in the `Channel:Entries` loop are available here. Additionally, these are also available:
+
+### occurrence_title
+
+`{occurrence_title}`
+
+This variable outputs the title of the main event entry that generates this occurrence.
+
+### occurrence_id
+
+`{if occurrence_id}{occurrence_id}{if:else}{event_id}{/if}`
+
+This variable outputs the unique ID of the occurrence. This will only display a value IF you've edited the specific occurrence in a series of events.
+
+### occurrence_event_id
+
+`{if occurrence_title}{occurrence_title}{if:else}{event_title}{/if}`
+
+This variable outputs the unique ID of the main event entry that generates this occurrence. This will only display a value IF you've edited the specific occurrence in a series of events.
+
+### occurrence_start_date
+
+`{occurrence_start_date format="%F %j, %Y"}`
+
+Displays the start date of the occurrence, formatted using EE-style format characters. If `format=""` is not specified, it will parse as `YYYYMMDD` (ex: `20091231`).
+
+### occurrence_end_date
+
+`{occurrence_end_date format="%F %j, %Y"}`
+
+Displays the end date of the occurrence, formatted using EE-style format characters. If `format=""` is not specified, it will parse as `YYYYMMDD` (ex: `20091231`).
+
+### occurrence_count
+
+`{occurrence_count}`
+
+This variable outputs the display order number for each event result in your list.
+
+### occurrence_total
+
+`{occurrence_total}`
+
+This variable outputs the total amount of events outputted in your list.
+
+### occurrence_status
+
+`{occurrence_status}`
+
+This variable outputs the status of the occurrence.
+
+### occurrence_author
+
+`{occurrence_author}`
+
+This variable outputs the screen name of the author of the occurrence.
+
+### occurrence_author_id
+
+`{occurrence_author_id}`
+
+This variable outputs the member ID of the author of the occurrence.
+
+### occurrence_duration_days
+
+`{occurrence_duration_days}`
+
+Displays the number of days the occurrence lasts.
+
+### occurrence_duration_hours
+
+`{occurrence_duration_hours}`
+
+Displays the number of hours the occurrence lasts.
+
+### occurrence_duration_minutes
+
+`{occurrence_duration_minutes}`
+
+Displays the number of minutes the occurrence lasts.
+
+### occurrence_CUSTOM_FIELD
+
+`{occurrence_CUSTOM_FIELD}`
+
+This variable outputs the title of the main event entry that generates this occurrence.
+
+All of custom channel fields are available for use. To parse your custom channel fields, prepend the variables with `occurrence_`. So to construct these variables, simply use `occurrence_` + `custom_channel_field_short_name` (Ex: `occurrence_` + `description` = `occurrence_description`).
+
+## Variable Pairs
+
+### calendar_paginate
+
+```html showLineNumbers
+{calendar_paginate}
+<li>
+  <ul class="pagination">
+  {calendar_pagination_links}
+    {first_page}
+      <li><a href="{pagination_url}">First</a></li>
+    {/first_page}
+    {previous_page}
+      <li><a href="{pagination_url}">&laquo; Previous</a></li>
+    {/previous_page}
+    {page}
+      <li{if current_page} class="active"{/if}><a href="{pagination_url}">{pagination_page_number}</a></li>
+    {/page}
+    {next_page}
+      <li><a href="{pagination_url}">Next &raquo;</a></li>
+    {/next_page}
+    {last_page}
+      <li><a href="{pagination_url}">Last</a></li>
+    {/last_page}
+  {/calendar_pagination_links}
+  </ul>
+</li>
+{/calendar_paginate}
+```
+
+OR
+
+```html showLineNumbers
+{calendar_paginate}
+<p>
+  Page {calendar_current_page} of {calendar_total_pages} pages
+  {calendar_pagination_links}
+</p>
+{/calendar_paginate}
+```
+
+Pagination is available for this tag and works just like regular pagination. Used in conjunction with the [paginate](#paginate) parameter and [occurrences_limit](#occurrences-limit) parameter.
+
+## Conditionals
+
+Most conditionals available in the `Channel:Entries` loop are available here. Additionally, these are also available:
+
+### calendar_no_results
+
+`{if calendar_no_results}{/if}`
+
+Works just like the regular `{if no_results}` conditional - displays its contents when there is no results for the given parameters.
+
+### occurrence_recurs
+
+`{if occurrence_recurs}{/if}`
+
+This conditional will displays its contents if the event recurs.
+
+### occurrence_all_day
+
+`{if occurrence_all_day}{/if}`
+
+This conditional will displays its contents if the occurrence is an all day event.
+
+### occurrence_multi_day
+
+`{if occurrence_multi_day}{/if}`
+
+This conditional will displays its contents if the occurrence occurs on multiple days.
+
+## Examples
+
+### Occurrences for a Specific Event
+
+The following simple code example will display all occurrences from 1 month ago up to 2 months into the future for a given event, if you have it’s entry ID in the 3rd segment of the URI:
+
+```html showLineNumbers
+<ul>
+  {exp:calendar:occurrences
+    event_id="{segment_3}"
+    date_range_start="1 month ago"
+    date_range_end="2 months"
+  }
+  <li>
+    <a href="{path='calendar/occurrence'}/{occurrence_start_date format="%Y/%m/%d"}/">
+      {occurrence_start_date format="%l, %F %j, %Y at %g:%i%a"}
+    </a>
+  </li>
+  {/exp:calendar:occurrences}
+</ul>
+```
+
+### List Multiple Event Occurrences (Hardcoded)
+
+The following simple code example will display a list of occurrences from 1 month ago up to 2 months into the future for multiple events:
+
+```html showLineNumbers
+<ul>
+  {exp:calendar:occurrences
+    date_range_start="1 month ago"
+    date_range_end="2 months"
+    dynamic="off"
+  }
+  <li>
+    <a href="{path='calendar/occurrence'}/{occurrence_start_date format="%Y/%m/%d"}/">
+      {event_title}
+    </a>
+    ({occurrence_start_date format="%l, %F %j, %Y at %g:%i%a"})
+  </li>
+  {/exp:calendar:occurrences}
+</ul>
+```
+
+### List Multiple Event Occurrences (By Date - Dynamic)
+
+The following code example will display a list of all occurrences on a specific date for multiple events if you have the usual date segments in the URI:
+
+```html showLineNumbers
+<ul>
+  {exp:calendar:occurrences
+    date_range_start="{segment_3}-{segment_4}-{segment_5}"
+    date_range_end="{segment_3}-{segment_4}-{segment_5}"
+    dynamic="off"
+  }
+  <li>
+    <a href="{path='calendar/occurrence'}/{occurrence_start_date format="%Y/%m/%d"}/">
+      {event_title}
+    </a>
+    ({occurrence_start_date format="%l, %F %j, %Y at %g:%i%a"})
+  </li>
+  {/exp:calendar:occurrences}
+</ul>
+```

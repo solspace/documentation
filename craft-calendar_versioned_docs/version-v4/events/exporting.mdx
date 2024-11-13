@@ -1,0 +1,22 @@
+---
+sidebar_position: 3
+title: Exporting Events
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Exporting Events
+
+Calendar currently allows for both downloading of ICS Export files and ICS Subscriptions URLs.
+
+## ICS Export<Badge type="pro" text="Pro" />
+
+The [calendar.export](../templates/queries/export.mdx) template query lets you export all or specific calendar events as an `ICS` formatted file. This will cause the user to receive a file download dialogue, and allow them to import the event(s) into a calendaring app like Apple Calendar or Google Calendar.
+
+## ICS Subscriptions<Badge type="pro" text="Pro" />
+
+[Calendars](./index.mdx) include an option to share calendars with a publicly accessible ICS subscription URL, allowing users to subscribe (one way sync) their calendaring app to your sites' calendar(s). To enable this, click on the **Share this calendar** button next to the applicable calendar(s) on the list view of calendars in control panel. Once enabled, you can then copy the ICS URL and share it with whoever you wish (admins, show it publicly, etc).
+
+:::warning
+ICS subscriptions currently do not work correctly for Google Calendar when using _Floating Timezone_. The issue is that there's a "bug" or at least oddity in [the way Google Calendar handles events with floating dates](https://productforums.google.com/forum/#!topic/calendar/Xjxs5UjhsXI) compared to all other calendaring apps. Google does not to conform to [iCal standards](https://tools.ietf.org/html/rfc5545#section-3.3.5) for this. You can work around this by setting the **Forced ICS Event Timezone** setting for each calendar to a real timezone.
+:::

@@ -1,0 +1,374 @@
+---
+title: Changelog
+sidebar_label: Changelog
+sidebar_position: 5
+---
+
+import { TitleDate } from '@site/src/components/docs';
+
+## 1.11.1<TitleDate date="2018-11-21" />
+
+### Fixes
+
+- Fixed a bug where translations were not working in the CP Month/Week/Day views.
+
+## 1.11.0<TitleDate date="2018-10-17" />
+
+### Additions
+
+- Added `timezone` parameter for `calendar.export` function, allowing users to simulate a localized timezone, more-so as a workaround for Google Calendar not correctly supporting floating timezones.
+
+### Changes
+
+- Updated Demo Templates routes to be extension agnostic (no longer specifically include `.html` in route path).
+- Updated export demo template so it generates a more compatible ICS file.
+- Improved permissions helper when using Console.
+
+### Fixes
+
+- Fixed a bug where Demo Templates would strip dashes from specified URI path.
+
+## 1.10.5<TitleDate date="2018-02-07" />
+
+### Changes
+
+- Updated FullCalendar JS library to v3.8.2, resolving the issue where the jQuery 3.3.1 update in Craft 2.6.3006 broke the Month/Week/Day views.
+
+### Fixes
+
+- Fixed a bug where repeat rules were not fully being removed from the database after editing an event to change it from repeating to non-repeating.
+- Fixed a bug where regular custom fields were not showing in the Live Preview editor CP view.
+- Fixed a bug where ICS files were not fully supporting ICS formatting standards.
+- Fixed a bug where events using 'Select Dates' repeat rule would not export correctly.
+
+## 1.10.4<TitleDate date="2018-01-10" />
+
+### Fixes
+
+- Fixed a bug where `postDate` was not a valid option in Event URL's feature.
+- Fixed a bug where saving calendars was sometimes not playing nicely with other third party plugins.
+
+## 1.10.3<TitleDate date="2017-12-27" />
+
+### Fixes
+
+- Fixed a bug where events with Select Dates would trigger an error for some users.
+
+## 1.10.2<TitleDate date="2017-12-21" />
+
+### Additions
+
+- Added Event URL link (globe) column to Events list page in Calendar control panel.
+- Fixed a bug where some translations were missing for front end event submission form.
+
+## 1.10.1<TitleDate date="2017-12-14" />
+
+### Fixes
+
+- Fixed a bug where calendars could not be saved when using Personal and Client editions of Craft.
+
+## 1.10.0<TitleDate date="2017-12-13" />
+
+### Additions
+
+- Added Live Preview feature to Calendar events.
+- Added Event URL path feature to calendars, allowing automatic event routes and Live Preview, etc.
+- Added `url` property to Event object.
+- Added Author Editing Restriction setting, which if enabled, allows users (excluding Admins) with event creation privileges to only be able to edit or delete their own events.
+- Added `simplifiedRepeatRule` property to Event object, which displays a simplified version of the repeat rule (e.g. **Weekly**).
+- Added `status: null` parameter option to the `calendar.event` function, so disabled events can be shown as well.
+
+### Changes
+
+- Updated Calendar to use Craft's built-in duplicate slug handling.
+- Updated the `calendar_demo/event` demo template to be more versatile to be used with Live Preview.
+- Updated control panel icon.
+
+### Fixes
+
+- Fixed a bug where slug would not be generated correctly if you were using the auto-generated title feature.
+- Fixed a bug where some customers would see a fatal error when loading template functions and having a field with handle of `date`.
+- Fixed a bug where events that were missing some required fields could not be drag and dropped in Month/Week/Day CP views.
+- Fixed a bug where the Demo Templates install banner would sometimes reappear when it shouldn't.
+- Fixed a bug where there was an issue with displaying events around midnight because of a 1 hour offset.
+- Fixed a bug where some `Yes`/`No` strings were not translatable.
+
+## 1.9.3<TitleDate date="2017-10-17" />
+
+### Additions
+
+- Added the `cp.entries.edit.right-pane` Craft hook to the Calendar Create Event page in CP.
+
+### Fixes
+
+- Fixed a bug where the "Quick Event" widget is labelled as "Calendar Agenda".
+- Fixed a bug where setting a value of `now` in dateRange parameters in the calendar.events function was being incorrectly localized.
+
+## 1.9.2<TitleDate date="2017-09-08" />
+
+### Fixes
+
+- Fixed a bug where updating calendars could sometimes result in an error or even deletion of calendar and associated events.
+
+## 1.9.1<TitleDate date="2017-09-05" />
+
+### Fixes
+
+- Fixed a bug where "On Select Dates" inclusion list was including "12:00:00 AM" time on the list of inclusions.
+- Fixed a bug where ICS subscription/exports were not fully compliant with iCalendar standards.
+- Fixed a bug where running code from the Craft CLI/console, Calendar would throw an error in PermissionsHelper because there was no logged in user.
+
+## 1.9.0<TitleDate date="2017-06-12" />
+
+### Additions
+
+- Added new Guest access functionality and permission controls for submitting events on front end.
+
+### Changes
+
+- Updated Simple Event Object to include `slug` (used for JSON feed for FullCalendar.io implementations).
+
+### Fixes
+
+- Fixed a bug where an error would show when viewing an event on the front end if using PHP 5.3.
+- Fixed a bug where deleting Calendar events via API was not triggering the correct events.
+
+## 1.8.4<TitleDate date="2017-04-21" />
+
+### Additions
+
+- Added `RAND()` ordering to `calendar.events` function.
+
+### Fixes
+
+- Fixed a bug where some locales would not work correctly with Month/Week/Day CP views and Widgets.
+- Fixed a bug where the `limit` parameter would not work correctly with `loadOccurrences: false` in `calendar.events` function.
+- Fixed a bug where Calendar functions would not correctly override a locale at template level when there's also a locale segment in the URI.
+
+## 1.8.3<TitleDate date="2017-03-10" />
+
+### Additions
+
+- Added `icsUrl` and `icsHash` properties to Calendar object to allow automated displaying of ICS subscription URL's on front end.
+- Added `isCurrentlyHappening` and `isHappeningOn()` methods for Event object to check if an event is happening during the user's current time, or in an alternate specified date.
+- Added German language translation.
+- Added Calendar service layer for developers.
+
+### Fixes
+
+- Fixed a bug where the Quick Event Create feature in Month/Week/Day CP views would not work for some locales.
+- Fixed a bug where the Edit button in tooltips on Month/Week/Day CP views would not correctly factor active locale into URL's.
+- Fixed a bug where Month/Week/Day Agenda widget would not factor in active locale translations.
+- Fixed a bug where other member groups with admin privileges would sometimes get an error when creating or editing events.
+- Fixed a bug where `day.date.isToday` was looking at UTC and not at site's timezone/locale.
+- Fixed a bug where several words/phrases were not translatable in the control panel.
+
+## 1.8.2<TitleDate date="2017-02-21" />
+
+### Fixes
+
+- Fixed a bug where accessing event pages in the control panel would result in a fatal error for some sites.
+
+## 1.8.1<TitleDate date="2017-02-16" />
+
+### Additions
+
+- Added ability to disable and customize titles for each calendar layout.
+- Added ability to view and sort events list in CP by post date.
+- Added Simple Event object getter for event models for Fieldtype.
+
+### Changes
+
+- Updated Simple Event objects to no longer contain non-existing fields from content.
+
+### Fixes
+
+- Fixed a bug where a locale was not assigned when creating calendars on Craft Client.
+- Fixed a bug where Calendar settings page headings were still showing old language keys instead of phrases.
+
+## 1.8.0<TitleDate date="2017-01-26" />
+
+### Additions
+
+- Added option to share calendars with publicly accessible ICS subscription URL, allowing users to subscribe (one way sync) their calendaring app to your sites' calendar(s).
+- Added locale switcher dropdown to CP Month/Week/Day views.
+
+### Changes
+
+- Updated Calendar to use English sentences instead of translation keys and language file to improve user experience when a translation is not yet available for a locale.
+- Updated Demo Templates installer to allow a fully custom directory name (no longer appends 'demo').
+- Updated Demo Templates to be a bit cleaner and easier to understand.
+
+### Fixes
+
+- Fixed a bug where events that use the "Select Dates" rule would have the first occurrence date excluded from Month/Week/Day functions.
+
+## 1.7.2<TitleDate date="2016-12-20" />
+
+### Additions
+
+- Added an "All Calendars" permission that allows you to assign a user group / individual user to so they will always have access to all current and future created calendars.
+
+### Fixes
+
+- Fixed a bug where trying to create events as a non admin with all the correct permissions would gives an error when attempting to save the event.
+- Fixed a bug where locales list in create/edit page would not check to see if non admins had access to locale(s) and hide the ones they don't have.
+- Fixed a bug where switching or adding new locales would not always work correctly.
+- Fixed a bug where the human-readable repeat rule string on front end was not localizing.
+
+## 1.7.1<TitleDate date="2016-12-12" />
+
+### Fixes
+
+- Fixed a bug where creating/editing events would show a white screen for sites using only 1 locale.
+
+## 1.7.0<TitleDate date="2016-12-08" />
+
+### Additions
+
+- Added support for unique field layouts per calendar.
+- Added support for unique locale options per calendar.
+- Added a setting to enable/disable ability to use Quick Create event in Month/Week/Day CP views.
+- Added a setting to select which Calendar CP page is loaded when clicking the main Calendar nav item.
+
+### Changes
+
+- Updated `dateRangeStart` and `dateRangeEnd` parameters allow time ranges in addition to date ranges in calendar.events function.
+- Updated plugin icon for control panel.
+- Updated documentation to include example plugin.
+
+### Fixes
+
+- Fixed a bug where Calendar would error on install for sites using PHP 5.3.
+- Fixed a bug where disabled events could not be deleted when using the 'Delete' button in the CP Create/Edit page.
+- Fixed a bug where `dateCreated` (and `postDate`) were not available for the Event object.
+
+## 1.6.0<TitleDate date="2016-09-15" />
+
+### Additions
+
+- Added ability to duplicate events in the Create/Edit events page in Calendar control panel.
+
+### Changes
+
+- Updated demo templates to use Ajax-based mini calendar in the right column to switch through months.
+- Updated the End Date picker to be smarter by automatically selecting the following day when the End Time flowed into the following day.
+- Adjusted mini calendar in Month/Week/Day CP views to have more space to fit longer month names.
+
+### Fixes
+
+- Fixed a bug where the calendar.events function with `loadOccurrences: false` would not load ANY recurring events.
+- Fixed a bug where custom fields were not available as options for sorting events (in Events list view in control panel) and would result in errors. Removed these from being displayed.
+- Fixed a bug where Calendar would have a fatal error when trying to submit event while date fields were left blank.
+- Fixed a bug where events with never-ending repeat rules would error with calendar.event function if date range parameters were not specified.
+
+## 1.5.0<TitleDate date="2016-08-17" />
+
+### Additions
+
+- Added Events for developers that wish to extend Calendar's capabilities for event and calendar saving/deleting.
+- Added support for template Cache refreshing when events and calendars are saved/deleted.
+
+### Changes
+
+- Updated front end _FullCalendar.io_ JS library integration to allow for custom field data.
+
+### Fixes
+
+- Fixed a bug where creating events in the Month/Week/Day CP views would not work if a custom field was required.
+- Fixed a bug where creating events that didn't have a time set (and All Day NOT checked) gave them default start/end times of 12:00 AM, causing display issues in Month/Week/Day CP views. Calendar now automatically bumps the end time by 1 hour if it's set to the same time as start time.
+- Fixed a bug where the Create/Edit Event page in control panel would not highlight affected tabs with errors.
+- Fixed a bug where Calendar would have a fatal error when trying to submit event while date fields were left blank.
+- Fixed a bug where events with never-ending repeat rules would error with calendar.event function if date range parameters were not specified.
+
+## 1.4.0<TitleDate date="2016-07-07" />
+
+### Additions
+
+- Added front end _FullCalendar.io_ JS library integration example to demo templates (appears like control panel views), with administrative controls for authorized users.
+
+### Changes
+
+- Updated and optimized event parsing in control panel and templates to be significantly more efficient and faster.
+- Updated events to default to existing values in event save method when post values are not received.
+- Updated events to properly assign authors in Craft Personal.
+- Updated text labels in Month/Week/Day views of CP (Full Calendar JS library) to update with locales.
+- Updated Events controller to have a JSON response if the save or delete event request is an AJAX request.
+
+### Fixes
+
+- Fixed a bug where the Field Layout name for Calendar was incorrect, causing all fields across site to be loaded with Calendar, subsequently triggering errors and causing performance issues.
+- Fixed a bug where custom fields were not available to be added to the Table columns in Events list of control panel.
+- Fixed a bug where `slug`, `status`, `enabled`, `author` and `authorId` properties would not parse in the Event model.
+- Fixed a bug where author properties were not available in Event model.
+- Fixed a bug where the `length` filter would always return **1** on a result set of events.
+
+## 1.3.0<TitleDate date="2016-06-15" />
+
+### Additions
+
+- Added front end _FullCalendar.io_ JS library integration example to demo templates (appears like control panel views), with administrative controls for authorized users.
+
+### Changes
+
+- Improved Event Element UI to auto-select recurrence rule options based on start date when creating repeating events.
+- Updated Calendar to only display the Event Element UI on the first tab (when using more than 1 tab in Event creation page).
+- Updated Calendar to use translation keys and language file instead of English sentences for easier translation.
+- Adjusted some areas of Calendar control panel to appear more consistent with Craft control panel UI.
+- Adjusted startDate and endDate parameters to now accept operators ("\<=", ">=", etc).
+- Changed navigation to use the left vertical nav bar instead of tabs.
+
+### Fixes
+
+- Fixed a bug where the 'All Day' and 'Repeats' sliders would not actually work when dragged (only worked when clicked).
+- Fixed a bug where the "Install Demo Templates" tip banner would reemerge every time the Settings page was submitted.
+- Fixed a bug where event count and totals could be incorrect.
+- Fixed a bug where changing ordering of Events results was not working.
+
+## 1.2.0<TitleDate date="2016-06-03" />
+
+### Additions
+
+- Added support for locales on custom fields.
+- Added optional mini calendar and calendar filtering options to Month/Week/Day views in control panel.
+
+### Changes
+
+- Updated 'Settings' page to be part of Calendar control panel area and improved organization of settings.
+- Updated Event element UI to no longer ask for confirmations when removing Exclusion dates or Select Dates.
+- Adjusted 'Month' week rows in control panel view to display more events.
+
+### Fixes
+
+- Fixed a bug where having no tabs/fields in a Field Layout would stop Event element UI from showing.
+- Fixed a bug where the event counts for the Week object were not calculating correctly.
+
+## 1.1.0<TitleDate date="2016-05-19" />
+
+### Additions
+
+- Added 'Select Dates' repeat rule option.
+- Added pagination support for the **calendar.events** template function.
+- Added 'Events List' example page to demo templates.
+
+### Changes
+
+- Improved Event Element UI to auto-select recurrence rule options based on start date when creating repeating events.
+- Updated Calendar to only display the Event Element UI on the first tab (when using more than 1 tab in Event creation page).
+- Updated Calendar to use translation keys and language file instead of English sentences for easier translation.
+- Adjusted some areas of Calendar control panel to appear more consistent with Craft control panel UI.
+- Adjusted startDate and endDate parameters to now accept operators ("\<=", ">=", etc).
+- Changed navigation to use the left vertical nav bar instead of tabs.
+
+### Fixes
+
+- Fixed a bug where the 'All Day' and 'Repeats' sliders would not actually work when dragged (only worked when clicked).
+- Fixed a bug where the "Install Demo Templates" tip banner would reemerge every time the Settings page was submitted.
+- Fixed a bug where event count and totals could be incorrect.
+- Fixed a bug where changing ordering of Events results was not working.
+
+## 1.0.0<TitleDate date="2016-04-25" />
+
+### Additions
+
+- Initial release.

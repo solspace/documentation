@@ -1,0 +1,87 @@
+---
+sidebar_position: 7
+title: 'ICS_Update'
+---
+
+# Calendar:ICS_Update template tag
+
+The _Calendar:ICS_Update_ tag provides a way to update your calendars’ imported iCalendar data at regular intervals. You can place it in a template that you are certain will be called within the time interval that you want the iCalendar data to be updated; you can place it on a dedicated page so you can trigger it manually; or you might even trigger automatically at certain intervals using a cron job.
+
+Note that the speed of this operation depends on the number of updates being performed, the speed of the servers hosting the remote files, and the size and complexity of those files. Keep those factors in mind when determining how and when you trigger an update.
+
+The ICS*Update function contains preformatted info within it's tags, so nothing is to go inbetween the \_Calendar:ICS_Update* tags, etc. When the template that contains this tag is accessed, the users browser will be held up until the update is complete.
+
+```html showLineNumbers
+{exp:calendar:ics_update}{/exp:calendar:ics_update}
+```
+
+## Parameters
+
+### site_id=
+
+`site_id="1"`
+
+If using MSM, you can specify a Site ID in this parameter to filter entries down to that site.
+
+### calendar_id=
+
+`calendar_id="1|3"`
+
+This parameter allows you to display specific calendars by specifying their entry ID(s). You can hardcode a calendar ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### calendar_name=
+
+`calendar_name="soccer|baseball|dodgeball"`
+
+This parameter allows you to display specific calendars by specifying their short_names (entry url_title). You can hardcode a short_name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### status=
+
+`status="open|closed|pending"`
+
+Allows you to filter down to specific calendars based on their status. Default value is open. Separate multiples with the pipe character.
+
+### time_range_start=
+
+`time_range_start="0300"`
+
+Allows you to set a time range of when you want updates to occur. The update will NOT occur BEFORE this time. Refer to [Time Formatting Documentation](../guides/date-formatting.mdx#time). This time respects the Site's time localization.
+
+### time_range_end=
+
+`time_range_end="0500"`
+
+Allows you to set a time range of when you want updates to occur. The update will NOT occur AFTER this time. Refer to [Time Formatting Documentation](../guides/date-formatting.mdx#time). This time respects the Site's time localization.
+
+### minute_interval=
+
+`minute_interval="60"`
+
+An integer number of minutes, indicating the minimum length of time between updates. Default value is `60` minutes.
+
+### delete_missing=
+
+`delete_missing="yes"`
+
+Overrides the **ICS Update Default Delete Behavior** preference for deletion of missing events. By default, the _Calendar:ICS_Update_ tag does not delete entries that it does not find when downloading the ICS file for updates. Setting this to `yes` will make the _Calendar:ICS_Update_ tag delete previously imported entries not found in the current ICS file download.
+
+### allow_logged_out=
+
+`allow_logged_out="yes"`
+
+Setting this parameter to `yes` allows you updates to happen when the user is logged out, primarily for the use of cron jobs and remote fetching of the template. This is set to `no` by default for security reasons.
+
+### force_update=
+
+`force_update="yes"`
+
+Setting this parameter to `yes` allows the overriding of the _Calendar:ICS_Update_ tag checking for `LAST-MODIFIED` or `DTSTAMP` changes before upgrading an imported event from the iCalendar format. Apple and Outlook (web) do not properly support the iCalendar specification and thus do not update `DTSTAMP` or include `LAST-MODIFIED` on the `VEVENT` block when an event is updated.
+
+## Examples
+
+The following example is complete for using the ICS Update feature. When this template is accessed between the times of `2am` and `5am`, the specified Calendar ID’s will update:
+
+```html showLineNumbers
+{exp:calendar:ics_update calendar_id="1|3" time_range_start="0200"
+time_range_end="0500" minute_interval="60" } {/exp:calendar:ics_update}
+```

@@ -1,0 +1,88 @@
+---
+title: Week
+sidebar_position: 7
+---
+
+# Week object
+
+A _Week_ object holds in itself a list of all [Events](./event.mdx) that fall into this week, as well as gives the possibility to iterate over [Day object](./day.mdx)'s that fall into the range of this **Week object**.
+
+## Properties
+
+- `date`
+  - A [Date object](./date.mdx) of the starting date of the event duration
+  - For a _Week_ object of **April 15, 2023** and week starting day of **Sunday**, this would return the [Date object](./date.mdx) of `2023-04-10` with the starting day of the week set to **Sunday**
+- `startDate`
+  - Basically the same as the `date` property
+- `endDate`
+  - The ending date of the _Week_ object's week, e.g - `2023-04-16` in this case
+- `previousDate`
+  - Returns a [Date object](./date.mdx) of the previous week relative to the `date` property, e.g. `2023-04-03` in this case
+- `nextDate`
+  - Returns a [Date object](./date.mdx) of the next week relative to the `date` property, e.g. `2023-05-17` in this case
+- `events`
+  - Contains a list of [Events](./event.mdx) that fall into this _Week_ object's range
+- `eventCount`
+  - The number of events in the `events` property
+
+## Methods
+
+- `dateRange(int before, int after)`
+  - Returns a list of [Date objects](./date.mdx) ranging `before` number of weeks before `date` and `after` number of weeks after `date`
+  - E.g. `week.dateRange(6, 6)` would return a list starting from `2023-02-28` and ending in `2023-05-22`
+- `containsDate(dateObject)`
+  - Returns **true** if the `dateObject` provided is within the _Week_ object's date range
+  - E.g. `week.containsDate(event.startDate)` would return **true** if the _Week_ object would be **April 15, 2023** starting on Sunday, and the `event.startDate` would be `2023-04-10`, but **false** if the `event.startDate` would be `2023-04-09`
+
+## Usage in Templates
+
+Iterate through days of the week
+
+```twig showLineNumbers
+{% set week = craft.calendar.week({
+  date: "today",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for day in week %}
+  {% for event in day.events %}
+    <div style="{{ event.calendar.color }};">
+      {{ event.title }}
+    </div>
+  {% endfor %}
+{% endfor %}
+```
+
+---
+
+Iterate through all events in the week
+
+```twig showLineNumbers
+{% set week = craft.calendar.week({
+  date: "today",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for event in week.events %}
+  <div style="{{ event.calendar.color }};">
+    {{ event.title }}
+  </div>
+{% endfor %}
+```
+
+---
+
+Show only events which start in weekdays
+
+```twig showLineNumbers
+{% set week = craft.calendar.week({
+  date: "today",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for event in week.events if event.startDate.weekday %}
+  <div style="{{ event.calendar.color }};">
+    {{ event.title }}
+  </div>
+{% endfor %}
+```

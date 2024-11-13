@@ -1,0 +1,81 @@
+---
+title: Mailing
+sidebar_position: 8
+---
+
+# Mailing Events
+
+You can extend the Mailer service functionality to manipulate emails that are sent out to users after form submissions:
+
+## Before email values are parsed with Twig
+
+This event is called before all notification values are parsed with Twig. Use this event to add your own values or manipulate the existing ones.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\MailerService;
+use Solspace\Freeform\Events\Mailer\RenderEmailEvent;
+
+Event::on(
+  MailerService::class,
+  MailerService::EVENT_BEFORE_RENDER,
+  function (RenderEmailEvent $event) {
+    $form = $event->getForm();
+    $notification = $event->getNotification();
+    $fieldValues = $event->getFieldValues();
+    $submission = $event->getSubmission();
+
+    // Attach a custom value to the field values array
+    // thus getting access to "{{ myCustomValue }}" in your notification twig template
+    $fieldValues['myCustomValue'] = 'test';
+
+    $event->setFieldValues($fieldValues);
+  }
+)
+```
+
+## Before an email is sent
+
+Use this event to change the emails that are sent out, or perform any other tasks that need to be done before emails are sent out.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\MailerService;
+use Solspace\Freeform\Events\Mailer\SendEmailEvent;
+
+Event::on(
+  MailerService::class,
+  MailerService::EVENT_BEFORE_SEND,
+  function (SendEmailEvent $event) {
+    $message = $event->getMessage();
+    $form = $event->getForm();
+    $notification = $event->getNotification();
+    $fieldValues = $event->getFieldValues();
+    $submission = $event->getSubmission();
+
+    // Manipulate the message object to send to a Bcc recipient
+    $message->setBcc(['stealthy@email.com']);
+  }
+)
+```
+
+## After an email is sent
+
+This event is fired right after an email is sent out. You might use this event to log the sent out email somewhere.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\MailerService;
+use Solspace\Freeform\Events\Mailer\SendEmailEvent;
+
+Event::on(
+  MailerService::class,
+  MailerService::EVENT_AFTER_SEND,
+  function (SendEmailEvent $event) {
+    $message = $event->getMessage();
+    $form = $event->getForm();
+    $notification = $event->getNotification();
+    $fieldValues = $event->getFieldValues();
+    $submission = $event->getSubmission();
+
+    // Perform some action here
+  }
+)
+```

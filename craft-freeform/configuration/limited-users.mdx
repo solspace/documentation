@@ -1,0 +1,132 @@
+---
+sidebar_position: 3
+title: Limited Users
+---
+
+import { Badge, Photo, HoverPhotoChange } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+import LimitedUsersSettingsPhoto from './assets/img/limited-users-settings.png';
+import LimitedUsersPermissionPhoto from './assets/img/limited-users-permission.png';
+import NotificationAfterPhoto from './assets/img/notifications-after.png';
+import NotificationBeforePhoto from './assets/img/notifications-before.png';
+import LayoutBeforePhoto from './assets/img/layout-before.png';
+import LayoutAfterPhoto from './assets/img/layout-after.png';
+import SettingsAfterPhoto from './assets/img/settings-after.png';
+import SettingsBeforePhoto from './assets/img/settings-before.png';
+import PropertyEditorAfterPhoto from './assets/img/property-editor-after.png';
+import PropertyEditorBeforePhoto from './assets/img/property-editor-before.png';
+
+# Limited Users<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.4+" />
+
+With the _Limited Users_ feature, you can easily customize the form builder experience for specific users or groups. You have the ability to choose which [field types](../forms/fields.mdx) are available and which settings and page tabs are visible. This ensures that these users are not overwhelmed by advanced settings and prevents them from accidentally breaking your forms or site. You can also create as many Limited Users permission groups as you like.
+
+Although Freeform offers permissions through regular [Craft User Group Permissions](./permissions.mdx) to limit access to the Freeform control panel, the _Limited Users_ feature allows for more precise control within the [form builder](../forms/builder.mdx) itself.
+
+<Photo
+  img={LimitedUsersSettingsPhoto}
+  alt="Limited Users - Permission Settings"
+/>
+
+## Quick Setup Guide
+
+<VerticalStepWrapper>
+<StepMarkdown>
+- Open up the **Limited Users** settings page _(Freeform → Settings → Limited Users)_.
+- Click on the **New Group** button to create a new Limited User permission layer.
+</StepMarkdown>
+<StepMarkdown>
+Carefully review and adjust the settings as necessary.
+
+:::info
+Users without the _Limited Users_ restriction can still add any field type to the form, regardless of what is set for the **Allowed Field Types** setting. If the form already contains a restricted field type in the layout, _Limited Users_ can still adjust those exist fields, but they cannot add _new_ ones to the form.
+:::
+
+:::warning
+Any settings that are critical to the form working **must have a default value** configured in the [Form Builder settings](./settings.mdx#form-builder) area, e.g. _Submission Title_. Some other settings will continue to be automatically set or automatically populated, even when not visible, e.g. _Field Handles_.
+:::
+
+</StepMarkdown>
+<StepMarkdown>
+Save the _Limited Users_ permission changes by clicking the **Save** button.
+
+</StepMarkdown>
+<StepMarkdown>
+Go to the [Form Builder settings](./settings.mdx#form-builder) area _(Freeform → Settings → Form Builder)_ and set default values for any critical settings you have hidden from _Limited Users_. This will ensure that the form will configure itself correctly when a _Limited User_ with no access to those settings is building the form.
+
+</StepMarkdown>
+<StepMarkdown>
+Apply Freeform's newly created _Limited Users_ permission group(s) to any users or user groups that require it.
+
+<Photo
+  scale="45"
+  img={LimitedUsersPermissionPhoto}
+  alt="Freeform Limited User Permission "
+/>
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+## Form Builder Preview
+
+Here are a handful of example previews of how much the form builder can transform when _Limited Users_ permissions are applied. Keep in mind that the following examples are based on the permissions as configured in the settings example above. Your own permissions could be as minimal or extensive as you like.
+
+### Layout
+
+Hover over the image below to see the difference between a normal view and example limited user.
+
+<HoverPhotoChange>
+  <Photo
+    img={LayoutBeforePhoto}
+    alt="Limited Users - Form Builder Layout - Normal"
+  />
+  <Photo
+    img={LayoutAfterPhoto}
+    alt="Limited Users - Form Builder Layout - Limited"
+  />
+</HoverPhotoChange>
+
+### Field Property Editor
+
+Hover over the image below to see the difference between a normal view and example limited user.
+
+<HoverPhotoChange>
+  <Photo
+    img={PropertyEditorBeforePhoto}
+    alt="Limited Users - Form Builder Field Property Editor - Normal"
+  />
+  <Photo
+    img={PropertyEditorAfterPhoto}
+    alt="Limited Users - Form Builder Field Property Editor - Limited"
+  />
+</HoverPhotoChange>
+
+### Notifications
+
+Hover over the image below to see the difference between a normal view and example limited user.
+
+<HoverPhotoChange>
+  <Photo
+    img={NotificationBeforePhoto}
+    alt="Limited Users - Form Builder Notifications - Normal"
+  />
+  <Photo
+    img={NotificationAfterPhoto}
+    alt="Limited Users - Form Builder Notifications - Limited"
+  />
+</HoverPhotoChange>
+
+### Settings
+
+Hover over the image below to see the difference between a normal view and example limited user.
+
+<HoverPhotoChange>
+  <Photo
+    img={SettingsBeforePhoto}
+    alt="Limited Users - Form Builder Settings - Normal"
+  />
+  <Photo
+    img={SettingsAfterPhoto}
+    alt="Limited Users - Form Builder Settings - Limited"
+  />
+</HoverPhotoChange>

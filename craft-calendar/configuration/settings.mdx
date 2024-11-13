@@ -1,0 +1,157 @@
+---
+sidebar_position: 3
+title: Settings
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+import { FlexCards } from '@site/src/components/docs';
+
+import Icons from '@site/static/card-icons';
+
+# Plugin Settings
+
+Freeform includes a wide variety of settings that allow you to customize your form management experience. To adjust your settings, click the **Settings** menu item while in the Freeform plugin, or go to **Settings → Plugins → Freeform** and click the settings link. These can also be configured within your Craft [Project Config](./project-config.mdx) file.
+
+<FlexCards
+  items={[
+    {
+      title: 'General Settings',
+      description: "Configure Freeform's overall behavior.",
+      icon: Icons.ConfigPageIcon,
+      fullCardLink: '#general-settings',
+    },
+    {
+      title: 'Event Settings',
+      description: 'Configure Event-related settings for your site.',
+      icon: Icons.EventManagementIcon,
+      fullCardLink: '#event-settings',
+    },
+    {
+      title: 'Guest Access',
+      description: "Enable and setup Guess Access for your site.",
+      icon: Icons.UserCheckIcon,
+      fullCardLink: '#guest-access',
+    },
+    {
+      title: 'Demo Templates',
+      description:
+        'Install the demo templates to get up and running in seconds.',
+      icon: Icons.StarterTemplatesIcon,
+      fullCardLink: '#demo-templates',
+    },
+
+]}
+/>
+
+## General Settings
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_settings-general.png')}
+  alt="General Settings"
+/>
+
+### Custom Plugin Name <Badge type="pro" text="Pro" />
+
+Override the plugin name by specifying your own here.
+
+### Week Starting Day
+
+The starting day of the week when viewing front end and control panel Month and Week views as well as datepickers. Default is _Current user's Locale_, meaning that Calendar will display the first day of the week depending on the currently logged in user.
+
+Options are:
+
+- Current user's locale
+- Sunday
+- Monday
+- Tuesday
+- Wednesday
+- Thursday
+- Friday
+- Saturday
+
+### Time Format
+
+Time format for dates and date pickers throughout the control panel. This allows you to override what all users see instead of it varying between each user's locale.
+
+Options are:
+
+- Current user's locale
+- 12-hour format
+- 24-hour format
+
+### Display Mini Calendar & Calendars list in Month/Week/Day views?
+
+Displays a side menu with mini calendar and list of calendars, allowing you to filter your event results.
+
+### Include Disabled Events in Month/Week/Day views?
+
+Events that are disabled will be displayed in the views with faded styles.
+
+### Allow new events to be created in Month/Week/Day views?
+
+Allows all users with event creation privileges to use the Quick Create event feature.
+
+### Restrict users to editing their own events only?
+
+Users (excluding Admins) with event creation privileges will only be able to edit or delete their own events.
+
+### Default View
+
+The default page to go to when clicking the Calendar nav item. Options are:
+
+- Month view
+- Week view
+- Day view
+- Events
+- Calendars
+
+### Hide "Install Demo" alert message?
+
+Hides the alert message suggesting to install demo templates when this setting is enabled.
+
+## Event Settings
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_settings-events.png')}
+  alt="Event Settings"
+/>
+
+### Default Event Duration
+
+The default event time duration for fieldtype, in minutes. When event Start Time is selected, this number of minutes will automatically be added to that time for End Time field.
+
+### Time Interval
+
+The time picker interval for fieldtype, in minutes. The Start Time and End Time field time pickers will contain a list of times of the day by this interval.
+
+### Select 'All Day' by default?
+
+When enabled, when creating new events the 'All Day' option will be selected by default.
+
+### Date Overlap Threshold
+
+Specify the amount of hours in the next day which are still considered as those of the previous day. This prevents late night events from showing up the next day for calendars in control panel and front end.
+
+## Guest Access
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_settings-guest.png')}
+  alt="Guest Access Settings"
+/>
+
+### Allow Guest Access on Front End?
+
+Enable this to allow guests to post events to specific calendars on the front end.
+
+### Allowed Calendars
+
+Select which calendars Guests should have access to create events for on the front end.
+
+## Demo Templates
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_demo.png')}
+  alt="Demo Templates"
+/>
+
+Allows you to install the [Demo Templates](./demo-templates.mdx) to get Calendar up and running on the front end with just a couple clicks!

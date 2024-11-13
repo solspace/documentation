@@ -1,0 +1,78 @@
+---
+title: Statuses
+sidebar_position: 6
+---
+
+# Status Events
+
+To extend Freeform Form submission Statuses, use the events listed below:
+
+## Before saving a status
+
+```php showLineNumbers
+use Solspace\Freeform\Services\StatusesService;
+use Solspace\Freeform\Events\Statuses\SaveEvent;
+
+Event::on(
+  StatusesService::class,
+  StatusesService::EVENT_BEFORE_SAVE,
+  function (SaveEvent $event) {
+    $statusModel = $event->getModel();
+    $isNew = $event->isNew();
+
+    // Perform some action here
+  }
+)
+```
+
+## After saving a status
+
+```php showLineNumbers
+use Solspace\Freeform\Services\StatusesService;
+use Solspace\Freeform\Events\Statuses\SaveEvent;
+
+Event::on(
+  StatusesService::class,
+  StatusesService::EVENT_AFTER_SAVE,
+  function (SaveEvent $event) {
+    $statusModel = $event->getModel();
+    $isNew = $event->isNew();
+
+    // Perform some action here
+  }
+)
+```
+
+## Before deleting a status
+
+```php showLineNumbers
+use Solspace\Freeform\Services\StatusesService;
+use Solspace\Freeform\Events\Statuses\DeleteEvent;
+
+Event::on(
+  StatusesService::class,
+  StatusesService::EVENT_BEFORE_DELETE,
+  function (DeleteEvent $event) {
+    $statusModel = $event->getModel();
+
+    // Perform some action here
+  }
+)
+```
+
+## After deleting a status
+
+```php showLineNumbers
+use Solspace\Freeform\Services\StatusesService;
+use Solspace\Freeform\Events\Statuses\DeleteEvent;
+
+Event::on(
+  StatusesService::class,
+  StatusesService::EVENT_AFTER_DELETE,
+  function (DeleteEvent $event) {
+    $statusModel = $event->getModel();
+
+    // Perform some action here
+  }
+)
+```

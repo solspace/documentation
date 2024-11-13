@@ -1,0 +1,192 @@
+---
+sidebar_position: 2
+---
+
+import { Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+import ToggleSwitchPhoto from '../assets/img/toggle-switch.png';
+import ToggleSwitchStylingPhoto from '../assets/img/toggle-switch-styling.png';
+
+# Toggle Switch on Checkbox field
+
+If you'd like to display a lightswitch/toggle field instead of a regular checkbox for your [Checkbox](../../forms/fields.mdx#checkbox) fields, this can be done with a bit of manipulating a formatting template.
+
+## Instructions
+
+<VerticalStepWrapper>
+<StepMarkdown>
+A basic code example to display a checkbox as a lightswitch relies heavily on CSS and looks something like this:
+
+```html showLineNumbers
+<style>
+  .freeform-checkbox {
+    cursor: pointer;
+    display: inline-block;
+  }
+  .freeform-checkbox .switch {
+    display: inline-block;
+    background: #8c8c8c;
+    border-radius: 16px;
+    width: 50px;
+    height: 28px;
+    position: relative;
+    vertical-align: middle;
+    transition: all 0.25s;
+  }
+  .freeform-checkbox .switch:before,
+  .switch:after {
+    content: '';
+  }
+  .freeform-checkbox .switch:before {
+    display: block;
+    background: #fafafa;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: left 0.25s;
+  }
+  .freeform-checkbox:hover .switch:before {
+    background: #ffffff;
+  }
+  .freeform-checkbox input[type='checkbox']:checked + .switch {
+    background: #52cd00;
+  }
+  .freeform-checkbox input[type='checkbox']:checked + .switch:before {
+    left: 24px;
+  }
+  .freeform-checkbox input[type='checkbox'] {
+    position: absolute;
+    visibility: hidden;
+  }
+  .freeform-checkbox span {
+    margin-left: 5px;
+    position: relative;
+    top: 2px;
+  }
+</style>
+
+<label class="freeform-checkbox">
+  <input type="checkbox" />
+  <div class="switch"></div>
+  <span>This is a Checkbox Label</span>
+</label>
+```
+
+This will output the following (go ahead and play with it!):
+
+<blockquote className="form-styling mb-7">
+  <label class="docs-demo-freeform-checkbox ">
+    <input type="checkbox" value="" />
+    <div class="docs-demo-switch"></div>
+    <span>This is a Checkbox Label</span>
+  </label>
+</blockquote>
+
+</StepMarkdown>
+<StepMarkdown>
+To replace any checkbox fields with the new lightswitch toggle styles, your basic formatting template code would look something like this:
+
+```twig showLineNumbers
+<label for="form-input-{{ field.handle }}" class="freeform-checkbox">
+    {{ field.renderInput() }}
+    <div class="switch"></div>
+    <span class="freeform-label{% if field.required %} freeform-required{% endif %}">{{ field.label }}</span>
+</label>
+```
+
+</StepMarkdown>
+<StepMarkdown>
+Then add the following CSS:
+
+```css showLineNumbers
+.freeform-checkbox {
+  cursor: pointer;
+  display: inline-block;
+}
+.freeform-checkbox .switch {
+  display: inline-block;
+  background: #8c8c8c;
+  border-radius: 16px;
+  width: 50px;
+  height: 28px;
+  position: relative;
+  vertical-align: middle;
+  transition: all 0.25s;
+}
+.freeform-checkbox .switch:before,
+.switch:after {
+  content: '';
+}
+.freeform-checkbox .switch:before {
+  display: block;
+  background: #fafafa;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: left 0.25s;
+}
+.freeform-checkbox:hover .switch:before {
+  background: #ffffff;
+}
+.freeform-checkbox input[type='checkbox']:checked + .switch {
+  background: #52cd00;
+}
+.freeform-checkbox input[type='checkbox']:checked + .switch:before {
+  left: 24px;
+}
+.freeform-checkbox input[type='checkbox'] {
+  position: absolute;
+  visibility: hidden;
+}
+.freeform-checkbox span {
+  margin-left: 5px;
+  position: relative;
+  top: 2px;
+}
+```
+
+There is no javascript necessary for this to work.
+
+The result should look something like this:
+
+<Photo scale={50} img={ToggleSwitchPhoto} alt="Range Slider" />
+
+</StepMarkdown>
+<StepMarkdown>
+In order for this to automatically happen inside a [formatting template](../../templates/formatting/index.mdx) for all [single Checkboxes](../../forms/fields.mdx#checkbox), you'll want to create a new one if you haven't already. If you using the [Basic Light](../../templates/formatting/basic-light.mdx) formatting template as a starting point, your code might look something like this:
+
+```twig {4-10} showLineNumbers
+{# Shortened for Example #}
+...
+    <div class="freeform-fieldtype-{{ field.type }}">
+        {% if field.type == "checkbox" %}
+            <label for="form-input-{{ field.handle }}" class="freeform-checkbox">
+                {{ field.renderInput() -}}
+                <div class="switch"></div>
+                <span class="freeform-label{% if field.required %} freeform-required{% endif %}">{{ field.label }}</span>
+            </label>
+            {{ field.renderErrors() }}
+        {% else %}
+            {{ field.render() }}
+...
+{# Shortened for Example #}
+```
+
+:::info
+Don't forget to include the custom CSS mentioned in [Step 3](#step-3).
+:::
+
+The result might look something like this:
+
+<Photo img={ToggleSwitchStylingPhoto} alt="Range Slider" />
+
+</StepMarkdown>
+
+</VerticalStepWrapper>

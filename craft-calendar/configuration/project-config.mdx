@@ -1,0 +1,121 @@
+---
+sidebar_position: 7
+title: Project Config
+---
+
+# Project Config
+
+Calendar supports Craft's [Project Config](https://craftcms.com/docs/5.x/system/project-config.html). You can modify the general configuration and settings for Calendar, as well as settings and field layouts for each calendar.
+
+## General config for Calendar
+
+All of Calendar's settings can be controlled/overrided here (in `/config/project/project.yaml`):
+
+```yaml showLineNumbers
+calendar:
+  edition: pro # You'll get license errors if you don't have a valid Pro license.
+  enabled: true
+  licenseKey: EXAMPLETEST12EXAMPLETEST
+  schemaVersion: 4.0.0
+  settings:
+    pluginName: '' # Custom name for plugin (Pro).
+    firstDayOfWeek: '-1' # The starting day of the week when viewing front end and control panel Month and Week views as well as datepickers. '-1' is default, which the current user's locale. '0' is Sunday, '1' is Monday, etc.
+    timeFormat: auto # Time format for dates and date pickers. 'auto' is current user's locale, Use '12-hour' or '24-hour' to set the same for all users.
+    showMiniCal: '1' # Displays a side menu with mini calendar and list of calendars, allowing you to filter your event results.
+    showDisabledEvents: '1' # Events that are disabled will be displayed in the views with faded styles.
+    quickCreateEnabled: '1' # Allows all users with event creation privileges to use the Quick Create event feature.
+    authoredEventEditOnly: '1' # Users (excluding Admins) with event creation privileges will only be able to edit or delete their own events.
+    defaultView: month # The default page to go to when clicking the Calendar nav item.
+    demoBannerDisabled: '1' # Hides the alert message suggesting to install demo templates when this setting is enabled.
+    eventDuration: '60' # The default event time duration for fieldtype, in minutes.
+    timeInterval: '30' # The time picker interval for fieldtype, in minutes.
+    allDay: '' # Have the 'All Day' option selected by default for new events.
+    overlapThreshold: '5' # The amount of hours in the next day which are still considered as those of the previous day.
+    guestAccess: # The calendar ID's guests should have access to create events for on the front end.
+      - '5'
+      - '1'
+      - '3'
+      - '6'
+```
+
+## Settings & field layouts for Calendars
+
+Calendar will also store settings and field layouts for calendars (e.g. `/config/project/solspace/calendar/calendarsblueThunder--59e6448b-613a-424c-98db-f9ae36dd2bc8.yaml`) and will look something like this:
+
+```yaml showLineNumbers
+name: 'Blue Thunder'
+handle: blueThunder
+description: ''
+color: '#20A8B9'
+allowRepeatingEvents: true
+icsHash: ac3478d69a3c81fa62e60f5c3696165a4e5e6ac45aaa947450b782.65239311
+icsTimezone: floating
+descriptionFieldHandle: '0'
+locationFieldHandle: '0'
+hasTitleField: true
+titleFormat: ''
+titleLabel: Title
+siteSettings:
+  2394f11a-d45d-40d2-a5ee-5bd9f176417d:
+    enabledByDefault: true
+    hasUrls: true
+    siteId: 5f1d37f9-004d-414a-8e9c-48d763fba635
+    template: blue-thunder/_entry
+    uriFormat: 'blue-thunder/de/{slug}'
+  5968dff9-9263-456b-8f8e-5bb02b73f377:
+    enabledByDefault: true
+    hasUrls: true
+    siteId: 24990881-e55d-42d1-b228-92652cf50dfb
+    template: blue-thunder/_entry
+    uriFormat: 'blue-thunder/fr/{slug}'
+  a8560321-d302-4716-8045-13345fb36adf:
+    enabledByDefault: true
+    hasUrls: true
+    siteId: bfdeaad5-5273-4cf1-a390-05c8929e7795
+    template: blue-thunder/_entry
+    uriFormat: 'blue-thunder/{slug}'
+  c07e3df4-aa17-46a3-8ffa-077719d56011:
+    enabledByDefault: false
+    hasUrls: false
+    siteId: 8f0a08fa-5b1c-4c7b-84dd-bd93d571d031
+    template: null
+    uriFormat: null
+fieldLayout:
+  tabs:
+    - elements:
+        - fieldUid: ad144815-0d08-4ec6-948a-0b0c00190e2d
+          instructions: null
+          label: null
+          required: '0'
+          tip: null
+          type: craft\fieldlayoutelements\CustomField
+          warning: null
+          width: 100
+        - fieldUid: 252c0982-bae0-4040-b669-e2fd9149eff6
+          instructions: null
+          label: null
+          required: '0'
+          tip: null
+          type: craft\fieldlayoutelements\CustomField
+          warning: null
+          width: 100
+        - fieldUid: 390f343e-55c9-4362-996f-60e17d649e62
+          instructions: null
+          label: null
+          required: '0'
+          tip: null
+          type: craft\fieldlayoutelements\CustomField
+          warning: null
+          width: 100
+        - fieldUid: fcdc1067-21d1-4a91-8094-b38a27c60ebb
+          instructions: null
+          label: null
+          required: '0'
+          tip: null
+          type: craft\fieldlayoutelements\CustomField
+          warning: null
+          width: 100
+      name: 'Tab 1'
+      sortOrder: 1
+  uid: 079608e5-4374-408a-b6de-ad776486ba33
+```

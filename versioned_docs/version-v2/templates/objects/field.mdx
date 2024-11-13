@@ -1,0 +1,264 @@
+---
+title: Field object
+sidebar_position: 6
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Field object
+
+Each field object contains the metadata specified in [form builder](../../forms/builder.mdx) for the specific form it resides in. It can render its label, input field, instructions and errors out of the box.
+
+## Properties
+
+- `id` <a href="#prop-id" id="prop-id" class="docs-anchor">#</a>
+- `handle` <a href="#prop-handle" id="prop-handle" class="docs-anchor">#</a>
+- `label` <a href="#prop-label" id="prop-label" class="docs-anchor">#</a>
+- `instructions` <a href="#prop-instructions" id="prop-instructions" class="docs-anchor">#</a>
+- `required: true` <a href="#prop-required" id="prop-required" class="docs-anchor">#</a>
+  - A boolean value. `true` if the field is required.
+- `errors` <a href="#prop-errors" id="prop-errors" class="docs-anchor">#</a>
+  - An array of error message strings if any are present after submitting the form.
+- `pageIndex` <a href="#prop-page-index" id="prop-page-index" class="docs-anchor">#</a>
+  - A number representing the page index this field resides on.
+- `customAttributes` <a href="#prop-custom-attributes" id="prop-custom-attributes" class="docs-anchor">#</a>
+  - An object of customizable attributes to ease the customizability of `render` methods.
+  - Contains the following properties (each one is `null` if not set).
+    - `id` <a href="#prop-custattr-id" id="prop-custattr-id" class="docs-anchor">#</a>
+      - The ID attribute of the HTML input field for `renderInput()`.
+      - When used on `renderLabel()`, it will replace the default `for` attribute value.
+    - `class` <a href="#prop-custattr-class" id="prop-custattr-class" class="docs-anchor">#</a>
+      - The CLASS attribute of the HTML input field for `renderInput()`.
+    - `labelClass` <a href="#prop-custattr-inputclass" id="prop-custattr-inputclass" class="docs-anchor">#</a>
+      - The CLASS attribute of the HTML label field for `renderLabel()`.
+    - `errorClass` <a href="#prop-custattr-errorclass" id="prop-custattr-errorclass" class="docs-anchor">#</a>
+      - The CLASS attribute of the errors HTML list for `renderErrors()`.
+    - `instructionsClass` <a href="#prop-custattr-instructionsclass" id="prop-custattr-instructionsclass" class="docs-anchor">#</a>
+      - The CLASS attribute of the instructions HTML field for `renderInstructions()`.
+    - `instructionsBelowField` <a href="#prop-custattr-instructionsbelowfield" id="prop-custattr-instructionsbelowfield" class="docs-anchor">#</a>
+      - A boolean value.
+      - Set to `true` to render instructions below, not above the input field when using the `render()` method.
+    - `overrideValue` <a href="#prop-custattr-overridevalue" id="prop-custattr-overridevalue" class="docs-anchor">#</a>
+      - An override value for the field's `defaultValue` in case you need a context specific default value.
+    - `inputAttributes` <a href="#prop-custattr-inputattributes" id="prop-custattr-inputattributes" class="docs-anchor">#</a>
+      - An object of attributes which will be added to the input field. If the form has `inputAttributes` specified, the attributes will be merged together with field `inputAttributes` taking precedence over form's `inputAttributes`.
+      - Ex: `inputAttributes: { "readonly": true, "data-field-id": "test" }`
+    - `useRequiredAttribute: true` <a href="#prop-custattr-userequiredattribute" id="prop-custattr-userequiredattribute" class="docs-anchor">#</a>
+      - Adds `required` attribute to input fields that have been set to be required in Composer.
+- `value` <a href="#prop-value" id="prop-value" class="docs-anchor">#</a>
+  - The default or posted value of the field.
+  - Can be a string, number or array (it's an array only for checkbox_group and email fields)
+- `valueAsString` <a href="#prop-value-as-string" id="prop-value-as-string" class="docs-anchor">#</a>
+  - The `value` value cast as a string.
+  - Array values get joined via a `,` separator.
+  - Uses the selected option labels for `checkbox_group` and `radio_group`.
+    - Use `getValueAsString(false)` to use selected option values instead.
+- `type` <a href="#prop-type" id="prop-type" class="docs-anchor">#</a>
+
+  - Type of the field:
+    - `text`
+    - `textarea`
+    - `hidden`
+    - `select`
+    - `checkbox`
+    - `checkbox_group`
+    - `radio_group`
+    - `email`
+    - `dynamic_recipients`
+    - `file`
+    - `mailing_list`
+    - `html`
+    - `submit`
+    - `number`
+    - `rating` <Badge type="pro" text="Pro" />
+
+- `rulesHtmlData` <a href="#prop-rules-html-data" id="prop-rules-html-data" class="docs-anchor">#</a>
+  - Parses the necessary code for [Conditional Rules](../../forms/conditional-rules.mdx) feature.
+  - Should be used in automated form rendering, placed on the `div` wrapper for each field inside of `{% for field in row %}`.
+    - E.g. `<div class="{{ columnClass }}"{{ field.rulesHtmlData }}>`
+  - Will render a `data-ff-rule` attribute along with the necessary string to work with Freeform's inserted JS for Rules feature, e.g. `data-ff-rule='{"show":true,"type":"any","criteria":[{"tgt":"firstName","o":"=","val":"Bob"}]}'`.
+
+## Field Specific Properties
+
+The following are field specific properties for the basic field types ([see below for additional Pro Field Types](#pro-field-specific-props)):
+
+- `text` <a href="#field-text" id="field-text" class="docs-anchor">#</a>
+  - `placeholder`
+- `textarea` <a href="#field-textarea" id="field-textarea" class="docs-anchor">#</a>
+  - `placeholder`
+- `number` <a href="#field-number" id="field-number" class="docs-anchor">#</a>
+  - `placeholder`
+  - `minLength`
+  - `maxLength`
+  - `minValue`
+  - `maxValue`
+  - `decimalCount`
+  - `decimalSeparator` (e.g. `.`)
+  - `thousandsSeparator` (e.g. `,`)
+  - `allowNegative` (e.g. `false`)
+- `select` <a href="#field-select" id="field-select" class="docs-anchor">#</a>
+  - `options`
+    - An array of option objects with `label` and `value` properties.
+- `multiple_select` <a href="#field-multiple_select" id="field-multiple_select" class="docs-anchor">#</a>
+  - `options`
+    - An array of option objects with `label` and `value` properties.
+- `checkbox` <a href="#field-checkbox" id="field-checkbox" class="docs-anchor">#</a>
+  - Has a default value of **Yes**, which can be overwritten with any value you want. The front end however, will always display the value as `1`, but upon submission, the value will be switched to the one you have set.
+- `checkbox_group` <a href="#field-checkbox_group" id="field-checkbox_group" class="docs-anchor">#</a>
+  - `options`
+    - An array of option objects with `label` and `value` properties.
+- `radio_group` <a href="#field-radio_group" id="field-radio_group" class="docs-anchor">#</a>
+  - `options`
+    - An array of option objects with `label` and `value` properties.
+- `submit` <a href="#field-submit" id="field-submit" class="docs-anchor">#</a>
+  - `labelNext`
+    - A label for the **Next** button. `Submit` by default.
+  - `labelPrev`
+    - A label for the **Previous** button. `Previous` by default.
+  - `disablePrev`
+    - A boolean value. If `true` the **Previous** button should not be rendered.
+- `dynamic_recipients` <a href="#field-dynamic_recipients" id="field-dynamic_recipients" class="docs-anchor">#</a>
+  - `showAsRadio`
+    - A boolean value. If `true` the dynamic recipients field should be rendered as radio buttons instead of a select field.
+  - `showAsCheckboxes`
+    - A boolean value. If `true` the dynamic recipients field should be rendered as checkboxes instead of a select field.
+  - `notificationId`
+    - The database ID of the assigned Email Notification Template.
+  - **NOTE:** When parsing this field semi-manually, be sure to use `loop.index0` to generate numeric values of options instead of `fieldName.value`.
+- `email` <a href="#field-email" id="field-email" class="docs-anchor">#</a>
+  - `placeholder`
+  - `notificationId`
+    - The database ID of the assigned Email Notification Template.
+- `file` <a href="#field-file" id="field-file" class="docs-anchor">#</a>
+  - `fileKinds`
+    - An array of allowed file kinds, e.g. `image`, `document`, `audio`, etc.
+  - `maxFileSizeKB`
+    - The numeric representation of the upload limit in kilobytes.
+  - `fileCount`
+    - The maximum number of allowed files to be uploaded.
+    - Specify a number larger than `1` to allow multiple files to be uploaded at the same time.
+
+## Pro Field Specific Properties
+
+The following are field specific properties for Freeform Pro additional field types:
+
+- `confirmation` (Legacy, please see [Confirm special field](../../forms/fields#fields-confirm))
+  - `placeholder`
+- `datetime` <a href="#field-datetime" id="field-datetime" class="docs-anchor">#</a>
+  - `initialValue`
+  - `dateTimeType` (e.g. `both`)
+  - `generatePlaceholder` (e.g. `true`)
+  - `dateOrder` (e.g. `ymd`)
+  - `date4DigitYear` (e.g. `true`)
+  - `dateLeadingZero` (e.g. `true`)
+  - `dateSeparator` (e.g. `/`)
+  - `clock24h` (e.g. `false`)
+  - `lowercaseAMPM` (e.g. `true`)
+  - `clockSeparator` (e.g. `:`)
+  - `clockAMPMSeparate` (e.g. `true`)
+  - `useDatepicker` (e.g. `true`)
+  - `minDate` (e.g. `five weeks ago`)
+  - `maxDate` (e.g. `2024-12-31`)
+- `phone` <a href="#field-phone" id="field-phone" class="docs-anchor">#</a>
+  - `placeholder`
+  - `pattern`
+- `rating` <a href="#field-rating" id="field-rating" class="docs-anchor">#</a>
+  - `colorIdle` (e.g. `#ddd`)
+  - `colorHover` (e.g. `gold`)
+  - `colorSelected` (e.g. `#f70`)
+  - `maxValue` (e.g. `5`)
+    - To manually render a Rating field to use your own styles, your code might look something like this:
+
+```
+{% for i in 1..field.maxValue %}
+	<label for="rating-{{ i }}">whatever {{ i }}</label>
+	<input type="radio" id="rating-{{ i }}" value="{{ i }}" name="{{ field.handle }}">
+{% endfor %}
+```
+
+- `regex` <a href="#field-regex" id="field-regex" class="docs-anchor">#</a>
+  - `placeholder`
+  - `pattern`
+  - `message`
+- `website` <a href="#field-website" id="field-website" class="docs-anchor">#</a>
+  - `placeholder`
+
+## Methods
+
+- `render()` <a href="#method-render" id="method-render" class="docs-anchor">#</a>
+  - Use this method to render a predefined, minimal markup html block containing the field's label, input field, instructions and list of errors.
+  - Can receive an object of [`customAttributes`](#prop-custom-attributes) as the first and only argument (optional).
+  - When using with HTML blocks or Submit buttons, use the hash value provided in property editor in Composer as the handle. Example code would look like:
+    - `{{ form.get('Ajx7jNxXL').render }}`
+- `renderLabel()` <a href="#method-render-label" id="method-render-label" class="docs-anchor">#</a>
+  - Use this method to only render the label html field with the field's label inside.
+  - The label class can be overwritten via form's custom attributes or the field's custom attributes.
+- `renderInput()` <a href="#method-render-input" id="method-render-input" class="docs-anchor">#</a>
+  - Use this method to only render the field's html input field.
+  - The class can be overwritten via form's custom attributes or the field's custom attributes.
+  - Single **Checkbox** fieldtype has an additional method: `renderSingleInput()` to render the checkbox input without an additional hidden input.
+- `renderInstructions()` <a href="#method-render-instructions" id="method-render-instructions" class="docs-anchor">#</a>
+  - Use this method to only render the field's html instructions field. (Renders only if there are instructions present).
+  - The instructions field class can be overwritten via form's custom attributes or the field's custom attributes.
+- `renderErrors()` <a href="#method-render-errors" id="method-render-errors" class="docs-anchor">#</a>
+  - Use this method to only render the error message block. (Renders only if there are errors present).
+  - The error list class can be overwritten via form's custom attributes or the field's custom attributes.
+- `isValid()` <a href="#method-is-valid" id="method-is-valid" class="docs-anchor">#</a> \* Returns a boolean value of true if the form has been posted and this field doesn't contain any errors.
+
+## Usage in Templates
+
+### Simple Render
+
+Render the whole field (label, input field, instructions and errors) with a single line:
+
+```twig showLineNumbers
+{{ field.render() }}
+```
+
+### Render Each Part Separately
+
+Render each part of the field separately:
+
+```twig showLineNumbers
+{{ field.renderLabel() }}
+{{ field.renderInstructions() }}
+{{ field.renderInput() }}
+{{ field.renderErrors() }}
+```
+
+### Customize Output
+
+Fully customize the output of your field:
+
+```twig showLineNumbers
+<label data-label class="label">
+	{{ field.label }}
+	{% if field.instructions %}
+		<span class="instructions">{{ field.instructions }}</span>
+	{% endif %}
+</label>
+<input type="text" name="{{ field.handle }}" value="{{ field.valueAsString }}" data-some-value="my_custom_value_here" />
+{% if field.errors %}
+	{% for errorString in field.errors %}
+		<div class="error">{{ errorString }}</div>
+	{% endfor %}
+{% endif %}
+```
+
+### Override Classes & Values
+
+Render the whole field but override some of the HTML element classes:
+
+```twig showLineNumbers
+{{ field.render({
+	class: "freeform-input",
+	labelClass: "freeform-label" ~ (field.required ? " freeform-required" : ""),
+	errorClass: "freeform-errors",
+	instructionsClass: "freeform-instructions",
+	instructionsBelowField: true,
+	overrideValue: "This is now the new default value",
+	inputAttributes: {
+		"data-field-id": field.id,
+	}
+}) }}
+```

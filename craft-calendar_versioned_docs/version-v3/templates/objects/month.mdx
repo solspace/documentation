@@ -1,0 +1,97 @@
+---
+title: Month
+sidebar_position: 6
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Month object
+
+A _Month_ object holds in itself a list of all [Events](./event.mdx) that fall into this month, as well as gives the possibility to iterate over [Week object](./week.mdx)'s that fall into the range of this **Month object**.
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/templates_month.png')}
+  alt="Month view"
+/>
+
+## Properties
+
+- `date`
+  - A [Date object](./date.mdx) of the starting date of the event duration
+  - For a _Month_ object of **April 2023**, this would return the [Date object](./date.mdx) of `2023-04-01`
+- `startDate`
+  - Basically the same as the `date` property
+- `endDate`
+  - The ending date of the _Month_ object's month, e.g - `2023-04-30` in this case
+- `previousDate`
+  - Returns a [Date object](./date.mdx) of the previous month relative to the `date` property, e.g. `2023-03-01` in this case
+- `nextDate`
+  - Returns a [Date object](./date.mdx) of the next month relative to the `date` property, e.g. `2023-05-01` in this case
+- `events`
+  - Contains a list of [Events](./event.mdx) that fall into this _Month_ object's range
+- `eventCount`
+  - The number of events in the `events` property
+
+## Methods
+
+- `dateRange(int before, int after)`
+  - Returns a list of [Date objects](./date.mdx) ranging `before` number of months before `date` and `after` number of months after `date`
+  - E.g. `month.dateRange(6, 6)` would return a list starting from `2015-10-01` and ending in `2023-10-01`
+- `containsDate(dateObject)`
+  - Returns **true** if the `dateObject` provided is within the _Month_ object's date range
+  - E.g. `month.containsDate(event.startDate)` would return **true** if the _Month_ object would be **April 2023**, and the `event.startDate` would be `2023-04-15`, but **false** if the `event.startDate` would be `2023-03-31`
+
+## Usage in Templates
+
+Iterate through weeks and days of the month
+
+```twig showLineNumbers
+{% set month = craft.calendar.month({
+  date: "today",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for week in month %}
+  {% for day in week %}
+    {% for event in day.events %}
+      <div style="{{ event.calendar.color }};">
+        {{ event.title }}
+      </div>
+    {% endfor %}
+  {% endfor %}
+{% endfor %}
+```
+
+---
+
+Iterate through all events in the month
+
+```twig showLineNumbers
+{% set month = craft.calendar.month({
+  date: "today",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for event in month.events %}
+  <div style="{{ event.calendar.color }};">
+    {{ event.title }}
+  </div>
+{% endfor %}
+```
+
+---
+
+Show only events which start in weekends
+
+```twig showLineNumbers
+{% set month = craft.calendar.month({
+  date: "today",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for event in month.events if event.startDate.weekend %}
+  <div style="{{ event.calendar.color }};">
+    {{ event.title }}
+  </div>
+{% endfor %}
+```

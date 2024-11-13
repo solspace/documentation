@@ -1,0 +1,107 @@
+---
+sidebar_position: 2
+---
+
+# Freeform API
+
+## Getting Freeform Forms and Submissions inside your Controller
+
+To get any Freeform object, all you have to do is access the right service and use the methods provided within. You can access Freeform services by getting the Freeform plugin instance and then accessing the services directly:
+
+```php showLineNumbers
+$plugin = Freeform::getInstance();
+
+// Most commonly used services
+
+// Solspace\Freeform\Services\FormsService
+$plugin->forms;
+
+// Solspace\Freeform\Services\SubmissionsService
+$plugin->submissions;
+
+// Solspace\Freeform\Services\HoneypotService
+$plugin->honeypot;
+```
+
+### Finding Forms
+
+To get a specific form, one would access the `FormsService` and ask for the form providing an ID or a handle:
+
+```php showLineNumbers
+// Access a form by ID
+$form = Freeform::getInstance()->forms->getFormById($myFormId);
+if ($form) {
+  // Do something with the form here
+}
+
+// Access a form by handle
+$form = Freeform::getInstance()->forms->getFormByHandle($myFormHandle);
+
+// Get all forms
+$forms = Freeform::getInstance()->forms->getAllForms();
+```
+
+### Finding Submissions
+
+There are many ways to fetch a submission. You might use the `SubmissionsService` and fetch a submissions by ID or a token:
+
+```php showLineNumbers
+$submission = Freeform::getInstance()->submissions->getSubmissionById($myId);
+$submission = Freeform::getInstance()->submissions->getSubmissionByToken($myToken);
+```
+
+Or you might use the `SubmissionQuery` to find more than just one submission that matches your criteria:
+
+```php showLineNumbers
+use Solspace\Freeform\Elements\Submission;
+
+$submissions = Submission::find()
+  ->formId($myFormId)
+  ->limit(3)
+  ->all();
+```
+
+## Refreshing Honeypot with Javascript Test for Cached pages
+
+When using Freeform's [built-in Honeypot spam protection](../forms/spam-protection.mdx) paired with the [Javascript Test](../forms/spam-protection.mdx#freeform-javascript-test) for the Honeypot, there may be times when you need to load a fresh Honeypot instance for your form. Usually this is the case when using cached templates or using _Vue.js_ or _React.js_ to render forms.
+
+In such cases, one should ask for a fresh honeypot using the `HoneypotService`.
+
+```php showLineNumbers
+// Get the form model
+$formModel = Freeform::getInstance()->forms->getFormById($myFormId);
+if (!$formModel) {
+  throw new Exception("Did not find a form");
+}
+
+// Get the Form object from the model
+$form = $formModel->getForm();
+
+// Get a fresh honeypot
+$honeypot = Freeform::getInstance()->honeypot->getHoneypot($form);
+
+// Return the honeypot to your front-end view and use javascript to replace the values
+return $this->render(
+  'my-plugin/my-view',
+  ['honeypot' => $honeypot]
+);
+```
+
+Then in your view file, you can either add a script that handles refreshing the honeypot, or if you're using _Vue.js_ or _React.js_, you could pass those new values to the form somewhere in your flow.
+
+```html showLineNumbers
+<script>
+  // Locate the form
+  var form = document.getElementById('my-form');
+
+  // Find the honeypot input
+  var honeypotInput = form.querySelector('input[name^=freeform_form_handle_]');
+
+  // Override its values with fresh honeypot values
+  honeypotInput.setAttribute('name', '{{ honeypot.name }}');
+  honeypotInput.setAttribute('id', '{{ honeypot.name }}');
+  honeypotInput.value = '{{ honeypot.hash }}';
+
+  // Your form is now ready to be submitted.
+</script>
+```

@@ -1,0 +1,64 @@
+---
+sidebar_position: 4
+---
+
+# File Upload Events
+
+To perform manipulations with uploaded form files, use the events below:
+
+## Before an upload takes place
+
+This event is called before the file is made into a Craft Asset, before it's moved from the temp upload directory. Use this event to do something with the raw file, or do any other operations you might deem necessary.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\FilesService;
+use Solspace\Freeform\Events\Files\UploadEvent;
+
+Event::on(
+  FilesService::class,
+  FilesService::EVENT_BEFORE_UPLOAD,
+  function (UploadEvent $event) {
+    $field = $event->getField();
+
+    // get the field handle. this is the handle, by which
+    // you can find the file metadata inside the $_FILES
+    // global variable
+    $handle = $field->getHandle();
+
+    // Assuming that only a single file is uploaded
+    // get the info for it
+    $file = $_FILES[$handle];
+    $tmpPath = $file['tmp_name'];
+
+    // Remove the file before it's processed
+    unset($tmpPath);
+
+    // This is just an example, the above action will cause
+    // an error when Craft tries to move the now inexistent file
+  }
+)
+```
+
+## After an upload has finished
+
+This event is called when Craft has moved the file to the appropriate location and created an Asset entry. You could use this event to attach the created Asset ID to some other entry.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\FilesService;
+use Solspace\Freeform\Events\Files\UploadEvent;
+
+Event::on(
+  FilesService::class,
+  FilesService::EVENT_AFTER_UPLOAD,
+  function (UploadEvent $event) {
+    $field = $event->getField();
+
+    // Get the uploaded Asset ID
+    $assetId = $field->getValue();
+
+    if ($assetId) {
+      // Do something with the asset ID
+    }
+  }
+)
+```

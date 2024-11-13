@@ -1,0 +1,445 @@
+import { Badge } from '@site/src/components/utils';
+
+# Events & Hooks
+
+If you wish to extend the capabilities of Freeform, you can use any of the events and hooks below:
+
+## Forms
+
+`\Solspace\Freeform\Services\FormsService`
+
+- `::EVENT_BEFORE_SUBMIT` <a href="#beforesubmit-form" id="beforesubmit-form" class="docs-anchor">#</a>
+  - Called when a form is submitted, but before a submission element is being made
+  - `\Solspace\Freeform\Events\Forms\BeforeSubmitEvent` contains these methods:
+    - `getForm()` - returns `\Solspace\Freeform\Library\Composer\Components\Form`
+- `::EVENT_AFTER_SUBMIT` <a href="#aftersubmit-form" id="aftersubmit-form" class="docs-anchor">#</a>
+  - Called after processing form and saving the submission element
+  - `\Solspace\Freeform\Events\Forms\AfterSubmitEvent` contains these methods:
+    - `getForm()` - returns `\Solspace\Freeform\Library\Composer\Components\Form`
+    - `getSubmission()` - returns `\Solspace\Freeform\Elements\Submission`
+- `::EVENT_BEFORE_SAVE` <a href="#beforesave-form" id="beforesave-form" class="docs-anchor">#</a>
+  - Called before saving a form
+  - `\Solspace\Freeform\Events\Forms\SaveEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\FormModel`
+    - `isNew()` - bool
+- `::EVENT_AFTER_SAVE` <a href="#aftersave-form" id="aftersave-form" class="docs-anchor">#</a>
+  - Called after saving a form
+  - `\Solspace\Freeform\Events\Forms\SaveEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\FormModel`
+    - `isNew()` - bool
+- `::EVENT_BEFORE_DELETE` <a href="#beforedelete-form" id="beforedelete-form" class="docs-anchor">#</a>
+  - Called before deleting a form
+  - `\Solspace\Freeform\Events\Forms\DeleteEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\FormModel`
+- `::EVENT_AFTER_DELETE` <a href="#afterdelete-form" id="afterdelete-form" class="docs-anchor">#</a>
+  - Called after deleting a form
+  - `\Solspace\Freeform\Events\Forms\DeleteEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\FormModel`
+- `::EVENT_RENDER_OPENING_TAG` <a href="#renderopeningtag-form" id="renderopeningtag-form" class="docs-anchor">#</a>
+  - Called when rendering the opening tag of a form
+  - `\Solspace\Freeform\Events\Forms\FormRenderEvent` contains these methods:
+    - `getForm()` - returns `\Solspace\Freeform\Library\Composer\Components\Form`
+    - `getCompiledOutput()` - returns a string of the rendered form opening tag and inputs
+    - `appendToOutput(string $value)` - append a chunk of your string to the output
+    - `appendJsToOutput(string $value)` - append javascript to the form opening tag. Wraps it in `<script></script>` tags automatically
+    - `appendCssToOutput(string $value)` - append css to the form opening tag. Wraps it in `<style></style>` tags automatically
+- `::EVENT_RENDER_CLOSING_TAG` <a href="#renderclosingtag-form" id="renderclosingtag-form" class="docs-anchor">#</a>
+  - Called when rendering the closing tag of a form
+  - `\Solspace\Freeform\Events\Forms\FormRenderEvent` contains these methods:
+    - `getForm()` - returns `\Solspace\Freeform\Library\Composer\Components\Form`
+    - `getCompiledOutput()` - returns a string of the rendered form opening tag and inputs
+    - `appendToOutput(string $value)` - append a chunk of your string to the output
+    - `appendJsToOutput(string $value)` - append javascript to the form opening tag. Wraps it in `<script></script>` tags automatically
+    - `appendCssToOutput(string $value)` - append css to the form opening tag. Wraps it in `<style></style>` tags automatically
+- `::EVENT_ATTACH_FORM_ATTRIBUTES` <a href="#attachformattributes-form" id="attachformattributes-form" class="docs-anchor">#</a>
+  - Called when attaching attributes to a form
+  - `\Solspace\Freeform\Events\Forms\FormRenderEvent` contains these methods:
+    - `getForm()` - returns `\Solspace\Freeform\Library\Composer\Components\Form`
+    - `getAttributes()` - returns an array of existing attributes specified for the form
+    - `attachAttribute(string $name, mixed $value)` - attach an attribute to the form
+    - `removeAttribute(string $name)` - removes an attribute from the attribute stack
+- `::EVENT_FORM_VALIDATE` <a href="#validateform-form" id="validateform-form" class="docs-anchor">#</a>
+  - Called when validating the form
+  - `\Solspace\Freeform\Events\Forms\FormValidateEvent` contains these methods:
+    - `getForm()` - returns `\Solspace\Freeform\Library\Composer\Components\Form`
+    - `isFormValid()` - bool
+    - `addErrorToForm(string $message)` - allows you to add an error message to the form
+- `::EVENT_AFTER_GENERATE_RETURN_URL` <a href="#generatereturnurl-form" id="generatereturnurl-form" class="docs-anchor">#</a>
+  - Called after generating a return URL, allowing you to modify the return URL of a form.
+  - `\Solspace\Freeform\Events\Forms\ReturnUrlEvent` contains these methods:
+    - `getForm()` - returns `\Solspace\Freeform\Library\Composer\Components\Form`
+    - `getSubmission()` - returns `\Solspace\Freeform\Elements\Submission`
+    - `getReturnUrl()` - allows you to get the currently set `Return URL`
+    - `setReturnUrl(string $returnUrl)` - allows you to set a custom `Return URL`
+
+## Submissions
+
+`\Solspace\Freeform\Services\SubmissionsService`
+
+- `::EVENT_BEFORE_SUBMIT` <a href="#beforesubmit-submission" id="beforesubmit-submission" class="docs-anchor">#</a>
+  - Called before saving a submission
+  - `\Solspace\Freeform\Events\Submissions\SubmitEvent` contains these methods:
+    - `getElement()` - returns `\Solspace\Freeform\Elements\Submission`
+    - `getForm()` - returns `\Solspace\Freeform\Library\Composer\Components\Form`
+- `::EVENT_AFTER_SUBMIT` <a href="#aftersubmit-submission" id="aftersubmit-submission" class="docs-anchor">#</a>
+  - Called after saving a submission
+  - `\Solspace\Freeform\Events\Submissions\SubmitEvent` contains these methods:
+    - `getElement()` - returns `\Solspace\Freeform\Elements\Submission`
+    - `getForm()` - returns `\Solspace\Freeform\Library\Composer\Components\Form`
+- `::EVENT_BEFORE_DELETE` <a href="#beforedelete-submission" id="beforedelete-submission" class="docs-anchor">#</a>
+  - Called before deleting a submission
+  - `\Solspace\Freeform\Events\Submissions\DeleteEvent` contains these methods:
+    - `getSubmission()` - returns `\Solspace\Freeform\Elements\Submission`
+- `::EVENT_AFTER_DELETE` <a href="#afterdelete-submission" id="afterdelete-submission" class="docs-anchor">#</a>
+  - Called after deleting a submission
+  - `\Solspace\Freeform\Events\Submissions\DeleteEvent` contains these methods:
+    - `getSubmission()` - returns `\Solspace\Freeform\Elements\Submission`
+
+## Fields
+
+`\Solspace\Freeform\Services\FieldsService`
+
+- `::EVENT_BEFORE_SAVE` <a href="#beforesave-fields" id="beforesave-fields" class="docs-anchor">#</a>
+  - Called before saving a field
+  - `\Solspace\Freeform\Events\Fields\SaveEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\FieldModel`
+    - `isNew()` - bool
+- `::EVENT_AFTER_SAVE` <a href="#aftersave-fields" id="aftersave-fields" class="docs-anchor">#</a>
+  - Called after saving a field
+  - `\Solspace\Freeform\Events\Fields\SaveEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\FieldModel`
+    - `isNew()` - bool
+- `::EVENT_BEFORE_DELETE` <a href="#beforedelete-fields" id="beforedelete-fields" class="docs-anchor">#</a>
+  - Called before deleting a field
+  - `\Solspace\Freeform\Events\Fields\DeleteEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\FieldModel`
+- `::EVENT_AFTER_DELETE` <a href="#afterdelete-fields" id="afterdelete-fields" class="docs-anchor">#</a>
+  - Called after deleting a field
+  - `\Solspace\Freeform\Events\Fields\DeleteEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\FieldModel`
+- `::EVENT_BEFORE_VALIDATE` <a href="#beforevalidate-fields" id="beforevalidate-fields" class="docs-anchor">#</a>
+  - Called before validating a field
+  - `\Solspace\Freeform\Events\Fields\ValidateEvent` contains these methods:
+    - `getField()` - returns `\Solspace\Freeform\Library\Composer\Components\AbstractField`
+    - `getForm()` - returns `\Solspace\Freeform\Library\Composer\Components\Form`
+- `::EVENT_AFTER_VALIDATE` <a href="#aftervalidate-fields" id="aftervalidate-fields" class="docs-anchor">#</a>
+  - Called after validating a field
+  - `\Solspace\Freeform\Events\Fields\ValidateEvent` contains these methods:
+    - `getField()` - returns `\Solspace\Freeform\Library\Composer\Components\AbstractField`
+    - `getForm()` - returns `\Solspace\Freeform\Library\Composer\Components\Form`
+
+## Notifications
+
+`\Solspace\Freeform\Services\NotificationsService`
+
+- `::EVENT_BEFORE_SAVE` <a href="#beforesave-notifications" id="beforesave-notifications" class="docs-anchor">#</a>
+  - Called before saving a notification
+  - `\Solspace\Freeform\Events\Notifications\SaveEvent` contains these methods:
+    - `getRecord()` - returns `\Solspace\Freeform\Records\NotificationRecord`
+    - `isNew()` - bool
+- `::EVENT_AFTER_SAVE` <a href="#aftersave-notifications" id="aftersave-notifications" class="docs-anchor">#</a>
+  - Called after saving a notification
+  - `\Solspace\Freeform\Events\Notifications\SaveEvent` contains these methods:
+    - `getRecord()` - returns `\Solspace\Freeform\Records\NotificationRecord`
+    - `isNew()` - bool
+- `::EVENT_BEFORE_DELETE` <a href="#beforedelete-notifications" id="beforedelete-notifications" class="docs-anchor">#</a>
+  - Called before deleting a notification
+  - `\Solspace\Freeform\Events\Notifications\DeleteEvent` contains these methods:
+    - `getRecord()` - returns `\Solspace\Freeform\Records\NotificationRecord`
+- `::EVENT_AFTER_DELETE` <a href="#afterdelete-notifications" id="afterdelete-notifications" class="docs-anchor">#</a>
+  - Called after deleting a notification
+  - `\Solspace\Freeform\Events\Notifications\DeleteEvent` contains these methods:
+    - `getRecord()` - returns `\Solspace\Freeform\Records\NotificationRecord`
+
+## Statuses
+
+`\Solspace\Freeform\Services\StatusesService`
+
+- `::EVENT_BEFORE_SAVE` <a href="#beforesave-statuses" id="beforesave-statuses" class="docs-anchor">#</a>
+  - Called before saving a status
+  - `\Solspace\Freeform\Events\Statuses\SaveEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\StatusModel`
+    - `isNew()` - bool
+- `::EVENT_AFTER_SAVE` <a href="#aftersave-statuses" id="aftersave-statuses" class="docs-anchor">#</a>
+  - Called after saving a status
+  - `\Solspace\Freeform\Events\Statuses\SaveEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\StatusModel`
+    - `isNew()` - bool
+- `::EVENT_BEFORE_DELETE` <a href="#beforedelete-statuses" id="beforedelete-statuses" class="docs-anchor">#</a>
+  - Called before deleting a status
+  - `\Solspace\Freeform\Events\Statuses\DeleteEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\StatusModel`
+- `::EVENT_AFTER_DELETE` <a href="#afterdelete-statuses" id="afterdelete-statuses" class="docs-anchor">#</a>
+  - Called after deleting a status
+  - `\Solspace\Freeform\Events\Statuses\DeleteEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\StatusModel`
+
+## File Uploads
+
+`\Solspace\Freeform\Services\FilesService`
+
+- `::EVENT_BEFORE_UPLOAD` <a href="#beforeupload-file-uploads" id="beforeupload-file-uploads" class="docs-anchor">#</a>
+  - Called before uploading a file
+  - `\Solspace\Freeform\Events\Files\UploadEvent` contains these methods:
+    - `getField()` - returns `\Solspace\Freeform\Library\Composer\Components\Fields\FileUploadField`
+- `::EVENT_AFTER_UPLOAD` <a href="#afterupload-file-uploads" id="afterupload-file-uploads" class="docs-anchor">#</a>
+  - Called after uploading a file
+  - `\Solspace\Freeform\Events\Files\UploadEvent` contains these methods:
+    - `getField()` - returns `\Solspace\Freeform\Library\Composer\Components\Fields\FileUploadField`
+
+## Mailing
+
+`\Solspace\Freeform\Services\MailerService`
+
+- `::EVENT_BEFORE_SEND` <a href="#beforesend-mailing" id="beforesend-mailing" class="docs-anchor">#</a>
+  - Called before sending an email
+  - `\Solspace\Freeform\Events\Mailer\SendEmailEvent` contains these methods:
+    - `getMessage()` - returns `\craft\mail\Message`
+    - `getForm()` - returns `\Solspace\Freeform\Library\Composer\Components\Form`
+    - `getNotification()` - returns `\Solspace\Freeform\Library\Mailing\NotificationInterface`
+    - `getFieldValues()` - array of key-value pairs of fields and their values
+    - `getSubmission()` - returns `\Solspace\Freeform\Elements\Submission` if the form is set to store data
+- `::EVENT_AFTER_SEND` <a href="#aftersend-mailing" id="aftersend-mailing" class="docs-anchor">#</a>
+  - Called after sending an email
+  - `\Solspace\Freeform\Events\Mailer\SendEmailEvent` contains these methods:
+    - `getMessage()` - returns `\craft\mail\Message`
+    - `getForm()` - returns `\Solspace\Freeform\Library\Composer\Components\Form`
+    - `getNotification()` - returns `\Solspace\Freeform\Library\Mailing\NotificationInterface`
+    - `getFieldValues()` - array of key-value pairs of fields and their values
+    - `getSubmission()` - returns `\Solspace\Freeform\Elements\Submission` if the form is set to store data
+- `::EVENT_BEFORE_RENDER` <Badge type="feature" text="2.0.4+" /> <a href="#beforerender-mailing" id="beforerender-mailing" class="docs-anchor">#</a>
+  - Called before rendering the email message body and subject, etc
+  - `\Solspace\Freeform\Events\Mailer\RenderEmailEvent::__construct` contains these methods:
+    - `getForm()` - returns `\Solspace\Freeform\Library\Composer\Components\Form`
+    - `getNotification()` - returns `\Solspace\Freeform\Library\Mailing\NotificationInterface`
+    - `getFieldValues()` - array of key-value pairs of fields and their values
+    - `setFieldValues(array $fieldValues)` - allows you to update the field values that are passed to the email body and subject twig templates
+    - `getSubmission()` - returns `\Solspace\Freeform\Elements\Submission` if the form is set to store data
+
+## CRM Integrations
+
+`\Solspace\Freeform\Services\CrmService`
+
+- `::EVENT_BEFORE_SAVE` <a href="#beforesave-crm-integrations" id="beforesave-crm-integrations" class="docs-anchor">#</a>
+  - Called before saving an integration
+  - `\Solspace\Freeform\Events\Integrations\SaveEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\IntegrationModel`
+    - `isNew` - bool
+- `::EVENT_AFTER_SAVE` <a href="#aftersave-crm-integrations" id="aftersave-crm-integrations" class="docs-anchor">#</a>
+  - Called after saving an integration
+  - `\Solspace\Freeform\Events\Integrations\SaveEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\IntegrationModel`
+    - `isNew` - bool
+- `::EVENT_BEFORE_DELETE` <a href="#beforedelete-crm-integrations" id="beforedelete-crm-integrations" class="docs-anchor">#</a>
+  - Called before deleting an integration
+  - `\Solspace\Freeform\Events\Integrations\DeleteEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\IntegrationModel`
+- `::EVENT_AFTER_DELETE` <a href="#afterdelete-crm-integrations" id="afterdelete-crm-integrations" class="docs-anchor">#</a>
+  - Called after deleting an integration
+  - `\Solspace\Freeform\Events\Integrations\DeleteEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\IntegrationModel`
+- `::EVENT_BEFORE_PUSH` <Badge type="feature" text="2.0.1+" /> <a href="#beforepush-crm-integrations" id="beforepush-crm-integrations" class="docs-anchor">#</a>
+  - Called before pushing data to an integration
+  - `\Solspace\Freeform\Events\Integrations\PushEvent` contains these methods:
+    - `getIntegration()` - returns `\Solspace\Freeform\Library\Integrations\AbstractIntegration`
+    - `getValues()` - a key-value array of all values to be pushed to the integration
+    - `setValues(array $values)` - override all of the values with a new key-value array
+    - `addValue(string $key, mixed $value)` - add or override any key/value in the set
+- `::EVENT_AFTER_PUSH` <Badge type="feature" text="2.0.1+" /> <a href="#afterpush-crm-integrations" id="afterpush-crm-integrations" class="docs-anchor">#</a>
+  - Called after pushing data to an integration
+  - `\Solspace\Freeform\Events\Integrations\PushEvent` contains these methods:
+    - `getIntegration()` - returns `\Solspace\Freeform\Library\Integrations\AbstractIntegration`
+    - `getValues()` - a key-value array of all values to be pushed to the integration
+- `::EVENT_AFTER_RESPONSE` <Badge type="feature" text="2.5.6+" /> <a href="#afterresponse-crm-integrations" id="afterresponse-crm-integrations" class="docs-anchor">#</a>
+  - Called after a response is received from pushing to the integration
+  - `\Solspace\Freeform\Events\Integrations\IntegrationResponseEvent` contains these methods:
+    - `getIntegration()` - returns `\Solspace\Freeform\Library\Integrations\AbstractIntegration` instance
+    - `getResponse()` - returns `\Psr\Http\Message\ResponseInterface`
+    - `getResponseBodyAsString()` - returns the `ResponseInterface` object's body as string, which will usually contain the JSON response as string
+
+## Mailing List Integrations
+
+`\Solspace\Freeform\Services\MailingListsService`
+
+- `::EVENT_BEFORE_SAVE` <a href="#beforesave-mailing-list-integrations" id="beforesave-mailing-list-integrations" class="docs-anchor">#</a>
+  - Called before saving an integration
+  - `\Solspace\Freeform\Events\Integrations\SaveEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\IntegrationModel`
+    - `isNew` - bool
+- `::EVENT_AFTER_SAVE` <a href="#aftersave-mailing-list-integrations" id="aftersave-mailing-list-integrations" class="docs-anchor">#</a>
+  - Called after saving an integration
+  - `\Solspace\Freeform\Events\Integrations\SaveEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\IntegrationModel`
+    - `isNew` - bool
+- `::EVENT_BEFORE_DELETE` <a href="#beforedelete-mailing-list-integrations" id="beforedelete-mailing-list-integrations" class="docs-anchor">#</a>
+  - Called before deleting an integration
+  - `\Solspace\Freeform\Events\Integrations\DeleteEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\IntegrationModel`
+- `::EVENT_AFTER_DELETE` <a href="#afterdelete-mailing-list-integrations" id="afterdelete-mailing-list-integrations" class="docs-anchor">#</a>
+  - Called after deleting an integration
+  - `\Solspace\Freeform\Events\Integrations\DeleteEvent` contains these methods:
+    - `getModel()` - returns `\Solspace\Freeform\Models\IntegrationModel`
+- `::EVENT_AFTER_RESPONSE` <Badge type="feature" text="2.5.6+" /> <a href="#afterresponse-mailing-list-integrations" id="afterresponse-mailing-list-integrations" class="docs-anchor">#</a>
+  - Called after a response is received from pushing to the integration
+  - `\Solspace\Freeform\Events\Integrations\IntegrationResponseEvent` contains these methods:
+    - `getIntegration()` - returns `\Solspace\Freeform\Library\Integrations\AbstractIntegration` instance
+    - `getResponse()` - returns `\Psr\Http\Message\ResponseInterface`
+    - `getResponseBodyAsString()` - returns the `ResponseInterface` object's body as string, which will usually contain the JSON response as string
+
+## Usage Examples
+
+In your plugin's `::init()` method, subscribe to any of these events by using the `Event::on()` static method:
+
+```php showLineNumbers
+<?php
+
+namespace Craft;
+
+class YourPlugin extends BasePlugin
+{
+  public function init()
+  {
+    parent::init();
+
+    // Forms
+    Event::on(
+      FormsService::class,
+      FormsService::EVENT_BEFORE_SAVE,
+      function (SaveEvent $event) {
+        $form  = $event->getModel();
+        $isNew = $event->isNew();
+        // Do something with this data
+      }
+    );
+
+    // Submissions
+    Event::on(
+      SubmissionsService::class,
+      SubmissionsService::EVENT_AFTER_SUBMIT,
+      function (SubmitEvent $event) {
+        $submission = $event->getElement();
+        $form       = $event->getForm();
+
+        // Get a specific field value
+        $value = $form->get('firstName')->getValue();
+
+        // Iterate over all posted fields and get their values
+        foreach ($form->getLayout()->getFields() as $field) {
+
+            // Bypass fields such as HTML or Submit, etc.
+            if ($field instanceof NoStorageInterface) {
+                continue;
+            }
+
+            $field->getValue();
+        }
+
+        // Do something with this data
+      }
+    );
+
+    // Fields
+    Event::on(
+      FieldsService::class,
+      FieldsService::EVENT_BEFORE_DELETE,
+      function (DeleteEvent $event) {
+        $fieldModel = $event->getModel();
+        // Do something with this data
+      }
+    );
+
+    // Notifications
+    Event::on(
+      NotificationsService::class,
+      NotificationsService::EVENT_AFTER_DELETE,
+      function (DeleteEvent $event) {
+        $notificationRecord = $event->getRecord();
+        // Do something with this data
+      }
+    );
+
+    // Statuses
+    Event::on(
+      StatusesService::class,
+      StatusesService::EVENT_BEFORE_SAVE,
+      function (SaveEvent $event) {
+        $statusModel = $event->getModel();
+        $isNew     = $event->isNew();
+        // Do something with this data
+      }
+    );
+
+    // File Uploads
+    Event::on(
+      FilesService::class,
+      FilesService::EVENT_AFTER_UPLOAD,
+      function (UploadEvent $event) {
+        $fileUploadField = $event->getField();
+        // Do something with this data
+      }
+    );
+
+    // Mailing
+    Event::on(
+      MailerService::class,
+      MailerService::EVENT_AFTER_SEND,
+      function (SendEmailEvent $event) {
+        $message = $event->getMessage();
+        $form  = $event->getForm();
+        $notification = $event->getNotification();
+        $fieldValues  = $event->getFieldValues();
+        $submission   = $event->getSubmission();
+        // Do something with this data
+      }
+    );
+
+    // CRM Integrations
+    Event::on(
+      CrmService::class,
+      CrmService::EVENT_BEFORE_SAVE,
+      function (SaveEvent $event) {
+        $integrationModel = $event->getModel();
+        // Do something with this data
+      }
+    );
+
+    Event::on(
+      CrmService::class,
+      CrmService::EVENT_AFTER_RESPONSE,
+      function (IntegrationResponseEvent $event) {
+        $integration = $event->getIntegration();
+        $response  = $event->getResponse();
+        $jsonString  = $event->getResponseBodyAsString();
+
+        $object = json_decode($jsonString);
+
+        // Do something with the response object
+      }
+    );
+
+    // Mailing List Integrations
+    Event::on(
+      MailingListsService::class,
+      MailingListsService::EVENT_BEFORE_SAVE,
+      function (SaveEvent $event) {
+        $integrationModel = $event->getModel();
+        // Do something with this data
+      }
+    );
+
+    Event::on(
+      MailingListsService::class,
+      MailingListsService::EVENT_AFTER_RESPONSE,
+      function (IntegrationResponseEvent $event) {
+        $integration = $event->getIntegration();
+        $response  = $event->getResponse();
+        $jsonString  = $event->getResponseBodyAsString();
+
+        $object = json_decode($jsonString);
+
+        // Do something with the response object
+      }
+    );
+  }
+}
+```

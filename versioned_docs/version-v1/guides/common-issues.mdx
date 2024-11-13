@@ -1,0 +1,221 @@
+---
+sidebar_position: 2
+title: Common Issues
+---
+
+# Common Issues & Questions
+
+Check out this documentation resource to troubleshoot common problems or find answers to common questions.
+
+## Common Issues
+
+### Emails not sending
+
+The most common issue users run into is email notifications not sending out properly. Most commonly, this is due to a syntax error in their notification template, or an email server configuration issue.
+
+- Are you 100% certain the email notification is not in a spam folder?
+- Is the email address correct?
+- Is the form successfully being submitted? You can verify this by checking for submissions in the Freeform control panel. If you have the **Store Submitted Data** setting disabled for the form, consider enabling it temporarily to confirm this.
+- Have you checked the Freeform error log? The Freeform error log is located in the same place as the Craft logs (**Craft CP** -> **Server Info** (bottom of page) -> **Logs**). If there are no logged errors, you will not see the Freeform error log.
+- Have you assigned an email notification template to the _Email_ field, _Dynamic Recipients_ field, or admin _Notify_ area inside Composer for the given form? For all types of email notifications, they are assigned to fields or the form itself inside the Property Editor column (right side) in Composer.
+  - If using the [`dynamicNotification` parameter](../templates/queries/form#param-dynamicnotification) at template level, be sure to have the proper syntax and the proper email notification template name (with `.html` file extension if using HTML file).
+- Verify that your email notification template is using the correct syntax. Using incorrect syntax will result in a silent error and failure of the email notification sending. For all inputs such as **Subject** and **From Name**, as well as the **Email Body** area, the syntax is as follows:
+  - All custom Freeform fields are `{{ fieldName }}`
+    - E.g. `{{ firstName }}`, `{{ email }}`
+    - Do not prefix the properties with `form.`, as that refers to info about the form itself (see below)...
+  - Anything related to **info** about the form itself is as follows:
+    - `{{ form.name }}` - the Name of the form
+    - `{{ form.handle }}` - the Handle for the form
+    - `{{ form.id }}` - the ID of the form
+- Verify that the fields you're manually calling (if applicable) actually exist for the form and contain data. For example, if you include a field such as `{{ fullName }}` in the **From Name** input field, but your form uses something like `{{ firstName }}` and `{{ lastName }}` instead, it will result in a silent error and failure of the email notification sending.
+- If using HTML files for your email notification templates, [verify that your Directory Path setting is correct](../configuration/settings.mdx#email-templates). This can be a common issue if you're switching between dev/staging/production environments.
+- Have you tried testing this inside the demo templates that come included with Freeform? This will at least help narrow things down to possibly an error in your template code if applicable.
+- Are you sending **to** and **from** the same email address or email address domain? For example, sending FROM *bob@acmewidgets.com* TO *bob@acmewidgets.com*, OR FROM *bob@acmewidgets.com* TO *larry@acmewidgets.com*. Sometimes the email server has very aggressive spam protection and knows that the email is not actually coming from that email address, and blocks the email altogether.
+- Can you send email with Craft's Email Testing feature? Freeform uses Craft's Email service, so if that doesn't work, then Freeform won't either. To check this, in the Control Panel go to **Settings** -> **Email**, then scroll down to the bottom of the page and click the _Test_ button. You can read more about [troubleshooting email errors on Craft's documentation page](https://craftcms.com/support/troubleshooting-email-errors).
+- To be extra thorough, you can also try sending notifications with Craft's simple [Contact Form](https://github.com/craftcms/contact-form/tree/v1) plugin.
+- Are you getting redirected correctly after form submission? Be sure that you don't have any routes or .htaccess rewrites that conflict with the form submission.
+
+### Form not submitting
+
+A common issue customers run into is their forms not submitting successfully. There's a variety of reasons this might be.
+
+- Are you sure the form is not being successfully submitted? You can verify this by checking for submissions in the Freeform control panel. If you have the **Store Submitted Data** setting disabled for the form, consider enabling it temporarily to confirm this.
+- Have you checked the Freeform error log? The Freeform error log is located in the same place as the Craft logs (**Craft CP** -> **Server Info** (bottom of page) -> **Logs**). If there are no logged errors, you will not see the Freeform error log.
+- Have you tried testing this inside the demo templates that come included with Freeform? This will at least help narrow things down to possibly an error in your template code if applicable. If your form doesn't work inside the demo templates, try creating an additional form that is simple (e.g. Name, Email, and Message fields), and try submitting again.
+- Do you have caching on your template and/or site? Heavy caching will prevent the Craft CSRF token and Freeform hash from reloading and stop the form from working. If you need to cache your page/site, you'll need to find a way to manually refresh these for each page load.
+- Do you have Javascript enabled for your browser? If you don't, and you're using Freeform's built in [Spam Protection](../forms/spam-protection.mdx) feature, it won't submit the form successfully.
+- Have a look at the _Blocked Spam_ count for your form in the **CP** -> **Freeform** -> **Forms** list. If the count is increasing each time you attempt to submit the form, Freeform's [Spam Protection](../forms/spam-protection.mdx) feature is blocking your submissions.
+- Try disabling the [Spam Protection](../forms/spam-protection.mdx) feature (**CP** -> **Freeform** -> **Settings** -> **General Settings** and set _Spam Protection_ setting to disabled) and test again.
+- Are you getting redirected correctly after form submission? Be sure that you don't have any routes or .htaccess rewrites that conflict with the form submission.
+- To be extra thorough, you can also try submitting Craft's simple [Contact Form](https://github.com/craftcms/contact-form/tree/v1) plugin.
+
+### Updated field options aren't showing
+
+Freeform takes a bit of a unique - but flexible - approach to [fields](../forms/fields.mdx). Fields are global and available to all forms, but they can also be overwritten per form. This allows you to save time reusing existing fields when making other forms, but also gives you flexibility to make adjustments to them when needed. So to clarify, you can create fields with labels and options that are common to all forms, but also override those on each form. For example, if you have a field named **Cell Phone**, on the form level, you can rename the field name to **Mobile Phone**, or if you have a Checkbox Group field with options: **Option A**, **Option B**, and **Option C**, you could override it to just have 2 options with values of **Option A** and **Option B**, and/or add **Option D**.
+
+The possibly confusing part here is that when you edit/add/remove options at Composer level for each form, they will NOT update the "master" field options/labels. And likewise, if you edit/add/remove options at the "master" field level (**Freeform** -> **Fields**), they will NOT update any existing usage of this field in the forms they're assigned to. It would be chaos if it did in either case, and prevent you from being able to tweak field labels and options per form.
+
+If you plan on building several forms with matching fields (that have matching options, etc), we strongly encourage you to create the field(s) in main Field area (**Freeform** -> **Fields**) first with all the options you'd like. Then when you construct your forms, you'll see all the default options available. It's better to think of the main fields area as defaults for new forms (or new assignments of that field to existing forms).
+
+### Errors when adding new fields
+
+If you're receiving an error when creating a new field, it's likely because you've reached the maximum number of fields for your site unfortunately. There is currently a limit (around 130+) on the number of Freeform fields for each install of Craft, due to the MySQL column limit, since all fields are stored in a single table. The reason this error occurs is because the field gets added as a row to the `freeform_fields` database table, but there isn't room to add the field as a column in the `freeform_submissions` database table.
+
+The good news is that fields are global and available to all forms, and can also be overwritten per form. This allows you to save time reusing existing fields when making other forms, but also gives you flexibility to make adjustments to them when needed. So to clarify, you can create fields with labels and options that are common to all forms, but also override those on each form. For example, if you have a field named **Cell Phone**, on the form level, you can rename the field name to **Mobile Phone**, or if you have a Checkbox Group field with options: **Option 1**, **Option 2**, and **Option 3**, you could override it to just have 2 options with values of **Option A** and **Option B**.
+
+If you're building survey forms for example, you might want to create a dozen or so generic fields of each field type you commonly use, and just rename them for each survey form.
+
+### Errors about missing files/pages in Freeform CP
+
+A surprisingly common issue is that customers will see errors in the Freeform control panel area saying that a file or page doesn't exist / is missing (e.g. when attempting to create a new email notification template, etc). This is usually a result of the file actually being missing on the site, or being blocked for some reason. Make sure that your server, site, or FTP client is not ignoring or excluding certain files and/or directories for any reason (e.g. an **.htaccess** rewrite rule that manipulates URL's can interfere with Freeform's POST to `/save` by redirecting it to `/save/`, etc). In all known cases of this, the aforementioned solutions always resolved the issue.
+
+### Javascript Errors in Safari when using reCAPTCHA
+
+If you're getting JS errors that say `"The source list for Content Security Policy directive 'script-src' contains an invalid source: "strict-dynamic". It will be ignored.` on forms using reCAPTCHA in Safari, [this is a known issue](https://github.com/google/google-api-javascript-client/issues/397) on Google and Safari's part. It technically does not interfere with the form functioning correctly, but they are choosing not to address the issue for some reason.
+
+### Data not sending to API integrations
+
+The most common reason why data doesn't get sent to an API integration is because of a field mapping error, whether it's a required field on the API integration side that isn't being fulfilled on the Freeform submission, or the data formatting not matching expectations, etc.
+
+- Have you checked the Freeform error log? The Freeform error log is located in the same place as the Craft logs (**Craft CP** -> **Server Info** (bottom of page) -> **Logs**). If there are no logged errors, you will not see the Freeform error log.
+- Have you tried testing this inside the demo templates that come included with Freeform? This will at least help narrow things down to possibly an error in your template code if applicable. If your form doesn't work inside the demo templates, try creating an additional form that is simple (e.g. Name, Email, and Message fields), and try submitting again.
+- Is the field type / data formatting supported in the API integration? Not all field types are supported for each integration. This is usually noted near the top of the page of each API integration setup documentation page.
+
+### Issues with Salesforce API connection
+
+Salesforce usually disables the API access entirely with their Trial version. You will need to contact Salesforce support to manually enable it for you.
+
+If you're seeing any errors as follows:
+
+```
+'Client error response [status code] 400 [reason phrase] Bad Request [url] https://login.salesforce.com/services/oauth2/token'
+```
+
+- This is because Salesforce runs differently when in Sandbox mode, so be sure to enable the **Sandbox Mode** option inside the CRM integration setting in the Freeform control panel.
+
+```
+No 'refresh_token' present in auth response for SalesforceLead. Enable offline-access for your app.
+```
+
+- Make sure that the **Perform requests on your behalf at any time (refresh_token, offline_access)** setting is added to the **Selected OAuth Scopes** field for your app in Salesforce.
+
+## Common Questions
+
+### How many sites can I use Freeform on?
+
+Each purchase of Freeform entitles you to use it on one site (including dev/staging copies of the site). For every additional site you wish to use it on, you'll need to purchase additional licenses.
+
+### What kind of email notifications can I send?
+
+Freeform allows you to send [email notifications](../forms/email-notifications.mdx) upon submittal of a form 5 different ways, each with their own content/template:
+
+- To admin email address(es) for the form (set inside _Notify_ area of Composer)
+- To a predefined select menu/radios of email addresses (and labels) for the user to choose ([Dynamic Recipients](../forms/fields#fields-dynamic-recipients) field type).
+- To the user submitting the form, with the email addresses specified/selected in the [Email](../forms/fields#fields-email) field type.
+- To a user-defined email address (e.g Tell-a-Friend form), with the email addresses specified/selected in the [Email](../forms/fields#fields-email) field type.
+- At template level with the [dynamicNotification](../templates/queries/form#param-dynamicnotification) parameter.
+
+### How many fields can I have?
+
+There is currently a limitation of 195 Freeform fields for each install of Craft, due to the MySQL column limit, since all fields are stored in a single table. However, it's very important to note that Freeform fields can be used across all forms, and even be relabelled for each form.
+
+If you plan on having many forms on your site, it may make sense to have some generic naming of fields, and relabel them for each individual form inside Composer. For example, if you need a checkbox for each form that essentially has your site user accept terms and conditions (but the label needs to be a bit different for each form), it'd be better to create a checkbox field once with the name **Accept Terms**, and then relabel it for each form as necessary, rather than creating 10 different variations of fields.
+
+You can read more about [Freeform Fields and Field Types here](../forms/fields.mdx).
+
+### Can I show POST data on the success page?
+
+Unfortunately you cannot because that data is cleared upon submission, which is done because for security reasons and preventing forms from being submitted more than once, etc.
+
+You can however, consider another approach. Freeform allows you to [display submissions on the front end](../templates/objects/submission.mdx). It also allows you to set the return URL to include the future submission ID. You can set this either in the **Return URL** field for the form in Composer, or at template level like:
+
+```html showLineNumbers
+returnUrl: "{{ siteUrl }}your-page/success/{{ submission.id }}"
+```
+
+:::warning
+Using this approach can be a security risk as site visitors could try out other ID's in the URL and view submission data for those submissions. It's strongly recommended that you refrain from displaying any sensitive data, but instead use this for anonymous polls or something simple like:
+:::
+
+```html showLineNumbers
+Thanks {{ submission.firstName }}, we've received your message and will get back
+to you shortly!
+```
+
+### How do I return form submit to same page with success message?
+
+Aside from the obvious of using AJAX, you can achieve this by adding a query in the success URL instead of an additional segment, etc.
+
+```twig showLineNumbers
+{% if craft.request.getQuery('success') == 1 %}
+
+    <div class="callout success">Your message has been sent.</div>
+
+{% endif %}
+
+    {{ craft.freeform.form("contactForm", {
+            formAttributes: { "data-abide": true },
+            instructionsBelowField: true,
+            submitClass: "button",
+            returnUrl: "/contact?success=1",
+            useRequiredAttribute: true
+        }
+    ).render() }}
+
+{% endif %}
+```
+
+Or a different option, simply redirecting to `/contact?success`:
+
+```twig showLineNumbers
+{% set successParam = craft.request.getParam('success') %}
+{% if successParam is not null %}
+    <p>Success!!</p>
+{% endif %}
+```
+
+And in case you're looking for a dynamic way of setting a return URL with combining several segments:
+
+```twig showLineNumbers
+{% set returnUrlPath = siteUrl ~ "get-quote/" ~ craft.request.segment(2) ~ "?success=1" %}
+```
+
+### How do I show textarea line breaks in email notifications or submissions?
+
+Textarea data is stored in the database as newlines, which obviously don't parse as line breaks when trying to display in email notifications or on front end with Submissions object. To make this happen, use the `nl2br` Twig filter, which can be done in a variety of ways:
+
+```twig showLineNumbers
+{{ coverLetter|nl2br }}
+{{ coverLetter|nl2br|raw }}
+{% set letter = coverLetter|nl2br %}
+{{ letter|raw }}
+```
+
+### Can I parse basic HTML in field labels?
+
+If you like, you can enter basic HTML into field labels and option labels while inside Composer. This is especially handy if you want to add emphasis to an option or add a link to an option (e.g. link a checkbox label for Terms & Conditions page).
+
+The demo and sample templates will likely handle the HTML in the form rendering automatically, but in cases where it doesn't, you may need to apply the `raw` Twig filter:
+
+Getting HTML (b, i, etc) to parse for field option labels:
+
+```twig showLineNumbers
+{{ field.renderLabel({
+    labelClass: (field.required ? " required" : ""),
+    instructionsClass: "help-block",
+    errorClass: "help-block",
+}) }}
+
+{% for option in field.options %}
+    <div class="checkbox">
+        <label>
+            <input type="checkbox"
+                name="{{ field.handle }}[]"
+                value="{{ option.value }}"
+                {{ option.value in field.value ? "checked" : "" }}
+            />
+            {{ option.label|raw }}
+        </label>
+    </div>
+{% endfor %}
+```

@@ -1,0 +1,254 @@
+---
+sidebar_position: 3
+title: 'Edit'
+---
+
+# Freeform:Edit template tag
+
+The _Freeform:Edit_ tag is available for editing of Freeform Classic entries in your EE templates. This tag works almost exactly like the [Freeform:Form](./form.mdx) tag, but has a few extra parameters and conditionals.
+
+For forms that have been created in [Composer](../guides/control-panel.mds#forms), you'll need to use the [Freeform:Composer_Edit](./composer-edit.mdx) tag to parse your form for editing Freeform Classic entries.
+
+```html
+{exp:freeform:edit} content {/exp:freeform:edit}
+```
+
+## Parameters
+
+In additional to all of the parameters in [Freeform:Form](./form.mdx#parameters), the following parameters are available for use:
+
+### entry_id=
+
+`entry_id="{segment_3}"`
+
+A valid Freeform entry ID is required to edit a given form submission. Freeform Classic will try to detect the ID from the URI, but it can also be fed through this parameter through the URI, an embed, or a hardcoded value.
+
+### notify_on_edit=
+
+`notify_on_edit="yes"`
+
+If you wish to send out notifications to admins and users with the usual parameters upon successful edit of Freeform entry, you'll need to specify this parameter with a value of **yes**. Default is **no**.
+
+### restrict_edit_to_author=
+
+`restrict_edit_to_author="no"`
+
+Specifying a value of **no** to this parameter will mean that anyone, including logged out users / guests can edit the entry. Default is **yes**, which means that only the original author of the Freeform entry, or a Super Admin, can edit the entry.
+
+## Variables
+
+In additional to all of the variables in [Freeform:Form](./form.mdx#variables), the following variables are available for use:
+
+### freeform:label :FIELD_NAME
+
+`{freeform:label:FIELD_NAME}`
+
+This variable parses out as the label for the field. Simply construct your variables like this: `freeform:label:` + **FIELD_NAME**. So if you have a field with a short name of **favorite_food**, the variable would look like this: `{freeform:label:favorite_food}`.
+
+### freeform:field:FIELD_NAME
+
+```html
+{freeform:field:FIELD_NAME attr:id="my_id" attr:class="my_class"
+attr:onclick="myFunction();"}
+```
+
+This variable parses out as a complete form field for the specified field, including the previous value submitted for the form. This is the optimal way to display fields as it auto applies settings and includes all needed HTML to display the field. Default Freeform Classic fields can accept attr:id, attr:class, and attr:onclick as parameters. Individual first and third party fields might have other field parameters available. Simply construct your variables like this: `freeform:name:` + **FIELD_NAME**. So if you have a field with a short name of **favorite_food**, the variable would look like this: `{freeform:name:favorite_food}`.
+
+For more information about each field types' output and special handling capabilities, please refer to the [Default Fieldtypes](../guides/default-fieldtypes.mdx) documentation. For any 3rd party field types, please refer to any documentation provided by its developer.
+
+### freeform:edit_data:FIELD_NAME
+
+`{freeform:edit_data:FIELD_NAME}`
+
+This variable parses out as the value submitted for the form entry. This is necessary to use when you are hardcoding form fields (not using [freeform:field:field_name](#freeform-field-field-name) approach). Simply construct your variables like this: `freeform:edit_data:` + **FIELD_NAME**. So if you have a field with a short name of **favorite_food**, the variable would look like this: `{freeform:edit_data:favorite_food}`.
+
+### freeform:edit_data:author
+
+`{freeform:edit_data:author}`
+
+This variable will display the screen name of the form submitter IF they were logged in when they submitted the form. Will return empty value for guests / logged out users. You could create a conditional like this if you have a combination of members and guests submitting the form:
+
+`{if freeform:author}{freeform:author}{if:else}{name} (guest){/if}`
+
+If you're looking to display standard or custom member fields for the author of the Freeform entry (if they were logged in when submitting the form), you can feed the author ID to the native EE [Custom Profile Data](https://docs.expressionengine.com/v4/member/index.html#custom-profile-data-tag) tag.
+
+### freeform:edit_data:author_id
+
+`{freeform:edit_data:author_id}`
+
+This variable will display the member ID of the form submitter IF they were logged in when they submitted the form. Will return **0** for guests / logged out users. If you're looking to display standard or custom member fields for the author of the Freeform entry (if they were logged in when submitting the form), you can feed the author ID to the native EE [Custom Profile Data](https://docs.expressionengine.com/v4/member/index.html#custom-profile-data-tag) tag.
+
+### freeform:edit_data:complete
+
+`{freeform:edit_data:complete}`
+
+This variable will parse out to **y** or **n**, based on whether or not the form submission has been completed. This would typically apply to multipage forms.
+
+### freeform:edit_data:edit_date
+
+`{freeform:edit_date format="%F %j, %Y at %g:%i %a"}`
+
+This variable will display the date the Freeform entry was last edited. If the entry has not been edited, this variable will not output anything. This variable should be formatted using standard EE date formatting.
+
+### freeform:edit_data:entry_date
+
+`{freeform:edit_data:entry_date format="%F %j, %Y at %g:%i %a"}`
+
+This variable will display the date the Freeform entry was submitted. This variable should be formatted using standard EE date formatting.
+
+### freeform:edit_data:entry_id
+
+`{freeform:edit_data:entry_id}`
+
+This variable will display the unique ID for the Freeform entry.
+
+### freeform:edit_data:site_id
+
+`{freeform:edit_data:site_id}`
+
+This variable will display the site ID the Freeform entry was submitted on.
+
+### freeform:edit_data:status
+
+`{freeform:edit_data:status}`
+
+This variable will display the status of the Freeform entry.
+
+## Variable Pairs
+
+All of the variables in [Freeform:Form](./form.mdx#variable_pairs) are available for use.
+
+## Conditionals
+
+All of the conditionals in [Freeform:Form](./form.mdx#conditionals) with the exception of duplicate checking, are available for use.
+
+## Form Fields
+
+All of the form fields in [Freeform:Form](./form.mdx#form_fields) are available for use.
+
+## Examples
+
+- [Simple Form](#simple-form)
+- [Multi-page Form](#multi-page-form)
+
+### Simple Form
+
+The following example will display a simple form for users to edit their entry:
+
+```html
+{exp:freeform:edit form_name="contact" entry_id="{segment_3}"
+return="contact_us/thank_you" }
+<dl>
+  {freeform:all_form_fields}
+  <dt><label>{freeform:field_label}</label></dt>
+  <dd>{freeform:field_output}</dd>
+  {/freeform:all_form_fields}
+</dl>
+<p>{freeform:submit}</p>
+{if freeform:no_results}
+<p>
+  Specified form or entry was not found. Please make sure you have specified the
+  correct short name of the form in the <b>form_name</b>
+  parameter, or a valid entry ID.
+</p>
+{/if} {/exp:freeform:edit}
+```
+
+### Multi-page Form
+
+The following example shows you how to create a multi-page form in edit mode using manual input creation. It will send an email notification to the specified admin upon submitting of edited entry:
+
+```html
+{exp:freeform:edit
+    form_name="foods_survey"
+    entry_id="{segment_3}"
+    multipage="yes"
+    return="survey/thank_you"
+    notify_admin="yes"
+    notify="joe@yoursite.com"
+    admin_template="survey_response_edit"
+    notify_on_edit="yes"
+}
+
+    {freeform:page:1 required="name|email"}
+        <p>
+            <label>{freeform:label:name}</label>
+            {freeform:field:name}
+        </p>
+        <p>
+            <label>{freeform:label:email}</label>
+            {freeform:field:email}
+        </p>
+        <p><input type="submit" name="submit" value="Continue" /></p>
+    {/freeform:page:1}
+
+    {freeform:page:2 required="question_1"}
+        <h4>Question 1</h4>
+        <p>
+            Do you like to eat?:
+            <input
+                type="radio"
+                name="question_1"
+                id="question_1_yes"
+                value="yes"
+                {if freeform:edit_data:question_1 == "yes"}
+                    checked="checked"
+                {/if} />
+            <label for="question_1_yes">Yes</label>
+            <input
+                type="radio"
+                name="question_1"
+                id="question_1_no"
+                value="no"
+                {if freeform:edit_data:question_1 == "no"}
+                    checked="checked"
+                {/if} />
+                <label for="question_1_no">No</label>
+        </p>
+        <p>
+            <input type="submit" name="submit" value="Continue" />
+        </p>
+    {/freeform:page:2}
+
+    {freeform:page:3 required="question_2"}
+        <h4>Question 2</h4>
+        <p>
+            Which of the 4 Food Groups do you like most?:
+            <select name="question_2" />
+                <option
+                    value="Breads & Grains"
+                    {if freeform:edit_data:question_2 == "Breads & Grains"}
+                        selected="selected"
+                    {/if}>
+                    Breads & Grains
+                </option>
+                <option
+                    value="Fruits & Vegetables"
+                    {if freeform:edit_data:question_2 == "Fruits & Vegetables"}
+                        selected="selected"
+                    {/if}>
+                    Fruits & Vegetables
+                </option>
+                <option
+                    value="Dairy Products"
+                    {if freeform:edit_data:question_2 == "Dairy Products"}
+                        selected="selected"
+                    {/if}>
+                    Dairy Products
+                </option>
+                <option
+                    value="Meats"
+                    {if freeform:edit_data:question_2 == "Meats"}
+                        selected="selected"
+                    {/if}>
+                    Meats
+                </option>
+            </select>
+        </p>
+        <p>
+            <input type="submit" name="submit" value="Submit" />
+        </p>
+    {/freeform:page:3}
+
+{/exp:freeform:edit}
+```

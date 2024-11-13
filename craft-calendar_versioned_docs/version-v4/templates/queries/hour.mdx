@@ -1,0 +1,53 @@
+---
+title: Hour
+sidebar_position: 9
+---
+
+# Hour Query
+
+The _calendar.hour_ template query assembles an [Hour object](../objects/hour.mdx) containing its events.
+
+## Parameters
+
+- `date`
+  - A date string representing a date and hour for the hour that should be compiled.
+  - `"march 15 2023 5pm"` is a valid `date` value
+  - `"2023-03-01 17:33:11"` would be valid and return the [Hour object](../objects/hour.mdx) for the hour of 5pm on March 15, 2023
+- `calendar`
+  - Handle of the calendar, e.g. `"holidays"`, or an array of handles: `["holidays", "football"]`.
+  - Use `"not holidays"` to select all calendars EXCEPT the **Holidays** calendar
+- `calendarId`
+  - An ID of the calendar, or array of ID's, e.g. `[1, 2, 3]`
+  - If you want to select all calendars EXCEPT the calendar with an ID of **1**, use `"not 1"`
+- `allDay`
+  - Selects only events that are set to be **All Day** events went set to `true`.
+- `authorId`
+  - Selects events from specific author ID's
+- `limit`
+  - Supply an `int` to limit the amount of events returned
+- `orderBy`
+  - Override default sort order by for each hour with this parameter, e.g. `orderBy: "startDate ASC"`
+- `status`
+  - By default, `live` is used, showing only enabled events
+  - Can be set to `disabled` to show disabled events
+  - Or `null` to show all events regardless of their status
+- `loadOccurrences`
+  - Set this to `false` to not load any recurring events. Default is `true`
+  - When setting this to `false`, Calendar will display only the very first occurrence in the results ONLY if that same occurrence falls within the Hour date range. It will NOT just show the next recurrence available, and does NOT show any events that just have recurrences within the Hour date range.
+
+## Usage in Templates
+
+Iterate through all events within the current hour
+
+```twig showLineNumbers
+{% set hour = craft.calendar.day({
+  date: "now",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for event in hour.events %}
+  <div style="{{ event.calendar.color }};">
+    {{ event.title }}
+  </div>
+{% endfor %}
+```

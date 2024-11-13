@@ -1,0 +1,200 @@
+---
+title: Site-Aware Forms
+sidebar_position: 1
+toc_max_heading_level: 4
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+import BuilderSitesPhoto from './assets/img/builder-sites.png';
+import Forms1Photo from './assets/img/forms-1.png';
+import Forms2Photo from './assets/img/forms-2.png';
+import Forms3Photo from './assets/img/forms-3.png';
+import SettingSitesPhoto from './assets/img/setting-sites.png';
+import BuilderTranslationsSettingsPhoto from './assets/img/builder-translations-settings.png';
+import BuilderTranslationsFieldsPhoto from './assets/img/builder-translations-fields.png';
+import BuilderTranslationsOptionsPhoto from './assets/img/builder-translations-options.png';
+import SubmissionsPhoto from './assets/img/submissions.png';
+import SwitcherPhoto from './assets/img/switcher.png';
+
+# Site-Aware Forms <Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.2+, Improved in 5.7+" />
+
+Allows you to optionally enable [Site](https://craftcms.com/docs/5.x/system/sites.html) awareness in Freeform to show/hide them for specific Sites and enable translations per site for forms to have unique labels and messages on the front end.
+
+## Overview
+
+When this feature is enabled, forms become aware of the currently active [Site](https://craftcms.com/docs/5.x/system/sites.html) when loaded on the front end. In the control panel, you can filter form lists by Site and prevent other admins from accessing forms that belong to Sites they don't have access to. By default, any new forms created will be visible for the Site they were created on (with the ability to enable additional sites).
+
+:::info
+To enable translations on forms per Site, go to the form builder and enable the 'Translatable' setting under the 'Settings' tab.
+:::
+
+## Settings
+
+Inside the **General Settings** page, you can enable this feature by toggling ON the **Site-Aware Forms** setting (or `sitesEnabled: true` in Project Config).
+
+<Photo img={SettingSitesPhoto} alt="Site-Aware Forms setting in General Settings" />
+
+## Form Builder <Badge type="feature" text="Updated in 5.7+" />
+
+Once enabled, an additional **Sites** setting and **Translatable** toggle will appear for forms inside the _Settings_ tab of the form builder.
+
+<Photo img={BuilderSitesPhoto} alt="Sites and Translatable settings in Form Builder" />
+
+## Translations <Badge type="feature" text="New in 5.7+" />
+
+Once the **Translations** setting is enabled for a form, various parts of the form will become available for translation. The translation process is similar to other areas within the Craft control panel. You will notice the familiar translation icon next to any setting that can be translated. To set a different value for other sites, use the Site picker at the top of the page.
+
+The translation icon will turn blue if a translation exists for a site other than the primary site. Clicking this icon will allow you to cancel the translation value for that site and revert it to the configuration set for the primary site.
+
+### Translatable Settings
+Various settings for forms become translatable, including form name and description, processing text, and success and error messages.
+
+<Photo img={BuilderTranslationsSettingsPhoto} alt="Translatable Settings in Form Builder" />
+
+### Translatable Fields
+Various settings for fields become translatable, including label, instructions, placeholder, default value, and custom error validation message.
+
+<Photo img={BuilderTranslationsFieldsPhoto} alt="Translatable Fields in Form Builder" />
+
+### Translatable Field Options
+If a field contains options such as Dropdowns or Checkboxes, the option labels can be translated, while the option values remain fixed for sites other than the primary site. Additionally, the same set and quantity of options must be maintained across all sites.
+
+<Photo img={BuilderTranslationsOptionsPhoto} alt="Translatable Field Options in Form Builder" />
+
+### Translatable Items
+
+The following items are translatable:
+
+- _Settings →_
+    - _General →_
+        - <span class="green">✓</span> **Form Name**
+        - <span class="green">✓</span> **Form Description**
+    - _Processing →_
+        - <span class="green">✓</span> **Processing Text**
+    - _Success & Errors →_
+        - <span class="green">✓</span> **Success Message**
+        - <span class="green">✓</span> **Error Message**
+- _Form Layout →_
+    - <span class="green">✓</span> **Page Tab Names**
+    - _Submit Buttons →_
+        - <span class="green">✓</span> **Labels**
+    - _Fields →_
+        - <span class="green">✓</span> **Label**
+        - <span class="green">✓</span> **Instructions**
+        - <span class="green">✓</span> **Placeholder**
+        - <span class="green">✓</span> **Default Value**
+        - <span class="green">✓</span> **Custom Validation Error**
+        - _Custom Options →_
+            - <span class="green">✓</span> **Option Labels**
+
+:::warning
+Options and labels inside of **Opinion Scales** and **Table** fields are currently not translatable at this time.
+:::
+
+### Field Compatibility
+
+The chart below shows the translatable options for each field type.
+
+| Field Type | Label | Instructions | Placeholder | Default Value | Error Message | Option Labels | Special |
+|:--- |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| [Calculation](../forms/fields.mdx#calculation) | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <small><span class="red">✕</span>&nbsp;Calculation&nbsp;Logic</small> |
+| [Checkbox](../forms/fields.mdx#checkbox) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <small><span class="red">✕</span>&nbsp;Checked&nbsp;by&nbsp;Default</small> |
+| [Checkboxes](../forms/fields.mdx#checkboxes) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="red">✕</span> | <span class="green">✓</span> | <span class="green">✓</span> | <small><span class="red">✕</span>&nbsp;Element&nbsp;Sources, <span class="red">✕</span>&nbsp;Predefined&nbsp;Options</small> |
+| [Confirm](../forms/fields.mdx#confirm) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> |
+| [Date & Time](../forms/fields.mdx#date--time) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="red">✕</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <small><span class="red">✕</span>&nbsp;Force&nbsp;Locale, <span class="red">✕</span>&nbsp;Date/Time&nbsp;Configuration</small> |
+| [Dropdown](../forms/fields.mdx#dropdown) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="red">✕</span> | <span class="green">✓</span> | <span class="green">✓</span> | <small><span class="red">✕</span>&nbsp;Element&nbsp;Sources, <span class="red">✕</span>&nbsp;Predefined&nbsp;Options, <span class="red">✕</span>&nbsp;Empty&nbsp;Option&nbsp;Label</small> |
+| [Email](../forms/fields.mdx#email) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> |
+| [File Upload](../forms/fields.mdx#file-upload) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <small><span class="red">✕</span>&nbsp;Asset&nbsp;Source, <span class="red">✕</span>&nbsp;File&nbsp;Configuration</small> |
+| [File&nbsp;Upload&nbsp;Drag&nbsp;&&nbsp;Drop](../forms/fields.mdx#file-upload-drag--drop) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="red">✕</span> | <span class="compare-none"><small>N/A</small></span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <small><span class="red">✕</span>&nbsp;Asset&nbsp;Source, <span class="red">✕</span>&nbsp;File&nbsp;Configuration</small> |
+| [Group](../forms/fields.mdx#group) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> |
+| [Hidden](../forms/fields.mdx#hidden) | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> |
+| [HTML](../forms/fields.mdx#html) | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <small><span class="red">✕</span>&nbsp;Content</small> |
+| [Invisible](../forms/fields.mdx#invisible) | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> |
+| [Multiple Select](../forms/fields.mdx#multiple-select) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="red">✕</span> | <span class="green">✓</span> | <span class="green">✓</span> | <small><span class="red">✕</span>&nbsp;Element&nbsp;Sources, <span class="red">✕</span>&nbsp;Predefined&nbsp;Options</small> |
+| [Number](../forms/fields.mdx#number) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <small><span class="red">✕</span>&nbsp;Value&nbsp;Configuration</small> |
+| [Opinion Scale](../forms/fields.mdx#opinion-scale) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="red">✕</span> | <span class="green">✓</span> | <span class="red">✕</span> | <small><span class="red">✕</span>&nbsp;Options, <span class="red">✕</span>&nbsp;Scales</small> |
+| [Password](../forms/fields.mdx#password) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> |
+| [Phone](../forms/fields.mdx#phone) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <small><span class="red">✕</span>&nbsp;Pattern&nbsp;Validation</small> |
+| [Radios](../forms/fields.mdx#radios) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="red">✕</span> | <span class="green">✓</span> | <span class="green">✓</span> | <small><span class="red">✕</span>&nbsp;Element&nbsp;Sources, <span class="red">✕</span>&nbsp;Predefined&nbsp;Options</small> |
+| [Rating](../forms/fields.mdx#rating) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> |
+| [Regex](../forms/fields.mdx#regex) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <small><span class="red">✕</span>&nbsp;Pattern, <span class="red">✕</span>&nbsp;Pattern&nbsp;Error</small> |
+| [Rich Text](../forms/fields.mdx#rich-text) | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <small><span class="red">✕</span>&nbsp;Content</small> |
+| [Signature](../forms/fields.mdx#signature) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <small><span class="red">✕</span>&nbsp;Configuration</small> |
+| [Stripe Payment](../forms/fields.mdx#stripe-payment) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="red">✕</span> | <span class="compare-none"><small>N/A</small></span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <small><span class="red">✕</span>&nbsp;Payment&nbsp;Description, <span class="red">✕</span>&nbsp;Configuration, <span class="red">✕</span>&nbsp;Redirect&nbsp;URLs</small> |
+| [Submit buttons](../forms/fields.mdx#submit-buttons) | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> | <small><span class="red">✕</span>&nbsp;Positioning</small> |
+| [Table](../forms/fields.mdx#table) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="red">✕</span> | <span class="red">✕</span> | <span class="green">✓</span> | <span class="red">✕</span> | <small><span class="red">✕</span>&nbsp;Button&nbsp;Labels/Markup</small> |
+| [Text](../forms/fields.mdx#text) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> |
+| [Textarea](../forms/fields.mdx#textarea) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> |
+| [Website](../forms/fields.mdx#website) | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="green">✓</span> | <span class="compare-none"><small>N/A</small></span> | <span class="compare-none"><small>N/A</small></span> |
+
+## Site Switcher
+
+The **Site** switcher will be present in several areas of the Freeform control panel.
+
+<Photo img={SwitcherPhoto} alt="Site Switcher" />
+
+## Forms
+
+Forms can be filtered by Site(s) they are assigned to. If a user only has access to one or some of the Sites, the Site switcher will automatically limit what is visible to them.
+
+#### Site 1 Example
+<Photo img={Forms1Photo} alt="Forms - Site 1" />
+
+#### Site 2 Example
+<Photo img={Forms2Photo} alt="Forms - Site 2" />
+
+#### Site 3 Example
+<Photo img={Forms3Photo} alt="Forms - Site 3" />
+
+## Submissions
+
+The Submissions index will filter its form source filters by forms that are available for the active Site, and the **All Submissions** source filter will only display submissions for forms that are available for the active Site.
+
+<Photo img={SubmissionsPhoto} alt="Submissions" />
+
+## Export Profiles
+
+Export profiles will become filtered by forms that are assigned to the active Site.
+
+## Templates
+
+It's important to note that if a form is only enabled for _Site A_ and _Site B_, it will show when viewing _Site C_ in the front end.
+
+## Retroactively Apply to Existing Installs
+
+If you wish to enable this feature retroactively to an existing Craft install, please follow the steps below:
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Enable the **Site-Aware Forms** setting in Freeform.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Open up each form, update the **Sites** setting inside the _Settings_ tab and save the form.
+
+- Repeat for every form on your site.
+- By default, every form will have NO Sites checked off, but Freeform assumes the form should be active for ALL Sites if that is the case.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Run the following CLI command (otherwise only your primary site will be able to see submissions in the control panel):
+
+```sh
+php craft freeform/submissions/resave
+```
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+## What It Doesn't Do
+
+Here are some things it cannot do:
+
+- Translations of Freeform submissions per site.
+- Unique settings per site.
+- Unique integrations per site.

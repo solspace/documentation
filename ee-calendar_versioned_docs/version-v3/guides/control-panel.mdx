@@ -1,0 +1,88 @@
+---
+sidebar_position: 2
+title: 'Control Panel'
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Control Panel
+
+The Calendar control panel area allows you view and manage events, calendars, preferences, etc.
+
+## Events
+
+This page displays an intuitive interface in that is viewable by days, weeks, months (default). It allows you an easier way to find events, or help troubleshoot if events are not displaying correctly on front end templates.
+
+<Photo
+  img={require('@site/static/img/ee-calendar/v5/calendar-cp_events-month.png')}
+  alt="Events by Month"
+/>
+
+<Photo
+  img={require('@site/static/img/ee-calendar/v5/calendar-cp_events-week.png')}
+  alt="Events by Week"
+/>
+
+<Photo
+  img={require('@site/static/img/ee-calendar/v5/calendar-cp_events-day.png')}
+  alt="Events by Day"
+/>
+
+## Calendars
+
+This area will display a list of all existing calendars. You can update or remove existing ones, as well as create new ones here. **WARNING: Removing calendar(s) will also permanently remove ALL associated event channel entries!** For now, if you wish to remove a calendar but have associated events changed to another calendar, you'll need to edit each one manually and switch the calendar before deleting.
+
+Calendars allow you to set the following data for each one:
+
+- **Name**
+- **Short name** - auto-generated from Name field
+- **Description**
+- **Color** - enter Hex or choose from picker (Calendar also automatically internally generates a lighter version of this color for use in front end templates)
+- **Allowed Member Groups** - which member groups can add events to this calendar (Super Admins always have access)
+
+<Photo
+  img={require('@site/static/img/ee-calendar/v5/calendar-cp_calendars-list.png')}
+  alt="Calendars List"
+/>
+
+<Photo
+  img={require('@site/static/img/ee-calendar/v5/calendar-cp_calendars-create.png')}
+  alt="Create New Calendar"
+/>
+
+## Preferences
+
+This page allows you to control a variety of settings that control formatting and displaying of event data in the EE control panel and EE templates:
+
+- **Date & Time format** - handles date picker formatting in Calendar fieldtype, and some formatting of times in Calendar control panel area (upon install of Calendar, it sets this to your site's current date and time formatting settings).
+- **First Day of Week** - handles formatting of month and week views / calendars in Calendar control panel and in EE templates (defaults to **Sunday**).
+- **Date Overlap Threshold** - controls how far into the next day late night events should be ignored from being considered multi-day events (defaults to **5** hours).
+- **Time Interval** - allows you to set the time picker interval for fieldtype, in minutes.
+- **Event Duration** - allows you to set the default event time duration for fieldtype, in minutes.
+- **Select 'All Day' by default?** - allows you to select 'All Day' option in fieldtype by default.
+- **Allowed Member Groups** - controls the DEFAULT permissions of which member groups can add events to each calendar for new calendars. This is not a permission for Calendar, but a default setting feature to speed up creating of new calendars. Super Admins always have full access to calendars.
+
+<Photo
+  img={require('@site/static/img/ee-calendar/v5/calendar-cp_preferences.png')}
+  alt="Preferences"
+/>
+
+## Migration
+
+This page displays the migration utility if it detects that you have Calendar 1.x legacy data, allowing you to import this data once you've prepared your site.
+
+More information about the Migration utility can be found here: [Calendar 1.x to 2.x Upgrade Guide](../migrations/calendar-1-migration.mdx)
+
+<Photo
+  img={require('@site/static/img/ee-calendar/v5/calendar-cp_migration.png')}
+  alt="Migration"
+/>
+
+## Demo Templates
+
+If you wish to load the demo templates for Calendar, go to this page. Then just create a prefix name for the sample data such as \_test\_\_ or \_calendar\_\_, and click the **Install Demo Templates** button.
+
+<Photo
+  img={require('@site/static/img/ee-calendar/v5/calendar-cp_demo.png')}
+  alt="Demo Templates"
+/>

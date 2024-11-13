@@ -1,0 +1,170 @@
+---
+sidebar_position: 3
+---
+
+import { Badge } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Spam Protection Best Practices
+
+Freeform offers a robust set of spam protection options, but it's important you understand how each feature works, and the best practices for using them. Each site can be targetted by spam differently, so the most important thing you can do is closely monitor your website daily for a few weeks at the beggining (or after making changes to spam protection approaches) to ensure everything is working correctly. Follow the steps below, and you should have a smooth operation.
+
+If you want to get on your way as quickly as possible, please skip the info below and go straight to the [express setup](#express-setup) section.
+
+## Setup
+
+<VerticalStepWrapper>
+<StepMarkdown>
+### Choosing Your Approach
+
+Freeform offers the following measures:
+
+- [Freeform Honeypot](../../forms/spam-protection.mdx#freeform-honeypot)
+- [Keyword Blocking](../../forms/spam-protection#spam-blocking)
+- [Captchas](../../forms/spam-protection.mdx#captchas)
+- [Throttling](../../forms/spam-protection#throttling)
+- [Min/Max Submit Time](../../configuration/settings#minimum-submit-time)
+
+You can use all or any combination of these. In many cases, using a combination of just the **Freeform Honeypot** and **Keyword Blocking** is sufficient. If you want a no-nonsense approach, you should go straight to using **reCAPTCHA** (specifically **v3**).
+
+Typically, the most effective spam controls (in order) are:
+
+1. [reCAPTCHA](../../forms/spam-protection.mdx#captchas) or [hCaptcha](../../forms/spam-protection.mdx#captchas)
+2. Freeform Honeypot and [Javascript Enhancement](../../forms/spam-protection/#javascript-enhancement)
+   - Be careful when using the JS enhancement setting, as it could cause issues for you when you're caching the site and/or using something like _Vue.js_. Be sure to check out the [overview and warnings about it here](../../forms/spam-protection/#javascript-enhancement).
+3. Freeform Honeypot
+4. Keyword Blocking / Email Blocking
+   - When attempting to block individual characters (e.g. Russian letters) or partial words or strings, be sure to make good use of the wildcard `*` character! E.g.: `*й*`, `*Д*`, `*url=http*`, etc.
+
+</StepMarkdown>
+<StepMarkdown>
+### Enable a Captcha Service
+
+Though not always necessary, we strongly recommend using [reCAPTCHA](../../forms/spam-protection.mdx#captchas) or [hCaptcha](../../forms/spam-protection.mdx#captchas) on your forms to offer the most robust spam protection.
+
+- **reCAPTCHA Score-based (v3)** offers the least intrusive spam protection for your customers. It's free to set up and is available on the Lite and Pro editions of Freeform.
+
+</StepMarkdown>
+<StepMarkdown>
+### Keyword Blocking
+
+Keyword and email blocking can oftentimes alleviate spam with patterns. For example, if you never conduct business in Russian or with Russians, you can probably block all `*.ru` email addresses. If your site does not discuss `blockchain` or `bitcoin`, etc, you can likely block these common spam words too. Some words might work for some sites, but not for others. It'll be up to you to carefully decide on keywords. Here's a few example lists:
+
+##### Block Email addresses
+
+```
+*.ru
+*@yahoo.co.jp
+yourmail@gmail.com
+```
+
+##### Block Keywords
+
+```
+blockchain
+bitcoin
+cryptocurrency
+sex*
+*cialis*
+dating
+gloves
+masks
+commission
+Henryrix
+href*
+*url=http*
+*http://www.google.com*
+*http://clickfrm.com*
+*https://www.youtube.com*
+*http://bit.ly*
+*page.link*
+*moneylinks*
+*й*
+*Д*
+*п*
+*ж*
+Утром
+изучал
+дня!
+```
+
+</StepMarkdown>
+<StepMarkdown>
+### Enable the Spam Folder
+
+Freeform includes its own built-in **Spam Folder** which allows you to review blocked submissions and retrieve legitimate ones that have fallen through the cracks. This feature is enabled by default, but if not, make sure you [enable it](../../forms/spam-protection/#spam-folder). If you have the _Spam Folder_ disabled, any submissions flagged as spam will never be stored in the database and can never ever be retrieved.
+
+The Spam Folder will hold every single flagged submission indefinitely until action is taken. We recommend you check on the submissions in this area at least every once in a while, but also set the [Automatically Purge Spam Submissions](../../configuration/settings.mdx#automatically-purge-spam-submissions) to something like every **30 days**. Once the submission has been purged, it's gone forever.
+
+</StepMarkdown>
+<StepMarkdown>
+### Spam Protection Behavior
+
+Inside the **Spam Settings** area, you'll see an setting called [Spam Protection Behavior](../../configuration/settings.mdx#spam-protection-behavior). This allows you to select the behavior you'd like Freeform to take when it detects a submission as being spam. You have the following options:
+
+- **Simulate Success** <Badge type="recommended" text="Recommended" />
+  - This will appear to the user that the submission went through successfully. The benefit of this is that spam bots will not detect that their attempt failed, and may help you in the long run (as they may not try other approaches). The downside of this is that legitimate form submitters (though this would theoretically be rare) will believe their submission went through without any issue. As long as you have the **Spam Folder** enabled and review it periodically, you should be okay here.
+
+* **Display Errors** (for debugging)
+  - We recommend this only for debugging purposes when first setting up the site, testing adjustments or troubleshooting Freeform spam issues. The spam submission will not go through at all, but an error will show to the user. The benefit of this is that the user will immediately know that their submission is being considered spam, and explain to them what they have done wrong (e.g. failed honeypot test, form contains a restricted keyword, etc), allowing them to correct and submit again. The downside is that it teaches any spam bots where they failed and they can try different approaches.
+
+When using **reCAPTCHA v3**, we highly recommend using **Send to Freeform Spam Folder** for the **Failure Behavior** setting (inside the **Captchas** settings area).
+
+</StepMarkdown>
+<StepMarkdown>
+### Using Caching
+
+When possible, we recommend you do not cache your forms or templates that include them, as it can run into issues. However, sometimes this must be done, and it certainly can be done. Freeform can be cached through basic Twig caching or Static Page Caching (e.g. [Cloudflare](http://cloudflare.com/), [Blitz](https://plugins.craftcms.com/blitz), etc). The important thing to note is that when this is done, you need to refresh the Craft CSRF Token and Freeform Form Hash, otherwise you form will fail and flag all submissions as spam.
+
+Please see the [Caching Forms documentation guide](../templating/caching-forms.mdx) for more information.
+
+</StepMarkdown>
+<StepMarkdown>
+### Using JS Frameworks
+
+When using Javascript Frameworks to handle your website and forms, such as [Vue.js](https://vuejs.org/), it's important that you manually populate the Craft CSRF Token, Freeform Form Hash, and clear the [Javascript Test](../../forms/spam-protection.mdx#freeform-javascript-test) input (if used), otherwise you form will fail and flag all submissions as spam.
+
+Please see the [Using Vue.js documentation guide](../headless/vuejs.mdx) for more information.
+
+</StepMarkdown>
+<StepMarkdown>
+### Test
+
+It should go without saying, please make sure you test all of your forms from various computers and different browsers. If your form appears in multiple pages and scenarios, test all of those scenarios, as it's possible the form might work correctly on 1 page, but maybe not correctly on another, etc. Whenever you upgrade Craft or Freeform, or add caching to your site, etc, please test your forms again to ensure they work as expected.
+
+</StepMarkdown>
+<StepMarkdown>
+### Monitor
+
+We recommend that you closely monitor your site activity for a few weeks after launch. Check out the Freeform **Spam Folder** to see if any legitimate submissions are showing up there. If so, check out the **Spam Reasons** to aid with that. It might be that a form is failing due to cache, or that your blocked keywords or reCAPTCHA settings are too agressive, etc. Adjust as necessary and continue to monitor.
+
+If too much spam is still coming through, carefully review the words used in the spammy submissions and consider blocking some of those keywords if you strongly believe a legitimate customer would never use those words given your context. For example, if your website sells socks, an email containing `SEO` is very likely spam, but if your website builds websites, an email containing `SEO` could plausibly be a legitimate customer asking for help with SEO (though it very likely may be spam!).
+
+</StepMarkdown>
+<StepMarkdown>
+### Geo Blocking
+
+While the above spam protection methods may be adequate for long periods of time, your site may randomly become a target of spam attacks. Even _reCAPTCHA_ might not even be effective for some attacks.
+
+We encourage you to consider using a service like [Cloudflare](https://cloudflare.com/) or [Fastly](https://www.fastly.com/). If a surge of traffic/spam comes into your site, you can quickly identify which countries they may be coming from. You can then block or set up additional challenges for those countries. This way, the spammers won't even get access to your site (and forms).
+
+</StepMarkdown>
+
+</VerticalStepWrapper>
+
+## Express Setup
+
+:::warning
+We strongly recommend using [reCAPTCHA](../../forms/spam-protection.mdx#captchas) or [hCaptcha](../../forms/spam-protection.mdx#captchas) on your forms to offer the most robust spam protection. However, the express guide below gets basic protection for your site.
+:::
+
+The absolute shortest and fastest way to some amount of spam protection that would work for most sites would be the following:
+
+1. Go to Freeform Spam Settings (_Freeform_ → _Settings_ → _Spam Settings_).
+2. Enable Freeform Honeypot and do not enable Javascript Test.
+3. Enable the Spam Folder built into Freeform.
+4. Set the [Spam Protection Behavior](../../configuration/settings.mdx#spam-protection-behavior) setting to **Simulate Success**.
+
+Keep an eye on the Spam Folder over the next couple of weeks to see if anything is incorrectly being flagged as spam. If you are still receiving spam, look for patterns of keywords and consider adding them to the **Block Keywords** and/or **Block Email addresses** settings. Any time you start blocking keywords, be sure to monitor the Spam Folder for a little while to see if the keywords you used are a little too aggressive.
+
+It may also be necessary to use [reCAPTCHA](../../forms/spam-protection.mdx#captchas) or [hCaptcha](../../forms/spam-protection.mdx#captchas) on your forms to offer the most robust spam protection.

@@ -1,0 +1,81 @@
+---
+title: Day
+sidebar_position: 8
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Day Query
+
+The _calendar.day_ template query assembles a [Day object](../objects/day.mdx) containing its events and allows for iteration over it to access all [Hour objects](../objects/hour.mdx) contained within.
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/templates_day.png')}
+  alt="Day view"
+/>
+
+## Parameters
+
+- `date`
+  - A date string representing the date for the day that should be compiled.
+  - `"march 15 2023"` is a valid `date` value
+  - `"2023-03-15"` would be valid and return the [Day object](../objects/day.mdx) for the day of **March 15, 2023**
+- `calendar`
+  - Handle of the calendar, e.g. `"holidays"`, or an array of handles: `["holidays", "football"]`.
+  - Use `"not holidays"` to select all calendars EXCEPT the **Holidays** calendar
+- `calendarId`
+  - An ID of the calendar, or array of ID's, e.g. `[1, 2, 3]`
+  - If you want to select all calendars EXCEPT the calendar with an ID of **1**, use `"not 1"`
+- `allDay`
+  - Selects only events that are set to be **All Day** events went set to `true`.
+- `authorId`
+  - Selects events from specific author ID's
+- `limit`
+  - Supply an `int` to limit the amount of events returned
+- `orderBy`
+  - Override default sort order by for the specified day with this parameter, e.g. `orderBy: "startDate ASC"`
+- `status`
+  - By default, `live` is used, showing only enabled events
+  - Can be set to `disabled` to show disabled events
+  - Or `null` to show all events regardless of their status
+- `loadOccurrences`
+  - Set this to `false` to not load any recurring events. Default is `true`.
+  - When setting this to `false`, Calendar will display only the very first occurrence in the results ONLY if that same occurrence falls within the Day date range. It will NOT just show the next recurrence available, and does NOT show any events that just have recurrences within the Day date range.
+- `search: "customField:myvalue*"`
+  - Works just like regular [Craft Searching](https://craftcms.com/docs/4.x/searching.html).
+
+## Usage in Templates
+
+Iterate through the hours of the day
+
+```twig showLineNumbers
+{% set day = craft.calendar.day({
+  date: "today",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for hour in day %}
+  {% for event in hour.events %}
+    <div style="{{ event.calendar.color }};">
+      {{ event.title }}
+    </div>
+  {% endfor %}
+{% endfor %}
+```
+
+---
+
+Iterate through all events in the day
+
+```twig showLineNumbers
+{% set day = craft.calendar.day({
+  date: "today",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for event in day.events %}
+  <div style="{{ event.calendar.color }};">
+    {{ event.title }}
+  </div>
+{% endfor %}
+```

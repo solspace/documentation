@@ -1,0 +1,46 @@
+---
+title: Console Commands
+sidebar_position: 4
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Console Commands
+
+Calendar includes several console commands to allow you to run cleanup tasks and other tasks.
+
+## Resave Events
+
+If you need to resave all Calendar events, you can do so with the `calendar/events/resave` CLI command. Most of the arguments available to Craft's `resave/entries` command are available here too, so if you need to also update the Craft Search Index, be sure to add `--update-search-index`.
+
+```sh command-line
+php craft calendar/events/resave --update-search-index
+```
+
+## Migrate Craft 4 Element Titles <Badge type="feature" text="5.0.4+" />
+
+If you have upgraded your Craft 4 site to Craft 5, please note that the Craft migration process does not automatically migrate submission Element titles. In Craft 5, Element titles are now stored in the `elements_sites` table, and the `content` table which used to store Element titles is no longer used.
+
+While most plugins could include a separate migration script to handle this, Calendar 5 supports both Craft 4 and Craft 5, making this path impossible. Instead, a CLI command has been included that needs to be executed once after upgrading from Craft 4 to Craft 5.
+
+:::warning
+This CLI command is only applicable to sites that have migrated from Craft 4 to Craft 5 while Calendar was installed.
+:::
+
+```sh command-line
+php craft calendar/events/fix-titles
+```
+
+## Fix Field Layout Tabs Elements UIDs <Badge type="feature" text="5.0.10+" />
+
+There was a bug in Calendar 4.x and earlier versions of 5.0.x where unique UIDs were not being generated for field layout elements when duplicating calendars. The issue has been resolved in later versions of Calendar 4.x and 5.x, but the issue still needs to be resolved if your site is affected.
+
+To help the smaller number of affected sites resolve this issue, we have included a CLI command that should be executed once after upgrading to the latest 4.x or 5.x version of Freeform while still on Craft 4.x.
+
+:::warning
+This CLI command is only applicable to sites on Craft 4 that may have duplicated calendars in earlier versions of Calendar 4.x and 5.x. This command will not work on Craft 5 due to bigger differences in how the data is stored.
+:::
+
+```sh command-line
+php craft calendar/calendars/fix-field-layout-tabs-elements-uids --rebuildProjectConfig
+```

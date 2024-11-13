@@ -1,0 +1,58 @@
+---
+title: Managing Calendar
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Managing Calendars
+
+Calendar allows you to group your events into calendars, very similar to popular calendaring apps like _Apple Calendar_ and _Google Calendar_. Calendars can be customized to have their own fields / field layouts and calendar color.
+
+## Overview
+
+The calendar area in the control panel displays a list of all existing calendars. You can update or remove existing ones, as well as create new ones here.
+
+:::warning
+Removing calendar(s) will also permanently remove ALL associated events!
+:::
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v1/cp_calendars.png')}
+  alt="Calendars List"
+/>
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v1/cp_calendar-create.png')}
+  alt="Create a New Calendar"
+/>
+
+Calendars allow you to set the following data for each one:
+
+- **Name**
+- **Handle**
+  - Auto-generated from Name field
+- **Description**
+- **Color**
+  - Choose from picker (Calendar also automatically internally generates a lighter and darker version of this color for use in control panel and front end templates)
+- **Events in this calendar have their own URLs** <a href="#event-urls" id="event-urls" class="docs-anchor">#</a>
+  - Enable this to set up automatic routing of URL's for your events.
+  - Enabling this will allow you to use the Live Preview feature.
+    **IMPORTANT:** the templates will look for `event.`, not `entry.` (e.g. `event.title`, not `entry.title`).
+    _ **Event URL Format** - what the event URLs should look like. You can include tags that output event properties, such as `{slug}` or `{postDate|date("Y")}`.
+    _ **Event Template** - The template to use when an event's URL is requested.
+- **Show the Title field** <a href="#title-field" id="title-field" class="docs-anchor">#</a>
+  - Uncheck this to set your own title format, auto-generated from other field(s).
+    - **Title Format** - What the auto-generated event titles should look like. You can include tags that output entry properties, such as `{myCustomField}`.
+- **ICS Description field** <a href="#ics-description" id="ics-description" class="docs-anchor">#</a>
+  - Set the custom field which is used for event description in ICS exports.
+- **ICS Location field** <a href="#ics-location" id="ics-location" class="docs-anchor">#</a>
+  - Set the custom field which is used for event location in ICS exports.
+- **Design Field Layout** <a href="#design-field-layout" id="design-field-layout" class="docs-anchor">#</a>
+  - Works just like regular Craft field layouts. Simply create how you want your event publishing experience to be.
+  - Layouts are unique per Calendar.
+
+Calendars also include an option to share calendars with publicly accessible ICS subscription URL, allowing users to subscribe (one way sync) their calendaring app to your sites' calendar(s). To enable this, click on the **Share this calendar** button next to the applicable calendar(s) on the list view of calendars. Once enabled, you can then copy the ICS URL and share it with whoever you wish (admins, show it publicly, etc).
+
+:::warning
+ICS subscriptions currently do not work correctly for Google Calendar. The issue is that there's a "bug" or at least oddity in [the way Google Calendar handles events with floating dates](https://productforums.google.com/forum/#!topic/calendar/Xjxs5UjhsXI) compared to all other calendaring apps. Google does not to conform to [iCal standards](https://tools.ietf.org/html/rfc5545#section-3.3.5) for this for some reason and there isn't a way around it unfortunately.
+:::

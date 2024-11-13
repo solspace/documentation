@@ -1,0 +1,506 @@
+---
+title: 'Form Queries'
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+import QueriesPhoto from '../assets/img/queries.png';
+
+# Form Queries
+
+The Form query returns a [Form object](../objects/form.mdx) containing its metadata and field objects. From there you can either render the form using the pre-selected formatting template by calling `form.render()` or take control of it by iterating over its fields and using `form.renderTag` and `form.renderClosingTag` methods.
+
+:::info
+Freeform will automatically insert javascript in the footer of the page for features such as [Spam Protection](../../forms/spam-protection.mdx), Submit disable on click, and other special field types. If you prefer to have this load inside the `<form></form>` tags, you can adjust the [Freeform Javascript Insertion Location](../../configuration/settings/#scripts-location) setting.
+:::
+
+<Photo img={QueriesPhoto} alt="Queries" />
+
+## Parameters
+
+The _freeform.form_ template function is always constructed the same way. The first assumed parameter should contain the form ID or handle, and the second parameter (optional) should contain an object of overrides (typically used for applying a class globally to specific types of inputs, etc).
+
+So following this format: `{{ craft.freeform.form("FORMHANDLE", {OVERRIDES}) }}`, your code might look something like this:
+
+```twig showLineNumbers
+{{ craft.freeform.form("myForm", {
+	labelClass: "form-label",
+	inputClass: "form-control",
+	instructionsBelowField: true,
+	overrideValues: {
+		hiddenFieldHandle: entry.id,
+	}
+}).render() }}
+```
+
+- First parameter: `formID` or `formHandle` <a href="#param-first-param" id="param-first-param" class="docs-anchor">#</a>
+- Second parameter (optional) is an object of the following overriding options:
+
+  - `inputClass` <a href="#param-inputclass" id="param-inputclass" class="docs-anchor">#</a>
+    - Applies a class name for all input elements.
+  - `submitClass` <a href="#param-submitclass" id="param-submitclass" class="docs-anchor">#</a>
+    - Applies a class name for all submit elements.
+  - `rowClass` <a href="#param-rowclass" id="param-rowclass" class="docs-anchor">#</a>
+    - Applies a class name for all row `<div>` elements.
+  - `columnClass` <a href="#param-columnclass" id="param-columnclass" class="docs-anchor">#</a>
+    - Applies a class name for all field column `<div>` elements.
+  - `labelClass` <a href="#param-labelclass" id="param-labelclass" class="docs-anchor">#</a>
+    - Applies a class name for all `<label>` elements.
+  - `errorClass` <a href="#param-errorclass" id="param-errorclass" class="docs-anchor">#</a>
+    - Applies a class name for all error `<ul>` elements.
+  - `instructionsClass` <a href="#param-instructionsclass" id="param-instructionsclass" class="docs-anchor">#</a>
+    - Applies a class name for all instruction `<div>` elements.
+  - `instructionsBelowField` <a href="#param-instructionsbelowfield" id="param-instructionsbelowfield" class="docs-anchor">#</a>
+    - A `boolean` value, if set to `true` - will render field instructions below the `<input>` element.
+  - `class` <a href="#param-class" id="param-class" class="docs-anchor">#</a>
+    - Applies a `<form>` class name.
+  - `id` <a href="#param-id" id="param-id" class="docs-anchor">#</a>
+    - Overrides the `<form>` ID attribute.
+    - If using [AJAX](../../guides/templating/ajax-forms) and loading the same form more than once in the same template, be sure to specify this parameter for each instance so that AJAX submit can account for it correctly.
+  - `returnUrl` <a href="#param-returnurl" id="param-returnurl" class="docs-anchor">#</a>
+    - Overrides the return URL for the form.
+    - You can override the return URL manually with a hidden field or checkbox, etc named `formReturnUrl`, allowing for a more dynamic return URL dependent on the user's choice or action, as long as you hash the value as of Freeform 3.5.6+ (e.g. `<input type="checkbox" name="formReturnUrl" value="{{ 'whatever/my-url'|hash }}" />`).
+  - `method` <a href="#param-method" id="param-method" class="docs-anchor">#</a>
+    - Overrides the `<form>` method attribute. `POST` by default.
+  - `name` <a href="#param-name" id="param-name" class="docs-anchor">#</a>
+    - Overrides the `<form>` name attribute. `POST` by default.
+  - `action` <a href="#param-action" id="param-action" class="docs-anchor">#</a>
+    - Overrides the `<form>` action attribute.
+  - `status` <a href="#param-status" id="param-status" class="docs-anchor">#</a>
+    - Overrides the default status of the generated submission.
+    - Can be either an `ID` or `handle` of an existing `Status` record.
+  - `formattingTemplate` <Badge type="feature" text="3.8.0+" />
+    - Allows you to override/set a formatting template for a form at template level.
+    - Be sure to include the file extension, e.g. `formattingTemplate: 'template-name.html'`.
+  - `suppress` <a href="#param-suppress" id="param-suppress" class="docs-anchor">#</a> <Badge type="feature" text="3.1.0+" />
+
+    - Allows you to suppress email notifications, API integrations and [Element Connections](../../integrations/elements.mdx) for a form by passing an object of suppressions you wish to enable, typically used for [editing submissions](../../submissions/submission-editing), e.g.:
+
+      - `adminNotifications: true` - suppress [Admin notifications](../../forms/email-notifications/#admin-notifications)
+      - `dynamicRecipients: true` - suppress [Dynamic Recipient notifications](../../forms/email-notifications#dynamic-recipients)
+      - `submitterNotifications: true` - suppress [Submitter email notifications](../../forms/email-notifications#usersubmitter-notifications)
+      - `api: true` - suppress [CRM](../../integrations#crm) and [Email Marketing](../../integrations/#email-marketing) integrations
+      - `connections: true` - suppress creation of new elements via [Element Connections](../../integrations/elements.mdx) feature (will not disable Element _validation_, e.g. required fields, username already in use, etc).
+      - `payments: true` - suppress [Payment](../../integrations/stripe-payments.mdx) integrations
+      - `webhooks: true` - suppress any Webhooks for the form
+
+    - You can also just set this to `true` (`suppress: true`) to enable all suppressions at once.
+
+  - `relations` <a href="#param-relations" id="param-relations" class="docs-anchor">#</a> <Badge type="feature" text="3.2.0+" /> <Badge type="pro" text="Pro" />
+
+    - This is a powerful feature that allows you to relate the posted submission to any other Craft Element, as long as it contains a [Freeform Submissions element field type](../../forms/fieldtype.mdx). This allows you to quickly turn Freeform into a plugin replacement for Comments, Reviews, Ratings, and more!
+
+    - You can specify as many element ID's to relate to as you wish. All you have to do is specify the [Freeform Submissions Field](../../forms/fieldtype.mdx) handle and supply an array of element ID's or just a single element ID that you wish to relate submissions for.
+
+      ```php showLineNumberss
+      relations: {
+        myFreeformSubmissionsFieldHandle: [55, 106],
+        myOtherFreeformSubmissionFieldHandle: 251
+      }
+      ```
+
+    - The above would map the posted submission to the Elements with ID's `55`, `106` and `251`. More specifically, adding the submission to the field with handle `myFreeformSubmissionsFieldHandle` for elements with ID's `55` and `106` and one to the field with handle `myOtherFreeformSubmissionFieldHandle` for element with ID `251`.
+
+    * `overrideValues` <a href="#param-overridevalues" id="param-overridevalues" class="docs-anchor">#</a>
+    * Allows you to override the value inside Text fields, or pre-select a default option for multi-option field types (specify option values in this case). E.g.:
+      - `hiddenFieldHandle: entry.id` - pull in an entry ID from a Craft Entry.
+      - `stateSelect: "AZ"` - pre-select **Arizona** state in a State select field.
+      - `availability: ["tue", "thu"]` - pre-check **Tuesday** and **Thursday** checkbox options in a checkbox group field type.
+      - `firstName: currentUser.name` - pull in the currently logged in user's name into the Name field.
+    * Specify the field `handle` as key, and provide the custom value override as its value.
+    * If a [Field](../objects/field.mdx) uses an `overrideValue` attribute, it will take precedence over the value specified in this attribute.
+
+  * `formAttributes` <a href="#param-formattributes" id="param-formattributes" class="docs-anchor">#</a>
+    - An object of attributes which will be added to the form.
+    - Ex: `formAttributes: { "novalidate": true, "data-form-id": "test" }`
+  * `inputAttributes` <a href="#param-inputattributes" id="param-inputattributes" class="docs-anchor">#</a>
+    - An object of attributes which will be added to all input fields.
+    - Ex: `inputAttributes: { "readonly": true, "data-field-id": "test" }`
+  * `useRequiredAttribute: true` <a href="#param-userequiredattribute" id="param-userequiredattribute" class="docs-anchor">#</a>
+    - Adds `required` attribute to input fields that have been set to be required in the Form Builder.
+  * `fieldIdPrefix: 'myform-'` <a href="#param-fieldidprefix" id="param-fieldidprefix" class="docs-anchor">#</a>
+    - Adds a prefix value on field outputs. Helpful if you have more than 1 form on the same template and are sharing fields.
+  * `dynamicNotification: { recipients: ["admin@example.com", "support@example.com"], template: "test.html" }` <a href="#param-dynamicnotification" id="param-dynamicnotification" class="docs-anchor">#</a>
+    - Allows using a dynamic template level notification for a more fine-grained control.
+    - Hard code values or pass a value from another element such as an Entry.
+    - For Database entry based templates, specify the handle for `template`.
+    - For Twig file based templates, specify the full file name including **.html** for `template`.
+    - **NOTE:** this feature uses Session data. It will likely not work properly if the page is cached with something like Varnish, etc.
+  * `disableRecaptcha: true` <a href="#param-disablerecaptcha" id="param-disablerecaptcha" class="docs-anchor">#</a> <Badge type="feature" text="3.9+" />
+    - Allows you to disable Captchas such as reCAPTCHA v2 Invisible and v3 per form at template level.
+  * `disableHoneypot: true` <Badge type="feature" text="3.12+" />
+    - Allows you to disable the Freeform Honeypot feature per form at template level.
+  * `postForwarding` <Badge type="feature" text="3.12+" />
+    - Allows you to override POST Forwarding settings (in form builder) for the form at template level.
+      ```twig showLineNumbers
+      postForwarding: {
+        url: "https://somesite.com/stuff",
+        triggerPhrase: "success"
+      }
+      ```
+  * `submissionToken` <a href="#param-submissiontoken" id="param-submissiontoken" class="docs-anchor">#</a>
+    - Provide the submission `token` from the `submission` object to switch the form into **edit mode** and allow [editing of submissions on front end](../../submissions/submission-editing).
+  * Custom Form Properties <a href="#param-custom-properties" id="param-custom-properties" class="docs-anchor">#</a> <Badge type="feature" text="3.12+" />
+    - You can pass custom properties and values into the form payload and then display or perform conditionals on them. For example, in your main template (where `showFormTitle` is just a custom property):
+      ```
+      {{ form.render({ showFormTitle: true }) }}
+      ```
+    - Then in your formatting template, use:
+      ```
+      {% if form.properties.showFormTitle %}
+      	{{ form.name }}
+      {% endif %}
+      ```
+
+:::info
+If displaying the exact same form more than once in a single template, some of the `<form>` tag attributes set on one form may carry over to other ones. To work around this, you can unset the attribute on the other forms (unless they have their own attributes set). For example, if one form has `class: 'something'`, it may end up applying to other instances of the form, but you can add `class: null` to those others to work around it.
+:::
+
+## Usage in Templates
+
+Render the form using its formatting template:
+
+```twig showLineNumbers
+{{ craft.freeform.form("myForm").render() }}
+```
+
+### Automated Rendering of Forms
+
+Render the form using its formatting template, but overriding some classes:
+
+```twig showLineNumbers
+{{ craft.freeform.form("myForm", {
+	labelClass: "form-label",
+	inputClass: "form-control",
+	instructionsBelowField: true,
+	submitClass: "btn btn-success",
+	overrideValues: {
+		hiddenFieldHandle: entry.id,
+	}
+}).render() }}
+```
+
+Get the form object and manually iterate through fields:
+
+```twig showLineNumbers
+{% set form = craft.freeform.form("myForm", {
+	id: "myform",
+	class: "form-class",
+	rowClass: "sample-row-class",
+	submitClass: "button",
+}) %}
+
+{{ form.renderTag }}
+
+{% if form.hasErrors %}
+	<div class="freeform-form-has-errors">
+		{{ "Error! Please review the form and try submitting again."|t('freeform') }}
+
+		{% if form.errors|length %}
+			<ul>
+				{% for error in form.errors %}
+					<li>{{ error }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
+{% endif %}
+
+{% for row in form %}
+	<div class="{{ form.customAttributes.rowClass }}">
+		{% for field in row %}
+			{% set columnClass = "sample-column " ~ form.customAttributes.columnClass %}
+			{% if field.type == "submit" %}
+				{% set columnClass = columnClass ~ " submit-column" %}
+			{% endif %}
+
+			<div class="{{ columnClass }}"{{ field.rulesHtmlData }}>
+				{{ field.render({
+					class: field.type != "submit" ? "freeform-input" : "",
+					labelClass: "sample-label" ~ (field.required ? " required" : ""),
+					errorClass: "sample-errors",
+					instructionsClass: "sample-instructions",
+				}) }}
+			</div>
+		{% endfor %}
+	</div>
+{% endfor %}
+
+{{ form.renderClosingTag }}
+```
+
+### Manual Rendering of Forms
+
+Form formatting can also be extremely manual, if that is something you prefer. Here's an example of different levels of manual you can use:
+
+```twig showLineNumbers
+{% set form = craft.freeform.form("myForm") %}
+
+{{ form.renderTag({returnUrl: "contact/success"}) }}
+
+	{% if form.hasErrors %}
+		<div class="freeform-form-has-errors">
+			{{ "There was an error submitting this form"|t }}
+
+			{% if form.errors|length %}
+				<ul>
+					{% for error in form.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		</div>
+	{% endif %}
+
+	{% set firstName = form.get("firstName") %}
+	{% set company = form.get("company") %}
+	{% set lastName = form.get("lastName") %}
+	{% set mySelect = form.get("mySelect") %}
+	{% set recipients = form.get("recipients") %}
+
+	<label>{{ firstName.label }}</label>
+	<input name="{{ firstName.handle }}" value="{{ firstName.value }}" />
+	{{ firstName.renderErrors() }}
+
+	<label>{{ lastName.label }}</label>
+	<input name="{{ lastName.handle }}" value="{{ lastName.value }}" />
+	{{ lastName.renderErrors() }}
+
+	{{ company.renderLabel() }}
+	{{ company.renderInput() }}
+	{{ company.renderErrors() }}
+
+	<label>Email Address</label>
+	<input name="email" />
+	{{ form.get("email").renderErrors() }}
+
+	<label>Phone</label>
+	<input name="phone" />
+	{% if form.get("phone").hasErrors %}
+		This field is required!
+	{% endif %}
+
+	<label>My Select Field</label>
+	<select name="{{ mySelect.handle }}">
+    {% for option in mySelect.options %}
+        <option value="{{ option.value }}" {{ option.checked ? "selected" : "" }}>{{ option.label }}</option>
+    {% endfor %}
+	</select>
+
+	<label>Recipient</label>
+	<select name="{{ recipients.handle }}">
+	{% for recipient in recipients.options %}
+		<option value="{{ loop.index0 }}" {{ recipient.checked ? "selected" : "" }}>{{ recipient.label }}</option>
+	{% endfor %}
+	</select>
+
+	<button type="submit" data-freeform-action="submit">Submit</button>
+
+{{ form.renderClosingTag }}
+```
+
+:::info
+When manually building submit buttons in forms, be sure to include a `data-freeform-action` attribute to it.<Badge type="feature" text="3.12+" />
+
+The attribute value differs between various types of submit buttons:
+
+- For the regular submit button which advances forms forward, it's value has to be `submit`
+- For the back buttons in multi-page forms, the value has to be `back`
+- For the [Save & Continue Later](../../forms/save-continue-later.mdx) buttons, the value has to be `save`
+
+```html showLineNumbers
+<button type="submit" data-freeform-action="submit">Submit</button>
+<button type="submit" data-freeform-action="back">Go Back</button>
+<button type="submit" data-freeform-action="save">Save & Continue Later</button>
+```
+
+:::
+
+### Manual Multi-page Forms
+
+You can manually format multi-page forms as well. The key is to wrap page context with `form.currentPage.index` conditionals. Here's an example of different levels of manual you can use:
+
+```twig showLineNumbers
+{% set form = craft.freeform.form("myFormHandle") %}
+
+{{ form.renderTag() }}
+
+	{# Display any general errors upon submit #}
+	<div class="form-heading-errors">
+		{% if form.hasErrors %}
+			<div class="freeform-form-has-errors">
+				{{ "There was an error submitting this form"|t }}
+
+				{% if form.errors|length %}
+					<ul>
+						{% for error in form.errors %}
+							<li>{{ error }}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+		{% endif %}
+	</div>
+
+	{# Set up your needed form page fields #}
+	{% set firstName = form.get("firstName") %}
+	{% set lastName = form.get("lastName") %}
+	{% set company = form.get("company") %}
+	{% set email = form.get("email") %}
+	{% set phone = form.get("phone") %}
+	{% set state = form.get("state") %}
+	{% set recipients = form.get("recipients") %}
+
+	{# Show page tabs for visual reference only - these cannot be linked #}
+	<ul class="nav nav-tabs">
+		<li class="nav-item">
+			<span class="nav-link{% if form.currentPage.index == 0 %} active font-weight-bold{% else %} disabled{% endif %}">Page 1</span>
+		</li>
+		<li class="nav-item">
+			<span class="nav-link{% if form.currentPage.index == 1 %} active font-weight-bold{% else %} disabled{% endif %}">Page 2</span>
+		</li>
+	</ul>
+
+	{# Show page 1 contents only #}
+	{% if form.currentPage.index == 0 %}
+
+		<div class="form-field">
+			{# Very manual #}
+			<label>{{ firstName.label }}</label>
+			<input name="firstName" value="{{ firstName.value }}" />
+			{{ firstName.renderErrors() }}
+		</div>
+
+		<div class="form-field">
+			<label>{{ lastName.label }}</label>
+			<input name="lastName" value="{{ lastName.value }}" />
+			{{ lastName.renderErrors() }}
+		</div>
+
+		<div class="form-field">
+			{# Somewhat manual #}
+			{{ company.renderLabel() }}
+			{{ company.renderInput() }}
+			{{ company.renderErrors() }}
+		</div>
+
+		<button type="submit">Continue</button>
+
+	{# Show page 2 contents only #}
+	{% elseif form.currentPage.index == 1 %}
+
+		<div class="form-field">
+			{# Completely manual #}
+			<label>Email Address</label>
+			<input name="email" value="{{ email.value }}" />
+			{{ form.get("email").renderErrors() }}
+		</div>
+
+		<div class="form-field">
+			{# Manual errors #}
+			<label>Phone</label>
+			<input name="phone" />
+			{% if form.get("phone").hasErrors %}
+				This field is required!
+			{% endif %}
+		</div>
+
+		<div class="form-field">
+			{# Manual multi-option field #}
+			<label>State</label>
+			<select name="state">
+				{# You may also manually hardcode each option as well, as long as these options exist inside the form builder #}
+				{% for option in state.options %}
+					<option value="{{ option.value }}" {{ option.checked ? "selected" : "" }}>{{ option.label }}</option>
+				{% endfor %}
+			</select>
+		</div>
+
+		<div class="form-field">
+			{# Manual Dynamic Recipients field as Select #}
+			<label>Recipient</label>
+			<select name="recipients">
+				{% for recipient in recipients.options %}
+					{# value is required to be 0, 1, 2, etc instead of actual email value #}
+					<option value="{{ loop.index0 }}">{{ recipient.label }}</option>
+				{% endfor %}
+			</select>
+		</div>
+
+		<button type="submit" name="form_previous_page_button" data-freeform-action="back">Previous</button>
+		<button type="submit" name="form_page_submit" data-freeform-action="submit">Finish</button>
+
+	{% endif %}
+
+{{ form.renderClosingTag }}
+```
+
+:::info
+When manually building submit buttons in forms, be sure to include a `data-freeform-action` attribute to it.<Badge type="feature" text="3.12+" />
+
+The attribute value differs between various types of submit buttons:
+
+- For the regular submit button which advances forms forward, it's value has to be `submit`
+- For the back buttons in multi-page forms, the value has to be `back`
+- For the [Save & Continue Later](../../forms/save-continue-later.mdx) buttons, the value has to be `save`
+
+```html showLineNumbers
+<button type="submit" data-freeform-action="submit">Submit</button>
+<button type="submit" data-freeform-action="back">Go Back</button>
+<button type="submit" data-freeform-action="save">Save & Continue Later</button>
+```
+
+:::
+
+### Iterate over Fields instead of Rows
+
+You can also iterate over fields directly with `layout.fields` instead of [Row objects](../objects/row.mdx):
+
+```twig showLineNumbers
+{% set form = craft.freeform.form("myForm") %}
+
+{% for field in form.layout.fields %}
+  <div>{{ field.label }}</div>
+{% endfor %}
+```
+
+### Supressing Notifications and more
+
+Rendering the form that allows editing a specific submission and suppresses all of the email notifications, api integrations, payments and element connections:
+
+```twig showLineNumbers
+{{ craft.freeform.form("myForm").render({
+	submissionToken: mySubmissionTokenVariable,
+	suppress: {
+		api: true,
+		connections: true,
+		adminNotifications: true,
+		dynamicRecipients: true,
+		submitterNotifications: true,
+		payments: true,
+		webhooks: true,
+	},
+}) }}
+```
+
+### Relating Submissions to other Elements<Badge type="feature" text="3.2+" />
+
+You can feed Element ID(s) however you like, but the below example shows how you might pass off a loaded Entry ID to the Freeform form so that the submission will be related to it.
+
+If you have a Craft Entry with a slug of `submitted-contacts` that contains a [Freeform Submissions Field](../../forms/fieldtype.mdx) with a handle of `contactFormSubmissions`, and you would like to attach each submission to the Craft Entry field, you could do something like the following:
+
+```twig {6-8} showLineNumbers
+{# Fetch the entry however you wish #}
+{% set entry = craft.entries.slug("submitted-contacts").one %}
+
+{# Bind the entry relationship to the form #}
+{{ craft.freeform.form("contactForm").render({
+	relations: {
+		contactFormSubmissions: entry.id,
+	},
+}) }}
+```

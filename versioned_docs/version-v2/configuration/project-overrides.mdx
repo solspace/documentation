@@ -1,0 +1,166 @@
+---
+sidebar_position: 8
+---
+
+# Config Overrides
+
+Freeform allows you to include config overrides of [Freeform settings](../configuration/settings.mdx) in a configuration file, if you wish to do so instead of setting in the database. Just create a new file named `freeform.php` and place it into your Craft `/config/` directory.
+
+For Freeform **Lite** edition (including Pro):
+
+```php showLineNumbers
+<?php
+
+/**
+ * Freeform Lite base config file
+ */
+
+return [
+    '*' => [
+        // ================================================================================================
+        //  General
+        // ================================================================================================
+
+
+        // Override the plugin name by specifying your own here.
+        'pluginName'                    => 'Forms',
+
+        // Enable this to show the interactive tutorial again in Composer.
+        // This setting disables again when the tutorial is completed or skipped.
+        'showTutorial'                  => false,
+
+        // The default page to go to when clicking the Freeform nav item.
+        'defaultView'                   => \Solspace\Freeform\Freeform::VIEW_FORMS,
+
+        // The display order for the list of available fields in Composer.
+        'fieldDisplayOrder'             => \Solspace\Freeform\Freeform::FIELD_DISPLAY_ORDER_NAME,
+
+        // Include the default form formatting templates?
+        'defaultTemplates'              => true,
+
+        // Enable this to have newlines removed from Textarea fields in submissions when exporting.
+        'removeNewlines'                => false,
+
+        // Enable this to automatically disable the form's submit button when the form is submitted.
+        // This will prevent the form from double-submitting.
+        'formSubmitDisable'             => false,
+
+        // Include freeform JS scripts in the pages footer or inside the form tag.
+        'footerScripts'                 => true,
+
+        // Select the number of days after submissions have been submitted for Freeform
+        // to begin automatically purging. This process will only run every hour, and only
+        // when Freeform is accessed on the front end in templates or in the control panel.
+        'purgableSubmissionAgeInDays'   => null,
+
+
+        // ================================================================================================
+        //  Formatting and Email templates
+        // ================================================================================================
+
+
+        // Provide a relative path to the Craft Templates folder where your custom formatting templates
+        // directory is. This allows you to use Twig templates for your form formatting, and helps Composer
+        // locate these files to assign one of them to a form.
+        'formTemplateDirectory'         => null,
+
+        // Provide a relative path to the Craft Templates folder where your email templates directory is.
+        // This allows you to use Twig template files for your email formatting, and helps Composer locate
+        // these files when setting up notifications.
+        'emailTemplateDirectory'        => null,
+
+        // Which storage method to use when creating new email notifications with 'Add New Notification'
+        // option in Composer.
+        'emailTemplateStorage'          => \Solspace\Freeform\Models\Settings::EMAIL_TEMPLATE_STORAGE_DB,
+
+
+        // ================================================================================================
+        //  Spam
+        // ================================================================================================
+
+
+        // Enable this to use Freeform's built in Javascript-based honeypot spam protection.
+        'freeformHoneypot'              => true,
+
+        // Select the behavior you'd like Freeform to take when it detects a submission as being spam.
+        'spamProtectionBehaviour'       => \Solspace\Freeform\Models\Settings::PROTECTION_SIMULATE_SUCCESS,
+
+        // When enabled, all submissions caught by the honeypot or blocked email addresses,
+        // keywords and IP addresses will be flagged as spam and stored in the database,
+        // but available to manage in a separate menu inside Freeform.
+        'spamFolderEnabled'             => false,
+
+        // Enter email addresses you would like blocked from being used in Email fields.
+        // Use '*' for wildcard, and separate multiples on new lines.
+        'blockedEmails'                 => '',
+
+        // Enable this if you'd like field-based errors to display under the email field(s)
+        // that the user has entered blocked emails for. Not recommended for regular use,
+        // but helpful if trying to troubleshoot submission issues.
+        'showErrorsForBlockedEmails'    => false,
+
+        // The message shown to users when blocked emails are submitted. Can use the {email} variable.
+        'blockedEmailsError'            => '',
+
+        // Enter keywords you would like blocked from being used in all text and textarea fields.
+        // Use '*' for wildcard, and separate multiples on new lines.
+        'blockedKeywords'               => '',
+
+        // Enable this if you'd like field-based errors to display under the field(s)
+        // that the user has entered blocked keywords for. Not recommended for regular use,
+        // but helpful if trying to troubleshoot submission issues.
+        'showErrorsForBlockedKeywords'  => false,
+
+        // The message shown to users when blocked keywords are submitted. Can use {value} and {keyword} variables.
+        'blockedKeywordsError'          => '',
+
+        // Enter IP addresses you would like blocked. Separate multiples on new lines.
+        'blockedIpAddresses'            => '',
+
+        // Globally (affecting all users) prevent spam or attacks by limiting the number
+        // of times all forms can be submitted within a given timeframe.
+        'submissionThrottlingCount'     => null,
+        'submissionThrottlingTimeFrame' => \Solspace\Freeform\Models\Settings::THROTTLING_TIME_FRAME_MINUTES,
+
+        // If you wish to have Freeform automatically purge submissions flagged as spam
+        // after a specified number of days, enable this setting and specify the number
+        // of days after submission date it should purge spammy submissions.
+        'purgableSpamAgeInDays'         => null,
+    ],
+];
+```
+
+## Freeform Pro
+
+For Freeform **Pro** edition specifically:
+
+```php showLineNumbers
+<?php
+
+/**
+ * Freeform Pro base config file
+ */
+
+return [
+    '*' => [
+        // ================================================================================================
+        //  reCAPTCHA
+        // ================================================================================================
+
+        // Enable this to allow use of reCAPTCHA on your forms.
+        'recaptchaEnabled' => false,
+        'recaptchaKey'     => '',
+        'recaptchaSecret'  => '',
+
+
+        // ================================================================================================
+        //  Salesforce Lead CRM integration
+        // ================================================================================================
+
+        'salesforce_client_id'     => '',
+        'salesforce_client_secret' => '',
+        'salesforce_username'      => '',
+        'salesforce_password'      => '',
+    ],
+];
+```

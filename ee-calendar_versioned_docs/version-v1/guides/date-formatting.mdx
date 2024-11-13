@@ -1,0 +1,84 @@
+---
+sidebar_position: 5
+title: 'Date Formatting'
+---
+
+# Date Formatting
+
+In addition to standard EE date formatting, Calendar supports easy-to-use text format versions of dates for all parameters that accept date values. Text dates are relative to today. So for example, you can specify dates like this:
+
+- `today`
+- `tomorrow`
+- `yesterday`
+- `X day(s)` (where X is a number of days greater than or equal to 1)
+- `X week(s)` (where X is a number of weeks greater than or equal to 1)
+- `X month(s)` (where X is a number of months greater than or equal to 1)
+- `X year(s)` (where X is a number of years greater than or equal to 1)
+
+So to display all events that fall within today’s date, up to 3 months in the future, you can do something like this:
+
+```html showLineNumbers
+date_range_start="today" date_range_end="3 months"
+```
+
+- The word `ago` can also be appended to refer to dates in the past. For
+  example, `1 week` means one week from today, while `1 week ago` means
+  one week ago.
+- `+5 days` / `-5 days` (days, weeks, months, years / begin, end)
+  - Preceding the number with `+` will look into the future, while
+    `-` into the past.
+  - The number can be any integer.
+  - Any of days, weeks, months, or years can be provided.
+  - An optional `begin` or `end` suffix may be added for weeks,
+    months, and years. Doing so will adjust the date to the first or last
+    day of the week, month, or year.
+
+So to display all events that fall within today’s date, up to 5 days into the future, you can do something like this:
+
+```html showLineNumbers
+date_range_start="today" date_range_end="+5 days"
+```
+
+- `YYYYMMDD`
+- `YYYY-MM-DD`
+- `MM-DD-YYYY`
+- `MM/DD/YYYY`
+- `year-month-day`
+- When using either `YYYY-MM-DD` or `MM-DD-YYYY`, you may replace one
+  or more of the numeric values with the literal words `year`, `month`,
+  and/or `day`. Calendar will then replace that word with the relevant
+  value for the current date. Examples:
+  - `year-12-25` = Christmas Day in the current year.
+  - `2004-month-15` = The fifteenth day of the current month in 2004.
+- The literal value `year-month-day` is equivalent to “today”.
+- You may use the word “last” instead of “day”. Doing so will set the
+  date to the final day of the relevant month. Examples:
+  - `2010-02-last` = February 28, 2010.
+  - `2012-02-last` = February 29, 2010
+  - `year-month-last` = The last day of the current month of the
+    current year.
+
+## Time Formatting
+
+Calendar takes a somewhat unconventional approach to Time Formatting. Rather than specifying a date/time like this `YYYY-MM-DD HH:MM AM`, you actually need to specify it like this `YYYY-MM-DD @ HH:MM AM` (with `[space] @ [space]` seperating the date and the time). You can also call Times in a variety of formats and easy-to-use text format versions. So for example, you can specify dates like this:
+
+- `@ now`
+- `@ noon`
+- `@ midnight` (start of day, not end of day)
+- `@ 0800` (four digits, 24h time)
+- `@ 16:00` (24h time)
+- `@ 8:00 am` (am/pm time)
+
+So some complete formatting examples would look like:
+
+```html showLineNumbers
+date_range_start="yesterday @ noon" date_range_end="today @ 5:00 pm"
+```
+
+```html showLineNumbers
+date_range_start="today @ midnight" date_range_end="2 weeks @ 8:00 pm"
+```
+
+```html showLineNumbers
+date_range_start="2010-02-01 @ 0800" date_range_end="2010-02-last @ 1600"
+```

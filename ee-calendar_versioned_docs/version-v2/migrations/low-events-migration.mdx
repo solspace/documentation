@@ -1,0 +1,50 @@
+---
+sidebar_position: 2
+title: 'Migration from Low Events'
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Migrating from Low Events
+
+:::danger
+**Please note:** The Low Events migration is no longer supported.
+:::
+
+:::warning
+This migration only works in EE3. It does not currently work in EE4+.
+:::
+
+If you'd like to do more with your calendars and events such as allowing recurrences and exclusions, Solspace Calendar offers a migration script that makes it very easy to switch from [Low Events](http://gotolow.com/addons/low-events) 1.5+ to Solspace Calendar. Calendar can accomplish everything Low Events can, so there will be no compromises in the Solspace Calendar version of your event data.
+
+If you have both Calendar and Low Events installed, Calendar will detect the Low Events addon and display a _Migrate from Low Events_ option in the navigation of the add-on.
+
+The Migration will then copy over Low Event data into Calendar fields (and the Low Events data will remain intact). Because of this, you'll also be able to create and test new templates for Solspace Calendar functionality while Low Events data continues to work until you're ready to switch things over completely.
+
+<Photo
+  img={require('@site/static/img/ee-calendar/v5/calendar-cp_low-events-migration.png')}
+  alt="Migrating from Low Events"
+/>
+
+## Overview
+
+When migrating from Low Events to Calendar 2.x, the below is an overview of the steps that should happen as well as what will happen with Calendar migration utility:
+
+1. Install and set up Calendar on your site.
+2. Create at least 1 calendar for your site (in the _Calendars_ page of the Calendar module CP area).
+3. Create a _Calendar_ field for each channel that has a _Low Events_ field. The default calendar assigned to each Calendar field will become the calendar that is assigned to Low Events in that channel.
+4. Click to the _Migration_ page in the Calendar module CP area.
+5. Calendar will detect all channel entries that have a Low Events field, and you will be presented with a list of 'event' channel entries to be migrated. If any of the Low Event 'event' channel(s) do not have a _Calendar_ field in them, those entries will be grayed out with red message, alerting you that Calendar could not detect a _Calendar_ field to map the Low Event data to. You should correct that before proceeding. Otherwise, those affected events' data will not be migrated over.
+6. Click on the _Begin Migration_ button to start.
+7. Your _Calendar_ fields in event entries should now be populated with event data.
+8. Proceed to cleaning up your site ([see below](#clean-up)).
+
+If anything happens to go wrong, it's technically possible to re-run the migration utility, but check in first with [Solspace Support Team](https://solspace.com/expressionengine/support).
+
+## Clean up
+
+Once the migration is complete and you're happy with the results, you can proceed to cleaning up your site:
+
+- Review all event channel entries to ensure the data is correct.
+- Review Calendar documentation and begin update your templates with Calendar template tags, etc, or create new templates and test separately first.
+- If you're absolutely certain everything migrated correctly, you can proceed to removing Low Events from your site.

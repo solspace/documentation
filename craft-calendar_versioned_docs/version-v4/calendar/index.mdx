@@ -1,0 +1,88 @@
+---
+title: Managing Calendar
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Managing Calendars
+
+Calendar allows you to group your events into calendars, very similar to popular calendaring apps like _Apple Calendar_ and _Google Calendar_. Calendars can be customized to have their own fields / field layouts and calendar color.
+
+## Overview
+
+The calendar area in the control panel displays a list of all existing calendars. You can update or remove existing ones, as well as create new ones here.
+
+:::warning
+Removing calendar(s) will also permanently remove ALL associated events!
+:::
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_calendars.png')}
+  alt="Calendars List"
+/>
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_calendar-create.png')}
+  alt="Create a New Calendar"
+/>
+
+Calendars allow you to set the following data for each one:
+
+### Name
+
+The name of the calendar that will be visible everywhere.
+
+### Handle
+
+The name you'll use when referring to the calendar in your templates. Auto-generated from the _Name_ field.
+
+### Description
+
+The description of the calendar. Can be accessed in your templates.
+
+### Color
+
+The unique color for each calendar. Choose from picker (Calendar also automatically internally generates a lighter and darker version of this color for use in control panel and front end templates)
+
+### Site Setting
+
+Enable this to set up automatic routing of URL's for your events. Enabling this will also allow you to use the Live Preview feature.
+
+:::info
+The templates will look for `event.`, not `entry.` (e.g. `event.title`, not `entry.title`).
+:::
+
+- **Event URI Format** - what the event URLs should look like. You can include tags that output event properties, such as `{slug}` or `{postDate|date("Y")}`.
+- **Template** - the template to use when an event's URL is requested.
+
+### Show the Title field
+
+Uncheck this to set your own title format, auto-generated from other field(s).
+
+- **Title Format** - What the auto-generated event titles should look like. You can include tags that output entry properties, such as `{myCustomField}`.
+
+### Allow Repeating Events <Badge type="pro" text="Pro" />
+
+Disable this option to allow only single occurrence events for this calendar.
+
+### Forced ICS Event Timezone <Badge type="pro" text="Pro" />
+
+Choose a timezone that will be forced upon exported ICS event dates. Default is _Floating Timezone_ (recommended), which means no timezone.
+
+:::warning
+ICS subscriptions currently do not work correctly for Google Calendar when using _Floating Timezone_. The issue is that there's a "bug" or at least oddity in [the way Google Calendar handles events with floating dates](https://productforums.google.com/forum/#!topic/calendar/Xjxs5UjhsXI) compared to all other calendaring apps. Google does not to conform to [iCal standards](https://tools.ietf.org/html/rfc5545#section-3.3.5) for this. You can work around this by setting the **Forced ICS Event Timezone** setting to a real timezone.
+:::
+
+### ICS Description field <Badge type="pro" text="Pro" />
+
+Set the custom field which is used for event description in ICS exports.
+
+### ICS Location field <Badge type="pro" text="Pro" />
+
+Set the custom field which is used for event location in ICS exports.
+
+### Design Field Layout
+
+Works just like regular Craft field layouts. Simply create how you want your event publishing experience to be. Layouts are unique per Calendar.
+
+Calendars also include an option to share calendars with a publicly accessible ICS subscription URL (Pro), allowing users to subscribe (one way sync) their calendaring app to your sites' calendar(s). To enable this, click on the **Share this calendar** button next to the applicable calendar(s) on the list view of calendars. Once enabled, you can then copy the ICS URL and share it with whoever you wish (admins, show it publicly, etc).

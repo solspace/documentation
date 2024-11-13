@@ -1,0 +1,52 @@
+---
+title: Occurrences
+sidebar_position: 3
+---
+
+# Occurrences object
+
+The _occurrences_ object allows you to display a list of recurrences for a given event. It could also be filtered down to display the next upcoming event for a particular event.
+
+## Properties
+
+Contains many of the same properties as the [Event object](./event.mdx).
+
+## Usage in Templates
+
+```twig showLineNumbers
+{% set event = craft.calendar.event(craft.app.request.segment(2)) %}
+
+{% if event.repeating %}
+
+    <h3>Upcoming Recurrences</h3>
+
+    {% set occurrences = event.occurrences({
+        rangeStart: 'today',
+        rangeEnd: '+6 months',
+        limit: 10,
+    }) %}
+
+    {% if occurrences %}
+        <ul class="list-group">
+            {% for occurrence in occurrences %}
+                <li class="list-group-item">
+                    {{ occurrence.startDate.format("l, F j, Y") }}
+                    {% if occurrence.allDay %}
+                        (all day)
+                    {% else %}
+                        at {{ occurrence.startDate.format("g:ia") }}
+                        {% if occurrence.multiDay %}
+                            <br />{{ occurrence.endDate.format("l, F j, Y \\a\\t g:ia") }}
+                        {% else %}
+                            {{ occurrence.endDate.format("g:ia") }}
+                        {% endif %}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No occurrences found for this timeframe.</p>
+    {% endif %}
+
+{% endif %}
+```

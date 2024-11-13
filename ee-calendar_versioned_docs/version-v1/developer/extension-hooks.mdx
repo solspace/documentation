@@ -1,0 +1,262 @@
+# Developer Extension Hooks
+
+## Calendar Module Class Hooks
+
+`./mod.calendar.php`
+
+### calendar_calendars_channel_query
+
+Manipulate the `{exp:calendar:calendars}` channel query before data is processed.
+
+```php showLineNumbers
+$channel->query = ee()->extensions->call(
+	'calendar_calendars_channel_query',
+	$channel->query,
+	$calendar_array
+);
+if (ee()->extensions->end_script === TRUE) return;
+```
+
+- `$channel->query` - the channel query object. `$channel->query->result` has already been set at this point and is an array of results.
+- `$calendar_array` - an array of calendar info data for each calendar to be listed in `{exp:calendar:calendars}`.
+- Return: `object` - you must return the `$channel->query` object. Remember to leave `$channel->query->result` as an array of results.
+
+### calendar_events_event_ids
+
+Manipulate the event ID results for `{exp:calendar:events}` and `{exp:calendar:occurrences}`
+
+```php showLineNumbers
+$ids = ee()->extensions->call(
+	'calendar_events_event_ids',
+	$ids
+);
+```
+
+- `$ids` - an array of ID's of channel entries for the events to be shown.
+- Return: `array` - you must return an array of channel entry ID's from the Calendar Events channel.
+
+### calendar_build_calendar_create_pagination
+
+(Calendar 1.7.1+)
+
+Lets you manipulate the pagination data output for `{exp:calendar:mini}`, `{exp:calendar:month}`, `{exp:calendar:week}`, `{exp:calendar:today}`, `{exp:calendar:day}`, and `{exp:calendar:cal}`.
+
+```php showLineNumbers
+$pagination_data = ee()->extensions->call(
+	'calendar_build_calendar_create_pagination',
+	$this,
+	$pagination_data
+);
+```
+
+- `$this` - instance of the Calendar object (`mod.calendar.php`).
+- `$this->parent_method` is a string which will notate which function is being called. e.g. `mini`, `cal`, etc.
+- `$pagination_data` - the `$pagination_data` array:
+  - `paginate` (boolean) are we paginating?
+  - `page_next` (string) next page URL
+  - `page_previous` (string) previous page URL
+  - `pagination_page` (int) pagination page from URL (e.g. 5,10,15)
+  - `current_page` (int) current numeric page (e.g. 1,2,3)
+  - `pagination_links` (string) \{pagination_links} output
+  - `base_url` (string) base URL of pagination
+  - `total_pages` (int) total pages
+  - `paginate_tagpair_data` (string) the tagdata from \{paginate} tag pair
+  - `page_count` (string) \{page_count} output.
+- Return: `array` - you must return the `$pagination_data` array with all parameters included from above as their proper types.
+
+### calendar_events_channel_query
+
+Manipulate the `$channel->query` object for `{exp:calendar:events}` and `{exp:calendar:occurrences}`
+
+```php showLineNumbers
+	$channel->query = ee()->extensions->call(
+		'calendar_events_channel_query',
+		$channel->query,
+		$ids
+	);
+```
+
+- `$channel->query` - the channel query object. `$channel->query->result` has already been set at this point and is an array of results from the `$ids` array sent.
+- `$ids` - an array of ID's of channel entries for the events to be shown.
+- Return: `object` - you must return the `$channel->query` object. Remember to leave `$channel->query->result` as an array of results.
+
+### calendar_events_create_pagination
+
+(Calendar 1.7.1+)
+
+Lets you manipulate the pagination data output for `{exp:calendar:events}` and `{exp:calendar:occurrences}`.
+
+```php showLineNumbers
+	$pagination_data = ee()->extensions->call(
+		'calendar_events_create_pagination',
+		$this,
+		$pagination_data
+	);
+```
+
+- `$this` - instance of the Calendar object (`mod.calendar.php`).
+- `$this->parent_method` is a string which will notate which function is being called. e.g. `events` or `occurrences`.
+- `$pagination_data` - the `$pagination_data` array:
+  - `paginate` (boolean) are we paginating?
+  - `page_next` (string) current page URL
+  - `page_previous` (string) previous page URL
+  - `pagination_page` (int) pagination page from URL (e.g. 5,10,15)
+  - `current_page` (int) current numeric page (e.g. 1,2,3)
+  - `pagination_links` (string) \{pagination_links} output
+  - `base_url` (string) base url of pagination
+  - `total_pages` (int) total pages
+  - `paginate_tagpair_data` (string) the tagdata from \{paginate} tag pair
+  - `page_count` (string) \{page_count} output.
+- Return: `array` - you must return the `$pagination_data` array with all parameters included from above as their proper types.
+
+## Calendar Event Class Hooks
+
+`./calendar.event.php`
+
+### calendar_event_end
+
+Add additional processing after an event has been created.
+
+```php showLineNumbers
+ee()->extensions->call(
+	'calendar_event_end',
+	$this
+);
+```
+
+- `$this` - Event object.
+
+## Calendar Parameter Class Hooks
+
+`./calendar.parameters.php`
+
+### calendar_parameters_valid_values
+
+Allows you to modify valid values coming into the parameter checker.
+
+```php showLineNumbers
+$valid_values = ee()->extensions->call(
+	'calendar_parameters_valid_values',
+	$valid_values
+);
+if (ee()->extensions->end_script === TRUE) return;
+```
+
+- `$valid_values` - a starting array of valid values for passed in params.
+
+```php showLineNumbers
+$valid_values = array(
+  'required'			=> array(FALSE, TRUE),
+  'type'				=> array(
+    'string',
+    'integer',
+    'number',
+    'date',
+    'time',
+    'bool'
+  ),
+  'multi'				=> array(FALSE, TRUE),
+  'method'			=> array(
+    'tmpl',
+    'GET',
+    'POST',
+    'cookie'
+  ),
+  'case_sensitive'	=> array(FALSE, TRUE)
+);
+```
+
+- Returns: `array` - manipulated valid param array.
+
+### calendar_parameters_default_values
+
+Allows you to modify default values coming into the parameter checker.
+
+```php showLineNumbers
+$default = ee()->extensions->call(
+	'calendar_parameters_default_values',
+	$default
+);
+if (ee()->extensions->end_script === TRUE) return;
+```
+
+- `$default` - a starting array of valid values for passed in params.
+
+```php showLineNumbers
+$default = array(
+  'name'				=> $name,
+  'required'			=> FALSE,
+  'type'				=> array('string'),
+  'default'			=> '',
+  'multi'				=> FALSE,
+  'min_value'			=> FALSE,
+  'max_value'			=> FALSE,
+  'allowed_values'	=> array(),
+  'method'			=> $this->choose_method($name),
+  'case_sensitive'	=> FALSE,
+  'not'				=> FALSE
+);
+```
+
+- Returns: `array` - Manipulated default param array.
+
+### calendar_parameters_additional_method
+
+Add an additional fetching method to the fetch_value method.
+
+_**Note:** this will not override previously named fetch types of `tmpl`, `GET`, `POST`, `cookie` when the variable looked for is available in the passed array._
+
+For example, given the function called like so:
+
+```php showLineNumbers
+$P = new Calendar_parameters();
+$value = $P->fetch_value('my_variable', 'POST');
+```
+
+And given that `$_POST['my_variable']` is available, then the hook will not be called. However, if `$_POST['my_variable']` is not available, the hook will be called and give the extension a chance to provide a variable.
+
+This can be used to effectively give defaults in situations where an input is absolutely expected to be present or else a method will return 0 results.
+
+```php showLineNumbers
+$value = ee()->extensions->call(
+	'calendar_parameters_additional_method',
+	$method,
+	$name
+);
+```
+
+- `$method` - the method that is being searched for the name. Default types available are: `tmpl`, `GET`, `POST`, `cookie`, where `tmpl` is looking for template tag parameters.
+- `$name` - the name of the value being searched for.
+- `returns` mixed - you must return a value for this function. If you only wish to observe a missed value and not to return anything unless a certain criteria is met, return boolean `FALSE`.
+
+### calendar_parameters_additional_type_validation
+
+```php showLineNumbers
+return ee()->extensions->call(
+	'calendar_parameters_additional_type_validation',
+	$value,
+	$details
+);
+```
+
+## Calendar Module Control Panel Class Hooks
+
+`./mcp.calendar.php`
+
+### calendar_delete_events
+
+Perform additional actions before calendar entry deletion.
+
+```php showLineNumbers
+$edata = ee()->extensions->call(
+	'calendar_delete_events',
+	$this
+);
+if (ee()->extensions->end_script === TRUE) return;
+```
+
+This is called expecting `$_POST['delete']` to be a numeric ID or an array of IDS of calendar events that is then sent to the `Publish->delete_events()` in ExpressionEngine 1.x or `api_channel_entries->delete_entry()` in ExpressionEngine 2.x.
+
+Once channel entries are deleted, any extra calendar event data and rules are deleted.
+
+- `$this` - the Calendar Module Control Panel object instance.

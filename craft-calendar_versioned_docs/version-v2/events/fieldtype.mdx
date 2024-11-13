@@ -1,0 +1,70 @@
+---
+sidebar_position: 6
+title: Element Field Types
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Element Field Types
+
+Calendar includes Calendar Events and Calendar Calendars fieldtypes, which allows you to assign/relate events and whole calendars (ID's) to other element types such as Craft Entries and even other events themselves.
+
+## Calendar Events
+
+The Calendar Events field type allows you to assign/relate events to other element types such as Craft Entries and even other Calendar events.
+
+### Creating an Events field
+
+Creating a Calendar Events field is done just like any other fieldtype, here's an overview of the process:
+
+1. Go to the **Settings** area in Craft control panel. Click on **Fields**.
+2. Click the **New field** button in the top right corner.
+3. Name the field as you wish. For example: _Related Events_ with a handle of _relatedEvents_.
+4. For the **Field Type** option, select _Calendar Events_ from the list.
+5. The **Sources** list lets you narrow down the possible assignable events to this field by calendar. Select all or whichever calendar(s) you'd like.
+6. **Limit** limits the number of events you can select for this field.
+7. **Selection Label** is the text that will appear on the button which opens the Event selection pop-up dialog.
+8. Click the **Save** button in the top right corner to save the new field.
+
+Your Calendar Events field is now available to be assigned to other sections.
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_fieldtype-create.png')}
+  alt="Create New Fieldtype"
+/>
+
+### How the Fieldtype works
+
+The Calendar Event fieldtype lets the user assign any events that have been created in the Calendar Events page to any element: a section entry, categories, assets, etc. Even events themselves.
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_fieldtype-entry1.png')}
+  alt="Using Fieldtype"
+/>
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_fieldtype-entry2.png')}
+  alt="Using Fieldtype"
+/>
+
+### Use in Templates
+
+You add the Calendar Event fieldtype to your template code just like you would for any other field. Continuing off the example above (with handle of _relatedEvents_), your code would look something like this:
+
+```twig showLineNumbers
+{% if entry.relatedEvents is defined and entry.relatedEvents is not empty %}
+  <ul>
+  {% for event in entry.relatedEvents.status(null).all %}
+    <li>
+      {{ event.title }} - {{ event.startDate.format("l, F j, Y \\a\\t g:ia") }}
+      ({{ event.duration.humanReadable }})
+      in {{ event.calendar.name }} calendar.
+      {% if event.repeating %}
+        Repeats {{ event.readableRepeatRule }}
+      {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>No events related to this entry.</p>
+{% endif %}
+```

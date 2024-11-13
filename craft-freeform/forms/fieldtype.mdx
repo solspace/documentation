@@ -1,0 +1,132 @@
+---
+sidebar_position: 7
+title: Element Field Type
+---
+
+import Player from 'react-player';
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+import FieldTypePhoto from './assets/img/fieldtype-form.png';
+
+import FieldTypeFormVideo from './assets/videos/fieldtype-form.mp4';
+
+# _Form_ Element Field Type<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+
+Freeform includes a _Freeform Form_ field type (and [Freeform Submissions](../submissions/fieldtype.mdx)), which allows you to assign/relate forms to other element types such as Craft Entries.
+
+<Photo img={FieldTypePhoto} alt="Field Type" />
+
+## Overview
+
+The Freeform Form field type allows you to assign/relate forms to other element types such as Craft Entries. A common use case here would be if you wanted to allow admins to attach a specific Freeform form to a Craft Entry that corresponds to the entry, and then automate loading the form along with the entry in the front end templates.
+
+<Player
+  url={FieldTypeFormVideo}
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
+
+### Creating the Field
+
+Creating a Freeform Form field is done just like any other fieldtype, here's an overview of the process:
+
+Click the **New field** button in the top right corner.
+
+<VerticalStepWrapper>
+<StepMarkdown>
+Go to the **Settings** area in Craft control panel. Click on **Fields**.
+
+Click the **New field** button in the top right corner.
+
+</StepMarkdown>
+
+<StepMarkdown>
+Name the field as you wish. For example: *Related Form* with a handle of `relatedForm`.
+</StepMarkdown>
+<StepMarkdown>
+
+For the **Field Type** option, select _Freeform Form_ from the list.
+
+**Selection Label** is the text that will appear on the button which opens the Freeform Form selection pop-up dialog.
+
+</StepMarkdown>
+<StepMarkdown>
+Click the **Save** button in the top right corner to save the new field.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+Your Freeform Form field is now available to be assigned to other sections.
+
+### Template Properties
+
+The following template properties are available for the _Form_ field type:
+
+- `name` - outputs the name of the form
+- `handle` - outputs the handle of the form
+- `id` - outputs the unique ID of the form
+- `description` - outputs the description of the form
+- `render()` - outputs the full form, rendering it with the [Formatting Template](../templates/formatting/index.mdx) specified in the form builder for the form.
+
+## Examples
+
+### Freeform Form Field in Entries
+
+An example of template code you would use to display a Freeform form (with field handle of _myFreeformFieldName_) that is attached to a Craft Entry would look something like this:
+
+```twig {5-8} showLineNumbers
+{% for entry in craft.entries.section('news').limit(10) %}
+    <div class="entry">
+        <h2><a href="{{ entry.url }}">{{ entry.title }}</a></h2>
+        {{ entry.summary }}
+        {% if entry.myFreeformFieldName is defined and entry.myFreeformFieldName is not empty %}
+            <h3>{{ entry.myFreeformFieldName.name }}</h3>
+            {{ entry.myFreeformFieldName.render() }}
+        {% endif %}
+    </div>
+{% endfor %}
+```
+
+### Freeform Form Field in Matrix field
+
+If you're using the _Freeform Form_ field inside a Matrix field, your code might look something like this:
+
+```twig {6-7} showLineNumbers
+<div class="entry">
+    <h1>{{ entry.title }}</h1>
+    {{ entry.body }}
+    {% for block in entry.myMatrixField.all() %}
+        {% if block.type == "form" %}
+            <h3>{{ block.myFreeformFieldName.name }}</h3>
+            {{ block.myFreeformFieldName.render }}
+            <p>{{ block.someOtherField }}</p>
+        {% elseif block.type == "whatever" %}
+            <p>Whatever</p>
+        {% endif %}
+    {% endfor %}
+</div>
+```
+
+### Passing Entry Data into Freeform Fields
+
+If you'd like to automatically pass content from another element (such as a Craft Entry) into Freeform field(s), you'd have to use the `value` parameter as part of the [Template Overrides](../templates/formatting/index.mdx#template-overrides) feature inside your formatting template.
+
+For example, if you want to pass the title of an entry to a Freeform field, and the entry slug is in the second segment of your URL, you should set that in your formatting template. Also, be sure to include a hidden Freeform field in your form (in this case called `entryTitle`). Your template code might look something like this:
+
+```twig showLineNumbers
+{% set entry = craft.entries.slug(craft.app.request.getSegment(2)).one() %}
+
+{{ form.renderTag({
+    fields: {
+        "entryTitle": {
+            value: entry.title
+        },
+    }
+}) }}
+
+```

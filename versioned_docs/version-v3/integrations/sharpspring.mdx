@@ -1,0 +1,57 @@
+---
+title: 'SharpSpring'
+sidebar_position: 21
+---
+
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# SharpSpring CRM Integration<Badge type="pro" text="Pro" />
+
+This documentation page assumes you have read over the [CRM Integration Overview](./index.mdx#crm). If you have not yet read it, please do so now. We also assume that you have a [SharpSpring](https://sharpspring.com) account already. This integration requires that you have _Freeform Pro_. If you currently have Freeform Lite, you can purchase an upgrade to Freeform Pro.
+
+## Compatibility
+
+- Field mapping to standard SharpSpring fields and all custom field types.
+- Maps data to **Contacts**.
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+
+### Create & get API Key from SharpSpring
+
+- Go to [SharpSpring](https://sharpspring.com) and log into your account.
+- At the top right corner, click on the profile icon and select **Settings**.
+- On the next page, on the left side Settings panel, under **SharpSpring API**, click the **API Settings** link.
+- You'll then see your keys for SharpSpring API under Account ID and Secret Key. Click the **Generate New API Keys** button if you wish to generate new ones (optional).
+- Copy the Account ID and Secret Key.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Set up Integration on your site
+
+- Go to the [CRM section in Freeform Settings](../configuration/settings.mdx#crm) (**Freeform → Settings → CRM**).
+- Click the **New CRM Integration** at the top right.
+- Select _SharpSpring_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration.
+- Paste the SharpSpring **Account ID** and **Secret Key** into the **Account ID** and **Secret Key** field, respectively, in Freeform.
+- At the top right corner of Freeform page, click **Save** button.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Verify Authorization
+
+- After the integration is saved, it'll return you to the list of CRM integrations.
+- Click into the newly created integration.
+- Confirm that there is green circle with **Authorized** in the middle of the page.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>

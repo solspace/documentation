@@ -1,0 +1,305 @@
+---
+sidebar_position: 9
+title: 'Month'
+---
+
+# Calendar:Month template tag
+
+The _Calendar:Month_ loop outputs a one month calendar view showing a specific months events. It's a shortcut to using the complex [Calendar:Cal](../templating/cal.mdx) function. Unlike most ExpressionEngine tags, the `{exp:calendar:month}{/exp:calendar:month}` tags alone will output a pre-templated display. Using the parameters and variables below, you can filter and format the results further. Defaults to displaying events for current month.
+
+```html showLineNumbers
+{exp:calendar:month} content {/exp:calendar:month}
+```
+
+## Parameters
+
+### site_id=
+
+`site_id="1"`
+
+If using MSM, you can specify a Site ID in this parameter to filter entries down to that site.
+
+### calendar_id=
+
+`calendar_id="1|3"`
+
+This parameter allows you to display specific calendars by specifying their entry ID(s). You can hardcode a calendar ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### calendar_name=
+
+`calendar_name="soccer|baseball|dodgeball"`
+
+This parameter allows you to display specific calendars by specifying their short_names (entry url_title). You can hardcode a short_name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### event_id=
+
+`event_id="23|77"`
+
+This parameter allows you to display specific events by specifying their entry ID(s). You can hardcode an event ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### event_name=
+
+`event_name="best_event_evar|christmas|pie_day"`
+
+This parameter allows you to display specific events by specifying their short_names (entry url_title). You can hardcode a short_name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### first_day_of_week=
+
+`first_day_of_week="0"`
+
+By default, Calendar considers Sunday as the first day of the week. This parameter allows you to override that by specifying the numeric value of a weekday (ex: Sunday = `0`, Monday = `1`, etc).
+
+### date_range_start=
+
+`date_range_start="2010-01-01"`
+
+This parameter allows you to specify a specific month to display events for. If this parameter is NOT specified, then the current month is displayed. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter.
+
+### enable=
+
+`enable="categories|category_fields|custom_fields|member_data|pagination"`
+
+By default, this function does not grab any advanced channel data in order to improve performance. However, opposite to the EE Channel module's
+[disable](https://ellislab.com/expressionengine/user-guide/add-ons/channel/channel_entries.html#disable) parameter, this parameter allows you to enable some or all of those features when you need them. Separate multiples with the pipe character. Options are: `categories`, `category_fields`, `custom_fields`, `member_data`, and `pagination`.
+
+## Variables
+
+Most of the [variables listed in Calendar:Events](../templating/events.mdx#variables) are available for use here. Formatting variables are not needed as the _Calendar:Month_ loop will do that for you. However, should you need to use any, all relevant [variables from Calendar:Cal](../templating/cal.mdx#variables) (prepended with `month_`) are available for use here.
+
+## Conditionals
+
+Most of the [conditionals listed in Calendar:Events](../templating/events.mdx#conditionals) are available for use here. Formatting conditionals are not needed as the _Calendar:Month_ loop will do that for you. However, should you need to use any, all relevant [conditionals from Calendar:Cal](../templating/cal.mdx#conditionals) (prepended with `month_`) are available for use here.
+
+## Examples
+
+### Easy
+
+This single set of code will output a monthly Calendar for you. This is thanks to the preloaded template pack included with Calendar. The `{exp:calendar:month}{/exp:calendar:month}` tags act almost like an `{events}{/events}` variable pair for formatting the events (see [Calendar:Events Documentation](../templating/events.mdx) for list of available variables and conditionals):
+
+```html showLineNumbers
+<html>
+  <head>
+    <title>Month Calendar</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/themes/third_party/calendar/templates/month.css"
+    />
+    <!--[if gte IE 7]>
+      <style type="text/css">
+        #fc_calendar .event {
+          width: 137px;
+        }
+      </style>
+    <![endif]-->
+  </head>
+  <body>
+    <div id="fc_calendar">
+      {exp:calendar:month {if segment_3}
+      date_range_start="{segment_3}-{segment_4}-01" {/if} }
+      <a href="{path='calendar/events'}/{event_id}/"> {event_title} </a>
+      {/exp:calendar:month}
+    </div>
+  </body>
+</html>
+```
+
+### Moderate
+
+If you’d like a little more control over the output of your Calendar so
+that it includes times and accommodates for multi-day events, etc, you
+might be interested in trying out the below example:
+
+```html showLineNumbers
+<html>
+  <head>
+    <title>Month Calendar</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/themes/third_party/calendar/templates/month.css"
+    />
+    <!--[if gte IE 7]>
+      <style type="text/css">
+        #fc_calendar .event {
+          width: 137px;
+        }
+      </style>
+    <![endif]-->
+  </head>
+  <body>
+    <div id="fc_calendar">
+      {exp:calendar:month {if segment_3}
+      date_range_start="{segment_3}-{segment_4}-01" {/if} }
+      <div
+        class="
+        event
+        {if event_all_day}all_day{/if}
+        {if event_multi_day}multi_day{/if}
+        {if event_first_day}first_day{/if}
+        {if event_last_day}last_day{/if}
+        {if all_day_event_index_difference > 0}
+          index_difference_{all_day_event_index_difference}
+        {/if}
+      "
+      >
+        {if event_multi_day}
+        <a href="{path='calendar/events'}/{event_id}/">{event_title}</a>
+        {if event_all_day == FALSE} {if event_first_day} ({event_start_time}
+        {/if} {if event_last_day} {event_end_time}) {/if} {/if} {if:else}
+        <a href="{path='calendar/events'}/{event_id}/">{event_title}</a>
+        {if event_all_day == ''} ( {event_start_date format="%g"} {if
+        event_start_minute > 0} :{event_start_minute} {/if} {if event_end_time
+        != event_start_time && event_end_time != '00:00'} &ndash;
+        {event_end_date format="%g"} {if event_end_minute > 0}
+        :{event_end_minute} {/if} {event_end_date format="%a"} {if:else}
+        {event_start_date format="%a"} {/if} ) {/if} {/if}
+      </div>
+      {/exp:calendar:month}
+    </div>
+  </body>
+</html>
+```
+
+### Advanced
+
+If you’re interested in working the code from scratch, you’ll need to
+use the full [Calendar:Cal](../templating/cal.mdx) function to generate
+the code:
+
+```html showLineNumbers
+<html>
+  <head>
+    <title>Month Calendar</title>
+    <link rel="stylesheet" type="text/css" href="/themes/third_party/calendar/templates/month.css" />
+    <!--[if gte IE 7]>
+    <style type="text/css">
+      #fc_calendar .event { width: 137px; }
+    </style>
+    <![endif]-->
+  </head>
+  <body>
+    <div id="fc_calendar">
+      {exp:calendar:cal
+      {if segment_3 == ''}
+        date_range_start="year-month-01"
+        date_range_end="year-month-last"
+      {/if}
+      {if segment_3 != ""}
+        date_range_start="{segment_3}-{segment_4}-01"
+        date_range_end="{segment_3}-{segment_4}-last"
+      {/if}
+      }
+      {display_each_month}
+      <table id="fc_outer">
+        <thead>
+          <tr id="month_year">
+            <th colspan="2">&laquo;
+              <a href="{path='calendar/month'}/{prev_month format="%Y/%m"}/">
+                {prev_month format="%F"}
+              </a>
+            </th>
+            <th colspan="3">{date format="%F %Y"}</th>
+            <th colspan="2">
+              <a href="{path='calendar/month'}/{next_month format="%Y/%m"}/">
+                {next_month format="%F"}
+              </a>
+              &raquo;
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="7">
+              <div class="wrap">
+                <table id="fc_inner">
+                  <thead>
+                    <tr id="days_of_week">
+                      {display_each_day_of_week}
+                      <th class="day_of_week {day_of_week}">
+                        {day_of_week}
+                      </th>
+                      {/display_each_day_of_week}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {display_each_week}
+                     <tr>
+                      {display_each_day}
+                      {if day_in_current_month}
+                        <td class="day_cell">
+                          <div class="date">
+                            <a class="num"
+                              href="{path='calendar/day'}/{date format="%Y/%m/%d"}/">
+                              {date format="%j"}
+                            </a>
+                          </div>
+                      {if:else}
+                        <td class="day_cell out_of_range">
+                          <div class="date">
+                          <span class="num">
+                            {date format="%j"}
+                          </span>
+                        </div>
+                      {/if}
+                      {display_each_hour}
+                        {events}
+                          <div
+                            class="
+                            event {if event_all_day}all_day{/if}
+                            {if event_multi_day}multi_day{/if}
+                            {if event_first_day}first_day{/if}
+                            {if event_last_day}last_day{/if}
+                            {if all_day_event_index_difference > 0}
+                              index_difference_{all_day_event_index_difference}
+                            {/if}
+                            ">
+                          {if event_multi_day}
+                            {if event_all_day == FALSE}
+                              {if event_first_day}
+                                {event_start_time}
+                              {/if}
+                              {if event_last_day}
+                                {event_end_time}
+                              {/if}
+                            {/if}
+                            <a href="{path='calendar/events'}/{event_id}/">{event_title}</a>
+                          {if:else}
+                            {if event_all_day == ''}
+                              {event_start_date format="%g"}
+                              {if event_start_minute > 0}
+                                :{event_start_minute}
+                              {/if}
+                              {if event_end_time != event_start_time && event_end_time != '00:00'}
+                                &ndash;
+                                {event_end_date format="%g"}
+                                {if event_end_minute > 0}
+                                  :{event_end_minute}
+                                {/if}
+                                {event_end_date format="%a"}
+                              {if:else}
+                                {event_start_date format="%a"}
+                              {/if}
+                            {/if}
+                             <a href="{path='calendar/events'}/{event_id}/">{event_title}</a>
+                          {/if}
+                          </div>
+                          {/events}
+                        {/display_each_hour}
+                      </td>
+                      {/display_each_day}
+                    </tr>
+                    {/display_each_week}
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      {/display_each_month}
+      {/exp:calendar:cal}
+    </div>
+  </body>
+</html>
+```

@@ -1,0 +1,596 @@
+---
+sidebar_position: 5
+title: 'Events'
+---
+
+# Calendar:Events template tag
+
+The _Calendar:Events_ loop outputs information about events.
+
+```html showLineNumbers
+{exp:calendar:events} content {/exp:calendar:events}
+```
+
+## Parameters
+
+Most parameters available in the `Channel:Entries` loop are available here. Additionally, these are also available:
+
+### author_id=
+
+`author_id="{segment_3}"`
+
+Allows you to filter your event results by the member(s) that authored them.
+
+### site=
+
+`site="default_site"`
+
+If using MSM, you can specify a Site short name in this parameter to filter entries down to that site.
+
+### calendar_id=
+
+`calendar_id="1|3"`
+
+This parameter allows you to display specific calendars by specifying their entry ID(s). You can hardcode a calendar ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### calendar_name=
+
+`calendar_name="soccer|baseball|dodgeball"`
+
+This parameter allows you to display specific calendars by specifying their short_names (entry url_title). You can hardcode a short_name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### category=
+
+`category="12|15"`
+
+This parameter allows you to filter your results by events that belong to specific categories. You can specify a category ID or a category url_title. You can hardcode the value, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### dynamic=
+
+`dynamic="no"`
+
+This parameter allows you to enable/disable this template tag from looking into the URI for entry ID's or url titles. This is OFF by default. To enable, add this parameter and specify `yes`.
+
+### event_id=
+
+`event_id="23|77"`
+
+This parameter allows you to display specific events by specifying their entry ID(s). You can hardcode an event ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### event_name=
+
+`event_name="best_event_evar|christmas|pie_day"`
+
+This parameter allows you to display specific events by specifying their short_names (entry url_title). You can hardcode a short_name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### event_limit=
+
+`event_limit="5"`
+
+This parameter lets you limit the number of events and occurrences to be displayed.
+
+### event_offset=
+
+`event_offset="1"`
+
+This parameter lets you offset the results of events and occurrences displayed. For example, if you'd like the first result to be skipped from the results, specify a value of `1`.
+
+### date_range_start=
+
+`date_range_start="2010-01-31 @ 8:00 AM"`
+
+Limits output to events on or after this date. If not specified, this value defaults to Today. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter.
+
+### date_range_end=
+
+`date_range_end="2010-02-14 @ noon"`
+
+Limits output to events on or before this date. If not specified, this value defaults to Today. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter.
+
+### show_days=
+
+`show_days="14"`
+
+Specifies the number of days to show going forward from [date_range_start](#date-range-start), or backward from [date_range_end](#date-range-end). If set to a value like `1`, it will show the remainder of today only (as opposed to a 24hr period). If set to a value like `3`, it will show remainder of today +2 days. Used in conjunction with either [date_range_start](#date-range-start) or [date_range_end](#date-range-end) parameters, and used in place of the one not used.
+
+### show_weeks=
+
+`show_weeks="3"`
+
+Specifies the number of weeks to show going forward from [date_range_start](#date-range-start), or backward from [date_range_end](#date-range-end). If set to a value like `1`, it will show the remainder of the current week only (as opposed to a 7 day period). If set to a value like `3`, it will show the remainder of the current week +2 weeks. This respects the [first_day_of_week](#first-day-of-week) parameter. So if today is `Thursday, March 10`, and your [date_range_start](#date-range-start)
+parameter is set to `today` and `show_weeks` parameter is set to `1`, it will show events from `Thursday, March 10` to `Saturday, March 12`. If you were to use the [date_range_end](#date-range-end) parameter set to `today` and `show_weeks` parameter is set to `1`, it will show events from _Sunday, March 6`to`Thursday, March 10_. Used in conjunction with either [date_range_start](#date-range-start) or [date_range_end](#date-range-end) parameters, and used in place of the one not used.
+
+### show_months=
+
+`show_months="6"`
+
+Specifies the number of months to show going forward from [date_range_start](#date-range-start), or backward from [date_range_end](#date-range-end). If set to a value like `1`, it will show the remainder of the current month only (as opposed to a 30/31 day period). If set to a value like `3`, it will show the remainder of the current month +2 months. So if today is `March 11`, and your [date_range_start](#date-range-start) parameter is set to `today` and `show_months` parameter is set to `1`, it
+will show events from `March 11` to `March 31`. If you were to use the [date_range_end](#date-range-end) parameter set to `today` and `show_months` parameter is set to `1`, it will show events from `March 1` to `March 11`. Used in conjunction with either [date_range_start](#date-range-start) or [date_range_end](#date-range-end) parameters, and used in place of the one not used.
+
+### show_years=
+
+`show_years="2"`
+
+Specifies the number of years to show going forward from [date_range_start](#date-range-start), or backward from [date_range_end](#date-range-end). If set to a value like `1`, it will show the remainder of the current year only (as opposed to a 365 day period). If set to a value like `3`, it will show the remainder of the current year +2 years. So if today is `March 11, 2011`, and your [date_range_start](#date-range-start) parameter is set to `today` and `show_years` parameter is set to `1`, it
+will show events from _March 11, 2011`to`December 31, 2011_. If you were to use the [date_range_end](#date-range-end) parameter set to `today` and `show_months` parameter is set to `1`, it will show events from _January 1, 2011`to`March 11, 2011_. Used in conjunction with either [date_range_start](#date-range-start) or [date_range_end](#date-range-end) parameters, and used in place of the one not used.
+
+### orderby=
+
+`orderby="event_start_date"`
+
+This parameter allows you to control the ordering of the event results. Options are:
+
+- `event_start_date` (orders by DATE and TIME)
+- `event_start_time` (orders by the TIME only - ignores dates)
+- `event_title` (orders by TITLE of the event)
+
+Default is `event_start_date`. Use the `sort` parameter to control whether the results should be `ascending` or `descending`.
+
+### paginate=
+
+`paginate="both"`
+
+This parameter allows you to control where the pagination will display. Options are `top`, `bottom`, or `both`. Used in conjunction with the [calendar_paginate](#calendar-paginate) variable pair and [event_limit](#event-limit) parameter.
+
+## Variables
+
+Most variables available in the `Channel:Entries` loop are available here. Additionally, these are also available:
+
+### event_calendar_title
+
+`{event_calendar_title}`
+
+This variable outputs the `title` of the calendar channel entry.
+
+### event_calendar_url_title
+
+`{event_calendar_url_title}`
+
+This variable outputs the `URL title` of the calendar channel entry.
+
+### event_calendar_id
+
+`{event_calendar_id}`
+
+This variable outputs the `entry ID` of the calendar channel entry.
+
+### event_calendar_tz_offset
+
+`{event_calendar_tz_offset}`
+
+This variable outputs the timezone offset selected for the calendar.
+
+### event_calendar_ics_url
+
+`{event_calendar_ics_url}`
+
+This variable outputs the URL of ICS file(s) to be imported into this calendar.
+
+### calendar_status
+
+`{calendar_status}`
+
+This variable outputs the status of the calendar entry.
+
+### calendar_author
+
+`{calendar_author}`
+
+This variable outputs the screen name of the author of the calendar entry.
+
+### calendar_author_id
+
+`{calendar_author_id}`
+
+This variable outputs the member ID of the author of the calendar entry.
+
+### event_title
+
+`{event_title}`
+
+This variable outputs the `title` of the event channel entry.
+
+### event_url_title
+
+`{event_url_title}`
+
+This variable outputs the `URL title` of the event channel entry.
+
+### event_id
+
+`{event_id}`
+
+This variable outputs the `entry ID` of the event channel entry.
+
+### event_parent_id
+
+`{event_parent_id}`
+
+If the given occurrence has been manually edited through the Calendar CP, this will parse to the event ID of the parent event. You would usually use this in conjunction with the [edited_occurrence](#edited-occurrence) conditional so you can generate a proper link to the parent event ID.
+
+### event_status
+
+`{event_status}`
+
+This variable outputs the status of the event entry.
+
+### event_author
+
+`{event_author}`
+
+This variable outputs the screen name of the author of the event entry.
+
+### event_author_id
+
+`{event_author_id}`
+
+This variable outputs the member ID of the author of the event entry.
+
+### event_start_date
+
+`{event_start_date format="%F %j, %Y"}`
+
+Displays the start date of the event, formatted using [EE-style format characters](https://ellislab.com/expressionengine/user-guide/templates/date_variable_formatting.html). If `format=""` is not specified, it will parse as `YYYYMMDD` (ex: `20091231`).
+
+### event_end_date
+
+`{event_end_date format="%F %j, %Y"}`
+
+Displays the end date of the event, formatted using [EE-style format characters](https://ellislab.com/expressionengine/user-guide/templates/date_variable_formatting.html). If `format=""` is not specified, it will parse as `YYYYMMDD` (ex: `20091231`).
+
+### event_first_date
+
+`{event_first_date format="%F %j, %Y"}`
+
+Displays the date of the very first occurrence of the event, formatted using EE-style format characters. If `format=""` is not specified, it will parse as `YYYYMMDD` (ex: `20091231`).
+
+### event_last_date
+
+`{event_last_date format="%F %j, %Y"}`
+
+Displays the date of the very last occurrence of the event, formatted using EE-style format characters. If `format=""` is not specified, it will parse as `YYYYMMDD` (ex: `20091231`).
+
+### event_duration_days
+
+`{event_duration_days}`
+
+Displays the number of days the event lasts.
+
+### event_duration_hours
+
+`{event_duration_hours}`
+
+Displays the number of hours the event lasts.
+
+### event_duration_minutes
+
+`{event_duration_minutes}`
+
+Displays the number of minutes the event lasts.
+
+### event_timeframe_total
+
+`{event_timeframe_total}`
+
+Displays the number of occurrences that happen within the specified date/time range.
+
+### rule_type
+
+`{rule_type}`
+
+Displays whether the rule is an addition or subtraction from the occurrences (ex: `+` or `-`). Available only within the [rules](#rules) variable pair.
+
+### rule_repeat_years
+
+`{rule_repeat_years}`
+
+If the event repeats on a yearly interval, this variable displays the selected year(s) interval (ex: `2`). Available only within the [rules](#rules) variable pair.
+
+### rule_repeat_months
+
+`{rule_repeat_months}`
+
+If the event repeats on a monthly interval, this variable displays the selected month(s) interval (ex: `6`). Available only within the [rules](#rules) variable pair.
+
+### rule_repeat_weeks
+
+`{rule_repeat_weeks}`
+
+If the event repeats on a weekly interval, this variable displays the selected week(s) interval (ex: `2`). Available only within the [rules](#rules) variable pair.
+
+### rule_repeat_days
+
+`{rule_repeat_days}`
+
+If the event repeats on a daily interval, this variable displays the selected day(s) interval (ex: `5`). Available only within the [rules](#rules) variable pair.
+
+### rule_days_of_week
+
+`{rule_days_of_week backspace="2"}{day_of_week}, {/rule_days_of_week}`
+
+If the event repeats on specific days of the week, this variable and variable pair displays the selected day(s) (ex: `Monday, Thursday`). Available only within the [rules](#rules) variable pair.
+
+### rule_relative_dow
+
+`{rule_relative_dow backspace="2"}{relative_dow}, {/rule_relative_dow}`
+
+If the event repeats on specific relative days of the week, this variable and variable pair displays the selected day(s) (ex: `1, 3, 5`). Available only within the [rules](#rules) variable pair.
+
+### rule_days_of_month
+
+`{rule_days_of_month backspace="2"}{day_of_month}, {/rule_days_of_month}`
+
+If the event repeats on specific days of the month, this variable and variable pair displays the selected day(s) (ex: `7, 22`). Available only within the [rules](#rules) variable pair.
+
+### rule_months_of_year
+
+`{rule_months_of_year backspace="2"}{months_of_year}, {/rule_months_of_year}`
+
+If the event repeats on specific months of the year, this variable and variable pair displays the selected month(s) (ex: `04, 05, 06`). Available only within the [rules](#rules) variable pair.
+
+### rule_stop_by
+
+`{rule_stop_by format="%F %j, %Y"}`
+
+If set, displays the stop-by date of the event or series of occurrences, formatted using EE-style format characters. If `format=""` is not specified, it will parse as `YYYYMMDD` (ex: `20091231`). Available only within the [rules](#rules) variable pair.
+
+### rule_stop_after
+
+`{rule_stop_after format="%F %j, %Y"}`
+
+If set, displays the number of occurrences the event was set (ex: 5). Available only within the [rules](#rules) variable pair.
+
+### rule_start_date
+
+`{rule_start_date format="%F %j, %Y"}`
+
+Displays the start date of the rule for the event, formatted using [EE-style format characters](https://ellislab.com/expressionengine/user-guide/templates/date_variable_formatting.html).
+
+### rule_end_date
+
+`{rule_end_date format="%F %j, %Y"}`
+
+Displays the end date of the rule for the event, formatted using [EE-style format characters](https://ellislab.com/expressionengine/user-guide/templates/date_variable_formatting.html).
+
+### calendar_ignore_title
+
+`{calendar_ignore_title}`
+
+Due to the way Calendar works, it can cause trouble when trying to parse data with other addons (such as displaying related entries). By specifying this variable, it'll parse the equivalent of `{title}` and tell Calendar to leave the variable alone.
+
+### calendar_ignore_url_title
+
+`{calendar_ignore_url_title}`
+
+Due to the way Calendar works, it can cause trouble when trying to parse data with other addons (such as displaying related entries). By specifying this variable, it'll parse the equivalent of `{url_title}` and tell Calendar to leave the variable alone.
+
+## Variable Pairs
+
+Most variable pairs available in the `Channel:Entries` loop are available here. Additionally, these are also available:
+
+### occurrences
+
+`{occurrences}{/occurrences}`
+
+This variable pair is used to display details of each occurrence of an event if it repeats. All [variables](../templating/occurrences.mdx#variables) and [conditionals](../templating/occurrences.mdx#conditionals) as available in [Calendar:Occurrences](../templating/occurrences.mdx) become available within this variable pair.
+
+### rules
+
+`{rules}{/rules}`
+
+This variable pair is used to display details of all rules for an event if it repeats. An additional set of variables become available within this variable pair ([see above](#rule-type)).
+
+### calendar_paginate
+
+```html showLineNumbers
+{calendar_paginate}
+<li>
+  <ul class="pagination">
+  {calendar_pagination_links}
+    {first_page}
+      <li><a href="{pagination_url}">First</a></li>
+    {/first_page}
+    {previous_page}
+      <li><a href="{pagination_url}">&laquo; Previous</a></li>
+    {/previous_page}
+    {page}
+      <li{if current_page} class="active"{/if}><a href="{pagination_url}">{pagination_page_number}</a></li>
+    {/page}
+    {next_page}
+      <li><a href="{pagination_url}">Next &raquo;</a></li>
+    {/next_page}
+    {last_page}
+      <li><a href="{pagination_url}">Last</a></li>
+    {/last_page}
+  {/calendar_pagination_links}
+  </ul>
+</li>
+{/calendar_paginate}
+```
+
+OR
+
+```html showLineNumbers
+{calendar_paginate}
+<p>
+  Page {calendar_current_page} of {calendar_total_pages} pages
+  {calendar_pagination_links}
+</p>
+{/calendar_paginate}
+```
+
+Pagination is available for this tag and works just like regular pagination. Used in conjunction with the [paginate](#paginate) parameter and [event_limit](#event-limit) parameter.
+
+## Conditionals
+
+Most conditionals available in the `Channel:Entries` loop are available here. Additionally, these are also available:
+
+### calendar_no_results
+
+`{if calendar_no_results}{/if}`
+
+Works just like the regular `{if no_results}` conditional - displays its contents when there is no results for the given parameters.
+
+### edited_occurrence
+
+`{if edited_occurrence}{/if}`
+
+This conditional will display its contents if the given occurrence itself has been manually edited through the Calendar CP. You would usually use this in conjunction with the [event_parent_id](#event-parent-id) variable so you can generate a proper link to the parent event ID.
+
+### event_recurs
+
+`{if event_recurs}{/if}`
+
+This conditional will displays its contents if the event recurs.
+
+### event_all_day
+
+`{if event_all_day}{/if}`
+
+This conditional will displays its contents if the event is an all day event.
+
+### event_multi_day
+
+`{if event_multi_day}{/if}`
+
+This conditional will displays its contents if the event occurs on multiple days.
+
+### event_has_rules
+
+`{if event_has_rules}{/if}`
+
+This conditional will displays its contents if the event has any recurrence rules applied to it.
+
+### event_first_day
+
+`{if event_first_day}{/if}`
+
+This conditional will displays its contents if it's the first day of the event occurrence.
+
+### event_last_day
+
+`{if event_last_day}{/if}`
+
+This conditional will displays its contents if it's the last day of the event occurrence.
+
+### event_never_ends
+
+`{if event_never_ends}{/if}`
+
+This conditional will displays its contents if the event repeats forever (no end date).
+
+## Examples
+
+### Displaying an Individual Event
+
+The below code example is what you would use to display details about a specific event. You would link to this template with the event ID from other Calendar pages, and then pull the event ID from the URI:
+
+```html showLineNumbers
+{exp:calendar:events
+  orderby="title"
+  sort="asc"
+  event_id="{segment_3}"
+  date_range_start="today"
+  show_months="3"
+}
+  {if calendar_no_results}
+    No Results
+  {/if}
+  <div class="event">
+    <h2>{event_title}</h2>
+    <p>From Calendar:
+      <a href="{path='calendar/calendars'}/{event_calendar_id}/">
+        {event_calendar_title}
+      </a>
+    </p>
+    <p>Details:{event_summary}</p>
+    <p>Location: {event_location}</p>
+    <h3>Upcoming Occurrences in the next 3 months:</h3>
+    <ul>
+    {occurrences}
+      <li>
+        <a href="{path='calendar/day'}/{occurrence_start_date format="%Y/%m/%d"}/">
+          {occurrence_start_date format="%l, %F %j, %Y at %g:%i%a"}
+        </a> - {occurrence_end_date format="%l, %F %j, %Y at %g:%i%a"}
+      </li>
+    {/occurrences}
+    </ul>
+  </div>
+  <hr />
+{/exp:calendar:events}
+```
+
+### Hardcoding an Events List within a Date Range
+
+The below example code will generate you a simple list of events that have occurrences within the next 3 months. Underneath each event details will be a list of upcoming occurrences within the next 3 months.
+
+```html showLineNumbers
+<ul>
+  {exp:calendar:events orderby="title" sort="asc" date_range_start="today"
+  show_months="3" dynamic="off" } {if calendar_no_results}
+  <li>No Results</li>
+  {/if}
+  <li>
+    <a href="{path='calendar/events'}/{event_id}/">
+      <b>{event_title}</b>
+    </a>
+    from
+    <a href="{path='calendar/calendars'}/{event_calendar_id}/">
+      {event_calendar_title}
+    </a>
+    <br />
+    Upcoming Occurrences in the next 3 months:
+    <ul>
+      {occurrences}
+      <li>{occurrence_start_date format="%l, %F %j, %Y at %g:%i%a"}</li>
+      {/occurrences}
+    </ul>
+  </li>
+  {/exp:calendar:events}
+</ul>
+```
+
+The below example code will generate you a slightly more advanced list of events that have occurrences within the next 3 months. Underneath each event details will be a list of upcoming occurrences within the next 3 months.
+
+```html showLineNumbers
+{exp:calendar:events
+  orderby="title"
+  sort="asc"
+  date_range_start="today"
+  show_months="3"
+  dynamic="off"
+}
+
+  {if calendar_no_results}
+    No Results
+  {/if}
+
+  <div class="event">
+    <h2><a href="{path='calendar/events'}/{event_id}/">{event_title}</a></h2>
+    <p>Starts:
+      <a href="{path='calendar/day'}/{event_start_date format="%Y/%m/%d"}/">
+        {event_start_date format="%l, %F %j, %Y"}
+      </a>
+    </p>
+    <p>From Calendar:
+      <a href="{path='calendar/calendars'}/{event_calendar_id}/">
+        {event_calendar_title}
+      </a>
+    </p>
+    <p>
+      This event lasts {event_duration_days} days,
+      {event_duration_hours} hours,
+      and {event_duration_minutes} minutes.
+    </p>
+    <p>Details: {event_summary}</p>
+    <p>Location: {event_location}</p>
+    <h3>Upcoming Occurrences in the next 3 months:</h3>
+    <ul>
+      {occurrences}
+      <li><a href="{path='calendar/day'}/{occurrence_start_date format="%Y/%m/%d"}/">{occurrence_start_date format="%l, %F %j, %Y at %g:%i%a"}</a> - {occurrence_end_date format="%l, %F %j, %Y at %g:%i%a"}</li>
+      {/occurrences}
+    </ul>
+  </div>
+  <hr />
+{/exp:calendar:events}
+```

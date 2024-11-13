@@ -1,0 +1,41 @@
+---
+sidebar_position: 3
+title: Channel Entry Fieldtype
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Channel Entry Fieldtype
+
+Freeform Classic allows you to call your forms directly into a channel entry. Simply create a custom channel field (of the Freeform Classic fieldtype), and it will allow your admins to select Composer-based forms to be linked directly to a channel field. You can then have the form(s) display on the front end alongside your channel entry using the [Channel:Entries](https://docs.expressionengine.com/v4/channel/channel_entries.html) tag.
+
+The following steps will help you get started with creating and using Freeform Classic fields (channel entry fieldtype):
+
+### 1) Creating a Freeform Classic Channel Field <a name="step1"></a>
+
+Creating a custom channel field as a Freeform Classic channel entry fieldtype is easy:
+
+- Go to the _Channel Fields_ area in the CP. Select the appropriate _Field Group_, and then click the _Create a New Channel Field_ button.
+- For the Type, select _Freeform_ from the list.
+- Name the field as you wish - for example **My Form** with short name of **my_form**.
+- There are no special field options for the Freeform Classic field type.
+- Click _Submit_ to save the new custom field.
+- If you wish to create more Freeform Classic fields, just follow the procedure above again.
+
+### 2) Assigning Forms to Entries <a name="step2"></a>
+
+Once you have a Freeform Classic channel entry field setup, and you've created a form with Composer, assigning a form to a channel entry is very easy!
+
+- Go to the _Publish_ area in the CP. If the field group the Freeform Classic field belongs to is assigned to the channel you selected, you should now see the special Freeform Classic field.
+- To add a Composer-based form, simply select the form name from the select field list.
+- Also specify the return URI for the form when it is submitted by a user. Ex: **form/thank_you**
+- Once you have submitted or updated the channel entry, that's it! The form has now been assigned to the entry.
+
+<Photo
+  img={require('@site/static/img/ee-freeform/classic/freeform-cp_publish-fieldtype.png')}
+  alt="Form"
+/>
+
+### 3) Displaying the Form in EE Templates <a name="step3"></a>
+
+To have the Composer-based form display in your EE templates, simply specify the short name of the custom channel field as a variable inside of the [Channel:Entries](https://docs.expressionengine.com/v4/channel/channel_entries.html) tag. If a Freeform Classic form has been selected for the entry, the form will parse fully from that variable.

@@ -1,0 +1,67 @@
+---
+sidebar_position: 1
+---
+
+import {
+  VerticalStepWrapper,
+  StepMarkdown,
+} from '@site/src/components/docs';
+
+# Allow Additional File Extensions
+
+If you wish to allow more file extensions to your [File Upload](../../forms/fields.mdx#file-upload) or [File Upload Drag & Drop](../../forms/fields.mdx#file-upload-drag--drop) fields, you will need to add the [extraAllowedFileExtensions](https://craftcms.com/docs/5.x/reference/config/general.html#extraallowedfileextensions) (and possibly [extraFileKinds](https://craftcms.com/docs/5.x/reference/config/general.html#extrafilekinds)) config items to your Craft config file.
+
+<VerticalStepWrapper>
+<StepMarkdown>
+### Modify the `config/general.php` file
+
+Add the following to your `config/general.php` file:
+
+```php
+'extraAllowedFileExtensions' => 'heic',
+
+'extraFileKinds' => [
+    // merge .heic into list of Image file kinds
+    'image' => [
+        'extensions' => ['heic'],
+    ],
+],
+```
+
+The `extraFileKinds` part will merge `heic` into the list of valid **Image** file types and treat it as such when you check off _Image_ in the **Allowed File Kinds** setting for the field inside the Freeform form builder.
+
+---
+
+To add multiple file extensions, the config settings would look something like this:
+
+```php
+'extraAllowedFileExtensions' => 'psb, css, less, pcss, sass, scss, styl',
+
+'extraFileKinds' => [
+    // merge .psb into list of Photoshop file kinds
+    'photoshop' => [
+        'extensions' => ['psb'],
+    ],
+    // register new "Stylesheet" file kind
+    'stylesheet' => [
+        'label' => 'Stylesheet',
+        'extensions' => ['css', 'less', 'pcss', 'sass', 'scss', 'styl'],
+    ],
+]
+```
+
+:::warning
+If you do not categorize the file extensions like this, you must allow ALL file types for your field by unchecking all file types in the **Allowed File Kinds** settings for the additional extensions to work.
+:::
+
+</StepMarkdown>
+<StepMarkdown>
+### Enable the File Kinds in the File Upload field
+
+- Inside the form builder, click on any of the [File Upload](../../forms/fields.mdx#file-upload) or [File Upload Drag & Drop](../../forms/fields.mdx#file-upload-drag--drop) fields in your form.
+- In the **File Kinds** setting in the property editor, please check off all applicable file kinds to be allowed.
+- Save your form and verify it's working correctly.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>

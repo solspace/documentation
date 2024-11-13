@@ -1,0 +1,459 @@
+---
+sidebar_position: 1
+title: Form Builder
+---
+
+import Player from 'react-player';
+
+import { FlexCards } from '@site/src/components/docs';
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+import Icons from '@site/static/card-icons';
+
+import BulkInsertOptionsPhoto from './assets/img/bulk-insert-options.png';
+import FieldAttributeEditorPhoto from './assets/img/field-attribute-editor.png';
+
+import BuilderFeatureVideo from './assets/videos/builder-feature.mp4';
+import BuilderIntegrationsVideo from './assets/videos/builder-integrations.mp4';
+import BuilderNotificationsVideo from './assets/videos/builder-notifications.mp4';
+import BuilderOverviewVideo from './assets/videos/builder-overview.mp4';
+import BuilderPagesVideo from './assets/videos/builder-pages.mp4';
+import BuilderRulesVideo from './assets/videos/builder-rules.mp4';
+import BuilderSectionsVideo from './assets/videos/builder-sections.mp4';
+import BuilderSettingsVideo from './assets/videos/builder-settings.mp4';
+import FormDashboardVideo from './assets/videos/form-dashboard.webm';
+
+# Form Builder<Badge type="feature" text="Improved in 5.0+" />
+
+What makes Freeform different from other form plugins is that it gives you full control to create simple or complex multi-page forms, and everything is at your fingertips in our elegant form builder. It has been expertly designed to minimize mouse movement and clicks. Freeform also features a long list of its own set of robust [field types](./fields.mdx).
+
+<FlexCards
+  items={[
+    {
+      title: 'Overview',
+      description: 'A general overview of the form builder.',
+      icon: Icons.ClipboardIcon,
+      fullCardLink: '#overview',
+    },
+    {
+      title: 'Email Notifications',
+      description: 'Configure all email notification types for the form.',
+      icon: Icons.EmailGroupIcon,
+      fullCardLink: '#email-notifications',
+    },
+    {
+      title: 'Conditional Rules',
+      description: 'Set which fields and pages should be shown/hidden.',
+      icon: Icons.LogicIcon,
+      fullCardLink: '#conditional-rules',
+    },
+    {
+      title: 'Integrations',
+      description: 'Configure various integrations for your form.',
+      icon: Icons.CrmIcon,
+      fullCardLink: '#integrations',
+    },
+    {
+      title: 'Settings',
+      description: 'Variety of settings to control the form behavior.',
+      icon: Icons.ConfigPageIcon,
+      fullCardLink: '#settings',
+    },
+    {
+      title: 'Multi-Page Forms',
+      description: 'Divide lengthy forms into several pages.',
+      icon: Icons.PagesIcon,
+      fullCardLink: '#multi-page-forms',
+    },
+    {
+      title: 'Form Types',
+      description: 'Enable specialized behavior and features to your forms.',
+      icon: Icons.SurveyIcon,
+      fullCardLink: '#form-types',
+    },
+    {
+      title: 'Dashboard',
+      description: 'An overview of your forms, submissions, and updates.',
+      icon: Icons.DashboardIcon,
+      fullCardLink: '#dashboard',
+    },
+  ]}
+/>
+
+<Player
+  url={BuilderFeatureVideo}
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
+
+## Overview
+
+The Freeform form builder is an all-in-one interface that lets you take control of almost every aspect of your forms. Everything is at your fingertips.
+
+The form builder is divided into 5 sections:
+
+- [Layout](#layout)
+- [Notifications](#email-notifications)
+- [Rules](#conditional-rules) <Badge type="pro" text="Pro" />
+- [Integrations](#integrations)
+- [Settings](#settings)
+
+<Player
+  url={BuilderSectionsVideo}
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
+
+## Layout<Badge type="feature" text="Improved in 5.0+" />
+
+This is where you set up [fields](./fields.mdx) and [pages](#multi-page-forms), as well as design and configure the overall layout of the form.
+
+<Player
+  url={BuilderOverviewVideo}
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
+
+### Fields
+
+The left column lists all available fields and field types to use for the form. Simply drag and drop any of these fields into the field layout in the right column.
+
+- **Search** - you can search in Favorite fields and other forms to reuse existing fields.
+- **Favorites** - includes all fields that have been saved to favorites, allowing you to quickly set up forms with common fields.
+- **Field Types** - displays all available field types for the form (will differ between editions of Freeform). These can then be added to forms indefinitely.
+- **Property Editor** - when you click on any field in the Layout (right column), a property editor will slide into the left column.
+  - To close the property editor, it can be done one of three ways:
+    - Press the `esc` key on your keyboard
+    - Click the `x` at the top right
+    - Click anywhere else on the page
+- **Bulk Insert Options** <Badge type="feature" text="New in 5.5+" /> - paste in large lists of options into a textarea for options-based field types such as Checkboxes and Dropdowns.
+  - **Separator** - specify a separator (if applicable) used to separate the option label and value when using custom values for option labels. Options are: _Pipe_, _Comma_, _Semicolon_, _Arrow_ and _Space_.
+  - **Append Values** - whether the options you're adding should add to the existing options configured or replace them.
+  - **Bulk Editor** - enter bulk values separated by new lines. If using custom values for option labels, you can provide a label and a value separated by a separator. For example, if you used `|` you would write: `Label|value` and set the **Separator** setting to _Pipe_.
+    <Photo img={BulkInsertOptionsPhoto} alt="Build Insert Options" />
+- **Attributes Editor** - add any attributes for the field and its container here, e.g. `data-my-attribute`, `id`, etc.
+  {' '}
+  <Photo img={FieldAttributeEditorPhoto} alt="Field Attributes Editor" />
+
+### Preview
+
+The right column is where you position the form fields for the form.
+
+- **Page Tabs** - if you need to build a [multi-page form](#multi-page-forms), you can add and rename page tabs here.
+  - Pages can be renamed, re-arranged, and deleted.
+  - If you wish to move a field from one page to another, you can drag and drop the field onto the page tab of the page it should be moved to.
+- **Preview** - this is where you will actively see an interactive live preview of what your form will look like (roughly - ultimately the form styling and appearance is up to your [formatting template](../templates/formatting/index.mdx)).
+  - Fields can be dragged and dropped from the left column anywhere into the Layout (right column).
+  - Freeform will automatically build rows and columns when you insert and rearrange fields.
+  - To configure fields, simply click on them and the **property editor** will slide into the left column.
+  - To remove a field from the layout, simply click the delete (`x`) icon that shows up on top right when you hover over a field.
+
+## Email Notifications<Badge type="feature" text="Improved in 5.0+" />
+
+This is where you configure email notifications for the form. Freeform allows you to set up 6 different kinds of email notifications, including at template level with the [dynamicNotification](../templates/queries/form.mdx#dynamicnotification) parameter in your [Form query](../templates/queries/form.mdx).
+
+<Player
+  url={BuilderNotificationsVideo}
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
+
+### Admin
+
+Email notifications can be sent upon successful submit of the form to one or more admin email addresses.
+
+In the **Recipients** area, add any email address(es) you'd like to receive an email notification each time the form is submitted successfully. If you need to specify more than one email address, hit _Enter_ and additional email inputs will appear.
+
+### Conditional<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.0+" />
+
+Email notifications can be conditionally sent to one or more admin email addresses based on the contents and/or option selection of any Freeform field(s).
+
+In the **Recipients** area, add any email address(es) you'd like to receive an email notification each time the form is submitted successfully **when the following condition(s) are met**. If you need to specify more than one email address, hit _Enter_ and additional email inputs will appear.
+
+### User Select <BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Renamed & Improved for 5.0+" />
+
+Email notifications can be sent to one or more pre-defined admin email addresses that are selected by the user filling out the form using any [Dropdown](./fields.mdx#dropdown), [Checkboxes](./fields.mdx#checkboxes), [Radios](./fields.mdx#radios), [Multi-Select](./fields.mdx#multiple-select) field types. For example, you might have a **Dropdown** field that contains different departments for the user to address the email to.
+
+In the **Recipient Mapping** area, add email address(es) for each corresponding option. If you need to specify more than one email address for an option, hit _Enter_ and additional email inputs will appear.
+
+You can also choose to specify a different email notification template for any or all options.
+
+:::warning
+Be sure to set up your option fields as usual, and do not set email addresses as their options. That part is done inside the **Notifications** tab.
+:::
+
+### Email Fields
+
+Email notifications can be sent to the user submitting the form as long as you're using the [Email](./fields.mdx#email) field type. This is often used to send an email confirmation for the user.
+
+:::warning
+If you currently don't have any **Email** fields, please add one to your form layout. If you are using a regular [Text](./fields.mdx#text) field to hold the email address, please switch it to an [Email](./fields.mdx#email) field type first.
+:::
+
+You can also enable "tell-a-friend" type forms by including additional [Email](./fields.mdx#email) fields in your form. This would then allow the submitter of the form to specify a friend's email address and have them receive an email notification as well.
+
+## Conditional Rules<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.0+" />
+
+This is where you can configure fields to **show or hide** based on the contents/selection of other fields, and even **skip pages** or submit the form based on the contents/selection of fields on a previous page.
+
+<Player url={BuilderRulesVideo} muted loop playing width="100%" height="100%" />
+
+### Field Layout Map
+
+For added convenience, Freeform includes a field map along with visual cues. This makes configuration faster and less confusing.
+
+- A **dark gray background** shows the field or page that is currently being configured (in the right column).
+- A **green border** means that the field, group or page has conditional rules configured for it.
+- A **green corner border** at the top left means that the field, group or page is implicated in another field's conditional rules.
+  - E.g. If the _Company Name_ field is configured to only show when the _Type_ field is set to `Business`, the _Type_ field will display a green corner border.
+
+### Adding Rules
+
+Configuring rules for fields, groups and pages is straightforward:
+
+- To set rules for a field, click on the field name in the left column.
+- To set rules for a [Group](./fields.mdx#group) field, click on the group field name in the left column.
+- To set rules for a page, click on the page name in the left column.
+
+Please see the [Conditional Rules](./conditional-rules.mdx) documentation for more information about this feature.
+
+## Integrations<Badge type="feature" text="Improved in 5.0+" />
+
+This is where you can configure various types of integrations for your form. It will only show integrations that have been configured/setup in the [Freeform Settings](../configuration/settings.mdx) area.
+
+<Player
+  url={BuilderIntegrationsVideo}
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
+
+### Captchas
+
+If a **reCAPTCHA** or **hCaptcha** integration is available, click on it in the left column. Once loaded in the right column, toggle the **Use integration for this form** switch ON and proceed to configuring settings as necessary.
+
+Please see the [Spam Protection](./spam-protection.mdx) documentation guide for more information about this feature.
+
+### CRM & Email Marketing<Badge type="pro" text="Pro" />
+
+If any integrations are available, click on them in the left column. Once loaded in the right column, toggle the **Use integration for this form** switch ON and proceed to configuring settings and field mapping as necessary. It will differ slightly for each integration.
+
+### Payments<Badge type="pro" text="Pro" />
+
+If the **Stripe Payments** integration is available, click on it in the left column. Once loaded in the right column, toggle the **Use integration for this form** switch ON and proceed to configuring settings and field mapping as necessary. You will also need to add a [Stripe Payments](./fields.mdx#stripe-payment) special field to the form layout.
+
+Please see the [Stripe Payments](./fields.mdx#stripe-payment) documentation guide for further instruction.
+
+### Elements<Badge type="pro" text="Pro" />
+
+This feature allows you to connect and map Freeform submission data to other Craft Elements such as [Craft Entries](https://craftcms.com/docs/5.x/reference/element-types/entries.html) and [Craft Users](https://craftcms.com/docs/5.x/reference/element-types/users.html). The possibilities are endless when you consider that it essentially allows you to easily create complex user registration forms or accept guest submitted content that maps to Craft entries for further management by site admins for publishing... or whatever else you can dream up!
+
+If any Element integrations are available, click on them in the left column. Once loaded in the right columnm, toggle the **Use integration for this form** switch ON and proceed to configuring settings and field mapping as necessary.
+
+Please see the [Elements](../integrations/elements.mdx) documentation for more information about this feature.
+
+### Google Tag Manager <BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+
+This allows you to enable Google Tag Manager to push successful form submission events to the data layer (when AJAX is enabled).
+
+- **Event Name** - specify a custom event name that you wish to assign to a successful form submission.
+- **GTM Account ID** - add this if you want Google Tag Manager scripts added to your page by Freeform. Leave blank if you are adding your own GTM scripts.
+
+### POST Forwarding<Badge type="pro" text="Pro" />
+
+This allows your forms to automatically submit an extra POST to pass off submission data to an external API URL upon successful submit and validation of a form. This option is available for simpler and/or limited integrations as an alternative to our traditional [Email Marketing](../integrations/index.mdx) and [CRM](../integrations/index.mdx) integrations.
+
+- **POST Forwarding** - if you need to have the POST data of this form submitted to an external API, provide that custom URL here.
+- **POST Forwarding Error Trigger** - provide a keyword or phrase Freeform should check for in the output of the external POST URL to know if and when there's an error to log, e.g. `error` or `an error occurred`.
+
+Please see the [POST Forwarding](../integrations/post-forwarding.mdx) documentation for more information about this feature.
+
+## Settings
+
+This is where you configure all settings and behaviors for the form.
+
+<Player
+  url={BuilderSettingsVideo}
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
+
+### General
+
+- **Form Name** - the name for your form to identify it easier.
+- **Form Handle** - the unique identifier for the form used in your regular templates calling the form.
+- **Form Type** - the type of form this is. Will only show when other form types add-ons are installed.
+  - When additional form types are installed, you can choose a different form type that enables special behaviors.
+- **Submission Title** - the variable(s) you place here will establish the title of each form submission to be displayed in the Submissions list.
+  - May include any Freeform field variables (`fieldName`) as well as `form.name`, `form.id`, `form.handle` and `dateCreated` as long as they are wrapped in curly braces (`{{` and `}}`).
+- **Formatting Template** - if using the [render() method](../templates/queries/form.mdx#render), this essentially allows you to "attach" a formatting template to a form so that you don't need to include formatting inside the template(s) you place the form inside.
+  - Select from an existing sample or custom template.
+- **Description** - a description for the form to store notes or help identify what it's used for, etc.
+- **Form Color** - used for form cards in the dashboard as well as features like charts in Freeform dashboard widgets.
+
+### Data Storage
+
+- **Store Submitted Data for this Form** - allows you to specify whether the submission data for this form should be stored in the database.
+  - Typical use cases for not storing submission data on your site would be if you just wanted the [email notification](./email-notifications.mdx) and/or wanted the data submitted over to an [Email Marketing](../integrations/index.mdx) or [CRM](../integrations/index.mdx) integration.
+  - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../configuration/gdpr-compliance.mdx) for more information.
+- **Default Status** - the default status to be used when users submit the form, unless overwritten at template level.
+  - See [Statuses](../configuration/settings.mdx#statuses) documentation for managing statuses.
+- **Collect IP Addresses** - allows you to specify whether or not the form should collect IP addresses from submitters.
+  - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../configuration/gdpr-compliance.mdx) for more information.
+- **Allow Users to Opt-in** - if enabled, it allows the submitter to choose whether or not they want their submission data stored on your site.
+  - **Opt-in Checkbox** - select a **Checkbox** fieldtype you want to be the designated opt-in field.
+  - If the user does NOT opt-in, Freeform will still send off data to [integrations](../integrations/index.mdx) and [email notifications](./email-notifications.mdx).
+  - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../configuration/gdpr-compliance.mdx) for more information.
+
+### Processing
+
+- **Use AJAX** - enables Freeform's [built-in automated AJAX submit support](../guides/templating/ajax-forms.mdx). Once enabled, Freeform will handle the rest (as long as you're using standard template formatting - very custom formatting templates may not work properly).
+- **Show Processing Indicator on Submit** - show a processing indicator on the submit button upon submittal of the form.
+- **Show Processing Text on Submit**
+  - Enabling this will change the submit button's label to the text of your choice.
+  - **Processing Text** - enter the custom value you'd like to be displayed when the form is processing.
+
+### Success & Errors
+
+- **Success Behavior** - set how you'd like the success return of this form to be handled. Some of these may also conflict with template-level approaches to controlling the form behavior, most typically [JS Overrides](../guides/templating/ajax-forms.mdx).
+  - Options are:
+    - **Reload form with a Success banner above** - upon successful submit of the form, Freeform will reload the form again and display a success banner above the form.
+      - **Success Message** - the text to be shown at the top of the form if the submit is successful (AJAX), or load in your template with `form.settings.successMessage`.
+    - **Replace form with a Success message** - upon successful submit of the form, Freeform will stay on the same page but replace the form contents with the contents of the _Success Template_ that you specify. Please note that this will not work when manually rendering form formatting directly inside a regular template (not using a [Formatting Template](../templates/formatting/index.mdx)).
+      - **Success Template** - specify which [Success Template](../configuration/settings.mdx#template-manager) you'd like to be used for this form.
+    - **Return the Submitter to the following URL** - upon successful submit of the form, Freeform will redirect the user to the URL specified in the _Return URL_ setting.
+      - **Return URL** - the URL that the form will redirect to after successful submit.
+        - May contain:
+          - `form.handle` - handle of form.
+          - `submission.token` - secure token created for the submission.
+          - `submission.id` - newly created unique submission ID in the URL. This would allow you to use the [Submissions query](../templates/queries/submissions.mdx) to display some or all of the users' submission on the success page.
+- **Error Message** - the text to be shown at the top of the form if there are any errors upon submit (AJAX), or load in your template with `form.settings.errorMessage`.
+
+### Limits
+
+- **Duplicate Check** <Badge type="pro" text="Pro" />
+
+  - Allows you to limit the number of times a user can submit the form.
+  - Options are:
+    - _Do not limit_ (default - no limits applied)
+    - _Logged in Users Only - No Limit_
+    - _Logged in Users Only - Once per Form_
+    - _Anyone - Once per Email Address_
+      - This will check any _Email_ field type for a matching email address (across all Email fields if using more than one in the same form).
+    - _Anyone - Once per Logged in User or Guest Cookie_
+    - _Anyone - Once per Logged in User or Guest IP or Cookie_
+
+- **Stop Submissions After Date** <span class="badge-group"><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></span>
+  - Allows you to prevent new submissions of the form after the set date.
+
+Please see the [Submission Limits](../submissions/overview.mdx#submission-limits) documentation for more information about available options, including setting limits for the entire form.
+
+### Form Attributes
+
+- **Form tag Attributes** - add any `<form>` tag attributes for the form here, e.g. `novalidate`, `data-my-attribute` and `autocomplete="on"`.
+
+## Multi-Page Forms<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+
+Freeform allows for _multi-page_ forms (a POST submit per page). When editing forms in the form builder, if you wish to rearrange pages, simply drag and drop the tabs. If you need to move a field from one page to another, drag and drop the field onto the page tab you'd like it to be moved to. It will then appear at the top of that page, and you can finish placing it where it should be on that page.
+
+<Player url={BuilderPagesVideo} muted loop playing width="100%" height="100%" />
+
+:::tip
+[Need to display submission data from previous pages as a confirmation screen, etc?](../guides/dynamic-data/displaying-submission-data-from-previous-pages.mdx)
+:::
+
+:::tip
+[Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../guides/testing/troubleshooting-form-issues.mdx)
+:::
+
+### Important Notes
+
+- Each page is submitted through `POST`.
+- There is no unique URI segment per page at this time.
+- Users cannot jump ahead to different pages, only forward and backward (if enabled) 1 page.
+- Multi-page forms work with the [built-in AJAX](../guides/templating/ajax-forms.mdx) feature.
+  - **Editing** existing submissions via the front end in multi-page AJAX forms will currently not work correctly.
+- To allow users to stop and return at a later time to complete the form, it will require use of the [Save & Continue Later](../forms/save-continue-later.mdx) feature. Otherwise, the process has to be a continuous one, but the user has 3 hours before the form will timeout the submission.
+- If an earlier page contains file upload field(s), files will actually be uploaded before the form is officially submitted. - After 3 hours (by default), Freeform will automatically remove any uploaded files if the form isn't finished being submitted. - If you require a longer period of time, we recommend using the [File Upload Drag & Drop](./fields.mdx#file-upload-drag--drop) field and the [Save & Continue Later](../forms/save-continue-later.mdx) feature.
+
+### Manual Submit Buttons in Multi-page Forms
+
+When manually building submit buttons in multi-page forms, please refer to the [Submit buttons](./fields.mdx#submit-buttons) guide for available options.
+
+## Form Types<Badge type="pro" text="Pro" />
+
+<FlexCards
+  items={[
+    {
+      title: 'Surveys & Polls',
+      description:
+        'Add customizable results reporting to Survey and Poll type forms.',
+      icon: Icons.FreeformSurveyIcon,
+      fullCardLink: 'types/surveys-polls',
+    },
+  ]}
+/>
+
+## Dashboard<Badge type="feature" text="Improved in 5.6+" />
+
+The Forms dashboard page offers extensive customization options. You can choose to display forms as cards or in a list table, customize the color of each form, set the display order of forms, create groups to organize forms, and archive forms that you don't want to appear on the dashboard.
+
+- [Form Cards](#form-cards)
+- [Form List](#form-list)
+- [Form Groups](#form-groups)
+- [Archiving Forms](#archiving-forms)
+- [Errors & Update Notices](#errors--update-notices)
+
+<Player
+  url={FormDashboardVideo}
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
+
+### Form Cards
+
+Forms can be displayed as cards, and you can manage, reorder, and group them.
+
+Each form card will display the form name, handle, and description, along with the statistics showing the number of submissions, the number of spam submissions, and a color-coded chart at the bottom of the card indicating submission counts over the past 30 days. Additionally, you will have the ability to reorder, archive, duplicate, or delete the form.
+
+### Form List<Badge type="feature" text="New in 5.6+" />
+
+Forms can also be displayed as a table list, showing them in alphabetical order. The list view does not include the [form groups](#form-groups) feature.
+
+Each row in the list will display the form name, handle, and description, along with the statistics showing the number of submissions, the number of spam submissions, and a color-coded chart indicating submission counts over the past 30 days. Additionally, you will have the ability to archive, duplicate, or delete the form.
+
+### Form Groups<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.6+" />
+
+To organize your form cards into groups, click on the **Manage Forms Groups** link located at the bottom right of the page. You can create multiple groups and rearrange both groups and forms. Any forms that are not assigned to a group will appear at the bottom under an **Other** group.
+
+### Archiving Forms<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="New in 5.5+" />
+
+If you want to reduce clutter or hide old or unused forms, you can archive them by clicking the Archive icon on any form. The form will still be active on the website and can be viewed and edited in the form builder, but it will be moved to the bottom of the Forms dashboard page. You can unarchive forms at any time.
+
+### Errors & Update Notices
+
+The top of the **Forms** dashboard page will conveniently let you know if something is wrong by displaying a banner indicating the number of errors that Freeform logged, if available, as well as [Update Notices](../configuration/notices-alerts.mdx) to keep you informed about issues that may specifically affect your site.
+
+:::info
+We respect your privacy, so this feature only pulls update notices from the Solspace.com site and **does not and cannot send any information back**. Solspace collects **no** information at all. The comparison check happens on your Freeform site environment, not on the Solspace site. This feature can also be disabled in the plugin settings.
+:::

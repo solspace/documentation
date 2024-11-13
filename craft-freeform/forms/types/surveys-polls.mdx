@@ -1,0 +1,381 @@
+---
+title: 'Surveys & Polls'
+sidebar_position: 1
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+
+import SurveyReportPhoto from '../assets/img/surveys-polls-report.png';
+import SurveyReport2Photo from '../assets/img/surveys-polls-report-2.png';
+import SurveyPollsDashboardPhoto from '../assets/img/surveys-polls-dashboard.png';
+import SurveyPollsPhoto from '../assets/img/surveys-polls.png';
+import TemplatesSurveyPollsReportPhoto from '../assets/img/templates_surveys-polls-report.png';
+
+# Surveys & Polls Form Type <Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.0+" />
+
+Expand the possibilities of Freeform with the _Surveys & Polls_ form type! If you have the _Pro_ edition of Freeform, this is a plug and play feature that instantly adds access to a special reporting area inside the Freeform control panel that allows you to view stats and charts for each field type. The reports can be customized to use different chart types and hide specific fields. You can even generate a PDF exported document to share with other members of your team.
+
+:::tip
+If you already have some forms used as surveys or polls, simply switch the **Form Type** setting from _Regular_ to _Surveys & Polls_ and you'll instantly and retroactively have reports available for these forms!
+:::
+
+<Photo img={SurveyReportPhoto} alt="Surveys polls report" />
+
+## Key Features
+
+The following features are unique to the _Surveys & Polls_ form type:
+
+- Review and customize survey or poll results with rich chart options for each form in the control panel.
+- Show users on the front end the results for the survey or poll for each form.
+- Export survey results as a PDF file to share with other team members.
+- Plug and play with existing forms used as surveys to retroactively unlock rich reporting instantly.
+
+The following features are available for any form in Freeform, but become even more powerful when combined with the _Surveys & Polls_ form type:
+
+- Intuitive [form builder](../builder.mdx) that allows site admins to easily create and customize surveys and polls.
+- Powerful [field types](../fields.mdx) to handle every kind of question and flow.
+- Break up your surveys into [multiple pages](../builder.mdx#multi-page-forms) so users don't get overwhelmed.
+- [Conditionally show and hide](../conditional-rules.mdx) questions or skip pages entirely, based on the selection of other fields.
+- [Limit how many times a user can submit](../../submissions/overview.mdx#submission-limits) the survey or poll, or if they need to be logged in, etc.
+- Set a [close date](../../submissions/overview.mdx#submission-limits) for surveys and polls.
+- Allow users to [save & continue](../save-continue-later.mdx) completing the survey later.
+- A wide variety of built-in [spam protection](../spam-protection.mdx) measures.
+- Send [email notifications](../email-notifications.mdx) to form submitters and/or site admins upon completion.
+- Connect forms to a variety of [integration](../../integrations/index.mdx) options including CRM, Email Marketing and more.
+
+## Eligible Field Types
+
+While you can certainly use any field type in your survey and poll forms, Freeform will only recognize certain field types to apply special handling for charts and other stats.
+
+| Field Type                                                 | CP Reports | Charts | Average Score\* |
+| ---------------------------------------------------------- | ---------- | ------ | --------------- |
+| **Checkboxes**                                             | ✓          | ✓      | ✓               |
+| **Radios**                                                 | ✓          | ✓      | ✓               |
+| **Dropdown**                                               | ✓          | ✓      | ✓               |
+| **Multiple Select**                                        | ✓          | ✓      | ✓               |
+| **Opinion Scale**                                          | ✓          | ✓      | ✓               |
+| **Rating**                                                 | ✓          | ✓      | ✓               |
+| **Text** _(includes Email, Number, Phone, Regex, Website)_ | ✓          |        |
+| **Textarea**                                               | ✓          |        |
+
+<small>
+  *Average score available when the field contains only numeric option values,
+  e.g. <code>1</code>, <code>2</code>, <code>3</code>.
+</small>
+
+There is currently no support for displaying the following field types in reports: Date & Time, File Upload, File Upload Drag & Drop, Hidden, Invisible, Signature, and Table.
+
+## Reports <Badge type="feature" text="Improved in 5.0+" />
+
+When a form is assigned a Form Type of _Surveys & Polls_, its form card on the dashboard will include a **Survey Results** link to access the results.
+
+<Photo img={SurveyPollsDashboardPhoto} alt="Surveys & Polls Dashboard" />
+
+An individual report page is available for each _Survey & Poll_ form, which will show the results of the survey or poll as a report summary. Applicable field types will appear as charts and graphs, and you'll have the option to change the chart type for each question/field to whatever suits it better (changes are saved and apply to all users). And finally, an option to generate a PDF export is available if you wish to share the results with other team members.
+
+Charts can be used with **Checkboxes**, **Radios**, **Dropdown**, **Multiple Select**, **Opinion Scale**, and **Rating** field types. Available chart types are:
+
+- Horizontal Bar
+- Vertical Bar
+- Pie
+- Donut
+- Hidden (entire question and results are hidden in report)
+
+Text option display is available for simpler text-based field types, including **Text**, **Textarea**, **Email**, **Number**, **Phone**, **Regex**, and **Website**.
+
+- Text
+- Hidden (entire question and results are hidden in report)
+
+<Photo img={SurveyReport2Photo} alt="Surveys & Polls Report" />
+
+## Creating a Survey
+
+With the magnitude of features and options Freeform offers, there isn't any one way to create a survey or poll form. So many approaches are available to you:
+
+- Will this be a single page form or will you break up your surveys into [multiple pages](../builder.mdx#multi-page-forms) so users don't get overwhelmed?
+- Which [field types](../fields.mdx) will you use? A wide variety of options are available to suit every kind of question and flow.
+- Will you [conditionally show and hide](../conditional-rules.mdx) some questions or skip pages entirely, based on the selection of other fields?
+- Does the survey have a [close date](../../submissions/overview.mdx#submission-limits)?
+
+### Create a New Survey
+
+To create a new survey, the process is almost identical to creating a regular form, but be aware of a few things that are necessary for Freeform to properly handle and recognize your survey forms:
+
+- Be sure to have the _Pro_ edition of Freeform installed.
+- Inside the form builder (or form wizard), be sure to set the **Type** setting to _Surveys & Polls_ from the available options.
+- For questions you want to show up as charts in reports, stick to using the **Checkboxes**, **Radios**, **Dropdown**, **Multiple Select**, **Opinion Scale**, and **Rating** field types.
+- For questions you want to show up as text in reports, be sure to use only **Text**, **Textarea**, **Email**, **Number**, **Phone**, **Regex**, and **Website** fields. All other field types such as File Upload, Signatures, etc will not appear in the _Surveys & Polls_ reports area.
+- If you want to restrict people from submitting the survey more than once, be sure to select an option in the **Duplicate Check** setting, which is located in the form builder's _Settings_ → _Limits_ tab.
+- If you want to stop people from submitting the survey after a certain date, be sure to specify a date in the **Stop Submissions After Date** setting, which is located in the form builder's _Settings_ → _Limits_ tab.
+
+### Convert an Existing Form
+
+To convert an existing form to be a _Surveys & Polls_ form, simply follow the instructions below:
+
+1. Go to the **Forms** page in the Freeform control panel.
+2. Click on the form to edit it inside the form builder.
+3. Inside the _Settings_ tab, change the **Form Type** setting from _Regular_ to _Surveys & Polls_.
+4. Save the form.
+
+## Configuration
+
+The _Surveys & Polls_ form type offers a handful of settings that help you set defaults and styling for reports.
+
+:::tip
+This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
+:::
+
+<Photo img={SurveyPollsPhoto} alt="Surveys & Polls Settings" />
+
+| Setting                              | Description                                                                                                   |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| **Highlight Highest Ranking Option** | The highest ranking option chosen for each question will be highlighted with an alternate color.              |
+| **Default Chart Types**              | Select the default chart types for each field type. These can be overridden for each form in the report view. |
+
+:::tip
+For page usibility, the Surveys & Polls report page will automatically switch the default chart type from **vertical bar** to **horizontal bar** if the field contains more than 10 values. You can change it back to vertical bar inside the report page if you wish.
+:::
+
+## Usage in Templates
+
+The `surveyResults` method becomes available for use in your templates though the [Form query](../../templates/queries/form.mdx) query:
+
+- Iterate over all results (`{% for result in form.surveyResults %}`):
+  - `votes` - get the total number answers for this field.
+  - `skipped` - get the total number of skipped answers for this field.
+  - `average` - get the average numeric value across all answers for this field.
+    - This will return `null` if any of the answers aren't numeric.
+  - `max` - get the highest numeric value this field may contain.
+    - Useful when displaying the average answer chosen to be able to show the max value (e.g. `4.3 / 5`)
+  - Access `field` object:
+    - `field.id`
+    - `field.label`
+    - etc
+  - `breakdown` - access breakdown of answers (`{% for answer in result.breakdown %}`):
+    - Limiting and ordering results (typically used for text fields):
+      - `breakdown` - will show all responses in order they were added
+      - `breakdown(3)` - fetch only the 3 highest ranked answers
+      - `breakdown(-3)` - fetch only the 3 lowest ranked answers
+      - `breakdown(true)` - order all answers by highest rank
+      - `breakdown(false)` - order all answers by lowest rank
+    - Properties:
+      - `label` - label of the given answer (will use the answer value for text fields).
+      - `value` - value of the given answer.
+      - `votes` - number of times this answer was selected.
+      - `percentage` - calculated percentage of times this answer was selected against all other options.
+      - `ranking` - number of the rank for this answer, with `1` being the top answer.
+
+## Examples
+
+The following are several examples of how to iterate over fields' submission data and display survey results for each.
+
+- [Extract Specific Field Results](#extract-specific-field-results)
+- [Example with Bootstrap Library](#example-with-bootstrap-library)
+- [Example with Chart.js Library](#example-with-chartjs-library)
+- [Iterate Over All Field Types](#iterate-over-all-field-types)
+
+### Extract Specific Field Results
+
+The following example will generate survey or poll results for a specific field.
+
+```twig showLineNumbers
+{% set form = freeform.form("myFormHandle") %}
+
+{% set field = form.get('myFieldHande') %}
+{% set result = form.surveyResults(field) %}
+
+{% for answer in result.breakdown %}
+    <h6 class="mt-4">{{ answer.label }} <small>({{ answer.votes }} votes)</small></h6>
+    <div class="progress" style="height: 30px;">
+        <div class="progress-bar" role="progressbar" style="width: {{ answer.percentage|round(1) }}%" aria-valuenow="{{ answer.percentage|round(1) }}" aria-valuemin="0" aria-valuemax="100">{% if answer.percentage > '0' %}{{ answer.percentage|round(0) }}%{% endif %}</div>
+    </div>
+{% endfor %}
+```
+
+### Example with Bootstrap Library
+
+The below example uses the [Bootstrap](https://getbootstrap.com/) library to generate charts with your survey or poll questions and responses for all eligible survey/poll field types.
+
+<Photo
+  img={TemplatesSurveyPollsReportPhoto}
+  alt="Surveys & Polls Template Report"
+/>
+
+```twig showLineNumbers
+<style>
+    .chart-textarea-responses {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+</style>
+
+{% set form = freeform.form("myFormHandle") %}
+{% set results = form.surveyResults %}
+
+<h1>Survey Results for <b>{{ form.name }}</b> form</h1>
+<p>There are a total of {{ freeform.submissions({form}).count }} responses.</p>
+
+{% for result in results %}
+<div class="container">
+    {% set field = result.field %}
+    <h2>{{ field.label }}</h2>
+    <p>
+        {{ result.votes }} responses, {{ result.skipped }} skipped
+        {% if result.average|length %}
+            <br />Average: <b>{{ result.average|round(1) }}</b> / {{ result.max }}
+        {% endif %}
+    </p>
+    {% if field.type not in ["text", "textarea", "email", "phone", "website", "number", "regex"] %}
+        {% for answer in result.breakdown %}
+            <h6 class="mt-4">{{ answer.label }} <small>({{ answer.votes }} resp.)</small></h6>
+            <div class="progress" style="height: 30px;">
+                <div class="progress-bar{{ answer.ranking == 1 ? ' bg-danger' }}" role="progressbar" style="width: {{ answer.percentage|round(1) }}%" aria-valuenow="{{ answer.percentage|round(1) }}" aria-valuemin="0" aria-valuemax="100">{% if answer.percentage > '0' %}{{ answer.percentage|round(0) }}%{% endif %}</div>
+            </div>
+        {% endfor %}
+    {% elseif field.type in ["text", "email", "phone", "website", "number", "regex"] %}
+        <p>Top 10 text responses:</p>
+        <ul>
+        {% for answer in result.breakdown(10) %}
+            <li>{{ answer.value }} ({{ answer.votes }})</li>
+        {% endfor %}
+        </ul>
+    {% elseif field.type == "textarea" %}
+        <p>Long answer responses (scroll to see all):</p>
+        <ul class="chart-textarea-responses">
+        {% for answer in result.breakdown %}
+            <li>{{ answer.value }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+<hr class="mt-4" />
+{% endfor %}
+```
+
+### Example with Chart.js Library
+
+The below example uses the [Chart.js](https://www.chartjs.org/) library to generate charts with your survey or poll questions and responses for all eligible survey/poll field types.
+
+```twig showLineNumbers
+<style>
+    .chart-textarea-responses {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% set form = freeform.form("myFormHandle") %}
+{% set results = form.surveyResults %}
+
+<h1>Survey Results for <b>{{ form.name }}</b> form</h1>
+<p>There are a total of {{ freeform.submissions({form}).count }} responses.</p>
+
+{% for result in results %}
+<div class="container">
+    {% set field = result.field %}
+    <h2>{{ field.label }}</h2>
+    <p>
+        {{ result.votes }} responses, {{ result.skipped }} skipped
+        {% if result.average|length %}
+            <br />Average: <b>{{ result.average|round(1) }}</b> / {{ result.max }}
+        {% endif %}
+    </p>
+    {% if field.type not in ["text", "textarea", "email", "phone", "website", "number", "regex"] %}
+        <canvas id="chart{{ field.handle }}" width="800" height="300"></canvas>
+        <script>
+            const chart{{ field.handle }}labels = [
+            {% for answer in result.breakdown %}
+                '{{ answer.label }}',
+            {% endfor %}
+            ];
+            const chart{{ field.handle }}data = {
+                labels: chart{{ field.handle }}labels,
+                datasets: [{
+                label: '{{ field.label }}',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [
+                {% for answer in result.breakdown %}
+                    {{ answer.votes }},
+                {% endfor %}
+                ],
+                }]
+            };
+            const chart{{ field.handle }}config = {
+                type: 'bar',
+                data: chart{{ field.handle }}data,
+                options: {
+                    indexAxis: 'x',
+                    responsive: false,
+                    barThickness: 50,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false,
+                            }
+                        }
+                    },
+                }
+            };
+        </script>
+        <script>
+            const chart{{ field.handle }} = new Chart(
+                document.getElementById('chart{{ field.handle }}'),
+                chart{{ field.handle }}config
+            );
+        </script>
+    {% elseif field.type in ["text", "email", "phone", "website", "number", "regex"] %}
+        <p>Top 10 text responses:</p>
+        <ul>
+        {% for answer in result.breakdown(10) %}
+            <li>{{ answer.value }} ({{ answer.votes }})</li>
+        {% endfor %}
+        </ul>
+    {% elseif field.type == "textarea" %}
+        <p>Long answer responses (scroll to see all):</p>
+        <ul class="chart-textarea-responses">
+        {% for answer in result.breakdown %}
+            <li>{{ answer.value }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+<hr />
+{% endfor %}
+```
+
+### Iterate Over All Field Types
+
+The following example will iterate over all fields, compatible with _Survey & Polls_ special behavior or not.
+
+```twig showLineNumbers
+{% set form = freeform.form("myFormHandle") %}
+
+{% for row in form %}
+    <div>
+        {% for field in row %}
+            {% set results = form.surveyResults(field) %}
+            <div>
+                <label>{{ field.label }}</label>
+                {% if results %}
+                    <ul>
+                        {% for answer in results %}
+                            <li>{{ answer.label }} ({{ answer.votes }})</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div>
+                        No survey results for this field.
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}
+```

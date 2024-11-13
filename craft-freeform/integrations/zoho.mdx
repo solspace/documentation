@@ -1,0 +1,108 @@
+---
+title: 'Zoho'
+sidebar_position: 25
+---
+
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Zoho CRM <Badge type="pro" text="Pro" /><Badge type="feature" text="Revised in 5.0+" />
+
+This guide assumes you have a [Zoho CRM](https://www.zoho.com/crm/) account already.
+
+## Compatibility
+
+Uses OAuth flow on `v2` of the REST API.
+
+### Endpoints
+
+Maps data to the following modules:
+
+- **Leads**
+- **Deals**
+- **Contacts**
+- **Accounts**
+
+Does your project require something else? &nbsp; <PrimaryButtonWithLink to='/support' label='Contact Us' />
+
+### Fields
+
+Maps data to the following field types:
+
+- **Standard**
+- **Custom**
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+
+### Prepare Freeform's end for Integration
+
+- Go to the [CRM section in Freeform Settings](../configuration/settings.mdx#crm) (**Freeform → Settings → CRM**).
+- Click the **New Integration** button at the top right.
+- Select _Zoho (v2)_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration. e.g. `My Zoho Integration`
+- Leave this page open and open a new tab to go to the Zoho site...
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Prepare Zoho's end for Integration
+
+- Go to the Zoho _Developer Console_ website ([accounts.zoho.com/developerconsole](https://accounts.zoho.com/developerconsole)).
+- Click the **Add Client** button to begin:
+  - Choose the **Server-based Applications** card
+  - For **Client Name**, enter whatever you like, e.g. `My Website`.
+  - For **Homepage URL**, enter the URL of the website you're using this integration on, e.g. `https://my-precio.us`.
+  - For **Authorized Redirect URIs**, enter the automatically generated **OAuth 2.0 Return URI** from the **Freeform CRM Integration** page, e.g. `https://my-precio.us/admin/freeform/settings/crm/myZohoIntegration`
+  - Then click **Create** to save the new Client ID.
+- On the next page, take note and copy the _Client ID_ and _Client Secret_ tokens and paste into your Freeform CP integration page (flip back to your other browser tab) in the _Client ID_ and _Client Secret_ fields respectively.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Finish the Integration
+
+- Flip back to the Freeform CP browser tab, and click **Save** at the top right corner of Freeform page.
+- You will be redirected to a Zoho OAuth page to allow permissions.
+  - If not currently logged in, fill in your credentials.
+  - Click **Allow** when asked for permissions.
+- You will then be redirected back to the **Freeform CRM Integration** page.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Verify Authorization
+
+- After the integration is saved, it'll return you to the list of CRM integrations.
+- Click into the newly created integration.
+- Confirm that there is a green circle with **Authorized** in the middle of the page.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Configure the Form
+
+To use this integration on your form(s), you'll need to configure each form individually.
+
+- Visit the form inside the form builder.
+- Click on the **Integrations** tab.
+- Click on **Zoho** in the list of available integrations.
+- On the right side of the page:
+  - Enable the integration.
+  - Select the API endpoints you wish to map to.
+  - Map Freeform fields to the Zoho CRM fields as needed.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>
+
+:::warning
+Please note that if you set this up initially on a development environment, you will need to update your callback URL and reauthorize the connection on your production environment. However, your settings and field mappings will remain intact.
+:::

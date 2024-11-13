@@ -1,0 +1,227 @@
+---
+sidebar_position: 1
+---
+
+# Passing Dynamic Data to Forms
+
+A common request is how to get dynamic template-level data passed to a Freeform form. Freeform is very capable of handling this thanks to the [Template Overrides](../../templates/formatting/index.mdx#template-overrides) feature available to automatic rendering methods such as `form.render()`, `form.renderTag()` or `field.render()`, depending on how you're loading your Freeform form.
+
+## Overview
+
+The [Template Overrides](../../templates/formatting/index.mdx#template-overrides) feature allows you to override the value inside Text fields, or even pre-select a default option for multi-option field types (specify option values in this case).
+
+Depending on what you want to do with the data, you might have parts of your form pre-selected or pre-filled out for the user based on where the form is loaded (part of a Craft entry, etc) or which user is logged in (preloading their user data). Or, it might be something you want to silently collect in a hidden field, like the current URL they're at when submitting the form, etc.
+
+### At Form level
+
+```twig showLineNumbers {6}
+{{ freeform.form("myFormHandle", {
+    fields: {
+        "myFieldHandle": {
+            label: "My Field Label Override",
+            instructions: "My field instructions override.",
+            value: "my field value override",
+            attributes: {
+                container: {
+                    "data-my-input-container": true,
+                },
+                input: {
+                    id: "my-field",
+                    class: "big-text",
+                },
+            },
+        },
+    },
+}).render() }}
+```
+
+### At Field level
+
+```twig showLineNumbers {4}
+{{ field.render({
+    label: "My Field Label Override",
+    instructions: "My field instructions override.",
+    value: "my field value override",
+    attributes: {
+        container: {
+            class: "container",
+        },
+        input: {
+            "data-field": true,
+            class: "input-element",
+        },
+        label: {
+            class: "label",
+        },
+        instructions: {
+            class: "instructions",
+        },
+        error: {
+            class: "error-block",
+        },
+    }
+}) }}
+```
+
+## Examples
+
+Here's a quick cheatsheet for collecting common bits of information dynamically (though you'll need to make sure the context is correct, e.g. a Craft entry is set in the template to collect entry data, etc).
+
+### Various Overrides
+
+Below is a general example of various overrides:
+
+```twig showLineNumbers
+{{ freeform.form("myFormHandle", {
+    fields: {
+        "hiddenFieldHandle": {
+            value: entry.id,
+        },
+        "stateSelect": {
+            value: "AZ",
+        },
+        "availability": {
+            value: ["tue", "thu"],
+        },
+        "firstName": {
+            value: currentUser.name,
+        },
+        "myCheckbox": {
+            value: true,
+        },
+    },
+}).render() }}
+```
+
+### Logged in User Data
+
+Include data from the logged-in user in your Freeform fields:
+
+```twig showLineNumbers
+{{ freeform.form("myFormHandle", {
+    fields: {
+        "firstName": {
+            value: currentUser.firstName,
+        },
+        "lastName": {
+            value: currentUser.lastName,
+        },
+        "email": {
+            value: currentUser.email,
+        },
+    },
+}).render() }}
+```
+
+### Current URL
+
+Include the current URL in a hidden Freeform field:
+
+```twig showLineNumbers
+{{ freeform.form("myFormHandle", {
+    fields: {
+        "currentUrl": {
+            value: url(craft.app.request.pathInfo),
+        },
+    },
+}).render() }}
+```
+
+### Craft Entry Data
+
+Include data from a given Craft Entry in your Freeform fields:
+
+```twig showLineNumbers
+{{ freeform.form("myFormHandle", {
+    fields: {
+        "entryId": {
+            value: entry.id,
+        },
+        "stateSelect": {
+            value: entry.state,
+        },
+    },
+    dynamicNotification: {
+        recipients: entry.contactEmail,
+        template: "my-notification-template.twig",
+    }
+}).render() }}
+```
+
+### URL Tracking Parameters
+
+Store UTM URL tracking parameters in your form submissions, where `utm_campaign`, `utm_source`, and `utm_medium` are the handle names of [Hidden](../../forms/fields.mdx#hidden) fields added to your form layout, and assuming your URL looks something like: `https://mysite.net/contact?utm_campaign=my_campaign&utm_source=google_jobs_apply&utm_medium=organic`
+
+```twig showLineNumbers
+{{ freeform.form("myFormHandle", {
+    fields: {
+        "utm_campaign": {
+            value: craft.app.request.getQueryParam('utm_campaign'),
+        },
+        "utm_source": {
+            value: craft.app.request.getQueryParam('utm_source'),
+        },
+        "utm_medium": {
+            value: craft.app.request.getQueryParam('utm_medium'),
+        },
+    },
+}).render() }}
+```
+
+### Set Default Options
+
+Set default selected option(s) for your Freeform form fields:
+
+```twig showLineNumbers
+{{ freeform.form("myFormHandle", {
+    fields: {
+        "stateSelect": {
+            value: "AZ",
+        },
+        "availability": {
+            value: ["tue", "thu"],
+        },
+        "myCheckbox": {
+            value: true,
+        },
+    },
+}).render() }}
+```
+
+### Dynamic Notification Emails
+
+You can also dynamically send email notifications with the [dynamicNotification](../../templates/queries/form.mdx#dynamicnotification) parameter:
+
+```twig showLineNumbers
+{{ freeform.form("myFormHandle", {
+    dynamicNotification: {
+        recipients: ["admin@example.com", "support@example.com"],
+        template: "my-notification-template.twig"
+    }
+}).render() }}
+```
+
+You could also include data from a given Craft Entry:
+
+```twig showLineNumbers
+{{ freeform.form("myFormHandle", {
+    dynamicNotification: {
+        recipients: entry.contactEmail,
+        template: "my-notification-template.twig",
+    }
+}).render() }}
+```
+
+## Passing Freeform data to another Template Function
+
+If you need to pass a Freeform field value (such as an ID) into another Craft function like `craft.entries` or `craft.users` in email notification templates or elsewhere, be sure to specify the Freeform field as `myFreeformFieldHandle.value`. So for example:
+
+```twig showLineNumbers
+{{ craft.users.id(myFreeformFieldHandle.value).one().name }}
+```
+
+OR
+
+```twig showLineNumbers
+{% set item = craft.entries.section('section').id(myFreeformFieldHandle.value).one %}
+```

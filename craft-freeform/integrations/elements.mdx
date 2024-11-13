@@ -1,0 +1,364 @@
+---
+title: 'Elements'
+sidebar_position: 7
+---
+
+import {
+  IconCards,
+  VerticalStepWrapper,
+  StepMarkdown,
+} from '@site/src/components/docs';
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+import CraftEntriesIcon from './assets/icons/craft-entries.png';
+import CraftUsersIcon from './assets/icons/craft-users.png';
+import CalenderIcon from './assets/icons/solspace-calendar.png';
+import EditElememtsIcon from './assets/icons/edit-elements.png';
+
+import UserRegistrationPhoto from './assets/img/user-registration.png';
+
+# Elements<Badge type="pro" text="Pro" /><Badge type="feature" text="Revised in 5.0+" />
+
+Freeform allows you to connect and map Freeform submission data to other Craft Elements.
+
+<IconCards
+  items={[
+    {
+      iconSrc: CraftEntriesIcon,
+      iconTitle: 'Craft Entries',
+      link: '#craft-entries',
+    },
+    {
+      iconSrc: CraftUsersIcon,
+      iconTitle: 'Craft Users',
+      link: '#craft-users',
+    },
+    {
+      iconSrc: CalenderIcon,
+      iconTitle: 'Calendar Events',
+      link: '#calendar-events',
+    },
+    {
+      iconSrc: EditElememtsIcon,
+      iconTitle: 'Edit Elements',
+      link: '#editing-elements',
+    },
+  ]}
+/>
+
+<Photo
+  className="my-8"
+  img={UserRegistrationPhoto}
+  alt="Form Builder - Elements integration - Users"
+/>
+
+:::info
+Freeform includes the ability to map the Freeform submission ID, submission token, submission title, form ID, form handle and form name to other element fields as well. You can choose these as options in the mapping table in the Integrations tab.
+:::
+
+## Overview
+
+Freeform includes the ability to map submission data to create and [edit](#editing-elements) other Craft elements, including [Craft Entries](#craft-entries), [Craft Users](#craft-users) and [Calendar Events](#calendar-events). Since Freeform already includes various other functionality such as [spam protection](../forms/spam-protection.mdx), [integrations](../integrations/index.mdx), [email notifications](../forms/email-notifications.mdx), [Stripe payments](./stripe-payments.mdx) and much more, this allows you to quickly create very powerful forms.
+
+To use this feature, you set up integration(s) inside the Freeform settings area, and then configure them individually for each form you wish to use them on.
+
+The configuration inside the form builder is very flexible and allows you to map a Freeform field or enter a value such as Twig code or hardcode a value. For example, if you have an element that contains a single field for customer name, e.g. `Full Name`, but your form contains two separate fields, e.g. `First Name` and `Last Name`, in the input fields you could specify a value of:
+
+```twig showLineNumbers
+{{ firstName }} {{ lastname }}
+```
+
+## Craft Entries
+
+This integration allows you to map Freeform submission data to [Craft Entries](https://craftcms.com/docs/5.x/reference/element-types/entries.html). In addition to most custom Craft fields, Freeform can also map to the _Post Date_ and _Expiry Date_.
+
+### Setup Instructions
+
+<VerticalStepWrapper>
+<StepMarkdown stepTitle="Create the Integration">
+
+- Go to the [Element section in Freeform Settings](../configuration/settings.mdx#elements) (**Freeform → Settings → Elements**).
+- Click the **New Integration** button at the top right.
+- Select _Entry_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration. e.g. `My Entry Integration`.
+- Choose a section and entry type from the **Entry Type** select dropdown.
+  - This will only be the default value when configuring the integration in the form builder later.
+- Click the **Save** button.
+
+</StepMarkdown>
+<StepMarkdown stepTitle="Configure the Form">
+
+- Open up the form inside the form builder.
+- Click on the **Integrations** tab.
+- Click on your new **Entry** integration in the list of available integrations.
+- On the right side of the page:
+  - Enable the integration.
+  - Confirm the section and entry type in the **Entry Type** field, or change it as necessary.
+  - The **Attribute Mapping** table allows you to map standard Craft Entry fields.
+  - The **Field Mapping** table is where you map Freeform fields to the Craft Entry fields as needed.
+
+See [Mapping Guidelines](#mapping-guidelines) for more info.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>
+
+## Craft Users
+
+This integration allows you to map Freeform submission data to [Craft User](https://craftcms.com/docs/5.x/reference/element-types/users.html), essentially creating a powerful [User Registration form](../guides/speciality-forms/user-registration-forms.mdx).
+
+:::warning
+This feature requires a **Craft Pro** license in order to work, as Users are a Craft Pro feature.
+:::
+
+:::tip
+[Check out our guide for a specialized look at creating User registration forms.](../guides/speciality-forms/user-registration-forms.mdx)
+:::
+
+### Setup Instructions
+
+<VerticalStepWrapper>
+<StepMarkdown stepTitle="Create the Integration">
+
+- Go to the [Element section in Freeform Settings](../configuration/settings.mdx#elements) (**Freeform → Settings → Elements**).
+- Click the **New Integration** button at the top right.
+- Select _User_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration. e.g. `My User Integration`.
+- Set the defaults for the next 3 settings (these can be changed when configuring in the form builder later):
+  - Choose a user group from the **User Group** select dropdown.
+  - Toggle whether the user account should be **Active** or not.
+  - Toggle whether to **Send an Activation Email** to the user or not.
+- Click the **Save** button.
+
+</StepMarkdown>
+<StepMarkdown stepTitle="Configure the Form">
+
+- Open up the form inside the form builder.
+- Click on the **Integrations** tab.
+- Click on your new **User** integration in the list of available integrations.
+- On the right side of the page:
+  - Enable the integration.
+  - Confirm the user group in the **User Group** field, or change it as necessary.
+    :::danger
+    All user groups, including ones with access to control panel will show here. Use extreme caution if allowing users to self-register for accounts that can access the Craft control panel!
+    :::
+  - Toggle whether the user account should be **Activated** or not.
+    - If you'd like new users to not yet be activated and receive the Craft User Activation email, toggle the **Activate Users** setting ON. If you'd like to manually approve registrations and suppress the email notification to users, toggle the **Send Activation Email** setting OFF.
+  - Toggle whether to **Send an Activation Email** to the user or not.
+    :::danger
+    When using a manual Admin approving approach, it's still possible for a **Pending** user to circumvent this process if a [Forgot Password](https://craftcms.com/knowledge-base/front-end-user-accounts#reset-password-forms) form is available to them, as Craft currently does not have a concept of Admin approval only, and allows users to verify their account either through an email notification or using a _Forgot Password_ form.
+    :::
+  - The **Attribute Mapping** table allows you to map standard Craft User fields.
+    - You will need to use the special [Password](../forms/fields.mdx#password) field for mapping passwords to User passwords. The Freeform **Password** field will NOT save any password data in the Freeform database tables. It is designed specifically for this purpose.
+  - The **Field Mapping** table is where you map Freeform fields to the Craft User fields as needed.
+
+See [Mapping Guidelines](#mapping-guidelines) for more info.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>
+
+## Calendar Events
+
+This integration supports mapping to Solspace Calendar Events, providing you have the **Calendar** plugin installed. This works similarly to the [Craft Entries](#craft-entries) integration, but also allows you to specify **Start Date** (and Time), **End Date** (and Time) and if the event is **All Day** or not. Advanced settings like repeat rules are currently not available.
+
+### Setup Instructions
+
+<VerticalStepWrapper>
+<StepMarkdown stepTitle="Create the Integration">
+
+- Go to the [Element section in Freeform Settings](../configuration/settings.mdx#elements) (**Freeform → Settings → Elements**).
+- Click the **New Integration** button at the top right.
+- Select _Calendar Events_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration. e.g. `My Calendar Integration`.
+- Set the defaults for the next 3 settings (these can be changed when configuring in the form builder later):
+  - Choose a calendar from the **Calendar** select dropdown.
+  - Toggle whether new events should be **Disabled** or not.
+  - Toggle whether **all** new events created through Freeform should be considered **All Day** or not.
+- Click the **Save** button.
+
+</StepMarkdown>
+
+  <StepMarkdown stepTitle="Configure the Form">
+
+- Open up the form inside the form builder.
+- Click on the **Integrations** tab.
+- Click on your new **Calendar Events** integration in the list of available integrations.
+- On the right side of the page:
+  - Enable the integration.
+  - Confirm the calendar in the **Calendar** field, or change it as necessary.
+  - Toggle whether new events should be **Disabled** or not.
+  - Toggle whether **all** new events created through Freeform should be considered **All Day** or not.
+    - To have users only choose a Start date and End date for ALL events (and not worry about selecting times), toggle this ON.
+    - To have users specify times in addition to dates of their events, leave this toggled OFF.
+    - To offer the ability for users to set that an event is "all day", leave this toggled OFF and then map a Freeform [Checkbox](../forms/fields.mdx#checkbox) field to the **All Day** field in the field mapping table.
+  - The **Attribute Mapping** table allows you to map standard Calendar Event fields.
+  - The **Field Mapping** table is where you map Freeform fields to the Calendar Event fields as needed.
+
+See [Mapping Guidelines](#mapping-guidelines) for more info.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>
+
+## Mapping Guidelines
+
+While most traditional fields that are similar to each other should be able to correctly map to each other, there are some obvious limitations with field mapping as Freeform does not have anything like a Matrix field, etc.
+
+- **Freeform Checkbox** fields can be mapped to Craft's Checkbox field (with just 1 option) as well as the Lightswitch field. Just make sure the value and casing in Freeform matches.
+- **Craft Date/Time** fields should be mapped to with the following format: `Y-m-d H:i:s` (aka `YYYY-MM-DD HH:MM:SS` or just `YYYY-MM-DD` for Freeform Date & Time fields using Date only).
+- **Freeform Table** fields cannot be mapped to other Elements, nor can Freeform fields be mapped to Table fields in other elements.
+- **Freeform File Upload** fields can be mapped to regular Craft **Assets** fields, as well as the _Users_ Photo field.
+- When mapping to sections with **autogenerated titles**, make sure to set the fields you're using to map to Craft fields that populate the title field to be required on Freeform's end. Otherwise the submission likely won't generate the Craft Entry if data for the title is missing.
+- Freeform attempts to **route Element-based errors** to the mapped fields. In some cases you might see more than 1 error for a Freeform field because of this. Some examples:
+  - If the field that is mapped to the Entry Title field is empty, validation will mention that "a title is required", etc. Entry Slug errors are suppressed for Freeform errors so as not to confuse users.
+  - If the fields that are mapped to essential fields like **username**, **email** and **password** are empty, validation will mention that "Email cannot be blank", etc.
+- If using **multipage forms**, any element fields that are not mapped to on the current page will be validated at the end of the form instead. <Badge type="feature" text="Improved in 5.5.2+" />
+- If the submission is blocked or flagged as spam, there's currently **no way to retroactively map submission data to the element**. The best option for avoiding this would be using [Captchas](../forms/spam-protection.mdx) instead of Keyword Blocking, etc.
+
+## Email Notification Templates
+
+When using the Elements integration, you can use the `element` object to display data from the newly created Craft Element such as ID, title, username, etc.
+
+For example (but not limited to):
+
+- `element.id` will return the ID of the newly created Element
+- `element.title` will return the title of the newly created Craft Entry
+- `element.username` will return the username of the newly created Craft User
+
+If you have more than 1 element integration for the form, you can use either:
+
+- `{% for item in element %}`
+- `{{ element[0].id }}`, `{{ element[1].id }}`, etc
+
+## Editing Elements
+
+:::warning
+Please be aware that the Element Editing feature opens up a wide variety of possibilities, including ones that could pose a risk to your data and User accounts. When used cautiously and correctly, this feature is secure and is of no risk. Completely read the documentation below, and always carefully think through your flow and test it thoroughly. When in doubt, do not hesitate to contact Solspace support for clarity about the approach you're taking and if there may be any issues or risks with it.
+:::
+
+### Overview
+
+Freeform allows you to edit/update existing Craft elements ([Entries](#craft-entries), [Users](#craft-users) and [Calendar Events](#calendar-events) currently) by adding one extra step - including the `elementId` parameter in your form. It works by feeding a Freeform form an element ID.
+
+If you already have a Freeform form to handle creating Craft elements (e.g. User Registration), it's very likely you'll need to create a new form (or duplicate an existing form as a starting point) for the form to update Craft elements (e.g. Edit Profile). When you create a new form, be sure to to set up an Element integration along with field mapping, and then in your template, add the `elementId` parameter to your form.
+
+### Setup Instructions
+
+<VerticalStepWrapper>
+<StepMarkdown stepTitle="Create the Integration">
+
+If you don't already have an integration setup for this (for the purpose of creating NEW elements), then be sure to create a new integration. You can otherwise **SKIP** this step.
+
+:::info
+You can share a single integration for both creation of **new** elements and **editing existing** elements, e.g. _User Account Registration_ and _Edit Account_ forms.
+:::
+
+- Go to the [Element section in Freeform Settings](../configuration/settings.mdx#elements) (**Freeform → Settings → Elements**).
+- Click the **New Integration** button at the top right.
+- Select the element type from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration. e.g. `My User Integration`.
+- Configure any other applicable settings.
+- Click the **Save** button.
+
+</StepMarkdown>
+
+<StepMarkdown stepTitle="Configure the Form">
+
+:::info
+If you already have a Freeform form to handle creating Craft elements (e.g. User Registration), it's very likely you'll need to create a new form (or duplicate an existing form as a starting point) for the form to update Craft elements (e.g. Edit Profile).
+:::
+
+- Open up the form inside the form builder.
+- Click on the **Integrations** tab.
+- Click on your new integration in the list of available integrations.
+- On the right side of the page:
+  - Enable the integration.
+  - Confirm and configure any other applicable settings.
+  - The **Attribute Mapping** table allows you to map standard element fields.
+  - The **Field Mapping** table is where you map Freeform fields to the element's custom fields as needed.
+
+See [Mapping Guidelines](#mapping-guidelines) for more info.
+
+</StepMarkdown>
+
+<StepMarkdown stepTitle="Set up the Template">
+
+In your template that will load the form, you'll need to add the `elementId` parameter. A basic call to it would look something like this (assuming the element ID is in the third segment of the URL):
+
+```twig {2} showLineNumbers
+{{ freeform.form("editCraftUsers").render({
+    elementId: craft.app.request.segment(3)
+}) }}
+```
+
+</StepMarkdown>
+
+</VerticalStepWrapper>
+
+### Important Notes
+
+- Element editing does not offer any authentication to verify the current user is the author of Craft Entries and Calendar Events. We urge you to always wrap these forms in a check to make sure the user is a logged in Admin only (or specific checks on certain user groups).
+- **User** account element editing is restricted to the following logic:
+  - Logged in users can only modify their own account.
+  - Logged in Admins can modify any account.
+  - Logged in users / groups with the **Edit users** Craft permission may modify other user accounts.
+- There are currently some **limitations with User account editing**:
+  - Users cannot be asked to enter their current password to update their profile.
+  - Users currently can update their email address, but there will currently be no additional validation from Craft (such as having the user verify their email address, etc). A future version may address this.
+  - Users may see redundant error messages for fields like _Email Address_, as some of Craft's validation will be show up in addition to Freeform validation.
+  - If you have users / groups with the **Edit users** Craft permission but do not want them editing users on the front end, you'll need to use template conditionals to prevent it (in the event you provide a dynamic way of doing so for Admins, e.g. URI segments).
+  - For self-serve "profile update" forms, you should be using something like `elementId: currentUser.id` (see docs example below).
+  - Users currently cannot have their user group(s) changed when they are updated through a Freeform form with Elements integration. <secret>A future version may address extra settings and handling to accomodate user group changes.</secret>
+
+### Examples
+
+Here are some examples of what this might look like for you...
+
+#### Allow the currently logged in user to update their own User profile
+
+```twig showLineNumbers
+{% if currentUser %}
+	<h2>Update Your Profile</h2>
+	{{ freeform.form("editCraftUsers").render({
+		elementId: currentUser.id
+	}) }}
+{% endif %}
+```
+
+#### Display a list of Craft Entries and link them to an Edit form
+
+```twig showLineNumbers
+{% set segment2 = craft.app.request.segment(2) %}
+
+{# SAFETY FIRST - LOGGED IN ADMINS ONLY #}
+{% if (currentUser) and (currentUser.admin) %}
+
+	<h2>Craft Entries</h2>
+	{% set entries = craft.entries()
+		.section('mySection')
+		.limit(4)
+	%}
+	<ul>
+	{% for entry in entries.all() %}
+		<li>
+			<a href="{{ siteUrl }}edit-entry/{{ entry.id }}/">{{ entry.title }}</a>
+		</li>
+	{% endfor %}
+	</ul>
+
+	{% if segment2 %}
+		<hr />
+		{{ freeform.form("editCraftEntries").render({
+			elementId: segment2
+		}) }}
+	{% endif %}
+
+{% endif %}
+```
+
+You could also use a conditional like this to perform a check on users assigned to a specific group:
+
+```twig showLineNumbers
+{% if currentUser.isInGroup('editors') %}{% endif %}
+```

@@ -1,0 +1,102 @@
+---
+sidebar_position: 3
+---
+
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Form Validation with Foundation Abide
+
+The [Abide plugin](https://foundation.zurb.com/sites/docs/abide.html) for Zurb [Foundation](https://foundation.zurb.com/) extends native HTML5 form validation. This guide will show you how to implement form validation for your Freeform forms with Abide.
+
+:::info
+This guide assumes you are running [Foundation 6](https://foundation.zurb.com/) and have the [Abide plugin](https://foundation.zurb.com/sites/docs/abide.html) correctly installed on your web page.
+:::
+
+You can implement Foundation Abide validation for your form 1 of 2 ways:
+
+## Inside the Form Builder (CP)
+
+You can add the necessary attributes to your forms with the form builder. Follow the instructions below to see how.
+
+<VerticalStepWrapper>
+<StepMarkdown>
+- Open up an existing form inside Freeform and go to the **Form Settings** tab (cog/gear icon).
+- At the bottom of the settings tab, there's an area called **Form tag Attributes**. Add `novalidate` in the *Attribute* column and leave the *Value* column empty (or specify `true`). This suppresses default HTML5 browser level validation. Also add `data-abide` in the *Attribute* column and leave the *Value* column empty (or specify `true`). This triggers Abide level validation.
+    | Attribute | Value |
+    | :--- | :--- |
+    | novalidate | |
+    | data-abide | |
+
+</StepMarkdown>
+<StepMarkdown>
+- For the rest of your fields, add attributes to them in the form builder interace as needed. To add attributes to fields, simply click the field in the middle layout column, and in the right side Property Editor column, you'll see an **Input attributes** settings area. For example:
+    - Add `required` to the *Attribute* column and leave the *Value* column empty (or specify `true`) to make the field required.
+        - Merely checking the *This field is required* checkbox is not sufficient to trigger Abide, as it's intended just for Freeform's own validation.
+    - You can also add extra validations like `number` or `email` to trigger more complex [predefined patterns as seen here](https://foundation.zurb.com/sites/docs/abide.html#builtin-patterns-and-validators). Note that some attributes may have blank values, and that's okay.
+        | Attribute | Value |
+        | :--- | :--- |
+        | required | |
+        | pattern | email |
+
+</StepMarkdown>
+<StepMarkdown>
+- Render your form builder-based form in a Twig template as usual.
+    ```twig showLineNumbers
+    {{ freeform.form("foundationForm").render() }}
+    ```
+
+</StepMarkdown>
+
+</VerticalStepWrapper>
+
+## At Template Level
+
+You can add the necessary attributes and changes to your forms directly inside your Twig templates with the Freeform `form.renderTag()`. Follow the instructions below to see how.
+
+<VerticalStepWrapper>
+<StepMarkdown>
+- Add the `novalidate` and `data-abide` attributes to your form using the `renderTag()` method like this:
+    ```twig showLineNumbers {2}
+    {% set form = freeform.form("foundationForm", {
+        formAttributes: { "novalidate": true, "data-abide": true }
+    }) %}
+    {{ form.renderTag({}) }}
+    ...
+    {{ form.renderClosingTag }}
+    ```
+
+</StepMarkdown>
+<StepMarkdown>
+- To set field level attributes, you can apply them directly to your form field inputs or `field.render`. Usually it's more convenient to set these inside the Freeform control panel form builder area, but you can still control these at the template level if you want. Your template code might look something like this:
+    ```twig showLineNumbers {2,9-23}
+    {% set form = freeform.form("foundationForm", {
+        formAttributes: { "novalidate": true, "data-abide": true }
+    }) %}
+    {{ form.renderTag({}) }}
+        {% for row in form %}
+        <div>
+            {% for field in row %}
+            <div>
+                {% set attr = {} %}
+                {% if field.required %}
+                    {% set attr = attr|merge({'required':true}) %}
+                {% endif %}
+                {% if field.type == 'number' %}
+                    {% set attr = attr|merge({'pattern':'number'}) %}
+                {% endif %}
+                {{ field.render({
+                    inputAttributes: attr
+                }) }}
+                {% if field.required and field.type == 'number' %}
+                    <span class="form-error">
+                        This field is required and must be numeric.
+                    </span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    {{ form.renderClosingTag }}
+    ```
+</StepMarkdown>
+</VerticalStepWrapper>

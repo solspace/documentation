@@ -1,0 +1,69 @@
+---
+sidebar_position: 6
+title: 'Channel Fieldtype'
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Channel Fieldtype
+
+Freeform includes a channel fieldtype that allows you to attach forms to Channel Entries, so that you can display a form with your entry automatically inside the [Channel:Entries](https://docs.expressionengine.com/v7/channel/channel_entries.html) tag. This method does force using a [Formatting Template](../guides/templating/formatting-templates.mdx) to control its output.
+
+## Creating a Freeform field
+
+Creating a Freeform Form field is done just like any other fieldtype, here's an overview of the process:
+
+- Go to the **Channel Fields** area in the CP. Select the appropriate **Field Group**, and then click the **Create New** button.
+- For the Type, select _Freeform_ from the list.
+- Name the field as you wish - for example **My Form** with short name of **my_form**.
+- There are no special field options for the Freeform field type.
+- Click _Save Field_ to save the new custom field.
+- If you wish to create more Freeform fields, just follow the procedure above again.
+
+Your Freeform Form/Submissions field is now available to be assigned to other sections.
+
+<Photo
+  img={require('@site/static/img/ee-freeform/v3/cp_fieldtype-create.png')}
+  alt="Create New Fieldtype"
+/>
+
+## How the Fieldtype works
+
+Once you have a Freeform channel entry field setup, and you've created a form with Composer, assigning a form to a channel entry is very easy!
+
+- Go to the _Publish_ area in the EE control panel. If the field group the Freeform field belongs to is assigned to the channel you selected, you should now see the special Freeform field.
+- To add a form, simply select the form name from the select field list.
+- Once you have submitted or updated the channel entry, that's it! The form has now been assigned to the entry.
+
+<Photo
+  img={require('@site/static/img/ee-freeform/v3/cp_fieldtype-entry.png')}
+  alt="Using Fieldtype"
+/>
+
+## Displaying the Form in EE Templates
+
+To have the Freeform form display in your EE templates, simply specify the short name of the custom channel field as a variable inside of the [Channel:Entries](https://docs.expressionengine.com/v7/channel/channel_entries.html) tag. If a Freeform form has been selected for the entry, the form will parse fully from that variable.
+
+```html{4}
+{exp:channel:entries}
+    <h2>{title}</h2>
+    <p>{body}</p>
+    {freeform_form_fieldname}
+{/exp:channel:entries}
+```
+
+## Simulating Form Fieldtype (workaround)
+
+There are some current limitations with handling overrides and return URL's, etc. You can however, avoid the field type altogether and create a regular EE field that allows your users to select a form handle or ID from a select field, etc as well as specify other things like return URL and attributes, etc. Then pass it off to the `freeform_next:render` template tag instead, like this:
+
+```html{4-7}
+{exp:channel:entries}
+   <h3>{title}</h3>
+   ...
+   {exp:freeform_next:render
+      form="{my_ff_formname_field}"
+      return="{my_ff_returnurl_field}"
+   }
+   ...
+{/exp:channel:entries}
+```

@@ -1,0 +1,85 @@
+---
+sidebar_position: 2
+title: Composer_Edit
+---
+
+# Freeform:Composer_Edit template tag
+
+The _Freeform:Composer_Edit_ tag is used for editing of Freeform entries that were submitted to Composer-based form. It will display the appropriate forms that were created using the Composer tool in the Freeform control panel. Simply specify the Freeform entry ID, the form name or ID, and the style template name or ID and this tag will do the rest. All other controls and notifications are handled within the Freeform control panel.
+
+```html
+{exp:freeform:composer_edit}
+```
+
+## Parameters
+
+In additional to all of the parameters in [Freeform:Form](./form.mdx#parameters) (available as overrides to defaults), the following parameters are available for use:
+
+### entry_id=
+
+`entry_id="{segment_3}"`
+
+A valid Freeform entry ID is required to edit a given form submission. Freeform will try to detect the ID from the URI, but it can also be fed through this parameter through the URI, an embed, or a hardcoded value.
+
+### form_id=
+
+`form_id="4"`
+
+Specify the ID of the form you created in the Freeform control panel so that Freeform knows which form to pull and which form the submissions should be tied to. Alternatively, you can use the [form_name](#form-name) parameter.
+
+### form_name=
+
+`form_name="contact_form"`
+
+Specify the short name of the form you created in the Freeform control panel so that Freeform knows which form to pull and which form the submissions should be tied to. Alternatively, you can use the [form_id](#form-id) parameter.
+
+### composer_template_id=
+
+`composer_template_id="1"`
+
+Specify the ID of the styles/formatting template you created for the Composer-based form you created in the Freeform control panel. Alternatively, you can use the [composer_template_name](#composer-template-name) parameter.
+
+### composer_template_name=
+
+`composer_template_name="contact_form"`
+
+Specify the short name of the styles/formatting template you created for the Composer-based form you created in the Freeform control panel. Alternatively, you can use the [composer_template_id](#composer-template-id) parameter.
+
+### return=
+
+`return="template_group/template"` or `return="template_group/template/%%entry_id%%"`
+
+This parameter lets you set where to send users once they have submitted the form. If not specified, the user will be returned to the same page. If you'd like to send the user to a page with the newly created Freeform entry ID in the URI, just add `%%entry_id%%` to the end of the URL you've specified in the _return_ parameter. That variable will be replaced by the Freeform entry ID of the newly submitted entry.
+
+### notify_on_edit=
+
+`notify_on_edit="yes"`
+
+If you wish to send out notifications to admins and users with the usual parameters upon successful edit of Freeform entry, you'll need to specify this parameter with a value of **yes**. Default is **no**.
+
+### restrict_edit_to_author=
+
+`restrict_edit_to_author="yes"`
+
+Specifying a value of **no** to this parameter will mean that anyone, including logged out users / guests can edit the entry. Default is **yes**, which means that only the original author of the Freeform entry, or a Super Admin, can edit the entry.
+
+## Variables
+
+All of the variables in [Freeform:Composer](./composer.mdx#variables) are available for use.
+
+## Variable Pairs
+
+All of the variable pairs in [Freeform:Composer](./composer.mdx#variable_pairs) are available for use.
+
+## Conditionals
+
+All of the conditionals in [Freeform:Composer](./composer.mdx#conditionals) are available for use.
+
+## Examples
+
+Your template code will look really simple since the work was done in the Composer tool in the Freeform control panel:
+
+```html
+{exp:freeform:composer_edit entry_id="{segment_3}" form_name="food_survey"
+composer_template_name="food_survey" return="food_survey/thank_you" }
+```

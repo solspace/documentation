@@ -1,0 +1,113 @@
+---
+title: Submissions Limits
+sidebar_position: 2
+---
+
+import { Badge } from '@site/src/components/utils';
+import { FlexCards } from '@site/src/components/docs';
+
+import Icons from '@site/static/card-icons';
+
+# Submission Limits<Badge type="pro" text="Pro" />
+
+If you need to set limits on the number of submissions a form may receive or who can submit the form, a few options are available:
+
+<FlexCards
+  items={[
+    {
+      title: 'Duplicate Check',
+      description:
+        'Limit the number of times a specific user can submit the form.',
+      icon: Icons.UserIcon,
+      fullCardLink: '#duplicate-check',
+    },
+    {
+      title: 'Total Submissions Per Form',
+      description: 'Set a maximum number of submissions a form may receive.',
+      icon: Icons.StopIcon,
+      fullCardLink: '#total-submissions-per-form',
+    },
+    {
+      title: 'Stop After Date',
+      description:
+        'Prevent new submissions of the form after a specified date.',
+      icon: Icons.HourglassIcon,
+      fullCardLink: '#stop-after-date',
+    },
+  ]}
+/>
+
+## Per User <Badge type="pro" text="Pro" />
+
+Inside the [Validation](../forms/builder#validation) tab (lock icon) in the [form builder](../forms/builder.mdx), an option exists to allow you to limit the number of times a specific user can submit the form. Look for this setting:
+
+- **Limit Form Submission Rate**
+  - _Do not limit_
+    - _Logged in Users only (no limit)_
+    - _Once per Cookie only_
+    - _Once per IP/Cookie combo_
+    - _Once per logged in Users only_
+    - _Once per logged in User or Guest Cookie only_
+    - _Once per logged in User or Guest IP/Cookie combo_
+    - _Once per Email Address only_ <Badge type="feature" text="4.0.24+" />
+      - This will check any _Email_ field type for a matching email address (across all Email fields if using more than one in the same form).
+
+### Templating
+
+Freeform includes validation to prevent duplicate submissions (when the user tries to submit the form again), but if you wish to prevent users from even being able to see the form (and display an error/notice in its place), you can use `duplicate` ([form object](../templates/objects/form.mdx)) as a conditional. It's a bool variable, which will be `true` if the form has the **Duplicate Check** setting enabled and the user has already submitted the form.
+
+```twig showLineNumbers {4-5}
+{# Replace 'myForm' with your form handle. #}
+{% set form = freeform.form("myForm") %}
+
+{# Check if user has already submitted the form #}
+{% if form.duplicate %}
+
+    {# Hide form and display error message #}
+    <p class="alert">You've already submitted this form!</p>
+
+{% else %}
+
+    {# Display form if not yet submitted by the user #}
+    {{ form.render }}
+
+{% endif %}
+```
+
+## Per Form<Badge type="pro" text="Pro" />
+
+Freeform includes the ability to set a limit on the maximum number of submissions a form may receive, and the reject any additional ones. This is a template-level feature. You can also include a template-based condition check and display an alternate message without ever presenting the form to the user in the event it's reached it's limit.
+
+### Templating
+
+The key is applying the `submissionLimit` parameter to the [Form query](../templates/queries/form.mdx) and feeding it a number value. This could be hardcoded or you could grab this value from somewhere else such as another element or global variable, etc. Here's an example of what that may look like:
+
+```twig showLineNumbers {4-8}
+{# Replace 'myForm' with your form handle. #}
+{% set form = freeform.form("myForm") %}
+
+{# Specify the submission limit here (or grab this value from somewhere else such as another element or global variable, etc) #}
+{% set submissionLimit = 50 %}
+
+{# This optional conditional checks if the form has reached its submission limit set above #}
+{% if freeform.submissionCount(form) >= submissionLimit %}
+
+    <p class="alert">Submission Limit Reached!</p>
+
+{% else %}
+
+    <p class="notice">
+        This form has a limit of {{ submissionLimit }} submissions.
+        There are currently {{ freeform.submissionCount(form) }} submissions for this form.
+    </p>
+
+    {{ form.render({
+        submissionLimit: submissionLimit,
+    }) }}
+
+{% endif %}
+```
+
+## Stop After Date
+
+Inside the [Settings → Limits](../forms/builder.mdx#settings) area in the [form builder](../forms/builder.mdx), a **Stop Submissions After Date** setting exists to allow you to prevent new submissions of the form after the specified date.

@@ -1,0 +1,165 @@
+---
+title: 'Webhooks'
+sidebar_position: 5
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+import CustomWebhookPhoto from './assets/img/custom-webhook-type.png';
+
+# Custom Webhook Types<Badge type="pro" text="Pro" />
+
+You can create your own [webhook](../integrations#webhooks) types and add them to Freeform. To create your own hook, you must first make the desired webhook class and either implement the `Solspace\Freeform\Library\Webhooks\WebhookInterface` interface or extend the `Solspace\Freeform\Library\Webhooks\AbstractWebhook` class, which already implements that interface.
+
+To begin, let's make an example webhook class named `CustomWebhook`:
+
+## Slack
+
+The Slack webhook allows you to define a `message` that will be sent to the Slack channel of your choosing.
+To set it up, you must first create a [Slack App](https://api.slack.com/apps?new_app=1), and then use the generated webhook URL in the Freeform Slack Webhook edit page.
+Then enter the desired message, which is a [Twig](https://twig.symfony.com/) template, where you can call on `submission` and `form` variables.
+
+## Zapier
+
+The Zapier webhook lets you pass your submitted form data to Zapier where you can link it to any other webhook that Zapier provides an integration for.
+
+The payload posted to Zapier looks like this:
+
+```json showLineNumbers
+{
+  "form__id": 1,
+  "form__name": "Freeform form",
+  "form__handle": "freeformForm",
+  "form__color": "#8ba2a8",
+  "form__description": "This is a Freeform Form",
+  "form__returnUrl": "",
+  "id": 1001,
+  "dateCreated__date": "2018-12-31 14:00:00.000000",
+  "dateCreated__timezone_type": 3,
+  "dateCreated__timezone": "America/Los_Angeles",
+  "uid": "18ca11b9-bd4f-4530-9e51-f7a67ac84ec2",
+  "token": "v3bJsQf5o1cYaLhzJTnn8NAiWI9gn1J4JmTpPS4Es1OZetyQS5wDO2DrAdNieiEc9KFnaBh6CcTRD9xjBf48NQfr8XxxUr1HDvj6",
+  "firstName": "John",
+  "lastName": "Doe",
+  "message": "A custom message"
+}
+```
+
+## Generic
+
+Generic webhooks simply send a `json` `POST` request with the submitted payload to the specified webhook URL.
+The payload looks like this:
+
+```json showLineNumbers
+{
+  "form": {
+    "id": 1,
+    "name": "Freeform form",
+    "handle": "freeformForm",
+    "color": "#8ba2a8",
+    "description": "This is a Freeform Form",
+    "returnUrl": ""
+  },
+  "id": 1001,
+  "dateCreated": {
+    "date": "2018-12-31 14:00:00.000000",
+    "timezone_type": 3,
+    "timezone": "America/Los_Angeles"
+  },
+  "uid": "18ca11b9-bd4f-4530-9e51-f7a67ac84ec2",
+  "token": "v3bJsQf5o1cYaLhzJTnn8NAiWI9gn1J4JmTpPS4Es1OZetyQS5wDO2DrAdNieiEc9KFnaBh6CcTRD9xjBf48NQfr8XxxUr1HDvj6",
+  "firstName": "John",
+  "lastName": "Doe",
+  "message": "A custom message"
+}
+```
+
+## Adding your own webhook types
+
+You can create your own webhook types and add them to Freeform.
+
+To create your own hook, first, you must make the desired webhook class and either implement the `Solspace\Freeform\Library\Webhooks\WebhookInterface` interface or extend the `Solspace\Freeform\Library\Webhooks\AbstractWebhook` class, which already implements that interface.
+
+Let's make an example webhook class named `CustomWebhook`
+
+```php showLineNumbers
+<?php
+
+namespace Custom\Plugin;
+
+use GuzzleHttp\Client;
+use Solspace\Freeform\Events\Submissions\ProcessSubmissionEvent;
+use Solspace\Freeform\Freeform;
+use Solspace\Freeform\Library\Webhooks\AbstractWebhook;
+
+class CustomWebhook extends AbstractWebhook
+{
+    /**
+     * @return string
+     */
+    public function getProviderName(): string
+    {
+        return 'My Custom Webhook';
+    }
+
+    /**
+     * @param AfterSubmitEvent $event
+     *
+     * @return bool
+     */
+    public function triggerWebhook(ProcessSubmissionEvent $event): bool
+    {
+        $form       = $event->getForm();
+        $submission = $event->getSubmission();
+
+        $json = [
+          'form' => $form->getName(),
+          'submission' => $submission->title
+        ];
+
+        $client = new Client();
+        try {
+            $client->post($this->getWebhook(), ['json' => $json]);
+
+            return true;
+        } catch (\Exception $e) {
+            Freeform::getInstance()->logger->getLogger($this->getProviderName())->error($e->getMessage());
+        }
+
+        return false;
+    }
+}
+```
+
+Then, we register it by listening to the `WebhooksService::EVENT_FETCH_TYPES` event in our custom plugin init method:
+
+```php showLineNumbers
+<?php
+
+namespace Custom\Plugin;
+
+use Solspace\Freeform\Services\Pro\WebhooksService;
+use Solspace\Freeform\Events\Integrations\FetchWebhookTypesEvent;
+
+class TestPlugin extends Plugin
+{
+    public function init()
+    {
+        parent::init();
+
+        // Listen for the Fetch Webhook Types event
+        Event::on(
+            WebhooksService::class,
+            WebhooksService::EVENT_FETCH_TYPES,
+            function (FetchWebhookTypesEvent $event) {
+              // Add the previously created Custom\Plugin\CustomWebhook class
+              // by passing its fully qualified name to the event
+              $event->addType(CustomWebhook::class);
+            }
+        );
+    }
+}
+```
+
+After these steps, your Webhook type will be available in the **Create new webhook** page.

@@ -1,0 +1,192 @@
+---
+title: 'Conditional Rules'
+sidebar_position: 5
+---
+
+import Player from 'react-player';
+
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+import { Badge } from '@site/src/components/utils';
+
+import BuilderRulesVideo from './assets/videos/builder-rules.mp4';
+
+# Conditional Rules<Badge type='pro' text='Pro' /><Badge type='feature' text='Improved in 5.0+' />
+
+Freeform Pro edition includes Conditional Rules logic that can be added to forms. This feature allows you to effortlessly set fields and groups to **show or hide** based on the contents/selection of other fields, and even **skip pages** or submit the form based on the contents/selection of fields on a previous page.
+
+To begin adding rules to your form, click on the **Rules** tab in the form builder and follow the options.
+
+:::tip
+[Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../guides/testing/troubleshooting-form-issues.mdx)
+:::
+
+<Player url={BuilderRulesVideo} muted loop playing width="100%" height="100%" />
+
+## Overview
+
+### Field Layout Map<Badge type='feature' text='New in 5.0+' />
+
+For added convenience, Freeform includes a field map along with visual cues. This makes configuration faster and less confusing.
+
+- A **dark gray background** shows the field or page that is currently being configured (in the right column).
+- A **green border** means that the field, group or page has conditional rules configured for it.
+- A **green corner border** at the top left means that the field, group or page is implicated in another field's conditional rules.
+  - E.g. If the _Company Name_ field is configured to only show when the _Type_ field is set to `Business`, the _Type_ field will display a green corner border.
+
+### Adding Rules
+
+Configuring rules for fields, groups and pages is straightforward:
+
+- To set rules for a field, click on the field name in the left column.
+- To set rules for a [Group](./fields.mdx#group) field, click on the group field name in the left column.
+- To set rules for a page, click on the page name in the left column.
+
+:::warning
+Please be cautious about the order of your rules, and be careful not to make any complicated rules that contradict each other.
+:::
+
+### Available Conditions
+
+The following conditions are available for each field/page:
+
+- `is equal to`
+- `does not equal`
+- `greater than`
+- `greater than or equal to`
+- `less than`
+- `less than or equal to`
+- `contains`
+- `does not contain`
+- `starts with`
+- `ends with`
+- `is empty`
+- `is not empty`
+- `is one of` <Badge type='feature' text='New in 5.6.4+' />
+- `is not one of` <Badge type='feature' text='New in 5.6.4+' />
+
+:::info
+
+#### Additional Notes
+
+- Wildcards can be set for criteria values with the asterisk character (`*`), e.g. `cat*` will match `cat`, `cats`, `cat litter`, etc.
+- Criteria values/options will automatically display as the following:
+  - Text input (where you type out the criteria) for basic text/number field types.
+  - Select dropdown (where you select a predefined option as criteria) for multi-option field types such as Checkboxes, Radios, Dropdowns, etc.
+  - Checkbox (where you check the checkbox) for single Checkbox field types.
+    :::
+
+### Page Skipping
+
+It is possible to **skip pages** or **submit the form** based on the contents/selection of fields on a previous page when using [multi-page forms](./builder.mdx#multi-page-forms).
+
+Simply configure page skipping the same way you configure fields and groups. If you wish to have the form **fully submitted** based on some criteria, click on the **Submit Form** button at the bottom left of the **Rules** page.
+
+:::warning
+Rules cannot be delayed in any way. For example, you can't have a page skip rule on Page 1 that lets you through to Page 2 and Page 3, but skips page 4. The skip is always immediate.
+If you have **Previous** buttons enabled for your pages and you have rules that skip pages, the user will technically be able to see skipped pages if they click the **Previous** button to go back pages.
+:::
+
+### Eligible Field Types
+
+**All field types are eligible to be shown/hidden** based on the contents of other field(s). However, some fields cannot be **set as criteria**:
+
+- Groups (fields inside of Groups can be set as criteria, but not the group itself)
+- File Upload
+- File Upload Drag & Drop
+- Table
+- Signature
+- Stripe Payment
+- HTML
+- Rich Text
+
+## Quick Setup Guide
+
+<VerticalStepWrapper>
+  <StepMarkdown>
+    Click the <strong>Rules</strong> tab in the form builder. Then choose a
+    field, group or page from the field layout map on the left.
+  </StepMarkdown>
+  <StepMarkdown>
+    The field, group or page you selected will then load in the right column.
+    Click the <strong>Add rules</strong> button and configure which field(s)
+    will affect whether the selected field will be{' '}
+    <strong>shown or hidden</strong> , based on the criteria set for each.
+  </StepMarkdown>
+  <StepMarkdown>
+    If you wish to add more than one condition for a field, click the{' '}
+    <strong>Add a Condition</strong> button. If you have more than one condition
+    for a field, you may also set whether <strong>all</strong> or{' '}
+    <strong>any</strong> of the conditions need to be met.
+  </StepMarkdown>
+</VerticalStepWrapper>
+
+## Templating
+
+Freeform will automatically add the necessary attributes and JS to the rendered form. Due to the complex nature of this feature and its reliance on automation, it generally assumes you're automating the render (rather than manually hardcoding each field, etc). All of the Solspace demo templates and sample default formatting templates include this already (and work out of the box).
+
+If you're customizing a formatting template or creating a form template manually, the key is to ensure your field `div` wrapper contains the `data-field-container` attribute with the field handle as the value.
+
+There are 3 different approaches you can take:
+
+| Approach                                                                                    | Benefits                                                                                                                                                                                       | Drawbacks                                                                                                                                                                                                                                                                                                                                                                       |                                       |
+| ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| `myFieldHandle.renderContainerOpeningTag()` <Badge type="recommended" text="Recommended" /> | Automatically generates the field wrapper `div`. Field attributes can still be applied to it. Maximum compatibility with attributes specified in the form builder and template overrides, etc. | A bit uglier to look at.                                                                                                                                                                                                                                                                                                                                                        | [Example](#rendercontaineropeningtag) |
+| `myFieldHandle.attributes.container`                                                        | Automatically generates the field wrapper attributes specified in the form builder and template overrides, etc.                                                                                | If the form builder or template overrides contain any of the already hard-coded attributes, it will have no way of knowing and ruin one of the definitions. For example, you hard code in `class="form-field"`, if there are any additional classes specified for the field inside the form builder, it will render as an additional `class` attribute which will cause issues. | [Example](#attributescontainer)       |
+| `data-field-container="myFieldHandle"`                                                      | Minimal template code and looks cleaner.                                                                                                                                                       | Any attributes set in the form builder or template overrides will not show up.                                                                                                                                                                                                                                                                                                  | [Example](#data-field-container)      |
+
+### renderContainerOpeningTag<Badge type="recommended" text="Recommended" />
+
+```twig {4,8,10,14} showLineNumbers
+{% set company = form.get("company") %}
+{% set email = form.get("email") %}
+
+{{ company.renderContainerOpeningTag({ attributes: { class: "form-field" } }) }}
+    {{ company.renderLabel() }}
+    {{ company.renderInput() }}
+    {{ company.renderErrors() }}
+{{ company.renderContainerClosingTag }}
+
+{{ email.renderContainerOpeningTag({ attributes: { class: "form-field" } }) }}
+    <label>Email Address</label>
+    <input name="email" value="{{ email.value }}" />
+    {{ email.renderErrors() }}
+{{ email.renderContainerClosingTag }}
+```
+
+### attributes.container
+
+```twig {4,10} showLineNumbers
+{% set company = form.get("company") %}
+{% set email = form.get("email") %}
+
+<div class="form-field" {{ company.attributes.container }}>
+    {{ company.renderLabel() }}
+    {{ company.renderInput() }}
+    {{ company.renderErrors() }}
+</div>
+
+<div class="form-field" {{ email.attributes.container }}>
+    <label>Email Address</label>
+    <input name="email" value="{{ email.value }}" />
+    {{ email.renderErrors() }}
+</div>
+```
+
+### data-field-container
+
+```twig {4,10} showLineNumbers
+{% set company = form.get("company") %}
+{% set email = form.get("email") %}
+
+<div class="form-field" data-field-container="company">
+    {{ company.renderLabel() }}
+    {{ company.renderInput() }}
+    {{ company.renderErrors() }}
+</div>
+
+<div class="form-field" data-field-container="email">
+    <label>Email Address</label>
+    <input name="email" value="{{ email.value }}" />
+    {{ email.renderErrors() }}
+</div>
+```

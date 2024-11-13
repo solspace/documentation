@@ -1,0 +1,249 @@
+---
+sidebar_position: 4
+title: 'Save & Continue Later'
+---
+
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+import { Photo } from '@site/src/components/utils';
+
+import SaveContinuePhoto from './assets/img/save-continue.png';
+
+# Save & Continue Later
+
+Freeform includes a _Save & Continue Later_ feature which allows your users to securely save their form progress and immediately continue or come back later to complete it.
+
+## Overview
+
+Inside the form builder you can toggle the **Save** feature for the Submit buttons. It can then be configured with a special email notification as well as where the user is returned to once they click that button. These will offer you full control over instructions to the user about how to return and complete the form (including a URL with special token/key) and the amount of time they have to complete it before it expires (configurable).
+
+All saved form progress submissions are stored in a separate encrypted database table. When a user clicks the **Save** button, all field validation is circumvented. Other validation such as spam protection measures still apply.
+
+<Photo img={SaveContinuePhoto} alt="Save & Continue Later feature" />
+
+## Configuration
+
+The **Save** feature can be enabled or disabled for each form page by toggling the **Save** setting inside the [Submit button](./fields.mdx#submit-buttons), and can each have separate configuration including button label and email notification template. For example, you can optionally choose different return paths/email notification templates that could be customized based on the progress on the form (e.g. _"Thanks for starting your application!"_, _"You're almost done..."_, _"Thanks for completing the first 3 steps..."_, etc).
+
+:::info
+Submit buttons are handled automatically by Freeform. They are automatically inserted at the end of your form in the form builder.
+:::
+
+- **Button Label** - defaults to `Save`.
+- **Return URL** - where the user should be returned to if they click the **Save** button.
+  - Special `token` and `key` variables are available to include in the return path.
+  - The return URL would be wherever you like, and fully customizable. This is where you'd include instructions to the user including a URL for where to return to complete the form later.
+- **Target Email field** (optional) - the [Email](./fields.mdx#email) field that will contain the user's email address in order to send the email notification.
+  - If the user hasn't yet filled out an email address and the field is NOT required, the email notification attempt will be suppressed. If the email address field is marked as required, the form will run through regular field validation until it contains a valid value. A good way around this would be to have the first page include basic info like _name_ and _email_ and/or no option to save the form until the second page.
+  - **Email Notification Template** - the email notification sent to the user if they click the **Save** button.
+    - Choose a special Freeform email notification template.
+    - The message of this email notification is completely customizable, but be sure to include instructions to the user including a URL for where to return to complete the form later.
+    - The following special variables are available for this email template:
+    ```twig showLineNumbers
+    {{ token }} - the session token
+    {{ key }} - the form submission key
+    ```
+
+There are also 2 general settings specific to the _Save & Continue Later_ feature:
+
+- **Number of Days to Keep Saved Form Data** - the number of days to store saved form progress in the database before clearing.
+- **Maximum Number of Saved Forms Per Session** - the maximum number of saved forms per session (per user, though it's possible a user may have multiple sessions when returning to the site over a span of several days). Default is 10, which should be a comfortable and reasonable number. Once the maximum has been reached, Freeform will begin overwriting existing older entries to create new ones.
+
+### Templating
+
+Controlling the format for submit buttons is now done through the new `buttons` namespace available in the [Template Overrides](../templates/formatting/index.mdx#template-overrides) feature.
+
+```twig {2,9,13} showLineNumbers
+{{ form.render({
+    buttons: {
+        attributes: {
+            container: { ... },
+            column: { ... },
+            buttonWrapper: { ... },
+            submit: { class: "form-field-button blue" },
+            back: { class: "form-field-button gray" },
+            save: { class: "form-field-button blue" },
+        },
+        submitLabel: "Send",
+        backLabel: "Previous",
+        saveLabel: "Save",
+    }
+}) }}
+```
+
+You may also override the Return URL for the Saving feature by specifying the `savedFormRedirect` parameter at template level:
+
+```twig {5} showLineNumbers
+{% set submissionToken = craft.app.request.getQueryParam('session-token') %}
+{% set submissionKey = craft.app.request.getQueryParam('key') %}
+
+{{ freeform.form("yourFormHandle").render({
+    savedFormRedirect: '/apply/form-save?&session-token={token}&key={key}',
+    savedSession: {
+        key: submissionKey,
+        token: submissionToken,
+    },
+}) }}
+```
+
+:::info
+If `savedSession` does not contain a valid key and token, the form will just render a fresh copy of the form with no saved data present and work as usual. This means that you don't necessarily need to have a unique template page to handle the continuation part.
+:::
+
+## How to Use
+
+The general flow for making use of this feature is to have a "success" page specifically designed to educate and inform the customer about what happens next. This success page would likely have instructions as well as a link to where the form can be continued (making use of the unique submission token and key).
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+### Create the 'Success' Template
+
+Create a brand new template that contains something along the lines of this:
+
+```twig showLineNumbers
+{% set submissionToken = craft.app.request.getQueryParam('session-token') %}
+{% set submissionKey = craft.app.request.getQueryParam('key') %}
+
+<h3>Progress Saved!</h3>
+<p>
+  Your form progress has successfully been saved! Whenever you're ready to
+  complete the form, please return by visiting this URL:
+</p>
+<p>
+  <a
+    href="{{ siteUrl }}apply/form-save?session-token={{ submissionToken }}&key={{ submissionKey }}"
+  >
+    {{ siteUrl }}apply/form-save?session-token={{ submissionToken }}&key={{
+    submissionKey }}
+  </a>
+</p>
+```
+
+</StepMarkdown>
+<StepMarkdown>
+
+### Create a 'Continue' Template
+
+It's entirely possible to resuse the existing template structure and path, but to make this as clear as possible, we'll create an extra page template to handle this. This form will contain a new parameter called `saveSession` to handle the _Save & Continue Later_ feature. It'll be located at `/apply/form-save` and contain something like this:
+
+```twig {5-8} showLineNumbers
+{% set submissionToken = craft.app.request.getQueryParam('session-token') %}
+{% set submissionKey = craft.app.request.getQueryParam('key') %}
+
+{{ freeform.form("yourFormHandle").render({
+    savedSession: {
+        token: submissionToken,
+        key: submissionKey,
+    },
+}) }}
+```
+
+Just like above in step 1, this example assumes that you will be passing the token and key into the URL as a query with `session-token` and `key`. This can be done in a variety of other ways if you wish.
+
+:::info
+
+If you wish to conditionally display an error message and/or display the form only if the session is valid, you can include a check on `savedSessionLoaded`, as follows:
+
+```twig {11-18} showLineNumbers
+{% set submissionToken = craft.app.request.getQueryParam('session-token') %}
+{% set submissionKey = craft.app.request.getQueryParam('key') %}
+
+{% set form = freeform.form("yourFormHandle", {
+    savedSession: {
+        key: submissionKey,
+        token: submissionToken,
+    }
+}) %}
+
+{% do form.registerContext %}
+{% if form.propertyBag.get('savedSessionLoaded') %}
+    {{ form.render() }}
+{% else %}
+    <div class="warning">
+        <h4>This session is invalid.</h4>
+    </div>
+{% endif %}
+```
+
+:::
+
+</StepMarkdown>
+<StepMarkdown>
+
+### Create an Email Notification template
+
+Create a brand new email notification template so that this feature can send an email notification to the user with instructions on how to continue later. This is optional. Keeping with the examples in the steps above, be sure to match the URL structure and link to the template you just created in Step 2:
+
+```twig showLineNumbers
+<h3>Progress Saved!</h3>
+<p>
+    Your form progress has successfully been saved! Whenever you're ready
+    to complete the form, please return by visiting this URL:
+</p>
+<p>
+    <a href="{{ siteUrl }}apply/form-save?session-token={{ token }}&key={{ key }}">
+        {{ siteUrl }}apply/form-save?session-token={{ token }}&key={{ key }}
+    </a>
+</p>
+```
+
+Just like above in step 1, this example assumes that you will be passing the token and key into the URL as a query with `session-token` and `key`. This can be done in a variety of other ways if you wish.
+
+</StepMarkdown>
+<StepMarkdown>
+
+### Set up the Form
+
+- Inside the form builder click on the _Submit_ button field row.
+- Toggle ON the **Save Button** setting.
+- Edit the label as you wish, and then set the return URL to wherever you have your _success/info_ page set up. Continuing from the steps above, let's assume the _Continue_ page location is located at `/apply/form-save` and is looking for a query in the URL with `session-token` and `key`, e.g.:
+  ```twig showLineNumbers
+  /apply/form-save?form={{ form.handle }}&session-token={token}&key={key}
+  ```
+- You may include the `{token}` and `{key}` variables as well as `form` variables, e.g. `form.handle`, etc.
+- Select an _Email_ field type in the **Target Email Field** dropdown setting (optional).
+  - Then select the email notification template you just created in Step 3.
+
+Repeat this for all pages you'd like to have the ability to save progress on.
+
+</StepMarkdown>
+<StepMarkdown>
+### User Flow
+
+Let's pretend you have a 6-page form and have added the _Save_ buttons to all of the pages.
+
+- The user begins filling out the 6-page form.
+- Once they make it to page 3, they decide to save the form and continue later, so they click on your _Save & Continue Later_ button.
+- The form skips validation for that page, but saves the existing data on that page including the progress of previous pages.
+- Freeform generates a special submission entry in the database for the `token` that will be used. It will encrypt all data with the generated `key` + `server secret` and store it in the database.
+- It then redirects the user to the Return URL specified in the form builder (or overwritten with `savedFormRedirect` parameter at template level), which should include a `token` and `key`. Continuing the example, the return URL would look like `/apply/form-save?&session-token=TOKEN&key=KEY`, the return/success page noted in Step 1 would be presented.
+- If configured, the user will also receive an email notification with instructions and a link with the token and key to come back to finish the form later.
+- The user would need to take note of this special URL or hang on to the email notification they received.
+- For the user to resume the form, they would visit that special URL.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+## Caveats
+
+### Spam Considerations
+
+The _Save & Continue Features_ still factors in some spam protection features, but the behavior may not be the exact same or expected in this context. Please be cautious and make note of the following behavior that will happen with forms using any spam protection when a user attempts to _Save_ the form progress:
+
+- 🟢 **reCAPTCHA v2 Checkbox**: if a user does not complete the reCAPTCHA v2 Checkbox (checking it and/or interacting with puzzle), Freeform will <u>allow</u> the _Save & Continue Later_ feature to work. It's important to note that the user will still need to complete the reCAPTCHA check to fully submit the form at the end.
+- 🟢 **reCAPTCHA v2 Invisible**: if a user does not pass the reCAPTCHA v2 Invisible check (automated checking and/or interacting with puzzle), Freeform will <u>allow</u> the _Save & Continue Later_ feature to work. It's important to note that the user will still need to complete the reCAPTCHA check to fully submit the form at the end.
+- 🟡 **Freeform Honeypot**: if a user fails the Honeypot test (a value entered into the Honeypot field), Freeform will <u>bypass</u> the _Save & Continue Later_ feature and run field validation. If the user has missed any required fields or filled out any incorrectly, the user will see the appropriate errors (as if they attempted to fully submit the form). If the user were to clear the incorrect value in the Honeypot field while completing required fields and attempts to save the form again, the _Save & Continue Later_ feature will <u>work</u>. If the user had no errors, the form will <u>bypass</u> the _Save & Continue Later_ feature and treat the submission as spam (place in Spam Folder or error, depending on settings). In the case of multipage forms, if the Honeypot fails on one page and there are no field validation errors, the form would just advance to the next page (and theoretically give the user another chance to NOT fill in the Honeypot field).
+- 🟡 **reCAPTCHA v3**: if a user fails the automatic **v3** test, Freeform will <u>bypass</u> the _Save & Continue Later_ feature and run field validation. If the user has missed any required fields or filled out any incorrectly, the user will see the appropriate errors (as if they attempted to fully submit the form). If the user has/had no errors, the form will <u>bypass</u> the _Save & Continue Later_ feature and treat the submission as spam (place in Spam Folder or error, depending on settings). If the user does happen to pass the automatic **v3** test, the _Save & Continue Later_ feature will <u>work</u>.
+- 🟡 **Minimum Submit Time**: if the user attempts to save the form before the minimum submit time has been reached, Freeform will <u>bypass</u> the _Save & Continue Later_ feature and run field validation. If the user has missed any required fields or filled out any incorrectly, the user will see the appropriate errors (as if they attempted to fully submit the form). If the user meets the minimum submit time while completing required fields and attempts to save the form again, the _Save & Continue Later_ feature will <u>work</u>. If the user had no errors, the form will <u>bypass</u> the _Save & Continue Later_ feature and treat the submission as spam (place in Spam Folder or error, depending on settings).
+- 🔴 **Block Email addresses**: if a blocked email address is entered, the submission will <u>bypass</u> the _Save & Continue Later_ feature and treat the submission as spam (place in Spam Folder or error, depending on settings).
+- 🔴 **Block Keywords**: if a blocked keyword is entered, the submission will <u>bypass</u> the _Save & Continue Later_ feature and treat the submission as spam (place in Spam Folder or error, depending on settings).
+- 🔴 **Block IP addresses**: if the user's IP address has been blocked, the submission will <u>bypass</u> the _Save & Continue Later_ feature and treat the submission as spam (place in Spam Folder or error, depending on settings).
+- 🔴 **Form Submit Expiration**: if the user attempts to save the form after the maximum submit time has passed, the form will <u>bypass</u> the _Save & Continue Later_ feature and treat the submission as spam (place in Spam Folder or error, depending on settings).
+
+### Other Considerations
+
+The _Save & Continue Features_ attempts to account for all kinds of scenarios, but there are some limitations with this. Please be cautious and make note of the following behavior that will happen with forms using any of the following features when a user attempts to _Save_ the form progress:
+
+- 🟢 **Uploaded Files**: by default, Freeform has a cleanup process that routinely checks for partially completed forms and removes associated uploaded files after 3 hours by default (assuming the user never completed the form and will be unable to). In the context of _Save & Continue Later_, users may upload files and then save the form and return back well beyond 3 hours later to complete the form. In this case, Freeform will only clear files associated with incomplete form saves that have expired (once the value for the **Number of Days to Keep Saved Form Data** setting has passed). The way this works is that Freeform will give the uploaded asset a date in the future (matching the number of days for that setting). For this reason, any changes to the **Number of Days to Keep Saved Form Data** setting will not be retroactive on existing uploaded files.
+- 🟡 **Stripe Payments**: when the Stripe Payment Element field is present on the form page, attempting to save the form while these fields are empty or invalid will result in Stripe mentioning the Payment fields are required. If filled out and the user saves the form, the form will save the progress but will not save credit card numbers and will also push through payment to Stripe. For this reason, we <u>strongly recommend</u> that for multi-page payment forms, you <u>place the credit card fields on the last page</u> and <u>do not allow saving of the last page</u>.
+- 🔴 **Editing Forms**: there is currently no support for saving progress while [editing submissions](../submissions/overview.mdx#submission-editing). If attempted, Freeform will just create a duplicate submission instead.

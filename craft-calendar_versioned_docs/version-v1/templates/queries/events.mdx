@@ -1,0 +1,195 @@
+---
+title: Events
+sidebar_position: 4
+---
+
+# Events Query
+
+The _calendar.events_ template function fetches a list of events based on some or no criteria.
+
+## Parameters
+
+- `dateRangeStart` <a href="#param-date-range-start" id="param-date-range-start" class="docs-anchor">#</a>
+  - Selects events that fall into a given date range. Defaults to no date (beginning of time). A date range of `2016-01-01` to `2016-02-15` would show all events and their recurrences that occur between January 1, 2016 to February 15, 2016. A start range of `2016-01-01` with no end range would show all events and their recurrences that occur January 1, 2016 and beyond.
+  - Time ranges can be specified as 24hr or 12hr:
+    - `2016-01-01 16:30` or `2016-01-01 5:00 pm`
+    - Times consider any events with a duration that overlaps (even partially) with the time range specified.
+  - Used in conjunction with [dateRangeEnd](#param-date-range-end) parameter.
+- `dateRangeEnd` <a href="#param-date-range-end" id="param-date-range-end" class="docs-anchor">#</a>
+  - Selects events that fall into a given date range. Defaults to no date (end of time). A date range of `2016-01-01` to `2016-02-15` would show all events and their recurrences that occur between January 1, 2016 to February 15, 2016. An end range of `2016-02-15` with no start range would show all events and their recurrences that occur February 15, 2016 and earlier.
+  - Time ranges can be specified as 24hr or 12hr:
+    - `2016-01-01 16:30` or `2016-01-01 5:00 pm`
+    - Times consider any events with a duration that overlaps (even partially) with the time range specified.
+  - Used in conjunction with [dateRangeStart](#param-date-range-start) parameter.
+- `calendar` <a href="#param-calendar" id="param-calendar" class="docs-anchor">#</a>
+  - Handle of the calendar, e.g. `"holidays"`, or an array of handles: `["holidays", "football"]`.
+  - Use `"not holidays"` to select all calendars EXCEPT the **Holidays** calendar
+- `calendarId` <a href="#param-calendar-id" id="param-calendar-id" class="docs-anchor">#</a>
+  - An ID of the calendar, or array of ID's, e.g. `[1, 2, 3]`
+  - If you want to select all calendars EXCEPT the calendar with an ID of **1**, use `"not 1"`
+- `id` <a href="#param-id" id="param-id" class="docs-anchor">#</a>
+  - An event ID, or array of ID's, e.g. `[1, 2, 3]`
+  - If you want to select all events EXCEPT the event with an ID of **1**, use `"not 1"`
+- `slug` <a href="#param-slug" id="param-slug" class="docs-anchor">#</a>
+  - An event slug, or array of slugs, e.g. `[event-one, event-two, event-three]`
+  - If you want to select all events EXCEPT the event with a slug of **event-two**, use `"not event-two"`
+- `allDay` <a href="#param-all-day" id="param-all-day" class="docs-anchor">#</a>
+  - Selects only events that are set to be **All Day** events went set to `true`.
+- `authorId` <a href="#param-author-id" id="param-author-id" class="docs-anchor">#</a>
+  - Selects events from specific author ID's
+- `limit` <a href="#param-limit" id="param-limit" class="docs-anchor">#</a>
+  - Supply an `int` to limit the amount of events returned
+- `order` <a href="#param-order" id="param-order" class="docs-anchor">#</a>
+  - Use any of the above keys (plus `RAND()`) to order by and include the `ASC` or `DESC` parameter in the string, e.g. `order: "startDate ASC"`
+- `status` <a href="#param-status" id="param-status" class="docs-anchor">#</a>
+  - By default, `live` is used, showing only enabled events
+  - Can be set to `disabled` to show disabled events
+  - Or `null` to show all events regardless of their status
+- `loadOccurrences` <a href="#param-load-occurrences" id="param-load-occurrences" class="docs-anchor">#</a>
+  - Set this to `false` to not load event recurrences. Default is `true`
+  - When setting this to `false`, Calendar will display only the very first occurrence in the results ONLY if that same occurrence falls within the specified date range. It will NOT just show the next recurrence available, and does NOT show any events that just have recurrences within the specified date range.
+- `search: "customField:myvalue*"` <a href="#param-search" id="param-search" class="docs-anchor">#</a>
+  - Works just like regular [Craft Searching](https://docs.craftcms.com/v2/searching.html).
+
+## Usage in Templates
+
+```twig showLineNumbers
+{# select only all day events #}
+{% set events = craft.calendar.events({
+  allDay: true
+}) %}
+
+{% for event in events %}
+  <div style="color: {{ event.calendar.color }};">
+    {{ event.title }}
+  </div>
+{% endfor %}
+```
+
+---
+
+You can also access any custom fields which you have added to events by directly calling their **handle** (the **handle** must not match any of the existing event properties). If you had a field called _Event Description_ with a handle of **eventDescription** you would access it in the template like this:
+
+```twig showLineNumbers
+{% set events = craft.calendar.events %}
+
+{% for event in events %}
+  <div style="color: {{ event.calendar.color }};">
+    {{ event.title }}
+
+    {# You can omit the "is defined" check if you're certain that you have that field #}
+
+    {% if event.eventDescription is defined %}
+      {{ event.eventDescription }}
+    {% endif %}
+  </div>
+{% endfor %}
+```
+
+---
+
+Let's use a Date method to check if our event's start date is before the current Day's date
+
+```twig showLineNumbers
+{# Print out the Y-m-d of start date if start date is before the Day date #}
+
+{% set events = craft.calendar.events %}
+
+{% for event in events %}
+  {% if event.startDate.lt(day.date) %}
+    {{ event.startDate.dateString }}
+  {% endif %}
+{% endfor %}
+```
+
+Now let's print out the duration of the event, which is the amount of time in months, days, hours, etc from the event's start date until its end date
+
+```twig showLineNumbers
+{# Print out the duration string #}
+{# An example output would be "1d 5h 30m" #}
+
+{% set events = craft.calendar.events %}
+
+{% for event in events %}
+  {{ event.duration.humanReadable }}
+{% endfor %}
+
+{# Print out a custom message if the duration in days is 1 or more #}
+
+{% for event in events %}
+  {% if event.duration.days >= 1 %}
+    Event spans for {{ event.duration.days }} days
+  {% endif %}
+{% endfor %}
+```
+
+---
+
+To paginate events, use Craft's [Pagination](https://docs.craftcms.com/v2/templating/paginate.html). Here's an example:
+
+```twig showLineNumbers
+{% set eventOptions = {limit: 15} %}
+
+{% paginate craft.calendar.events(eventOptions) as pageInfo, events %}
+
+{% for event in events %}
+  <div>
+    {{ event.title }}
+  </div>
+{% endfor %}
+
+{% if pageInfo.prevUrl %}
+  <a href="{{ pageInfo.prevUrl }}">Previous Page</a>
+{% endif %}
+{% if pageInfo.nextUrl %}
+  <a href="{{ pageInfo.nextUrl }}">Next Page</a>
+{% endif %}
+```
+
+---
+
+To display a list of "parent" events with their recurrences paired with them (not ordered chronologically throughout all the event results), your code might look something like this:
+
+```twig showLineNumbers
+{% set events = craft.calendar.events({
+  loadOccurrences: false
+}) %}
+
+{% for event in events %}
+  <div>
+  {{ event.title }} - {{ event.startDate.toDateTimeString }}
+
+  {% set occurrences = craft.calendar.events({id: event.id}) %}
+  {% if occurrences and occurrences|length > 1 %}
+    <ul>
+    {% for occurrence in occurrences %}
+      {% if loop.index0 > 0 %}
+      <li>
+        {{ occurrence.title }} - {{ occurrence.startDate.toDateTimeString }}
+      </li>
+      {% endif %}
+    {% endfor %}
+    </ul>
+  {% endif %}
+  </div>
+{% endfor %}
+```
+
+---
+
+If you want to show a list of other events, and exclude the currently viewed event, your code might look something like this:
+
+```twig showLineNumbers
+{% set currentEventId = craft.request.segment(3) %}
+
+<ul>
+  {% for event in craft.calendar.events({
+    id: 'not ' ~ currentEventId,
+    dateRangeStart: 'today',
+    dateRangeEnd: '1 month',
+    limit: 5
+  }) %}
+    <li>[{{ event.id }}] {{ event.title }} {{ event.startDate }}</li>
+  {% endfor %}
+</ul>
+```

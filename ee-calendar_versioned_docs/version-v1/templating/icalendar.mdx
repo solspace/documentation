@@ -1,0 +1,33 @@
+---
+sidebar_position: 6
+title: 'iCalendar'
+---
+
+# Calendar:iCalendar template tag
+
+The _Calendar:iCalendar_ tag is available for event exporting purposes. It outputs an [ICS (RFC-2445)](http://www.ietf.org/rfc/rfc2445.txt) compatible file, which can then be imported into other programs such as [Google Calendar](http://www.google.com/calendar/), [Apple Calendar](http://www.apple.com/osx/apps/#calendar), [Microsoft Outlook](http://office.microsoft.com/outlook/), [Lightning](http://www.mozilla.org/projects/calendar/lightning/), etc.
+
+The iCalendar function contains preformatted info within it's tags, so nothing is to go inbetween the _Calendar:iCalendar_ tags, etc. When the template that contains this tag is accessed, the browser will instantly prompt the user to download a file.
+
+```html showLineNumbers
+{exp:calendar:icalendar}{/exp:calendar:icalendar}
+```
+
+## Parameters
+
+All of the [parameters listed in Calendar:Events](../templating/events.mdx#parameters) are available for use here. Additionally, the following parameter is available for use as well:
+
+### summary_field=
+
+`summary_field="CUSTOM_FIELD_NAME"`
+
+This optional parameter allows you to specify which field to use instead of the `title` field to generate the event title for the ICS file.
+
+## Examples
+
+The below code example is a complete example of how you would use the iCalendar feature:
+
+```html showLineNumbers
+{exp:calendar:icalendar orderby="title" sort="asc" date_range_start="today"
+show_months="3" dynamic="off" } {/exp:calendar:icalendar}
+```

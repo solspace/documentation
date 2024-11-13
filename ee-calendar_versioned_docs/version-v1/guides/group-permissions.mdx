@@ -1,0 +1,28 @@
+---
+sidebar_position: 6
+title: 'Group Permissions'
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Group Permissions
+
+Calendar contains member group permission controls, which includes a Permission tab in the Calendar module CP and permissions blocks for Calendar events in the EE Edit page Publish area. Basically, what happens is that an admin can set which member groups have access to create, edit, and delete events for each calendar. Depending on the behavior preference set, if you belong to a member group that does not have access to a specific calendar, the event entries will either NOT show up in the Edit
+list, or appear as locked and inaccessible.
+
+## Setting Permissions
+
+Permissions can be set in the special fieldtype when creating and editing a calendar in the publish page in the EE CP. They can also be set in the Permissions tab in the Calendar control panel area. To first start using permissions, you need to check off the Permissions Enabled checkbox in the Permissions tab in the Calendar control panel area. Permissions can be set for each member group per calendar, or allow/deny for all.
+
+<Photo
+  img={require('@site/static/img/ee-calendar/v1/calendar_permissions.jpg')}
+  alt="Calendars"
+/>
+
+## Permission Behaviors
+
+You can choose from 1 of 3 behaviours of how you want the Edit page in the EE CP to appear for disallowed entries. The behavior set is what the user will see for entries they do not have access to. Options are as follows:
+
+- **None** - the disallowed user will still see event entries in the Edit page they do not have access to, but if they attempt to edit or delete the entry, they will be given an error.
+- **Search Filter** - the disallowed user will NOT even see event entries they do not have access to. They will be stripped entirely out of the Edit page as if they do not exist. If they somehow attempt to load the entry manually, they will be given an error.
+- **Disable Link** - the disallowed user will see all event entries in the Edit page, but the event entries they do not have access to will be grayed out and the links will be disabled. If they somehow attempt to load the entry manually, they will be given an error.

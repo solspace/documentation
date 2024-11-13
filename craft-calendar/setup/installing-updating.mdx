@@ -1,0 +1,629 @@
+---
+sidebar_position: 1
+---
+
+import Player from 'react-player';
+
+import { Badge, Photo } from '@site/src/components/utils';
+import {
+  VerticalStepWrapper,
+  StepMarkdown,
+  FlexCards,
+  TwoColumnCards,
+  ColumnCardData,
+} from '@site/src/components/docs';
+
+import Icons from '@site/static/card-icons';
+
+import SwitchEditionVideo from '@site/static/videos/craft-calendar/switch-edition.mp4';
+
+# Installing & Updating
+
+<FlexCards
+  items={[
+    {
+      title: 'Requirements',
+      description: 'Review the requirements for your site to run Freeform.',
+      icon: Icons.ClipboardIcon,
+      fullCardLink: '#requirements',
+    },
+    {
+      title: 'Installation',
+      description: 'Instructions for installing a new copy of Freeform.',
+      icon: Icons.BoxIcon,
+      fullCardLink: '#installation',
+    },
+    {
+      title: 'Updating',
+      description:
+        'Instructions for updating from 5.x to newer versions of Freeform 5.x.',
+      icon: Icons.UpdateArrowsIcon,
+      fullCardLink: '#updating',
+    },
+    {
+      title: 'Purchasing',
+      description: 'Trialing, purchasing and troubleshooting license issues.',
+      icon: Icons.BagIcon,
+      fullCardLink: '#purchasing',
+    },
+    {
+      title: 'Changing Editions',
+      description: 'How to switch your edition from Lite to Pro.',
+      icon: Icons.SwapIcon,
+      fullCardLink: '#changing-editions',
+    },
+    {
+      title: 'Troubleshooting',
+      description: 'Common problems encountered when purchasing / upgrading.',
+      icon: Icons.QuestionSignIcon,
+      fullCardLink: '#troubleshooting',
+    },
+  ]}
+/>
+
+## Requirements
+
+Calendar 5.x support both [Craft 5.x](https://craftcms.com/docs/5.x/requirements.html) and [Craft 4.x](https://craftcms.com/docs/4.x/requirements.html). It meets mostly the same requirements as listed on the Craft Requirements page.
+
+<TwoColumnCards>
+<ColumnCardData>
+### Craft 5.x<Badge type="feature" text="New in 5.1+" />
+
+- **Craft 5.0.0-beta.1+**
+- PHP 8.2.0+
+- MySQL 8.0.17+ using InnoDB, MariaDB 10.4.6+, or PostgreSQL 13+
+- 256MB+ of memory allocated to PHP
+- [BC Math](http://php.net/manual/en/book.bc.php) and [GD](http://php.net/manual/en/book.image.php) PHP extensions
+- Windows and macOS browsers:
+  - Chrome 63+
+  - Firefox 67+
+  - Safari 11.1+
+  - Edge 79+
+
+</ColumnCardData>
+<ColumnCardData>
+- **Craft 4.0.0+**
+- PHP 8.0.2+
+- MySQL 5.7.8+ with InnoDB, MariaDB 10.2.7+, or PostgreSQL 10+
+- 256MB+ memory allocated to PHP
+- [BC Math](http://php.net/manual/en/book.bc.php) and [GD](http://php.net/manual/en/book.image.php) PHP extensions
+- Windows and macOS browsers:
+    - Chrome 63+
+    - Firefox 67+
+    - Safari 11.1+
+    - Edge 79+
+
+</ColumnCardData>
+</TwoColumnCards>
+
+## Installation
+
+Calendar can be installed one of two ways:
+
+- [Install from the CLI](#install-from-the-cli) <Badge type="recommended" text="Recommended" />
+- [Install from the Control Panel](#install-from-the-control-panel)
+
+### Install from the CLI <Badge type="recommended" text="Recommended" />
+
+Calendar can be installed through the CLI:
+
+<VerticalStepWrapper>
+<StepMarkdown>
+Open your CLI app and go to your Craft project:
+
+```sh command-line
+cd /path/to/project
+```
+
+</StepMarkdown>
+<StepMarkdown>
+Then tell _Composer_ to require the plugin:
+
+```sh command-line
+composer require solspace/craft-calendar -w
+```
+
+To load a specific version, use:
+
+```sh command-line
+composer require solspace/craft-calendar:5.0.0 -w
+```
+
+</StepMarkdown>
+<StepMarkdown>
+Install Calendar by running the following command:
+
+```sh command-line
+php craft plugin/install calendar
+```
+
+**OR** to install via the Craft control panel, go to _Settings → Plugins_ and click the **Cog button** for Calendar and select **Install**.
+
+</StepMarkdown>
+<StepMarkdown>
+Craft will automatically install the _Lite_ edition of Calendar. If you'd like the _Pro_ edition, you can switch the edition 1 of 2 ways:
+
+```sh command-line
+php craft plugin/install calendar
+```
+
+**OR** to install via the Craft control panel, go to _Settings → Plugins_ and click the **Cog button** for Calendar and select **Install**.
+
+#### Project Config <Badge type="recommended" text="Recommended" />
+
+Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file (`/config/project/project.yaml`) and/ search for `calendar`. Where it says `edition: lite`, switch that to `edition: pro` and then approve the update inside the CP.
+
+```diff
+   calendar:
+-    edition: lite
++    edition: pro
+     enabled: true
+```
+
+#### Control Panel
+
+Click on the _**LITE** / trial_ button beside Calendar's name and when it takes you to the Plugin Store page, scroll down to the bottom and click on the **Try** button for the _Pro_ edition (see screenshots below).
+
+<Player
+  url={SwitchEditionVideo}
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
+
+</StepMarkdown>
+<StepMarkdown>
+If Calendar is right for your site, [purchase a copy](#purchasing) of it through the Plugin Store when you're ready!
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+### Install from the Control Panel
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Go to the **Plugin Store** area inside your Craft control panel and click on _Calendar_.
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp/plugin-store-install.png')}
+  alt="Plugin Store"
+/>
+
+</StepMarkdown>
+<StepMarkdown>
+
+Once the product page opens, choose whether you want to install it by clicking the **Try** button under the _Lite_ or _Pro_ edition.
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp/plugin-store-install.png')}
+  alt="Plugin Store - Install Calendar"
+/>
+
+</StepMarkdown>
+<StepMarkdown>
+
+If Calendar is right for your site, [purchase a copy](#purchasing) of it through the Plugin Store when you're ready!
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+## Updating
+
+Calendar uses the **Craft Updates Service**, which means that every time there's an update available, it'll show up in the _Updates_ area (**Utilities** → **Updates**) of the Craft control panel. You can then review the changelog there, or [view it here](./changelog.mdx).
+
+:::info
+Calendar 5.x is not an overhaul of the plugin, so **upgrading from Calendar 4.x** should be smooth.
+:::
+
+Calendar can be updated one of three ways:
+
+- [Update from the CLI](#update-from-the-clil) <Badge type="recommended" text="Recommended" />
+- [Update via Composer from the CLI](#update-via-composer-from-the-cli)
+- [Update from the Control Panel](#update-from-the-control-panel)
+
+### Update from the CLI <Badge type="recommended" text="Recommended" />
+
+You can use the Craft [_update_ command](https://craftcms.com/docs/5.x/update.html#updating-from-the-terminal) to update Calendar.
+
+:::warning
+Be sure to back up the database before proceeding.
+:::
+
+<VerticalStepWrapper>
+<StepMarkdown>
+Open your CLI and go to your Craft project:
+
+```sh command-line
+cd /path/to/project
+```
+
+</StepMarkdown>
+<StepMarkdown>
+
+To see available updates, run this command:
+
+```sh command-line
+php craft update
+```
+
+</StepMarkdown>
+<StepMarkdown>
+
+Follow the prompts, or run:
+
+```sh command-line
+php craft update calendar
+```
+
+To update to a specific version of Calendar, run:
+
+```sh command-line
+php craft update calendar:5.0.0
+```
+
+Updating from the CLI will look something like this:
+
+```nix app-window
+[username@Computer site.test % php craft update
+Fetching available updates ... done
+You've got one available update:
+
+  - calendar 5.0.2 => 5.1.6
+
+Run craft update all or craft update <handle> to perform an update.
+
+[username@Computer site.test % php craft update calendar
+Fetching available updates ... done
+Performing one update:
+
+  - calendar 5.0.2 => 5.1.6
+
+Create database backup? (yes no) [yes]:yes
+Backing up the database ... done
+Performing update with Composer ... done
+Applying new migrations ... done
+Checking for pending Craft and plugin migrations ...
+No new migrations found. Your system is up to date.
+
+username@Computer site.test %
+```
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+### Update via Composer from the CLI
+
+You can also update Calendar more manually if you like, using Composer (`composer update`). This may also be helpful in certain scenarios where you need to workaround an issue while updating.
+
+:::warning
+Be sure to back up the database before proceeding.
+:::
+
+<VerticalStepWrapper>
+<StepMarkdown>
+Open your Craft site's main `composer.json` file and adjust the version number for Calendar ([see guide below](#understanding-versions-and-composer-update)).
+
+```diff
+    "require": {
+        "craftcms/cms": "^5.0.0",
+        "vlucas/phpdotenv": "^5.4.0",
+-       "solspace/craft-calendar": "^5.0.0",
++       "solspace/craft-calendar": "^5.1.0",
+        "solspace/craft-freeform": "^5.0.0"
+    },
+```
+
+</StepMarkdown>
+<StepMarkdown>
+
+Open your CLI app and go to your Craft project:
+
+```sh command-line
+cd /path/to/project
+```
+
+</StepMarkdown>
+<StepMarkdown>
+
+To run any available updates for your site, run:
+
+```sh command-line
+composer update
+```
+
+</StepMarkdown>
+<StepMarkdown>
+
+Proceed to the Craft control panel and click the **Finish Updates** button if it shows.
+
+_OR_ enter the following command to check for migrations for Craft and all plugins:
+
+```sh command-line
+php craft migrate/all
+```
+
+_OR_ just perform Calendar migration(s):
+
+```sh command-line
+php craft migrate --plugin=calendar
+```
+
+Migrating from the CLI will look something like this:
+
+```nix app-window
+[username@Computer site.test % php craft migrate --plugin=freeform
+Checking for pending Freeform migrations ...
+Total 1 new migration to be applied:
+	m230901_143430_ChangeLabelFieldColumnType
+
+Apply the above migration? (yes|no) [no]:yes
+*** applying m230901_143430_ChangeLabelFieldColumnType
+    > alter column label in table {{%freeform_crm_fields}} to text ... done (time: 0.044s)
+*** applied m230901_143430_ChangeLabelFieldColumnType (time: 0.054s)
+
+1 migration was applied.
+
+Migrated up successfully.
+username@Computer site.test %
+```
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+### Update from the Control Panel
+
+:::warning
+Be sure to back up the database before proceeding.
+:::
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Go to the Craft Updates area inside the control panel (**Utilities** → **Updates**) and review the changelog for Calendar.
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp/updates.png')}
+  alt="Craft Updates Service"
+/>
+
+</StepMarkdown>
+<StepMarkdown>
+
+Simply click the **Update** button and Craft will do the rest.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+## Disable Calendar
+
+Calendar can be temporarily disabled from the CLI or control panel. The benefit of this is to troubleshoot potential issues and conflicts while preserving your data until a proper fix or change to the site is made.
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Open your CLI app and go to your Craft project:
+
+```sh command-line
+cd /path/to/project
+```
+
+</StepMarkdown>
+<StepMarkdown>
+
+Disable Calendar by running the following command in your CLI app: <Badge type="recommended" text="Recommended" />
+
+```sh command-line
+php craft plugin/disable calendar
+```
+
+**OR** to disable via the Craft control panel, go to _Settings → Plugins_ and click the **Cog button** for Calendar and select **Disable**.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+## Uninstall Calendar
+
+Follow the steps below to uninstall Calendar from your site.
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Open your CLI app and go to your Craft project:
+
+```sh command-line
+cd /path/to/project
+```
+
+</StepMarkdown>
+<StepMarkdown>
+
+Uninstall Calendar by running the following command in your CLI app: <Badge type="recommended" text="Recommended" />
+
+:::danger
+This action cannot be undone. All of your Calendar data be will lost forever, unless you have made a backup.
+:::
+
+```sh command-line
+php craft plugin/uninstall calendar
+```
+
+**OR** to uninstall via the Craft control panel, go to _Settings → Plugins_ and click the **Cog button** for Calendar and select **Uninstall**.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Then tell _Composer_ to remove the plugin:
+
+:::danger
+Do not remove a plugin package with Composer before uninstalling it from the control panel or with Craft's CLI.
+:::
+
+```sh command-line
+composer remove solspace/craft-calendar
+```
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+## Understanding versions and `composer update`
+
+- For example, under the `"require"` area, change `"solspace/craft-calendar": "5.0.2",` to `"solspace/craft-calendar": "5.1.3",`.
+- You can also use `~` and `^` to somewhat automate your updating process.
+  - `1.0.0` - means exactly & only this version
+  - `~1.0.0` - means this version & any _patch_ release (up to `1.0.99̅`)
+  - `^1.0.0` - means this version & any _minor_ release (up to `1.99̅.99̅`)
+    - Specifying `"solspace/craft-calendar": "^5.0.0",` for example, would always get you the latest version of Calendar **5.x** (e.g. `5.1.9`), but never the next _major_ version of Calendar like **6.x**.
+
+Your final `composer.json` file might have something like this:
+
+```json{4} showLineNumbers
+"require": {
+    "craftcms/cms": "^5.0.0",
+    "vlucas/phpdotenv": "^5.4.0",
+    "solspace/craft-calendar": "^5.0.0",
+    "solspace/craft-freeform": "^5.0.0",
+},
+```
+
+### Getting Latest Unreleased Version
+
+Sometimes you need to update your site to use the latest _unreleased_ changes in the Calendar repository. This could be in the main branch or a temporary fix/feat branch, e.g. `v5` or `feat/SFT-123`.
+
+To access the latest unreleased version of Calendar (`v5`), you would set the version in your `composer.json` file to just `v5.x-dev` and run `composer update` after. Your final `composer.json` file might have something like this:
+
+```json {4} showLineNumbers
+"require": {
+    "craftcms/cms": "^5.0.0",
+    "vlucas/phpdotenv": "^5.4.0",
+    "solspace/craft-calendar": "v5.x-dev",
+    "solspace/craft-freeform": "^5.0.0",
+},
+```
+
+To access an unreleased version from a different branch (e.g. `feat/SFT-123`), you would prefix the branch with `dev-` + the exact branch path/name. We also recommend that you run those changes as a "dummy" next version number and append a beta version. For example, if the current released version of Calendar is `5.1.4` and there are new unreleased changes in the `feat/SFT-123` branch you want to grab, go up 1 patch version number + `-beta.1`. In this case, we would assume `5.1.5` was the next version, so we'd create the version number: `5.1.5-beta.1`. Altogether, we'd be specifying: `dev-feat/SFT-123 as 5.1.5-beta.1`.
+
+Your final `composer.json` file might have something like this:
+
+```json {4} showLineNumbers
+"require": {
+    "craftcms/cms": "^5.0.0",
+    "vlucas/phpdotenv": "^5.4.0",
+    "solspace/craft-calendar": "dev-feat/SFT-123 as 5.1.5-beta.1",
+    "solspace/craft-freeform": "^5.0.0",
+},
+```
+
+:::info
+If there are more unreleased changes to the repo in the future, you could change `-beta.1` to `-beta.2` and so on. For example, `dev-feat/SFT-123 as 5.1.5-beta.2`.
+:::
+
+## Purchasing
+
+### Trialing
+
+Craft allows you to trial third-party plugins to see if they're right for your needs. We recommend **trying** any commercial plugin first before buying it. You can trial any plugin or Craft CMS itself by running your site from any domain [that Craft does not consider to be a public domain](https://craftcms.com/knowledge-base/how-craft-license-enforcement-works).
+
+### Purchasing
+
+If this is your first time purchasing a third-party plugin, here's an overview of the purchasing process of plugins. You may purchase licenses for plugins either via the [Craft Plugin Store website](https://plugins.craftcms.com) or directly through the Craft Control Panel. For the latter, here is the process:
+
+1. Go to the _Plugins_ section of your Craft control panel (**Craft CP** → **Settings** → **Plugins**).
+2. For the plugin(s) that need purchasing, click on the **Buy Now** button to add it to your cart.
+3. Proceed to purchase the plugin directly inside your Craft control panel. You can optionally pre-purchase renewal years as well if you think you're going to need updates and product support beyond the first year. You can also purchase renewals later on after expiry if you wish.
+4. Once purchased, the current trial license key for the Calendar will become valid. These product keys can also be accessed and managed later on in your [Craft Console account](https://console.craftcms.com) by visiting the **Plugins** area.
+
+If you run into any issues with licensing your plugin, please see the [Troubleshooting guide](#troubleshooting) below.
+
+### Renewals
+
+Renewals are not required to continue to use Calendar past the 1-year term, but they are required if you wish to update to newer versions of Calendar and to receive official support from Solspace. Renewals can be set to automatic or you may also purchase a renewal directly through the Craft Control Panel or via the [Craft Console website](https://console.craftcms.com/).
+
+## Changing Editions
+
+If you wish to change the edition of Calendar from _Lite_ to _Pro_ (or _Pro_ to _Lite_ while trialing), simply visit the Plugin Store area in the Craft control panel and click on the **Try** button for the edition you wish to change to. If you've already purchased a copy of Calendar _Lite_ but wish to upgrade to the _Pro_ edition, you can do so for the price difference only ($50).
+
+:::info
+If using Craft's [allowAdminChanges](https://craftcms.com/docs/4.x/config/config-settings.html#allowadminchanges) config setting, be sure to temporarily set it to `true` in order to make changes to the edition (which can be switched back to `false` afterward).
+:::
+
+- [How to Switch During Trial](#how-to-switch-during-trial)
+- [How to Switch After Purchase](#how-to-switch-after-purchase)
+
+<Player
+  url={SwitchEditionVideo}
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
+
+### How to Switch During Trial
+
+If you'd like to switch during the trial from _Lite_ to the _Pro_ edition, you can switch the edition 1 of 2 ways:
+
+- **From Project Config**: Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file (`/config/project/project.yaml`) and search for `calendar`. Where it says `edition: lite`, switch that to `edition: pro` and then approve the update inside the CP.
+- **From CP**: Click on the _**LITE** / trial_ button beside Calendar's name and when it takes you to the Plugin Store page and click on the **Try** button for the _Pro_ edition.
+
+### How to Switch After Purchase
+
+If, sometime after purchasing Calendar _Lite_, you decide that you need more features that are available in the _Pro_ edition, you can switch at any time for the price difference (e.g. from Lite to Pro would be $100) rather than needing to purchase the _Pro_ edition at full price. We suggest you start by switching to a trial of the _Pro_ edition and then purchase it if it meets your needs. You can switch the edition 1 of 2 ways:
+
+- **From Project Config**: Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file (`/config/project/project.yaml`) and search for `calendar`. Where it says `edition: lite`, switch that to `edition: pro` and then approve the update inside the CP.
+- **From CP**: Click on the _**LITE** / trial_ button beside Calendar's name and when it takes you to the Plugin Store page and click on the **Try** button for the _Pro_ edition.
+
+Once you're ready to complete the purchase, you can visit the Cart inside your site's control panel:
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp/switch-editions-purchase-3.png')}
+  alt="Switch edition after Purchase - step 3"
+/>
+
+## Troubleshooting
+
+Third-party plugin licenses are managed and validated entirely by Craft. Some issues may require that you contact the Craft Team directly if issues persist. The following troubleshooting tips account for the most common issues we've seen our customers report to us:
+
+- [Error: 'This license is tied to another Craft install'](#error-this-license-is-tied-to-another-craft-install)
+- [Error: 'This license isn't allowed to run version X.X.X.'](#error-this-license-isn-t-allowed-to-run-version-x-x-x)
+- [Plugin shows it's 'Missing'](#plugin-shows-it-s-missing)
+- [Can't purchase upgrade from Lite to Pro edition](#can-t-purchase-upgrade-from-lite-to-pro-edition)
+
+#### Error: 'This license is tied to another Craft install'
+
+If you receive the error `This license is tied to another Craft install. Visit id.craftcms.com to resolve.`, it is indicating that the license is tied to another install of Craft CMS. This is likely because either you purchased this under a different domain or subdomain, or something glitched in the process of purchasing the license. Regardless of what happened here, this can likely be resolved by:
+
+1. Visit your [Craft Console account](https://console.craftcms.com/).
+2. Under **Licenses** → **Plugins**, look for the _Calendar_ (or affected plugin) license in the list and confirm it's tied to the correct Craft CMS license. If not, click into the license (e.g. `CRZ6`) and click on the _Detach from this Craft license_ button. This will release it from being attached to the wrong or orphaned Craft CMS license and allow you to enter it into the Craft install you're using.
+
+If you are moving an existing site to a new non-public domain from a different local hostname, you will need to clear your data caches from the **Clear Caches** tool on the **Settings** page before Craft realizes that the hostname has changed.
+
+#### Error: 'This license isn't allowed to run version X.X.X.'
+
+If you receive the error `This license isn't allowed to run version X.X.X.`, it indicates that you're using a version of the plugin that your license isn't eligible for, which in almost all cases would be a plugin license that expired/finished the 1-year term since the initial purchase. According to Craft's policy (out of Solspace's control), once the plugin license has expired, the current version you have installed is the maximum version you can have. The rationale behind this (according to Craft) is that if, for example, you were using Calendar 3.10.1 at the time of expiry, but 3.11.4 was available to you just before the license expiry date, if that 3.11.4 version was available to you indefinitely, one might update to that version months or years later and experience issues while upgrading, which could generate issues and support requests to the developer beyond that initial 1 year term. This is a fair statement and concern on Craft's part, in our opinion. Craft does send out 30 day notices reminding customers of plugin licenses nearing expiry, so it would be wise to consider squeezing in your final update(s) earlier in that 30 day window if you do not wish to renew your license for future updates beyond the initial 1 year term.
+
+> When a license expires, you can keep using the version that's currently installed, however you won't be able to update it to newer versions until you've renewed the license.
+
+As for **_how_ this happened** in the first place, Craft's [CP updater](#updating-from-the-control-panel) and their recommended built-in [_update_ command](#update-from-the-cli) feature will make sure that you never update to a plugin version you don't have access to. However, if you used [Composer](#update-via-composer-from-the-cli) to update, it bypasses all of Craft's license validation and you can get yourself into the situation where you now have a version that your license shouldn't have access to, which then generates the error inside the Craft CP. The only way to resolve this would be reverting back to the previous version (which is not always recommended, as it's possible plugin update migration(s) could have taken place, and reverting could break your install), or renew your license. Please feel free to reach out to us for further clarification and assistance if you're in a bind with this, and we'll do the best we can to help.
+
+#### Plugin shows it's 'Missing'
+
+If you have a plugin that shows as _Missing_, this is because you don't have the plugin installed and/or the plugin files are not in the Craft **vendor** folder, BUT you have a valid purchased Craft 3 license for the plugin tied to that Craft install. Depending on your scenario, you likely either have the issue of wanting the plugin to be available, or not wanting it to show up there.
+
+If you purchased the plugin and are expecting it to show up for install, what likely happened is that Craft or your server environment glitched and didn't correctly add the plugin dependency (files) to your Craft site's **vendor** folder (but knows that you have a valid purchase of it). If this is the case, you'll need to follow the [Installation Instructions](#installation) documentation above to install the plugin.
+
+If the above is not the case for you, and you don't want this license showing up in your Craft site, this can likely be resolved by:
+
+1. Visit your [Craft Console account](https://console.craftcms.com/).
+2. Under **Licenses** → **Plugins**, look for the _Calendar_ (or affected plugin) license in the list and confirm it's tied to the correct Craft CMS license. If not, click into the license (e.g. `CRZ6`) and click on the _Detach from this Craft license_ button. This will release it from being attached to the wrong or orphaned Craft CMS license, and later use it on the correct/different Craft install.
+
+#### Can't purchase upgrade from Lite to Pro edition
+
+If you're currently using the _Lite_ edition of Calendar and are trying to purchase an upgrade to the _Pro_ edition, but it's not letting you (the **Add to Cart** button isn't showing), please ensure that the `allowUpdates` and `allowAdminChanges` [Craft General Config items](https://docs.craftcms.com/api/v4/craft-config-generalconfig.html#public-properties) are NOT set to `false`. At least enable them temporarily to allow this change to happen.
+
+```php showLineNumbers
+'allowUpdates' => true
+'allowAdminChanges' => true
+```

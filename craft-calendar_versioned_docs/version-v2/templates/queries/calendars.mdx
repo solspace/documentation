@@ -1,0 +1,43 @@
+---
+title: Calendars
+sidebar_position: 2
+---
+
+# Calendars Query
+
+The _calendar.calendars_ template query fetches a list of calendars based on some or no criteria.
+
+## Parameters
+
+- `id`
+  - The unique calendar ID
+  - Can be passed as an array of ID's - `[1, 2, 3]`
+  - Use `"not 1,2,3"` to filter out calendars which **don't** have an ID of **1, 2 or 3**
+  - Use `"!= 3"` to filter out calendars which **don't** have an ID of **3**
+- `name`
+  - same usage as listed above for `id`
+- `handle`
+  - same usage as listed above for `id`
+- `color`
+  - a hex value of the color, e.g - `#FFFFFF`
+- `orderBy`
+  - Valid orderBy attributes are `id`, `name`, `handle` and `color`
+- `sort`
+  - Options are `ASC` or `DESC`
+- `limit`
+  - An `int` limiting the result count
+
+## Usage in Templates
+
+```twig showLineNumbers
+{% set calendars = craft.calendar.calendars({
+  orderBy: "name",
+  sort: "asc"
+}) %}
+
+{% for calendar in calendars %}
+  <div style="color: {{ calendar.color }};">
+    {{ calendar.name }}
+  </div>
+{% endfor %}
+```

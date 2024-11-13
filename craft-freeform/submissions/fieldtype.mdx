@@ -1,0 +1,61 @@
+---
+title: 'Element Field Type'
+sidebar_position: 4
+---
+
+import Player from 'react-player';
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+import FieldtypeSubmissionsPhoto from './assets/img/fieldtype-submissions.png';
+
+import FieldtypeSubmissionsVideo from './assets/videos/fieldtype-submissions.mp4';
+
+# _Submissions_ Element Field Type<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+
+Freeform includes a _Freeform Submissions_ field type (and [Freeform Form](../forms/fieldtype.mdx)), which allows you to assign/relate submissions to other element types such as Craft Entries.
+
+<Photo img={FieldtypeSubmissionsPhoto} alt="Freeform Submissions Fieldtype" />
+
+## Overview
+
+When pairing the Freeform Submissions field type with the [Relations](./relations.mdx) feature, Freeform can do extraordinary things like become a tool that let's your users comment on entries, submit ratings and reviews for Commerce products and more! The [Relations](./relations.mdx) feature essentially allows you to feed another Craft Element ID to the form that is attached to the submission(s), and the Freeform submission then becomes attached to the other element the same way an Asset does, etc.
+
+<Player
+  url={FieldtypeSubmissionsVideo}
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
+
+### Creating the Field
+
+Creating a Freeform Submissions field is done just like any other field type, here's an overview of the process:
+
+<VerticalStepWrapper>
+<StepMarkdown>
+Go to the **Settings** area in Craft control panel. Click on **Fields**.
+
+Click the **New field** button in the top right corner.
+
+</StepMarkdown>
+<StepMarkdown>
+Name the field as you wish. For example: *Related Submissions* with a handle of `relatedSubmissions`.
+
+</StepMarkdown>
+<StepMarkdown>
+For the **Field Type** option, select *Freeform Submissions* from the list.
+
+**Selection Label** is the text that will appear on the button which opens the Freeform Submissions selection pop-up dialog.
+
+</StepMarkdown>
+<StepMarkdown>
+Click the **Save** button in the top right corner to save the new field.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+Your Freeform Submissions field is now available to be assigned to other sections.

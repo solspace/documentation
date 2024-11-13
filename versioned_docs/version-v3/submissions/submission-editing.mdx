@@ -1,0 +1,85 @@
+---
+title: Submissions Editing
+sidebar_position: 3
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Submission Editing<Badge type="pro" text="Pro" />
+
+# Submission Editing <Badge type="pro" text="Pro" />
+
+Freeform allows you to edit submissions via the front end templates as well. Currently, this feature has no user/author check, and requires you use/provide the `submission.token` to work (as opposed to the ID). A future version will likely include ability to check on authors, etc. The editing uses the same `freeform.form` function, but knows you're in **edit mode** when you feed the `submissionToken` parameter a valid value.
+
+:::warning
+There are currently some limitations with this feature. Please note that:
+
+- Not all types of forms can be intuitively edited (e.g. [Payment](../integrations/stripe-payments.mdx) forms, some complex ones, etc).
+- Editing [Payment](../integrations/stripe-payments.mdx) forms will NOT update payment details, but instead will make a new submission/charge.
+- Editing forms with [Element integrations](../integrations/elements.mdx) will NOT update the corresponding element, but just create a new one instead (so currently no editing of user profile data, etc).
+  :::
+
+## Overview
+
+When linking to the form edit, you might use something like this inside the [Submissions query](../templates/queries/submissions.mdx):
+
+```twig showLineNumbers
+{% if currentUser and currentUser.admin %}
+    <a href="{{ siteUrl }}page/{{ form.handle }}/edit/{{ submission.token }}">
+        {{ "Edit"|t("freeform") }}
+    </a>
+{% endif %}
+```
+
+Then in your template that includes the [Form query](../templates/queries/form.mdx), be sure that the `submissionToken` parameter is included and checking the URL for a value:
+
+```twig showLineNumbers{1,5}
+{% set submissionToken = craft.app.request.segment(4) %}
+
+{% set form = freeform.form('myForm', {
+    returnUrl: "{{ siteUrl }}page/{{ form.handle }}/submission/{{ submission.id }}/success",
+    submissionToken: submissionToken|default(null),
+}) %}
+```
+
+You can also check out the example in the [demo templates](../configuration/demo-templates.mdx) if you wish to see it in action.
+
+### Suppression of Notifications and more
+
+You can apply the `suppress` parameter to the [Form](../templates/queries/form.mdx) and `render` queries, which allows you to suppress email notifications, API integrations and [Element Connections](../integrations/elements.mdx) for a form by passing an object of suppressions you wish to enable, typically used for editing submissions, e.g.:
+
+- `adminNotifications: true` - suppress [Admin notifications](../forms/email-notifications/#admin-notifications)
+- `dynamicRecipients: true` - suppress [Dynamic Recipient notifications](../forms/email-notifications#dynamic-recipients)
+- `submitterNotifications: true` - suppress [Submitter email notifications](../forms/email-notifications#user-submitter-notifications)
+- `api: true` - suppress [CRM](../integrations#crm) and [Email Marketing](../integrations/#email-marketing) integrations
+- `connections: true` - suppress [Element Connections](../integrations/#elements)
+- `payments: true` - suppress [Payment](../integrations/#other) integrations
+
+You can also just set this to `true` (`suppress: true`) to enable all suppressions at once.
+
+### Examples
+
+```twig {5-10} showLineNumbers
+{% set form = craft.freeform.form("myForm", {
+	id: "myform",
+	class: "form-class",
+    submissionToken: submissionToken|default(null),
+    suppress: {
+        adminNotifications: true,
+        dynamicRecipients: true,
+        submitterNotifications: true,
+        api: true
+    }
+}) %}
+```
+
+OR
+
+```twig {5} showLineNumbers
+{% set form = craft.freeform.form("myForm", {
+	id: "myform",
+	class: "form-class",
+    submissionToken: submissionToken|default(null),
+    suppress: true
+}) %}
+```

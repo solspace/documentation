@@ -1,0 +1,148 @@
+---
+title: CRM Integrations
+sidebar_position: 11
+---
+
+# CRM Integration Events
+
+Use these events to extend the functionality of Freeform CRM Integrations:
+
+## Before data is pushed to the CRM
+
+Use this event to manipulate the data that is about to be pushed to the CRM.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\CrmService;
+use Solspace\Freeform\Events\Integrations\PushEvent;
+
+Event::on(
+  CrmService::class,
+  CrmService::EVENT_BEFORE_PUSH,
+  function (PushEvent $event) {
+    $integration = $event->getIntegration();
+    $values = $event->getValues();
+
+    // Only perform this for the "My Salesforce Intagration" integration
+    if ($integration->getName() === 'My Salesforce Integration') {
+      // Manually add a desired value for "customSalesforceField" field in Salesforce
+      // This value will be pushed along with the rest to the CRM integration
+      $event->addValue('customSalesforceField', 1234);
+    }
+  }
+)
+```
+
+## After data has been pushed to the CRM
+
+This event allows you to do something right after data has been pushed to the CRM.
+
+:::warning
+This event does not contain the response that was received from the CRM. Use the [After Response](#after-the-response-from-the-crm-was-received) event for that.
+:::
+
+```php showLineNumbers
+use Solspace\Freeform\Services\CrmService;
+use Solspace\Freeform\Events\Integrations\PushEvent;
+
+Event::on(
+  CrmService::class,
+  CrmService::EVENT_AFTER_PUSH,
+  function (PushEvent $event) {
+    $integration = $event->getIntegration();
+    $values = $event->getValues();
+
+    // Perform some actions here
+  }
+)
+```
+
+## After the response from the CRM was received
+
+This event contains the Guzzle Response object of the response received after pushing the data to the CRM. Use this to perform other calls to other API endpoints, for instance - relating the created object's ID to some other object in the CRM.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\CrmService;
+use Solspace\Freeform\Events\Integrations\IntegrationResponseEvent;
+
+Event::on(
+  CrmService::class,
+  CrmService::EVENT_AFTER_RESPONSE,
+  function (IntegrationResponseEvent $event) {
+    $integration = $event->getIntegration();
+    $response = $event->getResponse(); // instance of \Psr\Http\Message\ResponseInterface
+    $responseAsString = $event->getResponseBodyAsString(); // Usually a stringified JSON object
+
+    // Perform some actions here
+  }
+)
+```
+
+## Before saving an integration
+
+```php showLineNumbers
+use Solspace\Freeform\Services\CrmService;
+use Solspace\Freeform\Events\Integrations\SaveEvent;
+
+Event::on(
+  CrmService::class,
+  CrmService::EVENT_BEFORE_SAVE,
+  function (SaveEvent $event) {
+    $integrationModel = $event->getModel();
+    $isNew = $event->isNew();
+
+    // Perform some actions here
+  }
+)
+```
+
+## After saving an integration
+
+```php showLineNumbers
+use Solspace\Freeform\Services\CrmService;
+use Solspace\Freeform\Events\Integrations\SaveEvent;
+
+Event::on(
+  CrmService::class,
+  CrmService::EVENT_AFTER_SAVE,
+  function (SaveEvent $event) {
+    $integrationModel = $event->getModel();
+    $isNew = $event->isNew();
+
+    // Perform some actions here
+  }
+)
+```
+
+## Before deleting an integration
+
+```php showLineNumbers
+use Solspace\Freeform\Services\CrmService;
+use Solspace\Freeform\Events\Integrations\DeleteEvent;
+
+Event::on(
+  CrmService::class,
+  CrmService::EVENT_BEFORE_DELETE,
+  function (DeleteEvent $event) {
+    $integrationModel = $event->getModel();
+
+    // Perform some actions here
+  }
+)
+```
+
+## After deleting an integration
+
+```php showLineNumbers
+use Solspace\Freeform\Services\CrmService;
+use Solspace\Freeform\Events\Integrations\DeleteEvent;
+
+Event::on(
+  CrmService::class,
+  CrmService::EVENT_AFTER_DELETE,
+  function (DeleteEvent $event) {
+    $integrationModel = $event->getModel();
+
+    // Perform some actions here
+  }
+)
+```

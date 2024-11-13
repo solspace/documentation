@@ -1,0 +1,124 @@
+---
+title: 'Console Commands'
+sidebar_position: 8
+---
+
+import { Badge, BadgeGroup } from '@site/src/components/utils';
+
+# Console Commands
+
+Freeform includes several console commands to allow you to run cleanup tasks and other tasks.
+
+## Generate Fake Submissions<Badge type="feature" text="5.1.14+" />
+
+If you ever need to generate fake submission data for testing purposes, you can do so with the `freeform/submissions/generate` CLI command.
+
+Freeform will attempt to automatically generate content and select options for all of your form fields. For example, it will know that an **Email** field should contain an email address, a **Number** field should contain a number, a **Date** field will contain a valid date, a field with the word `name` in it should contain a name, it should check a few options in a **Checkboxes** field, etc. Please note that some of these checks like _name_ may rely more on the English language. The creation date defaults to today but can be overridden. However, the times are always random within the specified period.
+
+### Options
+
+The following arguments are available:
+
+- `--author-id`, `-a`
+  - The user ID to be assigned as the author of the generated submissions. Defaults to none (guest).
+  - E.g. `--author-id=1`, `-a=12`
+- `--count=10`, `-c`
+  - The number of submissions to generate. Defaults to `1`.
+  - E.g. `--count=10`, `-c=100`.
+- `--dry-run`
+  - Displays a sample generated submission inside the CLI without actually creating the submissions in Freeform/Craft, allowing you to get a rough idea of what it will generate. Defaults to off.
+- `--form`, `-f` <span class="red">\*required</span>
+  - The handle or ID of the form you wish to generate submissions for.
+  - E.g. `--form=contactForm`, `--form=12`, `-f=2`.
+- `--locale`, `-l`
+  - The locale to use when generating submissions. Defaults to `en_US`.
+  - E.g. `--locale=fr`, `--locale=fr_FR`, `-l=de`.
+- `--range-start`, `-rs`
+  - The starting date period to generate submissions between. Can also use relative wording, e.g. `3 weeks ago`. Defaults to `today`.
+  - E.g. `--range-start="2024-03-01"`, `--range-start="-1 week"`, `--range-start="3 weeks ago"`.
+- `--range-end`, `-re`
+  - The ending date period to generate submissions between. Can also use relative wording. Defaults to `today`.
+  - E.g. `--range-end="2024-12-31"`, `--range-end="+1 week"`, `--range-end="2 days"`.
+- `--spam`
+  - Flags all submissions as spam so they appear in the Freeform [Spam Folder](../forms/spam-protection.mdx#spam-folder).
+- `--status`, `-s`
+  - The handle of ID of the status(es) to be used when generating submissions. Can be set to multiple comma-separated statuses. Defaults to using the default status set inside the form builder for the form.
+  - E.g. `--status="open,pending,closed"`, `--status="testing"`, `-s=pending`.
+- `--verbose`, `-v`
+  - Displays in the CLI all of the generated submission data that it created in Freeform/Craft. Defaults to off.
+
+### Examples
+
+Generate 10 spam submissions in French to the `contactForm` form:
+
+```sh showLineNumbers
+php craft freeform/submissions/generate --form=contactForm --spam --count=10 --locale=fr
+```
+
+Generate 100 submissions in English to the `survey2024` form between 3 weeks ago and tomorrow:
+
+```sh showLineNumbers
+php craft freeform/submissions/generate --form=survey2024 --count=100 --locale=en --range-start="3 weeks ago" --range-end="tomorrow"
+```
+
+Generate 50 submissions in English to the `quoteRequest` form with a mix of the statuses `open`, `pending`, and `closed`:
+
+```sh showLineNumbers
+php craft freeform/submissions/generate -f=quoteRequest -c=50 -l=en -s="open,pending,closed"
+```
+
+Generate 50 submissions in English to the `quoteRequest` form with a mix of the statuses `open` and `closed`, with a much higher proportion of them being `open`:
+
+```sh showLineNumbers
+php craft freeform/submissions/generate -f=quoteRequest -c=50 -l=en -s="open,open,open,open,closed"
+```
+
+## Resave Submissions<Badge type="feature" text="5.1.13+" />
+
+If you need to resave all Freeform submissions, you can do so with the `freeform/submissions/resave` CLI command. Most of the arguments available to Craft's `resave/entries` command are available here too, so if you need to also update the Craft Search Index, be sure to add `--update-search-index`.
+
+```sh showLineNumbers
+php craft freeform/submissions/resave --update-search-index
+```
+
+## Migrate Craft 4 Element Titles<Badge type="feature" text="5.1.13+" />
+
+If you have upgraded your Craft 4 site to Craft 5, please note that the Craft migration process does not automatically migrate submission Element titles. In Craft 5, Element titles are now stored in the `elements_sites` table, and the `content` table which used to store Element titles is no longer used.
+
+While most plugins could include a separate migration script to handle this, Freeform 5 supports both Craft 4 and Craft 5, making this path impossible. Instead, a CLI command has been included that needs to be executed once after upgrading from Craft 4 to Craft 5.
+
+:::warning
+This CLI command is only applicable to sites that have migrated from Craft 4 to Craft 5 while Freeform was installed.
+:::
+
+```sh showLineNumbers
+php craft freeform/submissions/fix-titles
+```
+
+## Purge Commands
+
+Freeform automatically attempts to routinely execute all of the below commands as Craft jobs, but they are available in the event you need to correct or troubleshoot an issue.
+
+### Purge Submissions<Badge type="pro" text="Pro" />
+
+Allows you to purge all submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Submission Data** setting.
+
+```sh showLineNumbers
+php craft freeform/purge/submissions --age-in-days=30
+```
+
+### Purge Spam<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+
+Allows you to purge all spam submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Spam Submissions** setting.
+
+```sh showLineNumbers
+php craft freeform/purge/spam --age-in-days=30
+```
+
+### Purge Unfinalized Assets
+
+Allows you to purge all unfinalized assets older than a specific number of minutes. Freeform automatically attempts to execute this service every 3 hours.
+
+```sh showLineNumbers
+php craft freeform/purge/unfinalized-assets --age-in-minutes=180
+```

@@ -1,0 +1,97 @@
+---
+sidebar_position: 4
+title: Importing Events
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Importing Events<Badge type="feature" text="Improved in 3.2+" />
+
+Calendar now has an official integration for the Craft [Feed Me](https://docs.craftcms.com/feed-me/v4/) plugin, which allows you to import and/or update existing Calendar events. When using **Feed Me**, please be sure to look for the _Solspace Calendar Events (official)_ option for the **Element Type** type option when setting up a new feed. To get the Craft [Feed Me](https://plugins.craftcms.com/feed-me) plugin, search for `feed me` in the Craft Plugin Store.
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_calendar-feed-me.png')}
+  alt="Create Feed"
+/>
+
+## Overview
+
+Currently, there are 5 different feed types available to choose from:
+
+- **ATOM**
+- **CSV**
+- **JSON**
+- **RSS**
+- **XML**
+
+You can select which calendar to check against, and decide from any of the following behaviors:
+
+- **Create new events**: Adds new events if they do not already exist.
+- **Update existing events**: Updates events that match the Unique Identifier (next step).
+- **Disable missing events**: Disables any events that are missing from the feed.
+- **Delete missing events**: Deletes any events that are missing from the feed. Be careful.
+
+The most important fields to import on the **Event Fields** mapping page are:
+
+- **Title**
+- **Start Date** (e.g. `2021-02-14 07:00:00`)
+- **End Date** (e.g. `2021-02-14 13:00:00`)
+- **All Day** (e.g. `1` for all-day, `0` for non all-day events)
+- **Repeat Rule** (e.g. `RRULE:FREQ=MONTHLY;UNTIL=20211016T235959Z;BYMONTHDAY=14;INTERVAL=1`)
+  - This is only necessary when you have repeating events.
+  - If you have a valid _RRULE_ mapped to the **Repeat Rule** setting, Calendar will automatically map the necessary parts over to the other fields/columns in the database. By default, if `INTERVAL` is not included in the _RRULE_ value, Calendar will assume and default it to `1`.
+  - The other remaining **Recurrence Fields** options are all optional and likely not necessary for most setups if you have a valid _RRULE_ value.
+  - If you have repeating events but do not have a valid _RRULE_ value to map, you can map the other **Recurrence Fields** options individually. However, without a value _RRULE_ passed off to the Calendar event's **RRULE** column in the database, Calendar will not be able to properly display recurrences until the event is resaved manually.
+
+See the [example JSON file](#example-json-file) below.
+
+## Example JSON file
+
+```json showLineNumbers
+{
+  "events": {
+    "event": [
+      {
+        "title": "Feed Me Test Regular Event",
+        "startDate": "2021-02-11 07:00:00",
+        "endDate": "2021-02-11 13:00:00",
+        "allDay": 0
+      },
+      {
+        "title": "Feed Me Test Recurring Event with RRULE",
+        "startDate": "2021-02-14 07:00:00",
+        "endDate": "2021-02-14 13:00:00",
+        "allDay": 0,
+        "repeatRule": "RRULE:FREQ=MONTHLY;UNTIL=20211016T235959Z;BYMONTHDAY=14"
+      },
+      {
+        "title": "Feed Me Test Recurring Event with RRULE and INTERVAL",
+        "startDate": "2021-02-14 07:00:00",
+        "endDate": "2021-02-14 13:00:00",
+        "allDay": 0,
+        "repeatRule": "RRULE:FREQ=MONTHLY;UNTIL=20211016T235959Z;BYMONTHDAY=14;INTERVAL=2"
+      },
+      {
+        "title": "Feed Me Test Recurring Event without RRULE",
+        "startDate": "2021-02-14 07:00:00",
+        "endDate": "2021-02-14 13:00:00",
+        "allDay": 0,
+        "repeatInterval": 1,
+        "repeatFrequency": "MONTHLY",
+        "repeatCount": null,
+        "repeatUntil": "2021-10-16 23:59:59",
+        "repeatByMonth": null,
+        "repeatByYearDay": null,
+        "repeatByMonthDay": 14,
+        "repeatByDay": null
+      },
+      {
+        "title": "Feed Me Test All Day Event",
+        "startDate": "2021-02-17 00:00:00",
+        "endDate": "2021-02-17 23:59:59",
+        "allDay": 1
+      }
+    ]
+  }
+}
+```

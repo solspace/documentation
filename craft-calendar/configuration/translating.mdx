@@ -1,0 +1,20 @@
+---
+sidebar_position: 8
+title: Translating
+---
+
+# Translating
+
+All of the Calendar control panel area and front end templates are translatable.
+
+To make a translation, follow Craft's instructions for [Translating Static Text](https://craftcms.com/docs/4.x/static-translations.html), and then check out the Calendar-specific guide below:
+
+- Duplicate the _calendar.php_ file inside the Calendar plugin located at the **./vendor/solspace/craft-calendar/src/translations/en-US** folder, and add it into the language ID folder (e.g. `de`) of your Craft **./translations/** directory. If the _translations_ directory does not yet exist, you'll need to create it (e.g. `./translations/de/calendar.php`). You can then update those language keys inside your Calendar translation file.
+- Not all month and weekday name strings that are part of dates are translated through static translation files however:
+  - The CP Month/Week/Day views use the [FullCalendar JS library](http://fullcalendar.io) which contain their own translations. Calendar will detect the locale you're using and automatically load the corresponding translation file. If it's not, please [contact us](/support) and let us know which translation and 2 or 4 letter language ID you're using (e.g. `fr-BE`).
+  - When using properties from the [Event object](../templates/objects/event.mdx) such as `startDate` and `endDate`, you'll want to be sure to use the `|date` filter instead of `.format` to allow Craft to automatically translate the date strings. Due to a conflict between how Craft and Calendar each work, you'll need to also append `Localized` to the date property (e.g. `startDateLocalized`) in order to see dates/times that aren't incorrectly localized to the user's timezone. Your final code might look something like: `event.startDateLocalized|date("l, F j, Y g:ia")`.
+  - If you're testing this in the [demo templates](./demo-templates.mdx) included with Calendar, you'll need to comb through the templates to switch any references of `.format` to `|date` instead.
+
+Visit the Craft documentation for more information about [Setting Up a Localized Site](https://craftcms.com/docs/4.x/localization.html).
+
+If you'd like to share your translation with others, [send us an email](/support) with a link to the translation file, and we'll consider including it in the main Solspace Calendar plugin package.

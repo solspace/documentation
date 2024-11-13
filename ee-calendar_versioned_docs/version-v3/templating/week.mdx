@@ -1,0 +1,255 @@
+---
+sidebar_position: 4
+title: 'Week'
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Calendar:Week template tag
+
+The _Calendar:Week_ tag handles "week-based" formatting and displays an event list for a specified week, or the current week.
+
+:::info
+For performance reasons, please be sure to update any Calendar template tags to use the `channel="my_channel|my_other_channel"` parameter, similar to how you would do it for `{exp:channel:entries}`. The demo templates don't include this by default since there's no automated way of knowing which channel(s) you're using.
+:::
+
+<Photo
+  img={require('@site/static/img/ee-calendar/v5/calendar-templates_week.png')}
+  alt="Calendar:Week template tag"
+/>
+
+```html showLineNumbers
+{exp:calendar:week} content {/exp:calendar:week}
+```
+
+## Parameters
+
+### author_id=
+
+`author_id="1"`
+
+This parameter allows you to filter down the event results by the author of the Calendar event entries. You can hardcode a member ID, pass it through an embed, or grab it from the URI. You can also use **CURRENT_USER** to display event entries for the currently logged in user. Separate multiples with the pipe character.
+
+### calendar_id=
+
+`calendar_id="1|3"`
+
+This parameter allows you to display specific calendars by specifying their ID(s). You can hardcode a calendar ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### calendar_short_name=
+
+`calendar_short_name="soccer|baseball|dodgeball"`
+
+This parameter allows you to display specific calendars by specifying their short names. You can hardcode a short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### category=
+
+`category="22"`
+
+This parameter allows you to filter down the event results by the category ID assigned to calendar event entries. You can hardcode a category ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### channel=
+
+`channel="baseball"`
+
+This parameter allows you to filter down the event results by the channel of the calendar event entries. You can hardcode a channel short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### date_range_start=
+
+```php
+  {if segment_3}
+  date_range_start="{segment_3}-{segment_4}-{segment_5}
+  {if:else}
+  date_range_start="today"
+  {/if}
+```
+
+This parameter allows you to specify a particular week to display events for. Regardless of which day of the week you specify, this tag will automatically load the entire week. If this parameter is NOT specified or an incorrect date value is passed to this parameter, the current week will be displayed. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter.
+
+### site=
+
+`site="siteA|siteB|siteC"`
+
+If using [EE Multiple Site Manager](https://docs.expressionengine.com/v7/msm/overview.html) (MSM), you can specify a site short name(s) in this parameter to filter event entries down to that site.
+
+### status=
+
+`status="open|extra"`
+
+This parameter allows you to filter down the event results by the status of the calendar event entries. You can hardcode a channel short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+## Variables
+
+Most of the [variables listed in Calendar:Events](../templating/events.mdx#variables) are available for use here (inside of the [calendar:events](#calendar-events) variable pair). Additionally, the following variables are available for use as well:
+
+### calendar:next_week
+
+`{calendar:next_week format="%F %j, %Y"}`
+
+This variable displays the beginning day of the week after the currently viewed week. Typically used for linking to next week. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+
+### calendar:previous_week
+
+`{calendar:previous_week format="%F %j, %Y"}`
+
+This variable displays the beginning day of the week prior to the currently viewed week. Typically used for linking to previous week. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+
+### calendar:week_date
+
+`Week of {calendar:week_date format="%F %j, %Y"}`
+
+This variable displays the beginning date of the currently specified week. It will parse as if you're using something like "**Week beginning Sunday, February 14, 2016**". Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+
+### calendar:week_total_events
+
+`{calendar:week_total_events}`
+
+This variable displays the total number of events that are happening for a given week. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+
+### calendar:day_date
+
+`{calendar:day_date format="%j"}`
+
+This variable displays the date of the currently specified day. Can only be used INSIDE of the [calendar:days](#calendar-days) variable pair, and OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+
+### calendar:day_total_events
+
+`{calendar:day_total_events}`
+
+This variable displays the total number of events that are happening for a given day. Can only be used INSIDE of the [calendar:days](#calendar-days) variable pair, and OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+
+## Variable Pairs
+
+### calendar:days
+
+`{calendar:days}{/calendar:days}`
+
+This variable pair handles the formatting for each day. It is primarily used to handle the output of each day row in a full week calendar.
+
+### calendar:days_of_week
+
+```php
+    {calendar:days_of_week}
+    	{calendar:day_of_week_full}
+    {/calendar:days_of_week}
+```
+
+This variable pair handles the formatting for each day of the week. It can be used for displaying the weekday headings for your week calendar (ex: **Monday**, **Tuesday**, **Wednesday**, etc). Inside of this variable pair, the following formatted date variables are available for use:
+
+- **\{calendar:day_of_week_full}** - parses as **Sunday**, **Monday**, **Tuesday**, **Wednesday**, **Thursday**, **Friday**, **Saturday**
+- **\{calendar:day_of_week_1_letter}** - parses as **S**, **M**, **T**, **W**, **T**, **F**, **S**
+- **\{calendar:day_of_week_2_letter}** - parses as **Su**, **Mo**, **Tu**, **We**, **Th**, **Fr**, **Sa**
+- **\{calendar:day_of_week_3_letter}** - parses as **Sun**, **Mon**, **Tue**, **Wed**, **Thu**, **Fri**, **Sat**
+- **\{calendar:day_of_week format="%F %j"}** - formatted to your choice using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html)
+
+### calendar:events
+
+`{calendar:events}{/calendar:events}`
+
+This variable pair handles the formatting of each event result. Most of the [variables listed in Calendar:Events](../templating/events.mdx#variables) are available for use here, prefixed with **calendar:**.
+
+## Conditionals
+
+### calendar:no_results
+
+```php
+    {if calendar:no_results}
+    	Sorry, no events are available within this specified date range.
+    {/if}
+```
+
+This conditional displays its contents when there is no event results for the given parameters. Can only be used INSIDE of the [calendar:events](#calendar-events) variable pair.
+
+### calendar:event_all_day
+
+`{if calendar:event_all_day}{/if}`
+
+This conditional will displays its contents if the event is an all day event. Can only be used INSIDE of the [calendar:events](#calendar-events) variable pair.
+
+### calendar:event_multi_day
+
+`{if calendar:event_multi_day}{/if}`
+
+This conditional will displays its contents the event occurs on multiple days. Can only be used INSIDE of the [calendar:events](#calendar-events) variable pair.
+
+### calendar:event_recurs
+
+`{if calendar:event_recurs}{/if}`
+
+This conditional will displays its contents if the event has recurrence rules. Can only be used INSIDE of the [calendar:events](#calendar-events) variable pair.
+
+### calendar:day_is_weekend
+
+`{if calendar:day_is_weekend}{/if}`
+
+This conditional is typically used for adjusting styles or formatting, and will display its contents if the day occurs on the weekend (Saturday or Sunday). Available only within the [calendar:days](#calendar-days) variable pair.
+
+### calendar:day_is_weekday
+
+`{if calendar:day_is_weekday}{/if}`
+
+This conditional is typically used for adjusting styles or formatting, and will display its contents if the day occurs on a weekday (Monday to Friday). Available only within the [calendar:days](#calendar-days) variable pair.
+
+### calendar:current_day
+
+`{if calendar:current_day}{/if}`
+
+This conditional will displays its contents if the day is in the current day / today. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+
+### calendar:current_week
+
+`{if calendar:current_week}{/if}`
+
+This conditional will displays its contents if the day is in the current week. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+
+### calendar:current_month
+
+`{if calendar:current_month}{/if}`
+
+This conditional will displays its contents if the day is in the current month. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+
+### calendar:current_year
+
+`{if calendar:current_year}{/if}`
+
+This conditional will displays its contents if the day is in the current year. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+
+## Examples
+
+We strongly recommend you install the [Demo Templates](../guides/control-panel.mdx#demo-templates) included with Calendar to see a more real-world, ready-to-go example that should work instantly with your site event data.
+
+Below is a basic code example showing how this tag works:
+
+```html showLineNumbers
+{exp:calendar:week
+	{if segment_3} {!-- Are we looking at a week other than today? --}
+		date_range_start="{segment_3}-{segment_4}-{segment_5}"
+	{if:else} {!-- Or are we looking at current week? --}
+		date_range_start="today"
+	{/if}
+}
+	<p>
+		<a href="{path='calendar/week'}/{calendar:previous_week format='%Y/%m/%d'}/">Previous Week</a>
+		<b>Week of {calendar:week_date format="%l, %F %j, %Y"}</b> ({calendar:week_total_events} events)
+		<a href="{path='calendar/week'}/{calendar:next_week format='%Y/%m/%d'}/">Next Week</a>
+	</p>
+	{calendar:days}
+		<h4{if calendar:current_day} class="today"{/if}>{calendar:day_date format="%l"}</h4>
+		{calendar:events}
+			<h3><a href="{path='calendar/events'}/{calendar:url_title}/">{calendar:title}</a></h3>
+			<p>Calendar: {calendar:calendar_short_name}</p>
+			<p>
+			{if calendar:event_all_day}
+				All Day
+			{if:else}
+				From {calendar:event_start_date format="%l, %F %j, %Y - %g:%i%a"} to
+				{calendar:event_end_date format="%l, %F %j, %Y - %g:%i%a"}
+			{/if}
+			</p>
+			{if calendar:no_results}
+				<p>No events today.</p>
+			{/if}
+		{/calendar:events}
+	{/calendar:days}
+{/exp:calendar:week}
+```

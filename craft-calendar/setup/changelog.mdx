@@ -1,0 +1,111 @@
+---
+title: Changelog
+sidebar_label: Changelog
+sidebar_position: 2
+---
+
+import { TitleDate } from '@site/src/components/docs'
+
+## 5.0.11<TitleDate date="2024-10-28" />
+
+### Changed
+- Updated the `fix-field-layout-tabs-elements-uids` console command to address orphaned field layout tabs belonging to the Calendar Event element type. 
+
+### Fixed
+- Fixed a bug where the **Author** attribute was included by mistake in the Sort options list for the CP Events index.
+
+## 5.0.10<TitleDate date="2024-10-09" />
+
+### Added
+- Added support for `Elements::EVENT_REGISTER_ELEMENT_TYPES`.
+- Added `calendar/calendars/fix-field-layout-tabs-elements-uids --rebuildProjectConfig` CLI command to resolve issues for Calendar 4.x and earlier versions of 5.0.x where unique UIDs were not being generated for field layout elements when duplicating calendars. This CLI command only applies to sites on Craft 4 that may have duplicated calendars in earlier versions of Calendar 4.x and 5.x. This command will not work on Craft 5 due to bigger differences in storing the data.
+
+### Fixed
+- Fixed a bug where Calendar event titles and fields were not translating correctly in Craft 5.
+
+### Removed
+- Removed the migration that attempted to resolve the issue of unique UIDs not being generated for field layout elements when duplicating calendars.
+- Removed unnecessary Craft version helper.
+
+## 5.0.9<TitleDate date="2024-10-07" />
+
+### Added
+- Added the ability to filter events by _Author_ in the control panel Events index.
+
+### Fixed
+- Fixed a bug where calendars with reused instanced fields in the same field layout (Craft 5) were not saving values.
+- Fixed a bug where the _ICS Description_ and _ICS Location_ field dropdowns would not show reused instanced fields (Craft 5) in calendar settings.
+- Fixed a bug where the _Calendar Events_ field type could trigger a `Serialization of 'Closure is not allowed'` error.
+- Fixed a bug where unique UIDs were not generated for field layout elements when duplicating calendars. Added a migration for Craft 4 installs.
+
+## 5.0.8<TitleDate date="2024-09-12" />
+
+### Fixed
+- Fixed a bug where unique UIDs were not generated for field layout elements when duplicating calendars.
+
+## 5.0.7<TitleDate date="2024-08-10" />
+
+### Fixed
+- Fixed issues with permissions when using the Craft Team edition.
+- Fixed a bug where using the `groupedBy` methods would return an error when listing events.
+- Fixed a bug where importing Calendar events with empty RRULES via Feed Me would fail.
+- Fixed a bug where importing Calendar events via _Feed Me_ was incorrectly updating translatable fields.
+- Fixed a bug where data from some third-party field types were not saving correctly.
+
+## 5.0.6<TitleDate date="2024-07-12" />
+
+### Fixed
+- Fixed a bug where installation of Craft CMS would break if the Calendar plugin was enabled in Project Config.
+- Fixed a bug where using the `groupedByWeek()` method returns an error.
+
+## 5.0.5<TitleDate date="2024-06-07" />
+
+### Changed
+- Replaced the custom `UpdateEventsUriJob` with Craft's `UpdateElementSlugsAndUris` job to correctly parse URI parameters.
+- Updated the plugin icon with subtle improvements for Craft 5.
+
+### Fixed
+- Fixed a bug where CP breadcrumbs for events in Craft 5 were not displaying correctly.
+- Fixed a bug where viewing an event in the CP would sometimes error in Craft 4.
+
+## 5.0.4<TitleDate date="2024-05-09" />
+
+### Added
+- Added favicons to the demo templates.
+- Added `calendar/events/fix-titles` CLI command to fix the migration of Element titles for sites that have upgraded from Craft 4 to Craft 5. This command needs to be run once after the migration.
+
+### Changed
+- Updated the `nesbot/carbon` dependency to include `^3.0.0"`.
+- Updated Calendar to support Carbon 3.x.
+
+### Fixed
+- Fixed a bug where reoccurring events were not returning when using batch calls.
+- Fixed a number of breadcrumbs throughout Calendar control panel pages.
+
+## 5.0.3<TitleDate date="2024-04-08" />
+
+### Changed
+- Updated the `symfony/property-access`, `symfony/finder`, and `symfony/filesystem` dependencies to include `^7.0`.
+
+## 5.0.2<TitleDate date="2024-04-04" />
+
+### Added
+- Added `selectDatesAsDatesLocalized` and `exceptionsLocalized` to aid with timezone issues when using `|date` to translate dates.
+
+### Fixed
+- Fixed a bug where running any GraphQL query would result in an Internal Server Error.
+- Fixed a bug where events with "Selected Dates" repeat rules would not always save correctly via a front-end form.
+
+## 5.0.1<TitleDate date="2024-04-03" />
+
+### Fixed
+- Fixed several potential issues with queries to better support prefixes and updated variable names to be more meaningful.
+
+## 5.0.0<TitleDate date="2024-03-26" />
+
+### Added
+- Added compatibility with Craft 5.x (in addition to Craft 4.x).
+
+### Changed
+- Updated plugin icon.
+- Removed _Resources_ area in control panel.

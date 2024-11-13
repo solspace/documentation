@@ -1,0 +1,398 @@
+---
+sidebar_position: 1
+title: AJAX Forms
+---
+
+# AJAX Forms with Freeform
+
+Freeform includes its own built-in AJAX support for single and multi-page forms. To enable it, simply check the **Enable AJAX** checkbox in the _Form Settings_ tab inside the form builder for any forms you wish to have it apply to. Freeform will then handle the rest. You may, however, override part of this and/or implement your own AJAX solution. If you need to use a manual approach for the AJAX call, usually because some sort of framework is used to generate the form such as [Vue.js](https://vuejs.org/), please see the [Manual Implementations](#manual-implementations) guide further below.
+
+The Freeform [javascript plugin](../../developer/js-plugin.mdx) handles AJAX functionality and all other JS needed (such as Date fields, conditional rules, Stripe payments and more). Much of the default functionality (formatting, language, etc) can be overridden if necessary. See the [customization](#customization) reference guide below.
+
+:::tip
+[Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../testing/troubleshooting-form-issues.mdx)
+:::
+
+## Caveats
+
+- **Payments**: When using Freeform's [Stripe Payments](../../integrations/stripe-payments.mdx) feature, Freeform will automatically force AJAX mode on the form in order to work with Stripe's validation.
+- **Manual Formatting**: When not using a formatting template, this can cause issues with some of Freeform's AJAX autoload features. Whenever possible, you should use a formatting template. However, you can work around it if using your own AJAX, however. [See the guide below](#not-using-a-formatting-template).
+- **Editing**: Editing existing submissions via the front end in multi-page AJAX forms will currently not work correctly.
+- **Multiple Forms**: If loading the same form more than once in the same template, be sure to specify the `id` parameter for each instance so that AJAX submit can account for this.
+
+## Customization
+
+The built-in AJAX functionality lets you completely customize the way your forms work if you're not satisfied with anything in the provided defaults.
+
+:::info
+Be sure to check out the [Freeform Javascript plugin](../../developer/js-plugin.mdx) documentation, to learn how to further extend Freeform's functionality.
+:::
+
+### Customize Success & Error Messages
+
+If you only need to customize the error messages, you can do so by overriding the defaults like this:
+
+```js showLineNumbers
+// Change success and error messages for all forms on this page
+document.addEventListener('freeform-ready', function (event) {
+  // Customize the error and success messages
+  event.options.successBannerMessage = 'My custom success message';
+  event.options.errorBannerMessage = 'My custom error message';
+});
+
+// You can also add this only to a specific form, by listening to the
+// "freeform-ready" event on the specific form.
+const form = document.getElementById('my-form');
+form.addEventListener('freeform-ready', function (event) {
+  // Customize the error and success messages
+  event.options.successBannerMessage = 'My custom success message';
+  event.options.errorBannerMessage = 'My custom error message';
+});
+```
+
+### Customize Success & Error Banner Styles
+
+A more elaborate example below shows how you can customize the way error and success messages are rendered:
+
+```js showLineNumbers
+// Find the form element
+const form = document.getElementById('my-form');
+form.addEventListener('freeform-ready', function (event) {
+  // Override the error and success message element class names
+  event.options.errorClassBanner = 'my-custom-error-banner';
+  event.options.errorClassList = 'my-custom-errors-list';
+  event.options.errorClassField = 'this-field-has-errors';
+  event.options.successClassBanner = 'my-custom-success-banner';
+});
+
+// Override the way those messages are removed
+form.addEventListener('freeform-remove-messages', function () {
+  // Prevent the default behaviour
+  event.preventDefault();
+
+  form.querySelectorAll('.my-custom-error-banner').forEach(function (element) {
+    element.remove();
+  });
+  form
+    .querySelectorAll('.my-custom-success-banner')
+    .forEach(function (element) {
+      element.remove();
+    });
+  form.querySelectorAll('.my-custom-errors-list').forEach(function (element) {
+    element.remove();
+  });
+});
+
+// Override the way form submit success message is displayed
+form.addEventListener('freeform-render-success', function () {
+  // Prevent the default behaviour
+  event.preventDefault();
+
+  const successMessage = document.createElement('div');
+  successMessage.classList.add('my-custom-success-banner');
+  successMessage.appendChild(
+    document.createTextNode('Form submitted successfully')
+  );
+
+  form.insertBefore(successMessage, this.form.childNodes[0]);
+});
+
+// Override the way form errors are displayed
+form.addEventListener('freeform-render-form-errors', function (event) {
+  // Prevent the default behaviour
+  event.preventDefault();
+
+  const errors = event.errors;
+  const errorBlock = document.createElement('div');
+  errorBlock.classList.add('my-custom-errors-banner');
+
+  const paragraph = document.createElement('p');
+  paragraph.appendChild(document.createTextNode('Form contains errors!'));
+  errorBlock.appendChild(paragraph);
+
+  if (errors.length) {
+    const errorsList = document.createElement('ul');
+    for (let messageIndex = 0; messageIndex < errors.length; messageIndex++) {
+      const message = errors[messageIndex];
+      const listItem = document.createElement('li');
+
+      listItem.appendChild(document.createTextNode(message));
+      errorsList.appendChild(listItem);
+    }
+
+    errorBlock.appendChild(errorsList);
+  }
+
+  form.insertBefore(errorBlock, this.form.childNodes[0]);
+});
+
+// Override the way field errors are displayed
+form.addEventListener('freeform-render-field-errors', function (event) {
+  // Prevent the default behaviour
+  event.preventDefault();
+
+  const errors = event.errors;
+  for (const key in errors) {
+    if (!errors.hasOwnProperty(key) || !key) {
+      continue;
+    }
+
+    const messages = errors[key];
+    const errorsList = document.createElement('ul');
+    errorsList.classList.add('my-custom-errors-list');
+
+    for (let messageIndex = 0; messageIndex < messages.length; messageIndex++) {
+      const message = messages[messageIndex];
+      const listItem = document.createElement('li');
+      listItem.appendChild(document.createTextNode(message));
+      errorsList.appendChild(listItem);
+    }
+
+    const inputList = form.querySelectorAll(
+      '*[name=' + key + "], *[name='" + key + "[]']"
+    );
+    for (let inputIndex = 0; inputIndex < inputList.length; inputIndex++) {
+      const input = inputList[inputIndex];
+      input.classList.add('this-field-has-errors');
+      input.parentElement.appendChild(errorsList);
+    }
+  }
+});
+```
+
+### Display Success Banner at Bottom
+
+If you wish to display the success banner at the bottom of the form, here's an example of how to do so. The success banner will have the class `ff-form-success` added to it, which will allow it to be automatically removed again on consequent saves.
+
+```twig showLineNumbers
+{{ freeform.form("myForm").render }}
+
+<script>
+    var form = document.querySelector('form');
+    form.addEventListener('freeform-render-success', function (event) {
+        event.preventDefault();
+
+        var freeform = event.freeform;
+        var success = document.createElement('div');
+        success.classList.add(freeform.options.successClassBanner);
+        success.appendChild(document.createTextNode('Form submitted successfully'));
+
+        form.appendChild(success);
+    });
+</script>
+```
+
+### Override Form Builder
+
+If you have something like **Reload Form with Success Message** for the _Success Behavior_ setting in the form builder, but wish to override the form inside your template to redirect to a URL upon successful AJAX submit instead, be sure to specify the `returnUrl` parameter and then add some some JS to your page template. See example below:
+
+```twig showLineNumbers
+{{ freeform.form("myFormHandle", {id: 'my-form'}).render() }}
+
+<script>
+    // Find the form element
+    const myForm = document.getElementById('my-form');
+    // Do something on a successful ajax submit
+    myForm.addEventListener('freeform-ajax-success', function(event) {
+        // Redirect the user
+        if (event.response.finished) {
+            window.location.href = event.response.returnUrl;
+        }
+    })
+</script>
+```
+
+### Not Using a Formatting Template
+
+When not using a formatting template, this can cause issues with some of Freeform's AJAX autoload features. When using AJAX and the **Reload Form with Success Message** success behavior, Freeform will swap the form contents with the formatting template specified in the form builder for that form (whether or not you're actually using it). This can have an undesirable results. If you wish to just have Freeform reload your existing formatting markup (inside the regular template), you can add the `data-skip-html-reload` attribute to the form. This can be added one of 2 ways:
+
+1. Inside the form builder:
+   - Open the form builder for the given form.
+   - Open the form settings tab (cog/gear icon).
+   - In the _Form tag Attributes_ area, add `data-skip-html-reload` as the **Attribute** and leave the **Value** empty.
+   - Save the form.
+2. Inside your regular template:
+   - Open the regular template that contains the form.
+   - Add the `formAttributes: { "data-skip-html-reload": true },` parameter to your [Form query](../../templates/queries/form.mdx).
+
+## Advanced
+
+To attach your own functionality when the AJAX form successfully submits or fails, you have to listen to the respective events dispatched by the [Freeform JS plugin](../../developer/js-plugin.mdx). For instance, redirecting after an AJAX submit is finished:
+
+```js showLineNumbers
+// Find the form element
+const form = document.getElementById('my-form');
+
+// Do something on a successful ajax submit
+form.addEventListener('freeform-ajax-success', function (event) {
+  const response = event.response;
+
+  // Redirect the user
+  window.location.href = response.returnUrl;
+
+  // or check if submission limit is reached
+  if (response.duplicate) {
+    // Toggle the form so the visitor cannot attempt resubmitting
+    // or maybe display a message on screen.
+  }
+});
+
+// Do something on a failed ajax submit
+form.addEventListener('freeform-ajax-error', function (event) {
+  // Do whatever checks on errors you need to do, if any
+  const errors = event.errors;
+  const formErrors = event.formErrors;
+  const response = event.response;
+
+  // Redirect the page using the response's return URL
+  window.location.href = response.returnUrl;
+});
+
+// Do something after every ajax submit is completed, regardless of it being successful or not
+form.addEventListener('freeform-ajax-after-submit', function (event) {
+  alert('the AJAX call was finished.');
+});
+```
+
+## Manual Implementations
+
+There are cases when an AJAX call has to be made manually. Usually it is because some sort of framework is used to generate the form, such as [Vue.js](https://vuejs.org/). All you need to do when making a manual AJAX request is pass the AJAX specific headers within the request:
+
+```js showLineNumbers
+{
+    "X-Requested-With": "XMLHttpRequest"
+    "HTTP_X_REQUESTED_WITH": "XMLHttpRequest"
+}
+```
+
+:::info
+By default, Freeform will assume you're using its own built-in AJAX. To prevent Freeform from interfering with your custom AJAX implementation, you should also add a `data-skip-html-reload` form attribute to your form.
+:::
+
+Here are some examples:
+
+- [Plain JS](#plain-js)
+- [Axios](#axios)
+
+### Plain JS
+
+To create an AJAX request using regular plain javascript, follow this example:
+
+```js showLineNumbers
+// Find the form element
+var form = document.getElementById('my-form');
+
+// Add the on-submit event listener
+form.addEventListener('submit', ajaxifyForm, false);
+
+function ajaxifyForm(event) {
+  var form = event.target;
+  var data = new FormData(form);
+
+  var method = form.getAttribute('method');
+  var action = form.getAttribute('action');
+
+  var request = new XMLHttpRequest();
+  request.open(method, action ? action : window.location.href, true);
+  request.setRequestHeader('Cache-Control', 'no-cache');
+
+  // Set the Craft specific AJAX headers
+  request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+  request.setRequestHeader('HTTP_X_REQUESTED_WITH', 'XMLHttpRequest');
+
+  request.onload = function () {
+    if (request.status === 200) {
+      var response = JSON.parse(request.response);
+
+      if (response.success && response.finished) {
+        form.reset();
+        alert('Form posted successfully');
+      } else if (response.errors || response.formErrors) {
+        console.log('Field Errors', response.errors);
+        console.log('Form Errors', response.formErrors);
+
+        alert('Form failed to submit');
+      }
+
+      // Update the Honeypot field if using Javascript Test
+      if (response.honeypot) {
+        var honeypotInput = form.querySelector(
+          'input[name^=freeform_form_handle_]'
+        );
+        honeypotInput.setAttribute('name', response.honeypot.name);
+        honeypotInput.setAttribute('id', response.honeypot.name);
+        honeypotInput.value = response.honeypot.hash;
+      }
+    } else {
+      console.error(request);
+    }
+  };
+
+  request.send(data);
+  event.preventDefault();
+}
+```
+
+### Axios
+
+To create an AJAX request using the [Axios](https://github.com/axios/axios) library, follow this example:
+
+```js showLineNumbers
+// Find the form element
+var form = document.getElementById('my-form');
+
+// Add the on-submit event listener
+form.addEventListener('submit', ajaxifyForm, false);
+
+function ajaxifyForm(event) {
+  var form = event.target;
+  var data = new FormData(form);
+
+  var method = form.getAttribute('method');
+  var action = form.getAttribute('action');
+
+  axios({
+    url: action ? action : window.location.href,
+    method: method ? method : 'post',
+    data: data,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      HTTP_X_REQUESTED_WITH: 'XMLHttpRequest',
+    },
+  })
+    .then(function (responseObject) {
+      var response = responseObject.data;
+
+      if (response.success && response.finished) {
+        form.reset();
+        alert('Form posted successfully');
+      } else if (response.errors || response.formErrors) {
+        console.log('Field Errors', response.errors);
+        console.log('Form Errors', response.formErrors);
+
+        alert('Form failed to submit');
+      }
+
+      // Update the Honeypot field if using Javascript Test
+      if (response.honeypot) {
+        var honeypotInput = form.querySelector(
+          'input[name^=freeform_form_handle_]'
+        );
+        honeypotInput.setAttribute('name', response.honeypot.name);
+        honeypotInput.setAttribute('id', response.honeypot.name);
+        honeypotInput.value = response.honeypot.hash;
+      }
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+
+  event.preventDefault();
+}
+```
+
+Have a look at our headless demos to get a feel for what's possible with Ajax:
+
+- [VueJS + AJAX demo for Freeform 4.x for Craft](https://github.com/solspace/craft-freeform-demo-vuejs-ajax)
+- [ReactJS + AJAX demo for Freeform 4.x for Craft](https://github.com/solspace/craft-freeform-demo-reactjs-ajax)
+- [NextJS + AJAX demo for Freeform 4.x for Craft](https://github.com/solspace/craft-freeform-demo-nextjs-ajax)

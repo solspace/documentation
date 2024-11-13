@@ -1,0 +1,342 @@
+---
+title: Changelog
+sidebar_label: Changelog
+sidebar_position: 3
+---
+
+import { TitleDate } from '@site/src/components/docs'
+
+## 3.3.21<TitleDate date="2023-03-23" />
+
+### Fixed
+- Fixed a bug where events were not loading with PostgreSQL.
+- Fixed a bug where an `argument must be of type string, array given` error could occur in rare cases.
+
+## 3.3.20<TitleDate date="2023-02-21" />
+
+### Changed
+- Reverted the Status area improvements in the Calendar create/edit event page due to conflicts with field translations.
+
+## 3.3.19<TitleDate date="2023-02-15" />
+
+### Changed
+- Improved Calendar date field logic to only reset End Time when the Start Time is set past it.
+- Updated the Status area in the Calendar create/edit event page to be a closer match to native Craft Entries.
+
+## 3.3.18<TitleDate date="2023-01-17" />
+
+### Added
+- Added `cp.solspace.calendar.filters` hook to customize calendar filters in the CP Month/Week/Day view.
+
+### Changed
+- Updated `symfony/property-access`, `symfony/finder` and `symfony/filesystem` dependency version requirements to resolve potential conflicts.
+
+## 3.3.17<TitleDate date="2022-12-27" />
+
+### Fixed
+- Fixed a bug where duplicating calendars no longer worked due to the removal of dash `-` in validation.
+- Fixed a bug where ordering by `endDate DESC` would not return the latest event end date in GraphQL.
+- Fixed a bug where `uri` and `typeHandle` were unavailable for events in GraphQL.
+
+## 3.3.16<TitleDate date="2022-09-12" />
+
+### Fixed
+- Fixed a bug where calendars with no fields in the layout would error when attempting to create new events.
+
+## 3.3.15<TitleDate date="2022-08-02" />
+
+### Changed
+- Changed the package name from `solspace/craft3-calendar` to `solspace/craft-calendar`.
+
+### Fixed
+- Fixed a bug where calendar handles could have dashes in them.
+- Fixed a bug where saving an event with required fields in a multi-site environment could miss some error validation.
+
+## 3.3.14<TitleDate date="2022-07-27" />
+
+### Added
+- Added an on-demand option (`addFirstOccurrenceDate()`) to display the first occurrence date result in an occurrences list of events that use the "Select Dates" repeat rule.
+
+### Fixed
+- Fixed a bug where some sites making heavy use of the "Select Dates" repeat rule could experience performance issues.
+
+## 3.3.13.1<TitleDate date="2022-06-28" />
+
+### Fixed
+- Fixed a bug where fields that are not translatable were still being translated per site.
+- Fixed a bug where the End Repeat date was overriding the Start Date (in 3.3.13 only).
+
+## 3.3.13<TitleDate date="2022-06-28" />
+
+### Added
+- Added `defineRules` to `CalendarModel` so users can define their validation rulesets.
+
+### Fixed
+- Fixed a bug where removing event occurrences from the CP Month/Week/Day view pages would sometimes use the day before, depending on your timezone.
+- Fixed a bug where events that had exceptions for all occurrences would throw an error in the CP.
+- Fixed a bug where mass changing of event statuses was allowed when the user did not have the correct permissions.
+- Fixed a bug where `siteId` was not available in the GraphQL Event Interface.
+- Fixed a potential PHP 8.1 compatibility issue.
+
+## 3.3.12<TitleDate date="2022-05-25" />
+
+### Fixed
+- Fixed a bug where editing existing events could trigger an error if using multiple sites in Craft 3.7.42+.
+
+## 3.3.11<TitleDate date="2022-04-25" />
+
+### Changed
+- Updated the Preview button to only be visible for saved events. Live Preview will only work with saved elements or ones with a saved draft, which is not currently available.
+
+### Fixed
+- Fixed a bug where deleting an event from inside the event edit page would not work.
+- Fixed a bug where an error would show when using the "Save and add another" feature while creating a new calendar.
+- Fixed a bug where displaying event recurrences could sometimes error.
+
+## 3.3.10<TitleDate date="2022-04-21" />
+
+### Fixed
+- Fixed a bug where various repeat rules were no longer working correctly when creating and editing events in the front end.
+- Fixed a bug where events that repeat on "Select Dates" do not include the original event date as an occurrence in some areas of Calendar.
+
+## 3.3.9<TitleDate date="2022-03-01" />
+
+### Fixed
+- Fixed a bug where user groups and sites were not always being processed before performing project config updates.
+- Fixed a bug where a database table alias in a query could break on some sites.
+- Fixed a bug where passing GraphQL field definitions through `TypeManager` to fetch custom fields wouldn't always work.
+- Fixed a bug where the "Restrict users to editing their own events only?" would not apply correctly on the front end templates.
+- Fixed an issue where calling `Carbon::clone()` did not work for some sites.
+- Fixed a bug where `EventQuery::count()` was not being compatible with the interface signature for PHP 8.1.
+
+## 3.3.8<TitleDate date="2021-12-27" />
+
+### Fixed
+- Fixed a bug where updates to Calendar via Project Config wouldn't always work on the first attempt.
+- Fixed a bug where Calendar was not automatically resaving Event URI paths in the database when making changes to the path in the calendar settings.
+- Fixed a bug where events that spanned multiple days/weeks/months could potentially cause issues with the month/week/day groupedBy methods.
+- Fixed a bug where editing the "Select Dates" and "Exceptions" of events in the Element editor slideout were not working.
+- Fixed a bug where attempting to edit any event data in Live Preview mode would make no difference at all.
+
+## 3.3.7.1<TitleDate date="2021-11-30" />
+
+### Fixed
+- Adjusted the 3.3.7 migration for primary key column in the `calendar_events` table to check if one already exists.
+
+## 3.3.7<TitleDate date="2021-11-09" />
+
+### Changed
+- Updated minimum Craft version requirement to 3.6+ to account for supporting GraphQL features.
+
+### Fixed
+- Fixed a bug where the `calendar_events` table did not have a primary key column for MySQL 8 support.
+- Fixed a bug where there could be potential performance issues when loading CP Month/Week/Day view pages.
+- Fixed a bug where Calendar permissions were using IDs instead of UIDs.
+- Fixed a bug where `groupedByMonth()` and others were display an error when no events were found.
+
+## 3.3.5<TitleDate date="2021-09-21" />
+
+### Added
+- Added support for Craft 3.7+ element Slideout Editor.
+
+### Fixed
+- Fixed a bug where reordering events in the Calendar Events relation field would not work.
+
+## 3.3.4<TitleDate date="2021-09-15" />
+
+### Fixed
+- Fixed a bug where some native Element query arguments would not work with Calendar in GraphQL.
+- Fixed a bug where `loadOccurrences` in GraphQL would not allow `int` values.
+
+## 3.3.3<TitleDate date="2021-07-30" />
+
+### Fixed
+- Fixed a bug where installing Craft with Calendar via Project Config would trigger an error about the default calendar.
+- Fixed a bug where disabled events could not be deleted from the CP Month/Week/Day views.
+
+## 3.3.2<TitleDate date="2021-07-06" />
+
+### Added
+- Added `url`, `slug`, `multiDay` and `duration` GraphQL variables to the event query.
+
+### Changed
+- Adjusted the `z-index` of date and time pickers for better compatibility with other plugins.
+
+### Fixed
+- Fixed a bug where sites with PostgreSQL could fail while running the update migration.
+- Fixed a bug where some field labels were not translatable in the event editor.
+
+## 3.3.1<TitleDate date="2021-06-16" />
+
+### Fixed
+- Fixed a bug where GraphQL support did not work with regular fields.
+- Fixed a bug where the Site dropdown menu for the CP Month/Week/Day views would not filter out sites without calendars.
+- Fixed a bug where sites with PostgreSQL could fail while running the update migration.
+- Fixed a bug where the "Install Demo Templates" banner would re-appear after updates.
+
+## 3.3.0<TitleDate date="2021-05-26" />
+
+:::warning
+Calendar 3.3+ introduces support for Project Config on calendar settings and layouts. This means that if you have the `allowAdminChanges` Craft config setting set to `false`, that environment will no longer be able to add or modify calendars.
+:::
+
+### Added
+- Added support for GraphQL.
+- Added support for Project Config on calendar settings and layouts.
+- Added a Time Format setting to optionally override formatting of times in the Calendar control panel for all users.
+- Added the ability to duplicate calendars.
+- Added ability to set/change the status of multiple events from the CP Event index page.
+
+### Fixed
+- Fixed a bug where using the quick create event feature for an event that belongs to a calendar that is NOT enabled for the primary Craft site would not work.
+- Fixed a bug where creating new events using the "New Event" dropdown from the CP Month/Week/Day views for calendars that don't have the primary Craft site enabled would run into issues.
+- Fixed a bug where not specifying the `FREQ` setting for Calendar Feed Me mapping would cause the import to fail.
+- Fixed a bug where saving and continuing a calendar would give a "Request contained an invalid body param" error.
+- Fixed a bug where "Slug" was missing from the column options in the CP Events list index view.
+
+## 3.2.1<TitleDate date="2021-02-25" />
+
+### Fixed
+- Fixed a bug where ICS fields were not selectable from the custom field layout for each calendar.
+- Fixed a bug where the Feed Me integration would not work smoothly in some cases with repeating events.
+- Fixed a bug where the Feed Me integration might error when using relationship fields.
+
+## 3.2.0<TitleDate date="2021-02-11" />
+
+### Added
+- Added official support for importing data to Calendar events via the Craft Feed Me plugin.
+
+## 3.1.0<TitleDate date="2021-01-28" />
+
+### Changed
+- Updated the file structure of the Calendar plugin and updated Resources areas to show latest support options, etc.
+
+## 3.0.15<TitleDate date="2020-11-24" />
+
+### Fixed
+- Fixed a bug where the front end Guest Access feature could error in some cases.
+
+## 3.0.14<TitleDate date="2020-10-23" />
+
+### Added
+- Added `previousDateLocalized` and `nextDateLocalized` property as a more reliable replacement for `previousDate` and `nextDate` when needing to use `|date` filter on `month`/`week`/`day` objects to display translatable dates in calendar views.
+
+### Fixed
+- Fixed a bug where Live Preview was not working correctly for non-Calendar fields in Craft 3.5+.
+
+## 3.0.13<TitleDate date="2020-10-06" />
+
+### Fixed
+- Fixed a bug where the Occurrences object's default was not loading correctly for some recurring events.
+- Fixed a bug where the Events CP index could trigger errors after upgrading from Craft 2 for installs that use database table prefixes.
+- Fixed a bug where calendars on single-site installs were not taking into account the event enabled/disabled state in calendar site settings when creating new events.
+
+## 3.0.12<TitleDate date="2020-08-19" />
+
+### Added
+- Added a datepicker to the CP Month/Week/Day views to allow for much quicker navigating to months/weeks/days in the distant past or future.
+- Added ability to set 5 and 10 minute time picker increments in addition to the previous 15, 30 and 60 minute increments.
+
+### Fixed
+- Fixed a bug where manually editing an end time was not possible at times.
+- Fixed a bug where Calendar event elements could not be reordered inside the element fieldtype.
+
+## 3.0.11<TitleDate date="2020-07-29" />
+
+### Fixed
+- Fixed an issue where creating and editing events would trigger a deprecation notice about `enabledForSite`.
+
+## 3.0.10<TitleDate date="2020-07-24" />
+
+### Changed
+- Updated Calendar field layouts to now include support for Craft 3.5+ layout column improvements.
+
+### Fixed
+- Fixed some compatibility issues with Craft 3.5+.
+
+## 3.0.9<TitleDate date="2020-07-17" />
+
+### Fixed
+- Fixed a bug where Calendar was no longer compatible with PHP 7.0.
+
+## 3.0.8<TitleDate date="2020-07-14" />
+
+### Fixed
+- Fixed a bug where saving events in some time formats would error about the Post Date.
+
+## 3.0.7<TitleDate date="2020-07-08" />
+
+### Fixed
+- Fixed a bug where the 3.0.5 Post Date migration would fail for sites with a custom table prefix.
+
+## 3.0.6<TitleDate date="2020-07-08" />
+
+### Fixed
+- Fixed a bug where attempting to filter event results on `postDate` in front end templates was not working.
+- Fixed a bug where the 3.0.5 Post Date migration would fail for PostgreSQL users.
+
+## 3.0.5<TitleDate date="2020-07-06" />
+
+### Fixed
+- Fixed a bug where Post Dates were not being recorded correctly for events.
+
+## 3.0.4<TitleDate date="2020-06-04" />
+
+### Added
+- Added `./craft calendar/events/resave` console command for the ability to resave all Calendar events. Most of the arguments available to `resave/entries` are available too, so if you need to also update the Craft Search Index, be sure to add `--update-search-index`.
+
+### Changed
+- Updated ICS subscriptions to allow passing of `site=siteHandle` into the URL to specify a certain site's translation of the data.
+
+### Fixed
+- Fixed a bug where some CP Month/Week/Day views didn't work correctly with Craft 3.4.18+ update to jQuery.
+- Fixed a bug where saving "late night" events that overflow into the next day might not load correctly in the UI when editing.
+- Fixed a bug where clicking the EDIT button inside the CP Month/Week/Day views on an event was not being linked correctly to include the site handle.
+
+## 3.0.3<TitleDate date="2020-04-28" />
+
+### Fixed
+- Fixed a bug where pagination and element results count was not displaying on CP Events index page.
+- Fixed a bug where adding multi-day events to FullCal JS demo template were not displaying correctly when first added.
+- Fixed a bug where creating new events that started late at night and needed to end after midnight were not correctly being accounted for.
+- Fixed a bug where the main asset bundle wasn't loaded for action requests anymore.
+
+## 3.0.2<TitleDate date="2020-02-21" />
+
+### Added
+- Added `dateLocalized` property as a more reliable replacement for `date` when needing to use `|date` filter on `month`/`week`/`day` objects to display translatable date headings or highlight 'today' in calendar views.
+
+### Fixed
+- Fixed a bug where `startDateLocalized` and `endDateLocalized` were not working correctly.
+
+## 3.0.1<TitleDate date="2020-02-20" />
+
+### Fixed
+- Fixed a bug where some timezones would see incorrect behaviour with Month/Week/Day template functions.
+
+## 3.0.0<TitleDate date="2020-02-04" />
+
+:::warning
+This major version introduces editions support ('Lite' edition introduced - existing customers 'Standard' licenses become 'Pro' licenses) and requires Craft 3.4+ as well. Please ensure you have a recent database backup, and we recommend you test the update on a local/staging environment before updating your production server. [Please follow the upgrading guide available here](https://docs.solspace.com/craft/calendar/v3/setup/updating-calendar-2.html)!
+:::
+
+### Added
+- Added Lite edition for Calendar for simpler setups. The key differences are no ICS export/subscriptions, repeating rules, dashboard widgets and renaming of plugin name.
+- Added ability to group a list of upcoming events by day, week or month, and display a heading for each.
+- Added ability to show a list of upcoming events, but only display one (or a specified amount) of the next upcoming recurrences for repeating events, instead of all available ones.
+- Added setting to disable (hide) the repeat rule options per calendar when editing/creating events.
+- Added a 'Calendars' fieldtype, which allows for relating an entire calendar (ID) to other Craft elements.
+- Added a setting that allows you to force a first day of week (overriding anything else in current locale-based behavior) for all users.
+- Added ability to rename the plugin (Pro).
+
+### Changed
+- Overhauled the Create/Edit event UI to be more intuitive and also match Craft 3.4 styling.
+- Updated dashboard widgets to be able to display data from other Craft sites, not just the current site.
+- Improved demo templates to be a bit cleaner and easier to understand.
+
+### Fixed
+- Fixed a bug where the "Restrict users to editing their own events only?" feature was not working.
+- Fixed a bug where if you use the Select Dates repeat rule and there's a required field that is empty, when you attempt to save the event, it'll return a hard error.
+- Fixed a bug where clicking on any day number in the mini calendar in CP Month/Week/Day views and Dashboard Widget return an `Invalid data received for parameter "month".` error.
+- Fixed a bug where using the 'Save and continue editing' option while creating a new event would advance to a different Site instead of staying on the current one.
+- Fixed various IE11 display issues.

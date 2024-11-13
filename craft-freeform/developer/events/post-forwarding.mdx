@@ -1,0 +1,36 @@
+---
+sidebar_position: 11
+---
+
+# Post Forwarding
+
+## Modify the POST payload
+
+Use this event to add/remove things to the posted payload or make modifications to the Guzzle Client and Request objects.
+
+```php showLineNumbers
+use Solspace\Freeform\Events\PostForwarding\PostForwardingEvent;
+use Solspace\Freeform\Integrations\Single\PostForwarding\PostForwarding;
+
+Event::on(
+    PostForwarding::class,
+    PostForwarding::EVENT_POST_FORWARDING,
+    function (PostForwardingEvent $event) {
+        // Get the existing payload
+        $payload = $event->getPayload();
+
+        // Add something to it
+        $payload['addedThing'] = 'This is an added thing';
+
+        // Remove several of the default items from it
+        unset(
+            $payload['submission-id'],
+            $payload['submission-token'],
+            $payload['submission-title']
+        );
+
+        // Persist our new changes in the event
+        $event->setPayload($payload);
+    }
+);
+```

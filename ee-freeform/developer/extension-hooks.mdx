@@ -1,0 +1,295 @@
+---
+sidebar_position: 1
+title: 'Extension Hooks'
+---
+
+# Extension Hooks
+
+If you wish to extend the capabilities of Freeform, you can use any of the extension hooks below:
+
+## Forms
+
+### Before Submit
+
+`freeform_next_form_before_submit` is called before submitting a form. Contains these parameters:
+
+- `form` - the `Form` object
+
+### After Submit
+
+`freeform_next_form_after_submit` is called after submitting a form. Contains these parameters:
+
+- `form` - the `Form` object
+- `submission` - the `SubmissionModel` object if the form is set to store data
+
+### Before Save
+
+`freeform_next_form_before_save` is called before saving a form. Contains these parameters:
+
+- `model` - the `FormModel`
+- `isNew` - boolean value
+
+### After Save
+
+`freeform_next_form_after_save` is called after saving a form. Contains these parameters:
+
+- `model` - the `FormModel`
+- `isNew` - boolean value
+
+### Before Delete
+
+`freeform_next_form_before_delete` is called before deleting a form. Contains these parameters:
+
+- `model` - the `FormModel`
+
+### After Delete
+
+`freeform_next_form_after_delete` is called after deleting a form. Contains these parameters:
+
+- `model` - the `FormModel`
+
+## Submissions
+
+### Before Save
+
+`freeform_next_submission_before_save` is called before saving a submission. Contains these parameters:
+
+- `model` - the `SubmissionModel`
+- `isNew` - boolean value
+
+### After Save
+
+`freeform_next_submission_after_save` is called after saving a submission. Contains these parameters:
+
+- `model` - the `SubmissionModel`
+- `isNew` - boolean value
+
+### Before Delete
+
+`freeform_next_submission_before_delete` is called before deleting a submission. Contains these parameters:
+
+- `model` - the `SubmissionModel`
+
+### After Delete
+
+`freeform_next_submission_after_delete` is called after deleting a submission. Contains these parameters:
+
+- `model` - the `SubmissionModel`
+
+## Fields
+
+### Before Save
+
+`freeform_next_field_before_save` is called before saving a field. Contains these parameters:
+
+- `model` - the `FieldModel`
+- `isNew` - boolean value
+
+### After Save
+
+`freeform_next_field_after_save` is called after saving a field. Contains these parameters:
+
+- `model` - the `FieldModel`
+- `isNew` - boolean value
+
+### Before Delete
+
+`freeform_next_field_before_delete` is called before deleting a field. Contains these parameters:
+
+- `model` - the `FieldModel`
+
+### After Delete
+
+`freeform_next_field_after_delete` is called after deleting a field. Contains these parameters:
+
+- `model` - the `FieldModel`
+
+## Notifications
+
+### Before Save
+
+`freeform_next_notification_before_save` is called before saving a notification. Contains these parameters:
+
+- `model` - the `NotificationModel`
+- `isNew` - boolean value
+
+### After Save
+
+`freeform_next_notification_after_save` is called after saving a notification. Contains these parameters:
+
+- `model` - the `NotificationModel`
+- `isNew` - boolean value
+
+### Before Delete
+
+`freeform_next_notification_before_delete` is called before deleting a notification. Contains these parameters:
+
+- `model` - the `NotificationModel`
+
+### After Delete
+
+`freeform_next_notification_after_delete` is called after deleting a notification. Contains these parameters:
+
+- `model` - the `NotificationModel`
+
+## Statuses
+
+### Before Save
+
+`freeform_next_status_before_save` is called before saving a status. Contains these parameters:
+
+- `model` - the `StatusModel`
+- `isNew` - boolean value
+
+### After Save
+
+`freeform_next_status_after_save` is called after saving a status. Contains these parameters:
+
+- `model` - the `StatusModel`
+- `isNew` - boolean value
+
+### Before Delete
+
+`freeform_next_status_before_delete` is called before deleting a status. Contains these parameters:
+
+- `model` - the `StatusModel`
+
+### After Delete
+
+`freeform_next_status_after_delete` is called after deleting a status. Contains these parameters:
+
+- `model` - the `StatusModel`
+
+## File Uploads
+
+### Before Upload
+
+`freeform_next_file_before_upload` is called before uploading a file. Contains these parameters:
+
+- `field` - the `FileUploadField`
+
+### After Upload
+
+`freeform_next_file_after_upload` is called after uploading a file. Contains these parameters:
+
+- `field` - the `FileUploadField`
+- `fileId` - integer value
+
+## Mailing
+
+### Before Send
+
+`freeform_next_mailer_before_send` is called before sending an email. Contains these parameters:
+
+- `notification` - the `NotificationModel`
+- `submission` - the `SubmissionModel` if data is being stored for this form
+
+### After Send
+
+`freeform_next_mailer_after_send` is called after sending an email. Contains these parameters:
+
+- `isSent` - boolean value
+- `notification` - the `NotificationModel`
+- `submission` - the `SubmissionModel` if data is being stored for this form
+
+## CRM Integrations
+
+### Before Save
+
+`freeform_next_crm_before_save` is called before saving an integration. Contains these parameters:
+
+- `model` - the `IntegrationModel`
+- `isNew` - boolean value
+
+### After Save
+
+`freeform_next_crm_after_save` is called after saving an integration. Contains these parameters:
+
+- `model` - the `IntegrationModel`
+- `isNew` - boolean value
+
+### Before Delete
+
+`freeform_next_crm_before_delete` is called before deleting an integration. Contains these parameters:
+
+- `model` - the `IntegrationModel`
+
+### After Delete
+
+`freeform_next_crm_after_delete` is called after deleting an integration. Contains these parameters:
+
+- `model` - the `IntegrationModel`
+
+### Before Push
+
+`freeform_next_crm_before_push` is called before pushing data to an integration. Contains these parameters:
+
+- `integration` - the `AbstractIntegration`
+- `values` - a key-value object of all values to be pushed to the integration.
+
+### After Push
+
+`freeform_next_crm_after_push` is called after pushing data to an integration. Contains these parameters:
+
+- `integration` - the `AbstractIntegration`
+- `values` - a key-value object of all values that were pushed to the integration.
+
+## Mailing-List Integrations
+
+### Before Save
+
+`freeform_next_mailing_lists_before_save` is called before saving an integration. Contains these parameters:
+
+- `model` - the `IntegrationModel`
+- `isNew` - boolean value
+
+### After Save
+
+`freeform_next_mailing_lists_after_save` is called after saving an integration. Contains these parameters:
+
+- `model` - the `IntegrationModel`
+- `isNew` - boolean value
+
+### Before Delete
+
+`freeform_next_mailing_lists_before_delete` is called before deleting an integration. Contains these parameters:
+
+- `model` - the `IntegrationModel`
+
+### After Delete
+
+`freeform_next_mailing_lists_after_delete` is called after deleting an integration. Contains these parameters:
+
+- `model` - the `IntegrationModel`
+
+## Usage instructions
+
+Register any of the hooks listed above with your extension. An example below using the `freeform_next_form_before_save` hook using `form_before_save` method in our example extension object:
+
+```php
+<?php
+
+use Solspace\Addons\FreeformNext\Model\FormModel;
+
+class Example_ext
+{
+    // ... other code
+
+    /**
+     * Set all new Freeform forms to have random hash as their name and handle
+     *
+     * @param FormModel $model
+     * @param bool      $isNew
+     */
+    public function form_before_save(FormModel $model, $isNew)
+    {
+        if ($isNew) {
+            // Set the form's name and handle to some random hash
+            $model->name = md5(time());
+            $model->handle = $model->name;
+        }
+
+        // the model gets saved later on, no need to call save() here
+    }
+}
+```

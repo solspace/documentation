@@ -1,0 +1,61 @@
+---
+sidebar_position: 6
+---
+
+import Player from 'react-player';
+
+import { Photo } from '@site/src/components/utils';
+
+import DemoTemplatesPhoto from './assets/img/demo-templates.png';
+
+# Demo Templates
+
+Freeform includes a complete set of demo templates. These demo templates let you have a fully functioning area on your website with just a couple clicks! Further to this, it allows you to see real world examples of the template code in action, which will help you get acquainted with Freeform quicker.
+
+<Photo img={DemoTemplatesPhoto} alt="Demo Templates" />
+
+## Installing the Demo Templates
+
+To install the Demo Templates, simply visit the **Settings** page for Freeform and click on the **Demo Templates** nav item (**Freeform > Settings > Demo Templates**).
+
+By default, the Demo Templates page will have **freeform-demo** as the _Install Path_ for your template path. You can change this to whatever you like. So for example, if you set the _Install Path_ value as `my_precious`, the demo templates will be installed to **site.com/my_precious/**.
+
+During installation of demo templates, Freeform will copy the template folders and files (as shown on page) to the Craft **/templates/** directory. So using the above example, your templates would be located at **/templates/my-precious/**.
+
+Freeform will also look for an **assets** folder in your **public** directory and attempt to load files such as CSS, JS, fonts and image files (as shown on page) to a folder inside that, named **my-precious** (using the example above). If an **/assets/** directory does not exist, Freeform will attempt to create that directory as well.
+
+And lastly, Freeform will create several template routes for you (as shown on page) for the demo templates to work correctly.
+
+If you ever want to refresh the demo templates back to what they were by default (or if there's been an update to them in a new version), you can simply reinstall the Demo Templates and use the same _Install Path_ value. Freeform will then overwrite the files and only add new routes (if applicable), rather than installing duplicate routes.
+
+If you encounter any issues while attempting to install the demo templates, please see the [Troubleshooting](#troubleshooting) guide.
+
+## Troubleshooting
+
+If you encounter any issues trying to install the demo templates, it's likely that your database user does not have sufficient privileges or your server configuration does not allow some or all of the actions.
+
+If you cannot change or adjust your permissions or configuration, you can install the demo templates manually. To install them manually, refer to the [Manual Install](#manual-install) instructions below.
+
+## Manual Install
+
+To install the demo templates manually, just follow the instructions below:
+
+1. Inside the **/vendor/solspace/craft-freeform/packages/plugin/src/codepack/** directory, copy the **templates** folder into the Craft **/templates/** directory, and rename the Freeform **templates** folder to **demo** (so it should now be located at **/templates/demo/**).
+2. In your root public directory, create a directory called **assets** if it does not already exist.
+3. Inside the **/vendor/solspace/craft-freeform/packages/plugin/src/codepack/** directory, copy the **assets** folder into the public **/assets/** directory, and rename the Freeform **assets** folder to **demo** (so it should now be located at **/assets/demo/**).
+4. Copy and paste the following routes into your _routes.php_ configuration file (**/config/routes.php**):
+
+```php showLineNumbers
+'demo/bootstrap/<slug:[^\/]+>/submissions/<id\d+>/success'    => ['template' => 'demo/bootstrap/view_submission'],
+'demo/bootstrap/<slug:[^\/]+>/submissions/<id\d+>'            => ['template' => 'demo/bootstrap/view_submission'],
+'demo/bootstrap/<slug:[^\/]+>/submissions/edit/<token\w+>'    => ['template' => 'demo/bootstrap/edit_submission'],
+'demo/bootstrap/<slug:[^\/]+>/submissions/delete/<token\w+>'  => ['template' => 'demo/bootstrap/delete_submission'],
+'demo/bootstrap/<slug:[^\/]+>/submissions'                    => ['template' => 'demo/bootstrap/submissions'],
+'demo/bootstrap/<slug:[^\/]+>'                                => ['template' => 'demo/bootstrap/form'],
+'demo/bootstrap/<slug:[^\/]+>/success'                        => ['template' => 'demo/bootstrap/form'],
+'demo/custom/<slug:[^\/]+>'                                   => ['template' => 'demo/custom/form'],
+'demo/custom/<slug:[^\/]+>/success'                           => ['template' => 'demo/custom/form'],
+'demo/extras/suppress-edit-submissions/edit/<token\w+>'       => ['template' => 'demo/extras/suppress-edit-submissions'],
+```
+
+Visit your demo templates at: **yoursite.com/demo**

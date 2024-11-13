@@ -1,0 +1,80 @@
+---
+sidebar_position: 2
+---
+
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Passing a Custom Property to a Formatting Template
+
+Sometimes you may need to dynamically control what is displayed in a formatting template, e.g. toggle display of the form title, etc. This can be done by passing a custom property to the formatting template, eliminating the need to have duplicate, mostly-identical formatting templates.
+
+## Instructions
+
+<VerticalStepWrapper>
+<StepMarkdown>
+In your custom [formatting template](../../templates/formatting/index.mdx), add in a custom property. For the purpose of this example, we'll set up a conditional around the form title. We'll call that property `showFormTitle`. It can be accessed through `form.properties`.
+
+```twig showLineNumbers
+{% if form.properties.showFormTitle %}
+    <h2>{{ form.name }}</h2>
+{% endif %}
+```
+
+In a very basic formatting template, that might look something like this:
+
+```twig showLineNumbers {4-7}
+{# Opening <form> tag #}
+{{ form.renderTag }}
+
+{# Custom Property #}
+{% if form.properties.showFormTitle %}
+    <h2>{{ form.name }}</h2>
+{% endif %}
+
+{# Display Error banner and general errors if applicable #}
+{% if form.hasErrors %}
+    <div class="freeform-form-has-errors">
+        {{ "Error! Please review the form and try submitting again."|t('freeform') }}
+
+        {% if form.errors|length %}
+            <ul>
+                {% for error in form.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endif %}
+
+{# Render form fields #}
+{% for row in rows %}
+    {% set width = (12 / (row|length)) %}
+    <div{{ form.attributes.row|raw }}>
+        {% for field in row %}
+            {{ field.render() }}
+        {% endfor %}
+    </div>
+{% endfor %}
+
+{# Closing </form> tag #}
+{{ form.renderClosingTag }}
+```
+
+</StepMarkdown>
+<StepMarkdown>
+```twig showLineNumbers
+{{ freeform.form("myFormHandle").render({ showFormTitle: true }) }}
+```
+
+OR
+
+```twig showLineNumbers
+{{ form.render({ showFormTitle: true }) }}
+```
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+:::info
+You can add as many custom properties as you like, but be sure not to use any reserved words such as `class`, `id`, etc (anything that is already a parameter/property name in the [Form query](../../templates/queries/form.mdx)).
+:::

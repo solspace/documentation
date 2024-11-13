@@ -1,0 +1,389 @@
+---
+title: Form Events
+sidebar_position: 1
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Form Events
+
+:::info
+**If you're using a Freeform version <u>older</u> than 3.12**, please [click here to view the v3.11 documentation](./form-events-v3-11.mdx) that shows the old approach for usage of these events. All of the pre-3.12 events will continue to work with Freeform 3.12, but have been deprecated.
+:::
+
+If you wish to extend the capabilities of Forms in Freeform, feel free to use any of the events listed below:
+
+## Before Submitting<Badge type="feature" text="3.12+" />
+
+This event is triggered once a form has completed all steps and a submission is being stored.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\SubmitEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_SUBMIT,
+  function (SubmitEvent $event) {
+    $form = $event->getForm();
+    $submission = $event->getSubmission();
+
+    // Perform some action here
+  }
+)
+```
+
+## After Submitting<Badge type="feature" text="3.12+" />
+
+This event is triggered once a form has completed all steps and a submission has been stored and integrations have completed.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\SubmitEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_AFTER_SUBMIT,
+  function (SubmitEvent $event) {
+    $form = $event->getForm();
+    $submission = $event->getSubmission();
+
+    // Perform some action here
+  }
+)
+```
+
+## On Validating the Form<Badge type="feature" text="3.12+" />
+
+This event is called whenever a form is being validated. Use this event to attach your own validation logic to any form.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\ValidationEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_BEFORE_VALIDATE,
+  function (ValidationEvent $event) {
+    $form = $event->getForm();
+
+    // Only perform our custom validation if the form is already valid so far
+    if ($form->isValid()) {
+      // Poor little "specificFormHandle" form, will never see the light of day
+      if ($form->getHandle() === 'specificFormHandle') {
+        $form->addError('Sorry, but this form is always invalid');
+      }
+    }
+
+    // you can also cancel the event
+    $event->isValid = false;
+  }
+)
+```
+
+## After Validating the Form Badge type="feature" text="3.12+" />
+
+This event is called after a form has been validated. Use this event to perform some actions after form validation.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\ValidationEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_AFTER_FORM_VALIDATE,
+  function (ValidationEvent $event) {
+    $form = $event->getForm();
+
+    // do something here...
+  }
+)
+```
+
+## Rendering the Opening HTML tag<Badge type="feature" text="3.12+" />
+
+Use this event to attach your own HTML, CSS or JS to the output of the opening form tag. Most commonly used to attach some sort of additional hidden values or scripts.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\RenderTagEvent;
+
+// Add output before the <form> opening tag is rendered
+Event::on(
+  Form::class,
+  Form::EVENT_RENDER_BEFORE_OPEN_TAG,
+  function (RenderTagEvent $event) {
+    $form = $event->getForm();
+
+    // Add any chunks to the output
+    $event->addChunk('<h1>'.$form->getName().'</h1>');
+    $event->addChunk('<input type="hidden" name="some_input_name" value="123" />');
+
+    // Add a chunk at the beginning of the output
+    $event->addChunk('<script>alert("test");</script>', RenderTagEvent::POSITION_BEGINNING);
+
+    // Add a chunk in a specific position in the chunk list
+    $event->addChunk('<style>body { backround: red; }</style>', 2);
+  }
+)
+
+// Add output after the <form> opening tag is rendered
+Event::on(
+  Form::class,
+  Form::EVENT_RENDER_AFTER_OPEN_TAG,
+  function (RenderTagEvent $event) {
+    $form = $event->getForm();
+
+    // Add some hidden inputs or whatever else you like
+    $event->addChunk('<input type="hidden" name="some_input_name" value="123" />');
+  }
+)
+```
+
+## Rendering the Closing HTML tag<Badge type="feature" text="3.12+" />
+
+Use this event to attach your own HTML, CSS or JS to the output of the closing form tag. Most commonly used to attach some sort of additional hidden values or scripts.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\RenderTagEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_RENDER_BEFORE_CLOSING_TAG,
+  function (RenderTagEvent $event) {
+    $form = $event->getForm();
+
+    $event->addChunk('<input type="hidden" name="some_input_name" value="123" />');
+  }
+)
+
+Event::on(
+  Form::class,
+  Form::EVENT_RENDER_AFTER_CLOSING_TAG,
+  function (RenderTagEvent $event) {
+    $form = $event->getForm();
+
+    $event->addChunk('<script>alert("form rendered");</script>');
+  }
+)
+```
+
+## Attaching Attributes to Forms<Badge type="feature" text="3.12+" />
+
+This event lets you attach custom attributes to all or specific forms.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\AttachFormAttributesEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_ATTACH_TAG_ATTRIBUTES,
+  function (AttachFormAttributesEvent $event) {
+    $form = $event->getForm();
+
+    // Get all existing attributes for this form
+    $attributes = $event->getAttributes();
+
+    // Only deal with our "specificFormHandle" form
+    if ($form->getHandle() === 'specificFormHandle') {
+      // If "data-custom" attribute is present - we remove it
+      if (array_key_exists('data-custom', $attributes)) {
+        $event->removeAttribute('data-custom');
+      }
+
+      // Attach a "data-other-attrib" attribute to the form
+      $event->attachAttribute('data-other-attrib', true);
+    }
+  }
+)
+```
+
+## After Generating the Return URL<Badge type="feature" text="3.12+" />
+
+This event is called when the return URL has been generated and is ready to be used to redirect the page.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\ReturnUrlEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_GENERATE_RETURN_URL,
+  function (ReturnUrlEvent $event) {
+    $form = $event->getForm();
+    $submission = $event->getSubmission();
+
+    // Override all return URL's for our "specificFormHandle" forms
+    if ($form->getHandle() === 'specificFormHandle') {
+      $event->setReturnUrl('/some/url/' . $submission->id);
+    }
+  }
+)
+```
+
+## Generating JSON Output for AJAX Forms<Badge type="feature" text="3.12+" />
+
+You can attach your own info to the JSON payload that is returned after submitting forms via AJAX:
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\OutputAsJsonEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_OUTPUT_AS_JSON,
+  function (OutputAsJsonEvent $event) {
+    $form = $event->getForm();
+    $event->add('myCustomProperty', ['anything' => 'here']);
+  }
+)
+```
+
+## Handling Form Submit Request<Badge type="feature" text="3.12+" />
+
+Use these events to perform actions when the submit request is being processed.
+
+The **before handle request** event happens as soon as the processing starts, so you can update your form with your custom information that will be later necessary during validation, etc. Freeform uses this event to determine which session storage mechanism is used, adds additional validation based on it and populates the form values based on it.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\HandleRequestEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_BEFORE_HANDLE_REQUEST,
+  function (HandleRequestEvent $event) {
+    $form = $event->getForm();
+    $request = $event->getRequest();
+
+    $event->add('myCustomProperty', ['anything' => 'here']);
+  }
+)
+```
+
+The **after handle request** event happens after the form has been processed, validated and ready for generating a submission. Freeform uses this event to store the session context with the updated values from POST.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\HandleRequestEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_BEFORE_HANDLE_REQUEST,
+  function (HandleRequestEvent $event) {
+    $form = $event->getForm();
+    $request = $event->getRequest();
+
+    $event->add('myCustomProperty', ['anything' => 'here']);
+  }
+)
+```
+
+## Resetting a Form Between Requests<Badge type="feature" text="3.12+" />
+
+This event is triggered once a form is submitted fully and it has to be reset and prepared for the next round. While this happens after every form finalization, this is useful only for AJAX forms, which never refresh the page. Freeform uses this to clear the stored values of previous requests for multi-page forms.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\ResetEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_BEFORE_RESET,
+  function (ResetEvent $event) {
+    $form = $event->getForm();
+
+    // We might need to reset our custom property which might have been
+    // set during the life-cycle of the form
+    $form->getPropertyBag()->set('my-custom-property', '');
+  }
+)
+```
+
+This event is triggered after the form has been reset:
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\ResetEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_AFTER_RESET,
+  function (ResetEvent $event) {
+    $form = $event->getForm();
+
+    // your logic here...
+  }
+)
+```
+
+## Persisting Form State<Badge type="feature" text="3.12+" />
+
+This event is called after handling the request and after resetting the form. Freeform uses this event to store the session context in either the PHP's session or the database table, depending on the user settings.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\PersistStateEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_PERSIST_STATE,
+  function (PersistStateEvent $event) {
+    $form = $event->getForm();
+
+    // your logic here...
+  }
+)
+```
+
+## Hydrating the Form<Badge type="feature" text="3.12+" />
+
+This event is called when the form object is being built. It parses the form builder settings and attaches them
+to the form object. You can use this event to attach various default form properties in the property bag. Freeform uses this event to attach the Post Forwarding data to the property bag.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\SendNotificationsEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_HYDRATE_FORM,
+  function (HydrateEvent $event) {
+    $form = $event->getForm();
+
+    // We attach a custom property which will be always present in every form
+    // and be accessible via `{{ form.propertyBag.get('always-attached-to-form') }}
+    $form->getPropertyBag()->set('always-attached-to-form', 'my value here');
+  }
+)
+```
+
+## Sending Notifications<Badge type="feature" text="3.12+" />
+
+This event is called when the form should be sending email notifications. You can use this event to send your own emails.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Composer\Components\Form;
+use Solspace\Freeform\Events\Forms\SendNotificationsEvent;
+
+Event::on(
+  Form::class,
+  Form::EVENT_SEND_NOTIFICATIONS,
+  function (SendNotificationsEvent $event) {
+    $form = $event->getForm();
+    $submission = $event->getSubmission();
+    $fields = $event->getFields();
+    $mailer = $event->getMailer();
+
+    $mailer->sendEmail(
+      $form,
+      ['recipient@one.com', 'recipient@two.com'],
+      'your-template-file.html',
+      $fields,
+      $submission
+    );
+  }
+)
+```

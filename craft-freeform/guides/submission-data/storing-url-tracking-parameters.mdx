@@ -1,0 +1,53 @@
+---
+sidebar_position: 3
+---
+
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Storing URL Tracking Parameters
+
+In the event you'd like to store URL tracking parameters (e.g. `utm_source`, `utm_medium`, etc) in your form submissions, this can easily be done. Just follow the steps below:
+
+## Instructions
+
+<VerticalStepWrapper>
+<StepMarkdown>
+- Open up an existing form in Freeform. For the purpose of this example, let's assume it's called `Contact`.
+- Create and add 3 new [Hidden](../../forms/fields.mdx#hidden) fields to your form layout with the handles of:
+    - `utm_campaign`
+    - `utm_source`
+    - `utm_medium`
+
+    <br />
+
+    :::info
+    The field names/handles do not have to match the query parameter names, but we've done it that way for this example.
+    :::
+
+</StepMarkdown>
+<StepMarkdown>
+- In the regular template where you are loading the form, you'll need to add the [values](../../templates/queries/form.mdx#values) parameter and grab the values from the URL with `craft.app.request.getQueryParam('')`:
+    ```twig showLineNumbers
+    {{ freeform.form("myFormHandle", {
+        fields: {
+            "utm_campaign": {
+                value: craft.app.request.getQueryParam('utm_campaign'),
+            },
+            "utm_source": {
+                value: craft.app.request.getQueryParam('utm_source'),
+            },
+            "utm_medium": {
+                value: craft.app.request.getQueryParam('utm_medium'),
+            },
+        },
+    }).render() }}
+    ```
+- Assuming your URL looks something like the following, Freeform will then grab those values and plug them into the corresponding hidden fields:
+    - `https://mysite.net/contact?utm_campaign=my_campaign&utm_source=google_jobs_apply&utm_medium=organic`
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+:::tip
+[Check out our other guide for passing along other types of data to Freeform form fields.](../dynamic-data/passing-dynamic-data-to-forms.mdx)
+:::

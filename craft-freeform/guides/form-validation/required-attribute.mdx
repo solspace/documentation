@@ -1,0 +1,28 @@
+---
+sidebar_position: 1
+---
+
+# Browser Validation with Required Attribute
+
+A guide to browser validation on fields using the `required` attribute. If you prefer to have the browser validate that a required field contains a value, there is an automated way to do this with the [Template Overides](../../templates/formatting/index.mdx#template-overrides) feature.
+
+## Instructions
+
+In previous versions of Freeform, there was a parameter to control this (`useRequiredAttribute`), but that is no longer available.
+
+To apply a `required` attribute to all fields that are marked as required in the form builder, you can access it with `":required"` via the `fields` namespace in the [Template Overides](../../templates/formatting/index.mdx#template-overrides) feature.
+
+A barebones example (without any other overrides in place) would look something like this:
+
+```twig showLineNumbers {3-8}
+{{ form.render({
+    fields: {
+        ":required": {
+            attributes: {
+                label: { "+class": "label-required" },
+                input: { "required": true },
+            },
+        },
+    }
+}) }}
+```

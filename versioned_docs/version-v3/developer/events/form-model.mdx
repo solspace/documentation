@@ -1,0 +1,84 @@
+---
+title: Form Model
+sidebar_position: 2
+---
+
+# Form Model Events
+
+Use these events to perform actions when the form model is being changed.
+
+## Before Saving the Form
+
+This event is called when the form is being saved. Use it to manipulate the form data before it's saved.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\FormsService;
+use Solspace\Freeform\Events\Forms\SaveEvent;
+
+Event::on(
+  FormsService::class,
+  FormsService::EVENT_BEFORE_SAVE,
+  function (SaveEvent $event) {
+    $formModel = $event->getModel();
+
+    // Force all forms have the same name
+    $formModel->name = "A static name";
+  }
+)
+```
+
+## After Saving the Form
+
+Use this event to perform some task after the form is saved.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\FormsService;
+use Solspace\Freeform\Events\Forms\SaveEvent;
+
+Event::on(
+  FormsService::class,
+  FormsService::EVENT_AFTER_SAVE,
+  function (SaveEvent $event) {
+    if ($event->isNew()) {
+      // If the form is new
+      // Perform some action here
+    }
+  }
+)
+```
+
+## Before Deleting a Form
+
+```php showLineNumbers
+use Solspace\Freeform\Services\FormsService;
+use Solspace\Freeform\Events\Forms\DeleteEvent;
+
+Event::on(
+  FormsService::class,
+  FormsService::EVENT_BEFORE_DELETE,
+  function (DeleteEvent $event) {
+    $formModel = $event->getModel();
+    $formId = $formModel->id;
+
+    // Delete some db records based on the form ID
+  }
+)
+```
+
+## After Deleting a Form
+
+```php showLineNumbers
+use Solspace\Freeform\Services\FormsService;
+use Solspace\Freeform\Events\Forms\DeleteEvent;
+
+Event::on(
+  FormsService::class,
+  FormsService::EVENT_AFTER_DELETE,
+  function (DeleteEvent $event) {
+    $formModel = $event->getModel();
+    $formId = $formModel->id;
+
+    // Delete some db records based on the form ID
+  }
+)
+```

@@ -1,0 +1,119 @@
+---
+title: 'ActiveCampaign'
+sidebar_position: 1
+---
+
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# ActiveCampaign
+
+## ActiveCampaign CRM Integration<Badge type="pro" text="Pro" /><Badge type="feature" text="2.5.25+" />
+
+This documentation page assumes you have read over the [CRM Integration Overview](./index.mdx#crm). If you have not yet read it, please do so now. We also assume that you have an [ActiveCampaign](https://www.activecampaign.com) account already setup. This integration requires that you have _Freeform Pro_. If you currently have Freeform Lite, you can purchase an upgrade to Freeform Pro.
+
+ActiveCampaign integration includes support for the following:
+
+- Field mapping to all standard and custom fields.
+- Duplicate check on _Contact_ email address (will update other details if it matches instead of creating a new contact).
+- Duplicate check on _Organization_ name (will use an existing organization if the value matches instead of creating a new one).
+
+### Setup Instructions
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+
+#### Create & get API Key from ActiveCampaign
+
+- Go to the [ActiveCampaign website](https://www.activecampaign.com) and log into your account.
+- At the bottom left corner, click on the Settings nav menu option / gear icon (above profile icon).
+- On the next page, click the **Developer** subnav option near the middle of the page.
+- Leave this page open and open a new tab to go to Craft control panel...
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+#### Set up Integration on your site
+
+- Go to the [CRM section in Freeform Settings](../configuration/settings.mdx#crm) (**Freeform > Settings > CRM**).
+- Click the **New CRM Integration** at the top right.
+- Select _ActiveCampaign_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration.
+- Copy the value in the **URL** field from ActiveCampaign and paste it into the **API URL** field in Freeform.
+- Copy the value in the **Key** field from ActiveCampaign and paste it into the **API Key** field in Freeform.
+- In the **Pipeline** field, enter the name or ID of the ActiveCampaign Pipeline you wish to have _Deal_ data sent to, e.g. `My Pipeline`.
+- In the **Stage** field, enter the name or ID of the ActiveCampaign Stage you wish to have _Deal_ data sent to, e.g. `To Contact`.
+- In the **Owner** field (optional), enter the username or ID of the ActiveCampaign user to assign as the _Deal_ owner.
+- At the top right corner of Freeform page, click **Save** button.
+
+</StepMarkdown>
+
+<StepMarkdown>
+#### Verify Authorization
+
+- After the integration is saved, it'll return you to the list of CRM integrations.
+- Click into the newly created integration.
+- Confirm that there is green circle with **Authorized** in the middle of the page.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+## Additional info
+
+When setting up the form inside Composer, please be sure to map all required fields for _Deal_:
+
+- Currency, e.g. use a hidden field that contains `usd` or `eur`.
+- Owner (ID), e.g. use a hidden field that contains `1`.
+- Value ($ amount), e.g. use a hidden field that contains `500.00` or a regular input/select that allows the user to select the value, etc.
+
+If you want the form submitter to automatically (or optionally) be opted into an ActiveCampaign mailing list, use a hidden field or select, radio, checkbox, etc that contains the ID of the mailing list you wish to have them subscribed to. Then map that field to the **Mailing List ID** field under _Contact_.
+
+## ActiveCampaign Email Marketing Integration<Badge type="pro" text="Pro" /><Badge type="feature" text="2.5.18+" />
+
+This documentation page assumes you have read over the [CRM Integration Overview](./index.mdx#email-marketing). If you have not yet read it, please do so now. We also assume that you have an [ActiveCampaign](https://www.activecampaign.com) account already setup. This integration requires that you have _Freeform Pro_. If you currently have Freeform Lite, you can purchase an upgrade to Freeform Pro.
+
+ActiveCampaign integration includes support for the following:
+
+- Field mapping to all standard and custom fields.
+- Duplicate check on _Contact_ email address (will update other details if it matches instead of creating a new contact).
+
+### Setup Instructions
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+
+#### Create & get API Key from ActiveCampaign
+
+- Go to [ActiveCampaign website](https://www.activecampaign.com) and log into your account.
+- At the bottom left corner, click on the Settings nav menu option / gear icon (above profile icon).
+- On the next page, click the **Developer** subnav option near the middle of the page.
+- Leave this page open and open a new tab to go to Craft control panel...
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+#### Set up Integration on your site
+
+- Go to the [Email Marketing section in Freeform Settings](../configuration/settings.mdx#email-marketing) (**Freeform > Settings > Email Marketing**).
+- Click the **New Email Marketing Integration** at the top right.
+- Select _ActiveCampaign_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration.
+- Copy the value in the **URL** field from ActiveCampaign and paste it into the **API URL** field in Freeform.
+- Copy the value in the **Key** field from ActiveCampaign and paste it into the **API Key** field in Freeform.
+- At the top right corner of Freeform page, click **Save** button.
+
+</StepMarkdown>
+
+<StepMarkdown>
+#### Verify Authorization
+
+- After the integration is saved, it'll return you to the list of Email Marketing integrations.
+- Click into the newly created integration.
+- Confirm that there is green circle with **Authorized** in the middle of the page.
+
+</StepMarkdown>
+</VerticalStepWrapper>

@@ -1,0 +1,40 @@
+---
+sidebar_position: 5
+title: 'Date Formatting'
+---
+
+# Date Formatting
+
+In addition to standard [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html), Calendar supports easy-to-use text format versions of dates for all parameters that accept date values. Text dates are relative to today. So for example, you can specify dates like this:
+
+- **today**
+- **tomorrow**
+- **yesterday**
+- **X day(s)** (where **X** is a number of days greater than or equal to 1)
+- **X week(s)** (where **X** is a number of weeks greater than or equal to 1)
+- **X month(s)** (where **X** is a number of months greater than or equal to 1)
+- **X year(s)** (where **X** is a number of years greater than or equal to 1)
+- The word **ago** can also be appended to refer to dates in the past. For example, **1 week** means one week from today, while **1 week ago** means one week ago.
+
+To display all events that fall within today's date, up to 3 months in the future, you can do something like this:
+
+```html showLineNumbers
+date_range_start="today" date_range_end="3 months"
+```
+
+Regular date syntax is also available:
+
+- **YYYYMMDD**
+- **YYYY-MM-DD**
+- **year-month-day** (where **year** is current year, **month** is current month and **day** is current day)
+
+When using either **YYYY-MM-DD**, you may replace one or more of the numeric values with the literal words _year_, _month_, and/or _day_. Calendar will then replace that word with the relevant value for the current date. Examples:
+
+- _year-12-25_ = Christmas Day in the current year.
+- _2015-month-15_ = The fifteenth day of the current month in 2015.
+
+The literal value _year-month-day_ is equivalent to “today”. You may also use the word “**last**” instead of “**day**”. Doing so will set the date to the final day of the relevant month. Examples:
+
+- _2015-02-last_ = February 28, 2015
+- _2016-02-last_ = February 29, 2016
+- _year-month-last_ = The last day of the current month of the current year.

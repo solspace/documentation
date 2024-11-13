@@ -1,0 +1,84 @@
+---
+title: 'Zapier'
+sidebar_position: 24
+---
+
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+import { Badge, Photo } from '@site/src/components/utils';
+
+import SlackAppPhoto from './assets/img/slack-app.png';
+
+# Zapier Integration<Badge type="pro" text="Pro" />
+
+The Zapier Webhooks integration allows you to map Freeform submission data off to virtually every popular service available such as Slack, Trello, Google Docs, Salesforce, Mailchimp, and more! You can setup as many as you like.
+
+We will assume you already have a [Zapier](https://zapier.com/) account and some general knowledge about how to use it. While it seems just about anything is available with the free version of Zapier, having many _Zaps_ and/or complex _workflows_ will require [purchasing a paid plan](https://zapier.com/pricing).
+
+<Photo img={SlackAppPhoto} alt="Zapier to Slack Webhook Integration" />
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+### Prepare Integration on your site
+
+- Go to the [Webhooks section in Freeform Settings](../configuration/settings.mdx#webhooks) (**Freeform → Settings → Webhooks**)
+- Click the **New Webhook** button at the top right.
+- For _Service Provider_, select **Zapier**.
+- Enter a name for the **Name** field.
+- Pause here and open a new browser tab...
+
+</StepMarkdown>
+<StepMarkdown>
+
+### Create a new <i>Zap</i>
+
+- Go to the [Zapier website](https://zapier.com/app/zaps) and create a new _Zap_ (by clicking the bright orange _Make a Zap!_ button at the top of the page).
+- For the _Choose App_ option, select **Webhooks by Zapier**.
+- For the _Choose Trigger Event_ option, select **Catch Hook**.
+- Proceed to the next step, and then you'll be presented the webhook URL (e.g. `https://hooks.zapier.com/hooks/catch/12345/67890/`)
+- Pause here and copy the _Custom Webhook URL_ and switch back to your Freeform tab.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Finish Integration on your site
+
+- Paste the _Custom Webhook URL_ you copied earlier into the **Webhook URL** field in Freeform.
+- Select the form(s) you want this Webhook to apply to in the **Forms** field.
+- At the top right corner of Freeform page, click **Save** button.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Send test data to Zapier
+
+- In order for Zapier to know that Freeform exists and what data is available to it, you need to submit a test submission for the form(s) that will be using the webhook/Zap. Go to your form in the front end and submit the form with as much sample data as possible. Zapier will then be listening for the data...
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Finish creating the new <i>Zap</i>
+
+- Switch back to the Zapier browser tab.
+- Click the **Refresh Fields** button.
+- Click on the next step, and choose an example submit Zapier sniffed from your test submission.
+- Proceed to the next step and setup your output "Do this..." section as necessary (can be anything, so we can't fully provide steps for this part).
+- Once all done, save the Zap and be sure to switch the **OFF** toggle to **ON** before trying to use the _Zap_.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Verify the Webhook
+
+- Try submitting one of your forms that use this webhook, and check if Freeform posts successfully to it and Zapier maps correctly.
+- If there are any issues on Freeform's end, you'll see errors in the Freeform error log. If there's an issue on Zapier's end, you'll see errors inside Zapier.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>

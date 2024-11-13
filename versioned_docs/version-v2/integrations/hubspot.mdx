@@ -1,0 +1,60 @@
+---
+title: 'HubSpot'
+sidebar_position: 12
+---
+
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# HubSpot CRM API Integration<Badge type="pro" text="Pro" />
+
+This documentation page assumes you have read over the [CRM Integration Overview](./index.mdx). If you have not yet read it, please do so now. We also assume that you have a [HubSpot](http://hubspot.com) account already. This integration requires that you have _Freeform Pro_. If you currently have Freeform Lite, you can purchase an upgrade to Freeform Pro.
+
+HubSpot integration includes support for the following:
+
+- Field mapping to standard and custom fields from all 3 endpoints listed below (of text/number string type only).
+- Maps data to [Deals](http://developers.hubspot.com/docs/methods/deals/deals_overview) (optional), [Contacts](http://developers.hubspot.com/docs/methods/contacts/contacts-overview) and [Companies](http://developers.hubspot.com/docs/methods/companies/companies-overview) API endpoints. <Badge type="feature" text="Improved in 2.2.1+" />
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+
+### Create & get Private App token from HubSpot
+
+    * Go to [HubSpot](http://hubspot.com) and log into your account.
+    * At the top right corner, click on the profile icon and select **Integrations**.
+    * On the next page, click the **Get your HubSpot API Key** link at the bottom left.
+    * Click the **Generate New Key** button in the middle of the page.
+    * After the page reloads, copy the newly created key.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Set up Integration on your site
+
+- Go to the [CRM section in Freeform Settings](../configuration/settings.mdx#crm) (**Freeform > Settings > CRM**).
+- Click the **New CRM Integration** at the top right.
+- Select _HubSpot_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration.
+- Paste the HubSpot API key into the **API Key** field in Freeform.
+- At the top right corner of Freeform page, click **Save** button.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Verify Authorization
+
+    * After the integration is saved, it'll return you to the list of CRM integrations.
+    * Click into the newly created integration.
+    * Confirm that there is green circle with **Authorized** in the middle of the page.
+    * That's it! You can now use this integration inside Composer.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>
+
+If you want to have the user's IP address sent over to the Contact in HubSpot, you can specify the custom HubSpot Contact field handle to receive it in the **IP Address Field** field, but this is optional.

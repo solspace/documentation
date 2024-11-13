@@ -1,0 +1,28 @@
+---
+sidebar_position: 6
+---
+
+# Parsing HTML in Field Options
+
+If you like, you can enter basic HTML (`<b>`, `<i>`, `<a>`, etc) into Freeform field labels and option labels while inside the form builder. This is especially handy if you want to add emphasis to an option or add a link to an option (e.g. link a checkbox label for Terms & Conditions page).
+
+## Instructions
+
+The demo and sample templates will likely handle the HTML in the form rendering automatically, but in cases where it doesn't, you may need to apply the `raw` Twig filter:
+
+```twig {11} showLineNumbers
+{{ field.renderLabel() }}
+
+{% for option in field.options %}
+    <div class="checkbox">
+        <label>
+            <input type="checkbox"
+                name="{{ field.handle }}[]"
+                value="{{ option.value }}"
+                {{ option.value in field.value ? "checked" : "" }}
+            />
+            {{ option.label|raw }}
+        </label>
+    </div>
+{% endfor %}
+```

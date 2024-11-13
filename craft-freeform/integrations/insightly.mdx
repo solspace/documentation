@@ -1,0 +1,85 @@
+---
+title: 'Insightly'
+sidebar_position: 13
+---
+
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Insightly<Badge type="pro" text="Pro" />
+
+This guide assumes you have an [Insightly](https://www.insightly.com/) account already.
+
+## Compatibility
+
+Uses `v3.1` of the REST API.
+
+### Endpoints
+
+Maps data to the following endpoints:
+
+- **Leads**
+
+Does your project require something else? &nbsp; <PrimaryButtonWithLink to='/support' label='Contact Us' />
+
+### Fields
+
+Maps data to the following field types:
+
+- **Standard**
+- **Custom**
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+
+### Create & get API Key from Insightly
+
+- Go to [Insightly](https://www.insightly.com/) and log into your account.
+- At the top right corner, click on the profile icon and select **User Settings**.
+- On the next page, towards the bottom under the **API Key** section, copy the token that is there.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Set up Integration on your site
+
+- Go to the [CRM section in Freeform Settings](../configuration/settings.mdx#crm) (**Freeform → Settings → CRM**).
+- Click the **New Integration** button at the top right.
+- Select _Insightly (v3.1)_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration.
+- Paste the Insightly API token into the **API Key** field in Freeform.
+- Click the **Save** button.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Verify Authorization
+
+- After the integration is saved, it'll return you to the list of CRM integrations.
+- Click into the newly created integration.
+- Confirm that there is a green circle with **Authorized** in the middle of the page.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Configure the Form
+
+To use this integration on your form(s), you'll need to configure each form individually.
+
+- Visit the form inside the form builder.
+- Click on the **Integrations** tab.
+- Click on **Insightly** in the list of available integrations.
+- On the right side of the page:
+  - Enable the integration.
+  - Select the API endpoints you wish to map to.
+  - Map Freeform fields to the Insightly fields as needed.
+
+</StepMarkdown>
+
+</VerticalStepWrapper>

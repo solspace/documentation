@@ -1,0 +1,52 @@
+---
+title: Hour
+sidebar_position: 9
+---
+
+# Hour object
+
+An _Hour_ object holds in itself a list of all [Events](./event.mdx) that fall into this hour.
+
+## Properties
+
+- `date`
+  - A [Date object](./date.mdx) of the starting date of the event duration
+  - For an _Hour_ object of **April 15, 2023 at 5pm**, this would return the [Date object](./date.mdx) of `2023-04-15 17:00:00`
+- `startDate`
+  - Basically the same as the `date` property
+- `endDate`
+  - The ending date of the _Hour_ object's hour, e.g - `2023-04-15 17:59:59` in this case
+- `previousDate`
+  - Returns a [Date object](./date.mdx) of the previous hour relative to the `date` property, e.g. `2023-04-15 16:00:00` in this case
+- `nextDate`
+  - Returns a [Date object](./date.mdx) of the next hour relative to the `date` property, e.g. `2023-05-15 18:00:00` in this case
+- `events`
+  - Contains a list of [Events](./event.mdx) that fall into this _Hour_ object's range
+- `eventCount`
+  - The number of events in the `events` property
+
+## Methods
+
+- `dateRange(int before, int after)`
+  - Returns a list of [Date objects](./date.mdx) ranging `before` number of hours before `date` and `after` number of hours after `date`
+  - E.g. `hour.dateRange(6, 6)` would return a list starting from `2023-04-15 11:00:00` and ending in `2023-04-15 23:00:00` assuming the _Day_ object's `date` is `2023-04-15 17:00:00`
+- `containsDate(dateObject)`
+  - Returns **true** if the `dateObject` provided is within the _Hour_ object's date range
+  - E.g. `hour.containsDate(event.startDate)` would return **true** if the _Hour_ object would be **April 15, 2023 at 5pm**, and the `event.startDate` would be `2023-04-15 17:30:00`, but **false** if the `event.startDate` would be `2023-04-16 18:00:00`
+
+## Usage in Templates
+
+Iterate through all events within the current hour
+
+```twig showLineNumbers
+{% set hour = craft.calendar.day({
+  date: "now",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for event in hour.events %}
+  <div style="{{ event.calendar.color }};">
+    {{ event.title }}
+  </div>
+{% endfor %}
+```

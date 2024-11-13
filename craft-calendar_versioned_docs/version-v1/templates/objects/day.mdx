@@ -1,0 +1,71 @@
+---
+title: Day
+sidebar_position: 8
+---
+
+# Day object
+
+A _Day_ object holds in itself a list of all [Events](./event.mdx) that fall into this day, as well as gives the possibility to iterate over [Hour object](./hour.mdx)'s that fall into the range of this **Day object**.
+
+## Properties
+
+- `date`
+  - A [Date object](./date.mdx) of the starting date of the event duration
+  - For a _Day_ object of **April 15, 2023**, this would return the [Date object](./date.mdx) of `2023-04-15 00:00:00`
+- `startDate`
+  - Basically the same as the `date` property
+- `endDate`
+  - The ending date of the _Day_ object's day, e.g - `2023-04-15 23:59:59` in this case
+- `previousDate`
+  - Returns a [Date object](./date.mdx) of the previous day relative to the `date` property, e.g. `2023-04-14 00:00:00` in this case
+- `nextDate`
+  - Returns a [Date object](./date.mdx) of the next day relative to the `date` property, e.g. `2023-05-16 00:00:00` in this case
+- `events`
+  - Contains a list of [Events](./event.mdx) that fall into this _Day_ object's range
+- `eventCount`
+  - The number of events in the `events` property
+
+## Methods
+
+- `dateRange(int before, int after)`
+  - Returns a list of [Date objects](./date.mdx) ranging `before` number of days before `date` and `after` number of days after `date`
+  - E.g. `day.dateRange(6, 6)` would return a list starting from `2023-04-09` and ending in `2023-04-21` assuming the _Day_ object's `date` is `2023-04-15`
+- `containsDate(dateObject)`
+  - Returns **true** if the `dateObject` provided is within the _Day_ object's date range. Typically used for handling CSS and title behavior in Month view templates for events that span multiple days.
+  - E.g. `day.containsDate(event.startDateLocalized)` would return **true** if the _Day_ object would be **April 15, 2023**, and the `event.startDateLocalized` would be `2023-04-15 17:30:00`, but **false** if the `event.startDateLocalized` would be `2023-04-16 00:00:00`
+
+## Usage in Templates
+
+Iterate through the hours of the day
+
+```twig showLineNumbers
+{% set day = craft.calendar.day({
+  date: "today",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for hour in day %}
+  {% for event in hour.events %}
+    <div style="{{ event.calendar.color }};">
+      {{ event.title }}
+    </div>
+  {% endfor %}
+{% endfor %}
+```
+
+---
+
+Iterate through all events in the day
+
+```twig showLineNumbers
+{% set day = craft.calendar.day({
+  date: "today",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for event in day.events %}
+  <div style="{{ event.calendar.color }};">
+    {{ event.title }}
+  </div>
+{% endfor %}
+```

@@ -1,0 +1,23 @@
+---
+sidebar_position: 5
+---
+
+# Row object
+
+The Row object contains all of the [Fields](./field.mdx) assigned to it in the form builder. It can contain up to 4 fields/columns. The Row object doesn't contain any properties, methods or non render field types such as a [Hidden](../../forms/fields.mdx#hidden) fields. Instead, it's an iterable object where you have to iterate over it to get the [Fields](./field.mdx) contained within.
+
+## Usage in Templates
+
+Render all rows and fields of the currently active page within a form:
+
+```twig showLineNumbers
+{% for row in form %}
+  <div class="row">
+    {% for field in row %}
+      <div class="field">
+        {{ field.label }}
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}
+```

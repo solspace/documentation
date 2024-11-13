@@ -1,0 +1,111 @@
+---
+sidebar_position: 1.1
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+import {
+  VerticalStepWrapper,
+  StepMarkdown,
+  FlexCards,
+  TwoColumnCards,
+  ColumnCardData,
+} from '@site/src/components/docs';
+
+import InstallPhoto from './assets/img/install.png';
+import UpdatesPhoto from './assets/img/updates.png';
+import ProApiTransitionPhoto from './assets/img/pro-api-transition.png';
+import PermissionsPhoto from './assets/img/permissions.png';
+
+import Icons from '@site/static/card-icons';
+
+# Installing & Updating
+
+## Requirements
+
+Solspace Freeform mostly meets the same requirements as listed on the [Craft Requirements](https://docs.craftcms.com/v2/requirements.html) page.
+
+- **Craft 2.6.2780 or later**
+- PHP 5.4.0 or later
+  - **IMPORTANT:** No support for PHP 5.3.x
+- MySQL 5.1.0 or later
+- Windows and OS X browsers:
+  - Chrome 21 or later
+  - Firefox 28 or later
+  - Safari 9.0 or later
+  - Internet Explorer 11 or later
+  - Microsoft Edge
+
+## Installing Instructions
+
+1. Unzip the download package and copy the _freeform_ folder to your Craft sites **/craft/plugins/** directory.
+2. Go to the **Settings > Plugins** page and click **Install** for the _Freeform_ plugin.
+
+<Photo img={InstallPhoto} alt="Installation" />
+
+## Updating Instructions
+
+_Solspace Freeform_ uses the **Craft Update Service**, which means that every time there's an update available, it'll show up in the **Updates** area of the Craft control panel. You can then review the changelog there, or [view it here](./changelog.mdx).
+
+<Photo img={UpdatesPhoto} alt="Craft Updates Service" />
+
+:::info
+If you're upgrading from Freeform **Lite** to Freeform **Pro**, you can follow these same instructions below. If updating to the same version number, there will be no **update** process as it is not required (though one may be triggered if the version number is greater and includes a migration, e.g. Lite 1.7.2 to Pro 1.8.0).
+:::
+
+To download the update, simply click the download button (you'll be taken to your account area on the Solspace site) and download the updated package for _Solspace Freeform_. Then follow the steps below:
+
+1. Within your Craft sites **/craft/plugins/** directory, delete the _freeform_ folder.
+2. Unzip the download package and copy the new _freeform_ folder to your Craft sites **/craft/plugins/** directory.
+3. Visit the Craft control panel and let the upgrade routine run.
+
+### Transitioning to Freeform Pro from Freeform 1.5.x (and older) WITH ADDONS
+
+All users that have purchased **addons** for Freeform (such as API integrations, widgets pack) have their "Basic" licenses automatically upgraded to **Freeform Pro** licenses. If you're transitioning from Freeform 1.5.x and older WITH ADDONS installed (such as API integrations, widgets pack) to Freeform Pro (which includes these addons), please follow these special instructions:
+
+1. Download a copy of _Freeform Pro_ from your [Solspace account area](https://solspace.com/account).
+2. Within your Craft sites **/craft/plugins/** directory, delete the _freeform_ folder.
+3. Unzip the download package and copy the new _freeform_ folder to your Craft sites **/craft/plugins/** directory.
+4. Visit the Craft control panel and let the upgrade routine run (if applicable).
+5. For any **API integrations** you have configured, go into each and switch from the Legacy version to the Pro version (e.g. switch **HubSpot (Legacy)** to **HubSpot**) and save.
+6. If you have the **Widgets bundle**, unfortunately you will need to recreate all widgets as there is no way to switch them similar to how it's done with API integrations. When recreating them use the widgets that have _Freeform Pro_ in the name (e.g. use **Freeform Pro Recent** instead of **Freeform Recent**). Delete all old legacy widget usage.
+7. Once all transitions are made, you may uninstall all Freeform "addons" (integrations, widget bundle).
+
+:::info
+Freeform Pro will continue to work with legacy addon plugin versions set up as well, but we strongly encourage you to make the transition.
+:::
+
+<Photo img={ProApiTransitionPhoto} alt="Update API integrations" />
+
+## Quick Setup
+
+Follow the steps below to quickly get Solspace Freeform setup in minutes.
+
+### Settings
+
+To customize and configure Solspace Freeform settings, visit the [Settings](../configuration/settings.mdx) page (**Freeform > Settings**).
+
+### Permissions
+
+Solspace Freeform ties into regular Craft User Group Permissions. Simply visit the permissions page for the applicable user group(s) (**Settings > Users > User Groups**) to grant/edit/remove permissions to Solspace Freeform.
+
+- **General**
+  - _Access Freeform_ - required for users to access Solspace Freeform at all.
+- **Freeform**
+  - _Access Submissions_ - access to the Submissions list page.
+    - _Manage All Submissions_ - can view, edit or delete any submission, regardless of per form selection below.
+    - _For "MY FORM NAME"_ - can view, edit or delete submissions for this form.
+  - _Access Forms_ - access to the Forms list page.
+    - _Manage Forms_ - can create, edit or delete forms.
+  - _Access Fields_ - access to the Fields list page.
+    - _Manage Fields_ - can create, edit or delete fields.
+  - _Access Email Templates_ - access to the Email Templates list page.
+    - _Manage Email Templates_ - can create, edit or delete email notification templates.
+  - _Access Export Profiles_ - access to the Export Profiles list page and running of exports.
+    - _Manage Export Profiles_ - can create, edit or delete export profiles.
+  - _Access Settings_ - can access and update settings area for Freeform.
+
+<Photo img={PermissionsPhoto} alt="Permissions" />
+
+### Demo Templates
+
+Install the [Demo Templates](../configuration/demo-templates.mdx) (**Freeform > Settings > Demo Templates**) to get Freeform up and running on the front end with just a couple clicks!

@@ -1,0 +1,98 @@
+---
+sidebar_position: 4
+title: 'Using with Channel Form'
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Using with Channel Form
+
+Calendar supports integration with the [Channel Form](https://docs.expressionengine.com/v7/channels/channel-form/overview.html) tag to allow submitting/editing of event data to new entries or editing existing ones. It allows you to call the same Calendar widget as available in the control panel.
+
+<Photo
+  img={require('@site/static/img/ee-calendar/v5/calendar-templates_channel-form.png')}
+  alt="Using with Channel Form"
+/>
+
+Simply place the following template variable within your [Channel Form](https://docs.expressionengine.com/v7/channels/channel-form/overview.html) form where you'd like your Tag field(s) to show up:
+
+```html showLineNumbers
+{field:CALENDAR_FIELDTYPE_NAME}
+```
+
+Then, be sure to have the following CSS files in your head:
+
+```html showLineNumbers
+<link
+  href="{exp:calendar:theme_folder_url}plugins/jquery-timepicker-jt/jquery.timepicker.css"
+  rel="stylesheet"
+/>
+<link
+  href="{exp:calendar:theme_folder_url}css/calendar.fieldtype.css"
+  rel="stylesheet"
+/>
+<link
+  href="{exp:calendar:theme_folder_url}css/template.fieldtype.css"
+  rel="stylesheet"
+/>
+```
+
+And then place the following JS files in your footer:
+
+```html showLineNumbers
+<script
+  type="text/javascript"
+  src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"
+></script>
+<script
+  type="text/javascript"
+  src="{exp:calendar:theme_folder_url}plugins/jquery-timepicker-jt/jquery.timepicker.min.js"
+></script>
+<script
+  type="text/javascript"
+  src="{exp:calendar:theme_folder_url}js/calendar.fieldtype.js"
+></script>
+<script
+  type="text/javascript"
+  src="{exp:calendar:theme_folder_url}js/template.fieldtype.js"
+></script>
+```
+
+---
+
+A simple working example of a [Channel Form](https://docs.expressionengine.com/v7/channels/channel-form/overview.html) form would look like this:
+
+```html showLineNumbers
+<h3>Create a new Event</h3>
+{exp:channel:form
+    channel="events"
+    return="calendar/event/URL_TITLE"
+}
+    <p>
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" maxlength="100" onkeyup="liveUrlTitle();" />
+        <input type="hidden" name="url_title" id="url_title" value="{url_title}" maxlength="75" />
+    </p>
+    <p>
+        {status_menu}
+        <label for="status">Status</label>
+        <select name="status" id="status">
+            {select_options}
+        </select>
+        {/status_menu}
+    </p>
+    <p>
+        <label for="body">Body</label>
+        <textarea name="body" id="body" /></textarea>
+    </p>
+    <p>
+        {!-- Calendar field will populate here --}
+        <label for="calendar">Calendar</label>
+        {field:CALENDAR_FIELDTYPE_NAME}
+    </p>
+    <button type="submit">Publish</button>
+    {if no_results}
+        <p>No results</p>
+    {/if}
+{/exp:channel:form}
+```

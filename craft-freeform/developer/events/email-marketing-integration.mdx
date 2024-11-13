@@ -1,0 +1,29 @@
+---
+sidebar_position: 8
+---
+
+# Email Marketing Integration Events
+
+Use these events to extend the functionality of Freeform Email Marketing integrations:
+
+## After the response from the Email Marketing was received
+
+This event contains the Guzzle Response object of the response received after pushing the data to the Email Marketing.
+
+```php showLineNumbers
+use Solspace\Freeform\Events\Integrations\IntegrationResponseEvent;
+use Solspace\Freeform\Library\Integrations\Types\EmailMarketing\EmailMarketingIntegrationInterface;
+
+Event::on(
+  EmailMarketingIntegrationInterface::class,
+  EmailMarketingIntegrationInterface::EVENT_AFTER_RESPONSE,
+  function (IntegrationResponseEvent $event) {
+    $integration = $event->getIntegration();
+    $category = $event->getCategory();
+    $response = $event->getResponse();
+    $responseAsString = $event->getResponseBodyAsString();
+
+    // Perform some actions here
+  }
+);
+```

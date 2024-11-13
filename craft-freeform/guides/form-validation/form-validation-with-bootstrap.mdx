@@ -1,0 +1,139 @@
+---
+sidebar_position: 4
+---
+
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Form Validation with Bootstrap
+
+[Bootstrap](https://getbootstrap.com) is the most widely used HTML framework. It includes a low level of form validation which you can trigger for your forms. This guide will show you how to implement form validation for your Freeform forms with [Bootstrap validation](https://getbootstrap.com/docs/4.1/components./builder/#validation).
+
+## Overview
+
+This guide assumes that you have a [Bootstrap 4](https://getbootstrap.com/docs/4.1/getting-started/introduction/) based website which includes Bootstrap CSS and JS files.
+
+You can implement Bootstrap validation for your form 1 of 2 ways...
+
+## Inside the Form Builder (CP)
+
+You can add the necessary attributes to your forms with the form builder. Follow the instructions below to see how.
+
+<VerticalStepWrapper>
+<StepMarkdown>
+- Open up an existing form inside Freeform and go to the **Form Settings** tab (cog/gear icon).
+- At the bottom of the settings tab, there's an area called **Form tag Attributes**. Add `novalidate` in the *Attribute* column and leave the *Value* column empty (or specify `true`). This will disable HTML5 form validation in your web pages and allow Bootstrap to take over. Also add a form class like `needs-validation` so you can then trigger validation on your form by targeting this class as below.
+    | Attribute | Value |
+    | :--- | :--- |
+    | novalidate | |
+    | class | needs-validation |
+
+</StepMarkdown>
+<StepMarkdown>
+- Render your form builder-based form in a Twig template as usual.
+    ```twig showLineNumbers
+    {{ freeform.form("bootstrapForm").render() }}
+    ```
+
+</StepMarkdown>
+<StepMarkdown>
+- At the bottom of your page, add javascript to attach validation to your form(s). Note the example class `needs-validation`. This needs to match the class name you set on your form inside the form builder in the steps above.
+    ```twig showLineNumbers
+    <script>
+    // Example starter Javascript for disabling form submissions if there are invalid fields
+    (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+        });
+    }, false);
+    })();
+    </script>
+    ```
+
+</StepMarkdown>
+
+</VerticalStepWrapper>
+
+## At Template Level
+
+You can add the necessary attributes and changes to your forms directly inside your Twig templates with the Freeform `form.renderTag()`. Follow the instructions below to see how.
+
+<VerticalStepWrapper>
+<StepMarkdown>
+- Add the `novalidate` attribute to your form using the `renderTag()` method. This disables HTML5 validation.
+- Add a class like `needs-validation` to your form using the `renderTag()` method. You'll target this with JS later. Your code now should look something like this:
+    ```twig showLineNumbers {2}
+    {% set form = freeform.form("bootstrapForm", {
+        formAttributes: { "novalidate": true, 'class': 'needs-validation' }
+    }) %}
+    {{ form.renderTag({}) }}
+    ...
+    {{ form.renderClosingTag }}
+    ```
+    :::info
+    You can also set the class for the form with the `class` parameter.
+    :::
+
+</StepMarkdown>
+<StepMarkdown>
+- To set field level attributes, you can apply them directly to your form field inputs or `field.render`. Usually it's more convenient to set these inside the Freeform control panel form builder area, but you can still control these at the template level if you want. Your template code might look something like this:
+    ```twig showLineNumbers {2,9-15}
+    {% set form = freeform.form("bootstrapForm", {
+        formAttributes: { "novalidate": true, 'class': 'needs-validation' }
+    }) %}
+    {{ form.renderTag({}) }}
+        {% for row in form %}
+        <div>
+            {% for field in row %}
+            <div>
+                {% set attr = {} %}
+                {% if field.required %}
+                    {% set attr = attr|merge({'required':true}) %}
+                {% endif %}
+                {{ field.render({
+                    inputAttributes: attr
+                }) }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    {{ form.renderClosingTag }}
+    ```
+
+</StepMarkdown>
+<StepMarkdown>
+- At the bottom of your page, add javascript to attach validation to your form(s). Note the example class `needs-validation`. This needs to match the class name you set on your form in the steps above.
+    ```twig showLineNumbers
+    <script>
+    // Example starter Javascript for disabling form submissions if there are invalid fields
+    (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+        });
+    }, false);
+    })();
+    </script>
+    ```
+</StepMarkdown>
+</VerticalStepWrapper>

@@ -1,0 +1,180 @@
+---
+sidebar_position: 7
+---
+
+# Submission object
+
+The `submission` object allows you to retrieve data from your form submissions.
+
+## Properties
+
+### `id`
+
+The event's unique ID, which is also the element ID.
+
+### `incrementalId`
+
+The unique incremental ID of the submission (not element ID).
+
+### `title`
+
+The submission's title.
+
+### `dateCreated`
+
+The DateTime object of when the submission was submitted.
+
+### `author`
+
+The author of the submission, when submitted by a logged in user. Includes access to all aspects of user data such as `submission.author.id` and `submission.author.fullName`, etc.
+
+### `statusModel`
+
+The status of the submission. Includes access to all aspects of the status information:
+
+- `statusModel.name` - the submission's status name.
+- `statusModel.handle` - the submission's status handle.
+- `statusModel.color` - the submission's status color.
+
+### `formId`
+
+The ID of the form the submission belongs to.
+
+### `form`
+
+The Freeform_FormModel.
+
+### `ip`
+
+The IP address of the submitter, if [collection of IP addresses is enabled](../../forms/builder.mdx#form-settings).
+
+### `token`
+
+The token generated for the submission. A common use case for tokens would be when you want to have a more secure URL for accessing and displaying submission data, or allowing users to [delete their own submission](../queries/deleting-submissions-by-token.mdx) and not requiring any login, etc.
+
+Also required if you wish to allow [editing of submissions on front end](../../submissions/overview.mdx#submission-editing).
+
+### `fieldMetadata`
+
+A list containing all fields who store values (doesn't include HTML fields, submit fields, email-marketing fields). Each of the objects is a [Field](./field.mdx) object, and contains the submitted value. You can access all of the field properties for each field specific to the current submissions related Form.
+
+:::info
+Superseded by `submission[field.handle]` approach below...
+:::
+
+### `submission[field.handle]`
+
+A way to access all submitted field values, excluding HTML fields, submit fields, email-marketing fields. You can automate accessing all field data by using markup like this:
+
+```twig showLineNumbers
+<ul>
+  {% for field in submission %}
+    <li>{{ field.label }}: {{ submission[field.handle] }}</li>
+  {% endfor %}
+</ul>
+```
+
+You can access any field in the submission's form by the field's handle. If you have a field with a handle `firstName`, you can access its value by calling `submission.firstName` or get its label `submission.firstName.label`. Any other property such as `placeholder`, `options`, `defaultValue`, etc is also available.
+
+Some properties are field type specific. For example, you wouldn't be able to get `rows` from a **Dropdown** field, or `options` from a **Textarea** field.
+
+## Usage in Templates
+
+### Basic List
+
+Below is a basic example of how to display a list of submissions for a given form:
+
+```twig showLineNumbers
+{% set formHandle = 'yourFormHandle' %}
+{% set submissions = freeform.submissions({
+	form: formHandle,
+}) %}
+
+<h3>Submissions for {{ form.name }}</h3>
+
+{% if submissions is empty %}
+	<div>There are no submissions</div>
+{% else %}
+	<table class="table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Title</th>
+				{% for field in (submissions|first) %}
+					<th>{{ field.label }}</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+		{% for submission in submissions %}
+			<tr>
+				<td>{{ submission.id }}</td>
+				<td>
+					<a href="{{ siteUrl }}freeform-demo/bootstrap/{{ form.handle }}/submissions/{{ submission.id }}">
+						{{ submission.title }}
+					</a>
+				</td>
+				{% for field in submission %}
+					<td>
+					{% if field.type == "file" %}
+						{% set assetIds = submission[field.handle].value %}
+						{% if assetIds %}
+							{% for assetId in assetIds %}
+								{% set asset = craft.assets.id(assetId).one() %}
+								{% if asset %}
+									{% if asset.kind == "image" %}
+										<img src="{{ asset.url }}" class="img-responsive" />
+									{% else %}
+										<a href="{{ asset.url }}">{{ asset.filename }}</a>
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+					{% else %}
+						{{ submission[field.handle] }}
+					{% endif %}
+					</td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+{% endif %}
+```
+
+### Basic Single
+
+Below is a basic example of how to display a single view submission, assuming the submission ID is in the third segment:
+
+```twig showLineNumbers
+{% set submission = freeform.submissions({
+	form: 'yourFormHandle',
+	id: craft.app.request.segment(3),
+}).one() %}
+
+<h3>
+	{{ form.name }} - {{ submission.title }}
+	({{ submission.statusModel.name }})
+</h3>
+
+<table class="table table-striped">
+{% for field in submission %}
+	<tr>
+		<th style="width: 20%;">{{ field.label }}</th>
+		<td>
+		{% if field.type == "file" %}
+			{% set assetId = submission[field.handle] %}
+			{% set asset = craft.assets.id(assetId).one() %}
+			{% if asset %}
+				<img src="{{ asset.url }}" />
+			{% endif %}
+		{% elseif field.type == "dynamic_recipients" %}
+			{{ field.value }}
+		{% else %}
+			{{ submission[field.handle] }}
+		{% endif %}
+		</td>
+	</tr>
+{% endfor %}
+</table>
+```

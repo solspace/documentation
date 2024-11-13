@@ -1,0 +1,110 @@
+---
+sidebar_position: 1
+---
+
+import { Photo } from '@site/src/components/utils';
+import { FlexCards } from '@site/src/components/docs';
+
+import Icons from '@site/static/card-icons';
+
+# Installing & Updating
+
+<FlexCards
+  items={[
+    {
+      title: 'Requirements',
+      description: 'Review the requirements for your site to run Freeform.',
+      icon: Icons.ClipboardIcon,
+      fullCardLink: '#requirements',
+    },
+    {
+      title: 'Installation',
+      description: 'Instructions for installing a new copy of Freeform.',
+      icon: Icons.BoxIcon,
+      fullCardLink: '#installation',
+    },
+    {
+      title: 'Updating',
+      description:
+        'Instructions for updating from 5.x to newer versions of Freeform 5.x.',
+      icon: Icons.UpdateArrowsIcon,
+      fullCardLink: '#updating',
+    },
+    {
+      title: 'Purchasing',
+      description: 'Trialing, purchasing and troubleshooting license issues.',
+      icon: Icons.BagIcon,
+      fullCardLink: '#purchasing',
+    },
+    {
+      title: 'Changing Editions',
+      description: 'How to switch your edition from Lite to Pro.',
+      icon: Icons.SwapIcon,
+      fullCardLink: '#changing-editions',
+    },
+    {
+      title: 'Troubleshooting',
+      description: 'Common problems encountered when purchasing / upgrading.',
+      icon: Icons.QuestionSignIcon,
+      fullCardLink: '#troubleshooting',
+    },
+  ]}
+/>
+
+## Requirements
+
+Solspace Calendar mostly meets the same requirements as listed on the [Craft Requirements](https://craftcms.com/docs/requirements) page.
+
+- **Craft 2.6.2780 or later**
+- PHP 5.3.x - 7.1.x
+- MySQL 5.1.0 or later
+- Windows and OS X browsers:
+  - Chrome 21 or later
+  - Firefox 28 or later
+  - Safari 9.0 or later
+  - Internet Explorer 11 or later
+  - Microsoft Edge
+
+## Installing Instructions
+
+1. Unzip the download package and copy the _calendar_ folder to your Craft sites **/craft/plugins/** directory.
+2. Go to the **Settings > Plugins** page and click **Install** for the _Calendar_ plugin.
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v1/cp_install.png')}
+  alt="Installation"
+/>
+
+## Updating Instructions
+
+_Solspace Calendar_ uses the **Craft Update Service**, which means that every time there's an update available, it'll show up in the **Updates** area of the Craft control panel. You can then review the changelog there, or [view it here](./changelog.mdx).
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v1/cp_updates.png')}
+  alt="Craft Updates Service"
+/>
+
+To download the update, simply click the download button (you'll be taken to your account area on the Solspace site) and download the updated package for _Solspace Calendar_. Then follow the steps below:
+
+1. Within your Craft sites **/craft/plugins/** directory, delete the _calendar_ folder.
+2. Unzip the download package and copy the new _calendar_ folder to your Craft sites **/craft/plugins/** directory.
+3. Visit the Craft control panel and let the upgrade routine run.
+
+## Quick Setup
+
+Follow the steps below to quickly get Solspace Calendar setup in minutes.
+
+1. Customize and configure Solspace Calendar settings by visiting the [Settings](../configuration/settings.mdx) page (**Freeform > Settings**).
+2. Calendar ties into regular Craft User Group Permissions. Simply visit the Craft permissions page for the applicable user group(s) (**Settings > Users > User Groups**) to grant/edit/remove permissions to Calendar. See [Permissions](../configuration/permissions.mdx) documentation for more information.
+3. Install the [Demo Templates](../configuration/demo-templates.mdx) (**Calendar > Settings > Demo Templates**) to get Calendar up and running on the front end with just a couple clicks!
+
+## Common Issues
+
+Currently, there are only 2 known issues:
+
+- **ISSUE**: After installation, when going to _Calendar_ page I am getting the following error: "**Method "settings" for object "Craft\CalendarVariable" does not exist**"
+  - **CAUSE**: If you have the Tipping Media _Venti_ plugin currently installed, you might run into this issue due to a namespace collision. _Calendar_ uses the **Calendar** namespace, but _Venti_ seems to sometimes use it as well.
+  - **SOLUTION**: If your site is not live, or you're not dependent on this plugin, simply disable it (**Settings > Plugins** then click **Disable** button) or if you're not using it, uninstall it.
+- **ISSUE**: When attempting to use Calendar on front end templates, I am getting the following error: "**Call to undefined method CalendarLibraryCarbon::setWeekStartsAt()**"
+  - **CAUSE**: The issue has to do with another third party plugin installed that also uses [Carbon](http://carbon.nesbot.com/). A commonly reported plgin is [Postmaster](https://github.com/objectivehtml/Postmaster-for-Craft-CMS), which appears to be using an older copy of Carbon. _Calendar_ ends up loading Postmaster's Carbon library, causing this issue.
+  - **SOLUTION**: Manually updating the **vendors** directory for the affected plugin to use latest versions may resolve this issue. Customers affected with this issue specifically for _Postmaster_ plugin can contact [Solspace support](https://solspace.com/craft/support/calendar) for an updated _vendors_ folder for Postmaster that may resolve the issue.

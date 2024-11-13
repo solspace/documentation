@@ -1,0 +1,90 @@
+---
+sidebar_position: 3
+---
+
+# Page object
+
+The Page object contains all of the [Rows](./row.mdx) assigned to it in the [form builder](../../forms/builder.mdx). It also contains the index of the page and its label.
+
+## Properties
+
+### `index`
+
+The index of the page (Starts from `0`).
+
+### `label`
+
+Output the label of the page.
+
+## Methods
+
+### `getRows()`
+
+Use this to iterate over all [Rows](./row.mdx) in this page. You can also just iterate over the [Page](./page.mdx) object to yield the same results (examples provided below).
+
+## Usage in Templates
+
+### Page Label & Index
+
+Render the page label and its index:
+
+```twig showLineNumbers
+{{ form.currentPage.label }}
+{{ form.currentPage.index }}
+```
+
+### All Form Pages
+
+Render all form pages and add a class to the currently shown page:
+
+```twig showLineNumbers
+<ul>
+  {% for page in form.pages %}
+    <li>
+      {% if form.currentPage.index == page.index %}
+        <a href="javascript:;">{{ page.label }}</a>
+      {% else %}
+        {{ page.label }}
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+```
+
+### All Fields for Current Page
+
+Iterate through all rows and its fields of the current page:
+
+```twig showLineNumbers
+{% for row in form.currentPage %}
+  <div class="row">
+    {% for field in row %}
+      <div class="field">
+        {{ field.label }}
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}
+```
+
+Iterating over the form yields the same results:
+
+```twig showLineNumbers
+{% for row in form %}
+  <div class="row">
+    {% for field in row %}
+      <div class="field">
+        {{ field.label }}
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}
+```
+
+### Total Pages in Form
+
+How to display the total number of pages in a form:
+
+```twig showLineNumbers
+{{ form.pages|length }}
+```

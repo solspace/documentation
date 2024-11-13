@@ -1,0 +1,89 @@
+---
+sidebar_position: 6
+---
+
+import Player from 'react-player';
+
+import { Photo } from '@site/src/components/utils';
+
+import DemoTemplatesPhoto from './assets/img/demo-templates.png';
+
+# Demo Templates
+
+Freeform includes a complete set of demo templates. These demo templates let you have a fully functioning area on your website with just a couple clicks! Further to this, it allows you to see real world examples of the template code in action, which will help you get acquainted with Freeform quicker.
+
+:::tip
+[Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.
+](../guides/testing/troubleshooting-form-issues.mdx)
+:::
+
+<Photo img={DemoTemplatesPhoto} alt="Demo Templates" />
+
+:::youtube[bxJtIZNAIoU]
+:::
+
+## Installing the Demo Templates
+
+To install the Demo Templates, simply visit the **Settings** page for Freeform and click on the **Demo Templates** nav item (**Freeform → Settings → Demo Templates**).
+
+By default, the Demo Templates page will have **freeform-demo** as the _Install Path_ for your template path. You can change this to whatever you like. So for example, if you set the _Install Path_ value as `freeform-demo`, the demo templates will be installed to `site.com/freeform-demo/`.
+
+During installation of demo templates, Freeform will copy the template folders and files (as shown on page) to the Craft **/templates/** directory. So using the above example, your templates would be located at `/templates/freeform-demo/`.
+
+Freeform will also look for an **assets** folder in your **public** directory and attempt to load files such as CSS, JS, fonts and image files (as shown on page) to a folder inside that, named `freeform-demo` (using the example above). If an **/assets/** directory does not exist, Freeform will attempt to create that directory as well.
+
+And lastly, Freeform will create several template routes for you (as shown on page) for the demo templates to work correctly.
+
+If you ever want to refresh the demo templates back to what they were by default (or if there's been an update to them in a new version), you can simply reinstall the Demo Templates and use the same _Install Path_ value. Freeform will then overwrite the files and only add new routes (if applicable), rather than installing duplicate routes.
+
+If you encounter any issues while attempting to install the demo templates, please see the [Troubleshooting](#troubleshooting) guide below.
+
+:::tip
+[How do I completely uninstall / remove the demo templates when done?](../guides/testing/remove-demo-templates.mdx)
+:::
+
+## Troubleshooting
+
+If you encounter any issues trying to install the demo templates, it's likely that your database user does not have sufficient privileges or your server configuration does not allow some or all of the actions.
+
+If you cannot change or adjust your permissions or configuration, you can install the demo templates manually. To install them manually, refer to the [Manual Install](#manual-install) instructions below.
+
+## Manual Install
+
+To install the demo templates manually, just follow the instructions below:
+
+1. Inside the `/vendor/solspace/craft-freeform/packages/plugin/src/codepack/` directory, copy the **templates** folder into the Craft `/templates/` directory, and rename the Freeform **templates** folder to **demo** (so it should now be located at `/templates/demo/`).
+2. In your root public directory, create a directory called **assets** if it does not already exist.
+3. Inside the `/vendor/solspace/craft-freeform/packages/plugin/src/codepack/` directory, copy the **assets** folder into the public `/assets/` directory, and rename the Freeform **assets** folder to **demo** (so it should now be located at `/assets/demo/`).
+4. Copy and paste the following routes into your _routes.php_ configuration file (`/config/routes.php`):
+
+```php showLineNumbers
+'demo/templates/<*:[^\/]+>' => ['template' => 'demo/templates'],
+'demo/templates/<*:[^\/]+>/<*:[^\/]+>' => ['template' => 'demo/templates/form'],
+'demo/templates/<*:[^\/]+>/<*:[^\/]+>/edit/<*:[^\/]+>' => ['template' => 'demo/templates/form'],
+'demo/submissions/<*:[^\/]+>' => ['template' => 'demo/submissions'],
+'demo/submissions/<*:[^\/]+>/spam' => ['template' => 'demo/submissions'],
+'demo/submissions/<*:[^\/]+>/<*:[^\/]+>' => ['template' => 'demo/submissions/view'],
+'demo/submissions/<*:[^\/]+>/<*:[^\/]+>/spam' => ['template' => 'demo/submissions/view'],
+'demo/submissions/delete/<*:[^\/]+>/<*:[^\/]+>' => ['template' => 'demo/submissions/delete'],
+'demo/custom' => ['template' => 'demo/custom'],
+'demo/custom/<*:[^\/]+>' => ['template' => 'demo/custom/form'],
+'demo/extras/suppress-edit-submissions/edit/<token\w+>' => ['template' => 'demo/extras/suppress-edit-submissions'],
+```
+
+Visit your demo templates at: **yoursite.com/demo**
+
+## Live Demo
+
+The demo below is a live [demo site](https://demo.solspace.net/craft/freeform-demo/) that shows most of what the Demo Templates include (some sections and data has been limited).
+
+<iframe
+  title="App Demo"
+  id="app-demo"
+  src="https://demo.solspace.net/craft/freeform-demo/"
+  scrolling="yes"
+  height="1600px"
+  width="100%"
+  class="app-demo"
+  frameborder="0"
+></iframe>

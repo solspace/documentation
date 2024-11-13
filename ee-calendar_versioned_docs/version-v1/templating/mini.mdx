@@ -1,0 +1,185 @@
+---
+sidebar_position: 8
+title: 'ICS_Update'
+---
+
+# Calendar:Mini template tag
+
+The _Calendar:Mini_ loop outputs a one month mini calendar focused on a specific months events. It's a shortcut to using the complex [Calendar:Cal](../templating/cal.mdx) function. Unlike most ExpressionEngine tags, the `{exp:calendar:mini}{/exp:calendar:mini}` tags alone will output a pre-templated display. Using the parameters and variables below, you can filter and format the results further. Defaults to loading events for current month.
+
+```html showLineNumbers
+{exp:calendar:mini} content {/exp:calendar:mini}
+```
+
+## Parameters
+
+### site_id=
+
+`site_id="1"`
+
+If using MSM, you can specify a Site ID in this parameter to filter entries down to that site.
+
+### calendar_id=
+
+`calendar_id="1|3"`
+
+This parameter allows you to display specific calendars by specifying their entry ID(s). You can hardcode a calendar ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### calendar_name=
+
+`calendar_name="soccer|baseball|dodgeball"`
+
+This parameter allows you to display specific calendars by specifying their short_names (entry url_title). You can hardcode a short_name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### event_id=
+
+`event_id="23|77"`
+
+This parameter allows you to display specific events by specifying their entry ID(s). You can hardcode an event ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### event_name=
+
+`event_name="best_event_evar|christmas|pie_day"`
+
+This parameter allows you to display specific events by specifying their short_names (entry url_title). You can hardcode a short_name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### date_range_start=
+
+`date_range_start="2010-01-01"`
+
+This parameter allows you to specify a specific month to display events for. If this parameter is NOT specified, then the current month is displayed. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter.
+
+### first_day_of_week=
+
+`first_day_of_week="0"`
+
+By default, Calendar considers Sunday as the first day of the week. This parameter allows you to override that by specifying the numeric value of a weekday (ex: Sunday = `0`, Monday = `1`, etc).
+
+### enable=
+
+`enable="categories|category_fields|custom_fields|member_data|pagination"`
+
+By default, this function does not grab any advanced channel data in order to improve performance. However, opposite to the EE Channel module's [disable](http://ellislab.com/expressionengine/user-guide/add-ons/channel/channel_entries.html#disable 'EE Channel module Documentation') parameter, this parameter allows you to enable some or all of those features when you need them. Separate multiples with the pipe character. Options are: `categories`, `category_fields`, `custom_fields`, `member_data` and `pagination`.
+
+## Variables
+
+Most of the [variables listed in Calendar:Events](../templating/events.mdx#variables) are available for use here. Formatting variables are not needed as the _Calendar:Mini_ loop will do that for you. However, should you need to use any, all relevant [variables from Calendar:Cal](../templating/cal.mdx#variables) (prepended with `month_`) are available for use here.
+
+## Conditionals
+
+Most of the [conditionals listed in Calendar:Events](../templating/events.mdx#conditionals) are available for use here. Formatting conditionals are not needed as the _Calendar:Mini_ loop will do that for you. However, should you need to use any, all relevant [conditionals from Calendar:Cal](../templating/cal.mdx#conditionals) (prepended with `month_`) are available for use here.
+
+## Examples
+
+### Easy
+
+This single set of code will output a mini Calendar for you. This is thanks to the preloaded template pack included with Calendar. The `{exp:calendar:mini}{/exp:calendar:mini}` tags act almost like an `{events}{/events}` variable pair for formatting the events (see [Calendar:Events Documentation](../templating/events.mdx) for list of available variables and conditionals):
+
+```html showLineNumbers
+<html>
+  <head>
+    <title>Mini Calendar</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/themes/third_party/calendar/templates/mini.css"
+    />
+  </head>
+  <body>
+    <div id="mc_wrap">
+      <div id="mc_calendar">{exp:calendar:mini} {/exp:calendar:mini}</div>
+    </div>
+  </body>
+</html>
+```
+
+### Advanced
+
+If you’re interested in working the code from scratch, you’ll need to
+use the full [Calendar:Cal](../templating/cal.mdx) function to generate
+the code:
+
+```html showLineNumbers
+<html>
+  <head>
+    <title>Mini Calendar</title>
+    <link rel="stylesheet" type="text/css" href="/themes/third_party/calendar/templates/mini.css" />
+  </head>
+  <body>
+
+  <div id="mc_wrap">
+    {exp:calendar:cal
+      {if segment_3 == ''}
+        date_range_start="year-month-01"
+        date_range_end="year-month-last"
+      {/if}
+      {if segment_3 != ''}
+        date_range_start="{segment_3}-{segment_4}-01"
+        date_range_end="{segment_3}-{segment_4}-last"
+      {/if}
+    }
+      <div id="mc_calendar">
+        {display_each_month}
+        <table>
+          <thead>
+            <tr>
+              <th colspan="1">
+                <a
+                  id="mc_prev_month"
+                  class="icon left"
+                  href="{path='calendar/mini'}/{prev_month format="%Y/%m"}/">&laquo;</a>
+              </th>
+              <th colspan="5">
+                <a href="{path='calendar/mini'}/{month format="%Y/%m"}/">
+                  {date format="%F %Y"}
+                </a>
+              </th>
+              <th colspan="1">
+                <a
+                  id="mc_next_month"
+                  class="icon right"
+                  href="{path='calendar/mini'}/{next_month format="%Y/%m"}/">
+                  &raquo;
+                </a>
+              </th>
+            </tr>
+            <tr id="mc_days">
+            {display_each_day_of_week}
+              <th class="{if day_of_week_is_weekend}weekend{/if} {if day_of_week_is_current}current{/if}">
+                {day_of_week_one}
+              </th>
+            {/display_each_day_of_week}
+          </tr>
+        </thead>
+        <tbody>
+          {display_each_week}
+          <tr>
+            {display_each_day}
+            <td cellpadding="0" cellspacing="0" class="
+              {if day_in_current_month == FALSE}mc_pad{/if}
+              {if day_event_total > 0}has_events{/if}
+              {if count == 7}selected{/if}
+              {if day_is_today}today{/if}
+              {if day_is_weekend}weekend{/if}
+              {if day_is_weekday}weekday{/if}
+            "><div class="mc_date">{if day_in_current_month}
+
+            {if day_event_total}<a href="{path='calendar/day'}/{date format="%Y/%m/%d"}/">{/if}
+            {day}
+            {if day_event_total}</a>{/if}
+            {if:else}
+              <strong class="middot">&middot;</strong>
+            {/if}</div></td>
+            {/display_each_day}
+          </tr>
+          {/display_each_week}
+        </tbody>
+      </table>
+      {/display_each_month}
+      </div>
+    {/exp:calendar:cal}
+  </div>
+
+  </body>
+</html>
+```

@@ -1,0 +1,100 @@
+---
+sidebar_position: 2
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Updating from Calendar 2.x
+
+The Calendar 2.x to Calendar 3.x upgrade is special for a variety of reasons, but the transition should be fairly smooth:
+
+- It introduces several new features.
+- It introduces a new _Lite_ edition at a lower price for sites with simpler needs.
+- Previous _Standard_ license customers have had their licenses automatically switched to _Pro_ licenses (the exact equivelant to _Standard_ in Calendar 2.x).
+
+## Key Changes
+
+Calendar 3 brings some exciting new features to Calendar!
+
+:::info
+**All Calendar customers' v2 _Standard_ licenses have been upgraded/renamed to v3 _Pro_ licenses as of February 4, 2020.** If your Calendar license(s) have expired, and you wish to renew to get access to Calendar 3, please be aware that the new equivelant license is _Pro_.
+:::
+
+- Added Lite edition for Calendar for simpler setups. The key differences are:
+  - No ICS export/subscriptions
+  - No repeating rules
+  - No dashboard widgets
+  - No renaming of plugin name
+- Added ability to group a list of upcoming events by day, week or month, and display a heading for each.
+- Added ability to show a list of upcoming events, but only display one (or a specified amount) of the next upcoming recurrences for repeating events, instead of all available ones.
+- Added setting to disable (hide) the repeat rule options per calendar when editing/creating events.
+- Added a 'Calendars' fieldtype, which allows for relating an entire calendar (ID) to other Craft elements.
+- Overhauled the Create/Edit event UI to be more intuitive and also match Craft 3.4 styling.
+
+## Updating from 2.x
+
+#### To transition from Calendar 2.x to Calendar 3.x, please follow the instructions below very carefully.
+
+1. <span class="red">BACKUP YOUR SITE FILES AND DATABASE.</span>
+2. Be sure to first carefully upgrade to Craft 3.4+ if you haven't already.
+3. Carefully review the [changelog](./changelog.mdx) for Calendar 3.x.
+4. If your Calendar license is currently expired, you will need to renew your license. Please note that your previous _Standard_ edition license is now called _Pro_ edition.
+5. We recommend updating via Composer from the Terminal:
+   - Open your Craft site's main `composer.json` file and adjust the following information (example) FROM:
+     ```json {6} showLineNumbers
+     "require": {
+         "php": ">=7.0.0",
+         "craftcms/cms": "^3.1.0",
+         "vlucas/phpdotenv": "v2.4.0",
+         "solspace/craft-freeform": "^3.6.0",
+         "solspace/craft3-calendar": "^2.0.0"
+     },
+     ```
+   - Change it TO:
+     ```json {6} showLineNumbers
+     "require": {
+         "php": ">=7.0.0",
+         "craftcms/cms": "^3.4.0",
+         "vlucas/phpdotenv": "v2.4.0",
+         "solspace/craft-freeform": "^3.6.0",
+         "solspace/craft-calendar": "^3.0.0"
+     },
+     ```
+   - Open your Terminal and go to your Craft project: `cd /path/to/project`
+   - To run the available updates for your site, run `composer update`
+6. Proceed to Craft control panel and click the **Finish Updates** button when it shows.
+7. Go to the Plugins section of your Craft 3 control panel (**Craft CP** -> **Settings** -> **Plugins**) and ensure that you have the _Pro_ edition of Calendar. If not, follow the steps below:
+   - Click on the **Lite \ Trial** flag/button, which will take you to the Calendar product page inside the Craft Plugin Store.
+     <Photo
+       img={require('@site/static/img/craft-calendar/v3/v2-upgrade-step1.png')}
+       alt="Switch editions, Step 1"
+     />
+   - Click on the **Reactivate** button to activate the _Pro_ edition for your site.
+     {' '}
+     <Photo
+       img={require('@site/static/img/craft-calendar/v3/v2-upgrade-step2.png')}
+       alt="Switch editions, Step 2"
+     />
+   - Alternatively, you could edit the `edition` setting for Calendar inside Craft's [Project Config](https://docs.craftcms.com/v3/project-config.html) file to have a value of `pro`.
+8. Carefully review Calendar inside the control panel and in your templates and ensure that everything works correctly and/or necessary updates to templates/settings are made. If you ever use the demo templates to review/test/experiment, please note that there have been updates made to them, so you may wish to reinstall them.
+9. If you are [creating/editing events on the front end](../guides/templating/events-front-end.mdx), please be sure to update the hidden **action** field value to `calendar/legacy-events/save-event`. See the example in the demo templates or [in documentation](../guides/templating/events-front-end.mdx#example-code-from-demo-templates) for complete working code.
+
+## Troubleshooting
+
+If something didn't go right, or if you're viewing this guide _after_ performing the upgrade from Calendar 2.x to 3.x, please check out some of the common issues below:
+
+- [Seeing plugin licensing errors](#seeing-plugin-licensing-errors)
+
+### Seeing plugin licensing errors
+
+If you're seeing licensing errors in the control panel such as:
+
+> There’s a licensing issue with the Calendar plugin. Please fix on an environment where administrative changes are allowed.
+
+This might be because you're using the wrong edition or specifying the wrong edition in your Project Config file, etc.
+
+#### To resolve this issue:
+
+If using Craft's [Project Config](https://docs.craftcms.com/v3/project-config.html) feaure, open up your `project.yaml` file and check for `calendar`. Ensure that the edition property contains a value of `lite` or `pro` (according to which edition you have), and NOT `standard`.
+
+If that still does not resolve the issue, please see the [Changing Editions](./installing-updating.mdx#changing-editions) documentation.

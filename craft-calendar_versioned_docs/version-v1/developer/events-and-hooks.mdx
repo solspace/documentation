@@ -1,0 +1,147 @@
+---
+title: Events & Hooks
+sidebar_position: 1
+---
+
+# Developer Events & Hooks
+
+If you wish to extend the capabilities of Calendar, you can use any of the events and hooks below:
+
+## Events for Calendar Events
+
+- `onBeforeSave` <a href="#event-onbeforesave-event" id="event-onbeforesave-event" class="docs-anchor">#</a>
+  - Called before saving the event data
+  - Contains these parameters:
+    - `event` - the `Calendar_EventModel`
+    - `isNewEvent` - boolean value
+- `onAfterSave` <a href="#event-onaftersave-event" id="event-onaftersave-event" class="docs-anchor">#</a>
+  - Called after saving the event data
+  - Contains these parameters:
+    - `event` - the `Calendar_EventModel`
+    - `isNewEvent` - boolean value
+- `onBeforeDelete` <a href="#event-onbeforedelete-event" id="event-onbeforedelete-event" class="docs-anchor">#</a>
+  - Called before deleting an event
+  - Contains these parameters:
+    - `event` - the `Calendar_EventModel`
+- `onAfterDelete` <a href="#event-onafterdelete-event" id="event-onafterdelete-event" class="docs-anchor">#</a>
+  - Called after deleting an event
+  - Contains these parameters:
+    - `event` - the `Calendar_EventModel`
+
+### Usage Instructions
+
+In your plugin's `::init()` method, subscribe to any of these events by using the `craft()->on()` method. For example, to subscribe to the `onBeforeSave` you would have to have this code in place:
+
+```php showLineNumbers
+<?php
+
+namespace Craft;
+
+class YourPlugin extends BasePlugin
+{
+  public function init()
+  {
+    parent::init();
+
+    craft()->on(
+      "calendar_events.onBeforeSave",
+      function(Event $event) {
+        $calendarEvent = $event->params["event"];
+        // Do something with this data
+      }
+    )
+  }
+}
+```
+
+## Events for Calendars
+
+- `onBeforeSave` <a href="#event-onbeforesave-calendar" id="event-onbeforesave-calendar" class="docs-anchor">#</a>
+  - Called before saving the calendar data
+  - Contains these parameters:
+    - `calendar` - the `Calendar_CalendarModel`
+    - `isNewCalendar` - boolean value
+- `onAfterSave` <a href="#event-onaftersave-calendar" id="event-onaftersave-calendar" class="docs-anchor">#</a>
+  - Called after saving the calendar data
+  - Contains these parameters:
+    - `calendar` - the `Calendar_CalendarModel`
+    - `isNewCalendar` - boolean value
+- `onBeforeDelete` <a href="#event-onbeforedelete-calendar" id="event-onbeforedelete-calendar" class="docs-anchor">#</a>
+  - Called before deleting a calendar
+  - Contains these parameters:
+    - `calendar` - the `Calendar_CalendarModel`
+- `onAfterDelete` <a href="#event-onafterdelete-calendar" id="event-onafterdelete-calendar" class="docs-anchor">#</a>
+  - Called after deleting a calendar
+  - Contains these parameters:
+    - `calendar` - the `Calendar_CalendarModel`
+
+### Usage Instructions
+
+In your plugin's `::init()` method, subscribe to any of these events by using the `craft()->on()` method. For examples, to subscribe to the `onAfterDelete` you would have to have this code in place:
+
+```php showLineNumbers
+<?php
+
+namespace Craft;
+
+class YourPlugin extends BasePlugin
+{
+  public function init()
+  {
+    parent::init();
+
+    craft()->on(
+      "calendar_calendars.onAfterDelete",
+      function(Event $event) {
+        $calendar = $event->params["calendar"];
+        // Do something with this data
+      }
+    )
+  }
+}
+```
+
+## Examples
+
+To listen to Craft Commerce order save event, you must make a new plugin (or use an existing one) and in it's `::init()` method, listen to the `commerce_orders.onSaveOrder` event:
+
+```php showLineNumbers
+class TestPlugin extends BasePlugin
+{
+  public function init()
+  {
+    parent::init();
+
+    craft()->on(
+      "commerce_orders.onSaveOrder",
+      function (Commerce_OrderModel $order) {
+        // Create the event
+        $event = new Calendar_EventModel();
+
+        $event->getContent()->title = "New Event Title";
+        $event->slug				= "new-event-title";
+
+        // Any custom fields go through the ::getContent() model
+        $event->getContent()->body = "This is a custom rich text field";
+
+        // Do whatever you need to do with the order data
+        // By using the $order OrderModel
+        // For example:
+        //
+        // $event->getContent()->body = "Order total: " . $order->totalPrice;
+
+        // Mandatory fields
+        $event->calendarId = 1;
+        $event->authorId   = craft()->getUser()->id;
+        $event->startDate  = new DateTime();
+        $event->endDate	= new DateTime();
+
+        $event->allDay = true;
+
+        // Save the event using Calendar Events service ::saveEvent() method
+        craft()->calendar_events->saveEvent($event);
+      }
+    );
+  }
+}
+```

@@ -1,0 +1,956 @@
+---
+title: 'Custom Email Marketing'
+sidebar_position: 3
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+import CEM1Photo from './assets/img/custom-email-marketing-1.png';
+import CEM2Photo from './assets/img/custom-email-marketing-2.png';
+import CEM3Photo from './assets/img/custom-email-marketing-3.png';
+import CEM4Photo from './assets/img/custom-email-marketing-4.png';
+import CEM5Photo from './assets/img/custom-email-marketing-5.png';
+import CEM6Photo from './assets/img/custom-email-marketing-6.png';
+
+# Custom Email Marketing Integrations<Badge type="pro" text="Pro" />
+
+You can create your own [Email Marketing](../integrations/index.mdx) types and add them to Freeform.
+
+## Setup Guide<Badge type="feature" text="Revised in 5.0+" />
+
+The creation of a custom Email Marketing integration in Freeform will require using a custom [Craft module](https://craftcms.com/docs/5.x/extend/module-guide.html). This guide assumes you already have that knowledge. If not, please [check out the guide](../guides/developer/building-a-custom-module.mdx) we have.
+
+:::tip
+[View the guide on how to build a custom module.](../guides/developer/building-a-custom-module.mdx)
+:::
+
+To add a custom Email Marketing integration, you need to create a new class that implements `\Solspace\Freeform\Library\Integrations\Types\EmailMarketing\EmailMarketingIntegrationInterface` interface.
+
+For your convenience, there's a base class that you can extend that implements this interface and provides properties for `emailField`, `optInField` and `mailingList` out of the box.
+
+You get this by extending the `\Solspace\Freeform\Library\Integrations\Types\EmailMarketing\EmailMarketingIntegration` class.
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+### Base class
+
+Let's start with a basic Email Marketing integration class and go from there:
+
+```php showLineNumbers
+<?php
+
+namespace modules\EmailMarketing;
+
+use GuzzleHttp\Client;
+use Solspace\Freeform\Attributes\Integration\Type;
+use Solspace\Freeform\Form\Form;
+use Solspace\Freeform\Library\Integrations\Types\EmailMarketing\DataObjects\ListObject;
+use Solspace\Freeform\Library\Integrations\Types\EmailMarketing\EmailMarketingIntegration;
+
+#[Type(
+    name: 'My Custom Email Marketing Integration',
+    type: Type::TYPE_EMAIL_MARKETING,
+    version: 'v1',
+    readme: __DIR__.'/README',
+    iconPath: __DIR__.'/icon.svg',
+)]
+class CustomEmailMarketingIntegration extends EmailMarketingIntegration
+{
+    // This will come in handy when logging errors
+    private const LOG_CATEGORY = 'custom-email-marketing';
+
+    public function checkConnection(Client $client): bool
+    {
+        // This method will perform a connection check
+        // Which will determine if the integration is set up
+        // successfully.
+    }
+
+    public function getApiRootUrl(): string
+    {
+        // This method will help us write more effective urls
+    }
+
+    public function push(Form $form, Client $client): void
+    {
+        // This method will perform the call to our API
+        // pushing all the data submitted by the form
+    }
+
+    public function fetchLists(Client $client): array
+    {
+        // This method will fetch all available mailing lists
+    }
+
+    public function fetchFields(ListObject $list, string $category, Client $client): array
+    {
+        // This method will fetch all custom fields in a given mailing list
+    }
+}
+```
+
+Here we have a barebones Email Marketing integration type defined. There are 5 methods that have to be implemented for it to work.
+
+</StepMarkdown>
+
+<StepMarkdown>
+### Authorization
+
+We likely will need some sort of authorization mechanism to be able to push data to our endpoint. For this example, we will assume that a simple access token is enough. Let's add a property that will store our `accessToken` in the database in an encrypted format.
+
+```php showLineNumbers
+// ...
+use Solspace\Freeform\Attributes\Property\Input;
+use Solspace\Freeform\Attributes\Property\Validators;
+// ...
+
+class CustomEmailMarketingIntegration extends EmailMarketingIntegration
+{
+    #[Flag(self::FLAG_ENCRYPTED)]
+    #[Flag(self::FLAG_GLOBAL_PROPERTY)]
+    #[Validators\Required]
+    #[Input\Text(
+        label: 'Access Token',
+        instructions: 'Enter your Access Token here.',
+    )]
+    protected string $accessToken = '';
+
+    public function getAccessToken(): string
+    {
+        return $this->getProcessedValue($this->accessToken);
+    }
+
+  // ... the rest of the functionality
+}
+```
+
+In this example, we added a `string $accessToken` property to our class. For it to appear as a text input in the settings page and Form Builder, we add the `#[Text]` attribute and provide a `label` and `instructions` for it.
+
+We add the `#[Flag(self::FLAG_ENCRYPTED)]` attribute which will encrypt the value when saving it to the database, and decrypt it when the integration is fetched from the database.
+
+`#[Flag(self::FLAG_GLOBAL_PROPERTY)]` attribute makes this input only editable on the integration settings page. If you don't add this attribute, this property will be editable both in the properties and inside the Form Builder for each form separately as well.
+
+`#[Validators\Required]` requires this to be set, otherwise you cannot save the integration.
+
+Then we add a getter function that processes the value with the internal `::getProcessedValue()` method. This method parses environment variables so that if you save the access token as an env variable, it will get parsed and the current value will be used.
+
+#### Making use of the Access Token
+
+Now that we have an access token, we need to attach it to the requests that are being made on behalf of the integration. Let's assume that we need to add an `Access-Token` header entry with the access token from the integration. To do this, we will add another event listener, which will let us modify the `GuzzleHttp\Client` instance that gets passed to each integration call.
+
+We need to listen to the `\Solspace\Freeform\Bundles\Integrations\Providers\IntegrationClientProvider::EVENT_GET_CLIENT` event, so let's edit our module to take care of this:
+
+```php showLineNumbers
+<?php
+
+namespace modules;
+
+// ...
+use yii\base\Event;
+use modules\EmailMarketing\CustomEmailMarketingIntegration;
+use Solspace\Freeform\Bundles\Integrations\Providers\IntegrationClientProvider;
+use Solspace\Freeform\Events\Integrations\GetAuthorizedClientEvent;
+// ...
+
+class Module extends \yii\base\Module
+{
+    public function init(): void
+    {
+        // ...
+
+        Event::on(
+            IntegrationClientProvider::class,
+            IntegrationClientProvider::EVENT_GET_CLIENT,
+            function (GetAuthorizedClientEvent $event) {
+                // We check if the current integration class is an instance
+                // of CustomEmailMarketingIntegration
+                $integration = $event->getIntegration();
+                if (!$integration instanceof CustomEmailMarketingIntegration) {
+                    return;
+                }
+
+                // We add the 'Access-Token' header
+                $event->addConfig([
+                    'headers' => [
+                        'Access-Token' => $integration->getAccessToken(),
+                    ],
+                ]);
+            }
+        );
+    }
+}
+```
+
+Once this is done, each time our integration will make an external API call, the `GuzzleHttp\Client` will come already pre-configured to have the `Access-Token` header, so we won't need to do it manually.
+
+</StepMarkdown>
+
+<StepMarkdown>
+### Registering our Integration Type
+
+To make our integration type available in the integration settings when creating new integrations, we need to register it.
+
+In your custom module, we must listen to the `\Solspace\Freeform\Services\Integrations\IntegrationsService::EVENT_REGISTER_INTEGRATION_TYPES` event, and register our integration.
+
+```php showLineNumbers
+<?php
+
+// ...
+use Solspace\Freeform\Events\Integrations\RegisterIntegrationTypesEvent;
+use Solspace\Freeform\Services\Integrations\IntegrationsService;
+// ...
+
+class Module extends \yii\base\Module
+{
+    public function init(): void
+    {
+        // ...
+
+        Event::on(
+            IntegrationsService::class,
+            IntegrationsService::EVENT_REGISTER_INTEGRATION_TYPES,
+            function (RegisterIntegrationTypesEvent $event) {
+                $event->addType(CustomEmailMarketingIntegration::class);
+            }
+        );
+    }
+}
+```
+
+Once that is done, you should be able to see your integration in the dropdown of available integrations.
+
+<Photo img={CEM1Photo} alt="Custom Email Marketing integration" />
+
+</StepMarkdown>
+<StepMarkdown>
+### Testing the connection
+
+#### Simple API server for testing
+
+To test the connection, we will write a very simple API server for this integration to connect to. Let's make a new PHP file in our `modules/ApiMock` folder called `server.php`.
+
+Here are the contents of the file:
+
+```php showLineNumbers
+<?php
+
+header('Content-Type: application/json');
+
+$headers = getallheaders();
+$accessToken = $headers['Access-Token'] ?? null;
+
+if ('valid-token' !== $accessToken) {
+    http_response_code(401);
+    echo 'invalid token';
+
+    exit;
+}
+
+$url = $_SERVER['REQUEST_URI'];
+switch ($url) {
+    default:
+        echo 'OK';
+
+        break;
+}
+```
+
+It's super simple. If there's an `Access-Token` header provided, and its value is `valid-token`, we will return a good connection. If notm=, we will throw a `401 Unauthorized` with the message `invalid token`.
+
+Now let's run the server, by going to the directory where the `server.php` is located and starting the PHP's built-in server on `localhost:8000`.
+
+```sh showLineNumbers
+$ cd [craft-root-dir]/modules/ApiMock
+$ php -S localhost:8000 server.php
+```
+
+You can test if the server is running by opening `http://localhost:8000` and seeing the message `invalid token`.
+
+#### Setting up the class to check this connection
+
+Let's write implementations for the `::checkConnection()` and `::getApiRootUrl()` methods:
+
+```php showLineNumbers
+<?php
+
+// ...
+
+class CustomEmailMarketingIntegration extends EmailMarketingIntegration
+{
+    // ...
+
+    public function checkConnection(Client $client): bool
+    {
+        try {
+            // ::getEndpoint() will generate an endpoint by utilizing
+            // the ::getApiRootUrl() method to get the root url
+            // and cleaning up the url and attaching what you specify
+            // in the argument
+
+            // result -> http://localhost
+            $endpoint = $this->getEndpoint('/');
+
+            // we use the passed $client instance, which contains
+            // the header we attached for the `Access-Token`
+            $response = $client->get($endpoint);
+
+            $status = $response->getStatusCode();
+            $content = (string) $response->getBody();
+
+            // We return true only if the status is 200
+            // and the response content is 'OK'
+            return 200 === $status && 'OK' === $content;
+        } catch (\Exception $exception) {
+            // ::processException() handles logging the exception
+            // to freeform logs
+
+            $this->processException($exception, self::LOG_CATEGORY);
+        }
+    }
+
+    // This method is usually a simple URL to the api resource
+    // but in some integrations, the URLs are built based on other
+    // properties, like specific User ID's, regions, etc
+    // That can all be handled here for ease of use.
+    public function getApiRootUrl(): string
+    {
+        return 'http://localhost:8000';
+    }
+
+    // ...
+}
+```
+
+Now we can create a new integration in the _Settings > Email Marketing > New Integration_ and try out if the token checking works.
+
+Let's start by making an integration with an invalid token:
+
+<Photo img={CEM2Photo} alt="Custom Email Marketing integration 2" />
+
+Here we can see that the integration was not able to authorize because the token is invalid.
+
+Now let's set the value of the token to be `valid-token`:
+
+<Photo img={CEM3Photo} alt="Custom Email Marketing integration 3" />
+
+Now the connection is successful. We have a connected integration. Let's move forward.
+
+</StepMarkdown>
+<StepMarkdown>
+### Fetching mailing lists and custom fields
+
+For us to be able to display mailing lists and utilize their custom fields, we need to implement the two methods `::fetchLists()` and `::fetchFields()`.
+
+Let's update our API server example to return two mailing lists when accessing the mailing list endpoint `GET /lists`:
+
+```php showLineNumbers
+<?php
+
+// ...
+
+switch ($url) {
+    case '/lists':
+        $list = [
+            ['id' => 1, 'name' => 'First List'],
+            ['id' => 2, 'name' => 'Second List'],
+        ];
+
+        echo json_encode($list);
+
+        break;
+
+    // ...
+}
+```
+
+Now when we call the `http://localhost/lists` with a valid Access Token, we will receive a simple list of two mailing lists.
+
+Let's implement the `::fetchLists()` method to convert these lists into the Freeform Integration list objects that are ready for storage (this lets us cache the fetched lists without making additional calls to the API every time we need them):
+
+```php showLineNumbers
+<?php
+
+// ...
+
+class CustomEmailMarketingIntegration extends EmailMarketingIntegration
+{
+    // ...
+
+    public function fetchLists(Client $client): array
+    {
+        try {
+            $response = $client->get($this->getEndpoint('/lists'));
+        } catch (\Exception $exception) {
+            $this->processException($exception, self::LOG_CATEGORY);
+        }
+
+        // decode the response JSON which is an array of two lists
+        $responseLists = json_decode((string) $response->getBody());
+
+        $lists = [];
+        foreach ($responseLists as $list) {
+            // Create a new `ListObject` for each list
+            $lists[] = new ListObject(list->id, list->name);
+        }
+
+        return $lists;
+    }
+
+    // ...
+}
+```
+
+Now let's create a new form. Add in a **Text** and **Email** field, open up the _Integrations_ tab and enable our integration.
+
+Choose the **Email** field as the target email field, which will be used to subscribe the person to the mailing list. Observe that we have both our lists showing up in the **Mailing List** field.
+
+<Photo img={CEM4Photo} alt="Custom Email Marketing integration 4" />
+
+For the sake of this demonstration, let's add a third list to our API Server.
+
+```php showLineNumbers
+<?php
+
+// ...
+        $list = [
+            ['id' => 1, 'name' => 'First List'],
+            ['id' => 2, 'name' => 'Second List'],
+            ['id' => 3, 'name' => 'Third List'],    // <----
+        ];
+// ...
+```
+
+Then click the **Refresh** button next to the mailing lists field.
+
+<Photo img={CEM5Photo} alt="Custom Email Marketing integration 5" />
+
+We now have the `Third List` showing up in the selection.
+
+#### Fetching custom list fields
+
+To be able to fetch custom fields for mailing lists, we will need to implement the `::fetchFields()` method. Each time it is called, it will specify for which mailing list to fetch the fields, as well as a category to fetch for.
+
+Categories let us split field mappings into separate groups, allowing for easier integration when creating multiple resources within a single integration. For this example though, we will just work with a single category for the sake of simplicity.
+
+First things first, let's update our API Server to return a list of fields when fetching fields. In this example, we will only return custom fields for the List with ID `2`, for the others, we will return an empty array:
+
+```php showLineNumbers
+<?php
+
+// ...
+
+switch ($url) {
+    // ...
+
+    case '/lists/1/fields':
+    case '/lists/3/fields':
+        echo '[]';
+
+        break;
+
+    case '/lists/2/fields':
+        $fields = [
+            ['id' => 1, 'handle' => 'fullName', 'name' => 'Full Name', 'type' => 'text', 'required' => true],
+            ['id' => 2, 'handle' => 'privateEmail', 'name' => 'Private Email', 'type' => 'email', 'required' => false],
+            ['id' => 3, 'handle' => 'companyEmail', 'name' => 'Company Email', 'type' => 'email', 'required' => false],
+            ['id' => 4, 'handle' => 'phone', 'name' => 'Phone', 'type' => 'number', 'required' => false],
+        ];
+
+        echo json_encode($fields);
+
+        break;
+
+    // ...
+}
+```
+
+Now, when we do `GET /lists/2/fields` we will receive a JSON of 4 fields.
+
+Let's implement the fetching logic in our Integration Type
+
+```php showLineNumbers
+<?php
+
+// ...
+
+class CustomEmailMarketingIntegration extends EmailMarketingIntegration
+{
+    // ...
+
+    public function fetchFields(ListObject $list, string $category, Client $client): array
+    {
+        try {
+            // Create an endpoint based on the List's Resource ID
+            // That is the ID coming from the integration
+            $endpoint = $this->getEndpoint('/lists/'.$list->getResourceId().'/fields');
+            $response = $client->get($endpoint);
+        } catch (\Exception $exception) {
+            $this->processException($exception, $category);
+        }
+
+        $responseFields = json_decode((string) $response->getBody());
+
+        $fieldList = [];
+        foreach ($responseFields as $field) {
+            // We map the integration's field type
+            // to the Freeform's field type, which will let
+            // us handle value transformations later on
+            $type = match ($field->type) {
+                'text', 'email' => FieldObject::TYPE_STRING,
+                'number' => FieldObject::TYPE_NUMERIC,
+                default => null,
+            };
+
+            // We skip any fields which don't have a matching type
+            if (null === $type) {
+                continue;
+            }
+
+            // Map the respective values to those of the FieldObject
+            $fieldList[] = new FieldObject(
+                $field->handle,
+                $field->name,
+                $type,
+                $category,
+                $field->required,
+            );
+        }
+
+        return $fieldList;
+    }
+}
+```
+
+To be able to see those fields and map them, we must create a `FieldMapping` property in our Integration Type class. This will take care of displaying field mappings to the user, as well as be able to handle fetching the latest mailing fields from an endpoint.
+
+The `FieldMapping` property is also extremely flexible in letting you decide how it fetches data. It is possible to specify an endpoint in your server where to fetch the data from, and choose which properties currently selected in the form affect the results of your endpoint, by attaching them as URL parameters.
+
+We do have a preset endpoint just for handling mailing list field mappings for convenience:
+
+```php showLineNumbers
+<?php
+
+// ...
+use Solspace\Freeform\Attributes\Property\Implementations\FieldMapping\FieldMapping;
+use Solspace\Freeform\Attributes\Property\Input\Special\Properties\FieldMappingTransformer;
+use Solspace\Freeform\Attributes\Property\ValueTransformer;
+use Solspace\Freeform\Attributes\Property\VisibilityFilter;
+// ...
+
+class CustomEmailMarketingIntegration extends EmailMarketingIntegration
+{
+    // ...
+
+    #[Flag(self::FLAG_INSTANCE_ONLY)]
+    #[ValueTransformer(FieldMappingTransformer::class)]
+    #[VisibilityFilter('Boolean(enabled)')]
+    #[VisibilityFilter('Boolean(values.mailingList)')]
+    #[Input\Special\Properties\FieldMapping(
+        label: 'Contact Fields',
+        instructions: 'Select the Freeform fields to be mapped to the applicable Mailchimp Contact fields.',
+        order: 6,
+        source: 'api/integrations/email-marketing.mdxfields/'.self::CATEGORY_CONTACT,
+        parameterFields: [
+            'id' => 'id',
+            'values.mailingList' => 'mailingListId',
+        ],
+    )]
+    protected ?FieldMapping $contactMapping = null;
+
+    // ...
+}
+```
+
+The `#[Flag(self::FLAG_INSTANCE_ONLY)]` will prevent this field from showing up in the global _Freeform > Settings > Email Marketing_ integrations edit pages, since they’re form-specific. Instead, it will only render the field inside of Form Builder when editing this particular integration.
+
+`#[ValueTransformer(FieldMappingTransformer::class)]` this is a transformer class, which is capable of normalizing and denormalizing the value saved to the database. It converts the FieldMapping object to a json value for storing in the database, and then from that json it builds out a FieldMapping object which is set on this instance as a value.
+
+`#[VisibilityFilter('Boolean(enabled)')]` these filters allow us to hide this field inside the Builder if the conditions listed there (using javascript) does not match. For instance, if the integration is disabled, the field will not render.
+If the mailing list is not chosen - it will also not render this field. Both conditions must match.
+You can add as many visibility filters as you like.
+
+As for the #[Input\Special\Properties\FieldMapping] attribute - it requires you to specify the source which is an URL that will be queried for the data. For field mappings you need to specify the response as this type
+
+```ts showLineNumbers
+type Payload = Array<{
+  id: string;
+  label: string;
+  required: boolean;
+  type: string;
+}>;
+```
+
+You can also specify parameterFields which will extract the currently set Form Builder values and pass them as query parameters in the URL that is being queried.
+In this case we pass the integration id and the selected mailingList.
+So whenever you change a mailing list, the field mappings will update.
+
+In this case, we already have a pre-set endpoint built into Freeform for handling email marketing field displaying, which we are using in this example.
+
+We can now open up the form builder and select the Second List and observe our field mapping showing up, letting us map form fields to the fields of this mailing list:
+
+<Photo img={CEM6Photo} alt="Custom Email Marketing integration 6" />
+
+</StepMarkdown>
+<StepMarkdown>
+### Pushing the submitted data to the integration
+
+And now for the most important part of the integration - actually pushing the submitted data. To achieve this, we will implement the ::push() method. In it we will receive the Form object with all of the currently submitted values as well as the authorized Client object.
+
+```php showLineNumbers
+<?php
+
+// ...
+
+class CustomEmailMarketingIntegration extends EmailMarketingIntegration
+{
+    // ...
+
+    public function push(Form $form, Client $client): void
+    {
+        // We skip if no mailing list or email field is specified
+        if (!$this->mailingList || !$this->emailField) {
+            return;
+        }
+
+        // If an opt-in field is defined, we check if it was checked or not
+        // If it's not checked, we don't want the user to be subscribed
+        if ($this->optInField) {
+            $optInValue = $form->get($this->optInField->getUid())->getValue();
+            if (!$optInValue) {
+                return;
+            }
+        }
+
+        // Get the email field value
+        $email = $form->get($this->emailField->getUid())->getValue();
+        if (!$email) {
+            return;
+        }
+
+        $email = strtolower($email);
+
+        // Get a [key => value] array of all mapped values
+        // This will set the key to the mailing list field handle
+        // and set the value to the posted value
+        $mapping = $this->processMapping($form, $this->contactMapping, self::CATEGORY_CONTACT);
+
+        try {
+            // Send a POST request to the endpoint with the target email
+            // and mapped values
+            $response = $client->post(
+                $this->getEndpoint('/lists/'.$listId),
+                ['json' => ['email' => $email, 'fields' => $mapping]],
+            );
+
+            $this->triggerAfterResponseEvent(self::CATEGORY_CONTACT, $response);
+        } catch (\Exception $exception) {
+            $this->processException($exception, self::LOG_CATEGORY);
+        }
+    }
+
+    // ...
+}
+```
+
+For testing purposes, let's update our API Server to receive the posted json data and output it to the console, so we can see it in action.
+
+```php showLineNumbers
+<?php
+
+// ...
+
+// We get the HTTP Method
+$method = strtoupper($_SERVER['REQUEST_METHOD']);
+
+// Open up the console output stream
+$stdout = fopen('php://stdout', 'w');
+if ('POST' === $method) {
+    // If the url matches `/lists/{id}` route, we handle the case
+    if (preg_match('/^\\/lists\\/\\d+$/', $url)) {
+        // Get the posted JSON data and pretty print it
+        $json = file_get_contents('php://input');
+        $json = json_encode(json_decode($json, true), \JSON_PRETTY_PRINT);
+
+        // Output it to the console
+        fwrite($stdout, $json.\PHP_EOL);
+    }
+}
+
+// Close the output stream resource
+fclose($stdout);
+```
+
+Now when we submit the form, we should receive the data in our console.
+I mapped the fullName to Name and privateEmail and companyEmail both to a single Email field, and submitted the values John Doe and john@doe.com to the two fields respectively.
+
+This is the result I get in my console.
+
+```json showLineNumbers
+{
+  "email": "john@doe.com",
+  "fields": {
+    "fullName": "John Doe",
+    "privateEmail": "john@doe.com",
+    "companyEmail": "john@doe.com"
+  }
+}
+```
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+## Resources
+
+The file structure used in this example:
+
+```yaml showLineNumbers
+[craft-root]/modules
+  ├── ApiMock
+  │   └── server.php
+  ├── EmailMarketing
+  │   ├── CustomEmailMarketingIntegration.php
+  │   ├── README
+  │   └── icon.svg
+  └── Module.php
+```
+
+Contents of the `server.php` file:
+
+```php showLineNumbers
+<?php
+
+header('Content-Type: application/json');
+
+$headers = getallheaders();
+$accessToken = $headers['Access-Token'] ?? null;
+
+if ('valid-token' !== $accessToken) {
+    http_response_code(401);
+    echo 'invalid token';
+
+    exit;
+}
+
+$url = $_SERVER['REQUEST_URI'];
+$method = strtoupper($_SERVER['REQUEST_METHOD']);
+
+$stdout = fopen('php://stdout', 'w');
+if ('POST' === $method) {
+    if (preg_match('/^\\/lists\\/\\d+$/', $url)) {
+        $json = file_get_contents('php://input');
+        $json = json_encode(json_decode($json, true), \JSON_PRETTY_PRINT);
+
+        fwrite($stdout, $json.\PHP_EOL);
+    }
+}
+fclose($stdout);
+
+switch ($url) {
+    case '/lists':
+        $list = [
+            ['id' => 1, 'name' => 'First List'],
+            ['id' => 2, 'name' => 'Second List'],
+            ['id' => 3, 'name' => 'Third List'],
+        ];
+
+        echo json_encode($list);
+
+        break;
+
+    case '/lists/1/fields':
+    case '/lists/3/fields':
+        echo '[]';
+
+        break;
+
+    case '/lists/2/fields':
+        $fields = [
+            ['id' => 1, 'handle' => 'fullName', 'name' => 'Full Name', 'type' => 'text', 'required' => true],
+            ['id' => 2, 'handle' => 'privateEmail', 'name' => 'Private Email', 'type' => 'email', 'required' => false],
+            ['id' => 3, 'handle' => 'companyEmail', 'name' => 'Company Email', 'type' => 'email', 'required' => false],
+            ['id' => 4, 'handle' => 'phone', 'name' => 'Phone', 'type' => 'number', 'required' => false],
+        ];
+
+        echo json_encode($fields);
+
+        break;
+
+    default:
+        echo 'OK';
+
+        break;
+}
+```
+
+Contents of the `CustomEmailMarketingIntegration.php` file:
+
+```php showLineNumbers
+<?php
+
+namespace modules\EmailMarketing;
+
+use GuzzleHttp\Client;
+use Solspace\Freeform\Attributes\Property\Flag;
+use Solspace\Freeform\Attributes\Property\Implementations\FieldMapping\FieldMapping;
+use Solspace\Freeform\Attributes\Property\Input;
+use Solspace\Freeform\Attributes\Property\Input\Special\Properties\FieldMappingTransformer;
+use Solspace\Freeform\Attributes\Property\Validators;
+use Solspace\Freeform\Attributes\Integration\Type;
+use Solspace\Freeform\Attributes\Property\ValueTransformer;
+use Solspace\Freeform\Attributes\Property\VisibilityFilter;
+use Solspace\Freeform\Form\Form;
+use Solspace\Freeform\Library\Integrations\DataObjects\FieldObject;
+use Solspace\Freeform\Library\Integrations\Types\EmailMarketing\DataObjects\ListObject;
+use Solspace\Freeform\Library\Integrations\Types\EmailMarketing\EmailMarketingIntegration;
+
+#[Type(
+    name: 'My Custom Email Marketing Integration',
+    type: Type::TYPE_EMAIL_MARKETING,
+    version: 'v1',
+    readme: __DIR__.'/README',
+    iconPath: __DIR__.'/icon.svg',
+)]
+class CustomEmailMarketingIntegration extends EmailMarketingIntegration
+{
+    private const CATEGORY_CONTACT = 'contact';
+    private const LOG_CATEGORY = 'custom-email-marketing';
+
+    #[Flag(self::FLAG_ENCRYPTED)]
+    #[Flag(self::FLAG_GLOBAL_PROPERTY)]
+    #[Validators\Required]
+    #[Input\Text(
+        label: 'Access Token',
+        instructions: 'Enter your Access Token here.',
+    )]
+    protected string $accessToken = '';
+
+    #[Flag(self::FLAG_INSTANCE_ONLY)]
+    #[ValueTransformer(FieldMappingTransformer::class)]
+    #[VisibilityFilter('Boolean(enabled)')]
+    #[VisibilityFilter('Boolean(values.mailingList)')]
+    #[Input\Special\Properties\FieldMapping(
+        label: 'Contact Fields',
+        instructions: 'Select the Freeform fields to be mapped to the applicable Mailchimp Contact fields.',
+        order: 6,
+        source: 'api/integrations/email-marketing.mdxfields/'.self::CATEGORY_CONTACT,
+        parameterFields: [
+            'id' => 'id',
+            'values.mailingList' => 'mailingListId',
+        ],
+    )]
+    protected ?FieldMapping $contactMapping = null;
+
+    public function getAccessToken(): string
+    {
+        return $this->getProcessedValue($this->accessToken);
+    }
+
+    public function checkConnection(Client $client): bool
+    {
+        try {
+            $endpoint = $this->getEndpoint('/');
+            $response = $client->get($endpoint);
+
+            $status = $response->getStatusCode();
+            $content = (string) $response->getBody();
+
+            return 200 === $status && 'OK' === $content;
+        } catch (\Exception $exception) {
+            $this->processException($exception, self::LOG_CATEGORY);
+        }
+    }
+
+    public function getApiRootUrl(): string
+    {
+        return 'http://localhost:8000';
+    }
+
+    public function push(Form $form, Client $client): void
+    {
+        if (!$this->mailingList || !$this->emailField) {
+            return;
+        }
+
+        if ($this->optInField) {
+            $optInValue = $form->get($this->optInField->getUid())->getValue();
+            if (!$optInValue) {
+                return;
+            }
+        }
+
+        $email = $form->get($this->emailField->getUid())->getValue();
+        if (!$email) {
+            return;
+        }
+
+        $email = strtolower($email);
+        $mapping = $this->processMapping($form, $this->contactMapping, self::CATEGORY_CONTACT);
+
+        try {
+            $response = $client->post(
+                $this->getEndpoint('/lists/'.$this->mailingList->getResourceId()),
+                ['json' => ['email' => $email, 'fields' => $mapping]],
+            );
+
+            $this->triggerAfterResponseEvent(self::CATEGORY_CONTACT, $response);
+        } catch (\Exception $exception) {
+            $this->processException($exception, self::LOG_CATEGORY);
+        }
+    }
+
+    public function fetchLists(Client $client): array
+    {
+        try {
+            $response = $client->get($this->getEndpoint('/lists'));
+        } catch (\Exception $exception) {
+            $this->processException($exception, self::LOG_CATEGORY);
+        }
+
+        $responseLists = json_decode((string) $response->getBody());
+
+        $lists = [];
+        foreach ($responseLists as $list) {
+            $lists[] = new ListObject($list->id, $list->name);
+        }
+
+        return $lists;
+    }
+
+    public function fetchFields(ListObject $list, string $category, Client $client): array
+    {
+        try {
+            $endpoint = $this->getEndpoint('/lists/'.$list->getResourceId().'/fields');
+            $response = $client->get($endpoint);
+        } catch (\Exception $exception) {
+            $this->processException($exception, $category);
+        }
+
+        $responseFields = json_decode((string) $response->getBody());
+
+        $fieldList = [];
+        foreach ($responseFields as $field) {
+            $type = match ($field->type) {
+                'text', 'email' => FieldObject::TYPE_STRING,
+                'number' => FieldObject::TYPE_NUMERIC,
+                default => null,
+            };
+
+            if (null === $type) {
+                continue;
+            }
+
+            $fieldList[] = new FieldObject(
+                $field->handle,
+                $field->name,
+                $type,
+                $category,
+                $field->required,
+            );
+        }
+
+        return $fieldList;
+    }
+}
+```

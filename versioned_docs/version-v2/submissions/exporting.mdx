@@ -1,0 +1,72 @@
+---
+sidebar_position: 4
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+
+import ExportProfilesCreatePhoto from './assets/img/export-profiles-create.png';
+import ExportProfilesListPhoto from './assets/img/export-profiles-list.png';
+import SubmissionsETCPhoto from './assets/img/submissions-export-to-csv.png';
+import SubmissionsQEPhoto from './assets/img/submissions-quick-export.png';
+
+# Exporting
+
+Freeform includes 3 options for exporting (2 of which are Pro only):
+
+## Quick Export<Badge type="pro" text="Pro" />
+
+Freeform Pro's Quick Export feature displays inside the Submissions page of the Freeform control panel. Clicking the _Quick Export_ button at the top of the page allows you to export all submissions for a given form, in your choice of **Excel**, **CSV**, **JSON**, **XML** or **Text**. You can then exclude whichever fields you don't want exported.
+
+File Upload fields will export as a complete URL to the file if a public URL is specified for the Asset. If not, it will just export as the file name only (e.g. `my-precious.gif`).
+
+<Photo img={SubmissionsQEPhoto} alt="Quick Export" />
+
+## Export Profiles<Badge type="pro" text="Pro" />
+
+Freeform Pro's Export Profiles feature allows admins to create more complex pre-defined export profiles that can be run by any user with proper permissions at any time. Options for export profiles are as follows:
+
+- **Name**
+  - Create an intuitive name of the profile that is easy for your clients / administrators to figure out.
+- **Statuses**
+  - Select which statuses, if any, to filter the results by.
+- **Date Range**
+  - Select a date range, if any, you want the results limited by. Current options are:
+    - None
+    - Today
+    - Yesterday
+    - Last 7 days
+    - Last 30 days
+    - Last 365 days
+- **Limit**
+  - Maximum number of submissions the export should generate.
+- **Fields to Export**
+  - Select the fields you'd like to be included and rearrange their order.
+- **Filters**
+  - Add filters to narrow down your results.
+  - Select a field name and check if it's **Equal to** / **Not equal to** / **Like** a value specified.
+  - Specify as many filters as you wish.
+
+File Upload fields will export as a complete URL to the file if a public URL is specified for the Asset. If not, it will just export as the file name only (e.g. `my-precious.gif`).
+
+<Photo img={ExportProfilesCreatePhoto} alt="Create a New Export Profile" />
+
+Once export profile(s) exist, users with proper permissions can export submissions in their choice of **Excel**, **CSV**, **JSON**, **XML** or **Text**.
+
+<Photo img={ExportProfilesListPhoto} alt="Export Profiles List" />
+
+## Lite CSV Export
+
+The Lite version of Freeform includes CSV exporting functionality.
+
+To export a selection of your Freeform submissions:
+
+- Select a Form name from the left sub navigation menu
+  - You currently cannot export while in **All Submissions** view)
+- Select the submissions you wish to export (or click select all checkbox at top).
+- In the settings cog icon button at the top, click it and select **Export to CSV**.
+
+File Upload fields will export as a complete URL to the file if a public URL is specified for the Asset. If not, it will just export as the file name only (e.g. `my-precious.gif`).
+
+For more advanced and flexible exporting options, consider upgrading to Freeform Pro.
+
+<Photo img={SubmissionsETCPhoto} alt="Basic CSV Exporting" />

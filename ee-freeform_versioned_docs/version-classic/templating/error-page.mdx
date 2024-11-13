@@ -1,0 +1,46 @@
+---
+sidebar_position: 5
+title: Error_Page
+---
+
+# Custom Error Pages
+
+The _Error Page_ function allows you to bypass the native EE error message template and create and customize your own. Simply create a new EE template and add in the applicable variables below, along with anything else you typically use in your templates (template tags, variables, or embeds). This function is available for all use in all form functions such as [Freeform:Form](./form.mdx), [Freeform:Composer](./composer.mdx), etc. Make sure you specify the _error_page="freeform/error_template"_ parameter in the form you'd like to use this error template.
+
+## Variables
+
+### content
+
+`{content}`
+
+This variable outputs the error(s) that occurred.
+
+### heading
+
+`{heading}`
+
+This variable outputs the heading error type for the error(s) that
+occured.
+
+### link
+
+`{link}`
+
+This variable outputs the **Return to Previous Page** back button link.
+
+### title
+
+`{title}`
+
+This variable outputs the title for the error page.
+
+## Examples
+
+The following example code will output a complete Error page:
+
+```html
+<h2>{title}</h2>
+<h3>{heading}</h3>
+<p>{content}</p>
+<p>{link}</p>
+```

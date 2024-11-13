@@ -1,0 +1,335 @@
+---
+title: GraphQL
+sidebar_position: 1
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# GraphQL
+
+Calendar supports querying calendars and events via GraphQL. This guide assumes you have some GraphQL experience. To learn more about GraphQL and Craft, please check out the [Fetch content with GraphQL](https://craftcms.com/docs/getting-started-tutorial/build/graphql.html) guide.
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/cp_graphql.png')}
+  alt="GraphQL"
+/>
+
+## Querying Calendar data
+
+Calendar has a root `solspace_calendar` query, which contains all the possible queries nested inside it to avoid conflicts with other plugins.
+
+## Querying multiple Calendars
+
+To query all or some calendars, you have to use the `calendars` query:
+
+```graphql {3} showLineNumbers
+query {
+  solspace_calendar {
+    calendars {
+      id
+      uid
+      name
+      handle
+      description
+      color
+      lighterColor
+      darkerColor
+      icsHash
+      allowRepeatingEvents
+
+      events(loadOccurrences: false) {
+        id
+        uid
+        postDate
+        calendarId
+        #calendar - allows you to select events calendar data
+        title
+        authorId
+        startDate
+        startDateLocalized
+        initialStartDate
+        endDate
+        endDateLocalized
+        initialEndDate
+        allDay
+        rrule
+        freq
+        interval
+        count
+        until
+        untilLocalized
+        byMonth
+        byYearDay
+        byMonthDay
+        byDay
+      }
+    }
+  }
+}
+```
+
+Example response data:
+
+```json showLineNumbers
+{
+  "data": {
+    "solspace_calendar": {
+      "calendars": [
+        {
+          "id": 1,
+          "uid": "d076d1b1-77fa-44be-9776-8b6413c0a624",
+          "name": "Default",
+          "handle": "default",
+          "description": "The default calendar",
+          "color": "#3054F7",
+          "lighterColor": "#7F86FF",
+          "darkerColor": "#0027BD",
+          "icsHash": null,
+          "allowRepeatingEvents": true,
+          "events": []
+        },
+        {
+          "id": 2,
+          "uid": "c3834c11-3f8b-4c53-b175-ac2a82db1dd2",
+          "name": "Second",
+          "handle": "second",
+          "description": "",
+          "color": "#865b5b",
+          "lighterColor": "#BC8E8D",
+          "darkerColor": "#532D2D",
+          "icsHash": null,
+          "allowRepeatingEvents": true,
+          "events": []
+        },
+        {
+          "id": 4,
+          "uid": "4968aee7-fe15-439c-8b7f-726682669837",
+          "name": "Cakes",
+          "handle": "cakes",
+          "description": "",
+          "color": "#F55941",
+          "lighterColor": "#FF9172",
+          "darkerColor": "#B51A13",
+          "icsHash": null,
+          "allowRepeatingEvents": true,
+          "events": [
+            {
+              "id": 49,
+              "uid": "290c19dc-5fc1-4bcb-b9fe-1bbe7df6363e",
+              "title": "Specific event",
+              "postDate": "2021-05-10 22:18:00",
+              "calendarId": 4,
+              "authorId": 1,
+              "startDate": "2021-05-11T20:00:00+00:00",
+              "startDateLocalized": "2021-05-12T03:00:00+00:00",
+              "initialStartDate": "2021-05-11T20:00:00+00:00",
+              "endDate": "2021-05-11T23:59:00+00:00",
+              "endDateLocalized": "2021-05-12T06:59:00+00:00",
+              "initialEndDate": "2021-05-11T23:59:00+00:00",
+              "allDay": false,
+              "rrule": null,
+              "freq": null,
+              "interval": null,
+              "count": null,
+              "until": null,
+              "untilLocalized": null,
+              "byMonth": null,
+              "byYearDay": null,
+              "byMonthDay": null,
+              "byDay": null
+            },
+            {
+              "id": 75,
+              "uid": "34f8b0b8-532a-41e6-a67c-8a5860bf8dcc",
+              "title": "Sample Repeating Event",
+              "postDate": "2021-05-19 23:22:00",
+              "calendarId": 4,
+              "authorId": 1,
+              "startDate": "2021-05-20T00:00:00+00:00",
+              "startDateLocalized": "2021-05-20T07:00:00+00:00",
+              "initialStartDate": "2021-05-20T00:00:00+00:00",
+              "endDate": "2021-05-20T23:59:00+00:00",
+              "endDateLocalized": "2021-05-21T06:59:00+00:00",
+              "initialEndDate": "2021-05-20T23:59:00+00:00",
+              "allDay": false,
+              "rrule": "DTSTART:20210520T000000Z\nRRULE:FREQ=WEEKLY;UNTIL=20210520T235959Z;BYDAY=TH,TU",
+              "freq": "WEEKLY",
+              "interval": 1,
+              "count": null,
+              "until": "2021-05-20T23:59:59+00:00",
+              "untilLocalized": "2021-05-21T06:59:59+00:00",
+              "byMonth": null,
+              "byYearDay": null,
+              "byMonthDay": null,
+              "byDay": "TH,TU"
+            },
+            {
+              "id": 74,
+              "uid": "fdc2da91-e2ed-4e6b-8831-9b5538a56fe8",
+              "title": "All Day Multi Day Event",
+              "postDate": "2021-05-19 23:22:00",
+              "calendarId": 4,
+              "authorId": 1,
+              "startDate": "2021-05-21T00:00:00+00:00",
+              "startDateLocalized": "2021-05-21T07:00:00+00:00",
+              "initialStartDate": "2021-05-21T00:00:00+00:00",
+              "endDate": "2021-05-22T23:59:59+00:00",
+              "endDateLocalized": "2021-05-23T06:59:59+00:00",
+              "initialEndDate": "2021-05-22T23:59:59+00:00",
+              "allDay": true,
+              "rrule": null,
+              "freq": null,
+              "interval": null,
+              "count": null,
+              "until": null,
+              "untilLocalized": null,
+              "byMonth": null,
+              "byYearDay": null,
+              "byMonthDay": null,
+              "byDay": null
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+## Querying a single Calendar
+
+You can query a single calendar directly by using the `calendar` query:
+
+```graphql {3} showLineNumbers
+query {
+  solspace_calendar {
+    calendar (handle: "my-calendar") {
+      name
+      handle
+      events {
+        # ...
+      }
+    }
+  }
+}
+```
+
+## Calendar Query Arguments
+
+The following arguments are available when querying single or multiple calendars:
+
+| Argument  | Type       | Description                                         |
+| --------- | ---------- | --------------------------------------------------- |
+| `id`      | `[int]`    | Narrow the queried calendars by one or more ID's    |
+| `uid`     | `[string]` | Narrow the queried calendars by one or more UID's   |
+| `handle`  | `[string]` | Narrow the queried calendars by one or more handles |
+| `limit`   | `int`      | Limit the amount of returned calendar results       |
+| `offset`  | `int`      | Offset the returned calendar results                |
+| `orderBy` | `string`   | Order the calendars by a specific property          |
+| `sort`    | `string`   | Sort by `asc` or `desc` order                       |
+
+```graphql showLineNumbers
+query {
+  solspace_calendar {
+    # This is just an example
+    # For `id`, `uid` and `handle` - you can either pass a single value
+    # or an array of values for each argument
+    calendar(
+      id: 1
+      handle: "test"
+      limit: 1
+      offset: 2
+      orderBy: "name"
+      sort: "desc"
+    ) {
+      id
+    }
+  }
+}
+```
+
+## Event Query Arguments
+
+You can query events by the following arguments:
+
+| Argument           | Type     | Description                                                               |
+| ------------------ | -------- | ------------------------------------------------------------------------- |
+| `id`               | `[int]`  | Narrow the queried events by ID's                                         |
+| `calendarId`       | `[int]`  | Narrow the queried events by calendar ID's                                |
+| `authorId`         | `[int]`  | Narrow the queried events by author ID's                                  |
+| `allDay`           | `bool`   | Only select `all day` events                                              |
+| `rangeStart`       | `string` | Filter events starting from a certain date. (i.e. "2021-01-31")           |
+| `rangeEnd`         | `string` | Filter events ending by a certain date. (i.e. "2021-01-31")               |
+| `startDate`        | `string` | Filter events that start at a certain date. (i.e. "2021-01-31")           |
+| `startsBefore`     | `string` | Filter events that start before a certain date. (i.e. "2021-01-31")       |
+| `startsBeforeOrAt` | `string` | Filter events that start before or at a certain date. (i.e. "2021-01-31") |
+| `startsAfter`      | `string` | Filter events that start after or at a certain date. (i.e. "2021-01-31")  |
+| `startsAfterOrAt`  | `string` | Filter events that start after or at a certain date. (i.e. "2021-01-31")  |
+| `endDate`          | `string` | Filter events that end at a certain date. (i.e. "2021-01-31")             |
+| `endsBefore`       | `string` | Filter events that end before a certain date. (i.e. "2021-01-31")         |
+| `endsBeforeOrAt`   | `string` | Filter events that end before or at a certain date. (i.e. "2021-01-31")   |
+| `endsAfter`        | `string` | Filter events that end after or at a certain date. (i.e. "2021-01-31")    |
+| `endsAfterOrAt`    | `string` | Filter events that end after or at a certain date. (i.e. "2021-01-31")    |
+
+```graphql showLineNumbers
+query {
+  solspace_calendar {
+    # This is just an example
+    # You can either pass a single value or an array of values for each argument
+    events(
+      id: [1, 2, 3]
+      startsBefore: "2021-01-31"
+      endsAfterOrAt: "2021-02-30"
+    ) {
+      id
+    }
+  }
+}
+```
+
+## Calendar Interface
+
+These are the fields available for the `CalendarInterface`:
+
+| Field                  | Type     | Description                                    |
+| ---------------------- | -------- | ---------------------------------------------- |
+| `id`                   | `int`    | ID                                             |
+| `uid`                  | `string` | UID                                            |
+| `name`                 | `string` | Name                                           |
+| `handle`               | `string` | Handle                                         |
+| `description`          | `string` | Description                                    |
+| `color`                | `string` | Color                                          |
+| `lighterColor`         | `string` | Lighter variant of the `color`                 |
+| `darkerColor`          | `string` | Darker variant of the `color`                  |
+| `icsHash`              | `string` | ICS hash of this calendar                      |
+| `allowRepeatingEvents` | `bool`   | If the calendar allows repeating events or not |
+
+## Event Interface
+
+| Field                | Type                                       | Description                               |
+| -------------------- | ------------------------------------------ | ----------------------------------------- |
+| `id`                 | `int`                                      | ID                                        |
+| `uid`                | `string`                                   | UID                                       |
+| `authorId`           | `int`                                      | Author's ID                               |
+| `calendarId`         | `int`                                      | Calendar ID                               |
+| `calendar`           | [`CalendarInterface`](#calendar-interface) | Calendar                                  |
+| `title`              | `string`                                   | Title of the event                        |
+| `postDate`           | `string`                                   | Post Date                                 |
+| `startDate`          | `string`                                   | Start Date                                |
+| `startDateLocalized` | `string`                                   | Start Date (Localized version)            |
+| `initialStartDate`   | `string`                                   | Initial Start Date (for repeating events) |
+| `endDate`            | `string`                                   | End Date                                  |
+| `endDateLocalized`   | `string`                                   | End Date (Localized version)              |
+| `initialEndDate`     | `string`                                   | Initial End Date (for repeating events)   |
+| `postDate`           | `string`                                   | Post Date                                 |
+| `allDay`             | `bool`                                     | Is the event an "all day" event           |
+| `rrule`              | `string`                                   | The RRULE string                          |
+| `freq`               | `string`                                   | Frequency of repeating                    |
+| `interval`           | `int`                                      | Interval of the repeating                 |
+| `count`              | `int`                                      | Number of times the event should repeat   |
+| `until`              | `string`                                   | Date until the event repeats              |
+| `untilLocalized`     | `string`                                   | Localized version of the `until` date     |
+| `byMonth`            | `string`                                   | RRULE string of the month repeat rule     |
+| `byYearDay`          | `string`                                   | RRULE string of the year day repeat rule  |
+| `myMonthDay`         | `string`                                   | RRULE string of the month day repeat rule |
+| `byDay`              | `string`                                   | RRULE string of the day repeat rule       |

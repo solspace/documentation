@@ -1,0 +1,43 @@
+---
+title: Calendar
+sidebar_position: 1
+---
+
+## Properties
+
+- `id`
+  - the calendar's unique ID
+- `name`
+  - the calendar's name
+- `handle`
+  - the calendar's handle
+- `color`
+  - a hex color code, e.g. `#FF00FF`
+- `lighterColor`
+  - a hex color made lighter by **20%**
+- `darkerColor`
+  - a hex color made darker by **20%**
+- `contrastColor`
+  - either `black` or `white`, depending on the darkness or lightness of `color`
+- `icsUrl`
+  - displays the full ICS subscription URL that users can subscribe to in their calendaring system such as Apple Calendar or Google Calendar, if ICS sharing is enabled for this calendar (enabled inside _Calendars_ page of Calendar CP).
+- `icsHash`
+  - displays the ICS subscription hash (not the full ICS URL) that for users to subscribe to calendars.
+  - if you wish to specify a certain site's translated version, include `site=mySiteHandle` in the URL path, like this:
+  ```twig showLineNumbers
+  {{ siteUrl }}index.php?p=actions/calendar/api/ics&site=mySiteHandle&hash={{ calendar.icsHash }}
+  ```
+
+## Usage in Templates
+
+```twig showLineNumbers
+{% set calendar = craft.calendar.calendar({
+  handle: "holidays"
+}) %}
+
+{% if calendar %}
+  <div style="color: {{ calendar.color }};">
+    {{ calendar.name }}
+  </div>
+{% endif %}
+```

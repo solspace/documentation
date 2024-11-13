@@ -1,0 +1,37 @@
+---
+sidebar_position: 1
+title: 'Getting Started'
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Introduction
+
+## Choosing the right Calendar tag for your project
+
+Two of the main tags used in Calendar are `{exp:calendar:cal}` and `{exp:calendar:events}`. In many cases, these tags have very different roles and are often not interchangeable. Choosing one tag over the other will depend on your project and how you want to display event information.
+
+## [Calendar:Cal](../templating/calendars.mdx)
+
+The _Calendar:Cal_ tag is used when displaying events in `chronological` order. This is particularly important when there are multiple events and occurrences happening during a time period which may overlap as time progresses. This tag is also used to create a calendar or visual calendar table, or when looping through events by year, month, day and hour using the `{display_each_year}`, `{display_each_month}`, `{display_each_day}`, and `{display_each_hour}` variable pairs, respectively.
+
+## [Calendar:Events](../templating/events.mdx)
+
+The _Calendar:Events_ tag is closer in functionality to EE's popular `Channel:Entries` tag. This tag loops through each event, one after the other, and can display data similar to the Channel Entries tag. Since the tag loops through each event, one by one, overlapping events will not always be in chronological order. For each event, the event's occurrences can be displayed using the `{occurrences}` variable pair. The `{occurrences}` variable pair, however, cannot accept parameters.
+
+## [Calendar:Occurrences](../templating/occurrences.mdx)
+
+The _Calendar:Occurrences_ tag is a supplemental tag used to loop through occurrences tied to an event entry and is similar to the `{occurrences}` tag pair used in _Calendar:Events_ tag. This tag has the ability to accept parameters (for example, `occurrence_limit=""`).
+
+The above explanation is summarized in the figure below.
+
+<Photo
+  img={require('@site/static/img/ee-calendar/v1/calendar_cal_vs_events.png')}
+  alt="Introduction"
+/>
+
+## Conclusion
+
+In summary, for chronological event listings, for example a list of upcoming events, past events, daily/monthly events, or for building a flexible calendar table, `{exp:calendar:cal}` should be used. This tag is used in most cases.
+
+For event detail pages, such as for pages displaying an event summary and dates for that specific event (eg. "`Rock concert on September 5, 13th and 20th`"), `{exp:calendar:events}` (with the `{occurrences}` variable pair or using `{exp:calendar:occurrences}` instead) should be used.

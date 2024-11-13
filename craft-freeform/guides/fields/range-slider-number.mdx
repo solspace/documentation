@@ -1,0 +1,185 @@
+---
+sidebar_position: 1
+---
+
+import { Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+import SliderLookPhoto from '../assets/img/slider-look.png';
+import SliderRangePhoto from '../assets/img/range-slider.png';
+
+# Range Slider on Number field
+
+It's possible to easily implement `range` field type styling/handling on regular [Text](../../forms/fields.mdx#text) or [Number](../../forms/fields.mdx#number) fields.
+
+## Instructions
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+To familiarize yourself with the Range field type, a basic code example looks something like this:
+
+```html showLineNumbers
+<label>How many pies do you eat per year?</label>
+<div class="freeform-range">
+  <input
+    type="range"
+    name="myFieldHandle"
+    id="myFieldHandle"
+    min="0"
+    max="100"
+    step="5"
+    value="0"
+  />
+</div>
+```
+
+This will output the following (go ahead and play with it!):
+
+<blockquote className="text-sm font-italic rounded-md p-4 mb-7 form-styling">
+  <p className="text-blue-500 mb-2">How many pies do you eat per year?</p>
+  <input
+    type="range"
+    min="0"
+    max="100"
+    step="5"
+    defaultValue="0"
+    class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+  />
+</blockquote>
+
+</StepMarkdown>
+<StepMarkdown>
+
+
+What you might like to do is replace [Number](../../forms/fields.mdx#number) fields with a range slider. The Number field allows you to configure the Range features from inside the form builder. Your code can then include things like `minValue`, `maxValue`, `step`, and `defaultValue`:
+
+```twig showLineNumbers
+{{ field.renderLabel() -}}
+<div class="freeform-range">
+    <input type="range" min="{{ field.minValue }}" max="{{ field.maxValue }}" step="{{ field.step }}" value="{{ field.defaultValue ? field.defaultValue : '0' }}" name="{{ field.handle }}" id="form-input-{{ field.handle }}" />
+    <span>{{ field.defaultValue ? field.defaultValue : '0' }}</span>
+</div>
+```
+
+</StepMarkdown>
+<StepMarkdown>
+
+
+To add a bit of your own styling to the Range field, you can begin with the following CSS:
+
+```css showLineNumbers
+.freeform-range {
+  display: flex;
+  align-items: center;
+  max-width: 500px;
+  height: 4rem;
+  width: 80%;
+  padding: 0px 10px;
+}
+.freeform-range input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  cursor: pointer;
+  outline: none;
+  border-radius: 15px;
+  padding: 0 !important;
+  border: 0 !important;
+  background: #d6d6d6;
+}
+.freeform-range input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 15px;
+  width: 15px;
+  background-color: #058ffe;
+  border-radius: 50%;
+  border: none;
+  transition: all 0.25s;
+}
+.freeform-range input[type='range']::-moz-range-thumb {
+  height: 15px;
+  width: 15px;
+  background-color: #058ffe;
+  border-radius: 50%;
+  border: none;
+  transition: all 0.25s;
+}
+.freeform-range input[type='range']::-webkit-slider-thumb:hover,
+.freeform-range input[type='range']:active::-webkit-slider-thumb {
+  box-shadow: 0 0 0 10px rgba(5, 143, 254, 0.15);
+}
+.freeform-range input[type='range']::-moz-range-thumb:hover,
+.freeform-range input[type='range']:active::-moz-range-thumb {
+  box-shadow: 0 0 0 10px rgba(5, 143, 254, 0.15);
+}
+.freeform-range span {
+  font-size: 20px;
+  width: 40px;
+  text-align: center;
+}
+```
+
+Then include the following JS in order to handle the output of value selected in the range, and correctly style the progress bar:
+
+```js showLineNumbers
+const freeformRange = document.querySelector(
+  '.freeform-range input[type=range]'
+);
+const freeformRangeValue = document.querySelector('.freeform-range span');
+
+freeformRange.addEventListener('input', (event) => {
+  const freeformRangeValueProgress = event.target.value;
+  freeformRangeValue.textContent = freeformRangeValueProgress;
+
+  const progress = (freeformRangeValueProgress / freeformRange.max) * 100;
+
+  freeformRange.style.background = `linear-gradient(to right, #058ffe ${progress}%, #d6d6d6 ${progress}%)`;
+});
+```
+
+The result should look something like this:
+
+<Photo scale={50} img={SliderLookPhoto} alt="Range Slider" />
+
+</StepMarkdown>
+<StepMarkdown>
+
+
+In order for this to automatically happen inside a [formatting template](../../templates/formatting/index.mdx), you'll want to create a new one if you haven't already. If you using the [Basic Light](../../templates/formatting/basic-light.mdx) formatting template as a starting point, your code might look something like this:
+
+```twig {4-11} showLineNumbers
+{# Shortened for Example #}
+...
+    <div class="freeform-fieldtype-{{ field.type }}">
+        {% if field.type == "number" %}
+            {{ field.renderLabel() }}
+            {{ field.renderInstructions() }}
+            <div class="freeform-range">
+                <input type="range" min="{{ field.minValue }}" max="{{ field.maxValue }}" step="{{ field.step }}" value="{{ field.defaultValue ? field.defaultValue : '0' }}" name="{{ field.handle }}" id="form-input-{{ field.handle }}" />
+                <span>{{ field.defaultValue ? field.defaultValue : '0' }}</span>
+            </div>
+            {{ field.renderErrors() }}
+        {% else %}
+            {{ field.render() }}
+...
+{# Shortened for Example #}
+```
+
+:::info
+Don't forget to include the custom CSS and JS that was mentioned in [Step 3](#step3).
+:::
+
+The result might look something like this:
+
+<Photo img={SliderRangePhoto} alt="Range Slider" />
+
+</StepMarkdown>
+
+</VerticalStepWrapper>
+
+:::info
+Please see [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range) for more information about **Range** input elements.
+:::

@@ -1,0 +1,97 @@
+---
+title: Element Connections
+sidebar_position: 10
+---
+
+# Element Connection Events
+
+If you have to perform any special checks or extra steps when validating or connecting Freeform submissions with Craft Elements, be sure to check out the events listed below:
+
+## Before a connection is validated
+
+This event lets you add your own validations to the element connection validation process.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Connections\AbstractConnection;
+use Solspace\Freeform\Events\Connections\ValidateEvent;
+
+Event::on(
+  AbstractConnection::class,
+  AbstractConnection::EVENT_BEFORE_VALIDATE,
+  function (ValidateEvent $event) {
+    $form = $event->getForm();
+    $connection = $event->getConnection();
+    $element = $event->getSubmission();
+
+    // Attach an error for the title field
+    // This example will always invalidate every connection
+    $element->addError('title', 'There are no good titles');
+
+    // This error will only show up in a freeform form
+    // if the attribute has been mapped to a form field.
+  }
+)
+```
+
+## After a connection is validated
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Connections\AbstractConnection;
+use Solspace\Freeform\Events\Connections\ValidateEvent;
+
+Event::on(
+  AbstractConnection::class,
+  AbstractConnection::EVENT_AFTER_VALIDATE,
+  function (ValidateEvent $event) {
+    $form = $event->getForm();
+    $connection = $event->getConnection();
+    $element = $event->getSubmission();
+
+    if (empty($element->getErrors())) {
+      // Do something if the element passes validation
+    }
+  }
+)
+```
+
+## Before an element is connected
+
+This event is fired before the created and validated Element is saved.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Connections\AbstractConnection;
+use Solspace\Freeform\Events\Connections\ConnectEvent;
+
+Event::on(
+  AbstractConnection::class,
+  AbstractConnection::EVENT_BEFORE_CONNECT,
+  function (ConnectEvent $event) {
+    $form = $event->getForm();
+    $connection = $event->getConnection();
+    $element = $event->getSubmission();
+
+    // Perform some actions here
+  }
+)
+```
+
+## After an element is connected
+
+This event is fired before after the validated Element has been saved successfully.
+
+```php showLineNumbers
+use Solspace\Freeform\Library\Connections\AbstractConnection;
+use Solspace\Freeform\Events\Connections\ConnectEvent;
+
+Event::on(
+  AbstractConnection::class,
+  AbstractConnection::EVENT_AFTER_CONNECT,
+  function (ConnectEvent $event) {
+    $form = $event->getForm();
+    $connection = $event->getConnection();
+    $element = $event->getSubmission();
+
+    // Perform some actions here
+  }
+)
+```

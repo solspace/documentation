@@ -1,0 +1,33 @@
+---
+sidebar_position: 4
+---
+
+# Errors object
+
+The Errors object contains all special and general error handling, typically used to display at the top of the form. Common examples would be using to display [Spam-related](../../forms/spam-protection.mdx) errors or even custom errors in cases where a custom plugin is extending Freeform's functionality.
+
+## Properties
+
+### `error`
+
+Returns the special or general error.
+
+## Usage in Templates
+
+When used in conjunction with the [hasErrors](./form.mdx#hasErrors) variable, the following code will render a list of special or general errors within a form:
+
+```twig showLineNumbers
+{% if form.hasErrors %}
+  <div class="freeform-form-has-errors">
+    {{ "There was an error submitting this form"|t }}
+
+    {% if form.errors|length %}
+      <ul>
+        {% for error in form.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+{% endif %}
+```

@@ -1,0 +1,96 @@
+---
+title: Week
+sidebar_position: 6
+---
+
+# Week Query
+
+The _calendar.week_ template query assembles a [Week object](../objects/week.mdx) containing its events and allows for iteration over it to access all [Day objects](../objects/day.mdx) contained within, which in turn contain their respective [Hour objects](../objects/hour.mdx).
+
+## Parameters
+
+- `date`
+  - A date string representing a date within the week that should be compiled.
+  - `"march 15 2023"` is a valid `date` value
+  - `"2023-03-10"` would be valid and return the [Week object](../objects/week.mdx) for the week containing **March 15, 2023**
+- `calendar`
+  - Handle of the calendar, e.g. `"holidays"`, or an array of handles: `["holidays", "football"]`.
+  - Use `"not holidays"` to select all calendars EXCEPT the **Holidays** calendar
+- `calendarId`
+  - An ID of the calendar, or array of ID's, e.g. `[1, 2, 3]`
+  - If you want to select all calendars EXCEPT the calendar with an ID of **1**, use `"not 1"`
+- `allDay`
+  - Selects only events that are set to be **All Day** events went set to `true`.
+- `authorId`
+  - Selects events from specific author ID's
+- `limit`
+  - Supply an `int` to limit the amount of events returned
+- `orderBy`
+  - Override default sort order by for each day with this parameter, e.g. `orderBy: "startDate ASC"`
+- `status`
+  - By default, `live` is used, showing only enabled events
+  - Can be set to `disabled` to show disabled events
+  - Or `null` to show all events regardless of their status
+- `loadOccurrences`
+  - Set this to `false` to not load any recurring events. Default is `true`.
+  - When setting this to `false`, Calendar will display only the very first occurrence in the results ONLY if that same occurrence falls within the Week date range. It will NOT just show the next recurrence available, and does NOT show any events that just have recurrences within the Week date range.
+- `firstDay`
+  - An `int` value representing the first day of week.
+  - Defaults to the currently logged in user's first day of week.
+  - If user not logged in, it defaults to the global **First Day of Week** Craft setting
+  - Accepts `int` values from `0-6`, `0` being **Sunday**, `6` being **Saturday**
+- `search: "customField:myvalue*"` <a href="#param-search" id="param-search" class="docs-anchor">#</a>
+  - Works just like regular [Craft Searching](https://craftcms.com/docs/4.x/searching.html).
+
+## Usage in Templates
+
+Iterate through days of the week
+
+```twig showLineNumbers
+{% set week = craft.calendar.week({
+  date: "today",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for day in week %}
+  {% for event in day.events %}
+    <div style="{{ event.calendar.color }};">
+      {{ event.title }}
+    </div>
+  {% endfor %}
+{% endfor %}
+```
+
+---
+
+Iterate through all events in the week
+
+```twig showLineNumbers
+{% set week = craft.calendar.week({
+  date: "today",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for event in week.events %}
+  <div style="{{ event.calendar.color }};">
+    {{ event.title }}
+  </div>
+{% endfor %}
+```
+
+---
+
+Show only events which start in weekdays
+
+```twig showLineNumbers
+{% set week = craft.calendar.week({
+  date: "today",
+  calendar: ["holidays", "sports"]
+}) %}
+
+{% for event in week.events if event.startDate.weekday %}
+  <div style="{{ event.calendar.color }};">
+    {{ event.title }}
+  </div>
+{% endfor %}
+```

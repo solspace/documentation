@@ -1,0 +1,69 @@
+---
+sidebar_position: 2
+---
+
+# Troubleshooting Guide
+
+## Information to provide when requesting Support
+
+Providing the following information when posting a support request helps us understand your issue/question better and allows us serve you faster.
+
+- What version of ExpressionEngine are you using? (specify version number as opposed to "the latest")
+- What version of Freeform Classic are you using? (specify version number as opposed to "the latest")
+- If you get an error displayed in the control panel or in your templates, please provide the full message of this error.
+
+## General Checklist
+
+- In your templates, have you set up your parameters correctly?
+- In your templates, are you sure there aren’t any malformed form fields or parameters with curly/fancy/typographic quotes instead of straight quotes?
+- Have you checked for unclosed tags or conditionals in your code?
+- Have you tried isolating the affected template code in a separate template, with no use of javascript or other EE/third-party tags?
+- Have you tried simplifying the template code to its bare minimum for testing?
+
+## Troubleshooting Time-Saving Tips
+
+- **Turn on the Output Profiler and Template Debugging in EE**. This can be turned on from _CP => Admin => System Administration => Output and Debugging_. These two debugging tools should always be enabled for Super Admins. The **Output Profiler** can be useful to see if terms are used correctly in database queries, and **Template Debugging** can be used to verify if values are parsed correctly in tag parameters, or if template parsing errors are encountered.
+- **Start small, end big**: Start with very simple template code alone in a test template, then build your code line by line until the error occurs.
+- **Start big, end small**: With your full non-functional template code, remove pieces of code until the error disappears.
+- **One piece at a time**: With your full non-functional template code, remove one part of your code. If the problem persists, place that code back and remove another part until the error disappears.
+
+## Email Doesn't Send
+
+- Have you checked that your email address is correct? Check it again.
+- Have you checked the spam folder of your email account?
+- Can you send email using the Communication Tool in the CP? (_CP => Tools => Communicate_)
+- Have you set up your parameters correctly? For example, the _admin_notify=""_ and _admin_notification_template=""_ parameters?
+- Are you sending **to** and **from** the same email address or email address domain? For example, sending FROM *bob@acmewidgets.com* TO *bob@acmewidgets.com*, OR FROM *bob@acmewidgets.com* TO *larry@acmewidgets.com*. Sometimes the email server has very aggressive spam protection and knows that the email is not actually coming from that email address, and blocks the email altogether.
+- Do you have a valid email address in the **Address** field in **Outgoing Email** settings? Freeform doesn't exactly use this email address, but it checks for it in the case of using a default email notification (when a custom one is not provided). Be sure this field contains an email address none-the-less.
+- Are you sure you're using the parameters for Freeform Classic **4.x** and not 3.x (when using Freeform Classic **4.x**)?
+- Are you sure you're using the parameters for Freeform **3.x** and not Freeform Classic 4.x+ (when using Freeform **3.x**)?
+- Are you sure there aren’t malformed form fields or parameters with curly/fancy/typographic quotes instead of straight quotes?
+- Can you receive email when using EE's native contact or tell-a-friend form? See [official EE documentation](https://docs.expressionengine.com/v4/add-ons/email/contact_form.html) for details on using these simple forms.
+- Have you checked your server logs for any errors?
+- Are you getting redirected correctly after form submission?
+- Is the submitted data saving as Freeform entries, or does the form not save the submitted data as well?
+
+## Data Isn't Saving
+
+- Are you getting redirected correctly after form submission, based on your _return=""_ parameter?
+  - **NO**:
+    - Have you checked your **.htaccess** file and tested with a simplified, or no **.htaccess** file? (You need **index.php** in the URL/EE if no **.htaccess** file is present)
+    - Are you using _\{exp:freeform:form}_ and not the **&lt;form&gt;** tag explicitly? (Freeform creates these for you)
+    - Are you submitting your data through AJAX? If so, does your browser console display any warning or error?
+  - **YES**:
+    - Are you sure there aren’t malformed form fields or parameters with curly/fancy/typographic quotes instead of straight quotes?
+    - Do the form field names correspond to actual Freeform custom fields set up in the Control Panel?
+- Have you checked that your site URL and the URL in the address bar match?
+
+## Freeform isn't redirecting to the template specified in my return="" template
+
+- Have you checked your **.htaccess** file and tested with a simplified, or no **.htaccess** file? (You need **index.php** in the URL/EE if no **.htaccess** file is present)
+- Have you tried a relative (eg "**form/submit/thank_you**") and absolute path (eg. "**http://mysite.com/form/submit/thank_you**") in the _return=""_ parameter?
+- Have you checked that your site URL and the URL in the address bar match?
+
+## Freeform code doesn't display properly, or looks broken
+
+- Are you sure there aren’t malformed form fields or parameters with curly/fancy/typographic quotes instead of straight quotes?
+- Have you checked for unclosed tags or conditionals in your code?
+- Have you tried the Freeform template code alone, in a separate template, with no use of javascript or other EE/third-party tags?
+- Are you using _\{exp:freeform:form}_ and not the **&lt;form&gt;** tag explicitly? (Freeform Classic creates these for you)

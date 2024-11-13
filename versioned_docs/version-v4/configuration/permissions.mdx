@@ -1,0 +1,97 @@
+---
+sidebar_position: 2
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+
+import PermissionPhoto from './assets/img/cp_permissions.png';
+
+# Permissions
+
+Freeform supports granular access and management permissions for forms, submissions and settings. Simply visit the permissions page for users or user groups (**Settings → Users → User Groups**) to configure these permissions.
+
+<Photo img={PermissionPhoto} alt="Permissions" />
+
+## General
+
+### Access Freeform
+
+Required for users to access Freeform at all.
+
+## Freeform
+
+### Access Submissions
+
+Access to the Submissions list page.
+
+- **Read All Submissions** - can view all submissions.
+  :::warning
+  Checking this option supercedes all _Read Submissions by Form_ options.
+  :::
+- **Read Submissions by Form** - individually set permissions by form.
+  - _"MY FORM NAME"_ - can view submissions for this form.
+    :::info
+    If you'd like to give users access to read only some forms' submissions, check off the ones here. These selections will be overridden by the 'Read All Submissions' checkbox. 'Manage' permissions will also override any 'Read' permissions.
+    :::
+- **Manage All Submissions** - can view, edit or delete any submission.
+  :::warning
+  Checking this option supercedes all _Manage Submissions by Form_ options and supercedes any _Read_ permissions (above).
+  :::
+- **Manage Submissions by Form** - individually set permissions by form.
+  - _"MY FORM NAME"_ - can view, edit or delete submissions for this form. Checking a form supercedes all individal _Read_ permissions (above).
+    :::info
+    If you'd like to give users access to manage only some forms' submissions, check off the ones here. These selections will be overridden by the 'Manage All Submissions' checkbox. 'Manage' permissions will also override any 'Read' permissions.
+    :::
+
+### Access Forms
+
+Access to the Forms list page.
+
+- **Create New Forms** - can create new forms.
+  :::info
+  Any forms created by a user will automatically be given access to manage that particular form if they don't already have _Manage All Forms_ enabled.
+  :::
+- **Delete Forms** - can delete forms.
+- **Manage All Forms** - can edit any and all forms.
+  :::warning
+  Checking this option supercedes all form checkboxes below.
+  :::
+- **Manage Forms Individually** - individually set permissions by form.
+  - _"MY FORM NAME"_ - can edit this particular form.
+    :::info
+    If you'd like to give users access to only some forms, check off the ones here. These selections will be overridden by the 'Manage All Forms' checkbox.
+    :::
+
+### Access Fields
+
+Access to the Fields list page.
+
+- **Manage Fields** - can create, edit or delete fields.
+
+### Access Email Templates
+
+Access to the Email Templates list page.
+
+- **Manage Email Templates** - can create, edit or delete email notification templates.
+
+### Access Quick Exporting
+
+Access to the _Quick Export_ tool and _Export as CSV_ option in the CP Submissions index page.
+
+:::warning
+Users will need to have access to _read_ or _manage_ any of the forms they wish to export data for.
+:::
+
+### Access Export Profiles
+
+Access to the Export Profiles list page and running of exports.
+
+- **Manage Export Profiles** - can create, edit or delete export profiles.
+
+### Access Settings
+
+Can access and update settings area for Freeform as well as access [Error Log](./settings.mdx#error-log) page.
+
+### Access Resources
+
+Can access the Resources area for Freeform.

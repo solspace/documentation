@@ -1,0 +1,59 @@
+---
+title: 'Date Picker Events'
+sidebar_position: 4
+---
+
+# Date Picker Events
+
+The Freeform [Date & Time](../forms/fields.mdx) field comes packed with a built-in, optional [flatpickr](https://flatpickr.js.org/) instance. The _flatpickr_ instance can be customized via the following events available through the [Freeform JS Plugin](./js-plugin.mdx):
+
+:::info
+To get started with what's available for Flatpickr overrides, check out the available [Flatpickr Config Options documentation](https://flatpickr.js.org/options/) as well as the [Flatpickr Examples documentation](https://flatpickr.js.org/examples/).
+:::
+
+## Before initialization event
+
+This event is fired right before a [flatpickr](https://flatpickr.js.org/) instance is created, allowing you to extend the options that are being passed to the flatpickr instance:
+
+```js showLineNumbers
+document.addEventListener('flatpickr-before-init', (event) => {
+  // event.options object contains the whole options object that will be
+  // passed to the flatpickr instance
+
+  event.options.static = true;
+  event.options.clickOpens = false;
+  event.options.defaultHour = 8; // starts the time picker at 8:00 am
+  event.options.minuteIncrement = 15; // moves the time picker in 15 minute increments instead of 1
+  event.options.disable = [
+    // disables Sundays and Saturdays from being available options in datepicker
+    function (date) {
+      return date.getDay() === 0 || date.getDay() === 6;
+    },
+  ];
+  flatpickr.l10ns.default.firstDayOfWeek = 1; // sets first day of week to Monday
+});
+```
+
+## On flatpickr instance ready event
+
+This event is called right after the [flatpickr](https://flatpickr.js.org/) instance is created. You can access it via the `event.flatpickr` property of the `event` object:
+
+```js showLineNumbers
+document.addEventListener('flatpickr-ready', (event) => {
+  // Get the flatpickr instance
+  var instance = event.flatpickr;
+
+  // Get the input field
+  var input = instance.input;
+
+  // Add bootstrap css classes to the parent element
+  // to be able to use "static: true" flatpickr config option
+  input.parentNode.classList.add('form-control');
+  input.classList.remove('form-control');
+  input.style.border = 'none';
+  input.style.margin = '0px';
+  input.style.padding = '0px';
+  input.style.width = '100%';
+  input.style.outline = 'none';
+});
+```

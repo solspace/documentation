@@ -1,0 +1,202 @@
+---
+sidebar_position: 2
+title: 'Migration from Calendar 1.x'
+---
+
+# Upgrading from Calendar 1.x to 2.x
+
+:::danger
+**Please note:** The Calendar 1.x migration is no longer supported.
+:::
+
+Calendar has been rewritten from ground up. The Calendar field is now a full fieldtype that can be used in any channel or site and as many times as you wish. The control panel interface and experience has been overhauled. And the template tags have been reconceived to be faster, simpler and easier to use.
+
+The changes are significant enough that we could not create a full upgrade path, but have included a migration utility for Calendar 1.x users to upgrade.
+
+Before upgrading from Calendar 1.x to 2.x, it is strongly recommended that you read over the changes and consider the implications to your existing Calendar data. Depending on which features you made use of in Calendar 1.x, some things may not continue to work or behave the same way. While a lot of the templating functionality remains similar, all of your templates will require updating to new template tags, parameters, variables, etc.
+
+## Changes to Fieldtype
+
+A wide variety of improvements have been made to the Calendar fieldtype. Among those are:
+
+- The Calendar field is now a full fieldtype that can be used in any channel and as many times as you wish.
+- Calendar works with [EE Multiple Site Manager](https://docs.expressionengine.com/v7/msm/overview.html) (MSM).
+- Visual and usability improvements have been made to enhance the user experience.
+- Calendar fieldtype can be created as many times as you want, for whichever channel(s) and site(s) you want.
+
+## Changes to Recurrence options
+
+In an effort to make Calendar faster, more reliable, and easier to use, we have removed some features regarding recurrences:
+
+- Removed ability to create additional occurrence rules (only 1 occurrence rule is allowed now, but unlimited exclusion rules are allowed).
+- Removed ability to make one-off occurrence manipulations (sometimes referred to as Custom Edited Occurrences in Calendar 1.x).
+- Removed ability to repeat events forever (must have a specified end date, even if it's the year 3016).
+
+## Changes to Calendars
+
+Calendars used to be channel entries in Calendar 1.x. They are no longer stored this way, and are instead stored inside of the Calendar add-on. Member group permission controls for access to calendars are contained directly within each calendar.
+
+## Changes to ICS options
+
+As of Calendar 2.0, limited ICS functionality is available. Events and calendars can still be exported through the front end templates with the [`{exp:calendar:ics_export}`](../templating/ics-export.mdx) template tag, but you can no longer import and/or update events on your EE site from an external ICS file. This functionality will likely return to Calendar in a future version.
+
+## Changes to Localization
+
+As of Calendar 2.0, timezones and localization has been removed. All event date data is stored as UTC+0, and retrieved as UTC+0. So, no matter where you are in the world, an event start date entered at **6pm** will be stored and displayed always as **6pm**. The [`{exp:calendar:ics_export}`](../templating/ics-export.mdx) template tag compensates for this by setting the timezone as floating, which (in the current example) means the event will show up at **6pm** no matter what timezone the user is located in.
+
+## Changes to Module Area in CP
+
+Calendar 2.x does away with the traditional approach of using tables to list events and their data. Instead, events are organized in an intuitive interface that is similar to what you might see in popular Calendar apps like Apple Calendar or Google Calendar.
+
+## Changes to Template Tags
+
+- **`{exp:calendar:events}` template tag has been changed** to behave as `{exp:calendar:cal}` did, and display a list of events and their occurrences in chronological order.
+  - To display calendar event data for channel entries now (old `{exp:calendar:events}` tag (in Calendar 1.x) behavior), simply use the [Calendar fieldtype variable pair and variables inside of a Channel:Entries tag](../templating/channel-entries.mdx), or for lists specify the [show_recurrences="no" parameter in Calendar:Events](../templating/events.mdx#show-recurrences) tag.
+- **[`{exp:calendar:month}`](../templating/month.mdx), [`{exp:calendar:week}`](../templating/week.mdx) and [`{exp:calendar:day}`](../templating/day.mdx) have had their functionality changed** and no longer contain hidden auto-formatting, etc.
+- **`{exp:calendar:cal}` template tag no longer exists**, and is now dispersed into different sets of template tags:
+  - To display month calendars, use [`{exp:calendar:month}`](../templating/month.mdx)
+  - To display week calendars, use [`{exp:calendar:week}`](../templating/week.mdx)
+  - To display day calendars, use [`{exp:calendar:day}`](../templating/day.mdx)
+  - To display a mini calendar / picker, use [`{exp:calendar:month}`](../templating/month.mdx)
+  - To display a list of events and their occurrences in chronological order, use [`{exp:calendar:events}`](../templating/events.mdx)
+- **`{exp:calendar:mini}` template tag no longer exists**, but can be achieved with [`{exp:calendar:month}`](../templating/month.mdx) template tag.
+- **`{exp:calendar:occurrences}` template tag and \{calendar:occurrences}\{/calendar:occurrences} variable pair no longer exists**, and has been replaced by the [\{calendar:recurrences} variable pair](../templating/events.mdx#calendar-recurrences).
+- **`{exp:calendar:year_list}` template tag has been removed**. Same functionality can be achieved with `{exp:calendar:month_list}` template tag.
+- **`{exp:calendar:ics_update}` template tag no longer exists**, as ICS import is currently not available.
+- **`{exp:calendar:icalendar}` template tag has been renamed** to [`{exp:calendar:ics_export}`](../templating/ics-export.mdx).
+- **`{rules}{/rules}` variable pair and variables no longer exist** from [`{exp:calendar:events}`](../templating/events.mdx).
+- **`show_RANGE=''` parameters no long exist** in template tags. This is already available with the [easy-to-use text date formatting](../guides/date-formatting.mdx) options for [date_range_end='' parameter](../templating/events.mdx#date-range-end).
+
+## Changes to Custom Field Parsing
+
+For Calendar 2.x, we needed to resolve the large number of performance issue complaints we received from our customers. Specifically, due to the recurrence rule functionality (where we have to "inflate" event results in the template tags), marrying Calendar with the Channel:Entries API as most add-ons typically would do, caused enormous performance issues. This was even more of an issue with many medium to larger sites, where we would often get reports of Calendar taking as much as 20-30 seconds to load sometimes. So for Calendar 2.x, we actually rewrote our own version of the _Channel:Entries_ functionality so we could significantly streamline the queries and load time. The trade-off here is that it became harder for us to rewrite some more advanced fields like Grid, File, Relationship, etc. We also intentionally avoided some of these for performance reasons. Since initial release of Calendar 2.0, we did later [restore some limited File fieldtype functionality](../templating/events.mdx#your-custom-field), and have plans to eventually restore some Relationship field functionality in the future.
+
+When displaying a single event/entry page, you would normally use the [Channel:Entries template tag](https://docs.expressionengine.com/v7/channels/entries.html), so the aforementioned/below fieldtypes will all work as expected in that use-case.
+
+When used with Calendar template tags, the following field types currently are not supported or are limited:
+
+- [File](https://docs.expressionengine.com/v3/fieldtypes/file.html)
+  - Currently there is [some limited File fieldtype functionality](../templating/events.mdx#your-custom-field) for Calendar template tags.
+- [Grid](https://docs.expressionengine.com/v3/fieldtypes/grid.html)
+  - Currently the Grid fieldtype will not parse inside any Calendar template tags.
+- [Relationship](https://docs.expressionengine.com/v3/fieldtypes/relationships.html)
+  - Currently the Relationship fieldtype will not parse inside any Calendar template tags. We hope to restore some functionality for this in the future.
+- Third Party fieldtypes
+  - Currently most third party fieldtypes will not parse inside any Calendar template tags.
+
+As a workaround, you can get the above fieldtypes to display within Calendar template tags if you place them in an embed (with the [Channel:Entries template tag](https://docs.expressionengine.com/v7/channels/entries.html)) and feed the event/entry ID to it. This of course may cause some performance issues, but may be a viable option for your site.
+
+# Migration Utility
+
+## Preparation
+
+Before considering upgrading to Calendar 2.x, it is **very strongly recommended** that you do all of the following:
+
+- Carefully review the changes above and the **migration limitations** listed further below.
+- Consider adjusting some of your Calendar data for a smoother migration, based on the limitations listed further below.
+- Be sure that your Calendar 1.x field has a short name of `event_dates_and_options`. **The migration will not work otherwise.**
+- Backup your entire EE site files and database.
+- Create a staging environment where you can test and confirm the migration worked.
+- After upgrade, give yourself plenty of time to:
+  - Change and implement new template tags.
+  - Review all calendar events and adjust / correct events that couldn't entirely be converted (because of discontinued features).
+
+## Overview
+
+When migrating from Calendar 1.x to Calendar 2.x, the below is an overview of the steps that should happen as well as what will happen with Calendar migration utility:
+
+1. Create full backup of EE site.
+2. Create staging server and load EE site files and backup onto server.
+3. Follow the [ExpressionEngine v2 to v3 upgrade steps](https://docs.expressionengine.com/v3/installation/upgrade_from_2.x.html) (and be sure to upload your new Calendar files in the EE3 version of the site).
+4. All of your Calendar Events and Calendars channels and entries will still be there since they are just regular EE data, but the Calendar event data will be missing from it.
+5. Go to the _Add-on Manager_ area and click the **Update** button for Calendar add-on.
+6. Calendar will do the following:
+   - Look for existing Calendar 1.x database tables.
+   - Remove some existing unnecessary Calendar database tables, and rename the remaining ones to be suffixed with _\_legacy_:
+     - **exp_calendar_calendars** - suffixed and preserved for migration
+     - **exp_calendar_events** - suffixed and preserved for migration
+     - **exp_calendar_events_exceptions** - suffixed and preserved for migration
+     - **exp_calendar_events_imports** - removed
+     - **exp_calendar_events_occurrences** - removed
+     - **exp_calendar_events_rules** - suffixed and preserved for migration
+     - **exp_calendar_permissions_groups** - removed
+     - **exp_calendar_permissions_preferences** - removed
+     - **exp_calendar_permissions_users** - removed
+     - **exp_calendar_preferences** - suffixed and preserved for migration
+     - **exp_calendar_reminders** - removed
+     - **exp_calendar_reminders_templates** - removed
+   - Install new Calendar 2.x database tables.
+7. Once finished updating/install routine, Calendar will appear to be exactly like a fresh install with no data (the old data is preserved and awaits migration).
+8. Calendar will then display a _Migration_ option in the navigation of the add-on because it will detect the legacy data.
+9. Click to the _Migration_ page.
+10. Click on the _Begin Migration_ button to start. The following will happen:
+    - Calendar will copy Calendar 1.x calendars data into new Calendar 2.x calendars.
+    - Calendar will check the legacy Preferences data to see which channel and custom field is used for events ("**Calendar: Events**"), so it knows where to insert the new Calendar 2.x converted data.
+    - Calendar will look at Calendar 1.x data and run through each entry and convert the data for each. Some types of event data is not able to carried over, and may be ignored ([see below to learn more](#excluded-data)).
+    - Migration routine will finish. Your event entries should now be populated with proper Calendar 2.x data and you should then be able to proceed with updating your templates and cleaning up other things.
+11. Proceed to cleaning up your site ([see below](#clean-up)).
+
+If anything happens to go wrong, it's technically possible to re-run the migration utility, but check in first with [Solspace Support Team](/support).
+
+## Retained data
+
+The migration process will convert the following Calendar 1.x data without any issues:
+
+- Event channel entries will have limited types of Calendar 1.x data loaded into the new Calendar fieldtype inside the original **Calendar: Events** channel.
+  - **Calendar** assigned to event in select menu is retained.
+  - **All Day** setting is retained.
+  - **From** and **To** dates and times are retained.
+  - **Repeat** options retained:
+    - Daily
+      - Every **X** day(s)
+    - Weekly
+      - Every **X** week(s)
+        - on **X** days of week
+    - Monthly
+      - Every **X** month(s)
+        - by day of month (excluding 'only on' **X** day(s) of week)
+        - by day of week
+    - Yearly
+      - Every **X** year(s)
+  - **End** (for repeating events)
+    - by Date
+    - After (converted to 'by date' equivalent)
+  - **Exclude** (for repeating events)
+    - 'Select Dates' rule type will fully convert.
+    - All other recurring exclusion rule types will be attempted to be converted to individual exclusion dates to a maximum of 20 dates.
+- Calendar channel entries will be converted into Calendar 2.x new style calendars.
+  - Each will be assigned a random color, and **First Day of Week** setting will be set to the value in Preferences of Calendar 2.x - both can be changed after migration.
+  - **IMPORTANT: Removing calendars in Calendar 2.x will also permanently remove ALL associated event channel entries!** For now, if you wish to remove a calendar but have associated events changed to another calendar, you'll need to edit each one manually and switch the calendar before deleting.
+
+## Adjusted data
+
+The following adjustments will automatically be made to your Calendar 1.x data during migration:
+
+- Events with a recurrence rule that 'never ends' will be switched to **Today's date + 30 years**, since 'never ending' repeats are no longer allowed. You can adjust / extend this date after migration.
+- Events with a recurrence rule that ends 'After X times' will be converted to the actual end date, since 'After X times' is no longer available.
+- Events with a Monthly recurrence rule that uses '5th week of' option will be converted to 'Last week of', since **5th** (or 4th) has to be the last occurrence.
+- Events with a Monthly recurrence rule that uses multiple '\_\_th week of' options will be converted to the last option only, and all previous options will be ignored (Calendar 2.x only lets you choose 1 option now).
+- Event date data will be compared against old calendar timezones and will be converted to the new no-timezone handling approach. So, if an event is set to start at **2pm (UTC-6)**, it is currently stored as **8pm (UTC+0)**. The migration utility will remove the difference of **-6**, and change the stored date data to be **2pm (UTC+0)** so that it continues to be displayed on your site as **2pm**.
+
+## Excluded data
+
+The following Calendar 1.x data will **not** be converted:
+
+- Additional 'include' rules (beyond the first/primary rule) will be ignored.
+- One-off occurrence **manipulations** (sometimes referred to as 'Custom Edited Occurrences' in Calendar 1.x) will be ignored. The occurrence will still exist through the parent/primary event entry though, but the unique data for it will not be carried over.
+- Exclude rules other than 'Select Dates' type may be ignored. Migration will attempt to convert recurring exclusion rule types to individual exclusion dates to a maximum of 20 dates.
+  - If you're using other types, consider updating your existing calendar events to use this exclude rule method (most commonly used).
+- Events with a Monthly recurrence rule that uses 'Only on X' day of week options when repeating by 'Day of Month' will have that portion of data ignored, as this option does not exist in Calendar 2.x.
+- Time formatting (for control panel) in calendars will be ignored, and just begin to use the global setting in Preferences page.
+- Date formatting (for control panel) preference will be ignored, and will continue to use whatever has been set in the new Calendar Preferences page (there are less options available now).
+
+## Clean up
+
+Once the migration is complete and you're happy with the results, you can proceed to cleaning up your site:
+
+- Review each Calendar inside the Module CP area and ensure the settings are correct (and adjust things like color and description while you're at it).
+- Review all event channel entries to ensure the data is correct. Depending on the types of recurrence rules you used in Calendar 1.x, it's possible you may need to make some adjustments to complex events to correct them, and/or create supplemental event entries to account for extra layers of recurrences, etc.
+- Using the [Changes to Template Tags](#changes-to-template-tags) documentation above, update your templates as necessary.
+- If you're absolutely certain everything migrated correctly (within guidelines mentioned above), you can proceed to removing the old legacy Calendar 1.x data by clicking the _Remove Legacy Calendar 1.x Data_ button in the _Migration_ page in Calendar control panel. This can be done at any time, so we recommend you wait a few days or weeks before you use it.
+- Feel free to rename the original **Calendar: Events** channel and **Dates &amp; Options** custom field to whatever you wish, as it is no longer important what their names are.
+- Remove all Calendar channel entries (the ones in **Calendar: Calendars**, not event entries) and the channel itself, as calendars are now stored differently.

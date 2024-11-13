@@ -1,0 +1,65 @@
+---
+sidebar_position: 5
+title: 'Save & Continue Later'
+---
+
+import Player from 'react-player';
+
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+import BuilderRulesVideo from './assets/videos/builder-rules.mp4';
+
+# Save & Continue Later
+
+Freeform includes a _Save & Continue Later_ feature which allows your users to securely save their form progress and immediately continue or come back later to complete it.
+
+## Overview
+
+The form builder includes an additional special field called **Save & Continue Later**. Once you place that button into your form layout (per page), you can configure and special email notification as well as where the user is returned to once they click that button. These will offer you full control over instructions to the user about how to return and complete the form (including a URL with special token/key) and the amount of time they have to complete it before it expires (configurable). All saved form progress submissions are stored in a separate encrypted database table. This special button is optionally applied and configured to each page in the form. While it might be a bit more work if you wish to have the feature appear on every page and be identical for all, this approach means that you also have the complete flexibility to choose whether you want the **Save** button to appear on every page (e.g. maybe you don't want the user saving on the last page of the form) and can also optionally choose different return paths/email notification templates that could be customized by the progress on the form (e.g. _"Thanks for starting your application!"_, _"You're almost done..."_, _"Thanks for completing the first 3 steps..."_, etc). When a user clicks the **Save** button, all field validation is circumvented. Other validation such as spam protection measures still apply.
+
+## Configuration
+
+Once a **Save & Continue Later** special field is added to the page layout in the form, the settings for this button in the form builder property editor are:
+
+- **Button Label** - defaults to `Save & Continue Later`
+- **Positioning**
+  - Left
+  - Center
+  - Right
+- **Return URL** - where the user should be returned to if they click the **Save** button.
+  - Special `token` and `key` variables are available to include in the return path.
+  - The return URL would be wherever you like, and fully customizable. This is where you'd include instructions to the user including a URL for where to return to complete the form later.
+- **Target Email field** (optional) - the [Email](./fields.mdx#email) field that will contain the user's email address in order to send the email notification.
+  - If the user hasn't yet filled out an email address and the field is NOT required, the email notification attempt will be suppressed. If the email address field is marked as required, the form will run through regular field validation until it contains a valid value. A good way around this would be to have the first page include basic info like _name_ and _email_ and/or no option to save the form until the second page.
+  - **Email Notification Template** - the email notification sent to the user if they click the **Save** button.
+    - Choose a special Freeform email notification template.
+    - The message of this email notification is completely customizable, but be sure to include instructions to the user including a URL for where to return to complete the form later.
+    - The following special variables are available for this email template:
+    ```twig
+    {{ token }} - the session token
+    {{ key }} - the form submission key
+    ```
+
+There are also 2 general settings specific to _Save & Continue Later_:
+
+- **Number of Days to Keep Saved Form Data** - the number of days to store saved form progress in the database before clearing.
+- **Maximum Number of Saved Forms Per Session** - the maximum number of saved forms per session (per user, though it's possible a user may have multiple sessions when returning to the site over a span of several days). Default is 10, which should be a comfortable and reasonable number. Once the maximum has been reached, Freeform will begin overwriting existing older entries to create new ones.
+
+You may also override the Return URL for the Saving feature by specifying the `savedFormRedirect` parameter at template level:
+
+```twig {5} showLineNumbers
+{% set submissionToken = craft.app.request.getQueryParam('session-token') %}
+{% set submissionKey = craft.app.request.getQueryParam('key') %}
+
+{{ craft.freeform.form("yourFormHandle").render({
+    savedFormRedirect: '/apply/form-save?&session-token={token}&key={key}',
+    savedSession: {
+        key: submissionKey,
+        token: submissionToken,
+    },
+}) }}
+```
+
+:::info
+If `savedSession` does not contain a valid key and token, the form will just render a fresh copy of the form with no saved data present and work as usual. This means that you don't necessarily need to have a unique template page to handle the resume part.
+:::

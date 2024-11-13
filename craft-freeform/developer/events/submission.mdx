@@ -1,0 +1,77 @@
+---
+sidebar_position: 2
+---
+
+# Submission Events
+
+Hook into Submission events to attach your own logic for when submissions are being created, edited or deleted.
+
+## Before a submission is submitted
+
+This event is called right before the submission is saved to the database.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\SubmissionsService;
+use Solspace\Freeform\Events\Submissions\SubmitEvent;
+
+Event::on(
+  SubmissionsService::class,
+  SubmissionsService::EVENT_BEFORE_SUBMIT,
+  function (SubmitEvent $event) {
+    $form = $event->getForm();
+    $submission = $event->getSubmission();
+
+    // Perform manipulations here
+  }
+)
+```
+
+## After a submission is submitted
+
+This event is called right after the submission is saved to the database.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\SubmissionsService;
+use Solspace\Freeform\Events\Submissions\SubmitEvent;
+
+Event::on(
+  SubmissionsService::class,
+  SubmissionsService::EVENT_AFTER_SUBMIT,
+  function (SubmitEvent $event) {
+    $form = $event->getForm();
+    $submission = $event->getSubmission();
+
+    // Perform some actions here
+  }
+)
+```
+
+## Before a submission is updated in CP
+
+```php showLineNumbers
+use Solspace\Freeform\Controllers\SubmissionsController;
+use Solspace\Freeform\Events\Submissions\UpdateEvent;
+
+Event::on(
+  SubmissionsController::class,
+  SubmissionsController::EVENT_BEFORE_UPDATE,
+  function (UpdateEvent $event) {
+    $submission = $event->getSubmission();
+  }
+)
+```
+
+## After a submission is updated in CP
+
+```php showLineNumbers
+use Solspace\Freeform\Controllers\SubmissionsController;
+use Solspace\Freeform\Events\Submissions\UpdateEvent;
+
+Event::on(
+  SubmissionsController::class,
+  SubmissionsController::EVENT_AFTER_UPDATE,
+  function (UpdateEvent $event) {
+    $submission = $event->getSubmission();
+  }
+)
+```

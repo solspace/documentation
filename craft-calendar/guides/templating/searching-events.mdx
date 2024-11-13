@@ -1,0 +1,109 @@
+---
+title: Searching Events
+sidebar_position: 1
+---
+
+# Searching Events
+
+This page serves as an example of how to perform basic searching into _Solspace Calendar_ events. Some of the paths assume you're working with the demo templates that come with Calendar.
+
+## Searching via _calendar.month_
+
+```twig showLineNumbers
+{% set searchTerm = craft.app.request.getParam("search") %}
+
+<div>
+  <form method="get">
+    <label class="control-label">
+      Search for something
+    </label>
+    <input type="text"
+      name="search"
+      class="form-control"
+      placeholder="Search..."
+      value="{{ searchTerm }}"
+    />
+  </form>
+</div>
+
+{% set eventOptions = {
+  date: targetDate,
+  calendar: calendarHandle,
+  search: searchTerm ? "customFieldHandle:"~searchTerm : null
+} %}
+{% set month = craft.calendar.month(eventOptions) %}
+
+<table id="month_calendar_inner" class="table table-bordered">
+  <thead>
+  <tr id="days_of_week" class="active">
+    {% for day in month|first %}
+      <th class="day_of_week">
+        {{ day.date.format('l') }}
+      </th>
+    {% endfor %}
+  </tr>
+  </thead>
+  <tbody>
+  {% for week in month %}
+    <tr>
+    {% for day in week %}
+      {% if month.containsDate(day.date) %}
+        <td class="day_cell{{ day.date.isToday ? " today" }}">
+          <div class="date{{ day.eventCount ? " has_events" }}">
+            <a class="num" href="{{ siteUrl }}calendar_demo/day/{{ segment2 == 'calendar' ? "calendar/"~segment3~"/" }}{{ day.date.format('Y/m/d') }}">
+              {{ day.date.format('j') }}
+            </a>
+          </div>
+      {% else %}
+        <td class="day_cell out_of_range">
+          <div class="date">
+            <span class="num">
+              {{ day.date.format('j') }}
+            </span>
+          </div>
+      {% endif %}
+        {% for event in day.events %}
+          {% include "calendar_demo/layouts/_event.html" %}
+        {% endfor %}
+        </td>
+    {% endfor %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+```
+
+## Searching via _calendar.events_
+
+```twig showLineNumbers
+{% set searchTerm = craft.app.request.getParam("search") %}
+
+<div>
+  <form method="get">
+    <label class="control-label">
+      Search for something
+    </label>
+    <input type="text"
+      name="search"
+      class="form-control"
+      placeholder="Search..."
+      value="{{ searchTerm }}"
+    />
+  </form>
+</div>
+
+{% set eventOptions = {
+  rangeStart: targetStartDate,
+  rangeEnd: targetEndDate,
+  limit: 15,
+  search: searchTerm ? "customFieldHandle:"~searchTerm : null
+} %}
+
+{% paginate craft.calendar.events(eventOptions) as pageInfo, events %}
+
+{% for event in events %}
+  <div>
+    {{ event.title }}
+  </div>
+{% endfor %}
+```

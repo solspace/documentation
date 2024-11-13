@@ -1,0 +1,149 @@
+---
+sidebar_position: 1
+title: 'Getting Started'
+---
+
+import Icons from '@site/static/card-icons';
+
+# Introduction
+
+The _Solspace Calendar_ add-on is very powerful and flexible, and therefore complex, and can require a bit of time to learn and understand how all things work. Included with _Solspace Calendar_ is a set of [Demo Templates](../configuration/demo-templates.mdx) that can be installed on your site, instantaneously giving you a real-world set of styled, working templates. To help you better understand each template query and their use, we've also included this resource.
+
+## Overview
+
+The document below serves as a templating guide. For information about creating events and adding them to other entries, view the [Managing Events](../events/index.mdx) documentation.
+
+Calendar includes 9 template queries:
+
+- [calendar.events](#calendarevents)
+- [calendar.event](#calendarevent)
+- [calendar.calendars](#calendarcalendars)
+- [calendar.calendar](#calendarcalendar)
+- [calendar.month](#calendarmonth)
+- [calendar.week](#calendarweek)
+- [calendar.day](#calendarday)
+- [calendar.hour](#calendarhour)
+- [calendar.export](#calendarexport)
+
+### calendar.events
+
+The [calendar.events](../templates/queries/events.mdx) template query allows you to display lists of events and their recurrences ordered chronologically. You can set start and end dates however you wish to filter the list to a specific timeframe. You can also filter events by calendars they're associated with. This is also an important template query as it ultimately powers the event data handling in the [calendar.month](../templates/queries/month.mdx), [calendar.week](../templates/queries/week.mdx), [calendar.day](../templates/queries/day.mdx) and [calendar.hour](../templates/queries/hour.mdx) template queries. All of the parameters become available for use within the mentioned template queries.
+
+It would be most common to use this template query if you wish to just display a specific timeframe of events in a simple list. If you're looking for extra format handling for specialty calendar displays (like full month, etc), then use the applicable template queries.
+
+### calendar.event
+
+The [calendar.event](../templates/queries/event.mdx) template query allows you to display a single event and it's recurrences ordered chronologically.
+
+### calendar.calendars
+
+The [calendar.calendars](../templates/queries/calendars.mdx) template query simply lets you display lists of calendars and information about each one. You would commonly use this template query to display a list of available calendars, letting your users filters lists of events by calendars, etc. If you wish to display the calendar that is assigned to your event, each event contains a calendar object which contains the calendar data.
+
+### calendar.calendar
+
+The [calendar.calendar](../templates/queries/calendar.mdx) template query simply lets you display a single calendar and information about it.
+
+### calendar.month
+
+The [calendar.month](../templates/queries/month.mdx) template query lets you to display a traditional month calendar grid view for a specified month, or the current month. It comes ready to go with nested week, day and hour lists, event lists and queries that help you create the full month view table. It also automatically knows to make sure each week at the beginning and end of the month is displayed as full week with the previous and next months overflowing. For example, if the current month is **March**, and **March 1st** starts on **Tuesday**, [calendar.month](../templates/queries/month.mdx) will automatically include **Sunday & Monday** of **February** at the beginning of the month table.
+
+The result is that your calendar full month view will feel and look similar to _Apple Calendar_ or _Google Calendar_, etc.
+
+### calendar.week
+
+The [calendar.week](../templates/queries/week.mdx) template query lets you display a week view of events for a specified week, or the current week. It comes ready to go with nested day and hour lists, event lists and queries to assist with formatting. It also automatically knows to make sure each week is displayed as full week.
+
+The result is that you're able to construct a week view calendar that can look somewhat similar to _Apple Calendar_ or _Google Calendar_, etc.
+
+### calendar.day
+
+The [calendar.day](../templates/queries/day.mdx) template query lets you to display a full day view of events for a specified day, or the current day / today. It comes ready to go with a nested hour list, event lists and queries to assist with formatting.
+
+The result is that you're able to construct a day view calendar that can look somewhat similar to _Apple Calendar_ or _Google Calendar_, etc.
+
+### calendar.hour
+
+The [calendar.hour](../templates/queries/hour.mdx) template query lets you display events for a specific hour of the day. It comes ready to go with an event list and queries to assist with formatting.
+
+### calendar.export
+
+The [calendar.export](../templates/queries/export.mdx) template query is available for event exporting purposes. It outputs an **ICS (RFC-2445)** compatible file, which can then be imported into other programs such as _Google Calendar_, _Apple Calendar_, _Microsoft Outlook_, etc.
+
+This query contains pre-formatted info, so you just need to specify the template query and apply some parameters and link to it. When the template that contains this query is accessed, the browser will instantly provide users with a download dialog of an **ICS** file.
+
+## Understanding how Recurrences are handled
+
+All of the Calendar template queries contain events and their recurrences in chronological order. Every event is an object that holds Calendar event data. If the event repeats / recurs, then we consider the main event (also the first occurrence) as the parent, and its recurrences as its children. These children occurrences are not actually unique events, but are instead "artificially created" duplicates. So, an event that recurs 5 other times does not have 6 database entries - all occurrences have the same event ID. This is important to understand because most users like to link events from their Month, Week or Day calendars to an event detail page that shows in-depth information about the event or its recurrence(s). There is [a way around this though](#getting-around-recurrence-date-limitations-on-event-detail-page) (see below)...
+
+## Getting around Recurrence date limitations on Event Detail page
+
+Because all recurrences share the same ID, unfortunately there isn't an automatic way for your event detail page to know which dates to display (for example - if you have an event that starts on **February 6** and **repeats every week on Wednesday**, the recurrences on **February 13**, **20**, etc of course happen on different days). While you will likely want to display the date of the recurrence when clicked to, Calendar will generally only know how to display the very first start/end date of the parent event.
+
+A simple way around this is to **include date segments in the URI** when you link to your event detail page. So for example, if you have a full month view template, instead of just linking each recurrence to its parent entry ID, be sure to also include the date of the recurrence in the URI as segments as well.
+
+```twig showLineNumbers
+<a href="calendar/event/{{ event.id }}/{{ event.repeating ? event.startDate.format('Y/m/d') }}">
+  {{ event.title }}
+</a>
+```
+
+When using a Calendar template query such as [calendar.month](../templates/queries/month.mdx), each [Event object](../templates/objects/event.mdx) in the `month.events` list will have the correct date of each recurrence. So simply sneak that into your link to the event detail page, and you will now have some data to work with.
+
+In the event detail template, when using the [calendar.event](../templates/queries/event.mdx) template query, pass the occurrence date from the URL segments as a parameter `occurrenceDate` to make sure the correct date is used for `event.startDate` and `event.endDate`.
+
+```twig showLineNumbers
+{% set occurrenceDate = null %}
+{% if seg3 and seg4 and seg5 %}
+  {% set occurrenceDate = seg3~"-"~seg4~"-"~seg5 %}
+{% endif %}
+
+{% set event = calendar.event(seg2, {
+  occurrenceDate: occurrenceDate
+}) %}
+
+{{ event.startDate.format('l, F j, Y') }}
+```
+
+## Preventing Endless Search Engine Crawling
+
+When using some of Calendar's template queries to generate month calendar views, a mini calendar, etc, these will inadvertently create neverending links to dynamically generated URL's to account for endless date possibilities. What can then happen is that search engine crawlers can get stuck on this endlessly. To work around this, you can use some simple Twig conditional checks to wrap around **Previous** and **Next** month/week/day links to prevent them from showing after a certain number of days.
+
+```twig {7,11,16,29,34} showLineNumbers
+<div id="month_calendar">
+    {% set month = craft.calendar.month({
+        date: targetDate,
+        calendar: calendarHandle,
+    }) %}
+
+    {% set dateBoundsHelper = now.diff(month.nextDate)|date('%r%a') %}
+
+    <div class="row justify-content-between mb-3">
+        <div class="col-3">
+        {% if dateBoundsHelper > -365 %}
+            <a class="btn btn-outline-secondary"
+                href="{{ siteUrl }}calendar-demo/month/{{ segment3 == "calendar" ? "calendar/"~segment4~"/" }}{{ month.previousDate.format('Y/m') }}">
+                <span class="fas fa-arrow-left"></span> {{ month.previousDate.format('F') }}
+            </a>
+        {% endif %}
+        </div>
+
+        <div class="col-auto">
+            <h3>
+                {{ date.format('F Y') }} &nbsp;
+                <span class="badge {{ month.eventCount ? "badge-warning" : "badge-secondary" }}">
+                    {{ month.eventCount }} event{{ month.eventCount > 1 or month.eventCount == 0 ? "s" }}
+                </span>
+            </h3>
+        </div>
+
+        <div class="col-3 clearfix">
+        {% if dateBoundsHelper < 365 %}
+            <a class="btn btn-outline-secondary float-right"
+                href="{{ siteUrl }}calendar-demo/month/{{ segment3 == "calendar" ? "calendar/"~segment4~"/" }}{{ month.nextDate.format('Y/m') }}">
+                {{ month.nextDate.format('F') }} <span class="fas fa-arrow-right"></span>
+            </a>
+        {% endif %}
+        </div>
+    </div>
+    ...
+```

@@ -1,0 +1,99 @@
+---
+sidebar_position: 3
+---
+
+# Upgrading from Freeform 3.x to Freeform Classic 4+
+
+:::warning
+There is no migration utility in Freeform Classic 4.x+ to upgrade from Freeform 3.x. If using EE2, Freeform 3.x users should upgrade to Freeform 4.x on EE2 first, then to EE3 and Freeform 5.x+. Freeform Classic 4.x/5.x/6.x all virtually have the same feature set.
+:::
+
+Some of the key changes for Freeform Classic 4.x+ is that forms are now pre-set in the control panel, and are no longer "loose" like they used to be in Freeform 3.x. This means that you must take the time to set up your forms in the control panel, and correctly assign custom fields and notifications templates. This also means that you will see large performance benefits as each form has its own table in the database (whereas all forms shared one in Freeform 3.x), as well as robust managing and administrating of forms and their submissions.
+
+Freeform Classic 4.x+ also introduces the concept of field types, just like you have for channel fields. It allows you to smartly create and manage a wide variety of field types, giving you more flexibility in the data you collect, and more control in how it displays in the front end templates, notification templates, and control panel. One key difference between Freeform 3.x and 4.x+ is how files/attachments are handled. Freeform Classic now contains a File Upload field type, allowing you enormous flexibility in how you handle, store and display file attachments.
+
+Lastly, new to Freeform Classic 4.x+ is a built in Composer tool, which is an intuitive and enjoyable drag and drop interface to create your forms. In Freeform Classic 4.x+, you can create and manage your forms in either the new Composer tool, or the traditional approach within EE templates (like Freeform 3.x does). Freeform Classic 4.x+ allows you to have some forms that are Composer-built, and some that are EE template-based - it's your choice!
+
+## \{exp:freeform:form}
+
+There are a variety of parameters that have been renamed, while several are obsolete because of Freeform's new field types. Variables, variable pairs, and conditionals are all now prepended with **freeform:**.
+
+### Parameters
+
+- _collection_ --> changed to _form_name_
+- _allowed_file_types_ --> now controlled directly per upload fieldtype
+- _file_upload_ --> file uploading now done with upload fieldtype
+- _notify_ --> changed to _admin_notify_ (or can be set in the control panel per form)
+- _onsubmit_ --> use _form:ATTRIBUTE_NAME_ (ex: **form:onsubmit**)
+- _send_attachment_ --> now controlled directly in notification templates
+- _send_user_attachment_ --> now controlled directly in notification templates
+- _send_user_email_ --> changed to _notify_user_
+- _template_ --> changed to _admin_notification_template_
+- _user_email_template_ --> changed to _user_notification_template_ (also see _user_email_field_)
+- _reply_to_ --> now part of notification templates (controlled in control panel)
+- _reply_to_name_field_ --> now part of notification templates (controlled in control panel)
+- _reply_to_email_field_ --> now part of notification templates (controlled in control panel)
+- _output_json_ --> use _ajax_ now
+- _ajax_request_ --> use _ajax_ now
+
+### Variables
+
+- _name_ --> no longer exists. Use _logged_in_screen_name_ to achieve same effect.
+- _email_ --> no longer exists. Use _logged_in_email_ to achieve same effect.
+- _captcha_ --> changed to _freeform:captcha_
+- _recipient_name1_ --> changed to _freeform:recipient_name1_
+- _recipient_value1_ --> changed to _freeform:recipient_value1_
+
+### Variable Pairs
+
+- _recipients_ --> changed to _freeform:recipients_
+
+### Conditionals
+
+- _if duplicate_ --> changed to _if freeform:duplicate_
+- _if not_duplicate_ --> changed to _if freeform:not_duplicate_
+- _if captcha_ --> changed to _if freeform:captcha_
+
+### Form Fields
+
+- _captcha_ --> changed to _freeform:captcha_
+- _file1_ --> file uploading now done with upload fieldtype
+
+## \{exp:freeform:entries}
+
+In addition to a parameter name change, all of the variables, variable pairs, and conditionals in the **Freeform:Entries** tag need to be updated as Freeform Classic 4.x+ now prepends them with **freeform:**.
+
+### Parameters
+
+- _collection_ --> changed to _form_name_
+
+### Variables
+
+- _author_id_ --> changed to _freeform:author_id_
+- _attachment_count_ --> changed to _freeform:attachment_count_
+- _collection_name_ --> changed to _freeform:form_name_ (also see _freeform:form_label_)
+- _count_ --> changed to _freeform:count_
+- _edit_date_ --> changed to _freeform:edit_date_
+- _entry_date_ --> changed to _freeform:entry_date_
+- _entry_id_ --> changed to _freeform:entry_id_
+- _gmt_edit_date_ --> no longer exists
+- _gmt_entry_date_ --> no longer exists
+- _group_id_ --> no longer exists. Use _author_id_ in conjunction with the [\{exp:member:custom_profile_data}](https://docs.expressionengine.com/v4/member/index.html#custom-profile-data-tag) tag.
+- _ip_address_ --> changed to _freeform:ip_address_
+- _reverse_count_ --> changed to _freeform:reverse_count_
+- _switch_ --> changed to _freeform:switch_
+- _total_entries_ --> changed to _freeform:total_results_ or _freeform:absolute_results_
+- _template_ --> no longer exists
+- _FREEFORM_FIELD_NAME_ --> changed to _freeform:field:FIELD_NAME_
+
+### Variable Pairs
+
+- _attachments_ --> now controlled directly per upload fieldtype
+
+### Conditionals
+
+- _if no_results_ --> changed to _if freeform:no_results_
+
+## \{exp:freeform:count}
+
+This template tag no longer exists in Freeform Classic 4.x+, and there is currently no replacement approach available.

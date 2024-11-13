@@ -1,0 +1,118 @@
+---
+title: Event
+sidebar_position: 2
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Event object
+
+<Photo
+  img={require('@site/static/img/craft-calendar/v5/templates_event.png')}
+  alt="Event view"
+/>
+
+## Properties
+
+- `id`
+  - The event's unique ID, which is also the element ID.
+- `slug`
+  - The event's unique URL slug.
+- `title`
+  - The event's title.
+- `status`
+  - The event's status.
+- `enabled`
+  - If the event is enabled.
+- `authorId`
+  - The event's author ID.
+- `author`
+  - The event's author.
+- `startDate`
+  - a [Date object](./date.mdx).
+  - Can be formatted with `.format("l, F j, Y \\a\\t g:ia")`
+  - If you'd like to have dates translatable, use `startDateLocalized` instead and `format()` with `|date()` filter, e.g. `event.startDateLocalized|date("l, F j, Y g:ia")`.
+- `endDate`
+  - a [Date object](./date.mdx).
+  - Can be formatted with `.format("l, F j, Y \\a\\t g:ia")`
+  - If you'd like to have dates translatable, use `endDateLocalized` instead and `format()` with `|date()` filter, e.g. `event.startDateLocalized|date("l, F j, Y g:ia")`.
+- `duration`
+  - a [Duration object](./duration.mdx).
+- `allDay`
+  - a `boolean` value.
+- `multiDay`
+  - a `boolean` value.
+- `repeating`
+  - a `boolean` value.
+- `rrule`
+  - The **RFC RRule** string used by ICS.
+- `readableRepeatRule`
+  - a human readable string of the `rrule`.
+- `simplifiedRepeatRule`
+  - a simplified version of the repeat rule (e.g. **Weekly**).
+- `isCurrentlyHappening`
+  - Checks if the user's current time is between the event's start and end date.
+  - Based on the logged in user's locale, or otherwise the site's default timezone.
+- `isHappeningOn`
+  - Checks if the specified date and time is between the event's start and end date, e.g:
+    ```twig showLineNumbers
+    {% if event.isHappeningOn('2023-03-07 4:30pm') %} Yes! {% endif %}
+    ```
+  - Time has a default of `00:00:00`, so if not specified, only All Day events will evaluate to `true`.
+- `calendar`
+  - a [Calendar object](./calendar.mdx).
+- `exceptions`
+  - a list of exception models for recurring events.
+  - Exception models consist of these properties:
+    - `id` - the ID of the exception
+    - `eventId` - the ID of the parent event
+    - `date` - a `\DateTime` object of the exception date
+- `occurrences`
+  - a list of [Event objects](./event.mdx) of all occurrences for repeating rules.
+- `occurrenceCount`
+  - the total number of occurrence results.
+- `url`
+  - the URL of the event, if available, generated from Event URL path setting for calendars.
+
+You can also access any custom fields which you have added to events by directly calling their **handle** (the **handle** must not match any of the existing event properties).
+
+## Usage in Templates
+
+You can also access any custom fields which you have added to events by directly calling their **handle** (the **handle** must not match any of the existing event properties). If you had a field called _Event Description_ with a handle of **eventDescription** you would access it in the template like this:
+
+```twig showLineNumbers
+{{ event.eventDescription }}
+```
+
+You could make sure such a property exists first, to prevent errors in case the field is deleted:
+
+```twig showLineNumbers
+{% if event.eventDescription is defined %}
+  {{ event.eventDescription }}
+{% endif %}
+```
+
+Let's use a Date method to check if our event's start date is before the current Day's date
+
+```twig showLineNumbers
+{# Print out the Y-m-d of start date if start date is before the Day date #}
+
+{% if event.startDate.lt(day.date) %}
+  {{ event.startDate.dateString }}
+{% endif %}
+```
+
+Now let's print out the duration of the event, which is the amount of time in months, days, hours, etc from the event's start date until its end date
+
+```twig showLineNumbers
+{# Print out the duration string #}
+{# An example output would be "1d 5h 30m" #}
+
+{{ event.duration.humanReadable }}
+
+{# Print out a custom message if the duration in days is 1 or more #}
+
+{% if event.duration.days >= 1 %}
+  Event spans for {{ event.duration.days }} days
+{% endif %}
+```

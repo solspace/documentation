@@ -1,0 +1,217 @@
+---
+sidebar_position: 2
+title: Caching Forms
+---
+
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+import { Badge } from '@site/src/components/utils';
+
+# Cacheable Forms
+
+:::info
+**NEW IN FREEFORM 3.12+**: If using _PHP Sessions_ or _Database Tables_ for the _Freeform Session Context_ setting, please be sure to include `{% do form.registerContext %}` below your form. <Badge type="feature" text="3.12+" />
+:::
+
+Forms and pages can cached in a variety of ways. Here's 2 different solutions, depending on your caching approach:
+
+## Twig Template Caching
+
+When using simple [Craft Caching](https://craftcms.com/docs/5.x/reference/twig/tags.html#cache), you'll need to make sure that you are refreshing the [CSRF token](https://craftcms.com/docs/5.x/development/forms.html#csrf) and the Freeform form hash. Here's how that may look inside your template:
+
+### Refresh Form Hash & CSRF Token only
+
+For when NOT using with the [JS Enhancement](../../forms/spam-protection#javascript-enhancement) feature:
+
+```twig showLineNumbers
+{# Initialize the form #}
+{% set form = freeform.form("myFormHandle") %}
+
+{# Cached form comes here #}
+{% cache %}
+    {{ form.render }}
+{% endcache %}
+
+{# Script for updating the form's Hash and CSRF token loads after #}
+<script>
+    // Find the corresponding Form
+    var form = document.querySelector('form');
+
+    // Locate and update the Hash input
+    var formHashInput = form.querySelector('input[name=formHash]');
+    formHashInput.setAttribute('value', '{{ form.hash }}');
+
+    // Locate and update the CSRF input
+    var csrfInput = form.querySelector('input[name={{ craft.app.config.general.csrfTokenName|e('js') }}]');
+    csrfInput.value = '{{ craft.app.request.csrfToken|e('js') }}';
+</script>
+```
+
+If using **PHP Sessions** or **Database Tables** for _Freeform Session Context_, be sure to include `{% do form.registerContext %}`:
+
+```twig {3} showLineNumbers
+{# Initialize the form #}
+{% set form = freeform.form("myFormHandle") %}
+{% do form.registerContext %}
+
+{# Cached form comes here #}
+...
+```
+
+### Refresh Form Hash, JS Honeypot & CSRF Token
+
+For when using the [JS Enhancement](../../forms/spam-protection#javascript-enhancement) feature:
+
+```twig showLineNumbers
+{# Initialize the form #}
+{% set form = craft.freeform.form("myFormHandle") %}
+
+{# Cached form comes here #}
+{% cache %}
+    {{ form.render }}
+{% endcache %}
+
+{# Script for updating the form's Hash, Honeypot and CSRF token loads after #}
+<script>
+    // Get a fresh Honeypot via `craft.freeform.honeypot()` service
+    var honeypot = JSON.parse('{{ craft.freeform.honeypot(form)|json_encode|raw }}');
+
+    // Find the corresponding Form
+    var form = document.querySelector('form');
+
+    // Locate and update the Hash input
+    var formHashInput = form.querySelector('input[name=formHash]');
+    formHashInput.setAttribute('value', '{{ form.hash }}');
+
+    // Locate and update the Honeypot input
+    var honeypotInput = form.querySelector('input[name^="freeform_form_handle"]');
+    honeypotInput.setAttribute('id', honeypot.name);
+    honeypotInput.setAttribute('name', honeypot.name);
+    honeypotInput.value = honeypot.hash;
+
+    // Locate and update the CSRF input
+    var csrfInput = form.querySelector('input[name={{ craft.app.config.general.csrfTokenName|e('js') }}]');
+    csrfInput.value = '{{ craft.app.request.csrfToken|e('js') }}';
+</script>
+```
+
+## Static Page Caching / CDN / Blitz
+
+Services like [CloudFlare](http://cloudflare.com) allow you to cache components of web pages like JS, CSS and images. But you can also cache entire web pages; the complete HTML of a page. They then distribute these cached copies of pages across their global network of data centers. This makes websites screaming fast. The [Blitz](https://plugins.craftcms.com/blitz) Craft plugin is another way for static page caching.
+
+There's one problem with full page caching though. Forms stop working after a while since their [CSRF tokens](https://craftcms.com/docs/4.x/dev/controller-actions.html#csrf) expire. CSRF tokens are a way of cutting down on unwanted form submissions and assure that a given form actually belongs to a given website.
+
+You can overcome this problem of expired CSRF tokens in Craft CMS with some simple javascript and a little Twig template code.
+
+1. Create a separate Twig template to handle loading the refreshed tokens with the following line of code (leave out the `honeypot: craft.freeform.honeypot(form),` line if you're NOT using the Freeform [JS Enhancement](../../forms/spam-protection#javascript-enhancement) feature):
+   ```twig showLineNumbers
+   {% set form = craft.freeform.form(craft.app.request.get('form')) %}
+   {{ {
+       hash: form.hash,
+       honeypot: craft.freeform.honeypot(form),
+       payload: form.payload,
+       csrf: {
+           name: craft.app.config.general.csrfTokenName,
+           value: craft.app.request.csrfToken,
+       }
+   }|json_encode|raw }}
+   ```
+   - If using **PHP Sessions** or **Database Tables** for _Freeform Session Context_, be sure to include `{% do form.registerContext %}`:
+     ```twig {2} showLineNumbers
+     {% set form = craft.freeform.form(craft.app.request.get('form')) %}
+     {% do form.registerContext %}
+     {{ {
+         hash: form.hash,
+         honeypot: craft.freeform.honeypot(form),
+         csrf: {
+             name: craft.app.config.general.csrfTokenName,
+             value: craft.app.request.csrfToken,
+         }
+     }|json_encode|raw }}
+     ```
+2. Make sure routing to that template works correctly. For example, we often dedicate a directory **inside the Craft templates directory** named something like `dynamic` on our websites and place files in that directory that we know should never be cached by the CDN. The above template might be in a directory called `dynamic` with a filename of `index.twig`.
+3. Set up a rule in CloudFlare or your preferred CDN that makes sure any URLs starting with `dynamic` are not cached. You can then aggressively cache all of your other site URLs.
+4. Add the following JS snippet to your main `.js` file or to the bottom of all your web pages. Note that this snippet assumes you're already running [jQuery](https://jquery.com). It uses AJAX to fetch the contents of `https://yourwebsite.com/dynamic`, which just returns a fresh CSRF token (and anything else you include). This is then replaced in the CSRF token field of all forms on the page.
+
+   ```js showLineNumbers
+   <script>
+       $(function () {
+           // Find the corresponding Form
+           var form = document.querySelector('form');
+
+           $.ajax({
+           // Specify the form handle in the GET parameters
+           // ! Make sure to change the `myFormHandle` to your specific form handle.
+           url: '/dynamic?form=myFormHandle',
+           type: 'get',
+           dataType: 'json',
+           success: function (response) {
+               // Update the Form Hash
+               form.querySelector('input[name=formHash]').value = response.hash;
+
+               // Update the Payload if encrypted payloads are enabled
+               form.querySelector('input[name=freeform_payload]').value = response.payload;
+
+               // Update the JS Honeypot (ONLY when JS Enhancement setting is ON)
+               var honeypot = response.honeypot;
+               var honeypotInput = form.querySelector('input[name^="freeform_form_handle"]');
+               honeypotInput.setAttribute('id', honeypot.name);
+               honeypotInput.setAttribute('name', honeypot.name);
+               honeypotInput.value = honeypot.hash;
+
+               // Locate and update the CSRF input
+               var csrf = response.csrf;
+               form.querySelector('input[name=' + csrf.name + ']').value = csrf.value;
+           },
+           });
+       });
+   </script>
+   ```
+
+Just to clarify, your final code for the template with the form inside it might look something like this:
+
+```twig showLineNumbers
+{# Initialize the form #}
+{% set form = craft.freeform.form("myFormHandle") %}
+{{ form.render }}
+
+{# Load the jQuery library #}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+{# The script for updating the form's hash and honeypot loads after #}
+<script>
+  $(function () {
+    // Find the corresponding Form
+    var form = document.querySelector('form');
+
+    $.ajax({
+      // Specify the form handle in the GET parameters
+      url: '/dynamic?form=myForm',
+      type: 'get',
+      dataType: 'json',
+      success: function (response) {
+        // Update the Form Hash
+        form.querySelector('input[name=formHash]').value = response.hash;
+
+        // Update the Payload if encrypted payloads are enabled
+        form.querySelector('input[name=freeform_payload]').value = response.payload;
+
+        // Update the JS Honeypot (ONLY when JS Enhancement setting is ON)
+        var honeypot = response.honeypot;
+        var honeypotInput = form.querySelector('input[name^="freeform_form_handle"]');
+        honeypotInput.setAttribute('id', honeypot.name);
+        honeypotInput.setAttribute('name', honeypot.name);
+        honeypotInput.value = honeypot.hash;
+
+        // Locate and update the CSRF input
+        var csrf = response.csrf;
+        form.querySelector('input[name=' + csrf.name + ']').value = csrf.value;
+      },
+    });
+  });
+</script>
+```
+
+:::tip
+[Using a form more than once in the same template? Be sure to specify the `id` parameter for the _Form_ query in your template with unique values.
+](./multiple-instances-of-same-form)
+:::

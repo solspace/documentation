@@ -1,0 +1,44 @@
+---
+sidebar_position: 9
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Stripe Payment Events
+
+To extend Freeform's Stripe Payments, use the events listed below:
+
+## When updating Payment metadata<Badge type="feature" text="5.1.9+" />
+
+This event lets you add your own data that gets sent to Stripe for Payment Intents and Subscriptions:
+
+```php showLineNumbers
+use Solspace\Freeform\Integrations\PaymentGateways\Stripe;
+use Solspace\Freeform\Integrations\PaymentGateways\Events\UpdateMetadataEvent;
+
+Event::on(
+  Stripe::class,
+  Stripe::EVENT_UPDATE_PAYMENT_METADATA,
+  function (UpdateMetadataEvent $event) {
+    $event->addData('description', 'My custom payment intent description');
+    $event->addData('custom metadata entry', 'Some more data to be persisted in metadata');
+  }
+)
+```
+
+## Additional Payment metadata when Submission created<Badge type="feature" text="5.6.3+" />
+
+This event allows additional metadata to be attached to a payment intent when a submission is created.
+
+```php showLineNumbers
+use Solspace\Freeform\Integrations\PaymentGateways\Stripe;
+use Solspace\Freeform\Integrations\PaymentGateways\Events\UpdateMetadataEvent;
+
+Event::on(
+  Stripe::class,
+  Stripe::EVENT_AFTER_UPDATE_PAYMENT_METADATA,
+  function {
+    //
+  }
+)
+```

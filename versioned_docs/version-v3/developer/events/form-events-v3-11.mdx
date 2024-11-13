@@ -1,0 +1,191 @@
+---
+title: Form Events v3.11
+sidebar_class_name: hidden
+---
+
+# Form Events
+
+:::info
+**You're viewing the v3.11 version of these docs**. To switch to the v3.12 docs, [click here to view the revised v3.12 documentation](./form.mdx). All of these events will continue to work with Freeform 3.12, but have been deprecated.
+:::
+
+If you wish to extend the capabilities of Forms in Freeform, feel free to use any of the events listed below:
+
+## Before submitting
+
+Use this event to do something before a form is being submitted.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\FormsService;
+use Solspace\Freeform\Events\Forms\BeforeSubmitEvent;
+
+Event::on(
+  FormsService::class,
+  FormsService::EVENT_BEFORE_SUBMIT,
+  function (BeforeSubmitEvent $event) {
+    $form = $event->getForm();
+
+    // Perform some action here
+  }
+)
+```
+
+## After submitting
+
+Perform an action after the form has been submitted.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\FormsService;
+use Solspace\Freeform\Events\Forms\AfterSubmitEvent;
+
+Event::on(
+  FormsService::class,
+  FormsService::EVENT_AFTER_SUBMIT,
+  function (AfterSubmitEvent $event) {
+    $form = $event->getForm();
+    $submission = $event->getSubmission();
+
+    // Perform some action here
+  }
+)
+```
+
+## On validating the form
+
+This event is called whenever a form is being validated. Use this event to attach your own validation logic to any form.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\FormsService;
+use Solspace\Freeform\Events\Forms\FormValidateEvent;
+
+Event::on(
+  FormsService::class,
+  FormsService::EVENT_FORM_VALIDATE,
+  function (FormValidateEvent $event) {
+    $form = $event->getForm();
+
+    // Only perform our custom validation if the form is already valid so far
+    if ($event->isFormValid()) {
+      // Poor little "specificFormHandle" form, will never see the light of day
+      if ($form->getHandle() === 'specificFormHandle') {
+        $event->addErrorToForm('Sorry, but this form is always invalid');
+      }
+    }
+  }
+)
+```
+
+## After validating the form
+
+This event is called after a form has been validated. Use this event to perform some actions after form validation.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\FormsService;
+use Solspace\Freeform\Events\Forms\FormValidateEvent;
+
+Event::on(
+  FormsService::class,
+  FormsService::EVENT_AFTER_FORM_VALIDATE,
+  function (FormValidateEvent $event) {
+    $form = $event->getForm();
+
+    // do something here...
+  }
+)
+```
+
+## Rendering the opening HTML tag
+
+Use this event to attach your own HTML, CSS or JS to the output of the opening form tag. Most commonly used to attach some sort of additional hidden values or scripts.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\FormsService;
+use Solspace\Freeform\Events\Forms\FormRenderEvent;
+
+Event::on(
+  FormsService::class,
+  FormsService::EVENT_RENDER_OPENING_TAG,
+  function (FormRenderEvent $event) {
+    $form = $event->getForm();
+
+    $event->appendToOutput('<input type="hidden" name="some_input_name" value="123" />');
+    $event->appendJsToOutput('alert("test");');
+    $event->appendCssToOutput('body { backround: red; }');
+  }
+)
+```
+
+## Rendering the closing HTML tag
+
+Use this event to attach your own HTML, CSS or JS to the output of the closing form tag. Most commonly used to attach some sort of additional hidden values or scripts.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\FormsService;
+use Solspace\Freeform\Events\Forms\FormRenderEvent;
+
+Event::on(
+  FormsService::class,
+  FormsService::EVENT_RENDER_CLOSING_TAG,
+  function (FormRenderEvent $event) {
+    $form = $event->getForm();
+
+    $event->appendToOutput('<input type="hidden" name="some_input_name" value="123" />');
+    $event->appendJsToOutput('alert("test");');
+    $event->appendCssToOutput('body { backround: red; }');
+  }
+)
+```
+
+## Attaching attributes to forms
+
+This event lets you attach custom attributes to all or specific forms.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\FormsService;
+use Solspace\Freeform\Events\Forms\AttachFormAttributesEvent;
+
+Event::on(
+  FormsService::class,
+  FormsService::EVENT_ATTACH_FORM_ATTRIBUTES,
+  function (AttachFormAttributesEvent $event) {
+    $form = $event->getForm();
+
+    // Get all existing attributes for this form
+    $attributes = $event->getAttributes();
+
+    // Only deal with our "specificFormHandle" form
+    if ($form->getHandle() === 'specificFormHandle') {
+      // If "data-custom" attribute is present - we remove it
+      if (array_key_exists('data-custom', $attributes)) {
+        $event->removeAttribute('data-custom');
+      }
+
+      // Attach a "data-other-attrib" attribute to the form
+      $event->attachAttribute('data-other-attrib', true);
+    }
+  }
+)
+```
+
+## After generating the return URL
+
+This event is called when the return URL has been generated and is ready to be used to redirect the page.
+
+```php showLineNumbers
+use Solspace\Freeform\Services\FormsService;
+use Solspace\Freeform\Events\Forms\ReturnUrlEvent;
+
+Event::on(
+  FormsService::class,
+  FormsService::EVENT_AFTER_GENERATE_RETURN_URL,
+  function (ReturnUrlEvent $event) {
+    $form = $event->getForm();
+    $submission = $event->getSubmission();
+
+    // Override all return URL's for our "specificFormHandle" forms
+    if ($form->getHandle() === 'specificFormHandle') {
+      $event->setReturnUrl('/some/url/' . $submission->id);
+    }
+  }
+)
+```

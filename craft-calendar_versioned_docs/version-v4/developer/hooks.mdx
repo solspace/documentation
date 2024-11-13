@@ -1,0 +1,90 @@
+---
+title: Hooks
+sidebar_position: 2
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Developer Hooks
+
+Calendar provides hooks that give plugins the opportunity to insert their own template code into Calendar's templates. This allows you to add HTML, Javascript and Twig variables to extend the capabilities of Calendar.
+
+## Control Panel
+
+When viewing calendars in the control panel, you'll have access to the following hooks:
+
+### `cp.solspace.calendar.filters` <Badge type="feature" text="4.0.3+" />
+
+This hook can be used to customize the calendar filters. Using the option `criteria`, you can pass [additional parameters](../templates/queries/events.mdx#parameters) when querying event data.
+
+## Usage Examples
+
+### Add Author Filtering to Month/Week/Day View
+
+In your plugin's `::init()` method, or by using the `Event::on()` static method:
+
+```php showLineNumbers
+<?php
+
+namespace Your\Plugin\Namespace;
+
+use Solspace\Calendar\Events\SaveElementEvent;
+
+class YourPlugin extends BasePlugin
+{
+  public function init()
+  {
+    parent::init();
+
+    Craft::$app->view->hook('cp.solspace.calendar.filters', function () {
+      $calendarId = 5;
+
+      $events = Calendar::getInstance()->events
+        ->getEventQuery([
+          'calendarId' => [$calendarId],
+        ])
+        ->all();
+
+      $authors = [];
+
+      foreach ($events as $event) {
+        $authorsList = '';
+        $authorsList .= '<nav>';
+        $authorsList .= '   <ul class="calendar-list">';
+        $authorsList .= '       <li class="heading">';
+        $authorsList .= '           <a href="#" class="sel" style="display: none;">Authors</a>';
+        $authorsList .= '           <span>Authors</span>';
+        $authorsList .= '       </li>';
+
+        $authors[] = $event->getAuthor();
+        $authors = array_unique($authors);
+
+        foreach ($authors as $author) {
+          $authorsList .= '       <li class="item">';
+          $authorsList .= '           <input type="checkbox" name="criteria[authorId][]" id="calendar-author-'.$author->id.'" value="'.$author->id.'" />';
+          $authorsList .= '           <label for="calendar-author-'.$author->id.'">';
+          $authorsList .= '               <span style="background: red; color: white; border-color: black;"></span>';
+          $authorsList .= '               '.$author->firstName.' '.$author->lastName;
+          $authorsList .= '           </label>';
+          $authorsList .= '       </li>';
+        }
+      }
+
+      $authorsList .= '   </ul>';
+      $authorsList .= '</nav>';
+
+      return $authorsList;
+    });
+
+    Event::on(
+      UrlManager::class,
+      UrlManager::EVENT_REGISTER_CP_URL_RULES,
+      function (RegisterUrlRulesEvent $event) {
+        $event->rules['cpActionTrigger1'] = 'events/create';
+        $event->rules['cpActionTrigger2'] = 'submissions/create';
+        $event->rules['cpActionTrigger3'] = 'spam/create';
+      }
+    );
+  }
+}
+```

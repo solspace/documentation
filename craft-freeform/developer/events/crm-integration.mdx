@@ -1,0 +1,55 @@
+---
+sidebar_position: 7
+---
+
+# CRM Integration Events
+
+Use these events to extend the functionality of Freeform CRM Integrations:
+
+## Before data is pushed to the CRM
+
+Use this event to manipulate the data that is about to be pushed to the CRM.
+
+```php showLineNumbers
+use Solspace\Freeform\Events\Integrations\PushEvent;
+use Solspace\Freeform\Library\Integrations\Types\CRM\CRMIntegrationInterface;
+
+Event::on(
+  CRMIntegrationInterface::class,
+  CRMIntegrationInterface::EVENT_ON_PUSH,
+  function (PushEvent $event) {
+    $integration = $event->getIntegration();
+    $category = $event->getCategory();
+    $values = $event->getValues();
+
+    // Only perform this for the "My Salesforce Intagration" integration
+    if ($integration->getName() === 'My Salesforce Integration') {
+      // Manually add a desired value for "customSalesforceField" field in Salesforce
+      // This value will be pushed along with the rest to the CRM integration
+      $event->addValue('customSalesforceField', 1234);
+    }
+  }
+);
+```
+
+## After the response from the CRM was received
+
+This event contains the Guzzle Response object of the response received after pushing the data to the CRM. Use this to perform other calls to other API endpoints, for instance - relating the created object's ID to some other object in the CRM.
+
+```php showLineNumbers
+use Solspace\Freeform\Events\Integrations\IntegrationResponseEvent;
+use Solspace\Freeform\Library\Integrations\Types\CRM\CRMIntegrationInterface;
+
+Event::on(
+  CRMIntegrationInterface::class,
+  CRMIntegrationInterface::EVENT_AFTER_RESPONSE,
+  function (IntegrationResponseEvent $event) {
+    $integration = $event->getIntegration();
+    $category = $event->getCategory(); // A string representing the object that was pushed
+    $response = $event->getResponse(); // instance of \Psr\Http\Message\ResponseInterface
+    $responseAsString = $event->getResponseBodyAsString(); // Usually a stringified JSON object
+
+    // Perform some actions here
+  }
+);
+```

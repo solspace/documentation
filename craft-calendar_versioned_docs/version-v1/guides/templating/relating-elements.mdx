@@ -1,0 +1,95 @@
+---
+title: Relating Elements
+sidebar_position: 2
+---
+
+# Relating Elements
+
+This page serves as an example of how to [relate elements](https://docs.craftcms.com/v3/relations.html) to _Solspace Calendar_ events.
+
+In this example we have set up two calendars. One is a **Tournaments** (`tournaments`) calendar, which holds all of our upcoming tournaments. The other is an **Events** (`events`) calendar, which holds sub-events happening during the tournaments.
+
+The relationship is unidirectional, going from Tournaments to Events. Meaning, our Tournaments know which Events happen in them, but Events don't know which Tournaments they belong to.
+
+Listing tournaments and their respective sub-events is easy:
+
+```twig showLineNumbers
+<h2>Upcoming Tournaments</h2>
+
+{# Getting tournaments only here #}
+{% set tournaments = craft.calendar.events({
+  calendar: ["tournaments"]
+}) %}
+
+{% for tournament in tournaments %}
+<ul>
+  <li>
+    <div>
+      <strong>{{ tournament.title }}</strong>:
+      {{ tournament.startDate.toDateString }} - {{ tournament.endDate.toDateString }}
+    </div>
+
+    {% if tournament.tournamentEvents|length %}
+
+    {#
+      We could just iterate over tournament.tournamentEvents but since Calendar_EventModel
+      contains unneeded logic which becomes a problem when loading thousands of events, we
+      have to fetch thin Event objects using the craft.calendar.events() template function.
+    #}
+
+    {% set events = craft.calendar.events({
+      id: tournament.tournamentEvents.ids
+    }) %}
+
+    <ul>
+      {% for event in events %}
+      <li>
+        <div>
+          <strong>{{ event.title }}</strong>:
+          {{ event.startDate.toDateTimeString }} ({{ event.duration }})
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </li>
+</ul>
+{% endfor %}
+```
+
+Listing sub-events and the tournament they belong to is a little bit more complicated:
+
+```twig showLineNumbers
+<h2>Event list</h2>
+
+{# Getting non-tournament events here #}
+{% set events = craft.calendar.events({
+  calendar: ["events"]
+}) %}
+
+{% for event in events %}
+<ul>
+  <li>
+    <div>
+      <strong>{{ event.title }}</strong>:
+      {{ event.startDate.toDateString }} - {{ event.endDate.toDateString }}
+    </div>
+
+    {# We get any related tournaments here. Since two tournaments MIGHT link to the same event #}
+    {% set tournaments = craft.calendar.events().relatedTo(event.id) %}
+    {% if tournaments|length %}
+    <ul>
+      {% for tournament in tournaments %}
+      <li>
+        <div>
+          <strong>{{ tournament.title }}</strong>:
+          {{ tournament.startDate.toDateString }} ({{ tournament.duration }})
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </li>
+</ul>
+{% endfor %}
+```

@@ -1,0 +1,33 @@
+---
+title: Calendar
+sidebar_position: 1
+---
+
+# Calendar Query
+
+The _calendar.calendar_ template query fetches a single calendar by its unique ID.
+
+## Parameters
+
+- `id`
+  - The unique calendar ID
+- `name`
+  - The name of the calendar
+- `handle`
+  - The handle for the calendar
+- `color`
+  - a hex value of the color, e.g - `#FFFFFF`
+
+## Usage in Templates
+
+```twig showLineNumbers
+{% set calendar = craft.calendar.calendar({
+  handle: "holidays"
+}) %}
+
+{% if calendar %}
+  <div style="color: {{ calendar.color }};">
+    {{ calendar.name }}
+  </div>
+{% endif %}
+```

@@ -1,0 +1,127 @@
+---
+title: 'ActiveCampaign'
+sidebar_position: 1
+---
+
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# ActiveCampaign<Badge type="pro" text="Pro" />
+
+This guide assumes you have an [ActiveCampaign](https://www.activecampaign.com) account already.
+
+:::info
+The _ActiveCampaign_ integration includes both a CRM type and Email Marketing (mailing list subscribe) type. Please take note of that in the instructions below.
+:::
+
+## Compatibility
+
+Uses `v3` of the REST API.
+
+### Endpoints
+
+Maps data to the following endpoints:
+
+- **Deals** (CRM)
+- **Contact** (CRM & Email Marketing)
+- **Contact Tags** (Email Marketing)
+- **Account** (CRM)
+
+Does your project require something else? &nbsp; <PrimaryButtonWithLink to='/support' label='Contact Us' />
+
+### Fields
+
+Maps data to the following field types:
+
+- **Standard**
+- **Custom**
+
+## Duplicate Check & Update
+
+- Duplicate check on **Contact** (CRM & Email Marketing) email address (will update other details if it matches instead of creating a new contact).
+- Duplicate check on **Account** (CRM) name (will use an existing account if the value matches instead of creating a new one).
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+
+<StepMarkdown>
+
+### Create & get API Key from ActiveCampaign
+
+- Go to the [ActiveCampaign website](https://www.activecampaign.com) and log into your account.
+- At the bottom left corner, click on the Settings nav menu option / gear icon (above the profile icon).
+- On the next page, click the **Developer** subnav option near the middle of the page.
+- Copy the values in the **API URL** and **API Key** fields.
+
+</StepMarkdown>
+
+<StepMarkdown>
+
+### Set up Integration on your site
+
+- Go to the [CRM](../configuration/settings.mdx#crm) or [Email Marketing](../configuration/settings.mdx#email-marketing) section in Freeform Settings (**Freeform → Settings → Integrations**).
+- Click the **New Integration** button at the top right.
+- Select _ActiveCampaign (v3)_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration.
+- Paste the **API URL** value from ActiveCampaign into the **API URL** field in Freeform.
+- Paste the **API Key** value from ActiveCampaign into the **API Key** field in Freeform.
+
+</StepMarkdown>
+
+<StepMarkdown>
+### Additional Configuration (CRM only)
+
+- In the **Pipeline** field, enter the name or ID of the ActiveCampaign Pipeline you wish to have _Deal_ data sent to, e.g. `My Pipeline`.
+- In the **Stage** field, enter the name or ID of the ActiveCampaign Stage you wish to have _Deal_ data sent to, e.g. `To Contact`.
+- In the **Owner** field (optional), enter the username or ID of the ActiveCampaign user to assign as the _Deal_ owner.
+- Click the **Save** button.
+
+</StepMarkdown>
+
+<StepMarkdown>
+### Verify Authorization
+
+- After the integration is saved, it'll return you to the list of CRM integrations.
+- Click into the newly created integration.
+- Confirm that there is green circle with **Authorized** in the middle of the page.
+
+</StepMarkdown>
+
+<StepMarkdown>
+### Configure the Form
+
+To use this integration on your form(s), you'll need to configure each form individually.
+
+- Visit the form inside the form builder.
+- Click on the **Integrations** tab.
+- Click on **ActiveCampaign** in the list of available integrations.
+- On the right side of the page:
+  - Enable the integration.
+  - Choose a Freeform field to be the target opt-in field. (Email Marketing only)
+  - Select a mailing list that new users should be subscribed to. (Email Marketing only)
+  - Select the API endpoints you wish to map to.
+  - Map Freeform fields to the ActiveCampaign fields as needed.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+#### CRM Notes
+
+:::info
+When setting up the form inside the form builder, please be sure to map all required fields for _Deal_:
+
+- Currency, e.g. use a hidden field that contains `usd` or `eur`.
+- Owner (ID), e.g. use a hidden field that contains `1`.
+- Value ($ amount), e.g. use a hidden field that contains `500.00` or a regular input/select that allows the user to select the value, etc.
+
+If you want the form submitter to automatically (or optionally) be opted into an ActiveCampaign mailing list, use a hidden field or dropdown, radioes, checkbox, etc that contains the ID of the mailing list you wish to have them subscribed to. Then map that field to the **Mailing List ID** field under _Contact_.
+:::
+
+#### Email Marketing Notes
+
+:::info
+When mapping to **Contact Tags**, you can use any type of Freeform field you like, allowing for the most flexibility for all workflows. If you wish to have the user select their own tags, Freeform will automatically map over option value(s) from option fields such as checkboxes, dropdown fields, etc. If you wish to have tags forced upon submitters, you can include a Hidden or Invisible field type and include tag(s) in the value in the form builder.
+
+When specifying multiples, separate each with a semi-colon (`;`), e.g. `basic;premium;premium plus;preferred`.
+:::

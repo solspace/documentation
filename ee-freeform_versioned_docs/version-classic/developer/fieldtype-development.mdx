@@ -1,0 +1,467 @@
+---
+sidebar_position: 2
+title: 'Fieldtype Development'
+---
+
+# Freeform Classic Fieldtype Development
+
+If you wish to develop your own Freeform Classic custom field type, this documentation should get you started.
+
+- [Basic File Structure](#basic-file-structure)
+- [Class Variables](#class-variables)
+- [Function Reference](#function-reference)
+- [Helper Functions](#helper-functions)
+
+## Basic File Structure
+
+All fieldtypes should be placed into the _third_party_ folder in a package and be named after that package name. So in a package named **test_text**, the fieldtype file will be **freeform_ft.test_text.php**. All fieldtypes must inherit from the **Freeform_base_ft** base class and they must provide an **$info** array with a name, version number, and description.
+
+```php
+<?php
+
+class Test_text_freeform_ft extends Freeform_base_ft
+{
+    public  $info   = array(
+        'name'          => 'Test Text',
+        'version'       => '1.0',
+        'description'   => 'Description for Test Text'
+    );
+
+
+    public function display_field ($data)
+    {
+        return form_input(array(
+            'name'  => $this->field_name,
+            'id'    => 'freeform_field_' . $this->field_id,
+            'value' => $data
+        ));
+    }
+}
+// END Test_text_freeform_ft class
+
+// End of file freeform_ft.test_text.php
+// Location: ./system/expressionengine/third_party/test_text/freeform_ft.test_text.php
+```
+
+### Construction
+
+The parent constructor function sets **$this-\>EE** and loads the Codeigniter form helper. If there is a langauge file available in the package, it gets autoloaded.
+
+```php
+public function __construct ()
+{
+    parent::__construct();
+
+    //pulling from the package lang file to allow translations
+    $this->info['name']         = lang('test_text_name');
+    $this->info['description']  = lang('test_text_desc');
+}
+//END __construct
+```
+
+### Installation
+
+Each fieldtype can have an install and uninstall function in order to do extra install routines such as adding database tables.
+
+```php
+public function install()
+{
+    //add tables
+    //do other stuff
+    return;
+}
+//END install
+```
+
+### Uninstaller
+
+The default **uninstall()** method provided by the **Freeform_ft** parent class will suffice for fieldtypes that don't install any tables in their install routine. Most fieldtype methods have sensible defaults to help reduce duplicate code.
+
+### Updater
+
+The **update()** method will be run automatically for fields on the Freeform Classic Fieldtypes control panel page if their database version numbers and class version numbers do not match.
+
+### Individual Settings
+
+When a field is created and you select a fieldtype, it can have optional settings. The **display_settings** function has the current settings passed in as a parameter (**$data** here). These Individual settings can be in a table, so they can use **$this-\>EE-\>table-\>add_row()**. If you wish to use something aside from a table to display settings, you can return a string and it will be outputted instead of the table. Each row only has two columns and the common output is a label and a small description in the first column, then the setting in the next.
+
+```php
+public function display_settings ($data)
+{
+    ee()->table->add_row(
+        lang('field_length', 'field_length') .
+            '<div class='subtext'>' .
+                lang('field_length_desc') .
+            '</div>',
+        form_input(array(
+            'name'        => 'field_length',
+            'id'          => 'field_length',
+            'value'       => isset($data['field_length']) ?
+                                $data['field_length'] :
+                                $this->default_length,
+            'maxlength'   => '250',
+            'size'        => '50',
+        ))
+    );
+}
+//END display_settings
+```
+
+### Saving Individual Settings
+
+Saving individual field settings requires returning a keyed array of the settings. These will be the incoming post data from your **display_settings** function.
+
+```php
+public function save_settings ()
+{
+    $fl = ee()->input->post('field_length');
+
+    return array(
+        'field_length'  => (is_numeric($fl) ? $fl : 150)
+    );
+}
+//END save_settings
+```
+
+### Display Field Freeform:Form and Freeform:Edit
+
+Displaying fields inside the _Freeform:Form_ tag pair can be done with the **display_field** method. This is output like so:
+
+`{freeform_field:field_name attar:id='my_field' param='my_param' default_value='stuff'}`
+
+This allows field attributes as well as option params to be passed to the **display_field** function. The **$data** attribute that is passed is used when there is incoming data if it is an edit or a multipage form. The form id and entry ID are set to the class instance as **$obj-\>form_id** and **$obj-\>entry_id**. Entry id defaults to 0 if it is not available or its a new entry.
+
+When the **default_value** param set on a field and no edit data or multipage saved input is available, that default value will be passed to the fields **$data** variable.
+
+::: tip
+Each instance of the field can have a different default value passed, so using the **pre_process** function might be affected by the inclusion of different default values. The **default_value** param will still be passed to the params array sent to the function so its detectable if the param was used on the display tag.
+:::
+
+```php
+public function display_field ($data = '', $params = array(), $attr = array())
+{
+    return form_input(array_merge(array(
+        'name'          => $this->field_name,
+        'id'            => 'freeform_field_' . $this->field_id,
+        'value'         => $data,
+        'size'          => '50',
+        'maxlength'     => isset($this->settings['field_length']) ?
+                            $this->settings['field_length'] :
+                            $this->default_length
+    ), $attr));
+}
+//END display_field
+```
+
+### Display tag for Freeform:Entries
+
+The **replace_tag** function is for the _Freeform:Entries_ tag output and allows you to manipulate data before it is shown to the user. If there are params on the tag, they are sent in the **$params** array. Tagpair data is automatically detected and sent to the **$tagdata** param.
+
+A simple tag will only have a data param. The **$params** param will be empty and tagdata will be false.
+
+`{my_field}`
+
+A more advanced tag with params and tagpair data will send those params in the **$params** argument and the **$tagdata** param will have the inner data from the tagpair.
+
+```html
+{my_field one='thing'} {if one != 'one'}
+<strong>{one}</strong>
+{if:else} {one} {/if} {two} {three} {/myfield}
+```
+
+The replace function could then look like so.
+
+```php
+public function replace_tag ($data, $params = array(),
+                                $tagdata = FALSE, $query = NULL)
+{
+    if ($tagdata)
+    {
+        $my_vars = array(
+            'one'   => isset($params['one']) ? $params['one'] : 'one',
+            'two'   => 'two',
+            'three' => str_replace('ice', 'fire', $data)
+        );
+
+        $tagdata = ee()->TMPL->parse_variables(array($my_vars), $tagdata);
+
+        return $tagdata;
+    }
+    else
+    {
+        return str_replace('ice', 'fire', $data);
+    }
+}
+//END replace_tag
+```
+
+### Pre-process tag for Freeform:Entries
+
+The **pre_process_entries** function comes with a single parameter that an array of entry ids that has been processed after pagination. If function, like Freeform:Entries, accepts multiple form IDs, this will be run for each form ID and its matching entry IDs. This can be used to make fewer database queries for a field that needs to access its own table instead of doing it each time a **replace_tag** function is called. The **pre_process_entries tag** is called one time for each field until all rows are processed one by one with the **replace_tag** function.
+
+In this example, we are getting all of the entry ID's from the query object and caching our data so that each time this field is run, it uses the cache instead of making a new query. On a page showing 100 items, this would cut our queries down from 100 to 1 for this field.
+
+```php
+public function pre_process_entries ($entry_ids = array())
+{
+    if ( ! empty($entry_ids))
+    {
+        if ( ! isset($this->cache['data'][$this->field_id]))
+        {
+            $this->cache['data'][$this->field_id] = array();
+
+            ee()->db->where('form_id', $this->form_id);
+            ee()->db->where_in('entry_id', $entry_ids);
+            $my_query = ee()->db->get('my_table');
+
+            if ($my_query->num_rows() > 0)
+            {
+                foreach ($my_query->result_array() as $row)
+                {
+                    $this->cache['data'][$this->field_id][$this->form_id][$row['entry_id']] = $row;
+                }
+            }
+
+            //process leftovers
+            foreach ($entry_ids as $entry_id)
+            {
+                if ( ! isset($this->cache['data'][$this->field_id][$this->form_id][$entry_id]))
+                {
+                    $this->cache['data'][$this->field_id][$this->form_id][$entry_id] = FALSE;
+                }
+            }
+        }
+    }
+}
+//END pre_process_entries
+```
+
+## Class Variables
+
+The base class provides a handful of base variables that are automatically set:
+
+- _$EE_ -## a reference to the controller instance _$show_all_sites_ - is the **Show All Sites** preference set? (helpful for display)
+- _$field_id_ - the field'## s database id _$field_name_ -## the field short name _$form_id_ -## the form ID we are currently working with _$entry_id_ - the entry ID we are currently working with (**0** if not present)
+- _$field_name_ -## the field short name _$settings_ -## the field settings array _$requires_multipart_ -## set to true if field includes file uploads _$edit_ - data sent to the field is from an edited form
+
+## Function Reference
+
+When using the optional class constructor, make sure you call the parent constructor so that its prep work will still be performed
+
+```php
+public function __construct()
+{
+    parent::__construct();
+    //your prep work
+}
+//END __construct()
+```
+
+### install()
+
+Installs the fieldtype. Put any installation prep work such as inserting new tables in this function.
+
+### uninstall()
+
+Handle any cleanup needed to uninstall the fieldtype, including removing the tables you inserted on install.
+
+### update()
+
+Handles any updates that the fieldtype might run on a new version.
+
+### remove_from_form ($form_id)
+
+Handle any cleanup needed to remove the fieldtype completely from a form. The form column is cleaned up automatically. This is run before the column is deleted.
+
+This will also be run on each field when a form is being entirely deleted, if the fieldtype is changed, or if the fieldtype is being deleted. (This is run before delete_field()). Therefore, it is very important to not delete any data from the form's entry table manually. This should only be used for cleanup of your secondary data.
+
+### delete_field ()
+
+Handle any cleanup needed when a field has been deleted or changed to another type other than its current type.
+
+### display_field($data)
+
+Used to render the form input field.
+
+_$data_ contains the current field data from edit or multipage form inputs. Blank for new entries.
+
+### display_composer_field ($data)
+
+A dummy display output for Freeform Classic composer so when a user is building a form in composer they can have an accurate visual representation of the field. This defaults to **display_field**'s output, but this can be used to override or have custom dummy data.
+
+### validate ($data)
+
+- Validates the field input.
+- _$data_ contains the submitted field data.
+- Must return **TRUE**, **FALSE** (generates a generic error message with the fields label an error message, or an array of error messages). These messages will be grouped by field when output to the user either via JSON or the native EE error handler.
+
+### save ($data)
+
+-## Preps the data for saving _$data_ contains the submitted field data.
+
+- Must return the string to save.
+
+### post_save ($data)
+
+- Handles any custom logic after an entry is saved.
+- Called after an entry is added or updated. Available data is identical to save, but the settings array includes an **entry_id** and the class object's **$this-\>entry_id** is set to the new entry's ID. The **settings['entry_id']** is set redundantly to assist with EE custom field conversion to Freeform fieldtypes.
+- _$data_ contains the submitted field data.
+
+### delete ($ids)
+
+- Handles any custom logic after an entry is deleted.
+- Called after one or more entries are deleted.
+- _$ids_ is an array containing the ids of the deleted entries. Please note that forms data is removed automatically so most fieldtypes will not need this method. Make sure you check the object instances **$this-\>form_id** variable to delete the correct data. This will be run before the forms table's data is deleted.
+
+### replace_tag($data, $params = array(), $tagdata = FALSE)
+
+Replace the field tag on the frontend in Freeform:Entries. **pre_process_entries** runs before these get called:
+
+- _$data_## contains the field data _$params_ contains field parameters (if any)
+- _$tagdata_ contains data between tag (for tag pairs)
+
+### display_settings($data)
+
+Display the settings page. The default ExpressionEngine rows can be created using built in methods. All of these take the current **$data** and the fieltype name as parameters:
+
+### validate_settings()
+
+Validates field settings before full save. Return boolean or array of errors.
+
+### save_settings()
+
+Save the fieldtype settings.
+
+This runs after validation. Check **$this-\>EE-\>input-\>post()** for the variables
+
+### post_save_settings($data)
+
+Do additional processing after the field is created/modified. **$this-\>settings** is fully available at this stage.
+
+- _$data_ contains the submitted settings for this field.
+
+### pre_process($data)
+
+Pre-process the data on the frontend. Multiple tag pairs in the same channel tag will cause **replace_tag** to be called multiple times. To reduce the processing required to extract the original data structure from the string (i.e. unserializing), the **pre_process** function is called first.
+
+- _$data_ contains the field data. Return the prepped data.
+
+### export($data, $export_type)
+
+Allows you to affect exported field data before it is sent to be exported.
+
+- _$data_## is the entry data _$export_type_ is the type of export .e.g xml, json, csv
+
+### display_entry_cp($data)
+
+- _$data_ is the entry data
+
+Allows you to affect entry field data before it is shown on the CP entries/moderation pages. **pre_process_entries**
+
+## Helper Functions
+
+These are helper functions that are already avaialble inside of the function:
+
+### $this-\>yes_no_row($data, $lang, $data_key, $prefix)
+
+Returns a yes or no set of radio buttons for fields to use in settings. This adds the rows via **$this-\>EE-\>table-\>add_row()**, so you will not be able to use this if returning a view instead of using the table class.
+
+- _$data_## is the input array saved settings _$lang_## is the string of the lang line for the label of the row _$data_key_ is the name attribute that y or n will be outputted to for the input as well as the data key from the **$data** param that **yes_no_row** will look for the previous data from.
+- _$prefix_ a prefix for the name attribute in case the name need be different than the incomming data key (a trailing underscore is added if not present)
+
+To save the data, look for the post value of **$data_key** and validate it as **y** or **n**.
+
+### $this-\>multi_item_row($data, $prefix, $label, $desc)
+
+Returns a **LTR** or **RTL** set of radio buttons for fields to use in settings. This adds the rows via **$this-\>EE-\>table-\>add_row()**, so you will not be able to use this if returning a view instead of using the table class.
+
+- _$data_## is the input array saved settings _$prefix_ a prefix for the names attributes in case the names need be different than the incomming data key (a trailing underscore is added if not present)
+- _$label_ optional lang key for the label (default multi_list_items)
+- _$desc_ optional lang key for the description (default multi_list_items_desc)
+
+This will load a view with 4 options for inserting multi-row data:
+
+-## List Value/## Label Pair list## List From Channel Field Newline Delimited Textarea
+
+New blank inputs will create themselves when the last one is used.
+
+### $this-\>save_multi_item_row($data, $prefix = FALSE)
+
+This will return a key value array of the setting name and the list of items. You must use the same prefix here as you did with **$this-\>multi_item_row**.
+
+- _$data_## is the input array saved settings _$prefix_ a prefix for the names attributes in case the names need be different than the incomming data key (a trailing underscore is added if not present)
+
+### $this-\>multi_item_values($array)
+
+For use when using **multi_item_row** and **save_multi_item_row** when wanting to output the chosen data for entries, export. This Takes an array of keys, a string, or a pipe delimited string of stored values from the DB and converts them into a key value array from the available options. If an option is not available, it will return the key again as the value.
+
+```php
+$this->multi_item_values('thing1|thing2');
+$this->multi_item_values('thing1');
+$this->multi_item_values(array('thing1', 'thing2'));
+```
+
+and returns the values in a key value array like so:
+
+```php
+array(
+    'thing1' => 'Thing One',
+    'thing2' => 'Thing Two'
+);
+```
+
+### $this-\>get_field_options($prefix = FALSE, $output = TRUE)
+
+Gets the stored field options in key/value form if you used **multi_item_row** and **save_multi_item_row** to store option settings.
+
+- _$prefix_ prefix for the default stored value name. Must be the same as the prefix you used to store the data (a trailing underscore is added if not present)
+- _$output_ if you are using this for front end output, then all of the values will be put through Codeigniters form_prep form helper to encode quotes and ascii characters for output.
+
+### $this-\>load_field_list($use_cache)
+
+Loads a list of available channels and subfields in an array like so:
+
+- _$use_cache_ caches on first load. Set this to false to load fresh from database.
+
+```php
+$list['My Channel Title']['1_1'] = 'My Field Label';
+```
+
+Where **1_1** is the channel ID, an underscore, and the field ID.
+
+### $this-\>is_positive_intlike($num, $threshold)
+
+Takes a variable and checks to see if it is an integer, and greater than or equal to the threshold. Returns a boolean. This returns false if a boolean is passed rather than auto converting the bool to an integer. This also returns false if the number is a float. This is preferable to using **ctype_digit** as it accepts strings and integers but does not case booleans to integers. This is preferable to **is_numeric** as it accepts floats as well.
+
+The most common use for this is checking a value for a database row key as they usually autoincrement starting with 1. Hence the default lowest threshold of 1 and the word positive in the function name.
+
+- _$num_## value to check for intlikeness _$threshold_ minimum value accepted. Defaults to 1.
+
+### $this-\>get_post_or_zero($name)
+
+Checks **$this-\>EE-\>input-\>get_post** for a positive integer greater than 0. If not submitted or the variable is incorrect, returns 0.
+
+This is helpful when you want to allow the input from a GET/POST variable and make sure its positive. This is most commonly used when expecting values for getting data from a database row.
+
+- _$name_ name of GET/POST variable to check.
+
+### $this-\>form_table_name($form_id)
+
+Returns the database name for the **form_id** passed as each form has its own database and the prefix for the table is changeable in code, this is the prefered method of retrieving the table name if you need it.
+
+- _$form_id_ ID of the form of which to get the table name for.
+
+### $this-\>stringify_attributes($array)
+
+For use with form helper functions that take string attributes instead of arrays of element attributes.
+
+Takes an array of key values and concats it into a single line for feeding to the form helper:
+
+```php
+$attributes = $this->stringify_attributes(array(
+    'id'    => 'my_id',
+    'class' => 'pretty_button'
+));
+
+echo $attributes; //'id='my_id' class='pretty_button''
+```

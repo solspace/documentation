@@ -1,0 +1,207 @@
+---
+sidebar_position: 3
+title: 'Date'
+---
+
+# Calendar:Day template tag
+
+The _Calendar:Day_ loop outputs a one day calendar list showing a specific days events. It's a shortcut to using the complex [Calendar:Cal](../templating/cal.mdx) function. Unlike most ExpressionEngine tags, the `{exp:calendar:day}{/exp:calendar:day}` tags alone will output a pre-templated display. Using the parameters and variables below, you can filter and format the results further. Defaults to displaying events for today.
+
+```html showLineNumbers
+{exp:calendar:day} content {/exp:calendar:day}
+```
+
+## Parameters
+
+### site_id=
+
+`site_id="1"`
+
+If using MSM, you can specify a Site ID in this parameter to filter entries down to that site.
+
+### calendar_id=
+
+`calendar_id="1|3"`
+
+This parameter allows you to display specific calendars by specifying their entry ID(s). You can hardcode a calendar ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### calendar_name=
+
+`calendar_name="soccer|baseball|dodgeball"`
+
+This parameter allows you to display specific calendars by specifying their `short_names` (entry `url_title`). You can hardcode a short_name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### event_id=
+
+`event_id="23|77"`
+
+This parameter allows you to display specific events by specifying their entry ID(s). You can hardcode an event ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### event_name=
+
+`event_name="best_event_evar|christmas|pie_day"`
+
+This parameter allows you to display specific events by specifying their `short_names` (entry `url_title`). You can hardcode a short_name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+
+### date_range_start=
+
+`date_range_start="2010-01-31"`
+
+This parameter allows you to specify a specific day to display events for. If this parameter is NOT specified, then the current day is displayed. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter.
+
+### enable=
+
+`enable="categories|category_fields|custom_fields|member_data|pagination|trackbacks"`
+
+By default, this function does not grab any advanced channel data in order to improve performance. However, opposite to the EE Channel module's
+[disable](https://ellislab.com/expressionengine/user-guide/add-ons/channel/channel_entries.html#disable) parameter, this parameter allows you to enable some or all of those features when you need them. Separate multiples with the pipe character. Options are: `categories`, `category_fields`, `custom_fields`, `member_data`, and `pagination`.
+
+## Variables
+
+Most of the [variables listed in Calendar:Events](../templating/events.mdx#variables) are available for use here. Formatting variables are not needed as the _Calendar:Day_ loop will do that for you. However, should you need to use any, all relevant [variables from Calendar:Cal](../templating/cal.mdx#variables) (prepended with `day_`) are available for use here.
+
+## Conditionals
+
+Most of the [conditionals listed in Calendar:Events](../templating/events.mdx#conditionals) are available for use here. Formatting conditionals are not needed as the _Calendar:Day_ loop will do that for you. However, should you need to use any, all relevant [conditionals from Calendar:Cal](../templating/cal.mdx#conditionals) (prepended with `day_`) are available for use here.
+
+## Examples
+
+### Easy
+
+This single set of code will output a Daily list of events for you. This is thanks to the preloaded template pack included with Calendar. The `{exp:calendar:day}{/exp:calendar:day}` tags act almost like an `{events}{/events}` variable pair for formatting the events (see [Calendar:Events Documentation](../templating/events.mdx) for list of available variables and conditionals):
+
+```html showLineNumbers
+{exp:calendar:day {if segment_3}
+date_range_start="{segment_3}-{segment_4}-{segment_5}" {/if} }
+<div class="event">
+  <a href="{path='calendar/events'}{event_id}/"> {event_title} </a>
+  {if event_all_day} (All day!) {if:else} {event_start_date format="%g:%i%a"} -
+  {event_end_date format="%g:%i%a"} {/if}
+</div>
+{/exp:calendar:day}
+```
+
+### Moderate
+
+If you’d like your Day calendar to have a little more information on it, etc, have a look at this slightly more advanced code example:
+
+```html showLineNumbers
+{exp:calendar:day {if segment_3}
+date_range_start="{segment_3}-{segment_4}-{segment_5}" {/if} }
+<div class="event">
+  <div class="head">
+    <h2>
+      <a href="{path='calendar/events'}{event_id}/"> {event_title} </a>
+    </h2>
+    {if event_all_day}
+    <p>
+      {event_start_date format="%Y-%m-%d"} {if event_end_date} - {event_end_date
+      format="%Y-%m-%d"} {/if}
+    </p>
+    {if:else}
+    <p>
+      {event_start_date format="%Y-%m-%d %H:%i"} {if event_end_date} -
+      {event_end_date format="%Y-%m-%d %H:%i"} {/if}
+    </p>
+    {/if}
+    <p>
+      From calendar:
+      <a href="{path='calendar/calendars'}{event_calendar_id}/">
+        {event_calendar_title}
+      </a>
+    </p>
+  </div>
+  <div class="body">
+    <p>
+      Details: {event_summary}<br />
+      Location: {event_location}
+    </p>
+  </div>
+</div>
+{/exp:calendar:day}
+```
+
+### Advanced
+
+If you’re interested in working the code from scratch, you’ll need to use the full [Calendar:Cal](../templating/cal.mdx) function to generate the code:
+
+```html showLineNumbers
+{exp:calendar:cal
+  pad_short_weeks="n"
+  {if segment_3 == ''}
+    date_range_start="today"
+    date_range_end="today"
+  {/if}
+  {if segment_3 != ''}
+    date_range_start="{segment_3}-{segment_4}-{segment_5}"
+    date_range_end="{segment_3}-{segment_4}-{segment_5}"
+  {/if}
+  }
+  {display_each_day}
+    <div class="header">
+      <div style="float: left; width: 20%;">
+        <a href="{path='calendar/day'}{prev_day format="%Y/%m/%d"}/">
+          Yesterday
+        </a>
+      </div>
+      <div style="float: left; width: 60%; text-align: center;">
+        <h1>{date format="%l, %F %d, %Y"} ({day_event_total} events)</h1>
+      </div>
+      <div style="float: right; text-align: right; width: 20%;">
+        <a href="{path='calendar/day'}{next_day format="%Y/%m/%d"}/">
+          Tomorrow
+        </a>
+      </div>
+      <br style="clear: both;" />
+    </div>
+    {display_each_hour}
+      <h2>
+        {date format="%g:%i %a"} ({hour_event_total} events)
+      </h2>
+      {events}
+      <div class="event">
+        <div class="head">
+          <h2>
+            <a href="{path='calendar/events'}{event_id}/">
+              {event_title}
+            </a>
+          </h2>
+        {if event_all_day}
+          <p>
+            {event_start_date format="%Y-%m-%d"}
+            {if event_end_date}
+              - {event_end_date format="%Y-%m-%d"}
+            {/if}
+          </p>
+        {if:else}
+          <p>
+            {event_start_date format="%Y-%m-%d %H:%i"}
+            {if event_end_date}
+              - {event_end_date format="%Y-%m-%d %H:%i"}
+            {/if}
+          </p>
+          <p>
+            This event lasts {event_duration_days} days
+            {event_duration_hours} hours
+            {event_duration_minutes} minutes.
+          </p>
+        {/if}
+          <p>
+            From calendar:
+            <a href="{path='calendar/calendars'}{event_calendar_id}/">
+              {event_calendar_title}
+            </a>
+          </p>
+        </div>
+        <div class="body">
+          <p>
+            Details: {event_summary}<br />
+            Location: {event_location}
+          </p>
+        </div>
+      </div>
+      {/events}
+    {/display_each_hour}
+  {/display_each_day}
+{/exp:calendar:cal}
+```

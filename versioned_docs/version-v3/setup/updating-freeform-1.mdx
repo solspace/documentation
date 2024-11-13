@@ -1,0 +1,104 @@
+---
+sidebar_position: 3
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+import {
+  VerticalStepWrapper,
+  StepMarkdown,
+  FlexCards,
+} from '@site/src/components/docs';
+
+import Purchase1Photo from './assets/img/cp_switch-editions-purchase-1.png';
+import Purchase2Photo from './assets/img/cp_switch-editions-purchase-2.png';
+
+import Icons from '@site/static/card-icons';
+
+# Updating from Freeform 1.x
+
+Updating from Craft 2.x to Craft 3.x is a much bigger task than typical minor updates of course. Not to mention, things have changed greatly in how plugins are installed and updated due to the new Plugin Store, etc. Because of this, we've prepared a special documentation guide to help you upgrade from Freeform 1.x to Freeform 3.x.
+
+<FlexCards
+  items={[
+    {
+      title: 'Key Changes',
+      description: 'Review the list of key changes made to Freeform 3.',
+      icon: Icons.ReviewIcon,
+      fullCardLink: '#key-changes',
+    },
+    {
+      title: 'Updating from 2.x',
+      description:
+        'Instructions for updating from Freeform 2.x to Freeform 3.x.',
+      icon: Icons.TrolleyIcon,
+      fullCardLink: '#updating-from-2-x',
+    },
+    {
+      title: 'Troubleshooting',
+      description: 'Solutions for common issues after upgrading.',
+      icon: Icons.QuestionSignIcon,
+      fullCardLink: '#troubleshooting',
+    },
+    {
+      title: 'Changelog',
+      description: 'Review the list of releases and changes for Freeform.',
+      icon: Icons.RewindTimeIcon,
+      fullCardLink: './changelog',
+    },
+  ]}
+/>
+
+## Key Changes
+
+Freeform 3 brings some exciting new features to Freeform, but there have also been a few changes to what's offered between the _Lite_ and _Pro_ editions. The chart below will explain those changes so you know how to account for them in the future.
+
+<span class="yellow">↻ Improved</span> &nbsp;|&nbsp; <span class="red">
+  × Removed
+</span> &nbsp;|&nbsp; <span class="gray">✓/× No Change</span>
+
+| <h3 class="no-margin">Pricing & Support</h3> |                         <h3 class="no-margin">Lite 3</h3>                         |                         <h3 class="no-margin">Pro 3</h3>                          |
+| :------------------------------------------- | :-------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: |
+| Confirm field type                           |                            <span class="red">×</span>                             |                            <span class="gray">✓</span>                            |
+| Number, Phone, Website field types           | <span class="yellow"><sub><sup>Uses designated input types now</sup></sub></span> | <span class="yellow"><sub><sup>Uses designated input types now</sup></sub></span> |
+| Ability to rename the plugin                 |                            <span class="red">×</span>                             |                            <span class="gray">✓</span>                            |
+
+## Updating from 1.x
+
+#### To transition from Freeform 1.x to Freeform 3.x, please follow the instructions below very carefully.
+
+:::warning
+**All Freeform customers' v2 _Lite_ licenses have been upgraded to v3 _Pro_ licenses as of June 11, 2019.** If your Freeform license(s) have expired, and you wish to renew to get access to Freeform 3, please be aware that your _old Lite_ license is now a single _Pro_ license and your _old Pro_ and/or _old Payments_ license(s) are discontinued. This means that if you originally had _old Lite_ and _old Pro_, you now have _new Pro_ (all you need) and your _old Pro_ (separate plugin license) essentially no longer exists. Renewals will only require renewing your _new Pro_ license.
+
+**If you wish to downgrade your _new Pro_ license** to a _new Lite_ license, please [contact the Craft Support Team](mailto:support@craftcms.com) for assistance, and they'll be happy to help. We apologize for any confusion and inconvenience. Just be aware that some features from _Freeform 2 Lite_ are no longer available in _Freeform 3 Lite_ (see below).
+:::
+
+First things first, for Craft 3, you cannot use your old Solspace-generated license for Freeform. You'll need to [contact us](/support) to have a new Craft Plugin Store specific license generated for you. Please [let us know](/support) the following info:
+
+- Your Solspace.com account email address
+- Plugin name & Solspace license key (listed together if you have more than 1 to transfer)
+- Your [Craft ID account](https://id.craftcms.com/) email address
+
+:::warning
+Please note that all existing Freeform 1.x licenses have **passed their 1 year expiry date by now**. Any requests for transferring a Freeform 1.x license to a Craft Plugin Store license for Freeform 3.x will be **provided as an expired license**. This means that **you will need to purchase a discounted renewal fee of $49/$79 (depending on edition) to proceed with this update**.
+:::
+
+:::info
+If you have a **Freeform Lite + Mailchimp** license for Craft 2.x, you are entitled access to a **Freeform Pro 3.x** license. If you'd like to have the _Pro_ license, please let us know when requesting transfer of license to the Plugin Store. Please note that the _Pro_ license renewal is a higher price than _Lite_, if you wish to make this switch.
+:::
+
+Once you have your new license, follow the steps below:
+
+1. <span class="red font-bold">BACKUP YOUR SITE FILES AND DATABASE.</span>
+2. Follow the [Craft Documentation for Upgrading from Craft 2](https://craftcms.com/docs/3.x/upgrade.html).
+3. Carefully review the [changelog](./changelog.mdx) for Freeform 3.x as well as the new [key features/changes table](#key-changes) above.
+4. Follow the regular [installation instructions for Freeform 3.x](./installing-updating#installing-instructions). You essentially have to "install" Freeform again as if it's a fresh install, but Freeform/Craft will detect that you have old Freeform data in the database and perform a migration instead of a fresh install. You have the following options for installing Freeform 3 on Craft 3:
+   - [Install from the Control Panel](./installing-updating#install-from-the-control-panel)
+   - [Installing from the Terminal](./installing-updating#installing-from-the-terminal)
+5. Once installed, you can paste in your new Freeform 3 license into the license key area beside the plugin name (**Craft CP** -> **Settings** -> **Plugins**). By default, you'll be given access to the _Lite_ edition. If you have a _Pro_ license, or wish to trial it or upgrade to it eventually, follow the steps below:
+   - Click on the **Lite** flag/button beside the plugin name, which will take you to the Freeform product page inside the Craft Plugin Store.
+     <Photo img={Purchase1Photo} alt="Switch edition after install - step 1" />
+   - Click on the **Reactivate** (or **Try**) button to activate the _Pro_ edition for your site.
+     <Photo img={Purchase2Photo} alt="Switch edition after install - step 2" />
+   - Alternatively, you could edit the `edition` setting inside Craft's [Project Config](https://craftcms.com/docs/3.x/project-config.html) file to have a value of `pro`.
+6. If your Freeform license is currently expired (purchased more than 1 year ago), you will need to renew the new Freeform 3 license. Your license can either be renewed directly inside your control panel, or through the [Craft ID](https://id.craftcms.com) site.
+7. Carefully review Freeform inside the control panel and in your templates and ensure that everything works correctly and/or necessary updates to forms/templates/settings are made. If you ever use the demo templates to review/test/experiment, please note that we've made large updates to the demo templates for Freeform 3.x, so you may wish to reinstall them.

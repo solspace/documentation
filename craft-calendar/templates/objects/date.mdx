@@ -1,0 +1,62 @@
+---
+title: Date
+sidebar_position: 5
+---
+
+# Date object
+
+## Properties
+
+- `year`
+  - Returns the 4 digit year
+- `month`
+  - Returns an `int` from `1-12`, representing the month
+- `day`
+  - Returns an `int` from `1-31`
+- `hour`
+  - Returns an `int` from `0-23`
+- `minute`
+  - Returns an `int` from `0-59`
+- `second`
+  - Returns an `int` from `0-59`
+- `timestamp`
+  - Returns a UNIX timestamp
+- `weekStartsAt`
+  - Returns an `int` from `0-6` (`0` - **Sunday**, `6` - **Saturday**)
+- `weekEndsAt`
+  - Same as above
+- `dateString`
+  - Returns a `Y-m-d` string
+- `dateTimeString`
+  - Returns a `Y-m-d H:i:s` string
+- `timeString`
+  - Returns a `H:i:s` string
+- `weekday`
+  - Returns a `boolean` result if the date is a weekday date
+- `weekend`
+  - Returns a `boolean` result if the date is a weekend date
+- `sunday`
+  - Returns `true` if the date is a **Sunday**
+  - Works for all week days `monday`, `tuesday`, `wednesday`, etc
+
+## Methods
+
+- `format`
+  - Format the date to PHP's [date formatting](http://php.net/manual/en/function.date.php) guidelines, e.g. - `event.startDate.format("l d, Y")`
+- `eq`
+  - check if a date is equal to another date.
+  - `event.startDate.eq(event.endDate)` would return true if both dates would be equal
+- `ne`
+  - check if the dates are not equal
+- `gt`
+  - checks if a date is greater than the other date
+  - `event.startDate.gt(anotherEvent.startDate)` would return true only if `event.startDate` were greater than `anotherEvent.startDate`
+- `gte`
+  - check for greater OR equal than
+- `lt`
+  - check for less than
+- `lte`
+  - less than OR equal
+- `between`
+  - check if a date is between two other dates
+  - `event.startDate.between(month.startDate, month.endDate)` would return **true** if the `event.startDate` were between a given month range

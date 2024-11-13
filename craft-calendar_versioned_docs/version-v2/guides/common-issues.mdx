@@ -1,0 +1,33 @@
+---
+sidebar_position: 2
+title: Common Issues
+---
+
+# Frequently Asked Questions
+
+Below are some common questions that are asked about how _Solspace Calendar_ works, and what its limitations are:
+
+## How does Calendar handle timezones?
+
+Calendar does not use Timezones. All event date data is stored as **UTC+0**, and retrieved as **UTC+0**. So, no matter where you are in the world, an event start date entered at **6pm** will be stored and displayed always as **6pm**. The [calendar.export](../templates/queries/export.mdx) template query compensates for this by setting the timezone as **[floating](https://tools.ietf.org/html/rfc5545#section-3.3.5)**, which (in the current example) means the event will show up at 6pm no matter what timezone the user is located in.
+
+The only place timezones are used is when it checks the current date/time of the currently logged in user, or logged out user. If a user is logged in, Calendar will show/consider **today** as whichever day it is for that user. If the user is not logged in, Calendar will use the site's current timezone to determine when **today** is. For example, this is used for highlighting the correct date in a month or week view calendar as **Today**, or determining which month to show (in the case of last or first day of the month).
+
+## How do I have Calendar use a different first day of the week?
+
+This can be configured in the General Settings of Calendar using the [Week Starting Day](../configuration/settings.mdx#week-starting-day) setting.
+Calendar defaults to the _Current user's Locale_ option, which means the first day of the week to the currently logged in user's first day of week. If the user is not logged in, it defaults to the global _First Day of Week_ Craft setting (`defaultWeekStartDay` setting in the Craft general config file located at **/config/general.php**). To have Calendar use a day like _Monday_ as the first day of the week, simply add this line to your general config file:
+
+```php showLineNumbers
+'defaultWeekStartDay' => 2,
+```
+
+You can also override at the template level by using the `firstDay` parameter available in the [calendar.month](../templates/queries/month.mdx), [calendar.week](../templates/queries/week.mdx) or [calendar.day](../templates/queries/day.mdx) queries and specifying an `int` value representing the first day of week (**0-6**, `0` being **Sunday**, `6` being **Saturday**).
+
+## Can I have different Field Layouts per Calendar?
+
+Yes, Calendar allows each calendar group to have its [own set of fields and unique field layout](../events/index.mdx).
+
+## Are there User Group Permissions for Calendar, and how granular are they?
+
+Currently, Calendar includes permission controls through the regular Craft User Group Permissions. Simply visit the permissions page for the applicable user group(s) (**Settings > Users > User Groups**) to grant/edit/remove permissions to Solspace Calendar. [View Permissions documentation](../configuration/permissions.mdx).

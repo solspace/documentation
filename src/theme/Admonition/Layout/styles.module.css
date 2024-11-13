@@ -1,0 +1,48 @@
+.admonition {
+  margin-bottom: 1em;
+  position: relative;
+  padding: 0.9rem 0.9rem 0.9rem 1.5rem;
+  box-shadow: none;
+}
+
+.admonitionHeading {
+  font: var(--ifm-heading-font-weight) var(--ifm-h5-font-size) /
+    var(--ifm-heading-line-height) var(--ifm-heading-font-family);
+  text-transform: uppercase;
+  position: absolute;
+  border-radius: 50%;
+  background-color: white;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--ifm-alert-border-color);
+  left: -20px;
+  top: 11px;
+}
+
+/* Heading alone without content (does not handle fragment content) */
+.admonitionHeading:not(:last-child) {
+  margin-bottom: 0.3rem;
+}
+
+.admonitionHeading code {
+  text-transform: none;
+}
+
+.admonitionIcon {
+  display: flex;
+  align-items: center;
+}
+
+.admonitionIcon svg {
+  display: inline-block;
+  height: 1.3em;
+  width: 1.3em;
+  fill: var(--svg-foreground-color);
+}
+
+.admonitionContent > :last-child {
+  margin-bottom: 0;
+}

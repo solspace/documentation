@@ -1,0 +1,48 @@
+---
+title: Submissions
+sidebar_position: 1
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+
+import Icons from '@site/static/card-icons';
+
+import SubmissionsDetailPhoto from '../assets/img/submissions-detail.png';
+import SubmissionsListPhoto from '../assets/img/submissions-list.png';
+
+# Submissions
+
+Similar to Craft Entries, every time a user submits a form, we refer to those as submissions. Currently, submissions can be viewed and edited in the control panel, and displayed on the front end in templates as a list and individually.
+
+## In the Control Panel
+
+The list of submissions in the control panel appears very similar to how regular Craft Entries are displayed. You can filter the view by form (or show across all forms), search into submissions, adjust which field columns are shown, and click into any of the submissions to edit them.
+
+Additionally, you can keep track of changes or make private notes by using the **Notes** feature in the right column of the single submission view inside the CP (similar to older versions of Craft).
+
+Freeform also includes a chart that gives you a quick visual of how many form submissions your site is receiving.
+
+:::info
+Freeform 4.1.17+ introduces the ability to search on all Freeform fields inside the control panel. Earlier versions only allowed searching on submission titles.
+:::
+
+<Photo img={SubmissionsListPhoto} alt="Submissions" />
+<Photo img={SubmissionsDetailPhoto} alt="Edit Submissions" />
+
+## Exporting Submissions
+
+Freeform includes 3 options for exporting (2 of which are Pro only). Please refer to the [Exporting](./exporting) documentation for more information.
+
+## In Front End Templates
+
+One common use-case might be displaying the contents of the form submission to the user that submitted it right after they have successfully submitted the form, allowing them to review what they submitted. Of course, be aware that there are security implications here if the submissions contain sensitive content.
+
+If the information is not sensitive, and meant to be public - like comments, you can also display submissions in a paginated (or not) list.
+
+For more information about this, please visit the [Submissions query](../templates/queries/submissions.mdx) documentation.
+
+## Editing Submissions <Badge type="pro" text="Pro" />
+
+Freeform allows you to edit submissions via the front end templates as well. Currently, this feature has no user/author check, and requires you use/provide the `submission.token` to work (as opposed to the ID). <secret>A future version will likely include ability to check on authors, etc.</secret> The editing uses the same [Form query](./../templates/queries/form.mdx), but knows you're in **edit mode** when you feed the `submissionToken` parameter a valid value.
+
+Please see the [Submission Editing](./submission-editing) documentation for more information.

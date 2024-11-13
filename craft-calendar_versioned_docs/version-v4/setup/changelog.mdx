@@ -1,0 +1,163 @@
+---
+title: Changelog
+sidebar_label: Changelog
+sidebar_position: 2
+---
+
+import { TitleDate } from '@site/src/components/docs'
+
+## 4.0.16<TitleDate date="2024-10-17" />
+
+### Added
+- Added `calendar/calendars/fix-field-layout-tabs-elements-uids --rebuildProjectConfig` CLI command to resolve issues where unique UIDs were not generated for field layout elements when duplicating calendars.
+
+### Fixed
+- Fixed a bug where soft-deleted (_Trashed_) events were not visible on the CP Events index page.
+
+## 4.0.15<TitleDate date="2024-09-12" />
+
+### Fixed
+- Fixed a bug where data from some third-party field types were not saving correctly.
+- Fixed a bug where unique UIDs were not generated for field layout elements when duplicating calendars.
+
+## 4.0.14<TitleDate date="2024-06-07" />
+
+### Changed
+- Replaced the custom `UpdateEventsUriJob` with Craft's `UpdateElementSlugsAndUris` job to correctly parse URI parameters.
+
+### Fixed
+- Fixed a bug where reoccurring events were not returning when using batch calls.
+
+## 4.0.13<TitleDate date="2024-04-04" />
+
+### Added
+- Added `selectDatesAsDatesLocalized` and `exceptionsLocalized` to aid with timezone issues when using `|date` to translate dates.
+
+### Fixed
+- Fixed a bug where events with "Selected Dates" repeat rules would not always save correctly via a front-end form.
+
+## 4.0.12<TitleDate date="2024-03-07" />
+
+### Added
+- Added support for an element integration in Freeform 5. Allows users to create Calendar events from Freeform forms.
+
+### Changed
+- Updated Calendar to use a custom job to resave events instead of using Craft's own resave elements functionality, which seems to cause event dates to jump forward by roughly 6 months to 1 year into the future. Reverted previous changes in 4.0.10 thought to have resolved the issue.
+
+## 4.0.11<TitleDate date="2023-11-29" />
+
+### Fixed
+- Fixed a missing FROM-clause entry for table subquery.
+
+## 4.0.10<TitleDate date="2023-11-06" />
+
+### Changed
+- Updated the plugin icon.
+
+### Fixed
+- Fixed a bug where updating a calendar's settings could shift all associated recurring event start/end dates to be the same as the End Repeat date.
+
+## 4.0.9<TitleDate date="2023-04-17" />
+
+### Fixed
+- Fixed a bug where saving events as a user without edit permissions to other sites would trigger an error. It now only shows statuses for sites the user has access to.
+- Fixed a bug where the CP Month/Week/Day pages' Site selector dropdown wasn't only showing Sites the user has access to.
+
+## 4.0.8<TitleDate date="2023-03-23" />
+
+### Fixed
+- Fixed a bug where disabled events were not displaying in the CP events index on sites with only one Craft Site.
+- Fixed a bug where events were not loading with PostgreSQL.
+- Fixed a bug where an `argument must be of type string, array given` error could occur in rare cases.
+
+## 4.0.7<TitleDate date="2023-03-02" />
+
+### Fixed
+- Fixed a bug where it wasn't possible to query for events in multiple sites in GraphQL.
+
+## 4.0.6<TitleDate date="2023-02-07" />
+
+### Fixed
+- Fixed a bug where editing Statuses for other sites was not working.
+
+## 4.0.5<TitleDate date="2023-02-03" />
+
+### Changed
+- Improved Calendar date field logic to only reset End Time when the Start Time is set past it.
+- Updated the Status area in the Calendar create/edit event page to be a closer match to native Craft Entries.
+
+### Fixed
+- Fixed a bug where page tabs were no longer showing in the Calendar create/edit event page.
+- Fixed a bug where the Calendar date field was appearing at the bottom of the page. Updated to very top (above Title field) temporarily until it can become part of the flow of the regular field layout.
+- Fixed a bug where the Title field was no longer showing custom labels.
+- Fixed a bug where events were no longer showing in the correct order.
+- Fixed a bug where Calendar title translations were not working correctly.
+
+## 4.0.4<TitleDate date="2023-01-26" />
+
+### Fixed
+- Fixed a bug where sites with just 1 site would encounter a `titleTranslationMethod cannot be null` error when attempting to create a new calendar.
+- Fixed a bug where `titleTranslationMethod` and `titleTranslationKeyFormat` fields were sometimes not being added during a fresh install or update.
+- Fixed a bug where Calendar could error if a calendar had no field layout.
+- Fixed a bug where calendars that have titles set to be NOT TRANSLATABLE were still being translated per site.
+- Fixed a bug where attempting to edit a Calendar event through the Craft element editor modal would fail.
+
+## 4.0.3<TitleDate date="2023-01-17" />
+
+### Added
+- Added `cp.solspace.calendar.filters` hook to customize calendar filters in the CP Month/Week/Day view.
+
+### Fixed
+- Fixed a bug where events would not correctly display in alphabetical order when sorted by element title in the CP Events index when paginated.
+- Fixed a bug where event titles were not always being translated per site, when applicable.
+
+## 4.0.2<TitleDate date="2022-12-28" />
+
+### Changed
+- Updated the demo templates to include a helper to set date bounds to prevent endless search engine crawling.
+
+### Fixed
+- Fixed a bug where `readableRepeatRule` would output the days in the order they were chosen, not chronologically.
+- Fixed a bug where the Events CP index was showing both an "Element" and "Title" column.
+- Fixed a bug where the ICS feed subscription URL for a whole calender would sometimes return an "undefined array key 1" exception.
+
+## 4.0.1<TitleDate date="2022-11-21" />
+
+### Fixed
+- Fixed a bug where links to view/edit individual events in the CP disappeared in Craft 4.3.2+.
+- Fixed a bug where the "Set status" actions were greyed out in the CP events index, making it not possible to change the status from this menu.
+
+## 4.0.0<TitleDate date="2022-12-27" />
+
+### Added
+- Added compatibility with Craft 4.x.
+- Added an on-demand option (`addFirstOccurrenceDate()`) to display the first occurrence date result in an occurrences list of events that use the "Select Dates" repeat rule.
+- Added `defineRules` to `CalendarModel` so users can define their validation rulesets.
+
+### Changed
+- Changed the package name from `solspace/craft3-calendar` to `solspace/craft-calendar`.
+- Updated Symfony dependencies to allow version `^6.0`.
+- Updated FullCalendar demo so URL path always includes date segments if recurring event.
+- Updated the Preview button to only be visible for saved events. Live Preview will only work with saved elements or ones with a saved draft, which is not currently available.
+
+### Fixed
+- Fixed a bug where calendars with no fields in the layout would error when attempting to create new events.
+- Fixed a bug where duplicating calendars no longer worked due to the removal of dash `-` in validation.
+- Fixed a bug where ordering by `endDate DESC` would not return the latest event end date in GraphQL.
+- Fixed a bug where `uri` and `typeHandle` were unavailable for events in GraphQL.
+- Fixed a bug where calendar handles could have dashes in them.
+- Fixed a bug where saving an event with required fields in a multi-site environment could miss some error validation.
+- Fixed a bug where some sites making heavy use of the "Select Dates" repeat rule could experience performance issues.
+- Fixed a bug where removing event occurrences from the CP Month/Week/Day view pages would sometimes use the day before, depending on your timezone.
+- Fixed a bug where fields that are not translatable were still being translated per site.
+- Fixed a bug where events that had exceptions for all occurrences would throw an error in the CP.
+- Fixed a bug where mass changing of event statuses was allowed when the user did not have the correct permissions.
+- Fixed a bug where `siteId` was not available in the GraphQL Event Interface.
+- Fixed a bug where editing existing events could trigger an error if using multiple sites.
+- Fixed a potential PHP 8.1 compatibility issue.
+- Fixed a bug where sites using Feed Me with Calendar could see errors in the control panel.
+- Fixed a bug where deleting an event from inside the event edit page would not work.
+- Fixed a bug where an error would show when using the "Save and add another" feature while creating a new calendar.
+- Fixed a bug where displaying event recurrences could sometimes error.
+- Fixed a bug where events that repeat on "Select Dates" do not include the original event date as an occurrence in some areas of Calendar.
+- Fixed a compatibility issue with GraphQL.
