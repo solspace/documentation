@@ -86,12 +86,12 @@ The Freeform form builder is an all-in-one interface that lets you take control 
 - The form builder is divided into 3 columns:
   - **Fields** (left column) contains all of the available fields and special fields you can add to your form.
     - New fields can be created in the main field creation area (**Freeform > Fields > New Field**) as well as directly within the form builder interface by clicking the **Add New Field** button. [Fields](./fields.mdx) created here are available globally as well (they do not just exist for that form).
-    - If you have configured an [Email Marketing integration](../configuration/settings#integrations), you'll see a list for Email Marketing integrations at th bottom left corner. There will be 1 displayed per connection, but you can include the mailing list sign up field as many times as you wish, as long as each uses a different list for that integration.
+    - If you have configured an [Email Marketing integration](../configuration/settings.mdx#integrations), you'll see a list for Email Marketing integrations at th bottom left corner. There will be 1 displayed per connection, but you can include the mailing list sign up field as many times as you wish, as long as each uses a different list for that integration.
   - **Layout** (center column) is where you actively see an interactive live preview of what your form will look like.
     - You can click or drag any of the fields from the **Fields** (left column) into the Layout area to add them. Drag them around to move them. Freeform will auto-split rows into columns to fit your fields beside each other, if you wish (to a maximum of 4 columns).
     - Clicking anywhere on any field will open up the **Property Editor** (right column) where you can adjust and configure settings for your field such as label, options, making field required, editing HTML, mapping fields, etc. Changes will apply instantly (not necessary to click save before you do something else).
     - To remove a field from the layout, simply click the delete (minus) icon that shows up on top right when you hover over a field.
-    - Freeform also allows for true [multi-page](./multi-page-forms) forms (POST submit per page). To add more pages to your form, simply click the plus (**+**) button at the top of the Layout area next to the page tabs. To edit the name of the page, change the value in the **Property Editor** (right column). To remove a page, make sure you're on the page you'd like to remove, and then click the delete (minus) icon on the page tab. There is a limit of 100 pages for each form.
+    - Freeform also allows for true [multi-page](./multi-page-forms.mdx) forms (POST submit per page). To add more pages to your form, simply click the plus (**+**) button at the top of the Layout area next to the page tabs. To edit the name of the page, change the value in the **Property Editor** (right column). To remove a page, make sure you're on the page you'd like to remove, and then click the delete (minus) icon on the page tab. There is a limit of 100 pages for each form.
       - If you wish to rearrange pages, simply drag and drop the tabs. If you need to move a field from one page to another, drag and drop the field onto the page tab you'd like it to be moved to. It will then appear at the top of that page, and you can finish placing it where it should be on that page.
   - **Property Editor** (right column) is where all of the form and field configuration will happen. Clicking on any field, page tab or settings tab inside the form builder layout area will load its configuration options here.
     - For all fields, there is a **Reset** button at the top right of the Property Editor if you wish to have your field options and labels, etc be reset/updated to what is set for the "default" field in **Freeform** -> **Fields** area.
@@ -131,18 +131,18 @@ The **Form Settings** tab (cog icon) handles the overall settings for the form. 
           - `submission.id` - newly created unique submission ID in the URL. This would allow you to use the [Submissions query](../templates/queries/submissions.mdx) to display some or all of the users' submission on the success page.
 - **Default Status** - the default status to be used when users submit the form, unless overwritten at template level.
   - See [Statuses documentation](../configuration/settings.mdx#statuses) for managing statuses.
-- **Formatting Template** (optional) - if using the [render() method](../templates/queries/form#render), this essentially allows you to "attach" a formatting template to a form so that you don't need to include formatting inside the template(s) you place the form inside.
+- **Formatting Template** (optional) - if using the [render() method](../templates/queries/form.mdx#render), this essentially allows you to "attach" a formatting template to a form so that you don't need to include formatting inside the template(s) you place the form inside.
   - Select from an existing sample or custom template, or create a new one.
-    - If creating a new one, a new template file will automatically be created for you in your [Formatting Template Directory](../configuration/settings#form-template-directory) containing sample template code that you can adjust later.
+    - If creating a new one, a new template file will automatically be created for you in your [Formatting Template Directory](../configuration/settings.mdx#form-template-directory) containing sample template code that you can adjust later.
     - Users/groups need to have permissions access for **Settings** to create new formatting templates.
-- **Enable AJAX** - enables Freeform's [built-in automated AJAX submit support](../guides/templating/ajax-forms). Once enabled, Freeform will handle the rest (as long as you're using standard template formatting - very custom formatting templates may not work properly).
+- **Enable AJAX** - enables Freeform's [built-in automated AJAX submit support](../guides/templating/ajax-forms.mdx). Once enabled, Freeform will handle the rest (as long as you're using standard template formatting - very custom formatting templates may not work properly).
 - **Collect IP Addresses** - allows you to specify whether or not the form should collect IP addresses from submitters.
   - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../configuration/gdpr-compliance.mdx) for more information.
 - **Store Submitted Data** - allows you to specify whether the submission data for this form should be stored in the database.
-  - Typical use-cases for not storing submission data on your site would be if you just wanted the [email notification](./email-notifications) and/or wanted the data submitted over to an [Email Marketing](../integrations#email-marketing) or [CRM](../integrations#crm) integration.
+  - Typical use-cases for not storing submission data on your site would be if you just wanted the [email notification](./email-notifications.mdx) and/or wanted the data submitted over to an [Email Marketing](../integrations/index.mdx#email-marketing) or [CRM](../integrations/index.mdx#crm) integration.
   - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../configuration/gdpr-compliance.mdx) for more information.
 - **Opt-In Data Storage Checkbox** - allows the submitter to choose whether or not they want their submission data stored on your site. In the select dropdown, select a **Checkbox** fieldtype you want to be the designated opt-in field, or choose **Disabled** to not use this feature.
-  - This setting will still send off data to [integrations](../integrations/index.mdx) and [email notifications](./email-notifications).
+  - This setting will still send off data to [integrations](../integrations/index.mdx) and [email notifications](./email-notifications.mdx).
   - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../configuration/gdpr-compliance.mdx) for more information.
 - **Google Tag Manager** - allows you to enable Google Tag Manager to push successful form submission events to the data layer (when AJAX enabled).
   - **Event Name** - specify a custom event name that you wish to assign to a successful form submission.
@@ -152,7 +152,7 @@ The **Form Settings** tab (cog icon) handles the overall settings for the form. 
 - **Description** - a description for the form to store notes or help identify what it's used for, etc.
 - **POST Forwarding** <Badge type="pro" text="Pro" /> - if you need to have the POST data of this form submitted to an external API, provide that custom URL here.
   - **POST Forwarding Error Trigger** - provide a keyword or phrase Freeform should check for in the output of the external POST URL to know if and when there's an error to log, e.g. `error` or `an error occurred`.
-  - See [POST Forwarding documentation](../integrations#other) for more information about this feature.
+  - See [POST Forwarding documentation](../integrations/index.mdx#other) for more information about this feature.
 
 ## Validation
 
@@ -180,7 +180,7 @@ Freeform's **Validation** tab (lock icon) is where you can configure certain for
 
 Freeform allows you to send an email to admins (or other predefined email addresses) 2 different ways:
 
-- With the [Dynamic Recipients](./fields#dynamic-recipients) field type, allowing the user to select from a few different predefined options to direct their email notification to.
+- With the [Dynamic Recipients](./fields.mdx#dynamic-recipients) field type, allowing the user to select from a few different predefined options to direct their email notification to.
 - As a hard coded option set for the form.
 
 To use the latter approach, click the **Admin Notifications** tab (envelope icon) to set up admin email notifications. Select the email notification template (or quickly create a new one - users/groups need to have permissions access for **Email Notifications** to create new notification templates), and then enter the admin email address(es), each on a new line, you wish to receive an email notification upon users successfully submitting the form.
@@ -205,7 +205,7 @@ OR
 {{ firstName == 'Bob' ? 'some@email.com' : 'other@email.com' }}
 ```
 
-For more email notification options, please see the [Types of Email Notifications](./email-notifications#types-of-email-notifications) documentation.
+For more email notification options, please see the [Types of Email Notifications](./email-notifications.mdx#types-of-email-notifications) documentation.
 
 ### Conditional Rules<Badge type="pro" text="Pro" />
 
@@ -219,7 +219,7 @@ The **Element Connections** tab (chain icon) is where you can connect and map Fr
 
 The possibilities are endless when you consider that it essentially allows you to easily create complex user registration forms or accept guest submitted content that maps to Craft entries for further management by site admins for publishing... or whatever else you can dream up!
 
-Please see the [Element Connections](../integrations#craft-elements) documentation for more information about this feature.
+Please see the [Element Connections](../integrations/index.mdx#craft-elements) documentation for more information about this feature.
 
 <Photo
   img={UserRegistrationPhoto}
@@ -228,13 +228,13 @@ Please see the [Element Connections](../integrations#craft-elements) documentati
 
 ## CRM Integrations <Badge type="pro" text="Pro" />
 
-The **CRM Integrations** tab (cloud icon) is where you configure any [CRM integrations](../integrations#crm) you may have on a per-form level. Simply choose an integration name and then map out your Freeform fields to your CRM's fields. This tab will only show if you have any CRM integrations configured.
+The **CRM Integrations** tab (cloud icon) is where you configure any [CRM integrations](../integrations/index.mdx#crm) you may have on a per-form level. Simply choose an integration name and then map out your Freeform fields to your CRM's fields. This tab will only show if you have any CRM integrations configured.
 
 <Photo img={IntegrationsPhoto} alt="CRM Integrations" />
 
 ## Stripe Payments <Badge type="pro" text="Pro" />
 
-The **Payments** tab (dollar sign icon) is where you configure a [Stripe Payments](../integrations/stripe-payments.mdx) integration on a per-form level. Simply choose the Payment integration name and then configure the form and map out your Freeform fields to your Stripe fields. This tab will only show if you have a Payment integration configured. You will also need to add a [Credit Card](./fields#credit-card) special field to the form layout.
+The **Payments** tab (dollar sign icon) is where you configure a [Stripe Payments](../integrations/stripe-payments.mdx) integration on a per-form level. Simply choose the Payment integration name and then configure the form and map out your Freeform fields to your Stripe fields. This tab will only show if you have a Payment integration configured. You will also need to add a [Credit Card](./fields.mdx#credit-card) special field to the form layout.
 
 <Photo img={StripePaymentsPhoto} alt="Stripe Payments" />
 
@@ -250,7 +250,7 @@ Conveniently let's you know if something is wrong by displaying a banner (not sh
 
 ### Important Update Notices
 
-The [Important Update Notices](../configuration/notices-alerts#update-notices--announcements) area keeps you informed about issues that may specifically affect your site.
+The [Important Update Notices](../configuration/notices-alerts.mdx#update-notices--announcements) area keeps you informed about issues that may specifically affect your site.
 
 :::info
 We respect your privacy, so this feature only pulls update notices from the Solspace.com site and **does not and cannot send any information back**. Solspace collects **no** information at all. The comparison check happens on your Freeform site environment, not on the Solspace site. This feature can also be disabled in the plugin settings.

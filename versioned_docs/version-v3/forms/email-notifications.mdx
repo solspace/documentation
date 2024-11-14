@@ -62,7 +62,7 @@ OR
 
 ### Dynamic Recipients
 
-Email notifications can be sent to one or more pre-defined admin email addresses that are selected by the user filling out the form using the [Dynamic Recipients](./fields#dynamic-recipients) field. For example, you might have a select dropdown field that contains different departments for the user to address the email to. To setup:
+Email notifications can be sent to one or more pre-defined admin email addresses that are selected by the user filling out the form using the [Dynamic Recipients](./fields.mdx#dynamic-recipients) field. For example, you might have a select dropdown field that contains different departments for the user to address the email to. To setup:
 
 1. In the field editor (**Freeform -> Fields**) or the form builder (**Add New Field** button at left), create a new field of the _Dynamic Recipient_ field type.
 2. In the form builder for the form, drag that field into field layout.
@@ -443,7 +443,7 @@ And then in your Freeform email notification template, something like:
 
 ### Including Email Marketing Selection Data
 
-[Email Marketing](./fields#mailing-list-checkbox) checkbox selections are excluded from automated rendering in `allFields` variable. Since they are special fields and not part of the regular fields, this data isn't available in the control panel or _Submission_ object, etc. However, you can access the user's selection via the _Form_ object (and specify the hash available in the Handle area of the property editor for the _Email Marketing_ field inside the Form Builder). The example below will render as `1` if the user checked the checkbox:
+[Email Marketing](./fields.mdx#mailing-list-checkbox) checkbox selections are excluded from automated rendering in `allFields` variable. Since they are special fields and not part of the regular fields, this data isn't available in the control panel or _Submission_ object, etc. However, you can access the user's selection via the _Form_ object (and specify the hash available in the Handle area of the property editor for the _Email Marketing_ field inside the Form Builder). The example below will render as `1` if the user checked the checkbox:
 
 ```twig showLineNumbers
 {{ form.get("BmLxw1ONn").value }}

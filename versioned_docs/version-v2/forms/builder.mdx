@@ -77,14 +77,14 @@ When you first create a form, the Property Editor (right column) will display ov
   - May contain:
     - `{{ form.handle }}` - handle of form.
     - `{{ submission.token }}` - "secure" token created for the submission.
-    - `{{ submission.id }}` - newly created unique submission ID in the URL. This would allow you to use the [freeform.submissions](../submissions/overview) template function to display some or all of the users' submission on the success page.
+    - `{{ submission.id }}` - newly created unique submission ID in the URL. This would allow you to use the [freeform.submissions](../submissions/overview.mdx) template function to display some or all of the users' submission on the success page.
 - **Default Status** <a href="#form-status" id="form-status" class="docs-anchor">#</a>
   - The default status to be used when users submit the form, unless overwritten at template level.
   - See [Statuses documentation](../configuration/settings.mdx#statuses) for managing statuses.
 - **Formatting Template** <a href="#formatting-template" id="formatting-template" class="docs-anchor">#</a>
-  - Optional, if using the [render() method](../templates/queries/form#render), this essentially allows you to "attach" a formatting template to a form so that you don't need to include formatting inside the template(s) you place the form inside.
+  - Optional, if using the [render() method](../templates/queries/form.mdx#render), this essentially allows you to "attach" a formatting template to a form so that you don't need to include formatting inside the template(s) you place the form inside.
   - Select from an existing sample or custom template, or create a new one.
-    - If creating a new one, a new template file will automatically be created for you in your [Form Template Directory](../configuration/settings#form-template-directory) containing sample template code that you can adjust later.
+    - If creating a new one, a new template file will automatically be created for you in your [Form Template Directory](../configuration/settings.mdx#form-template-directory) containing sample template code that you can adjust later.
     - Users/groups need to have permissions access for **Settings** to create new formatting templates.
 - **Enable AJAX** <Badge type="feature" text="2.5.0+" /> <a href="#enable-ajax" id="enable-ajax" class="docs-anchor">#</a>
   - To enable Freeform's built-in automated AJAX submit support, simply check this checkbox and Freeform will then handle the rest (as long as you're using a standard formatting template - very custom formatting templates may not work properly).
@@ -93,7 +93,7 @@ When you first create a form, the Property Editor (right column) will display ov
     - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../configuration/gdpr-compliance.mdx) for more information.
 - **Store Submitted Data** <a href="#submission-store-data" id="submission-store-data" class="docs-anchor">#</a>
   - This setting allows you to specify whether the submission data for this form should be stored in the database or not.
-    - Typical use-cases for not storing submission data on your site would be if you just wanted the [email notification](./email-notifications) and/or wanted the data submitted over to a [Mailing List](../integrations#mailing-list-integrations) or [CRM](../integrations#crm) API.
+    - Typical use-cases for not storing submission data on your site would be if you just wanted the [email notification](./email-notifications.mdx) and/or wanted the data submitted over to a [Mailing List](../integrations/index.mdx#mailing-list-integrations) or [CRM](../integrations/index.mdx#crm) API.
     - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../configuration/gdpr-compliance.mdx) for more information.
 - **Opt-In Data Storage Checkbox** <a href="#submission-data-storage-opt-in" id="submission-data-storage-opt-in" class="docs-anchor">#</a>
   - This setting allows the submitter to choose whether or not they want their submission data stored on your site. In the select dropdown, select a **Checkbox** fieldtype you want to be the designated opt-in field, or choose **Disabled** to not use this feature.
@@ -110,12 +110,12 @@ When you first create a form, the Property Editor (right column) will display ov
 
 Freeform allows you to send an email to admins (or other predefined email addresses) 2 different ways:
 
-- With the [Dynamic Recipients](./fields#dynamic-recipients) field type, allowing the user to select from a few different predefined options to direct their email notification to.
+- With the [Dynamic Recipients](./fields.mdx#dynamic-recipients) field type, allowing the user to select from a few different predefined options to direct their email notification to.
 - As a hard coded option set for the form.
 
 To use the latter approach, click the **Admin Notifications** tab (envelope icon) to set up admin email notifications. Select the email notification template (or quickly create a new one - users/groups need to have permissions access for **Email Notifications** to create new notification templates), and then enter the admin email address(es), each on a new line, you wish to receive an email notification upon users successfully submitting the form.
 
-For more email notification options, please see the [Types of Email Notifications](./email-notifications#types-of-email-notifications) documentation.
+For more email notification options, please see the [Types of Email Notifications](./email-notifications.mdx#types-of-email-notifications) documentation.
 
 ## Fields (left column)
 
@@ -123,22 +123,22 @@ The left column displays a list of fields available for use. New fields can be c
 
 <Photo img={QuickFieldPhoto} alt="Composer - Quick Create Fields" />
 
-To use any fields, simply click on them or drag the field over to the **Layout** area (center column). See [Special Fields](./fields#special-fields) documentation for more information about each special field and how they work:
+To use any fields, simply click on them or drag the field over to the **Layout** area (center column). See [Special Fields](./fields.mdx#special-fields) documentation for more information about each special field and how they work:
 
-- [Submit](./fields#fields-submit)
-- [HTML](./fields#fields-html)
-- [Confirm](./fields#fields-confirm)
-- [Password](./fields#fields-password)
-- [reCAPTCHA <Badge type="pro" text="Pro" />](./fields#fields-recaptcha)
+- [Submit](./fields.mdx#fields-submit)
+- [HTML](./fields.mdx#fields-html)
+- [Confirm](./fields.mdx#fields-confirm)
+- [Password](./fields.mdx#fields-password)
+- [reCAPTCHA <Badge type="pro" text="Pro" />](./fields.mdx#fields-recaptcha)
 
-If you have configured a [Mailing Lists integration](../configuration/settings#mailing-lists), you'll see a list for Mailing List integrations. There will be 1 displayed per connection, but you can include the mailing list sign up field as many times as you wish, as long as each uses a different list for that integration.
+If you have configured a [Mailing Lists integration](../configuration/settings.mdx#mailing-lists), you'll see a list for Mailing List integrations. There will be 1 displayed per connection, but you can include the mailing list sign up field as many times as you wish, as long as each uses a different list for that integration.
 
 - **Mailing Lists** <a href="#form-mailing-list" id="form-mailing-list" class="docs-anchor">#</a>
   - Can only be displayed as a single checkbox.
     - Label is customizable.
     - Checkbox can be checked by default.
   - Specify the mailing list to be used for the mailing list integration.
-  - Form must include an [Email](./fields#fields-email) field type, which must then be assigned to the **Target Email Field** setting.
+  - Form must include an [Email](./fields.mdx#fields-email) field type, which must then be assigned to the **Target Email Field** setting.
   - **Field Mapping** setting allows you to map Freeform fields to available mailing list integration fields.
 
 <Photo img={MailingListPhoto} alt="Composer - Mailing List" />
@@ -155,7 +155,7 @@ Freeform also allows for true _multi-page_ forms (a POST submit per page). To ad
 
 If you wish to rearrange pages, simply drag and drop the tabs. If you need to move a field from one page to another, drag and drop the field onto the page tab you'd like it to be moved to. It will then appear at the top of that page, and you can finish placing it where it should be on that page.
 
-[Click here for more information about multi-page forms.](./multi-page-forms)
+[Click here for more information about multi-page forms.](./multi-page-forms.mdx)
 
 ## Property Editor (right column)
 
@@ -175,7 +175,7 @@ Freeform allows you to connect and map Freeform submission data to other Craft E
 
 It essentially allows you to easily create complex user registration forms or accept guest submitted content that maps to Craft entries for further management by site admins for publishing... or whatever else you can dream up!
 
-To use this feature, click on the **Element Connections** (chain icon) tab in the Property Editor column at the top right and follow the options. You can read more about the [Element Connections feature](./element-connections) here.
+To use this feature, click on the **Element Connections** (chain icon) tab in the Property Editor column at the top right and follow the options. You can read more about the [Element Connections feature](./element-connections.mdx) here.
 
 ## CRM API Integrations
 
@@ -191,19 +191,19 @@ Freeform contains its own dashboard page that gives you convenient insights and 
 
 - **Submissions**
   - A list of the 10 most recent submissions will be displayed, along with a chart above it that shows submissions across all forms for the last 60 days.
-  - Quick links that will take you to Submissions page, [Export Profiles](../submissions/exporting#export-profiles-pro) <Badge type="pro" text="Pro" /> page and the [Spam Folder](./spam-protection#spam-folder).
+  - Quick links that will take you to Submissions page, [Export Profiles](../submissions/exporting.mdx#export-profiles-pro) <Badge type="pro" text="Pro" /> page and the [Spam Folder](./spam-protection.mdx#spam-folder).
 - **Forms**
   - A list of the 10 most popular forms will be display, along with a donut chart above it that shows the total number of submissions for each form.
-  - Quick links that will take you to Manage Forms page, Create Form page, Submissions lists and [Spam Folder](./spam-protection#spam-folder) page.
+  - Quick links that will take you to Manage Forms page, Create Form page, Submissions lists and [Spam Folder](./spam-protection.mdx#spam-folder) page.
   - Overview of current Submission and Spam Protection-related settings:
-    - [Spam Protection](./spam-protection#javascript-honeypot)
-    - [Spam Folder](./spam-protection#spam-folder)
-    - [Spam Automatic Purge (X days)](../configuration/settings#general)
-    - [reCAPTCHA](./spam-protection#recaptcha-pro) <Badge type="pro" text="Pro" />
-    - [Automatic Submission Purge (X days)](../configuration/settings#general)
+    - [Spam Protection](./spam-protection.mdx#javascript-honeypot)
+    - [Spam Folder](./spam-protection.mdx#spam-folder)
+    - [Spam Automatic Purge (X days)](../configuration/settings.mdx#general)
+    - [reCAPTCHA](./spam-protection.mdx#recaptcha-pro) <Badge type="pro" text="Pro" />
+    - [Automatic Submission Purge (X days)](../configuration/settings.mdx#general)
 - **Integrations**
   - A list of all API integrations connected for Freeform. This will run a check to confirm the status of each integration.
-  - Quick links that will take you to Mailing Lists, [CRM](../integrations#crm) and [Payment Gateway](../integrations#other) pages.
+  - Quick links that will take you to Mailing Lists, [CRM](../integrations/index.mdx#crm) and [Payment Gateway](../integrations/index.mdx#other) pages.
 - **Errors**
   - Conveniently let's you know if something is wrong by displaying a list of the most recent 5 errors that Freeform logged, if available.
   - Quick links that will take you to [Error Log](../configuration/settings.mdx#error-log) page and also clear the Freeform error log.
