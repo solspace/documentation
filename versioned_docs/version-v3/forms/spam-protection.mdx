@@ -48,7 +48,7 @@ The **Javascript Enhancement** is not necessary for quality spam protection. If 
   - If the submission fails the honeypot test, it will then match the behavior of the [Spam Protection Behavior](../configuration/settings#spam-behavior) setting.
 - The honeypot is not a hidden field, but is positioned absolutely with height `0` and width `0`, so the field is not visible.
 - This spam protection method requires javascript be enabled for the user's browser, otherwise it will fail.
-  - Freeform will automatically insert javascript in the footer of the page. If you prefer to have this load inside the `<form></form>` tags (for purposes of caching, etc), you can control this with the [Freeform Javascript Insertion Location](../configuration/settings#scripts-location) setting.
+  - Freeform will automatically insert javascript in the footer of the page. If you prefer to have this load inside the `<form></form>` tags (for purposes of caching, etc), you can control this with the [Freeform Javascript Insertion Location](../configuration/settings.mdx#scripts-location) setting.
 
 The Honeypot can also be manually rendered as follows:
 
@@ -89,13 +89,13 @@ Whenever a submission is flagged by Freeform as spam, it will save the reason(s)
 
 ## Spam Blocking
 
-Freeform gives you the ability to block multiple [email addresses](../configuration/settings#block-email), [keywords](../configuration/settings#block-keywords) and [IP addresses](../configuration/settings#block-ip). Separate multiples on new lines, and use `*` for wildcard (except on IP addresses). To block phrases, use quotes (e.g. `"generate new leads"`).
+Freeform gives you the ability to block multiple [email addresses](../configuration/settings.mdx#block-email), [keywords](../configuration/settings.mdx#block-keywords) and [IP addresses](../configuration/settings.mdx#block-ip). Separate multiples on new lines, and use `*` for wildcard (except on IP addresses). To block phrases, use quotes (e.g. `"generate new leads"`).
 
 :::info
 When attempting to block individual characters (e.g. Russian letters) or partial words or strings, be sure to make good use of the wildcard `*` character! E.g.: `*й*`, `*Д*`, `*url=http*`, etc.
 :::
 
-- If the submission fails, it will then match the behavior of the [Spam Protection Behavior](../configuration/settings#spam-behavior) setting.
+- If the submission fails, it will then match the behavior of the [Spam Protection Behavior](../configuration/settings.mdx#spam-behavior) setting.
 - If you have the [Spam Folder](#spam-folder) feature enabled, spammy submissions will go through to the Spam Folder in the Freeform control panel.
 - You have the option to display errors for fields using a blocked email address or keyword, but we recommend only using this for troubleshooting purposes.
 
@@ -103,7 +103,7 @@ When attempting to block individual characters (e.g. Russian letters) or partial
 
 ## Throttling
 
-If your site is being attacked by spammers or you're concerned about it, you can enable the [Form Submission Throttling](../configuration/settings/#throttling) setting. This will globally (affecting all users) prevent spam or attacks by limiting the number of times all forms can be submitted within a given timeframe.
+If your site is being attacked by spammers or you're concerned about it, you can enable the [Form Submission Throttling](../configuration/settings.mdx#throttling) setting. This will globally (affecting all users) prevent spam or attacks by limiting the number of times all forms can be submitted within a given timeframe.
 
 :::warning
 This feature is intended for extreme conditions, such as preventing your site from going down if attacked by a spammer. It should NOT be used as a 'fine-tuning' spam measure, as it applies to ALL users. For example, if you set it to '1 per minute', once one user submits any form, any other user will not be able to submit a form within that timeframe. A more realistic value for smaller websites is something like 50 per minute. Use extreme caution for larger and more active sites.
@@ -111,7 +111,7 @@ This feature is intended for extreme conditions, such as preventing your site fr
 
 ## Captchas
 
-Freeform currently supports the following [Captcha services](../configuration/settings#captcha):
+Freeform currently supports the following [Captcha services](../configuration/settings.mdx#captcha):
 
 - reCAPTCHA v2 Checkbox
 - reCAPTCHA v2 Invisible<Badge type="pro" text="Pro" />

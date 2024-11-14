@@ -20,18 +20,18 @@ If you want to get on your way as quickly as possible, please skip the info belo
 Freeform offers the following measures:
 
 - [Freeform Honeypot](../../forms/spam-protection.mdx#freeform-honeypot)
-- [Keyword Blocking](../../forms/spam-protection#spam-blocking)
+- [Keyword Blocking](../../forms/spam-protection.mdx#spam-blocking)
 - [Captchas](../../forms/spam-protection.mdx#captchas)
-- [Throttling](../../forms/spam-protection#throttling)
-- [Min/Max Submit Time](../../configuration/settings#minimum-submit-time)
+- [Throttling](../../forms/spam-protection.mdx#throttling)
+- [Min/Max Submit Time](../../configuration/settings.mdx#minimum-submit-time)
 
 You can use all or any combination of these. In many cases, using a combination of just the **Freeform Honeypot** and **Keyword Blocking** is sufficient. If you want a no-nonsense approach, you should go straight to using **reCAPTCHA** (specifically **v3**).
 
 Typically, the most effective spam controls (in order) are:
 
 1. Captchas (e.g. reCAPTCHA or hCaptcha)
-2. Freeform Honeypot and [Javascript Enhancement](../../forms/spam-protection/#javascript-enhancement)
-   - Be careful when using the JS enhancement setting, as it could cause issues for you when you're caching the site and/or using something like _Vue.js_. Be sure to check out the [overview and warnings about it here](../../forms/spam-protection/#javascript-enhancement).
+2. Freeform Honeypot and [Javascript Enhancement](../../forms/spam-protection.mdx#javascript-enhancement)
+   - Be careful when using the JS enhancement setting, as it could cause issues for you when you're caching the site and/or using something like _Vue.js_. Be sure to check out the [overview and warnings about it here](../../forms/spam-protection.mdx#javascript-enhancement).
 3. Freeform Honeypot
 4. Keyword Blocking / Email Blocking
    - When attempting to block individual characters (e.g. Russian letters) or partial words or strings, be sure to make good use of the wildcard `*` character! E.g.: `*й*`, `*Д*`, `*url=http*`, etc.
@@ -84,7 +84,7 @@ href*
 <StepMarkdown>
 ### Enable the Spam Folder
 
-Freeform includes its own built-in **Spam Folder** which allows you to review blocked submissions and retrieve legitimate ones that have fallen through the cracks. This feature is enabled by default, but if not, make sure you [enable it](../../forms/spam-protection/#spam-folder). If you have the _Spam Folder_ disabled, any submissions flagged as spam will never be stored in the database and can never ever be retrieved.
+Freeform includes its own built-in **Spam Folder** which allows you to review blocked submissions and retrieve legitimate ones that have fallen through the cracks. This feature is enabled by default, but if not, make sure you [enable it](../../forms/spam-protection.mdx#spam-folder). If you have the _Spam Folder_ disabled, any submissions flagged as spam will never be stored in the database and can never ever be retrieved.
 
 The Spam Folder will hold every single flagged submission indefinitely until action is taken. We recommend you check on the submissions in this area at least every once in a while, but also set the [Automatically Purge Spam Submissions](../../configuration/settings.mdx#automatically-purge-spam-submissions) to something like every **30 days**. Once the submission has been purged, it's gone forever.
 

@@ -63,13 +63,13 @@ Freeform allows you to send email notifications upon submittal of a form 5 diffe
 
 - [Admin Notifications](../forms/email-notifications.mdx#admin)
   - Specify the email address(es) you'd like to be notified upon successful submission of form.
-- [Dynamic Recipients](../forms/email-notifications/#dynamic-recipients)
+- [Dynamic Recipients](../forms/email-notifications.mdx#dynamic-recipients)
   - Allow the user to choose from a predefined list of options to be emailed via select dropdown/radio group/checkbox group field.
-- [Dynamic Template Notifications](../forms/email-notifications/#dynamic-template-notifications)
+- [Dynamic Template Notifications](../forms/email-notifications.mdx#dynamic-template-notifications)
   - At the template level with the `dynamicNotification` parameter in the [Form query](../templates/queries/form.mdx).
-- [User/Submitter Notifications](../forms/email-notifications/#user-submitter-notifications)
+- [User/Submitter Notifications](../forms/email-notifications.mdx#user-submitter-notifications)
   - To the user submitting the form, with the email addresses specified/selected in the [Email](../forms/fields.mdx#email) field type.
-- [User-Defined](../forms/email-notifications/#user-defined)
+- [User-Defined](../forms/email-notifications.mdx#user-defined)
   - To a user-defined email address (e.g. Tell-a-Friend form), with the email addresses specified/selected in the [Email](../forms/fields.mdx#email) field type.
 
 <Photo img={EmailNotificationsListPhoto} alt="Email Notifications List" />
@@ -88,7 +88,7 @@ Freeform attempts to do all the heavy lifting when it comes to templating. Our l
 
 Forms can be generated on the front-end templates two different ways:
 
-1. By assigning one of the predefined formatting templates (stored as a standard Twig template in the **craft/templates** directory) inside the form builder and using the [Form query render()](../templates/queries/form/#usage-in-templates) method. This approach is very portable / DRY and works similarly to an include. Then simply insert 1 line of code in the template you want your form to load in:
+1. By assigning one of the predefined formatting templates (stored as a standard Twig template in the **craft/templates** directory) inside the form builder and using the [Form query render()](../templates/queries/form.mdx#usage-in-templates) method. This approach is very portable / DRY and works similarly to an include. Then simply insert 1 line of code in the template you want your form to load in:
    ```twig showLineNumbers
    {{ freeform.form("yourFormHandle").render() }}
    ```
@@ -98,12 +98,12 @@ Forms can be generated on the front-end templates two different ways:
 
 Freeform supports various popular [integrations](../integrations/index.mdx) so you can do more with your forms, such as accepting payments, subscribing users to email marketing lists, and capturing data in CRMs, etc.
 
-- [CRMs](../integrations/#crm)
-- [Email Marketing](../integrations/#email-marketing)
-- [Stripe Payments](../integrations/#other)
-- [Webhooks](../integrations/#webhooks)
-- [POST Forwarding](../integrations/#other)
-- [Craft Elements](../integrations/#craft-elements)
+- [CRMs](../integrations/index.mdx#crm)
+- [Email Marketing](../integrations/index.mdx#email-marketing)
+- [Stripe Payments](../integrations/index.mdx#other)
+- [Webhooks](../integrations/index.mdx#webhooks)
+- [POST Forwarding](../integrations/index.mdx#other)
+- [Craft Elements](../integrations/index.mdx#craft-elements)
 
 <Photo img={StripePaymentsPhoto} alt="Accept Payments through Stripe" />
 <Photo img={CrmIntBuilderPhoto} alt="CRM Integrations" />
@@ -162,7 +162,7 @@ When experiencing issues with your regular templates, always consider returning 
 
 ## Submissions
 
-Similar to Craft Entries, every time a user submits a form, we refer to those as [submissions](../submissions/overview/). Freeform submissions can be viewed and edited in the control panel and the front end in templates as a list and individually. Within the control panel, you can filter the view by form (or show across all forms), search into submissions, adjust which field columns are shown, and click into any of the submissions to edit them.
+Similar to Craft Entries, every time a user submits a form, we refer to those as [submissions](../submissions/overview.mdx). Freeform submissions can be viewed and edited in the control panel and the front end in templates as a list and individually. Within the control panel, you can filter the view by form (or show across all forms), search into submissions, adjust which field columns are shown, and click into any of the submissions to edit them.
 
 ### Submissions Query
 
