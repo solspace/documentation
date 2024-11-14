@@ -96,6 +96,7 @@ export default {
   PagesIcon: 'pages',
   PaletteIcon: 'palette',
   PaperPlaneIcon: 'paper-plane',
+  PDFIcon: 'pdf',
   PhoneIcon: 'phone',
   PlayButtonIcon: 'play-button',
   QuestionSignIcon: 'question-sign',
