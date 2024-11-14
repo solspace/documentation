@@ -380,7 +380,7 @@ const config: Config = {
           type: 'custom-productsList',
           position: 'right',
         },
-        { to: '/support', label: 'Support', position: 'right' },
+        { to: '/support/', label: 'Support', position: 'right' },
         {
           type: 'search',
           position: 'right',
