@@ -1,22 +1,15 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import Link from '@docusaurus/Link';
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import { useLocation } from '@docusaurus/router';
+import styles from './styles.module.css';
 import { translate } from '@docusaurus/Translate';
 import IconHome from '@theme/Icon/Home';
-import { useVersions } from '@docusaurus/plugin-content-docs/client';
-import { useDoc } from '@docusaurus/plugin-content-docs/client';
-import styles from './styles.module.css';
 
 export default function HomeBreadcrumbItem(): JSX.Element {
-  const {
-    metadata: { version },
-  } = useDoc();
-  const versions = useVersions(undefined);
-  const versionPath = useMemo(
-    () => versions.find((v) => v.name === version)?.path,
-    [versions, version]
-  );
-  const homeHref = useBaseUrl(versionPath);
+  const { pathname } = useLocation();
+  const basePath = pathname.split('/').slice(0, 3).join('/');
+  const versionMatch = pathname.match(/\/v\d+/);
+  const fullPath = versionMatch ? `${basePath}${versionMatch[0]}` : basePath;
 
   return (
     <li className="breadcrumbs__item">
@@ -27,7 +20,7 @@ export default function HomeBreadcrumbItem(): JSX.Element {
           description: 'The ARIA label for the home page in the breadcrumbs',
         })}
         className="breadcrumbs__link"
-        href={homeHref}
+        href={fullPath}
       >
         <IconHome className={styles.breadcrumbHomeIcon} />
       </Link>
