@@ -18,7 +18,7 @@ The most common issue users run into is email notifications not sending out prop
 - Is the form successfully being submitted? You can verify this by checking for submissions in the Freeform control panel. If you have the **Store Submitted Data** setting disabled for the form, consider enabling it temporarily to confirm this.
 - Have you checked the Freeform error log? The Freeform error log is located in the same place as the Craft logs (**Craft CP** -> **Server Info** (bottom of page) -> **Logs**). If there are no logged errors, you will not see the Freeform error log.
 - Have you assigned an email notification template to the _Email_ field, _Dynamic Recipients_ field, or admin _Notify_ area inside Composer for the given form? For all types of email notifications, they are assigned to fields or the form itself inside the Property Editor column (right side) in Composer.
-  - If using the [`dynamicNotification` parameter](../templates/queries/form#param-dynamicnotification) at template level, be sure to have the proper syntax and the proper email notification template name (with `.html` file extension if using HTML file).
+  - If using the [`dynamicNotification` parameter](../templates/queries/form.mdx#param-dynamicnotification) at template level, be sure to have the proper syntax and the proper email notification template name (with `.html` file extension if using HTML file).
 - Verify that your email notification template is using the correct syntax. Using incorrect syntax will result in a silent error and failure of the email notification sending. For all inputs such as **Subject** and **From Name**, as well as the **Email Body** area, the syntax is as follows:
   - All custom Freeform fields are `{{ fieldName }}`
     - E.g. `{{ firstName }}`, `{{ email }}`
@@ -110,10 +110,10 @@ Each purchase of Freeform entitles you to use it on one site (including dev/stag
 Freeform allows you to send [email notifications](../forms/email-notifications.mdx) upon submittal of a form 5 different ways, each with their own content/template:
 
 - To admin email address(es) for the form (set inside _Notify_ area of Composer)
-- To a predefined select menu/radios of email addresses (and labels) for the user to choose ([Dynamic Recipients](../forms/fields#fields-dynamic-recipients) field type).
-- To the user submitting the form, with the email addresses specified/selected in the [Email](../forms/fields#fields-email) field type.
-- To a user-defined email address (e.g Tell-a-Friend form), with the email addresses specified/selected in the [Email](../forms/fields#fields-email) field type.
-- At template level with the [dynamicNotification](../templates/queries/form#param-dynamicnotification) parameter.
+- To a predefined select menu/radios of email addresses (and labels) for the user to choose ([Dynamic Recipients](../forms/fields.mdx#fields-dynamic-recipients) field type).
+- To the user submitting the form, with the email addresses specified/selected in the [Email](../forms/fields.mdx#fields-email) field type.
+- To a user-defined email address (e.g Tell-a-Friend form), with the email addresses specified/selected in the [Email](../forms/fields.mdx#fields-email) field type.
+- At template level with the [dynamicNotification](../templates/queries/form.mdx#param-dynamicnotification) parameter.
 
 ### How many fields can I have?
 

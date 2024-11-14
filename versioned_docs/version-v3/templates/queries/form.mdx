@@ -15,7 +15,7 @@ import QueriesPhoto from '../assets/img/queries.png';
 The Form query returns a [Form object](../objects/form.mdx) containing its metadata and field objects. From there you can either render the form using the pre-selected formatting template by calling `form.render()` or take control of it by iterating over its fields and using `form.renderTag` and `form.renderClosingTag` methods.
 
 :::info
-Freeform will automatically insert javascript in the footer of the page for features such as [Spam Protection](../../forms/spam-protection.mdx), Submit disable on click, and other special field types. If you prefer to have this load inside the `<form></form>` tags, you can adjust the [Freeform Javascript Insertion Location](../../configuration/settings/#scripts-location) setting.
+Freeform will automatically insert javascript in the footer of the page for features such as [Spam Protection](../../forms/spam-protection.mdx), Submit disable on click, and other special field types. If you prefer to have this load inside the `<form></form>` tags, you can adjust the [Freeform Javascript Insertion Location](../../configuration/settings.mdx#scripts-location) setting.
 :::
 
 <Photo img={QueriesPhoto} alt="Queries" />
@@ -78,12 +78,12 @@ So following this format: `{{ craft.freeform.form("FORMHANDLE", {OVERRIDES}) }}`
     - Be sure to include the file extension, e.g. `formattingTemplate: 'template-name.html'`.
   - `suppress` <a href="#param-suppress" id="param-suppress" class="docs-anchor">#</a> <Badge type="feature" text="3.1.0+" />
 
-    - Allows you to suppress email notifications, API integrations and [Element Connections](../../integrations/elements.mdx) for a form by passing an object of suppressions you wish to enable, typically used for [editing submissions](../../submissions/submission-editing), e.g.:
+    - Allows you to suppress email notifications, API integrations and [Element Connections](../../integrations/elements.mdx) for a form by passing an object of suppressions you wish to enable, typically used for [editing submissions](../../submissions/submission-editing.mdx), e.g.:
 
-      - `adminNotifications: true` - suppress [Admin notifications](../../forms/email-notifications/#admin-notifications)
-      - `dynamicRecipients: true` - suppress [Dynamic Recipient notifications](../../forms/email-notifications#dynamic-recipients)
-      - `submitterNotifications: true` - suppress [Submitter email notifications](../../forms/email-notifications#usersubmitter-notifications)
-      - `api: true` - suppress [CRM](../../integrations#crm) and [Email Marketing](../../integrations/#email-marketing) integrations
+      - `adminNotifications: true` - suppress [Admin notifications](../../forms/email-notifications.mdx#admin-notifications)
+      - `dynamicRecipients: true` - suppress [Dynamic Recipient notifications](../../forms/email-notifications.mdx#dynamic-recipients)
+      - `submitterNotifications: true` - suppress [Submitter email notifications](../../forms/email-notifications.mdx#usersubmitter-notifications)
+      - `api: true` - suppress [CRM](../../integrations#crm) and [Email Marketing](../../integrations/index.mdx#email-marketing) integrations
       - `connections: true` - suppress creation of new elements via [Element Connections](../../integrations/elements.mdx) feature (will not disable Element _validation_, e.g. required fields, username already in use, etc).
       - `payments: true` - suppress [Payment](../../integrations/stripe-payments.mdx) integrations
       - `webhooks: true` - suppress any Webhooks for the form

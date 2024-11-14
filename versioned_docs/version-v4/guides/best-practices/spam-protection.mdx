@@ -30,8 +30,8 @@ You can use all or any combination of these. In many cases, using a combination 
 Typically, the most effective spam controls (in order) are:
 
 1. [reCAPTCHA](../../forms/spam-protection.mdx#captchas) or [hCaptcha](../../forms/spam-protection.mdx#captchas)
-2. Freeform Honeypot and [Javascript Enhancement](../../forms/spam-protection/#javascript-enhancement)
-   - Be careful when using the JS enhancement setting, as it could cause issues for you when you're caching the site and/or using something like _Vue.js_. Be sure to check out the [overview and warnings about it here](../../forms/spam-protection/#javascript-enhancement).
+2. Freeform Honeypot and [Javascript Enhancement](../../forms/spam-protection.mdx#javascript-enhancement)
+   - Be careful when using the JS enhancement setting, as it could cause issues for you when you're caching the site and/or using something like _Vue.js_. Be sure to check out the [overview and warnings about it here](../../forms/spam-protection.mdx#javascript-enhancement).
 3. Freeform Honeypot
 4. Keyword Blocking / Email Blocking
    - When attempting to block individual characters (e.g. Russian letters) or partial words or strings, be sure to make good use of the wildcard `*` character! E.g.: `*й*`, `*Д*`, `*url=http*`, etc.
@@ -92,7 +92,7 @@ href*
 <StepMarkdown>
 ### Enable the Spam Folder
 
-Freeform includes its own built-in **Spam Folder** which allows you to review blocked submissions and retrieve legitimate ones that have fallen through the cracks. This feature is enabled by default, but if not, make sure you [enable it](../../forms/spam-protection/#spam-folder). If you have the _Spam Folder_ disabled, any submissions flagged as spam will never be stored in the database and can never ever be retrieved.
+Freeform includes its own built-in **Spam Folder** which allows you to review blocked submissions and retrieve legitimate ones that have fallen through the cracks. This feature is enabled by default, but if not, make sure you [enable it](../../forms/spam-protection.mdx#spam-folder). If you have the _Spam Folder_ disabled, any submissions flagged as spam will never be stored in the database and can never ever be retrieved.
 
 The Spam Folder will hold every single flagged submission indefinitely until action is taken. We recommend you check on the submissions in this area at least every once in a while, but also set the [Automatically Purge Spam Submissions](../../configuration/settings.mdx#automatically-purge-spam-submissions) to something like every **30 days**. Once the submission has been purged, it's gone forever.
 
