@@ -4,7 +4,7 @@ sidebar_position: 6
 
 # Returning Submit to Same Page
 
-Aside from the obvious of using [AJAX](../../guides/templating/ajax-forms), you can achieve this by adding a query in the success URL instead of an additional segment, etc.
+Aside from the obvious of using [AJAX](../../guides/templating/ajax-forms.mdx), you can achieve this by adding a query in the success URL instead of an additional segment, etc.
 
 ## Instructions
 

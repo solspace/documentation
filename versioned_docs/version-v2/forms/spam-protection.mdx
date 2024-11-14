@@ -21,7 +21,7 @@ Freeform includes a variety of robust spam control features to make managing for
 
 ## Javascript Honeypot
 
-Freeform includes its own Honeypot spam protection feature. This is enabled by default, but can be disabled in the [Spam Settings](../configuration/settings#spam-settings). If enabled, you can specify the behavior Freeform takes when a spammy submission is detected with the [Spam Protection Behavior](../configuration/settings#spam-protection-behavior) setting:
+Freeform includes its own Honeypot spam protection feature. This is enabled by default, but can be disabled in the [Spam Settings](../configuration/settings.mdx#spam-settings). If enabled, you can specify the behavior Freeform takes when a spammy submission is detected with the [Spam Protection Behavior](../configuration/settings.mdx#spam-protection-behavior) setting:
 
 - **Simulate Success** (recommended)
   - If you have the [Spam Folder](#spam-folder) feature enabled, spammy submissions will go through to the Spam Folder in the Freeform control panel.
@@ -40,10 +40,10 @@ Freeform includes its own Honeypot spam protection feature. This is enabled by d
   - Honeypots are stored in the session for 3 hours, and then are removed.
     - Because this uses the session, this limit is also dependent on the server configuration for [session.gc_maxlifetime()](http://php.net/manual/en/session.configuration.php#ini.session.gc-maxlifetime) in `php.ini`. Typically the default might be `1440` seconds (24 minutes), but it's possible the default has been altered to something else.
 - When the form opens, the value is wrong by default, and then javascript swaps in the correct value.
-  - If the submission fails the honeypot test, it will then match the behavior of the [Spam Protection Behavior](../configuration/settings#spam-behavior) setting.
+  - If the submission fails the honeypot test, it will then match the behavior of the [Spam Protection Behavior](../configuration/settings.mdx#spam-behavior) setting.
 - The honeypot is not a hidden field, but is positioned absolutely with height `0` and width `0`, so the field is not visible.
 - This spam protection method requires javascript be enabled for the user's browser, otherwise it will fail.
-  - Freeform will automatically insert javascript in the footer of the page. If you prefer to have this load inside the `<form></form>` tags (for purposes of caching, etc), you can control this with the [Freeform Javascript Insertion Location](../configuration/settings#scripts-location) setting.
+  - Freeform will automatically insert javascript in the footer of the page. If you prefer to have this load inside the `<form></form>` tags (for purposes of caching, etc), you can control this with the [Freeform Javascript Insertion Location](../configuration/settings.mdx#scripts-location) setting.
 
 The Honeypot can also be manually rendered as follows:
 
@@ -72,9 +72,9 @@ When the [Use Spam Folder](../configuration/settings.mdx#spam-folder) setting is
 
 ## Spam Blocking
 
-Freeform gives you the ability to block multiple [email addresses](../configuration/settings#block-email), [keywords](../configuration/settings#block-keywords) and [IP addresses](../configuration/settings#block-ip). Separate multiples on new lines, and use `*` for wildcard (except on IP addresses).
+Freeform gives you the ability to block multiple [email addresses](../configuration/settings.mdx#block-email), [keywords](../configuration/settings.mdx#block-keywords) and [IP addresses](../configuration/settings.mdx#block-ip). Separate multiples on new lines, and use `*` for wildcard (except on IP addresses).
 
-- If the submission fails, it will then match the behavior of the [Spam Protection Behavior](../configuration/settings#spam-behavior) setting.
+- If the submission fails, it will then match the behavior of the [Spam Protection Behavior](../configuration/settings.mdx#spam-behavior) setting.
 - If you have the [Spam Folder](#spam-folder) feature enabled, spammy submissions will go through to the Spam Folder in the Freeform control panel.
 - You have the option to display errors for fields using a blocked email address or keyword, but we recommend only using this for troubleshooting purposes.
 
@@ -88,7 +88,7 @@ If your site is being attacked by spammers or you're concerned about it, you can
 
 ### reCAPTCHA <Badge type="pro" text="Pro" />
 
-If you wish to use _reCAPTCHA_ for your forms, enable the [reCAPTCHA](../configuration/settings#recaptcha) setting and fill in the reCAPTCHA _Site Key_ and _Secret Key_. To add reCAPTCHA to your forms, open up and edit each form and drag over the **reCAPTCHA** special field anywhere you like into your form layout.
+If you wish to use _reCAPTCHA_ for your forms, enable the [reCAPTCHA](../configuration/settings.mdx#recaptcha) setting and fill in the reCAPTCHA _Site Key_ and _Secret Key_. To add reCAPTCHA to your forms, open up and edit each form and drag over the **reCAPTCHA** special field anywhere you like into your form layout.
 
 _reCAPTCHA_ fields will render automatically like the rest of your fields in your form, but if you're building a form manually, you'd call it like this (using the Hash value for _reCAPTCHA_ field in Property Editor of Composer):
 

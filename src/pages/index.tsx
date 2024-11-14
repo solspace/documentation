@@ -55,7 +55,8 @@ export default function Home(): JSX.Element {
                 {
                   title: 'Express Forms',
                   icon: Icons.ExpressFormsIcon,
-                  fullCardLink: 'craft/express-forms',
+                  fullCardLink:
+                    'https://discontinued-docs.solspace.com/express-forms/',
                 },
               ]}
             />

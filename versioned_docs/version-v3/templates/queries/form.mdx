@@ -60,7 +60,7 @@ So following this format: `{{ craft.freeform.form("FORMHANDLE", {OVERRIDES}) }}`
     - Applies a `<form>` class name.
   - `id` <a href="#param-id" id="param-id" class="docs-anchor">#</a>
     - Overrides the `<form>` ID attribute.
-    - If using [AJAX](../../guides/templating/ajax-forms) and loading the same form more than once in the same template, be sure to specify this parameter for each instance so that AJAX submit can account for it correctly.
+    - If using [AJAX](../../guides/templating/ajax-forms.mdx) and loading the same form more than once in the same template, be sure to specify this parameter for each instance so that AJAX submit can account for it correctly.
   - `returnUrl` <a href="#param-returnurl" id="param-returnurl" class="docs-anchor">#</a>
     - Overrides the return URL for the form.
     - You can override the return URL manually with a hidden field or checkbox, etc named `formReturnUrl`, allowing for a more dynamic return URL dependent on the user's choice or action, as long as you hash the value as of Freeform 3.5.6+ (e.g. `<input type="checkbox" name="formReturnUrl" value="{{ 'whatever/my-url'|hash }}" />`).
@@ -83,7 +83,7 @@ So following this format: `{{ craft.freeform.form("FORMHANDLE", {OVERRIDES}) }}`
       - `adminNotifications: true` - suppress [Admin notifications](../../forms/email-notifications.mdx#admin-notifications)
       - `dynamicRecipients: true` - suppress [Dynamic Recipient notifications](../../forms/email-notifications.mdx#dynamic-recipients)
       - `submitterNotifications: true` - suppress [Submitter email notifications](../../forms/email-notifications.mdx#usersubmitter-notifications)
-      - `api: true` - suppress [CRM](../../integrations#crm) and [Email Marketing](../../integrations/index.mdx#email-marketing) integrations
+      - `api: true` - suppress [CRM](../../integrations/index.mdx#crm) and [Email Marketing](../../integrations/index.mdx#email-marketing) integrations
       - `connections: true` - suppress creation of new elements via [Element Connections](../../integrations/elements.mdx) feature (will not disable Element _validation_, e.g. required fields, username already in use, etc).
       - `payments: true` - suppress [Payment](../../integrations/stripe-payments.mdx) integrations
       - `webhooks: true` - suppress any Webhooks for the form

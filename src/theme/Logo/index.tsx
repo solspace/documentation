@@ -28,7 +28,7 @@ const logos: LogoItem[] = [
     src: 'img/calendar-icon.png',
   },
   {
-    pathname: '/craft/express-forms',
+    pathname: 'https://discontinued-docs.solspace.com/express-forms/',
     title: 'Express Forms',
     logoLine: 'for Craft',
     src: 'img/express-forms-icon.png',

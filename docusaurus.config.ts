@@ -23,8 +23,9 @@ const config: Config = {
   organizationName: 'solspace',
   projectName: 'solspace-documentation',
 
-  onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'throw',
+  onBrokenAnchors: 'ignore',
 
   markdown: {
     mermaid: true,
