@@ -54,14 +54,14 @@ The following field types are available ([see below for additional Pro Field Typ
     - Can be marked as required.
     - Can contain default text and/or placeholder.
     - Can set `maxlength` property.
-  - View [field specific properties for templating](../templates/objects/field#field-text).
+  - View [field specific properties for templating](../templates/objects/field.mdx#field-text).
 - **Textarea** <a href="#fields-textarea" id="fields-textarea" class="docs-anchor">#</a>
   - A simple multi-line input field.
     - Specify the number of rows the textarea should have.
     - Can be marked as required.
     - Can contain default text and/or placeholder.
     - Can set `maxlength` property.
-  - View [field specific properties for templating](../templates/objects/field#field-textarea).
+  - View [field specific properties for templating](../templates/objects/field.mdx#field-textarea).
 - **Email** <a href="#fields-email" id="fields-email" class="docs-anchor">#</a>
 
   - An input field that is flagged in Freeform to expect an email address value as well as possibility for receiving email notifications.
@@ -72,7 +72,7 @@ The following field types are available ([see below for additional Pro Field Typ
     - Required field type if you're using with a Mailing List API integration.
     - Can be marked as required.
     - Can contain default text and/or placeholder.
-  - View [field specific properties for templating](../templates/objects/field#field-email).
+  - View [field specific properties for templating](../templates/objects/field.mdx#field-email).
 
 - **Hidden** <a href="#fields-hidden" id="fields-hidden" class="docs-anchor">#</a>
   - A hidden field.
@@ -86,25 +86,25 @@ The following field types are available ([see below for additional Pro Field Typ
       - To make the first option empty, use **labels and values** approach with first option having **--** or **Please select...**, etc for the label, and leave option blank.
     - Can be marked as required.
     - Can specify default option to be selected.
-  - View [field specific properties for templating](../templates/objects/field#field-select).
+  - View [field specific properties for templating](../templates/objects/field.mdx#field-select).
 - **Checkbox** <a href="#fields-checkbox" id="fields-checkbox" class="docs-anchor">#</a>
   - A single checkbox field.
     - Has a default value of **Yes**, which can be overwritten with any value you want. The front end however, will always display the value as `1`, but upon submission, the value will be switched to the one you have set.
     - Can be marked as required, which would essentially require that this checkbox be checked.
     - Can be checked by default.
-  - View [field specific properties for templating](../templates/objects/field#field-checkbox).
+  - View [field specific properties for templating](../templates/objects/field.mdx#field-checkbox).
 - **Checkbox Group** <a href="#fields-checkbox-group" id="fields-checkbox-group" class="docs-anchor">#</a>
   - A group of checkboxes.
     - Can specify labels (with values assumed) or labels and values (that differ).
     - Can be marked as required.
     - Can specify which (if any) options to be checked by default.
-  - View [field specific properties for templating](../templates/objects/field#field-checkbox_group).
+  - View [field specific properties for templating](../templates/objects/field.mdx#field-checkbox_group).
 - **Radio Group** <a href="#fields-radio-group" id="fields-radio-group" class="docs-anchor">#</a>
   - A group of radio options.
     - Can specify labels (with values assumed) or labels and values (that differ).
     - Can be marked as required.
     - Can specify which (if any) option to be selected by default.
-  - View [field specific properties for templating](../templates/objects/field#field-radio_group).
+  - View [field specific properties for templating](../templates/objects/field.mdx#field-radio_group).
 - **File Upload** <a href="#fields-file-upload" id="fields-file-upload" class="docs-anchor">#</a>
   - A file upload field, using [Craft Assets](https://docs.craftcms.com/v3/assets.html).
     - Can allow a single file or multiple files (applies `multiple` attribute to the single file upload input) to be uploaded.
@@ -118,10 +118,10 @@ The following field types are available ([see below for additional Pro Field Typ
       - PHP [upload_max_filesize](http://us3.php.net/manual/en/ini.core.php#ini.upload-max-filesize)
     - Select which file types can be uploaded.
       - Leaving all options unchecked will allow ALL file types.
-    - In [multi-page forms](../forms/multi-page-forms), if an earlier page contains file upload field(s), files will actually be uploaded before the form is officially submitted.
+    - In [multi-page forms](../forms/multi-page-forms.mdx), if an earlier page contains file upload field(s), files will actually be uploaded before the form is officially submitted.
       - If the form is never completed, incomplete submissions are stored for 3hrs, and then are removed (along with the file(s)) after that.
     - Can be marked as required.
-  - View [field specific properties for templating](../templates/objects/field#field-file).
+  - View [field specific properties for templating](../templates/objects/field.mdx#field-file).
 - **Dynamic Recipients** <a href="#fields-dynamic-recipients" id="fields-dynamic-recipients" class="docs-anchor">#</a>
 
   - A select dropdown menu field that contains protected email addresses and labels for each.
@@ -139,7 +139,7 @@ The following field types are available ([see below for additional Pro Field Typ
     - Multiple email addresses can be specified for each option, separated by commas.
     - Can include more than 1 of this field type in your forms, allowing for multiple sets of recipients to be notified.
 
-  - View [field specific properties for templating](../templates/objects/field#field-dynamic_recipients).
+  - View [field specific properties for templating](../templates/objects/field.mdx#field-dynamic_recipients).
 
 ## Pro Field Types
 
@@ -151,7 +151,7 @@ The following extra field types are available with Freeform Pro:
     - Select a target field to compare with.
     - Can be marked as required.
     - Can contain default text and/or placeholder.
-  - View [field specific properties for templating](../templates/objects/field#field-confirmation).
+  - View [field specific properties for templating](../templates/objects/field.mdx#field-confirmation).
 
   <Photo img={ConfirmPhoto} alt="Confirm fieldtype" />
 
@@ -186,8 +186,8 @@ The following extra field types are available with Freeform Pro:
       - Currently doesn't work with the default Freeform date picker, but could be applied to a custom date picker.
     - Choose if placeholder should separate AM/PM with a space (for 12hr clock).
     - Can be marked as required.
-  * Freeform will automatically insert javascript in the footer of the page for this fieldtype. If you prefer to have this load inside the `<form></form>` tags (for purposes of caching, etc), you can adjust the [Freeform Javascript Insertion Location](../configuration/settings#scripts-location) setting.
-  * View [field specific properties for templating](../templates/objects/field#field-datetime).
+  * Freeform will automatically insert javascript in the footer of the page for this fieldtype. If you prefer to have this load inside the `<form></form>` tags (for purposes of caching, etc), you can adjust the [Freeform Javascript Insertion Location](../configuration/settings.mdx#scripts-location) setting.
+  * View [field specific properties for templating](../templates/objects/field.mdx#field-datetime).
 
 <Photo img={DateTimePhoto} alt="Date & Time fieldtype" />
 
@@ -210,7 +210,7 @@ The following extra field types are available with Freeform Pro:
       - `.`
     - Can be marked as required.
     - Can contain default text and/or placeholder.
-  - View [field specific properties for templating](../templates/objects/field#field-number).
+  - View [field specific properties for templating](../templates/objects/field.mdx#field-number).
 
   <Photo img={NumberPhoto} alt="Number fieldtype" />
 
@@ -222,7 +222,7 @@ The following extra field types are available with Freeform Pro:
       - If no pattern specified, Freeform will default to a universal phone number validation pattern.
     - Can be marked as required.
     - Can contain default text and/or placeholder.
-  * View [field specific properties for templating](../templates/objects/field#field-phone).
+  * View [field specific properties for templating](../templates/objects/field.mdx#field-phone).
 
 <Photo img={PhonePhoto} alt="Phone fieldtype" />
 
@@ -234,8 +234,8 @@ The following extra field types are available with Freeform Pro:
     - Select a "Hover" display color.
     - Select a "Selected" display color.
     - Can be marked as required.
-  - Freeform will automatically insert javascript in the footer of the page for this fieldtype. If you prefer to have this load inside the `<form></form>` tags (for purposes of caching, etc), you can disable the [Include Freeform Scripts in the Page Footer](../configuration/settings#scripts-footer) setting.
-  - View [field specific properties for templating](../templates/objects/field#field-rating).
+  - Freeform will automatically insert javascript in the footer of the page for this fieldtype. If you prefer to have this load inside the `<form></form>` tags (for purposes of caching, etc), you can disable the [Include Freeform Scripts in the Page Footer](../configuration/settings.mdx#scripts-footer) setting.
+  - View [field specific properties for templating](../templates/objects/field.mdx#field-rating).
 
 <Photo img={RatingPhoto} alt="Rating fieldtype" />
 
@@ -245,7 +245,7 @@ The following extra field types are available with Freeform Pro:
       - Any occurrences of `{{pattern}}` will be replaced with specified regex pattern inside the error message, if any are found.
     - Can be marked as required.
     - Can contain default text and/or placeholder.
-    * View [field specific properties for templating](../templates/objects/field#field-regex).
+    * View [field specific properties for templating](../templates/objects/field.mdx#field-regex).
 
 <Photo img={RegexPhoto} alt="Regex fieldtype" />
 
@@ -253,6 +253,6 @@ The following extra field types are available with Freeform Pro:
   - A simple input field that checks to see if the URL specified has valid syntax (`http://`, `https://`, `ftp://`, etc).
     - Can be marked as required.
     - Can contain default text and/or placeholder.
-  - View [field specific properties for templating](../templates/objects/field#field-website).
+  - View [field specific properties for templating](../templates/objects/field.mdx#field-website).
 
 <Photo img={WebsitePhoto} alt="Website fieldtype" />

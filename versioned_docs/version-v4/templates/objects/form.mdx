@@ -9,7 +9,7 @@ import { Badge } from '@site/src/components/utils';
 The Form object contains its metadata and field objects. You can either render the form using the pre-selected formatting template by calling `form.render()` or achieve a more fine-grained control over it by iterating over its rows and fields and using `form.renderTag` and `form.renderClosingTag` methods.
 
 :::info
-Freeform will automatically insert javascript in the footer of the page for features such as [Spam Protection](../../forms/spam-protection.mdx), Submit disable on click, and other special fieldtypes. If you prefer to have this load inside the `<form></form>` tags, you can adjust the [Freeform Javascript Insertion Location](../../configuration/settings#scripts-location) setting.
+Freeform will automatically insert javascript in the footer of the page for features such as [Spam Protection](../../forms/spam-protection.mdx), Submit disable on click, and other special fieldtypes. If you prefer to have this load inside the `<form></form>` tags, you can adjust the [Freeform Javascript Insertion Location](../../configuration/settings.mdx#scripts-location) setting.
 :::
 
 ## Properties
@@ -77,7 +77,7 @@ You can run a conditional check on this with the following:
 
 ### `submissionLimitReached` <Badge type="feature" text="4.0.9+" />
 
-A bool variable, which will be `true` if the form has the **Limit Form Submission Rate** setting enabled ([duplicate submission check](../../submissions/submission-limits#per-user)) and the user has already submitted the form.
+A bool variable, which will be `true` if the form has the **Limit Form Submission Rate** setting enabled ([duplicate submission check](../../submissions/submission-limits.mdx#per-user)) and the user has already submitted the form.
 
 ### **Custom Attributes** (`customAttributes`)
 
@@ -230,7 +230,7 @@ Use session success flash message variable (displays only once) for when form is
 
 ### Error when Limit Reached
 
-Display a message when form [submission limit (per user)](../../submissions/submission-limits#per-user) is reached:
+Display a message when form [submission limit (per user)](../../submissions/submission-limits.mdx#per-user) is reached:
 
 ```twig {3-6} showLineNumbers
 {% set form = craft.freeform.form("myForm") %}

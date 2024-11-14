@@ -21,7 +21,7 @@ Freeform includes a variety of robust spam control features to make managing for
 
 ## Freeform Honeypot
 
-Freeform includes its own Honeypot spam protection feature. This is enabled by default, but can be disabled in the [Spam Settings](../configuration/settings#spam-settings). If enabled, you can specify the behavior Freeform takes when a spammy submission is detected with the [Spam Protection Behavior](../configuration/settings#spam-protection-behavior) setting:
+Freeform includes its own Honeypot spam protection feature. This is enabled by default, but can be disabled in the [Spam Settings](../configuration/settings.mdx#spam-settings). If enabled, you can specify the behavior Freeform takes when a spammy submission is detected with the [Spam Protection Behavior](../configuration/settings.mdx#spam-protection-behavior) setting:
 
 - **Simulate Success** (recommended)
   - If you have the [Spam Folder](#spam-folder) feature enabled, spammy submissions will go through to the Spam Folder in the Freeform control panel.
@@ -45,7 +45,7 @@ The **Javascript Enhancement** is not necessary for quality spam protection. If 
   - Honeypots are stored in the session for 3 hours, and then are removed.
     - Because this uses the session, this limit is also dependent on the server configuration for [session.gc_maxlifetime()](http://php.net/manual/en/session.configuration.php#ini.session.gc-maxlifetime) in `php.ini`. Typically the default might be `1440` seconds (24 minutes), but it's possible the default has been altered to something else.
 - When the form opens, the value is wrong by default, and then javascript swaps in the correct value.
-  - If the submission fails the honeypot test, it will then match the behavior of the [Spam Protection Behavior](../configuration/settings#spam-behavior) setting.
+  - If the submission fails the honeypot test, it will then match the behavior of the [Spam Protection Behavior](../configuration/settings.mdx#spam-behavior) setting.
 - The honeypot is not a hidden field, but is positioned absolutely with height `0` and width `0`, so the field is not visible.
 - This spam protection method requires javascript be enabled for the user's browser, otherwise it will fail.
   - Freeform will automatically insert javascript in the footer of the page. If you prefer to have this load inside the `<form></form>` tags (for purposes of caching, etc), you can control this with the [Freeform Javascript Insertion Location](../configuration/settings.mdx#scripts-location) setting.

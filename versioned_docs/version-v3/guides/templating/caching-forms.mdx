@@ -20,7 +20,7 @@ When using simple [Craft Caching](https://craftcms.com/docs/5.x/reference/twig/t
 
 ### Refresh Form Hash & CSRF Token only
 
-For when NOT using with the [JS Enhancement](../../forms/spam-protection#javascript-enhancement) feature:
+For when NOT using with the [JS Enhancement](../../forms/spam-protection.mdx#javascript-enhancement) feature:
 
 ```twig showLineNumbers
 {# Initialize the form #}
@@ -59,7 +59,7 @@ If using **PHP Sessions** or **Database Tables** for _Freeform Session Context_,
 
 ### Refresh Form Hash, JS Honeypot & CSRF Token
 
-For when using the [JS Enhancement](../../forms/spam-protection#javascript-enhancement) feature:
+For when using the [JS Enhancement](../../forms/spam-protection.mdx#javascript-enhancement) feature:
 
 ```twig showLineNumbers
 {# Initialize the form #}
@@ -102,7 +102,7 @@ There's one problem with full page caching though. Forms stop working after a wh
 
 You can overcome this problem of expired CSRF tokens in Craft CMS with some simple javascript and a little Twig template code.
 
-1. Create a separate Twig template to handle loading the refreshed tokens with the following line of code (leave out the `honeypot: craft.freeform.honeypot(form),` line if you're NOT using the Freeform [JS Enhancement](../../forms/spam-protection#javascript-enhancement) feature):
+1. Create a separate Twig template to handle loading the refreshed tokens with the following line of code (leave out the `honeypot: craft.freeform.honeypot(form),` line if you're NOT using the Freeform [JS Enhancement](../../forms/spam-protection.mdx#javascript-enhancement) feature):
    ```twig showLineNumbers
    {% set form = craft.freeform.form(craft.app.request.get('form')) %}
    {{ {
@@ -212,6 +212,5 @@ Just to clarify, your final code for the template with the form inside it might 
 ```
 
 :::tip
-[Using a form more than once in the same template? Be sure to specify the `id` parameter for the _Form_ query in your template with unique values.
-](./multiple-instances-of-same-form)
+[Using a form more than once in the same template? Be sure to specify the `id` parameter for the _Form_ query in your template with unique values.](./multiple-instances-of-same-form.md)
 :::

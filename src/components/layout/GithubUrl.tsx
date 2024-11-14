@@ -11,7 +11,6 @@ const githubUrls = [
     pathname: '/craft/calendar',
     link: 'https://github.com/solspace/craft-calendar/',
   },
-  { pathname: '/craft/express-forms', link: 'https://github.com/solspace/' },
   {
     pathname: '/expressionengine/freeform',
     link: 'https://github.com/solspace/',
