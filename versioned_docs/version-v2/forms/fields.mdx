@@ -53,7 +53,7 @@ There is currently a limit (around 130+) on the number of Freeform fields for ea
   - [HTML](#fields-html)
   - [Confirm](#fields-confirm)
   - [Password](#fields-password)
-  - [reCAPTCHA <Badge type="pro" text="Pro" />](#fields-recaptcha)
+  - [reCAPTCHA<Badge type="pro" text="Pro" />](#fields-recaptcha)
 - [Populating Fields with Elements & Predefined Options](#populating-fields-with-elements--predefined-options)
   - [Available Fields](#available-fields)
   - [Available Craft Elements](#available-craft-elements)
@@ -118,7 +118,7 @@ The following field types are available ([see below for additional Pro Field Typ
     - Can be marked as required.
     - Can contain default text and/or placeholder.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-email).
-- **Number** <Badge type="feature" text="Pro only prior to 2.3.0" /> <a href="#fields-number" id="fields-number" class="docs-anchor">#</a>
+- **Number**<Badge type="feature" text="Pro only prior to 2.3.0" /> <a href="#fields-number" id="fields-number" class="docs-anchor">#</a>
   - An input field that is validated to contain numbers only, based on several configuration options.
     - Choose if validation should allow negative numbers.
     - Optionally set Min/Max values.
@@ -160,7 +160,7 @@ The following field types are available ([see below for additional Pro Field Typ
   - View [field specific properties for templating](../templates/objects/field.mdx#field-multiple_select).
 - **Checkbox** <a href="#fields-checkbox" id="fields-checkbox" class="docs-anchor">#</a>
   - A single checkbox field.
-    - Can be rendered vertically or horizontally. <Badge type="feature" text="2.5.0+" />
+    - Can be rendered vertically or horizontally.<Badge type="feature" text="2.5.0+" />
     - Has a default value of **Yes**, which can be overwritten with any value you want. The front end however, will always display the value as `1`, but upon submission, the value will be switched to the one you have set.
     - Can be marked as required, which would essentially require that this checkbox be checked.
     - Can be checked by default.
@@ -175,7 +175,7 @@ The following field types are available ([see below for additional Pro Field Typ
 - **Radio Group** <a href="#fields-radio-group" id="fields-radio-group" class="docs-anchor">#</a>
   - A group of radio options.
     - Can specify labels (with values assumed) or labels and values (that differ).
-    - Can be rendered vertically or horizontally. <Badge type="feature" text="2.5.0+" />
+    - Can be rendered vertically or horizontally.<Badge type="feature" text="2.5.0+" />
     - Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-fields-with-elements-predefined-options).
     - Can be marked as required.
     - Can specify which (if any) option to be selected by default.
@@ -199,8 +199,8 @@ The following field types are available ([see below for additional Pro Field Typ
   - View [field specific properties for templating](../templates/objects/field.mdx#field-file).
 - **Dynamic Recipients** <a href="#fields-dynamic-recipients" id="fields-dynamic-recipients" class="docs-anchor">#</a>
   - A select dropdown menu field that contains protected email addresses and labels for each.
-    - Can be switched to Radio or Checkbox options <Badge type="feature" text="2.1.0+" /> at form level inside Composer.
-    - Can be rendered vertically or horizontally. <Badge type="feature" text="2.5.0+" />
+    - Can be switched to Radio or Checkbox options<Badge type="feature" text="2.1.0+" /> at form level inside Composer.
+    - Can be rendered vertically or horizontally.<Badge type="feature" text="2.5.0+" />
     - Specify labels and email address values.
       - Emails are never parsed in source code (they're replaced with **0**, **1**, **2**, etc).
         - **NOTE:** When parsing this field semi-manually, be sure to use `loop.index0` to generate numeric values of options instead of `fieldName.value`.
@@ -248,7 +248,7 @@ The following extra field types are available with Freeform Pro:
     - Choose if placeholder should display lowercase AM/PM (for 12hr clock).
       - Currently doesn't work with the default Freeform date picker, but could be applied to a custom date picker.
     - Choose if placeholder should separate AM/PM with a space (for 12hr clock).
-    - Select the Min and Max dates for the date picker and validation (optional). Use static dates (e.g. `2018-11-01`, `2018-11-30`) or relative date strings (e.g. `-10 days`, `+3 months`). <Badge type="feature" text="2.5.0+" />
+    - Select the Min and Max dates for the date picker and validation (optional). Use static dates (e.g. `2018-11-01`, `2018-11-30`) or relative date strings (e.g. `-10 days`, `+3 months`).<Badge type="feature" text="2.5.0+" />
     - Can be marked as required.
   - Freeform will automatically insert javascript in the footer of the page for this fieldtype. If you prefer to have this load inside the `<form></form>` tags (for purposes of caching, etc), you can adjust the [Freeform Javascript Insertion Location](../configuration/settings.mdx#scripts-location) setting.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-datetime).
@@ -257,7 +257,7 @@ The following extra field types are available with Freeform Pro:
 
 - **Phone** <a href="#fields-phone" id="fields-phone" class="docs-anchor">#</a>
   - An input field that is validated to contain phone numbers only, based on a configured pattern.
-    - Set pattern to desired format, where `0` is a digit between `0` and `9`, e.g: <Badge type="feature" text="Improved in 2.2.0" />
+    - Set pattern to desired format, where `0` is a digit between `0` and `9`, e.g:<Badge type="feature" text="Improved in 2.2.0" />
       - `(000) 000-0000`
       - `+0 0000 000000`
       - Check off _Use JS validation_ checkbox to have Freeform include JS in the form that validates the format and auto-inserts the extra characters like `(`, `-`, `+` etc).
@@ -320,19 +320,19 @@ Special fields are ones that either every form needs (such as Submit button), on
   - Layout column will live parse your HTML.
   - All HTML is allowed here.
   - You can include as many of these in your form as you wish.
-- **Confirm** <Badge type="feature" text="Improved in 2.2.0" /> <a href="#fields-confirm" id="fields-confirm" class="docs-anchor">#</a>
+- **Confirm**<Badge type="feature" text="Improved in 2.2.0" /> <a href="#fields-confirm" id="fields-confirm" class="docs-anchor">#</a>
   - Allows you to force a user to enter a matching value for another field, including [Password](#fields-password) special field (e.g. "Confirm Email Address").
     - Select a target field to compare with.
     - Can be marked as required.
     - Can contain default text and/or placeholder.
-- **Password** <Badge type="feature" text="2.2.0+" /> <a href="#fields-password" id="fields-password" class="docs-anchor">#</a>
+- **Password**<Badge type="feature" text="2.2.0+" /> <a href="#fields-password" id="fields-password" class="docs-anchor">#</a>
   - Allows you to collect a password from a submitter, **but NOT store the value in the database**.
     - Useful for [creating a user registration form](../guides/speciality-forms/user-registration-forms.mdx) (using the [Element Connections](./element-connections.mdx) feature) and in other very specific use-cases where you're passing the password off somewhere else.
     - Collected data is not stored in Freeform anywhere, nor is it included in the Submission object or `allFields` variable in [email notifications](./email-notifications.mdx#all-fields).
     - When using with Users [Element Connections](./element-connections.mdx) feature, the password will be passed off to Craft's [Users](https://docs.craftcms.com/v3/users.html) member account feature.
     - Can be marked as required.
     - Can contain default text and/or placeholder.
-- **reCAPTCHA** <Badge type="pro" text="Pro" /> <a href="#fields-recaptcha" id="fields-recaptcha" class="docs-anchor">#</a>
+- **reCAPTCHA**<Badge type="pro" text="Pro" /> <a href="#fields-recaptcha" id="fields-recaptcha" class="docs-anchor">#</a>
   - Built in support for [reCAPTCHA](https://www.google.com/recaptcha.mdx).
   - See [reCAPTCHA documentation](./spam-protection.mdx#recaptcha) for more information.
   - _reCAPTCHA_ fields will render automatically like the rest of your fields in your form, but if you're building a form manually, you'd call it like this (using the Hash value for _reCAPTCHA_ field in Property Editor of Composer):
@@ -404,7 +404,7 @@ The following Craft Elements can be fed to the above field types:
     - Slug
     - URI
     - Fields (simple values)
-- **[Craft Assets](https://docs.craftcms.com/v3/assets.html)** <Badge type="feature" text="2.5.0+" />
+- **[Craft Assets](https://docs.craftcms.com/v3/assets.html)**<Badge type="feature" text="2.5.0+" />
   - **Target** asset groups or all groups.
   - **Option Label** and **Option Value** choices:
     - Filename
@@ -422,7 +422,7 @@ The following Freeform predefined options can be fed to the above field types:
   - **Option Label** and **Option Value** choices:
     - Full
     - Abbreviated (upper case 2 letters)
-- **States & Territories** <Badge type="feature" text="2.5.4+" />
+- **States & Territories**<Badge type="feature" text="2.5.4+" />
   - Official USA States and territories
   - **Option Label** and **Option Value** choices:
     - Full

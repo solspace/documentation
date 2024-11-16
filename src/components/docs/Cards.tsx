@@ -167,7 +167,7 @@ const Card: React.FC<CardProps> = ({
             }`}
           >
             {title}
-            {titleBadge && <Badge type="feature" text={titleBadge} />}
+            {titleBadge &&<Badge type="feature" text={titleBadge} />}
           </h3>
           {description && (
             <p className="text-sm text-gray-700 mb-1 dark:text-gray-300 transition-all duration-500 dark:group-hover:text-gray-50 ">
@@ -193,7 +193,7 @@ const Card: React.FC<CardProps> = ({
       <div className="pl-2">
         <h3 className="text-lg font-semibold mb-0 text-black dark:text-white">
           {title}
-          {titleBadge && <Badge type="feature" text={titleBadge} />}
+          {titleBadge &&<Badge type="feature" text={titleBadge} />}
         </h3>
         <p className="text-gray-700 mb-1 dark:text-gray-300 leading-6">
           {description}{' '}
@@ -246,7 +246,7 @@ const PromoCard: React.FC<CardProps> = ({
           }`}
         >
           {title}
-          {titleBadge && <Badge type="feature" text={titleBadge} />}
+          {titleBadge &&<Badge type="feature" text={titleBadge} />}
         </h3>
         {description && (
           <p className="text-sm text-gray-700 mb-1 dark:text-gray-300 transition-all duration-500 dark:group-hover:text-gray-50 ">
@@ -317,7 +317,7 @@ const FieldCards: React.FC<FieldCardsProps> = ({ items }) => {
             <h3 className="flex justify-center text-base font-semibold mb-0 text-black dark:text-white">
               {item.title}{' '}
               {item.titleBadge && (
-                <Badge type="feature" text={item.titleBadge} />
+               <Badge type="feature" text={item.titleBadge} />
               )}
             </h3>
             <p className="text-xs mb-1 text-gray-800 dark:text-gray-300 transition-all duration-500 dark:group-hover:text-gray-50 ">

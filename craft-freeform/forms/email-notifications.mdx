@@ -35,8 +35,8 @@ Email notifications may not work as expected when using **Sendmail** on your loc
 Freeform allows you to send email notifications 6 different ways (all of them each being able to have their own notification templates, etc):
 
 - [Admin](#admin)
-- [Conditional](#conditional) <Badge type="pro" text="Pro" />
-- [User Select](#user-select) <BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+- [Conditional](#conditional)<Badge type="pro" text="Pro" />
+- [User Select](#user-select)<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 - [Email Fields](#email-fields)
 - [User-Defined](#user-defined)
 - [Template-based](#template-based)
@@ -332,10 +332,10 @@ The HTML body of the email notification to be sent.
 - May include any Freeform field variable (`fieldName`) as well as `form.name`, `form.id`, `form.handle` and `dateCreated`.
 - Available field options:
     - `fieldName.label` - displays the label (name) of the field.
-    - `fieldName` or `fieldName.value` or `fieldName.valueAsString` - displays the data submitted. <Badge type="feature" text="Revised for 5.0+" />
+    - `fieldName` or `fieldName.value` or `fieldName.valueAsString` - displays the data submitted.<Badge type="feature" text="Revised for 5.0+" />
     - Example: `apples`
     - Array of data example: `apples, oranges`
-    - `fieldName.labels` or `fieldName.labelsAsString` - displays the option label(s) submitted (for fields with options). <Badge type="feature" text="New in 5.0+" />
+    - `fieldName.labels` or `fieldName.labelsAsString` - displays the option label(s) submitted (for fields with options).<Badge type="feature" text="New in 5.0+" />
     - Example: `Apples`
     - Array of data example: `Apples, Oranges`
         :::warning
@@ -349,10 +349,10 @@ The HTML body of the email notification to be sent.
     - To benefit from inclusion of HTML and Rich Text blocks correctly rendering HTML, you'll need to use a conditional inside the loop and add the `|raw` filter to `field.value`. [See example below](#include-html-and-rich-text-blocks).
 - Available options:
     - `field.label` - displays the label (name) of the field.
-    - `field.valueAsString` - displays the option value(s) submitted. <Badge type="feature" text="Revised for 5.0+" />
+    - `field.valueAsString` - displays the option value(s) submitted.<Badge type="feature" text="Revised for 5.0+" />
     - Example: `apples`
     - Array of data example: `apples, oranges`
-    - `field.labelsAsString` - displays the option label(s) submitted (for fields with options). <Badge type="feature" text="New in 5.0+" />
+    - `field.labelsAsString` - displays the option label(s) submitted (for fields with options).<Badge type="feature" text="New in 5.0+" />
     - Example: `Apples`
     - Array of data example: `Apples, Oranges`
         :::warning
@@ -393,13 +393,13 @@ The Plain Text body of the email notification to be sent.
 - To use HTML only, leave the Plain Text field empty. To use Plain Text only, leave the HTML field empty. To use HTML with a Plain Text fallback, use both.
 - When making templates directly (outside of the control panel), simply wrap an additional set of email body contents with `{# text #} {# /text #}` in your notification template. [See example below](#include-a-text-only-version).
 
-### Predefined Assets <Badge type="pro" text="Pro" />
+### Predefined Assets<Badge type="pro" text="Pro" />
 Select any Assets you wish to include as attachments on all email notifications using this template.
 
 - Useful if you wish to include a PDF ticket or instructions document to submitter email notifictions, etc.
 - Can also preparse Twig, allowing you to dynamically attach an asset to the email notification based on a user's selection, etc.
 
-### PDF Templates <Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.7+" />
+### PDF Templates<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.7+" />
 Select any PDF Templates you wish to generate and include as attachments on all email notifications using this template.
 
 ## Examples

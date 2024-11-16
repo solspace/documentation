@@ -12,23 +12,23 @@ import { Badge } from '@site/src/components/utils';
 
 Forms and pages can be cached in a variety of ways. Here are 2 different solutions, depending on your caching approach:
 
-- [Twig Template Caching](#twig-template-caching-)
-- [Static Page Caching / CDN / Blitz](#static-page-caching--cdn--blitz-)
+- [Twig Template Caching](#twig-template-caching)
+- [Static Page Caching / CDN / Blitz](#static-page-caching--cdn--blitz)
 
 :::tip
 [Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../testing/troubleshooting-form-issues.mdx)
 :::
 
-## Twig Template Caching <Badge type="feature" text="Revised in 5.0+" />
+## Twig Template Caching<Badge type="feature" text="Revised in 5.0+" />
 
 When using simple [Craft Caching](https://craftcms.com/docs/5.x/reference/twig/tags.html#cache), you'll need to make sure that you are refreshing the [CSRF token](https://craftcms.com/docs/5.x/reference/twig/functions.html#csrfinput).
 
 There are two approaches you can take:
 
-- [Using Craft's `asyncCsrfInputs` Setting](#using-crafts-asynccsrfinputs-setting-) <Badge type="recommended" text="Recommended" />
+- [Using Craft's `asyncCsrfInputs` Setting](#using-crafts-asynccsrfinputs-setting)<Badge type="recommended" text="Recommended" />
 - [Manually Refresh CSRF in Template](#manually-refresh-csrf-in-template)
 
-### Using Craft's `asyncCsrfInputs` Setting <Badge type="recommended" text="Recommended" />
+### Using Craft's `asyncCsrfInputs` Setting<Badge type="recommended" text="Recommended" />
 The simplest approach you can take is enabling Craft's [`asyncCsrfInputs`](https://craftcms.com/docs/5.x/reference/config/general.html#asynccsrfinputs) setting. It will automatically take care of the CSRF token for you and you don't need to do anything else.
 
 <Tabs>
@@ -77,7 +77,7 @@ If you need wish to refresh the CSRF token manually instead, this can be done wi
 </script>
 ```
 
-## Static Page Caching / CDN / Blitz <Badge type="feature" text="Revised in 5.0+" />
+## Static Page Caching / CDN / Blitz<Badge type="feature" text="Revised in 5.0+" />
 
 Services like [CloudFlare](http://cloudflare.com) allow you to cache components of web pages like JS, CSS and images. But you can also cache entire web pages; the complete HTML of a page. They then distribute these cached copies of pages across their global network of data centers. This makes websites screaming fast. The [Blitz](https://plugins.craftcms.com/blitz) Craft plugin is another way for static page caching.
 

@@ -81,8 +81,8 @@ You can add your custom form handler scripts anywhere in the page. The `freeform
 If you wish to manually load the Freeform JS elsewhere in your template (rather than having Freeform automatically insert it inside the Freeform form or in the page footer), be sure to select the `None` option for the [Script Insertion Location](../configuration/settings.mdx#general-settings) setting. Then, you'll need to add the `freeform.loadFreeformPlugin()` function to your template where you'd like it to insert the JS. You can pass two variables to the function to add custom attributes to the script and style tags that Freeform generates.
 
 - `freeform.loadFreeformPlugin()` - will load Freeform's global `freeform.js` and `freeform.css` files.
-- `freeform.loadFormSpecificScripts(form)` <Badge type="feature" text="New in 5.5.3+" /> - will load form-specific scripts such as **reCAPTCHA** and the **JS Test** scripts, where applicable. Be sure to pass the form to this function. If `form` is already defined, you can use that.
-- `freeform.loadScripts()` <Badge type="recommended" text="Recommended" /><Badge type="feature" text="New in 5.5.4+" /> - capable of generating any of Freeform's scripts when you specify them.
+- `freeform.loadFormSpecificScripts(form)`<Badge type="feature" text="New in 5.5.3+" /> - will load form-specific scripts such as **reCAPTCHA** and the **JS Test** scripts, where applicable. Be sure to pass the form to this function. If `form` is already defined, you can use that.
+- `freeform.loadScripts()`<Badge type="recommended" text="Recommended" /><Badge type="feature" text="New in 5.5.4+" /> - capable of generating any of Freeform's scripts when you specify them.
   - Options are:
     - `freeform` (loads Freeform's main `freeform.js` and `freeform.css` files)
     - `freeform.js-test`
@@ -213,7 +213,7 @@ This event has the following properties:
 
 - `form` - the `<form>` element.
 - `freeform` - the Freeform JS Plugin instance.
-- `addCallback(callback: () => Promise<void | boolean>, prority?: number)` <Badge type="feature" text="New in 5.0+" /> - an async function which lets you add a callback to be executed before the form is submitted. It will lock the submit process until finished. The callback should return `true` or nothing to allow the form to be submitted, or `false` to prevent the form from being submitted.
+- `addCallback(callback: () => Promise<void | boolean>, prority?: number)`<Badge type="feature" text="New in 5.0+" /> - an async function which lets you add a callback to be executed before the form is submitted. It will lock the submit process until finished. The callback should return `true` or nothing to allow the form to be submitted, or `false` to prevent the form from being submitted.
 - `isBackButtonPressed` - a `boolean` value which specifies if the Back button was pressed or not.
 
 ```js showLineNumbers
