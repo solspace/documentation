@@ -73,10 +73,10 @@ So following this format: `{{ craft.freeform.form("FORMHANDLE", {OVERRIDES}) }}`
   - `status` <a href="#param-status" id="param-status" class="docs-anchor">#</a>
     - Overrides the default status of the generated submission.
     - Can be either an `ID` or `handle` of an existing `Status` record.
-  - `formattingTemplate` <Badge type="feature" text="3.8.0+" />
+  - `formattingTemplate`<Badge type="feature" text="3.8.0+" />
     - Allows you to override/set a formatting template for a form at template level.
     - Be sure to include the file extension, e.g. `formattingTemplate: 'template-name.html'`.
-  - `suppress` <a href="#param-suppress" id="param-suppress" class="docs-anchor">#</a> <Badge type="feature" text="3.1.0+" />
+  - `suppress` <a href="#param-suppress" id="param-suppress" class="docs-anchor">#</a><Badge type="feature" text="3.1.0+" />
 
     - Allows you to suppress email notifications, API integrations and [Element Connections](../../integrations/elements.mdx) for a form by passing an object of suppressions you wish to enable, typically used for [editing submissions](../../submissions/submission-editing.mdx), e.g.:
 
@@ -90,7 +90,7 @@ So following this format: `{{ craft.freeform.form("FORMHANDLE", {OVERRIDES}) }}`
 
     - You can also just set this to `true` (`suppress: true`) to enable all suppressions at once.
 
-  - `relations` <a href="#param-relations" id="param-relations" class="docs-anchor">#</a> <Badge type="feature" text="3.2.0+" /> <Badge type="pro" text="Pro" />
+  - `relations` <a href="#param-relations" id="param-relations" class="docs-anchor">#</a><Badge type="feature" text="3.2.0+" /><Badge type="pro" text="Pro" />
 
     - This is a powerful feature that allows you to relate the posted submission to any other Craft Element, as long as it contains a [Freeform Submissions element field type](../../forms/fieldtype.mdx). This allows you to quickly turn Freeform into a plugin replacement for Comments, Reviews, Ratings, and more!
 
@@ -130,11 +130,11 @@ So following this format: `{{ craft.freeform.form("FORMHANDLE", {OVERRIDES}) }}`
     - For Database entry based templates, specify the handle for `template`.
     - For Twig file based templates, specify the full file name including **.html** for `template`.
     - **NOTE:** this feature uses Session data. It will likely not work properly if the page is cached with something like Varnish, etc.
-  * `disableRecaptcha: true` <a href="#param-disablerecaptcha" id="param-disablerecaptcha" class="docs-anchor">#</a> <Badge type="feature" text="3.9+" />
+  * `disableRecaptcha: true` <a href="#param-disablerecaptcha" id="param-disablerecaptcha" class="docs-anchor">#</a><Badge type="feature" text="3.9+" />
     - Allows you to disable Captchas such as reCAPTCHA v2 Invisible and v3 per form at template level.
-  * `disableHoneypot: true` <Badge type="feature" text="3.12+" />
+  * `disableHoneypot: true`<Badge type="feature" text="3.12+" />
     - Allows you to disable the Freeform Honeypot feature per form at template level.
-  * `postForwarding` <Badge type="feature" text="3.12+" />
+  * `postForwarding`<Badge type="feature" text="3.12+" />
     - Allows you to override POST Forwarding settings (in form builder) for the form at template level.
       ```twig showLineNumbers
       postForwarding: {
@@ -144,7 +144,7 @@ So following this format: `{{ craft.freeform.form("FORMHANDLE", {OVERRIDES}) }}`
       ```
   * `submissionToken` <a href="#param-submissiontoken" id="param-submissiontoken" class="docs-anchor">#</a>
     - Provide the submission `token` from the `submission` object to switch the form into **edit mode** and allow [editing of submissions on front end](../../submissions/submission-editing.mdx).
-  * Custom Form Properties <a href="#param-custom-properties" id="param-custom-properties" class="docs-anchor">#</a> <Badge type="feature" text="3.12+" />
+  * Custom Form Properties <a href="#param-custom-properties" id="param-custom-properties" class="docs-anchor">#</a><Badge type="feature" text="3.12+" />
     - You can pass custom properties and values into the form payload and then display or perform conditionals on them. For example, in your main template (where `showFormTitle` is just a custom property):
       ```
       {{ form.render({ showFormTitle: true }) }}
