@@ -46,6 +46,7 @@ export function GithubUrl(): JSX.Element {
       target="_blank"
       rel="noopener noreferrer"
       className="github-icon"
+      title="GitHub"
     >
       <GithubIcon />
     </Link>
