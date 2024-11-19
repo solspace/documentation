@@ -19,31 +19,31 @@ const logos: LogoItem[] = [
     pathname: '/craft/freeform',
     title: 'Freeform',
     logoLine: 'for Craft',
-    src: 'img/freeform-icon.png',
+    src: 'img/icons/freeform.png',
   },
   {
     pathname: '/craft/calendar',
     title: 'Calendar',
     logoLine: 'for Craft',
-    src: 'img/calendar-icon.png',
+    src: 'img/icons/calendar.png',
   },
   {
     pathname: 'https://discontinued-docs.solspace.com/express-forms/',
     title: 'Express Forms',
     logoLine: 'for Craft',
-    src: 'img/express-forms-icon.png',
+    src: 'img/icons/express-forms.png',
   },
   {
     pathname: '/expressionengine/freeform',
     title: 'Freeform',
     logoLine: 'for ExpressionEngine',
-    src: 'img/freeform-icon.png',
+    src: 'img/icons/freeform.png',
   },
   {
     pathname: '/expressionengine/calendar',
     title: 'Calendar',
     logoLine: 'for ExpressionEngine',
-    src: 'img/calendar-icon.png',
+    src: 'img/icons/calendar.png',
   },
 ];
 
@@ -97,7 +97,7 @@ export default function Logo(props: Props): JSX.Element {
     pathname: '/',
     title: navbarTitle || 'Solspace',
     logoLine: '',
-    src: logo?.src || 'img/solspace.png',
+    src: logo?.src || 'img/icons/solspace.png',
   };
 
   const currentLogo: LogoItem & NavbarLogo = matchedLogo

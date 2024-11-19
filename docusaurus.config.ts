@@ -304,12 +304,12 @@ const config: Config = {
       insights: false,
     },
 
-    image: 'img/social-freeform.jpg',
+    image: 'img/social/freeform.jpg',
     navbar: {
       title: 'Solspace',
       logo: {
         alt: 'Solspace',
-        src: 'img/solspace.png',
+        src: 'img/icons/solspace.png',
       },
       items: [
         {

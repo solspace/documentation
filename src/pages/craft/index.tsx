@@ -7,7 +7,7 @@ export default function Craft(): JSX.Element {
   return (
     <Layout
       title="Craft"
-      description="The most dependable and user-friendly forms plugin for Craft CMS."
+      description="The most dependable and user-friendly plugins for Craft CMS."
     >
       <div className="flex">
         <LeftNav />

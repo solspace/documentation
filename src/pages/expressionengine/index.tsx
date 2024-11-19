@@ -7,7 +7,7 @@ export default function ExpressionEngine(): JSX.Element {
   return (
     <Layout
       title="ExpressionEngine"
-      description="The most dependable and user-friendly forms plugin for Craft CMS."
+      description="The most dependable and user-friendly add-ons for ExpressionEngine CMS."
     >
       <div className="flex">
         <LeftNav />
