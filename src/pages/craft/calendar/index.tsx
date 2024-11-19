@@ -77,7 +77,7 @@ export default function CraftCalendar(): JSX.Element {
                       latest: true,
                     },
                     { label: 'v4', link: '/craft/calendar/v4/' },
-                    { label: 'v3', link: '/craft/calendar/v2/' },
+                    { label: 'v3', link: '/craft/calendar/v3/' },
                     { label: 'v2', link: '/craft/calendar/v2/' },
                     { label: 'v1', link: '/craft/calendar/v1/' },
                   ].map((item, index) => (
