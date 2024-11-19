@@ -14,17 +14,22 @@ export default function DocItemMetadata(): JSX.Element {
       plugin.items.some((item) => pathname.startsWith(item.slug))
     );
 
-    if (matchingPlugin) {
-      const matchingItem = matchingPlugin.items.find((item) =>
-        pathname.startsWith(item.slug)
-      );
+    if (!matchingPlugin) return metadata.title;
 
-      if (matchingItem) {
-        return `${metadata.title} | ${matchingItem.name} for ${matchingPlugin.name}`;
-      }
+    const matchingItem = matchingPlugin.items.find((item) =>
+      pathname.startsWith(item.slug)
+    );
+
+    if (!matchingItem) return metadata.title;
+
+    if (pathname.includes('/classic/')) {
+      return `${metadata.title} | ${matchingItem.name} Classic for ${matchingPlugin.name}`;
     }
 
-    return metadata.title;
+    const versionMatch = pathname.match(/\/v(\d+)/);
+    const version = versionMatch ? `${versionMatch[1]}.x` : '';
+
+    return `${metadata.title} | ${matchingItem.name} ${version} for ${matchingPlugin.name}`;
   }, [pathname, metadata.title]);
 
   return (
