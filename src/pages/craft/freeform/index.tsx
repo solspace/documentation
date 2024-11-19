@@ -3,8 +3,8 @@ import Layout from '@theme/Layout';
 import { ThemedIdealImage } from '@site/src/components/utils';
 import { Footer, LeftNav } from '@site/src/components/layout';
 
-import FreeformIntroBlackPhoto from '@site/static/img/craft-freeform-intro-black.png';
-import FreeformIntroWhitePhoto from '@site/static/img/craft-freeform-intro-white.png';
+import FreeformIntroLight from '@site/static/img/intro/freeform-light.png';
+import FreeformIntroDark from '@site/static/img/intro/freeform-dark.png';
 
 import {
   SimpleTextLink,
@@ -17,11 +17,11 @@ export function CraftFreeformPageHeader() {
     <header className="flex flex-col px-4 m-auto items-center gap-6 mt-32 max-w-7xl">
       <ThemedIdealImage
         sources={{
-          light: FreeformIntroBlackPhoto,
-          dark: FreeformIntroWhitePhoto,
+          light: FreeformIntroLight,
+          dark: FreeformIntroDark,
         }}
         className="max-w-3xl"
-        alt="Freeform 5 for Craft CMS"
+        alt="Freeform for Craft CMS"
       />
       <p className="text-center">
         Freeform is a versatile form-building tool that can adjust to the

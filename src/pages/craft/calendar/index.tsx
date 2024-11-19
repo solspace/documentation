@@ -3,7 +3,8 @@ import Layout from '@theme/Layout';
 import { ThemedIdealImage } from '@site/src/components/utils';
 import { Footer, LeftNav } from '@site/src/components/layout';
 
-import CalendarIntroBlackPhoto from '@site/static/img/craft-calendar-intro-black.png';
+import CalendarIntroLight from '@site/static/img/intro/calendar-light.png';
+import CalendarIntroDark from '@site/static/img/intro/calendar-dark.png';
 
 import {
   SimpleTextLink,
@@ -16,15 +17,12 @@ export function CraftCalendarPageHeader() {
     <header className="flex flex-col px-4 m-auto items-center gap-6 mt-32 max-w-7xl">
       <ThemedIdealImage
         sources={{
-          light: CalendarIntroBlackPhoto,
-          dark: CalendarIntroBlackPhoto,
+          light: CalendarIntroLight,
+          dark: CalendarIntroDark,
         }}
         className="max-w-3xl"
-        alt="Freeform 5 for Craft CMS"
+        alt="Calendar for Craft CMS"
       />
-      <span className="italic font-bold text-2xl text-[#ff6624]">
-        Hassle-free event management.
-      </span>
       <p className="text-center">
         Craft CMS users can rely on the Calendar plugin for efficient event
         management and calendaring. With its own element type, you can easily
@@ -58,7 +56,7 @@ export default function CraftCalendar(): JSX.Element {
   return (
     <Layout
       title="Calendar for Craft"
-      description="The most dependable and user-friendly forms plugin for Craft CMS."
+      description="The most dependable and user-friendly event management plugin for Craft CMS."
     >
       <div className="flex">
         <LeftNav />

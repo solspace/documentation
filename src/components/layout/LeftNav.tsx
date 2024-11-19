@@ -25,7 +25,7 @@ const links = [
     ],
   },
   {
-    title: 'Expression Engine',
+    title: 'ExpressionEngine',
     titleLink: '/expressionengine',
     links: [
       { label: 'Freeform', to: '/expressionengine/freeform' },

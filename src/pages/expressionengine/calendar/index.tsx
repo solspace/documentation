@@ -3,7 +3,8 @@ import Layout from '@theme/Layout';
 import { ThemedIdealImage } from '@site/src/components/utils';
 import { Footer, LeftNav } from '@site/src/components/layout';
 
-import CalendarIntroBlackPhoto from '@site/static/img/craft-calendar-intro-black.png';
+import CalendarIntroLight from '@site/static/img/intro/calendar-light.png';
+import CalendarIntroDark from '@site/static/img/intro/calendar-dark.png';
 
 import {
   SimpleTextLink,
@@ -11,16 +12,16 @@ import {
   FlexButton,
 } from '@site/src/components/utils';
 
-function EECalendarPageHeader() {
+export function EECalendarPageHeader() {
   return (
     <header className="flex flex-col px-4 m-auto items-center gap-6 mt-32 max-w-7xl">
       <ThemedIdealImage
         sources={{
-          light: CalendarIntroBlackPhoto,
-          dark: CalendarIntroBlackPhoto,
+          light: CalendarIntroLight,
+          dark: CalendarIntroDark,
         }}
         className="max-w-3xl"
-        alt="Freeform 5 for Craft CMS"
+        alt="Calendar for ExpressionEngine CMS"
       />
       <p className="text-center">
         ExpressionEngine users can rely on the Calendar addon for efficient
@@ -58,7 +59,7 @@ export default function EECalendar(): JSX.Element {
   return (
     <Layout
       title="Calendar for ExpressionEngine"
-      description="The most dependable and user-friendly forms plugin for ExpressionEngine CMS."
+      description="The most dependable and user-friendly event management add-on for ExpressionEngine CMS."
     >
       <div className="flex">
         <LeftNav />
