@@ -304,7 +304,8 @@ const config: Config = {
       insights: false,
     },
 
-    image: 'img/social/freeform.jpg',
+    image: 'img/social/solspace.jpg',
+
     navbar: {
       title: 'Solspace',
       logo: {
