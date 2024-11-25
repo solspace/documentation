@@ -21,7 +21,7 @@ const FolderTitle = ({ directoryName }) => {
   return (
     <div
       id={directoryName}
-      className={`scroll-mt-16 flex gap-1 items-center text-sm bg-slate-100 dark:bg-slate-800 rounded-t-lg py-2 pl-4`}
+      className={`scroll-mt-16 flex gap-1 items-center text-sm bg-slate-100 dark:bg-slate-800 rounded-t-lg py-2 pl-4 folder-title`}
     >
       <Photo className="w-5 h-5 -mt-1 mr-2" img={FolderIcon} alt="Folder" />
       {directoryName}
@@ -101,9 +101,7 @@ const TabItems = ({ children }) => {
         (child, index) =>
           React.isValidElement(child) && (
             <TabPanel key={child.props.value} value={activeTab} index={index}>
-              <div className="bg-gray-100 rounded-lg">
-                {child.props.children}
-              </div>
+              <div>{child.props.children}</div>
             </TabPanel>
           )
       )}
