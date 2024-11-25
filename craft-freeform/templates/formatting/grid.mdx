@@ -1,5 +1,5 @@
 ---
-title: 'Grid'
+title: 'Grid Formatting Template'
 sidebar_position: 6
 ---
 
@@ -46,12 +46,16 @@ The Grid formatting template implementation includes a lot more CSS to style it 
 {% set jsPath = view.assetManager.publishedUrl('@freeform-formatting-templates/grid/_main.js', true) %}
 {% do view.registerJsFile(jsPath) %}
 
+{% import "freeform/_templates/formatting/grid/_row.twig" as rowMacro %}
+
 {# Render the opening form tag #}
 {{ form.renderTag({
     attributes: {
+        form: { class: "freeform-form", "data-freeform-grid": true },
         row: { class: "freeform-row" },
         success: { class: "freeform-form-success" },
         errors: { class: "freeform-form-errors" },
+        novalidate: true,
     },
     buttons: {
         attributes: {
@@ -68,7 +72,7 @@ The Grid formatting template implementation includes a lot more CSS to style it 
             attributes: {
                 container: { class: "freeform-column" },
                 input: {
-                    class: "freeform-input",
+                    class: ["freeform-input"],
                 },
                 label: { class: "freeform-label" },
                 instructions: { class: "freeform-instructions" },
@@ -135,55 +139,64 @@ The Grid formatting template implementation includes a lot more CSS to style it 
     </ul>
 {% endif %}
 
-{# Build form rows and fields #}
-{% macro renderRows(form, rows) %}
-    {% for row in rows %}
-        {% set width = (12 / (row|length)) %}
-        <div{{ form.attributes.row|raw }}>
-            {% for field in row %}
-                {% do field.setParameters({
-                    attributes: {
-                        container: { class: [
-                            "freeform-column-" ~ width,
-                            "freeform-fieldtype-" ~ field.type,
-                        ]},
-                    },
-                }) %}
-                {% if field.type == "group" %}
-                    <div class="freeform-group">
-                        <label{{ field.attributes.label }}>
-                            {{ field.label }}
-                        </label>
-                        <div>
-                            {{ _self.renderRows(form, field.layout) }}
-                        </div>
-                    </div>
-                {% else %}
-                    {{ field.render }}
-                {% endif %}
-            {% endfor %}
-        </div>
-    {% endfor %}
-{% endmacro %}
-
 {# Display form field rows and columns #}
-{{ _self.renderRows(form, form.rows) }}
+{{ rowMacro.render(form.rows, form) }}
 
 {# Render the closing form tag #}
 {{ form.renderClosingTag }}
 ```
 
 </CodeTabItem>
+<CodeTabItem filetype="twig" value="row" label="_row.twig" default>
 
-<CodeTabItem filetype="css" value="_main" label="_main.css">
+```twig showLineNumbers
+{% macro getFieldTemplate(type) -%}
+    {% set fieldTemplatePath = "freeform/_templates/formatting/grid/fields/" %}
+    {{- fieldTemplatePath ~ type ~ ".twig" -}}
+{%- endmacro %}
+
+{% macro render(rows, form) %}
+    {% import _self as self %}
+
+    {% for row in rows %}
+
+        {% set width = (12 / (row|length)) %}
+
+        <div{{ form.attributes.row|raw }}>
+            {% for field in row %}
+
+                {% do field.setParameters({
+                    attributes: {
+                        container: {
+                            class: [
+                                "freeform-column-" ~ width,
+                                "freeform-fieldtype-" ~ field.type,
+                            ],
+                        },
+                    }
+                }) %}
+
+                {% include [self.getFieldTemplate(field.type), self.getFieldTemplate("_default")] %}
+
+            {% endfor %}
+        </div>
+
+    {% endfor %}
+
+{% endmacro %}
+```
+
+</CodeTabItem>
+<CodeTabItem filetype="css" value="_main.css" label="_main.css">
 
 ```css showLineNumbers
-button[type=submit].freeform-processing {
+.freeform-form button[type=submit].freeform-processing {
     display: inline-flex;
     flex-wrap: nowrap;
     align-items: center;
 }
-button[type=submit].freeform-processing:before {
+
+.freeform-form button[type=submit].freeform-processing:before {
     content: "";
     display: block;
     flex: 1 0 11px;
@@ -196,6 +209,7 @@ button[type=submit].freeform-processing:before {
     border-radius: 50%;
     animation: freeform-processing .5s linear infinite;
 }
+
 @keyframes freeform-processing {
     0% {
         transform: rotate(0);
@@ -204,115 +218,159 @@ button[type=submit].freeform-processing:before {
         transform: rotate(1turn);
     }
 }
+
 .freeform-pages {
     padding: 0;
     margin: 0 0 10px;
     list-style: none;
 }
+
 .freeform-pages:after {
     content: "";
     display: table;
     clear: both;
 }
+
 .freeform-pages li {
     float: left;
     margin: 0 10px 0 0;
 }
+
 .freeform-row {
     display: block;
     margin: 0 -15px;
 }
+
 .freeform-row:after {
     content: "";
     display: table;
     clear: both;
 }
+
 .freeform-row .freeform-column {
     display: block;
     padding: 10px 15px;
     float: left;
     box-sizing: border-box;
 }
+
 .freeform-row .freeform-column:after {
     content: "";
     display: table;
     clear: both;
 }
+
 .freeform-row .freeform-column > .freeform-row:first-child {
     margin-top: -10px;
 }
+
 .freeform-row .freeform-column label {
     display: block;
 }
+
 .freeform-row .freeform-column .input-group-one-line label {
     display: inline-block;
     padding-right: 10px;
 }
+
 .freeform-row .freeform-column .freeform-label,
 .freeform-group .freeform-label {
     font-weight: bold;
 }
+
 .freeform-row .freeform-column .freeform-label.freeform-required:after {
     content: "*";
     margin-left: 5px;
     color: red;
 }
+
 .freeform-row .freeform-column .freeform-input {
     width: 100%;
     display: block;
     box-sizing: border-box;
 }
+
 .freeform-row .freeform-column .freeform-input[type=checkbox],
 .freeform-row .freeform-column .freeform-input[type=radio] {
     width: auto;
     display: inline;
     margin-right: 5px;
 }
+
 .freeform-row .freeform-column .freeform-input-only-label {
     font-weight: normal;
 }
+
 .freeform-row .freeform-column .freeform-input-only-label > .freeform-input {
     display: inline-block;
     width: auto;
     margin-right: 5px;
 }
+
 .freeform-row .freeform-column .freeform-errors {
     list-style: none;
     padding: 0;
     margin: 5px 0 0;
 }
+
 .freeform-row .freeform-column .freeform-errors > li {
     color: red;
 }
+
 .freeform-row .freeform-column .freeform-instructions {
     margin: 0 0 5px;
     font-size: 13px;
     color: #aba7a7;
 }
+
 .freeform-row .freeform-column-1 {
-    width: 8.3333333333%}
+    width: 8.3333333333%
+}
+
 .freeform-row .freeform-column-2 {
-    width: 16.6666666667%}
+    width: 16.6666666667%
+}
+
 .freeform-row .freeform-column-3 {
-    width: 25%}
+    width: 25%
+}
+
 .freeform-row .freeform-column-4 {
-    width: 33.3333333333%}
+    width: 33.3333333333%
+}
+
 .freeform-row .freeform-column-5 {
-    width: 41.6666666667%}
+    width: 41.6666666667%
+}
+
 .freeform-row .freeform-column-6 {
-    width: 50%}
+    width: 50%
+}
+
 .freeform-row .freeform-column-7 {
-    width: 58.3333333333%}
+    width: 58.3333333333%
+}
+
 .freeform-row .freeform-column-8 {
-    width: 66.6666666667%}
+    width: 66.6666666667%
+}
+
 .freeform-row .freeform-column-9 {
-    width: 75%}
+    width: 75%
+}
+
 .freeform-row .freeform-column-10 {
-    width: 83.3333333333%}
+    width: 83.3333333333%
+}
+
 .freeform-row .freeform-column-11 {
-    width: 91.6666666667%}
+    width: 91.6666666667%
+}
+
 .freeform-row .freeform-column-12 {
-    width: 100%}
+    width: 100%
+}
+
 .freeform-form-errors {
     padding: 15px;
     border: 1px solid #f5c6cb;
@@ -320,9 +378,11 @@ button[type=submit].freeform-processing:before {
     border-radius: 5px;
     color: #721c24;
 }
+
 .freeform-form-errors > p {
     margin: 0;
 }
+
 .freeform-group {
     width: 100%;
     padding: 0 15px;
@@ -333,19 +393,90 @@ button[type=submit].freeform-processing:before {
 <CodeTabItem filetype="js" value="_main.js" label="_main.js">
 
 ```js showLineNumbers
-var form = document.querySelector('[data-freeform-grid]');
-if (form) {
-    form.addEventListener("freeform-stripe-appearance", function (event) {
-        event.elementOptions.appearance = Object.assign(
-            event.elementOptions.appearance,
-            {
-                variables: {
-                    colorPrimary: "#0d6efd",
-                },
-            }
-        );
+var forms = document.querySelectorAll("[data-freeform-grid]");
+forms.forEach(function (form) {
+  form.addEventListener("freeform-stripe-appearance", function (event) {
+    event.elementOptions.appearance = Object.assign(
+      event.elementOptions.appearance,
+      {
+        variables: {
+          colorPrimary: "#0d6efd",
+          fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\"",
+          fontSizeBase: "16px",
+          spacingUnit: "0.2em",
+          tabSpacing: "10px",
+          gridColumnSpacing: "20px",
+          gridRowSpacing: "20px",
+          colorText: "#eaeaea",
+          colorBackground: "#1d1f23",
+          colorDanger: "#dc3545",
+          borderRadius: "5px",
+        },
+        rules: {
+          '.Tab, .Input': {
+            border: '1px solid #6c757d',
+            boxShadow: 'none',
+          },
+          '.Tab:focus, .Input:focus': {
+            border: '1px solid #0b5ed7',
+            boxShadow: 'none',
+            outline: '0',
+            transition: 'border-color .15s ease-in-out',
+          },
+          '.Label': {
+            fontSize: '16px',
+            fontWeight: '400',
+          },
+        },
+      }
+    );
+  });
+  // Hides other form field error messaging
+  form.addEventListener("freeform-on-submit", function (event) {
+    var formId = event.form.getAttribute("data-id");
+    forms.forEach(function (otherForm) {
+      var otherFormId = otherForm.getAttribute("data-id");
+      if (formId !== otherFormId) {
+        otherForm.querySelectorAll("[data-field-errors]").forEach(element => element.remove());
+        otherForm.querySelectorAll(".freeform-input").forEach(element => element.classList.remove("freeform-has-errors"));
+      }
     });
-}
+  });
+});
+```
+
+</CodeTabItem>
+<CodeTabItem filetype="link" label="fields/" link="#/grid/fields/" />
+
+</TabItems>
+</CodeTabs>
+
+<CodeTabs>
+
+<FolderTitle directoryName="/grid/fields/" />
+
+<TabItems>
+<CodeTabItem filetype="twig" value="default" label="_default.twig" default>
+
+```twig
+{{ field.render }}
+```
+
+</CodeTabItem>
+
+<CodeTabItem filetype='twig' value="group" label="group.twig">
+
+```twig
+{% import "freeform/_templates/formatting/grid/_row.twig" as rowMacro %}
+
+{{ field.renderContainerOpeningTag }}
+
+    {{ field.renderLabel }}
+    {{ field.renderInstructions }}
+
+    {{ rowMacro.render(field.layout, form) }}
+
+{{ field.renderContainerClosingTag }}
 ```
 
 </CodeTabItem>

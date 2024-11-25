@@ -1,5 +1,5 @@
 ---
-title: 'Flexbox'
+title: 'Flexbox Formatting Template'
 sidebar_position: 7
 ---
 
@@ -46,6 +46,8 @@ The Flexbox formatting template implementation includes a lot more CSS to style 
 {% set jsPath = view.assetManager.publishedUrl('@freeform-formatting-templates/flexbox/_main.js', true) %}
 {% do view.registerJsFile(jsPath) %}
 
+{% import "freeform/_templates/formatting/flexbox/_row.twig" as rowMacro %}
+
 {# Render the opening form tag #}
 {{ form.renderTag({
     attributes: {
@@ -53,6 +55,7 @@ The Flexbox formatting template implementation includes a lot more CSS to style 
         row: { class: "freeform-row" },
         success: { class: "freeform-form-success" },
         errors: { class: "freeform-form-errors" },
+        novalidate: true,
     },
     buttons: {
         attributes: {
@@ -69,7 +72,7 @@ The Flexbox formatting template implementation includes a lot more CSS to style 
             attributes: {
                 container: { class: "freeform-column" },
                 input: {
-                    class: "freeform-input",
+                    class: ["freeform-input"],
                 },
                 label: { class: "freeform-label" },
                 instructions: { class: "freeform-instructions" },
@@ -136,55 +139,65 @@ The Flexbox formatting template implementation includes a lot more CSS to style 
     </ul>
 {% endif %}
 
-{# Build form rows and fields #}
-{% macro renderRows(form, rows) %}
-    {% for row in rows %}
-        {% set width = (12 / (row|length)) %}
-        <div{{ form.attributes.row|raw }}>
-            {% for field in row %}
-                {% do field.setParameters({
-                    attributes: {
-                        container: { class: [
-                            "freeform-column-" ~ width,
-                            "freeform-fieldtype-" ~ field.type,
-                        ]},
-                    },
-                }) %}
-                {% if field.type == "group" %}
-                    <div class="freeform-group">
-                        <label{{ field.attributes.label }}>
-                            {{ field.label }}
-                        </label>
-                        <div>
-                            {{ _self.renderRows(form, field.layout) }}
-                        </div>
-                    </div>
-                {% else %}
-                    {{ field.render }}
-                {% endif %}
-            {% endfor %}
-        </div>
-    {% endfor %}
-{% endmacro %}
-
 {# Display form field rows and columns #}
-{{ _self.renderRows(form, form.rows) }}
+{{ rowMacro.render(form.rows, form) }}
 
 {# Render the closing form tag #}
 {{ form.renderClosingTag }}
 ```
 
 </CodeTabItem>
+<CodeTabItem filetype="twig" value="row" label="_row.twig" default>
 
-<CodeTabItem filetype="css" value="_main" label="_main.css">
+```twig showLineNumbers
+{% macro getFieldTemplate(type) -%}
+    {% set fieldTemplatePath = "freeform/_templates/formatting/flexbox/fields/" %}
+    {{- fieldTemplatePath ~ type ~ ".twig" -}}
+{%- endmacro %}
+
+{% macro render(rows, form) %}
+    {% import _self as self %}
+
+    {% for row in rows %}
+
+        {% set width = (12 / (row|length)) %}
+
+        <div{{ form.attributes.row|raw }}>
+            {% for field in row %}
+
+                {% do field.setParameters({
+                    attributes: {
+                        container: {
+                            class: [
+                                "freeform-column-" ~ width,
+                                "freeform-fieldtype-" ~ field.type,
+                            ],
+                        },
+                    }
+                }) %}
+
+                {% include [self.getFieldTemplate(field.type), self.getFieldTemplate("_default")] %}
+
+            {% endfor %}
+        </div>
+
+    {% endfor %}
+
+{% endmacro %}
+```
+
+</CodeTabItem>
+
+<CodeTabItem filetype="css" value="_main.css" label="_main.css">
 
 ```css showLineNumbers
-button[type=submit].freeform-processing {
+.freeform-form button[type=submit].freeform-processing {
     display: inline-flex;
     flex-wrap: nowrap;
     align-items: center;
 }
-button[type=submit].freeform-processing:before {
+
+.freeform-form button[type=submit].freeform-processing:before {
     content: "";
     display: block;
     flex: 1 0 11px;
@@ -197,6 +210,7 @@ button[type=submit].freeform-processing:before {
     border-radius: 50%;
     animation: freeform-processing .5s linear infinite;
 }
+
 @keyframes freeform-processing {
     0% {
         transform: rotate(0);
@@ -205,80 +219,98 @@ button[type=submit].freeform-processing:before {
         transform: rotate(1turn);
     }
 }
+
 .freeform-pages {
     display: flex;
     padding: 0;
     margin: 0 0 10px;
     list-style: none;
 }
+
 .freeform-pages li {
     margin: 0 10px 0 0;
 }
+
 .freeform-row {
     display: flex;
     justify-content: space-between;
     margin: 0 -15px;
 }
+
 .freeform-row .freeform-column {
     flex: 1 0;
     padding: 10px 0;
     margin: 0 15px;
     box-sizing: border-box;
 }
+
 .freeform-row .freeform-column > .freeform-row:first-child {
     margin-top: -10px;
 }
+
 .freeform-row .freeform-column label {
     display: block;
 }
+
 .freeform-row .freeform-column .input-group-one-line {
     display: flex;
     flex-wrap: wrap;
 }
+
 .freeform-row .freeform-column .input-group-one-line label {
     padding-right: 10px;
 }
+
 .freeform-row .freeform-column .freeform-label,
 .freeform-group .freeform-label {
     font-weight: bold;
 }
+
 .freeform-row .freeform-column .freeform-label.freeform-required:after {
     content: "*";
     margin-left: 5px;
     color: red;
 }
+
 .freeform-row .freeform-column .freeform-input {
     width: 100%;
     display: block;
     box-sizing: border-box;
 }
+
 .freeform-row .freeform-column .freeform-input[type=checkbox],
 .freeform-row .freeform-column .freeform-input[type=radio] {
     width: auto;
     display: inline;
     margin-right: 5px;
 }
+
 .freeform-row .freeform-column .freeform-input-only-label {
     font-weight: normal;
 }
+
 .freeform-row .freeform-column .freeform-input-only-label > .freeform-input {
     display: inline-block;
     width: auto;
     margin-right: 5px;
 }
+
 .freeform-row .freeform-column .freeform-errors {
     list-style: none;
     padding: 0;
     margin: 5px 0 0;
 }
+
 .freeform-row .freeform-column .freeform-errors > li {
     color: red;
 }
+
 .freeform-row .freeform-column .freeform-instructions {
     margin: 0 0 5px;
     font-size: 13px;
     color: #aba7a7;
 }
+
 .freeform-form-errors {
     padding: 15px;
     border: 1px solid #f5c6cb;
@@ -286,9 +318,11 @@ button[type=submit].freeform-processing:before {
     border-radius: 5px;
     color: #721c24;
 }
+
 .freeform-form-errors > p {
     margin: 0;
 }
+
 .freeform-group {
     width: 100%;
     padding: 0 15px;
@@ -299,19 +333,90 @@ button[type=submit].freeform-processing:before {
 <CodeTabItem filetype="js" value="_main.js" label="_main.js">
 
 ```js showLineNumbers
-var form = document.querySelector('[data-freeform-flexbox]');
-if (form) {
-    form.addEventListener("freeform-stripe-appearance", function (event) {
-        event.elementOptions.appearance = Object.assign(
-            event.elementOptions.appearance,
-            {
-                variables: {
-                    colorPrimary: "#0d6efd",
-                },
-            }
-        );
+var forms = document.querySelectorAll("[data-freeform-flexbox]");
+forms.forEach(function (form) {
+  form.addEventListener("freeform-stripe-appearance", function (event) {
+    event.elementOptions.appearance = Object.assign(
+      event.elementOptions.appearance,
+      {
+        variables: {
+          colorPrimary: "#0d6efd",
+          fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\"",
+          fontSizeBase: "16px",
+          spacingUnit: "0.2em",
+          tabSpacing: "10px",
+          gridColumnSpacing: "20px",
+          gridRowSpacing: "20px",
+          colorText: "#eaeaea",
+          colorBackground: "#1d1f23",
+          colorDanger: "#dc3545",
+          borderRadius: "5px",
+        },
+        rules: {
+          '.Tab, .Input': {
+            border: '1px solid #6c757d',
+            boxShadow: 'none',
+          },
+          '.Tab:focus, .Input:focus': {
+            border: '1px solid #0b5ed7',
+            boxShadow: 'none',
+            outline: '0',
+            transition: 'border-color .15s ease-in-out',
+          },
+          '.Label': {
+            fontSize: '16px',
+            fontWeight: '400',
+          },
+        },
+      }
+    );
+  });
+  // Hides other form field error messaging
+  form.addEventListener("freeform-on-submit", function (event) {
+    var formId = event.form.getAttribute("data-id");
+    forms.forEach(function (otherForm) {
+      var otherFormId = otherForm.getAttribute("data-id");
+      if (formId !== otherFormId) {
+        otherForm.querySelectorAll("[data-field-errors]").forEach(element => element.remove());
+        otherForm.querySelectorAll(".freeform-input").forEach(element => element.classList.remove("freeform-has-errors"));
+      }
     });
-}
+  });
+});
+```
+
+</CodeTabItem>
+<CodeTabItem filetype="link" label="fields/" link="#/flexbox/fields/" />
+
+</TabItems>
+</CodeTabs>
+
+<CodeTabs>
+
+<FolderTitle directoryName="/flexbox/fields/" />
+
+<TabItems>
+<CodeTabItem filetype="twig" value="default" label="_default.twig" default>
+
+```twig
+{{ field.render }}
+```
+
+</CodeTabItem>
+
+<CodeTabItem filetype='twig' value="group" label="group.twig">
+
+```twig
+{% import "freeform/_templates/formatting/flexbox/_row.twig" as rowMacro %}
+
+{{ field.renderContainerOpeningTag }}
+
+    {{ field.renderLabel }}
+    {{ field.renderInstructions }}
+
+    {{ rowMacro.render(field.layout, form) }}
+
+{{ field.renderContainerClosingTag }}
 ```
 
 </CodeTabItem>
