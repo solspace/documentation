@@ -5,7 +5,6 @@ sidebar_position: 1
 import { Photo, PrimaryButtonWithLink } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-import CommonIssuesPhoto from '../assets/img/common-issues_plugin-js-400.png';
 import DiagnosticsPhoto from '../assets/img/diagnostics.png';
 import TroubleshootingNetworkPhoto from '../assets/img/troubleshooting-forms-network-response.png';
 
@@ -98,22 +97,6 @@ If the form still isn't loading or submitting correctly, check the browser's _Co
 5. The error will be logged here and will likely provide a clue as to where the issue might be. If you need assistance from the Solspace team, copy the error message there and [create a new GitHub issue or private support ticket](/support/).
 
 <Photo img={TroubleshootingNetworkPhoto} alt="Troubleshooting Network" />
-
-<br />
-
-#### 404 Errors for `freeform/plugin.js`
-
-If the JS in your form is not working (and/or a lot of submissions are incorrectly marked as spam) and you're seeing an error like `freeform/plugin.js net::ERR_ABORTED 404 (Not Found)` in the browser console, it's almost certainly due to your site having server rules you have applied to JS and CSS files to see if they are actual files. The default for Freeform is to load its scripts as **Static URLs**, which becomes a problem in this case. To resolve this issue, you can switch the _Freeform Script Insert Type_ setting (_Craft CP → Freeform → Settings → Form Behavior_) to **As Files** instead.
-
-- **As Static URLs** offers built-in browser caching and a static endpoint that delivers the latest Freeform scripts but are not physical files and therefore cannot have server rules applied.
-- **As Files** (recommended if having issues with _Static URLs_) are actual physical files generated inside of the `cpresources` folder by Craft's asset manager with no caching.
-- **Inline** will add the scripts as inline scripts and may be useful as a workaround if the other 2 options are not working. This doesn't allow for caching and pollutes the source code.
-
-:::info
-If you're experiencing this issue only in one environment (like production), it's perfectly safe to just set all environments to use **As Files** without issue.
-:::
-
-<Photo img={CommonIssuesPhoto} alt="Common Issues" />
 
 </StepMarkdown>
 <StepMarkdown>
