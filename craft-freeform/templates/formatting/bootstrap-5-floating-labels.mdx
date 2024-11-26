@@ -1,5 +1,5 @@
 ---
-title: 'Bootstrap 5 Floating Labels Formatting Template'
+title: 'Bootstrap 5 Floating Labels'
 sidebar_position: 10
 ---
 
@@ -239,6 +239,14 @@ This example makes use of Bootstrap's [Floating Labels](https://getbootstrap.com
     border-radius: 50%;
     animation: freeform-processing .5s linear infinite;
 }
+.freeform-form .freeform-fieldtype-table [type=radio] {
+    display: inline;
+    padding: 0;
+    margin-right: 8px;
+}
+.freeform-form .freeform-fieldtype-table [type=radio] + label {
+    display: inline;
+}
 @keyframes freeform-processing {
     0% {
         transform: rotate(0);
@@ -466,8 +474,10 @@ forms.forEach(function (form) {
     tableAttributes: {
         table: { class: "table table-sm table-borderless" },
         input: { class: "form-control" },
+        textarea: { class: "form-control" },
         dropdown: { class: "form-control form-select" },
         checkbox: { class: "form-check-input" },
+        radios: { class: "form-control form-check-input freeform-table-radios" },
         removeButton: { class: "btn btn-sm btn-danger" },
         addButton: { class: "btn btn-sm btn-success" },
     },

@@ -41,6 +41,7 @@
   --ifm-menu-color: rgba(0, 0, 0, 0.9);
   --ifm-menu-color-background-active: rgba(0, 0, 0, 0.02);
   --ifm-menu-color-background-hover: rgba(0, 0, 0, 0.05);
+  --ifm-tabs-padding-vertical: 0.7rem;
   --menu-level-item-color: rgba(0, 0, 0, 0.7);
 }
 
@@ -814,6 +815,35 @@ label.docs-demo-freeform-checkbox {
 /* Code Tabs */
 .code-tabs .photo img {
   border-radius: 0;
+}
+
+/* Tabs */
+.tabs {
+  border-top-left-radius: var(--ifm-global-radius);
+  border-top-right-radius: var(--ifm-global-radius);
+  border-bottom: 3px solid var(--ifm-color-primary);
+}
+[data-theme='light'] .tabs {
+  background: rgba(0, 0, 0, 0.01);
+}
+[data-theme='dark'] .tabs {
+  background: rgba(255, 255, 255, 0.015);
+}
+.tabs li {
+  border-radius: 0;
+  border-top-left-radius: var(--ifm-global-radius);
+  border-top-right-radius: var(--ifm-global-radius);
+}
+.tabs__item--active {
+  color: #ffffff;
+  background: var(--ifm-color-primary);
+  border-radius: 0;
+  border-top-left-radius: var(--ifm-global-radius);
+  border-top-right-radius: var(--ifm-global-radius);
+  border-bottom: 0;
+}
+.tabs__item--active:hover {
+  background: var(--ifm-color-primary);
 }
 
 /* Guide Admonition */
