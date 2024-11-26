@@ -1,5 +1,5 @@
 ---
-title: 'Bootstrap 5 Dark Mode Formatting Template'
+title: 'Bootstrap 5 Dark Mode'
 sidebar_position: 9
 ---
 
@@ -234,6 +234,14 @@ Please note that you will need to include the <code>data-bs-theme="dark"</code> 
     border-color: transparent transparent #fff #fff;
     border-radius: 50%;
     animation: freeform-processing .5s linear infinite;
+}
+.freeform-form .freeform-fieldtype-table [type=radio] {
+    display: inline;
+    padding: 0;
+    margin-right: 8px;
+}
+.freeform-form .freeform-fieldtype-table [type=radio] + label {
+    display: inline;
 }
 @keyframes freeform-processing {
     0% {
@@ -477,8 +485,10 @@ forms.forEach(function (form) {
     tableAttributes: {
         table: { class: "table table-sm table-borderless" },
         input: { class: "form-control bg-dark-subtle text-white" },
+        textarea: { class: "form-control bg-dark-subtle text-white" },
         dropdown: { class: "form-control form-select bg-dark-subtle text-white" },
         checkbox: { class: "form-check-input bg-dark-subtle" },
+        radios: { class: "form-control form-check-input bg-dark-subtle freeform-table-radios" },
         removeButton: { class: "btn btn-sm btn-danger" },
         addButton: { class: "btn btn-sm btn-success" },
     },

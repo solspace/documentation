@@ -12,32 +12,32 @@ import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 import Icons from '@site/static/card-icons';
 
 import FieldAttributeEditorPhoto from './assets/img/field-attribute-editor.png';
-import CheckboxPhoto from './assets/img/checkbox.png';
-import CheckboxGroupPhoto from './assets/img/checkbox-group.png';
-import ConfirmPhoto from './assets/img/confirm.png';
-import DateTimePhoto from './assets/img/date-time.png';
-import DropdownPhoto from './assets/img/dropdown.png';
-import EmailPhoto from './assets/img/email.png';
-import FileUploadPhoto from './assets/img/file-upload.png';
-import FileDragDropPhoto from './assets/img/file-upload-drag-drop.png';
-import HTMLPhoto from './assets/img/html.png';
-import MultipleSelectPhoto from './assets/img/miltiple-select.png';
-import NumberPhoto from './assets/img/number.png';
-import OpinionScalePhoto from './assets/img/opinion-scale.png';
-import PasswordPhoto from './assets/img/password.png';
-import PhonePhoto from './assets/img/phone.png';
-import RadiosPhoto from './assets/img/radios.png';
-import RatingPhoto from './assets/img/rating.png';
-import RegexPhoto from './assets/img/regex.png';
-import RichTextPhoto from './assets/img/rich-text.png';
-import SaveContinueLaterPhoto from './assets/img/save-continue-later.png';
-import SignaturePhoto from './assets/img/signature.png';
-import StripePhoto from './assets/img/stripe.png';
-import TablePhoto from './assets/img/table.png';
-import TextFieldPhoto from './assets/img/text-field.png';
-import TextareaPhoto from './assets/img/textarea.png';
-import WebsitePhoto from './assets/img/website.png';
-import SubmitPhoto from './assets/img/submit.png';
+import CheckboxFieldImg from './assets/img/fields/checkbox.png';
+import CheckboxesFieldImg from './assets/img/fields/checkboxes.png';
+import ConfirmFieldImg from './assets/img/fields/confirm.png';
+import DateTimeFieldImg from './assets/img/fields/date-time.png';
+import DropdownFieldImg from './assets/img/fields/dropdown.png';
+import EmailFieldImg from './assets/img/fields/email.png';
+import FileUploadFieldImg from './assets/img/fields/file-upload.png';
+import FileDragDropFieldImg from './assets/img/fields/file-upload-drag-drop.png';
+import HTMLRichTextFieldImg from './assets/img/fields/html-rich-text.png';
+import MultiSelectFieldImg from './assets/img/fields/multi-select.png';
+import NumberFieldImg from './assets/img/fields/number.png';
+import OpinionScaleFieldImg from './assets/img/fields/opinion-scale.png';
+import PasswordFieldImg from './assets/img/fields/password.png';
+import PhoneFieldImg from './assets/img/fields/phone.png';
+import RadiosFieldImg from './assets/img/fields/radios.png';
+import RatingFieldImg from './assets/img/fields/rating.png';
+import RegexFieldImg from './assets/img/fields/regex.png';
+import SubmitSaveFieldImg from './assets/img/fields/submit-save.png';
+import SignatureFieldImg from './assets/img/fields/signature.png';
+import StripeFieldImg from './assets/img/fields/stripe.png';
+import TableFieldImg from './assets/img/fields/table.png';
+import TableBuilderFieldImg from './assets/img/fields/table-builder.png';
+import TextFieldImg from './assets/img/fields/text.png';
+import TextareaFieldImg from './assets/img/fields/textarea.png';
+import WebsiteFieldImg from './assets/img/fields/website.png';
+import SubmitFieldImg from './assets/img/fields/submit.png';
 
 import BuilderFeatureVideo from './assets/videos/builder-feature.mp4';
 import BuilderFavoritesVideo from './assets/videos/builder-favorites.mp4';
@@ -192,7 +192,7 @@ Freeform contains a rich set of field types to handle just about every possible 
 | [Signature](#signature)                                                            | `signature`                           | A field that allows users to handwrite signatures inside your form.                                                                                                |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
 | [Stripe Payment](#stripe-payment)<Badge type="feature" text="Improved in 5.0+" /> | `stripe`                              | A set of input fields to allow the validation of credit cards and other payment options for [Stripe Payment](../integrations/stripe-payments.mdx) implementations. |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
 | [Submit buttons](#submit-buttons)                                                  | <span class="compare-none">N/A</span> | Handles the submit button(s), including **Save** option for the form.                                                                                              |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Table](#table)                                                                    | `table`                               | A field that allows you to collect and handle repeating data.                                                                                                      |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Table](#table)<Badge type="feature" text="Improved in 5.8+" /> | `table`                               | A field that allows you to collect and handle repeating data.                                                                                                      |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
 | [Text](#text)                                                                      | `text`                                | A single-line text input field.                                                                                                                                    |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
 | [Textarea](#textarea)                                                              | `textarea`                            | A multi-line text input field.                                                                                                                                     |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
 | [Website](#website)                                                                | `website`                             | A `url` type input field that checks to see if the URL specified has valid syntax.                                                                                 |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
@@ -241,7 +241,10 @@ The following fields can be accessed within field calculation formulas:
 
 Utilizing [Symfony Expression Syntax](https://symfony.com/doc/current/reference/formats/expression_language.html), the Calculation field type empowers users to create sophisticated calculations effortlessly. From fundamental arithmetic to complex logical operations, users can employ an array of operators and functions to achieve desired outcomes.
 
-#### Arithmetic
+Click on the tabs below to learn more about each operator:
+
+<Tabs>
+<TabItem value="calculation-operators-arithmetic" label="Arithmetic" default>
 
 | Operator | Description    |
 | -------- | -------------- |
@@ -250,7 +253,7 @@ Utilizing [Symfony Expression Syntax](https://symfony.com/doc/current/reference/
 | `*`      | Multiplication |
 | `/`      | Division       |
 
-##### Example
+#### Example
 
 <Tabs>
 <TabItem value="Formula" label="Formula" default>
@@ -278,7 +281,8 @@ Utilizing [Symfony Expression Syntax](https://symfony.com/doc/current/reference/
 </TabItem>
 </Tabs>
 
-#### Comparison
+</TabItem>
+<TabItem value="calculation-operators-comparison" label="Comparison">
 
 | Operator  | Description              |
 | --------- | ------------------------ |
@@ -292,7 +296,7 @@ Utilizing [Symfony Expression Syntax](https://symfony.com/doc/current/reference/
 | `>=`      | Greater than or equal to |
 | `matches` | Regex match              |
 
-##### Example
+#### Example
 
 <Tabs>
 <TabItem value="Formula" label="Formula" default>
@@ -320,7 +324,8 @@ false
 </TabItem>
 </Tabs>
 
-#### Logical
+</TabItem>
+<TabItem value="calculation-operators-logical" label="Logical">
 
 | Operator       | Description |
 | -------------- | ----------- |
@@ -328,7 +333,7 @@ false
 | `&&` or `and`  | And         |
 | `\|\|` or `or` | Or          |
 
-##### Example
+#### Example
 
 <Tabs>
 <TabItem value="Formula" label="Formula" default>
@@ -356,13 +361,14 @@ true
 </TabItem>
 </Tabs>
 
-#### String
+</TabItem>
+<TabItem value="calculation-operators-string" label="String">
 
 | Operator | Description   |
 | -------- | ------------- |
 | `~`      | Concatenation |
 
-##### Example 1
+#### Example 1
 
 <Tabs>
 <TabItem value="Formula" label="Formula" default>
@@ -390,7 +396,7 @@ Hello Bob, Welcome!
 </TabItem>
 </Tabs>
 
-##### Example 2
+#### Example 2
 
 <Tabs>
 <TabItem value="Formula" label="Formula" default>
@@ -418,14 +424,15 @@ Dr. Sarah Connor
 </TabItem>
 </Tabs>
 
-#### Array
+</TabItem>
+<TabItem value="calculation-operators-array" label="Array">
 
 | Operator | Description      |
 | -------- | ---------------- |
 | `in`     | Contains         |
 | `not in` | Does not contain |
 
-##### Example
+#### Example
 
 <Tabs>
 <TabItem value="Formula" label="Formula" default>
@@ -453,13 +460,14 @@ true
 </TabItem>
 </Tabs>
 
-#### Numeric
+</TabItem>
+<TabItem value="calculation-operators-numeric" label="Numeric">
 
 | Operator | Description |
 | -------- | ----------- |
 | `..`     | Range       |
 
-##### Example
+#### Example
 
 <Tabs>
 <TabItem value="Formula" label="Formula" default>
@@ -487,13 +495,14 @@ true
 </TabItem>
 </Tabs>
 
-#### Ternary
+</TabItem>
+<TabItem value="calculation-operators-ternary" label="Ternary">
 
 | Operator | Description                        |
 | -------- | ---------------------------------- |
 | `?`      | Operator that takes three operands |
 
-##### Example
+#### Example
 
 <Tabs>
 <TabItem value="Formula" label="Formula" default>
@@ -521,11 +530,14 @@ yes
 </TabItem>
 </Tabs>
 
+</TabItem>
+</Tabs>
+
 ## Checkbox
 
 A single checkbox field. The `field.type` property value is `checkbox` (for conditionals).
 
-<Photo scale={50} img={CheckboxPhoto} alt="Checkbox" />
+<Photo scale={40} img={CheckboxFieldImg} alt="Checkbox" />
 
 ### Settings
 
@@ -547,7 +559,7 @@ A single checkbox field. The `field.type` property value is `checkbox` (for cond
 
 A group of checkboxes. The `field.type` property value is `checkboxes` (for conditionals).
 
-<Photo scale={25} img={CheckboxGroupPhoto} alt="Checkboxes field type" />
+<Photo img={CheckboxesFieldImg} alt="Checkboxes field type" />
 
 ### Settings
 
@@ -565,7 +577,7 @@ A group of checkboxes. The `field.type` property value is `checkboxes` (for cond
 
 A field that allows you to force a user to re-enter a matching value for another text input field, including [Password](#password) fields (e.g. "Confirm Email Address", "Confirm Password"). It runs through additional validation to make sure field values match. If not, it'll show an error. This field stores the data as well, in case that is important for your site's needs. The `field.type` property value is `confirm` (for conditionals).
 
-<Photo scale={80} img={ConfirmPhoto} alt="Confirm field type" />
+<Photo img={ConfirmFieldImg} alt="Confirm field type" />
 
 ### Settings
 
@@ -576,7 +588,7 @@ A field that allows you to force a user to re-enter a matching value for another
 
 A complex date and/or time field. Can be used as Date only, Time only, or both. Many configuration and validation options available as well. The `field.type` property value is `datetime` (for conditionals).
 
-<Photo scale={40} img={DateTimePhoto} alt="Date & Time field type" />
+<Photo scale={40} img={DateTimeFieldImg} alt="Date & Time field type" />
 
 ### Settings
 
@@ -626,7 +638,7 @@ A complex date and/or time field. Can be used as Date only, Time only, or both. 
 
 A select dropdown menu field. The `field.type` property value is `dropdown` (for conditionals).
 
-<Photo scale={50} img={DropdownPhoto} alt="Dropdown field type" />
+<Photo img={DropdownFieldImg} alt="Dropdown field type" />
 
 ### Settings
 
@@ -644,7 +656,7 @@ A select dropdown menu field. The `field.type` property value is `dropdown` (for
 
 A single-line text input field that includes additional validation to expect a valid email address as well as the possibility of attaching an email notification to it. Pair this with the [Confirm](#confirm) special field type if you wish to have the user enter their email address twice. The `field.type` property value is `email` (for conditionals).
 
-<Photo scale={40} img={EmailPhoto} alt="Email field type" />
+<Photo img={EmailFieldImg} alt="Email field type" />
 
 :::info
 It is required to use the **Email** field type if you wish for your users to receive an email notification when submitting the form and/or you're using an Email Marketing API integration.
@@ -667,7 +679,7 @@ It is required to use the **Email** field type if you wish for your users to rec
 
 A regular file upload field, using [Craft Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html). The `field.type` property value is `file` (for conditionals).
 
-<Photo scale={30} img={FileUploadPhoto} alt="File upload field type" />
+<Photo img={FileUploadFieldImg} alt="File Upload field type" />
 
 :::tip
 [Would you like to allow more file extensions in file uploads?](../guides/fields/allow-additional-file-extensions.mdx)
@@ -706,11 +718,7 @@ A regular file upload field, using [Craft Assets](https://craftcms.com/docs/5.x/
 
 An advanced premium javascript-based file uploading field, using [Craft Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html). The `field.type` property value is `file-dnd` (for conditionals).
 
-<Photo
-  scale={80}
-  img={FileDragDropPhoto}
-  alt="File Upload Drag & Drop field type"
-/>
+<Photo img={FileDragDropFieldImg} alt="File Upload Drag & Drop field type" />
 
 :::tip
 [Would you like to allow more file extensions in file uploads?](../guides/fields/allow-additional-file-extensions.mdx)
@@ -751,9 +759,11 @@ An advanced premium javascript-based file uploading field, using [Craft Assets](
 
 The form builder includes some options for controlling basic styling, but you can also customize the appearance of the Drag and Drop File Upload field by using your own CSS. To avoid name collision and have maximum flexibility, the CSS class names use [BEM](http://getbem.com/introduction/) methodology. You will also likely need to specify `!important` for each override to ensure it takes effect.
 
-#### CLASS NAMES<Badge type="feature" text="Renamed in 5.0+" />
 
-Below is a list of all class names listed in SCSS:
+<Tabs>
+<TabItem value="file-drag-drop-class-names" label="Class Names" default>
+
+Below is a list of all class names listed in SCSS: <Badge type="feature" text="Renamed in 5.0+" />
 
 ```scss showLineNumbers
 .freeform-file-dnd__input {
@@ -782,7 +792,8 @@ Below is a list of all class names listed in SCSS:
 }
 ```
 
-#### SCSS EXAMPLE
+</TabItem>
+<TabItem value="file-drag-drop-scss-example" label="SCSS Example">
 
 Below is an example with SCSS:
 
@@ -807,7 +818,8 @@ Below is an example with SCSS:
 }
 ```
 
-#### CSS EXAMPLE
+</TabItem>
+<TabItem value="file-drag-drop-css-example" label="CSS Example">
 
 Below is an example with regular CSS:
 
@@ -826,6 +838,9 @@ Below is an example with regular CSS:
   border-radius: 0 !important;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ## Group<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.0+" />
 
@@ -850,15 +865,15 @@ Freeform will load fields of this type at the beginning of the form, regardless 
 - Can only include text strings at this time (no variables allowed).
   - If you need you pass a value to your hidden field dynamically, you can do so with the `values` parameter. E.g. `values: { myFieldName: "myvalue" }`
 
-#### Special Notes
-
-- To access hidden fields in GraphQL queries you have to loop through the `form > fields` as they are not added to `form > pages > rows > fields`.
+:::info
+To access hidden fields in GraphQL queries you have to loop through the `form > fields` as they are not added to `form > pages > rows > fields`.
+:::
 
 ## HTML
 
 A special field type that allows you include HTML and Twig inside your form layout in the form builder. The `field.type` property value is `html` (for conditionals).
 
-<Photo scale={60} img={HTMLPhoto} alt="HTML field type" />
+<Photo img={HTMLRichTextFieldImg} alt="HTML field type" />
 
 ### Notes
 
@@ -893,7 +908,7 @@ A field that allows you to collect hidden data in form submissions without a hid
 
 A multiple-select field. The `field.type` property value is `multiple-select` (for conditionals).
 
-<Photo scale={35} img={MultipleSelectPhoto} alt="Multiple Select field type" />
+<Photo scale={40} img={MultiSelectFieldImg} alt="Multiple Select field type" />
 
 :::tip
 [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
@@ -909,7 +924,7 @@ A multiple-select field. The `field.type` property value is `multiple-select` (f
 
 A single-line `number` type input field that is validated to contain certain numbers only. The `field.type` property value is `number` (for conditionals).
 
-<Photo scale={30} img={NumberPhoto} alt="Number field type" />
+<Photo scale={40} img={NumberFieldImg} alt="Number field type" />
 
 :::tip
 [Want to display a Number field as a range slider?](../guides/fields/range-slider-number.mdx)
@@ -939,7 +954,7 @@ A single-line `number` type input field that is validated to contain certain num
 
 A special field that allows for flexible opinion scoring using Freeform's built in CSS. The `field.type` property value is `opinion-scale` (for conditionals). This field type is included automatically with the _Pro_ edition of Freeform.
 
-<Photo scale={50} img={OpinionScalePhoto} alt="Opinion scale field type" />
+<Photo scale={60} img={OpinionScaleFieldImg} alt="Opinion Scale field type" />
 
 ### Settings
 
@@ -987,7 +1002,7 @@ To manually render an Opinion Scale field to use your own styles, your code migh
 
 A special field type that allows you to securely collect a password from a submitter **but NOT store the value in the Freeform database** (typically used for [User Registration forms](../guides/speciality-forms/user-registration-forms.mdx) with the [Elements integration](../integrations/elements.mdx)). Pair this with the [Confirm](#confirm) special field type if you wish to have the user enter their password twice. The `field.type` property value is `password` (for conditionals).
 
-<Photo scale={30} img={PasswordPhoto} alt="Password field type" />
+<Photo img={PasswordFieldImg} alt="Password field type" />
 
 ### Settings<Badge type="feature" text="New in 5.2+" />
 
@@ -1004,7 +1019,7 @@ A special field type that allows you to securely collect a password from a submi
 
 A `tel` type input field that is validated to contain phone numbers only, based on a configured pattern. The `field.type` property value is `phone` (for conditionals).
 
-<Photo scale={80} img={PhonePhoto} alt="Phone field type" />
+<Photo img={PhoneFieldImg} alt="Phone field type" />
 
 ### Settings
 
@@ -1020,7 +1035,7 @@ A `tel` type input field that is validated to contain phone numbers only, based 
 
 A group of radio options. The `field.type` property value is `radios` (for conditionals).
 
-<Photo scale={25} img={RadiosPhoto} alt="Radios field type" />
+<Photo img={RadiosFieldImg} alt="Radios field type" />
 
 ### Settings
 
@@ -1040,7 +1055,7 @@ A group of radio options. The `field.type` property value is `radios` (for condi
 A special field that allows for star ratings using Freeform's built-in CSS. The `field.type` property value is `rating` (for conditionals).
 This field type is included automatically with the _Pro_ edition of Freeform.
 
-<Photo scale={25} img={RatingPhoto} alt="Rating field type" />
+<Photo img={RatingFieldImg} alt="Rating field type" />
 
 ### Settings
 
@@ -1069,7 +1084,7 @@ To manually render a Rating field using your own styles, your code might look so
 
 An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`). The `field.type` property value is `regex` (for conditionals).
 
-<Photo scale={30} img={RegexPhoto} alt="Regex field type" />
+<Photo scale={50} img={RegexFieldImg} alt="Regex field type" />
 
 ### Settings
 
@@ -1090,7 +1105,7 @@ An input field that is validated based on the specified regex pattern (e.g. `/^[
 
 A special field type that allows you include rich text inside your form layout in the form builder. The `field.type` property value is `rich-text` (for conditionals).
 
-<Photo scale={70} img={HTMLPhoto} alt="Html field type" />
+<Photo img={HTMLRichTextFieldImg} alt="Rich Text field type" />
 
 ### Notes
 
@@ -1105,7 +1120,7 @@ A special field type that allows you include rich text inside your form layout i
 
 A field that allows users to handwrite signatures with their mouse inside your form. The `field.type` property value is `signature` (for conditionals).
 
-<Photo scale={30} img={SignaturePhoto} alt="Signature field type" />
+<Photo scale={50} img={SignatureFieldImg} alt="Signature field type" />
 
 ### Settings
 
@@ -1128,7 +1143,7 @@ A field that allows users to handwrite signatures with their mouse inside your f
 
 Submit buttons are handled automatically by Freeform. They are automatically inserted at the end of your form in the form builder. This includes the **Submit/Continue**, **Previous** (where applicable), and **Save & Continue Later** buttons (where available).
 
-<Photo scale={20} img={SubmitPhoto} alt="Submit Buttons field type" />
+<Photo img={SubmitFieldImg} alt="Submit Buttons field type" />
 
 ### Settings
 
@@ -1139,7 +1154,12 @@ The Submit button settings allow you to edit the button label(s) and adjust the 
 
 ### Templating<Badge type="feature" text="Revised in 5.0+" />
 
-Controlling the format for submit buttons is now done through the new `buttons` namespace available in the [Template Overrides](../templates/formatting/index.mdx#template-overrides) feature.
+Controlling the format for submit buttons is now done through the new `buttons` namespace available in the [Template Overrides](../templates/formatting/index.mdx#template-overrides) feature or render helpers for more extensive customization.
+
+Check out the 3 different approaches available below:
+
+<Tabs>
+<TabItem value="submit-buttons-template-overrides" label="Template Overrides" default>
 
 ```twig showLineNumbers
 {{ form.render({
@@ -1159,9 +1179,10 @@ Controlling the format for submit buttons is now done through the new `buttons` 
 }) }}
 ```
 
-#### Further Customization
+</TabItem>
+<TabItem value="submit-buttons-render" label="Render Helper">
 
-If the override approach above is not enough for your needs, you can use a more manual approach. First, you need to disable the automatic insertion of Submit buttons by applying the `disable: ["submitButtons"]` parameter to your form. Then, you can use the button render approach.
+If the override approach is not enough for your needs, you can use a more manual approach. First, you need to disable the automatic insertion of Submit buttons by applying the `disable: ["submitButtons"]` parameter to your form. Then, you can use the button render approach.
 
 The following are available:
 
@@ -1190,7 +1211,10 @@ The following are available:
 {{ form.renderClosingTag }}
 ```
 
-And finally, for maximum control, you can use a property attributes render instead. The following are available:
+</TabItem>
+<TabItem value="submit-buttons-renderprops" label="Render Properties Helper">
+
+For maximum control, you can use a property attributes render instead. The following are available:
 
 - `renderSubmitProps` - render the property attributes to attach to your **Submit** button
 - `renderBackProps` - render the property attributes to attach to your **Back** button
@@ -1223,15 +1247,14 @@ And finally, for maximum control, you can use a property attributes render inste
 {{ form.renderClosingTag }}
 ```
 
+</TabItem>
+</Tabs>
+
 ### Save & Continue Later<Badge type="pro" text="Pro" />
 
 This feature allows users to save their form progress and continue/complete the form later. For more information about this feature, please see the [Save & Continue Later documentation](./save-continue-later.mdx).
 
-<Photo
-  scale={45}
-  img={SaveContinueLaterPhoto}
-  alt="Save & Continue later field type"
-/>
+<Photo img={SubmitSaveFieldImg} alt="Save & Continue Later button" />
 
 #### Additional Configuration
 
@@ -1248,40 +1271,45 @@ This feature allows users to save their form progress and continue/complete the 
 
 When the [Stripe Payments](../integrations/stripe-payments.mdx) integration is configured, a Stripe Payments special field type will become available. This field enables your forms to collect (but not store) credit card or other payment information and pass it off to Stripe.
 
-<Photo img={StripePhoto} alt="Stripe Payment field Layout Options" />
+<Photo img={StripeFieldImg} alt="Stripe Payment field Layout Options" />
 
-## Table<Badge type="pro" text="Pro" />
+## Table<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.8+" />
 
 A field that allows you to collect and handle repeating data. The `field.type` property value is `table` (for conditionals).
 
-<Photo scale={80} img={TablePhoto} alt="Table field type" />
+<Photo img={TableFieldImg} alt="Table field type" />
 
 ### Settings
 
 - Use the Table Layout area to create columns for the table. Options are:
   - Text
+  - Textarea<Badge type="feature" text="New in 5.8+" />
   - Checkbox
-    - When using _Checkbox_, specify a value you'd like to represent that checkbox when checked.
-  - Dropdown
-    - When using _Dropdown_, specify multiples separated by the `;` character, e.g. `apples;oranges;cherries`.
-- Check off _Use built-in Table JS?_ checkbox to have Freeform include JS in the form that validates the format and auto-inserts the extra characters like `(`, `-`, `+` etc).
+  - Dropdown<Badge type="feature" text="Improved in 5.8+" />
+  - Radios<Badge type="feature" text="New in 5.8+" />
+- Enable the _Use built-in javascript for adding and removing rows_ toggle to have Freeform automatically include JS in the form that validates the format and auto-inserts the extra characters like `(`, `-`, `+` etc).
+
+<Photo img={TableBuilderFieldImg} alt="Table field type in form builder" />
 
 ### Rendering
 
-The Table field type includes a `addButtonLabel` and `removeButtonLabel` parameter to override the Add/Remove row button language. It also includes a special `tableAttributes` option to offer finer control of classes and attributes on each part of the Table field.
+The Table field type includes various parameter options to override labels and finer control of classes and attributes on each part of the Table field.
 
 Here's how you can use `field.render` for an automated approach to render your Table field inside your formatting templates:
 
-#### Bootstrap 5 example
+<Tabs>
+<TabItem value="bootstrap5" label="Bootstrap 5" default>
 
-```twig showLineNumbers
+```twig
 {{ field.render({
     addButtonLabel: "Add +",
     removeButtonLabel: "X",
     tableAttributes: {
         table: { class: "table table-sm table-borderless" },
         input: { class: "form-control" },
+        textarea: { class: "form-control" },
         dropdown: { class: "form-control form-select" },
+        radios: { class: "form-check-input" },
         checkbox: { class: "form-check-input" },
         removeButton: { class: "btn btn-sm btn-danger" },
         addButton: { class: "btn btn-sm btn-success" },
@@ -1289,7 +1317,8 @@ Here's how you can use `field.render` for an automated approach to render your T
 }) }}
 ```
 
-#### Tailwind 3 example
+</TabItem>
+<TabItem value="tailwind3" label="Tailwind 3">
 
 ```twig showLineNumbers
 {% set tableColumnCount = field.tableLayout|length %}
@@ -1312,16 +1341,29 @@ Here's how you can use `field.render` for an automated approach to render your T
                 "mr-5 w-11/12 block"
             ]
         },
+        textarea: {
+            class: [
+                field.attributes.input.get("class"),
+                "mr-5"
+            ]
+        },
         dropdown: {
             class: [
                 field.attributes.input.get("class"),
                 "mr-5 w-11/12 block"
             ]
         },
+        radios: {
+            class: [
+                field.attributes.input.get("class"),
+                "w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 rounded mr-2 font-normal text-slate-600",
+                "freeform-table-radios"
+            ]
+        },
         checkbox: {
             class: [
                 field.attributes.input.get("class"),
-                "mr-5"
+                "w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 rounded"
             ]
         },
         removeButton: { class: "bg-red-500 hover:bg-red-700 text-white font-normal py-1 px-3 rounded" },
@@ -1329,6 +1371,9 @@ Here's how you can use `field.render` for an automated approach to render your T
     },
 }) }}
 ```
+
+</TabItem>
+</Tabs>
 
 ### Customizing the Appearance
 
@@ -1394,6 +1439,9 @@ For **manual** rendering of the Table field inside your form for full customizab
 
 ### Submission Data
 
+<Tabs>
+<TabItem value="table-submission-basic" label="Basic Example" default>
+
 Here's how to render a Table field's data inside the [Submission object](../templates/objects/submission.mdx):
 
 ```twig showLineNumbers
@@ -1416,6 +1464,9 @@ Here's how to render a Table field's data inside the [Submission object](../temp
     </tbody>
 </table>
 ```
+
+</TabItem>
+<TabItem value="table-submission-complete" label="Complete Example" default>
 
 A complete example might look like:
 
@@ -1448,11 +1499,14 @@ A complete example might look like:
 {% endfor %}
 ```
 
+</TabItem>
+</Tabs>
+
 ## Text
 
 A single-line text input field. The `field.type` property value is `text` (for conditionals).
 
-<Photo scale={60} img={TextFieldPhoto} alt="Text field type" />
+<Photo img={TextFieldImg} alt="Text field type" />
 
 :::tip
 [Want to display a Text input as a Color Picker?](../guides/fields/color-picker-text.mdx)
@@ -1462,7 +1516,7 @@ A single-line text input field. The `field.type` property value is `text` (for c
 
 A multi-line text input field. The `field.type` property value is `textarea` (for conditionals).
 
-<Photo scale={50} img={TextareaPhoto} alt="Textare field type" />
+<Photo img={TextareaFieldImg} alt="Textare field type" />
 
 ### Settings
 
@@ -1477,7 +1531,7 @@ A multi-line text input field. The `field.type` property value is `textarea` (fo
 
 A `url` type input field that checks to see if the URL specified has valid syntax (`http://`, `https://`, `ftp://`, etc). The `field.type` property value is `website` (for conditionals).
 
-<Photo scale={30} img={WebsitePhoto} alt="Website field type" />
+<Photo scale={50} img={WebsiteFieldImg} alt="Website field type" />
 
 ## Populating Fields with Elements & Predefined Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.0+" />
 
