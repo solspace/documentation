@@ -1,5 +1,7 @@
 ---
 sidebar_position: 2
+# Only display h2 headings to keep TOC tidy
+toc_max_heading_level: 2
 ---
 
 import Player from 'react-player';
@@ -104,27 +106,14 @@ Freeform features its own set of robust field types. The form builder displays a
   height="100%"
 />
 
+
 ## Overview
 
-- [Important Notes](#important-notes)
 - [Standard Settings](#standard-settings)
 - [Field Encryption](#field-encryption)
 - [Populating Field Options](#populating-field-options)
 - [Field Types Overview](#field-types)
 - [Favorite Fields](#favorite-fields)
-
-### Important Notes
-
-- If you'd like to [build your own custom field type](../developer/field-types.mdx), check out the guide.
-- Saved fields are a snapshot of that field at the time it was saved.
-- Any customizations of a Saved field or using a field from another form are specific only to the form they're adjusted in.
-- Fields can be changed to other field types at any point, but be aware that data loss could occur when switching incompatible field types.
-- All field types conveniently include the ability to set attributes for their **labels**, **inputs**, **errors** and **instructions** directly inside the form builder property editor.
-  - This allows you to keep your hands clean of being inside formatting templates and specify one-off exceptions for fields such as `readonly` and `autocomplete="off"`, etc.
-  - To use single attributes like `novalidate`, just enter the attribute in the **Attribute** column and leave the **Value** column empty.
-  - You can use anything inside the [Form](../templates/objects/form.mdx) and [Field](../templates/objects/field.mdx) objects as well, e.g.:
-    - `field.id` to access Field ID.
-    - `form.handle` to access form handle.
 
 ### Standard Settings
 
@@ -142,6 +131,16 @@ There is a standard number of settings available to all forms (with some excepti
 | **Maximum&nbsp;Length**                                                           | `maxlength`                                        | The maximum number of characters for the field's value. Applicable only to the following field types: <ul><li>[Confirm](#confirm)</li><li>[Date & Time](#date-time)</li><li>[Email](#email)</li><li>[Hidden](#hidden)</li><li>[Invisible](#invisible)</li><li>[Number](#number)</li><li>[Password](#password)</li><li>[Phone](#phone)</li><li>[Regex](#regex)</li><li>[Text](#text)</li><li>[Textarea](#textarea)</li><li>[Website](#website)</li></ul> |
 | **Attribute Editor**                                                              |                                                    | Apply any kind of attribute on the input, label, error, instruction in Freeform's automated rendering of the form.                                                                                                                                                                                                                                                                                                                                      |
 | **Options**                                                                       | `options`<ul><li>`label`</li><li>`value`</li></ul> | Specify the option labels and values for applicable field types. Available only for the following field types: <ul><li>[Checkboxes](#checkboxes)</li><li>[Dropdown](#dropdown)</li><li>[Multiple Select](#multiple-select)</li><li>[Radios](#radios)</li></ul>                                                                                                                                                                                          |
+
+:::info
+All field types conveniently include the ability to set attributes for their **labels**, **inputs**, **errors** and **instructions** directly inside the form builder property editor.
+
+- This allows you to keep your hands clean of being inside formatting templates and specify one-off exceptions for fields such as `readonly` and `autocomplete="off"`, etc.
+- To use single attributes like `novalidate`, just enter the attribute in the **Attribute** column and leave the **Value** column empty.
+- You can use anything inside the [Form](../templates/objects/form.mdx) and [Field](../templates/objects/field.mdx) objects as well, e.g.:
+  - `field.id` to access Field ID.
+  - `form.handle` to access form handle.
+:::
 
 ### Field Encryption<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.0+" />
 
@@ -164,6 +163,10 @@ All multi-option field types (such as Dropdown, Checkboxes, etc) can have their 
 ### Field Types
 
 Freeform contains a rich set of field types to handle just about every possible scenario you might get yourself into.
+
+:::info
+Fields can be changed to other field types at any point, but be aware that data loss could occur when switching incompatible field types.
+:::
 
 | Name                                                                               | `field.type`                          | Description                                                                                                                                                        | <span class="edition-express no-margin">Express</span> | <span class="edition-lite no-margin">Lite</span> | <span class="edition-pro no-margin">Pro</span> |
 | ---------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------: | :----------------------------------------------: | :--------------------------------------------: |
@@ -201,6 +204,11 @@ Freeform contains a rich set of field types to handle just about every possible 
 
 Any field can be a favorite field! If you have a number of fields that are commonly used across more than one form, such as **Name**, **Email**, etc, you can easily save them to your Favorite Fields list. If you need to edit or remove that field, you can always do that later in the manager area.
 
+:::info
+- Favorite fields are a snapshot of that field at the time it was saved.
+- Any customizations of a Favorite field or using a field from another form are specific only to the form they're adjusted in.
+:::
+
 <Player
   url={BuilderFavoritesVideo}
   muted
@@ -209,6 +217,7 @@ Any field can be a favorite field! If you have a number of fields that are commo
   width="100%"
   height="100%"
 />
+
 
 ## Calculation<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.1+" />
 
@@ -533,11 +542,18 @@ yes
 </TabItem>
 </Tabs>
 
+
 ## Checkbox
 
 A single checkbox field. The `field.type` property value is `checkbox` (for conditionals).
 
 <Photo scale={40} img={CheckboxFieldImg} alt="Checkbox" />
+
+:::tip
+#### User Guides
+- [Need to display basic HTML (`<b>`, `<i>`, `<a>`, etc) in your option labels to add emphasis or display a link?](../guides/fields/parsing-html-in-field-options.mdx)
+- [Want to display single checkbox fields as a light switch toggle?](../guides/fields/toggle-switch-checkbox.mdx)
+:::
 
 ### Settings
 
@@ -550,16 +566,18 @@ A single checkbox field. The `field.type` property value is `checkbox` (for cond
 
 - `checkedByDefault` (e.g. `1`)
 
-### User Guides
-
-- [Need to display basic HTML (`<b>`, `<i>`, `<a>`, etc) in your option labels to add emphasis or display a link?](../guides/fields/parsing-html-in-field-options.mdx)
-- [Want to display single checkbox fields as a light switch toggle?](../guides/fields/toggle-switch-checkbox.mdx)
 
 ## Checkboxes<Badge type="feature" text="Renamed in 5.0+" />
 
 A group of checkboxes. The `field.type` property value is `checkboxes` (for conditionals).
 
 <Photo img={CheckboxesFieldImg} alt="Checkboxes field type" />
+
+:::tip
+#### User Guides
+- [Need to display basic HTML (`<b>`, `<i>`, `<a>`, etc) in your option labels to add emphasis or display a link?](../guides/fields/parsing-html-in-field-options.mdx)
+- [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
+:::
 
 ### Settings
 
@@ -568,10 +586,6 @@ A group of checkboxes. The `field.type` property value is `checkboxes` (for cond
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 - Can be rendered vertically or horizontally.
 
-### User Guides
-
-- [Need to display basic HTML (`<b>`, `<i>`, `<a>`, etc) in your option labels to add emphasis or display a link?](../guides/fields/parsing-html-in-field-options.mdx)
-- [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
 
 ## Confirm<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.0+" />
 
@@ -583,6 +597,7 @@ A field that allows you to force a user to re-enter a matching value for another
 
 - Choose a target field to validate against, e.g. **Email** field.
   - Available fields must be of text input type, but don't necessarily need to be of the [Text](#text) field type - you can use with [Email](#email) fields, [Password](#password) special fields, [Phone](#phone) fields, etc.
+
 
 ## Date & Time<Badge type="pro" text="Pro" />
 
@@ -609,14 +624,19 @@ A complex date and/or time field. Can be used as Date only, Time only, or both. 
 - Choose if placeholder should separate AM/PM with a space (for 12hr clock).
 - Select the Min and Max dates for the date picker and validation (optional). Use static dates (e.g. `2018-11-01`, `2018-11-30`) or relative date strings (e.g. `-10 days`, `+3 months`).
 
-### Notes
+<details>
+<summary>View Important Notes...</summary>
 
-- For **localization** reference:
-  - The _Flatpickr_ date picker will automatically localize according to the locale set for your site. Locales available are only 2-letter codes like `fr`, `de`, etc. In the event you're using a locale like `fr-CA` or `es-US`, etc, Freeform will just look at the first 2 letters and use that as the locale.
-  - To translate the formatting syntax error message, be sure to translate the following strings:
-    - `"{value}" does not conform to "{format}" format.`
-    - To translate the `{format}` rendered value to match the current locale, be sure to also translate whatever the rendered string is in the error message. For example, if you're using `fr` locale, and wish to have the default English `DD/MM/YYYY` show up as `JJ/MM/AAAA`, create a static translation for this manually.
-- To customize the date picker appearance and behavior, please see [Date Picker Events](../developer/datepicker.mdx) documentation.
+For **localization** reference:
+
+- The _Flatpickr_ date picker will automatically localize according to the locale set for your site. Locales available are only 2-letter codes like `fr`, `de`, etc. In the event you're using a locale like `fr-CA` or `es-US`, etc, Freeform will just look at the first 2 letters and use that as the locale.
+- To translate the formatting syntax error message, be sure to translate the following strings:
+  - `"{value}" does not conform to "{format}" format.`
+  - To translate the `{format}` rendered value to match the current locale, be sure to also translate whatever the rendered string is in the error message. For example, if you're using `fr` locale, and wish to have the default English `DD/MM/YYYY` show up as `JJ/MM/AAAA`, create a static translation for this manually.
+
+To customize the date picker appearance and behavior, please see [Date Picker Events](../developer/datepicker.mdx) documentation.
+
+</details>
 
 ### Templating
 
@@ -634,11 +654,18 @@ A complex date and/or time field. Can be used as Date only, Time only, or both. 
 - `minDate` (e.g. `five weeks ago`)
 - `maxDate` (e.g. `2024-12-31`)
 
+
 ## Dropdown<Badge type="feature" text="Renamed in 5.0+" />
 
 A select dropdown menu field. The `field.type` property value is `dropdown` (for conditionals).
 
 <Photo img={DropdownFieldImg} alt="Dropdown field type" />
+
+:::tip
+#### User Guides
+- [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
+- [Looking to include an additional "Other" choice that displays an input field for users to fill in their own value?](../guides/fields/other-option-for-fields.mdx)
+:::
 
 ### Settings
 
@@ -647,10 +674,6 @@ A select dropdown menu field. The `field.type` property value is `dropdown` (for
 - Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-fields-with-elements--predefined-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 
-### User Guides
-
-- [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
-- [Looking to include an additional "Other" choice that displays an input field for users to fill in their own value?](../guides/fields/other-option-for-fields.mdx)
 
 ## Email<Badge type="feature" text="Revised in 5.0+" />
 
@@ -658,7 +681,7 @@ A single-line text input field that includes additional validation to expect a v
 
 <Photo img={EmailFieldImg} alt="Email field type" />
 
-:::info
+:::warning
 It is required to use the **Email** field type if you wish for your users to receive an email notification when submitting the form and/or you're using an Email Marketing API integration.
 :::
 
@@ -674,6 +697,7 @@ It is required to use the **Email** field type if you wish for your users to rec
 ### Templating
 
 - `notificationId` (the ID of the assigned email notification template)
+
 
 ## File Upload
 
@@ -701,11 +725,14 @@ A regular file upload field, using [Craft Assets](https://craftcms.com/docs/5.x/
 - Select which file types can be uploaded.
   - Leaving all options unchecked will allow ALL file types.
 
-### Notes
+<details>
+<summary>View Important Notes...</summary>
 
 - In [multi-page forms](../forms/builder.mdx#multi-page-forms), if an earlier page contains file upload field(s), files will actually be uploaded before the form is officially submitted.
   - If the form is never completed, incomplete submissions are stored for 3hrs, and then are removed (along with the files) after that.
 - If you're handling sensitive files, you may wish to choose an Asset volume without public URL's (**Assets in this volume have public URLs** toggle is off).
+
+</details>
 
 ### Templating
 
@@ -713,6 +740,7 @@ A regular file upload field, using [Craft Assets](https://craftcms.com/docs/5.x/
 - `maxFileSizeKB` (the numeric representation of the upload limit in kilobytes.)
 - `fileCount` (the maximum number of allowed files to be uploaded.)
   - A number larger than `1` will allow multiple files to be uploaded at the same time.
+
 
 ## File Upload Drag & Drop<Badge type="pro" text="Pro" />
 
@@ -741,12 +769,15 @@ An advanced premium javascript-based file uploading field, using [Craft Assets](
 - Select which file types can be uploaded.
   - Leaving all options unchecked will allow ALL file types.
 
-### Notes
+<details>
+<summary>View Important Notes...</summary>
 
 - Unlike the regular [File Upload](#file-upload) field, the **File Upload Drag & Drop** field will remember files that have been uploaded to it regardless of the context: errors upon submission, [multi-page forms](../forms/builder.mdx#multi-page-forms), returning to edit the submission later.
   - If the form is never completed, incomplete submissions are stored for 3hrs, and then are removed (along with the files) after that.
 - While files are uploading, Freeform will disable the **Submit** button so that the form has time to finish uploading the files. If the form is submitted while files are still uploading, any that are incomplete will not be saved.
 - If you're handling sensitive files, you may wish to choose an Asset volume without public URL's (**Assets in this volume have public URLs** toggle is off). However, please note that image file thumbnails will only be present directly after initial upload. Afterward (error when submitting, multi-page forms, returning to edit) the image thumbnails will no longer be accessible to Freeform.
+
+</details>
 
 ### Templating
 
@@ -765,7 +796,7 @@ The form builder includes some options for controlling basic styling, but you ca
 
 Below is a list of all class names listed in SCSS: <Badge type="feature" text="Renamed in 5.0+" />
 
-```scss showLineNumbers
+```css
 .freeform-file-dnd__input {
   &__placeholder {
   }
@@ -797,7 +828,7 @@ Below is a list of all class names listed in SCSS: <Badge type="feature" text="R
 
 Below is an example with SCSS:
 
-```scss showLineNumbers
+```css
 .freeform-file-dnd__input {
   background: blue;
 
@@ -823,7 +854,7 @@ Below is an example with SCSS:
 
 Below is an example with regular CSS:
 
-```css showLineNumbers
+```css
 .freeform-file-dnd__input {
   background: blue !important;
   border: 1px solid red !important;
@@ -842,6 +873,7 @@ Below is an example with regular CSS:
 </TabItem>
 </Tabs>
 
+
 ## Group<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.0+" />
 
 A field that contains other fields within it. To use, add a Group field into your form's layout, then add/drag other fields into that Group inside the form builder. This becomes especially powerful when using with [Conditional Rules](./conditional-rules.mdx), as you'll be able create a single rule to show/hide an entire group of fields at once.
@@ -851,6 +883,7 @@ A field that contains other fields within it. To use, add a Group field into you
 ### Settings
 
 This field type only contains instructions and attributes for settings inside the builder.
+
 
 ## Hidden
 
@@ -869,24 +902,28 @@ Freeform will load fields of this type at the beginning of the form, regardless 
 To access hidden fields in GraphQL queries you have to loop through the `form > fields` as they are not added to `form > pages > rows > fields`.
 :::
 
+
 ## HTML
 
 A special field type that allows you include HTML and Twig inside your form layout in the form builder. The `field.type` property value is `html` (for conditionals).
 
 <Photo img={HTMLRichTextFieldImg} alt="HTML field type" />
 
-### Notes
+<details>
+<summary>View Important Notes...</summary>
 
 - The Property Editor will load an HTML area for you to type or paste your code into.
 - The Layout column in the form builder will live parse your HTML (Twig will not be parse inside the form builder).
 - All HTML is allowed here.
 - To enable Twig inside this field, turn on the [Allow Twig to be Enabled for each HTML block?](../configuration/settings.mdx#allow-twig-to-be-enabled-for-each-html-block) setting (and decide if you need to enable to the **Render HTML block Twig in isolated mode?** setting as well). Then, you will see an **Allow Twig** checkbox in the property editor column. Check that to allow this HTML block to parse Twig code.
 
+</details>
+
 ### Display Submission Data from Previous Pages
 
 If you'd like to display submission data from previous pages, you can do this by using an HTML block field with Twig code that might look something like this:
 
-```twig showLineNumbers
+```twig
 <ul>
     <li>Name: {{ form.get('firstName').value }} {{ form.get('lastName').value }}</li>
     <li>Email: {{ form.get('email').valueAsString }}</li>
@@ -894,6 +931,7 @@ If you'd like to display submission data from previous pages, you can do this by
     <li>My Radio Field: {{ form.get('myRadioField').value }}</li>
 </ul>
 ```
+
 
 ## Invisible<Badge type="pro" text="Pro" />
 
@@ -903,6 +941,7 @@ A field that allows you to collect hidden data in form submissions without a hid
 
 - Can only include text strings at this time (no variables allowed).
   - If you need you pass a value to your hidden field dynamically, you can do so with the `values` parameter. E.g. `values: { myFieldName: "myvalue" }`
+
 
 ## Multiple Select
 
@@ -919,6 +958,7 @@ A multiple-select field. The `field.type` property value is `multiple-select` (f
 - Can specify labels (with values assumed) or labels and values (that differ).
 - Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-fields-with-elements--predefined-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
+
 
 ## Number
 
@@ -949,6 +989,7 @@ A single-line `number` type input field that is validated to contain certain num
 - `decimalCount`
 - `allowNegative` (e.g. `false`)
 - `step`
+
 
 ## Opinion Scale<Badge type="pro" text="Pro" /><Badge type="feature" text="Revised in 5.0+" />
 
@@ -998,6 +1039,7 @@ To manually render an Opinion Scale field to use your own styles, your code migh
 {% endif %}
 ```
 
+
 ## Password<Badge type="pro" text="Pro" />
 
 A special field type that allows you to securely collect a password from a submitter **but NOT store the value in the Freeform database** (typically used for [User Registration forms](../guides/speciality-forms/user-registration-forms.mdx) with the [Elements integration](../integrations/elements.mdx)). Pair this with the [Confirm](#confirm) special field type if you wish to have the user enter their password twice. The `field.type` property value is `password` (for conditionals).
@@ -1010,10 +1052,14 @@ A special field type that allows you to securely collect a password from a submi
 - **Max Length** - the maximum number of characters the password should be.
 - **Character Variability** - the password should contain at least one number, one lowercase letter, one uppercase letter, and one special character.
 
-### Notes
+<details>
+<summary>View Important Notes...</summary>
 
 - Collected data is not stored in Freeform anywhere, nor is it included in the Submission object or `allFields` variable in [email notifications](../forms/email-notifications.mdx#all-fields).
 - When using with the Users [Element integration](../integrations/elements.mdx), the password will be passed off to Craft's [Users](https://craftcms.com/docs/5.x/reference/element-types/users.html) member account feature.
+
+</details>
+
 
 ## Phone<Badge type="pro" text="Pro" />
 
@@ -1031,11 +1077,19 @@ A `tel` type input field that is validated to contain phone numbers only, based 
 
 - `pattern`
 
+
 ## Radios<Badge type="feature" text="Renamed in 5.0+" />
 
 A group of radio options. The `field.type` property value is `radios` (for conditionals).
 
 <Photo img={RadiosFieldImg} alt="Radios field type" />
+
+:::tip
+#### User Guides
+- [Need to display basic HTML (`<b>`, `<i>`, `<a>`, etc) in your option labels to add emphasis or display a link?](../guides/fields/parsing-html-in-field-options.mdx)
+- [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
+- [Looking to include an additional "Other" choice that displays an input field for users to fill in their own value?](../guides/fields/other-option-for-fields.mdx)
+:::
 
 ### Settings
 
@@ -1044,11 +1098,6 @@ A group of radio options. The `field.type` property value is `radios` (for condi
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 - Can be rendered vertically or horizontally.
 
-### User Guides
-
-- [Need to display basic HTML (`<b>`, `<i>`, `<a>`, etc) in your option labels to add emphasis or display a link?](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
-- [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
-- [Looking to include an additional "Other" choice that displays an input field for users to fill in their own value?](../guides/fields/other-option-for-fields.mdx)
 
 ## Rating<Badge type="pro" text="Pro" />
 
@@ -1073,12 +1122,13 @@ This field type is included automatically with the _Pro_ edition of Freeform.
 
 To manually render a Rating field using your own styles, your code might look something like this:
 
-```twig showLineNumbers
+```twig
 {% for i in 1..field.maxValue %}
     <label for="rating-{{ i }}">whatever {{ i }}</label>
     <input type="radio" id="rating-{{ i }}" value="{{ i }}" name="{{ field.handle }}">
 {% endfor %}
 ```
+
 
 ## Regex<Badge type="pro" text="Pro" />
 
@@ -1090,7 +1140,7 @@ An input field that is validated based on the specified regex pattern (e.g. `/^[
 
 - Specify a required pattern for values to match, e.g. `/^[a-zA-Z0-9]*$/`.
   - When needing to use `{}` for attributes in **Regex** fields (such as `pattern`), you will need to specify them differently, as Freeform is built to allow Twig rendering and it'll choke. So for example, if you need to use `[0-9]{4,5}`, change it to:
-    ```twig showLineNumbers
+    ```twig
     [0-9]{{ '{' }}4,5{{ '}' }}
     ```
 - Set the error message a user will see if an incorrect value is supplied.
@@ -1101,20 +1151,25 @@ An input field that is validated based on the specified regex pattern (e.g. `/^[
 - `pattern`
 - `message`
 
+
 ## Rich Text<Badge type="pro" text="Pro" />
 
 A special field type that allows you include rich text inside your form layout in the form builder. The `field.type` property value is `rich-text` (for conditionals).
 
 <Photo img={HTMLRichTextFieldImg} alt="Rich Text field type" />
 
-### Notes
+:::tip
+[Want to allow front end users to use a rich text editor such as **TinyMCE** on a textarea field?](../guides/fields/tinymce-editor-textarea.mdx)
+:::
+
+<details>
+<summary>View Important Notes...</summary>
 
 - The Property Editor will load a Rich Text area for you to type into and style as necessary.
 - The Layout column in the form builder will live parse your content.
 
-:::tip
-[Want to allow front end users to use a rich text editor such as **TinyMCE** on a textarea field?](../guides/fields/tinymce-editor-textarea.mdx)
-:::
+</details>
+
 
 ## Signature<Badge type="pro" text="Pro" />
 
@@ -1129,7 +1184,8 @@ A field that allows users to handwrite signatures with their mouse inside your f
 - Set the pen dot size (in pixels) and the color.
 - To include ability for a user to click a button to erase their signature and start over, check off the **Show 'Clear' button?** checkbox.
 
-### Notes
+<details>
+<summary>View Important Notes...</summary>
 
 - Signatures are stored as an image datapoint value.
 - Signatures can be downloaded as JPG or PNG files (from control panel).
@@ -1138,6 +1194,9 @@ A field that allows users to handwrite signatures with their mouse inside your f
 - The _Clear_ button can be styled inside the form builder with **Input attributes** area inside the property editor.
 - The Signature field, due to it's complexness, cannot easily be manually generated in a form, and is best done with render helpers, e.g. `field.render`.
 - There's currently no way to make the signature pad area "responsive" (like setting it to 100% width), as this would be quite difficult to account for with the need to display the signature image in various places, etc.
+
+</details>
+
 
 ## Submit buttons<Badge type="feature" text="Revised in 5.0+" />
 
@@ -1267,11 +1326,13 @@ This feature allows users to save their form progress and continue/complete the 
   - Requires targeting of an [Email](#email) field that will contain the user's email address in order to send the email notification.
     - If the user hasn't yet filled out an email address, the email notification attempt will be suppressed (as there is no field validation to ensure the Email field is fillout out). A good way around this would be to have the first page include basic info like _name_ and _email_ but no option to save the form until the second page.
 
+
 ## Stripe Payment<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.0+" />
 
 When the [Stripe Payments](../integrations/stripe-payments.mdx) integration is configured, a Stripe Payments special field type will become available. This field enables your forms to collect (but not store) credit card or other payment information and pass it off to Stripe.
 
 <Photo img={StripeFieldImg} alt="Stripe Payment field Layout Options" />
+
 
 ## Table<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.8+" />
 
@@ -1502,6 +1563,7 @@ A complete example might look like:
 </TabItem>
 </Tabs>
 
+
 ## Text
 
 A single-line text input field. The `field.type` property value is `text` (for conditionals).
@@ -1512,26 +1574,30 @@ A single-line text input field. The `field.type` property value is `text` (for c
 [Want to display a Text input as a Color Picker?](../guides/fields/color-picker-text.mdx)
 :::
 
+
 ## Textarea
 
 A multi-line text input field. The `field.type` property value is `textarea` (for conditionals).
 
 <Photo img={TextareaFieldImg} alt="Textare field type" />
 
+:::tip
+#### User Guides
+- [Need to display linebreaks for Textarea fields in email notifications or on the front end with a Submissions query?](../guides/templating/line-breaks-in-textarea-fields.md)
+- [Want to allow users to use a rich text editor such as **TinyMCE** on the textarea field?](../guides/fields/tinymce-editor-textarea.mdx)
+:::
+
 ### Settings
 
 - Can specify the number of rows the textarea should have.
 
-### User Guides
-
-- [Need to display linebreaks for Textarea fields in email notifications or on the front end with a Submissions query?](../guides/templating/line-breaks-in-textarea-fields.md)
-- [Want to allow users to use a rich text editor such as **TinyMCE** on the textarea field?](../guides/fields/tinymce-editor-textarea.mdx)
 
 ## Website<Badge type="pro" text="Pro" />
 
 A `url` type input field that checks to see if the URL specified has valid syntax (`http://`, `https://`, `ftp://`, etc). The `field.type` property value is `website` (for conditionals).
 
 <Photo scale={50} img={WebsiteFieldImg} alt="Website field type" />
+
 
 ## Populating Fields with Elements & Predefined Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.0+" />
 
