@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: Creating User Registration Forms
+title: User Registration
 ---
 
 import { Badge, Photo } from '@site/src/components/utils';
@@ -22,24 +22,10 @@ This feature requires a **Craft Pro** license in order to work, as Users are a C
 
 <VerticalStepWrapper>
 <StepMarkdown>
-### Set up a User Element Integration
-
-- Go to the **Elements** integration area in the Freeform settings (_Freeform_ → _Settings_ → _Elements_).
-- Click on the **New Integration** button at the top right.
-- Select _User_ for the **Service Provider** setting.
-- Provide a name for the integration, e.g. `User Registration`.
-- Configure the default settings (these can be overrided for each form inside the form builder):
-  - **User Group** - select the user group to assign new users to.
-  - **Active** - toggle whether the new user account should be active or not.
-  - **Send Activation Email** - whether to send an activation email to the user (if _Active_ is toggled off).
-- Save the integration.
-
-</StepMarkdown>
-<StepMarkdown>
 ### Prepare the Form
 
 - Create a new form in Freeform. We'll call it `User Registration`.
-- Add the fields to the form layout. You can set things up however you like, but keep in mind that some fields are required. A common registration form might have the following (but not limited to):
+- Use existing Freeform fields and create a new ones as you see fit. Drag and drop them into place in the center Layout column of the form builder. A common registration form might have the following (but not limited to):
   - _First Name_
   - _Last Name_
   - _Username_
@@ -53,31 +39,23 @@ This feature requires a **Craft Pro** license in order to work, as Users are a C
   - _Photo_
     - Use a Freeform [File Upload](../../forms/fields.mdx#file-upload) field type to set this to map to the User Photo.
   - A _checkbox_ to agree to terms and conditions
+  - _Submit_ button
 
 </StepMarkdown>
 <StepMarkdown>
-### Enable the Connection and Map Fields
+### Set up the Connection
 
-- Click on the **Integrations** tab in the form builder.
-- Find your _User_ element integration in the list on the left and click on it.
-- Toggle ON the **Enabled** setting.
-- The default settings will show. If you need to override any of these, you can do so here:
-  - **User Group** - select the user group to assign new users to.
-    :::warning
-    All user groups (including ones with access to CP) will show here. Use extreme caution if allowing users to self-register for accounts that can access the Craft control panel!
-    :::
-  - **Active** - toggle whether the new user account should be active or not.
-  - **Send Activation Email** - whether to send an activation email to the user (if _Active_ is toggled off).
-    - If you'd like new users created from Freeform submissions to not yet be activated (and receive the Craft User Activation email) when submitted, toggle on the **Active** setting. If you'd like to manually approve registrations _**(please see warning below)**_ and suppress the email notification to users, toggle off the **Send Activation Email** setting.
-      :::danger
-      When using a manual Admin approving approach, it's still possible for a **Pending** user to circumvent this process if a [Forgot Password](https://craftcms.com/knowledge-base/front-end-user-accounts#reset-password-forms) form is available to them, as Craft currently does not have a concept of Admin approval only, and allows users to verify their account either through an email notification or using a _Forgot Password_ form.
-      :::
-    - If you wish to have users automatically logged in upon success, please be sure to use the `'autoLoginAfterAccountActivation' => true,` config item in your Craft config file, and toggle on the **Active** setting.
-- In the **Attribute Mapping** table, map your Freeform fields to the core Craft User fields.
-- In the **Field Mapping** table, map your Freeform fields to your custom Craft User fields.
-  :::info
-  There are some obvious limitations with field mapping, as Freeform does not have anything like a Matrix or Table field, etc. Most traditional fields that are similar to each other should be able to correctly map to each other however.
+- Click on the chain icon button in the Property Editor column at the top right.
+- For the **Type** dropdown, select _Users_.
+- For the **User Group** checkboxes, select the user group(s) you'd like to map to.
+  - All user groups (including ones with access to CP) will show here. Exercise extreme caution if allowing users to self-register for accounts that can access the Craft CP!
+- If you'd like new users created from Freeform submissions to not yet be activated (and receive the Craft User Activation email) when submitted, check the **Activate users?** checkbox. If you'd like to manually approve registrations _**(please see warning below)**_ and suppress the email notification to users, uncheck the **Send activation email?** checkbox.
+  :::danger
+  When using a manual Admin approving approach, it's still possible for a **Pending** user to circumvent this process if a [Forgot Password](https://craftcms.com/knowledge-base/front-end-user-accounts#reset-password-forms) form is available to them, as Craft currently does not have a concept of Admin approval only, and allows users to verify their account either through an email notification or using a _Forgot Password_ form.
   :::
+  - If you wish to have users automatically logged in upon success, please be sure to use the `'autoLoginAfterAccountActivation' => true,` config item in your Craft config file, and check the **Activate users?** checkbox.
+- Map compatible Craft fields to Freeform fields in the **Field mapping** table.
+  - There are some obvious limitations with field mapping, as Freeform does not have anything like a Matrix or Table field, etc. Most traditional fields that are similar to each other should be able to correctly map to each other however. We'll likely have an official list of mapping abilities in the near future.
 
 Once that's all finished, you'll have something that looks like the screenshots above. Check out your form in the Freeform demo templates and see if everything works correctly.
 
