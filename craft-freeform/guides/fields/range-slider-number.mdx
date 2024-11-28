@@ -5,9 +5,6 @@ sidebar_position: 1
 import { Photo } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-import SliderLookPhoto from '../assets/img/slider-look.png';
-import SliderRangePhoto from '../assets/img/range-slider.png';
-
 # Range Slider on Number field
 
 It's possible to easily implement `range` field type styling/handling on regular [Text](../../forms/fields.mdx#text) or [Number](../../forms/fields.mdx#number) fields.
@@ -51,7 +48,6 @@ This will output the following (go ahead and play with it!):
 </StepMarkdown>
 <StepMarkdown>
 
-
 What you might like to do is replace [Number](../../forms/fields.mdx#number) fields with a range slider. The Number field allows you to configure the Range features from inside the form builder. Your code can then include things like `minValue`, `maxValue`, `step`, and `defaultValue`:
 
 ```twig showLineNumbers
@@ -64,7 +60,6 @@ What you might like to do is replace [Number](../../forms/fields.mdx#number) fie
 
 </StepMarkdown>
 <StepMarkdown>
-
 
 To add a bit of your own styling to the Range field, you can begin with the following CSS:
 
@@ -142,11 +137,14 @@ freeformRange.addEventListener('input', (event) => {
 
 The result should look something like this:
 
-<Photo scale={50} img={SliderLookPhoto} alt="Range Slider" />
+<Photo
+  scale={50}
+  img={require('@site/static/img/craft/freeform/v5/guides/range-slider-1.png')}
+  alt="Range Slider"
+/>
 
 </StepMarkdown>
 <StepMarkdown>
-
 
 In order for this to automatically happen inside a [formatting template](../../templates/formatting/index.mdx), you'll want to create a new one if you haven't already. If you using the [Basic Light](../../templates/formatting/basic-light.mdx) formatting template as a starting point, your code might look something like this:
 
@@ -174,7 +172,11 @@ Don't forget to include the custom CSS and JS that was mentioned in [Step 3](#st
 
 The result might look something like this:
 
-<Photo img={SliderRangePhoto} alt="Range Slider" />
+<Photo
+  scale={50}
+  img={require('@site/static/img/craft/freeform/v5/guides/range-slider-2.png')}
+  alt="Range Slider"
+/>
 
 </StepMarkdown>
 

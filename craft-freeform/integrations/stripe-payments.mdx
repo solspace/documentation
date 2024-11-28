@@ -11,21 +11,14 @@ import {
   FlexCards,
 } from '@site/src/components/docs';
 import { Badge, Photo } from '@site/src/components/utils';
-
-import AppearancePhoto from './assets/img/appearance.png';
-import AppleGooglePayPhoto from './assets/img/applepay-googlepay.png';
-import LayoutPhoto from './assets/img/layout.png';
-import MethodsPhoto from './assets/img/methods.png';
-import PrepareStripePhoto from './assets/img/prepare-stripe.png';
-
 import Icons from '@site/static/card-icons';
-
-import StripePaymentsVideo from './assets/videos/stripe-payments.mp4';
 
 # Stripe Payments<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.0+" />
 
 <Player
-  url={StripePaymentsVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/stripe-payments.mp4').default
+  }
   muted
   loop
   playing
@@ -191,25 +184,37 @@ The Stripe Payment Element allows for customization to fit your site's styles an
 
 The appearance of the Stripe Payment Element can be customized to match your site. Choose a theme or update specific details.
 
-<Photo img={AppearancePhoto} alt="Appearance" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/appearance.png')}
+  alt="Appearance"
+/>
 
 ### Layout Options
 
 You can customize the Payment Element's layout to fit your desired flow. The following image is the same Payment Element rendered using different layout configurations.
 
-<Photo img={LayoutPhoto} alt="Layout Options" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/layout.png')}
+  alt="Layout Options"
+/>
 
 ### Payment Methods
 
 The Payment Element displays every payment method that's activated and available (handled inside the Stripe.com website dashboard). It automatically sorts these payment methods by relevance to your customer's location and locale. For instance, if a customer in Germany is paying in EUR, they see all the active payment methods that accept EUR, starting with ones that are widely used in Germany.
 
-<Photo img={MethodsPhoto} alt="Payment Methods" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/methods.png')}
+  alt="Payment Methods"
+/>
 
 #### Apple Pay & Google Pay
 
 The Stripe Payment Element includes built-in support for Apple Pay and Google Pay.
 
-<Photo img={AppleGooglePayPhoto} alt="Apple Pay & Google Pay" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/applepay-googlepay.png')}
+  alt="Apple Pay & Google Pay"
+/>
 
 ## Setting Up
 
@@ -236,7 +241,10 @@ Open up another browser tab and go to your Stripe account:
 :::info
 Stripe can be run in **Live** mode or **Test** mode. To toggle between Live and Test mode, click the **Test mode** toggle at the top of the page. When doing this, the _Publishable key_ and _Secret key_ will switch between live and test as well. We strongly recommend switching Stripe to **Test** mode first, and testing your site with those keys instead.
 
-<Photo img={PrepareStripePhoto} alt="Stripe Nav - Test Mode ON" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/prepare-stripe.png')}
+  alt="Stripe Nav - Test Mode ON"
+/>
 
 :::
 
