@@ -10,10 +10,11 @@ import { Badge } from '@site/src/components/utils';
 
 # Caching Forms<Badge type="feature" text="Improved in 5.0+" />
 
-Forms and pages can be cached in a variety of ways. Here are 2 different solutions, depending on your caching approach:
+Forms and pages can be cached in a variety of ways. Here are 2 different solutions (plus a guide for caching Stripe forms), depending on your caching approach:
 
 - [Twig Template Caching](#twig-template-caching)
 - [Static Page Caching / CDN / Blitz](#static-page-caching--cdn--blitz)
+- [Stripe Integrations](#stripe-integrations)
 
 :::tip
 [Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../testing/troubleshooting-form-issues.mdx)
@@ -142,6 +143,14 @@ Add the following JS snippet to your main `.js` file or to the bottom of all you
 
 </StepMarkdown>
 </VerticalStepWrapper>
+
+## Stripe Integrations
+
+When using the built-in [Stripe integration](../../integrations/stripe-payments.mdx), Freeform will trigger _Payment Intent_ requests automatically upon page load. These requests use the initial form data, meaning the original CSRF token.
+
+The assumption is that payment forms should never be cached, so if your form has a Stripe integration enabled and you are using [Blitz caching](https://plugins.craftcms.com/blitz) and refreshing your CSRF tokens, we suggest injecting your payment form into your template using [Blitz dynamic content](https://putyourlightson.com/plugins/blitz#dynamic-content) or [Sprig](https://putyourlightson.com/plugins/sprig#component-attributes).
+
+There is then no need to refresh CSRF tokens as the dynamic content is injected after the page loads. Otherwise, you risk a `400 Bad Request - Unable to verify your data submission` error.
 
 :::tip
 [Using a form more than once in the same template? Be sure to specify the `id` parameter for the _Form_ query in your template with unique values.](./multiple-instances-of-same-form.md)
