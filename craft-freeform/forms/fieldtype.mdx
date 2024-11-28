@@ -8,22 +8,23 @@ import Player from 'react-player';
 import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-import FieldTypePhoto from './assets/img/fieldtype-form.png';
-
-import FieldTypeFormVideo from './assets/videos/fieldtype-form.mp4';
-
 # _Form_ Element Field Type<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
 Freeform includes a _Freeform Form_ field type (and [Freeform Submissions](../submissions/fieldtype.mdx)), which allows you to assign/relate forms to other element types such as Craft Entries.
 
-<Photo img={FieldTypePhoto} alt="Field Type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fieldtype.png')}
+  alt="Field Type"
+/>
 
 ## Overview
 
 The Freeform Form field type allows you to assign/relate forms to other element types such as Craft Entries. A common use case here would be if you wanted to allow admins to attach a specific Freeform form to a Craft Entry that corresponds to the entry, and then automate loading the form along with the entry in the front end templates.
 
 <Player
-  url={FieldTypeFormVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/fieldtype-form.mp4').default
+  }
   muted
   loop
   playing
@@ -76,7 +77,6 @@ The following template properties are available for the _Form_ field type:
 ### Usage in Elements<Badge type="feature" text="New in 5.7.2+" />
 
 A **Usage in Elements** tab is available inside of each form's **Settings** tab in the form builder. It displays a list of other Craft elements that use that form in the Freeform Form element field type (Craft 5 only).
-
 
 ## Examples
 

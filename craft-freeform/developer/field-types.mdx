@@ -6,10 +6,6 @@ sidebar_position: 2
 import { Badge, Photo } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-import CEPreviewPhoto from './assets/img/custom-field-type-builder-preview.png';
-import CEDisplayPhoto from './assets/img/custom-field-type-front-end-display.png';
-import CEEditorPhoto from './assets/img/custom-field-type-property-editor.png';
-
 # Custom Field Types<Badge type="feature" text="New in 5.0+" />
 
 With Freeform 5 comes the power of creating fully custom [field types](../forms/fields.mdx). The field type class is the one that holds all of the properties and their descriptors. You can now add a custom field type by listening to the field register event and attaching your field type to it.
@@ -196,11 +192,17 @@ Let's enter our API key in there and specify an address that should be displayed
 
 For this example, we will use the _Louvre Museum_ in France.
 
-<Photo img={CEEditorPhoto} alt="Property editor" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/custom-field-type-property-editor.png')}
+  alt="Property editor"
+/>
 
 When we open up the front end, we will see the museum selected and located in the map box. The `<iframe>` uses our specified API key and address to display it.
 
-<Photo img={CEDisplayPhoto} alt="Front end display" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/custom-field-type-front-end-display.png')}
+  alt="Front end display"
+/>
 
 Additionally, we would like to add more properties for customizing the `<iframe>`, such as `width`, `height`, etc. Many more property types are available for you to use, and different ways of interacting between the properties, transforming the values, etc. But for a simple example of how this works - this is it. The field does not collect any data in this example. For a more complex version, we would have an input area, which would let the user enter their own address, and we would update the map based on the address entered and would collect the address upon form submission.
 
@@ -223,7 +225,10 @@ Right now, our field in the builder shows nothing, but we would like to preview 
 
 In the EJS templates, we get access to all of the current field's properties. We are interested in the `apiKey` and `address` properties.
 
-<Photo img={CEPreviewPhoto} alt="Form builder preview" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/custom-field-type-builder-preview.png')}
+  alt="Form builder preview"
+/>
 
 When we open the builder, we will see the map and the address we entered as a map element. We will see the map update whenever we change the address or API key. The field preview template re-renders each time a property value is changed, so keep that in mind.
 

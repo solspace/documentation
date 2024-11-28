@@ -9,17 +9,20 @@ import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 
 import Icons from '@site/static/card-icons';
 
-import NoticeAlertDashboardPhoto from './assets/img/notices-alerts-dashboard.png';
-import EmailAlertPhoto from './assets/img/email-alert.png';
-import DigestPhoto from './assets/img/digest.png';
-
-import NoticeAlertVideo from './assets/videos/notices-alerts.mp4';
-
 # Notices & Alerts
 
 Solspace is dedicated to providing the best form plugin for Craft CMS. Our team has spent years perfecting and testing our product, which is trusted by thousands of websites. However, we understand that each site is unique and may encounter issues. That's why we offer a comprehensive error logging feature, email alerts for issues, and an _update notices_ feature to keep you informed about important updates. Additionally, we provide a weekly or daily digest email to help you stay in the loop with your form's performance and potential issues.
 
-<Player url={NoticeAlertVideo} muted loop playing width="100%" height="100%" />
+<Player
+  url={
+    require('@site/static/videos/craft/freeform/v5/notices-alerts.mp4').default
+  }
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
 
 <FlexCards
   items={[
@@ -74,7 +77,10 @@ Common types of notices you'll receive are:
 This feature requires any activity to happen on your site (e.g. someone visiting your site, an admin viewing CP, or a cron job to refresh cache) for Craft's cache (usually 3hrs) to be refreshed. If for any reason your site doesn't receive any activity for an extended period of time, this feature may not be triggered on time.
 :::
 
-<Photo img={NoticeAlertDashboardPhoto} alt="Update Notices preview" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/configuration/notices-alerts.png')}
+  alt="Update Notices preview"
+/>
 
 ## Email Failure Alerts<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
@@ -90,7 +96,10 @@ Every time Freeform fails to send an email notification due to common issues lik
 This feature is not guaranteed to catch every possible email failure. There might be other pieces at play here, and if your email server configuration itself is not correct, this feature will not work.
 :::
 
-<Photo img={EmailAlertPhoto} alt="Email Alert preview" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/configuration/email-alert.png')}
+  alt="Email Alert preview"
+/>
 
 ## Weekly & Daily Digests<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
@@ -108,4 +117,7 @@ Each week on the chosen weekday (or every day if _Daily_ chosen), Freeform will 
 This feature requires any activity to happen on your site (e.g. someone visiting your site, an admin viewing CP, or a cron job to refresh cache) for Craft's cache (usually 3hrs) to be refreshed. If for any reason your site doesn't receive any activity for an extended period of time, this feature may not be triggered on time.
 :::
 
-<Photo img={DigestPhoto} alt="Email Digest preview" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/configuration/digest.png')}
+  alt="Email Digest preview"
+/>

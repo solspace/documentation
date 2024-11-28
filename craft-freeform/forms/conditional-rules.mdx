@@ -8,8 +8,6 @@ import Player from 'react-player';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 import { Badge } from '@site/src/components/utils';
 
-import BuilderRulesVideo from './assets/videos/builder-rules.mp4';
-
 # Conditional Rules<Badge type='pro' text='Pro' /><Badge type='feature' text='Improved in 5.0+' />
 
 Freeform Pro edition includes Conditional Rules logic that can be added to forms. This feature allows you to effortlessly set fields and groups to **show or hide** based on the contents/selection of other fields, and even **skip pages** or submit the form based on the contents/selection of fields on a previous page.
@@ -20,7 +18,16 @@ To begin adding rules to your form, click on the **Rules** tab in the form build
 [Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../guides/testing/troubleshooting-form-issues.mdx)
 :::
 
-<Player url={BuilderRulesVideo} muted loop playing width="100%" height="100%" />
+<Player
+  url={
+    require('@site/static/videos/craft/freeform/v5/builder-rules.mp4').default
+  }
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
 
 ## Overview
 
@@ -128,11 +135,11 @@ If you're customizing a formatting template or creating a form template manually
 
 There are 3 different approaches you can take:
 
-| Approach                                                                                    | Benefits                                                                                                                                                                                       | Drawbacks                                                                                                                                                                                                                                                                                                                                                                       |                                       |
-| ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| Approach                                                                                   | Benefits                                                                                                                                                                                       | Drawbacks                                                                                                                                                                                                                                                                                                                                                                       |                                       |
+| ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
 | `myFieldHandle.renderContainerOpeningTag()`<Badge type="recommended" text="Recommended" /> | Automatically generates the field wrapper `div`. Field attributes can still be applied to it. Maximum compatibility with attributes specified in the form builder and template overrides, etc. | A bit uglier to look at.                                                                                                                                                                                                                                                                                                                                                        | [Example](#rendercontaineropeningtag) |
-| `myFieldHandle.attributes.container`                                                        | Automatically generates the field wrapper attributes specified in the form builder and template overrides, etc.                                                                                | If the form builder or template overrides contain any of the already hard-coded attributes, it will have no way of knowing and ruin one of the definitions. For example, you hard code in `class="form-field"`, if there are any additional classes specified for the field inside the form builder, it will render as an additional `class` attribute which will cause issues. | [Example](#attributescontainer)       |
-| `data-field-container="myFieldHandle"`                                                      | Minimal template code and looks cleaner.                                                                                                                                                       | Any attributes set in the form builder or template overrides will not show up.                                                                                                                                                                                                                                                                                                  | [Example](#data-field-container)      |
+| `myFieldHandle.attributes.container`                                                       | Automatically generates the field wrapper attributes specified in the form builder and template overrides, etc.                                                                                | If the form builder or template overrides contain any of the already hard-coded attributes, it will have no way of knowing and ruin one of the definitions. For example, you hard code in `class="form-field"`, if there are any additional classes specified for the field inside the form builder, it will render as an additional `class` attribute which will cause issues. | [Example](#attributescontainer)       |
+| `data-field-container="myFieldHandle"`                                                     | Minimal template code and looks cleaner.                                                                                                                                                       | Any attributes set in the form builder or template overrides will not show up.                                                                                                                                                                                                                                                                                                  | [Example](#data-field-container)      |
 
 ### renderContainerOpeningTag<Badge type="recommended" text="Recommended" />
 
