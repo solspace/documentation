@@ -10,19 +10,6 @@ import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 
 import Icons from '@site/static/card-icons';
 
-import BulkInsertOptionsPhoto from './assets/img/bulk-insert-options.png';
-import FieldAttributeEditorPhoto from './assets/img/field-attribute-editor.png';
-
-import BuilderFeatureVideo from './assets/videos/builder-feature.mp4';
-import BuilderIntegrationsVideo from './assets/videos/builder-integrations.mp4';
-import BuilderNotificationsVideo from './assets/videos/builder-notifications.mp4';
-import BuilderOverviewVideo from './assets/videos/builder-overview.mp4';
-import BuilderPagesVideo from './assets/videos/builder-pages.mp4';
-import BuilderRulesVideo from './assets/videos/builder-rules.mp4';
-import BuilderSectionsVideo from './assets/videos/builder-sections.mp4';
-import BuilderSettingsVideo from './assets/videos/builder-settings.mp4';
-import FormDashboardVideo from './assets/videos/form-dashboard.webm';
-
 # Form Builder<Badge type="feature" text="Improved in 5.0+" />
 
 What makes Freeform different from other form plugins is that it gives you full control to create simple or complex multi-page forms, and everything is at your fingertips in our elegant form builder. It has been expertly designed to minimize mouse movement and clicks. Freeform also features a long list of its own set of robust [field types](./fields.mdx).
@@ -81,7 +68,9 @@ What makes Freeform different from other form plugins is that it gives you full 
 />
 
 <Player
-  url={BuilderFeatureVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/builder-feature.mp4').default
+  }
   muted
   loop
   playing
@@ -102,7 +91,10 @@ The form builder is divided into 5 sections:
 - [Settings](#settings)
 
 <Player
-  url={BuilderSectionsVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/builder-sections.mp4')
+      .default
+  }
   muted
   loop
   playing
@@ -115,7 +107,10 @@ The form builder is divided into 5 sections:
 This is where you set up [fields](./fields.mdx) and [pages](#multi-page-forms), as well as design and configure the overall layout of the form.
 
 <Player
-  url={BuilderOverviewVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/builder-overview.mp4')
+      .default
+  }
   muted
   loop
   playing
@@ -139,10 +134,18 @@ The left column lists all available fields and field types to use for the form. 
   - **Separator** - specify a separator (if applicable) used to separate the option label and value when using custom values for option labels. Options are: _Pipe_, _Comma_, _Semicolon_, _Arrow_ and _Space_.
   - **Append Values** - whether the options you're adding should add to the existing options configured or replace them.
   - **Bulk Editor** - enter bulk values separated by new lines. If using custom values for option labels, you can provide a label and a value separated by a separator. For example, if you used `|` you would write: `Label|value` and set the **Separator** setting to _Pipe_.
-    <Photo img={BulkInsertOptionsPhoto} alt="Build Insert Options" />
+    {' '}
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/cp/bulk-insert-options.png')}
+      alt="Build Insert Options"
+    />
 - **Attributes Editor** - add any attributes for the field and its container here, e.g. `data-my-attribute`, `id`, etc.
   {' '}
-  <Photo img={FieldAttributeEditorPhoto} alt="Field Attributes Editor" />
+  {' '}
+  <Photo
+    img={require('@site/static/img/craft/freeform/v5/cp/field-attribute-editor.png')}
+    alt="Field Attributes Editor"
+  />
 
 ### Preview
 
@@ -162,7 +165,10 @@ The right column is where you position the form fields for the form.
 This is where you configure email notifications for the form. Freeform allows you to set up 6 different kinds of email notifications, including at template level with the [dynamicNotification](../templates/queries/form.mdx#dynamicnotification) parameter in your [Form query](../templates/queries/form.mdx).
 
 <Player
-  url={BuilderNotificationsVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/builder-notifications.mp4')
+      .default
+  }
   muted
   loop
   playing
@@ -208,7 +214,16 @@ You can also enable "tell-a-friend" type forms by including additional [Email](.
 
 This is where you can configure fields to **show or hide** based on the contents/selection of other fields, and even **skip pages** or submit the form based on the contents/selection of fields on a previous page.
 
-<Player url={BuilderRulesVideo} muted loop playing width="100%" height="100%" />
+<Player
+  url={
+    require('@site/static/videos/craft/freeform/v5/builder-rules.mp4').default
+  }
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
 
 ### Field Layout Map
 
@@ -234,7 +249,10 @@ Please see the [Conditional Rules](./conditional-rules.mdx) documentation for mo
 This is where you can configure various types of integrations for your form. It will only show integrations that have been configured/setup in the [Freeform Settings](../configuration/settings.mdx) area.
 
 <Player
-  url={BuilderIntegrationsVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/builder-integrations.mp4')
+      .default
+  }
   muted
   loop
   playing
@@ -287,7 +305,10 @@ Please see the [POST Forwarding](../integrations/post-forwarding.mdx) documentat
 This is where you configure all settings and behaviors for the form.
 
 <Player
-  url={BuilderSettingsVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/builder-settings.mp4')
+      .default
+  }
   muted
   loop
   playing
@@ -374,7 +395,16 @@ The **Usage in Elements** tab displays a list of other Craft elements that use t
 
 Freeform allows for _multi-page_ forms (a POST submit per page). When editing forms in the form builder, if you wish to rearrange pages, simply drag and drop the tabs. If you need to move a field from one page to another, drag and drop the field onto the page tab you'd like it to be moved to. It will then appear at the top of that page, and you can finish placing it where it should be on that page.
 
-<Player url={BuilderPagesVideo} muted loop playing width="100%" height="100%" />
+<Player
+  url={
+    require('@site/static/videos/craft/freeform/v5/builder-pages.mp4').default
+  }
+  nmuted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
 
 :::tip
 [Need to display submission data from previous pages as a confirmation screen, etc?](../guides/dynamic-data/displaying-submission-data-from-previous-pages.mdx)
@@ -423,7 +453,9 @@ The Forms dashboard page offers extensive customization options. You can choose 
 - [Errors & Update Notices](#errors--update-notices)
 
 <Player
-  url={FormDashboardVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/form-dashboard.mp4').default
+  }
   muted
   loop
   playing
