@@ -8,10 +8,6 @@ import Player from 'react-player';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 import { Badge, BadgeGroup } from '@site/src/components/utils';
 
-import BuilderRulesVideo from './assets/videos/builder-rules.mp4';
-import EmailNotificationsVideo from './assets/videos/email-notifications.mp4';
-import ExtraNotificationsVideo from './assets/videos/extra-notifications.mp4';
-
 # Email Notifications
 
 Freeform allows you to send email notifications upon submittal of a form. They are global and can be reused for multiple forms, saving you time when you are managing many forms.
@@ -20,7 +16,16 @@ Freeform allows you to send email notifications upon submittal of a form. They a
 Be sure to configure the [Email Alert](../configuration/settings.mdx#notices--alerts) feature. It allows you to automatically send an email notification alerting the email address(es) specified when an email notification cannot be delivered.
 :::
 
-<Player url={BuilderRulesVideo} muted loop playing width="100%" height="100%" />
+<Player
+  url={
+    require('@site/static/videos/craft/freeform/v5/builder-rules.mp4').default
+  }
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
 
 :::tip
 Email notifications may not work as expected when using **Sendmail** on your local dev environment. [Check out our _Mailtrap_ setup guide.](../guides/testing/email-testing-mailtrap.mdx)
@@ -227,7 +232,10 @@ Email notification templates are available to be stored as files, in the databas
 If adding a brand new email notification template inside the form builder, Freeform will respect the [Default Email Template Creation Method](../configuration/settings.mdx#email-templates) setting and contain basic default content that should be checked and updated once finished building your form.
 
 <Player
-  url={EmailNotificationsVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/email-notifications.mp4')
+      .default
+  }
   muted
   loop
   playing
@@ -256,20 +264,25 @@ When editing templates directly inside the control panel, Freeform will automati
 Email Notification templates may contain the following options:
 
 ### Name
+
 A common name for the notification template to identify it easier.
 
 ### Handle
+
 The unique identifier for the notification template, used when in your regular templates when specifying a notification template.
 
 ### Description
+
 A description for the notification template to help identify what it's used for, etc.
 
 ### Subject
+
 The subject line for the email notification.
 
 - May include any Freeform field variables (`fieldName`) as well as `form.name`.
 
 ### From Email
+
 The email address the email notification will appear from.
 
 - May include any Freeform field variable (`fieldName`).
@@ -287,6 +300,7 @@ If you are using **SMTP** or a service that uses SMTP (like _Sendgrid_, etc), pl
 :::
 
 ### From Name
+
 The email address the email notification will appear from.
 
 - May include any Freeform field variables (`fieldName`), e.g. `{{ firstName }} {{ lastName }}`
@@ -296,18 +310,21 @@ Using a dynamic approach with variables like above could have your emails marked
 :::
 
 ### Reply-to Email
+
 The email address the email notification will have set for Reply-to.
 
 - May include any Freeform field variable (`fieldName`).
 - Leave blank to use the _From Email_ value.
 
 ### Reply-to Name
+
 The name of the email/sender the email notification will have set for Reply-to.
 
 - May include any Freeform field variable (`fieldName`).
 - Leave blank to use the _From Name_ value.
 
 ### CC
+
 The email address the email notification will also send to as CC.
 
 - May include any Freeform field variable (`fieldName`).
@@ -315,6 +332,7 @@ The email address the email notification will also send to as CC.
 - Leave blank to not use CC.
 
 ### BCC
+
 The email address the email notification will also send to as BCC.
 
 - May include any Freeform field variable (`fieldName`).
@@ -322,71 +340,75 @@ The email address the email notification will also send to as BCC.
 - Leave blank to not use BCC.
 
 ### Include Attachments
+
 Include uploaded files as attachments in email notification.
 
 ### Email Body (HTML)
+
 The HTML body of the email notification to be sent.
 
 - A Plain Text email notification option is also available.
 - To use HTML only, leave the Plain Text field empty. To use Plain Text only, leave the HTML field empty. To use HTML with a Plain Text fallback, use both.
 - May include any Freeform field variable (`fieldName`) as well as `form.name`, `form.id`, `form.handle` and `dateCreated`.
 - Available field options:
-    - `fieldName.label` - displays the label (name) of the field.
-    - `fieldName` or `fieldName.value` or `fieldName.valueAsString` - displays the data submitted.<Badge type="feature" text="Revised for 5.0+" />
-    - Example: `apples`
-    - Array of data example: `apples, oranges`
-    - `fieldName.labels` or `fieldName.labelsAsString` - displays the option label(s) submitted (for fields with options).<Badge type="feature" text="New in 5.0+" />
-    - Example: `Apples`
-    - Array of data example: `Apples, Oranges`
-        :::warning
-        Avoid using `fieldName.value` or `fieldName.labels`, as it may not be a string and could trigger an error.
-        :::
-    - `fieldName.instructions` - displays the instructions for the field.
-    - `fieldName.handle` - displays the handle of the field.
-    - `fieldName.placeholder` - displays the placeholder of the field.
+  - `fieldName.label` - displays the label (name) of the field.
+  - `fieldName` or `fieldName.value` or `fieldName.valueAsString` - displays the data submitted.<Badge type="feature" text="Revised for 5.0+" />
+  - Example: `apples`
+  - Array of data example: `apples, oranges`
+  - `fieldName.labels` or `fieldName.labelsAsString` - displays the option label(s) submitted (for fields with options).<Badge type="feature" text="New in 5.0+" />
+  - Example: `Apples`
+  - Array of data example: `Apples, Oranges`
+    :::warning
+    Avoid using `fieldName.value` or `fieldName.labels`, as it may not be a string and could trigger an error.
+    :::
+  - `fieldName.instructions` - displays the instructions for the field.
+  - `fieldName.handle` - displays the handle of the field.
+  - `fieldName.placeholder` - displays the placeholder of the field.
 - May also use `allFields` or `allFieldsAndBlocks` variables to automate parsing of fields.
 - `allFieldsAndBlocks` works like `allFields`, but includes HTML and Rich Text blocks.
-    - To benefit from inclusion of HTML and Rich Text blocks correctly rendering HTML, you'll need to use a conditional inside the loop and add the `|raw` filter to `field.value`. [See example below](#include-html-and-rich-text-blocks).
+  - To benefit from inclusion of HTML and Rich Text blocks correctly rendering HTML, you'll need to use a conditional inside the loop and add the `|raw` filter to `field.value`. [See example below](#include-html-and-rich-text-blocks).
 - Available options:
-    - `field.label` - displays the label (name) of the field.
-    - `field.valueAsString` - displays the option value(s) submitted.<Badge type="feature" text="Revised for 5.0+" />
-    - Example: `apples`
-    - Array of data example: `apples, oranges`
-    - `field.labelsAsString` - displays the option label(s) submitted (for fields with options).<Badge type="feature" text="New in 5.0+" />
-    - Example: `Apples`
-    - Array of data example: `Apples, Oranges`
-        :::warning
-        Avoid using `field.value` or `field.labels`, as it may not be a string and could trigger an error.
-        :::
-    - `field.instructions` - displays the instructions for the field.
-    - `field.handle` - displays the handle of the field.
-    - `field.placeholder` - displays the placeholder of the field.
+  - `field.label` - displays the label (name) of the field.
+  - `field.valueAsString` - displays the option value(s) submitted.<Badge type="feature" text="Revised for 5.0+" />
+  - Example: `apples`
+  - Array of data example: `apples, oranges`
+  - `field.labelsAsString` - displays the option label(s) submitted (for fields with options).<Badge type="feature" text="New in 5.0+" />
+  - Example: `Apples`
+  - Array of data example: `Apples, Oranges`
+    :::warning
+    Avoid using `field.value` or `field.labels`, as it may not be a string and could trigger an error.
+    :::
+  - `field.instructions` - displays the instructions for the field.
+  - `field.handle` - displays the handle of the field.
+  - `field.placeholder` - displays the placeholder of the field.
 - To parse only fields with data, you can use:
-    ```twig showLineNumbers
-    {% for field in allFields if field.valueAsString %}
-    ```
+  ```twig showLineNumbers
+  {% for field in allFields if field.valueAsString %}
+  ```
 - Excludes _File Upload_ fields. To render these manually, [see example here](#including-file-upload-data).
 - Excludes _Email Marketing_ (mailing list checkbox) selection. To render manually, [see example here](#including-email-marketing-selection-data).
 - Excludes _Signature_ fields. To render manually, use:
-    ```twig showLineNumbers
-    <img src="{{ submission.myFieldHandle.value }}" alt="Signature" />
-    ```
+  ```twig showLineNumbers
+  <img src="{{ submission.myFieldHandle.value }}" alt="Signature" />
+  ```
 - You may iterate over submission values from the [Submission object](../templates/objects/submission.mdx) (as long as you're [storing submitted data](./builder.mdx#settings))
 - If using the [Elements integration](./fieldtype.mdx), you may use the `element` object to display data from the newly created Craft Element such as ID, title, username, etc.
 - For example (but not limited to):
-    - `element.id` will return the ID of the newly created Element
-    - `element.title` will return the title of the newly created Craft Entry
-    - `element.username` will return the username of the newly created Craft User
+  - `element.id` will return the ID of the newly created Element
+  - `element.title` will return the title of the newly created Craft Entry
+  - `element.username` will return the username of the newly created Craft User
 - If you have more than 1 element integration for the form, you can use either:
-    ```twig showLineNumbers
-    {% for item in element %}
-    {{ element[0].id }}, {{ element[1].id }}, etc
-    ```
+  ```twig showLineNumbers
+  {% for item in element %}
+  {{ element[0].id }}, {{ element[1].id }}, etc
+  ```
 
 ### Auto 'Text-Only' version
+
 When enabled, Freeform will automatically provide a Text-only version of the notification based on the HTML version. If disabled, a **Text-Only** Body setting will display for manually handling this.
 
 ### Email Body (Text)
+
 The Plain Text body of the email notification to be sent.
 
 - All of the variables listed above for _Email Body (HTML)_ are available here as well.
@@ -394,12 +416,14 @@ The Plain Text body of the email notification to be sent.
 - When making templates directly (outside of the control panel), simply wrap an additional set of email body contents with `{# text #} {# /text #}` in your notification template. [See example below](#include-a-text-only-version).
 
 ### Predefined Assets<Badge type="pro" text="Pro" />
+
 Select any Assets you wish to include as attachments on all email notifications using this template.
 
 - Useful if you wish to include a PDF ticket or instructions document to submitter email notifictions, etc.
 - Can also preparse Twig, allowing you to dynamically attach an asset to the email notification based on a user's selection, etc.
 
 ### PDF Templates<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.7+" />
+
 Select any PDF Templates you wish to generate and include as attachments on all email notifications using this template.
 
 ## Examples
@@ -666,7 +690,10 @@ Textarea data is stored in the database as newlines, which obviously don't parse
 Freeform allows you to send extra email notifications for any reason.
 
 <Player
-  url={ExtraNotificationsVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/extra-notifications.mp4')
+      .default
+  }
   muted
   loop
   playing

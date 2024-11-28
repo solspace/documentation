@@ -13,38 +13,6 @@ import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 
 import Icons from '@site/static/card-icons';
 
-import FieldAttributeEditorPhoto from './assets/img/field-attribute-editor.png';
-import CheckboxFieldImg from './assets/img/fields/checkbox.png';
-import CheckboxesFieldImg from './assets/img/fields/checkboxes.png';
-import ConfirmFieldImg from './assets/img/fields/confirm.png';
-import DateTimeFieldImg from './assets/img/fields/date-time.png';
-import DropdownFieldImg from './assets/img/fields/dropdown.png';
-import EmailFieldImg from './assets/img/fields/email.png';
-import FileUploadFieldImg from './assets/img/fields/file-upload.png';
-import FileDragDropFieldImg from './assets/img/fields/file-upload-drag-drop.png';
-import HTMLRichTextFieldImg from './assets/img/fields/html-rich-text.png';
-import MultiSelectFieldImg from './assets/img/fields/multi-select.png';
-import NumberFieldImg from './assets/img/fields/number.png';
-import OpinionScaleFieldImg from './assets/img/fields/opinion-scale.png';
-import PasswordFieldImg from './assets/img/fields/password.png';
-import PhoneFieldImg from './assets/img/fields/phone.png';
-import RadiosFieldImg from './assets/img/fields/radios.png';
-import RatingFieldImg from './assets/img/fields/rating.png';
-import RegexFieldImg from './assets/img/fields/regex.png';
-import SubmitSaveFieldImg from './assets/img/fields/submit-save.png';
-import SignatureFieldImg from './assets/img/fields/signature.png';
-import StripeFieldImg from './assets/img/fields/stripe.png';
-import TableFieldImg from './assets/img/fields/table.png';
-import TableBuilderFieldImg from './assets/img/fields/table-builder.png';
-import TextFieldImg from './assets/img/fields/text.png';
-import TextareaFieldImg from './assets/img/fields/textarea.png';
-import WebsiteFieldImg from './assets/img/fields/website.png';
-import SubmitFieldImg from './assets/img/fields/submit.png';
-
-import BuilderFeatureVideo from './assets/videos/builder-feature.mp4';
-import BuilderFavoritesVideo from './assets/videos/builder-favorites.mp4';
-import GroupFieldsVideo from './assets/videos/group-fields.mp4';
-
 # Fields
 
 Freeform features its own set of robust field types. The form builder displays a list of available field types which can then be added to forms indefinitely. Fields are specific to each form, but can also be saved as favorites or searched upon to be reused in other forms.
@@ -98,14 +66,15 @@ Freeform features its own set of robust field types. The form builder displays a
 :::
 
 <Player
-  url={BuilderFeatureVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/builder-feature.mp4').default
+  }
   muted
   loop
   playing
   width="100%"
   height="100%"
 />
-
 
 ## Overview
 
@@ -119,18 +88,18 @@ Freeform features its own set of robust field types. The form builder displays a
 
 There is a standard number of settings available to all forms (with some exceptions). Every form field has the ability for you to do the following:
 
-| Setting                                                                           | Template&nbsp;Usage                                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| --------------------------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Label**                                                                         | `label`                                            | The label for the field. This can be changed per form if you wish.                                                                                                                                                                                                                                                                                                                                                                                      |
-| **Handle**                                                                        | `handle`                                           | How the field may be called in templates, if necessary. You may also override this value per form if you wish.                                                                                                                                                                                                                                                                                                                                          |
-| **Required**                                                                      | `required`                                         | Toggle if the field requires a value to submit the form successfully.                                                                                                                                                                                                                                                                                                                                                                                   |
+| Setting                                                                          | Template&nbsp;Usage                                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| -------------------------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Label**                                                                        | `label`                                            | The label for the field. This can be changed per form if you wish.                                                                                                                                                                                                                                                                                                                                                                                      |
+| **Handle**                                                                       | `handle`                                           | How the field may be called in templates, if necessary. You may also override this value per form if you wish.                                                                                                                                                                                                                                                                                                                                          |
+| **Required**                                                                     | `required`                                         | Toggle if the field requires a value to submit the form successfully.                                                                                                                                                                                                                                                                                                                                                                                   |
 | **Custom&nbsp;Validation&nbsp;Error**<Badge type="feature" text="New in 5.7+" /> |                                                    | Visible when **Required** is toggled on. If this field is left empty upon submit, show this error message.                                                                                                                                                                                                                                                                                                                                              |
-| **Instructions**                                                                  | `instructions`                                     | Specify intructions for the field if you wish.                                                                                                                                                                                                                                                                                                                                                                                                          |
-| **Default Value**                                                                 | `defaultValue`                                     | For applicable fields, you can set a default value or selected option for the field.                                                                                                                                                                                                                                                                                                                                                                    |
-| **Placeholder**                                                                   | `placeholder`                                      | Specify placeholder text for the field, if applicable.                                                                                                                                                                                                                                                                                                                                                                                                  |
-| **Maximum&nbsp;Length**                                                           | `maxlength`                                        | The maximum number of characters for the field's value. Applicable only to the following field types: <ul><li>[Confirm](#confirm)</li><li>[Date & Time](#date-time)</li><li>[Email](#email)</li><li>[Hidden](#hidden)</li><li>[Invisible](#invisible)</li><li>[Number](#number)</li><li>[Password](#password)</li><li>[Phone](#phone)</li><li>[Regex](#regex)</li><li>[Text](#text)</li><li>[Textarea](#textarea)</li><li>[Website](#website)</li></ul> |
-| **Attribute Editor**                                                              |                                                    | Apply any kind of attribute on the input, label, error, instruction in Freeform's automated rendering of the form.                                                                                                                                                                                                                                                                                                                                      |
-| **Options**                                                                       | `options`<ul><li>`label`</li><li>`value`</li></ul> | Specify the option labels and values for applicable field types. Available only for the following field types: <ul><li>[Checkboxes](#checkboxes)</li><li>[Dropdown](#dropdown)</li><li>[Multiple Select](#multiple-select)</li><li>[Radios](#radios)</li></ul>                                                                                                                                                                                          |
+| **Instructions**                                                                 | `instructions`                                     | Specify intructions for the field if you wish.                                                                                                                                                                                                                                                                                                                                                                                                          |
+| **Default Value**                                                                | `defaultValue`                                     | For applicable fields, you can set a default value or selected option for the field.                                                                                                                                                                                                                                                                                                                                                                    |
+| **Placeholder**                                                                  | `placeholder`                                      | Specify placeholder text for the field, if applicable.                                                                                                                                                                                                                                                                                                                                                                                                  |
+| **Maximum&nbsp;Length**                                                          | `maxlength`                                        | The maximum number of characters for the field's value. Applicable only to the following field types: <ul><li>[Confirm](#confirm)</li><li>[Date & Time](#date-time)</li><li>[Email](#email)</li><li>[Hidden](#hidden)</li><li>[Invisible](#invisible)</li><li>[Number](#number)</li><li>[Password](#password)</li><li>[Phone](#phone)</li><li>[Regex](#regex)</li><li>[Text](#text)</li><li>[Textarea](#textarea)</li><li>[Website](#website)</li></ul> |
+| **Attribute Editor**                                                             |                                                    | Apply any kind of attribute on the input, label, error, instruction in Freeform's automated rendering of the form.                                                                                                                                                                                                                                                                                                                                      |
+| **Options**                                                                      | `options`<ul><li>`label`</li><li>`value`</li></ul> | Specify the option labels and values for applicable field types. Available only for the following field types: <ul><li>[Checkboxes](#checkboxes)</li><li>[Dropdown](#dropdown)</li><li>[Multiple Select](#multiple-select)</li><li>[Radios](#radios)</li></ul>                                                                                                                                                                                          |
 
 :::info
 All field types conveniently include the ability to set attributes for their **labels**, **inputs**, **errors** and **instructions** directly inside the form builder property editor.
@@ -140,7 +109,7 @@ All field types conveniently include the ability to set attributes for their **l
 - You can use anything inside the [Form](../templates/objects/form.mdx) and [Field](../templates/objects/field.mdx) objects as well, e.g.:
   - `field.id` to access Field ID.
   - `form.handle` to access form handle.
-:::
+    :::
 
 ### Field Encryption<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.0+" />
 
@@ -168,56 +137,59 @@ Freeform contains a rich set of field types to handle just about every possible 
 Fields can be changed to other field types at any point, but be aware that data loss could occur when switching incompatible field types.
 :::
 
-| Name                                                                               | `field.type`                          | Description                                                                                                                                                        | <span class="edition-express no-margin">Express</span> | <span class="edition-lite no-margin">Lite</span> | <span class="edition-pro no-margin">Pro</span> |
-| ---------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------: | :----------------------------------------------: | :--------------------------------------------: |
+| Name                                                                              | `field.type`                          | Description                                                                                                                                                        | <span class="edition-express no-margin">Express</span> | <span class="edition-lite no-margin">Lite</span> | <span class="edition-pro no-margin">Pro</span> |
+| --------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------: | :----------------------------------------------: | :--------------------------------------------: |
 | [Calculation](#calculation)<Badge type="feature" text="New in 5.1+" />            | `calculation`                         | Perform dynamic calculations based on user-input values within forms.                                                                                              |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Checkbox](#checkbox)                                                              | `checkbox`                            | A single checkbox field.                                                                                                                                           |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Checkboxes](#checkboxes)                                                          | `checkboxes`                          | A group of checkboxes.                                                                                                                                             |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Confirm](#confirm)                                                                | `confirm`                             | A text input field that targets another similar field and ensures the values match.                                                                                |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Date & Time](#date--time)                                                         | `datetime`                            | A complex date and/or time field.                                                                                                                                  |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Dropdown](#dropdown)                                                              | `dropdown`                            | A select dropdown menu field.                                                                                                                                      |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Email](#email)                                                                    | `email`                               | A text input field that includes additional email validation and possibility for attaching an email notification to it.                                            |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [File Upload](#file-upload)                                                        | `file`                                | A regular file upload field.                                                                                                                                       |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [File Upload Drag & Drop](#file-upload-drag--drop)                                 | `file-dnd`                            | An advanced javascript-based file uploading field.                                                                                                                 |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Checkbox](#checkbox)                                                             | `checkbox`                            | A single checkbox field.                                                                                                                                           |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
+| [Checkboxes](#checkboxes)                                                         | `checkboxes`                          | A group of checkboxes.                                                                                                                                             |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
+| [Confirm](#confirm)                                                               | `confirm`                             | A text input field that targets another similar field and ensures the values match.                                                                                |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Date & Time](#date--time)                                                        | `datetime`                            | A complex date and/or time field.                                                                                                                                  |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Dropdown](#dropdown)                                                             | `dropdown`                            | A select dropdown menu field.                                                                                                                                      |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
+| [Email](#email)                                                                   | `email`                               | A text input field that includes additional email validation and possibility for attaching an email notification to it.                                            |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
+| [File Upload](#file-upload)                                                       | `file`                                | A regular file upload field.                                                                                                                                       |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
+| [File Upload Drag & Drop](#file-upload-drag--drop)                                | `file-dnd`                            | An advanced javascript-based file uploading field.                                                                                                                 |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
 | [Group](#group)<Badge type="feature" text="New in 5.0+" />                        | `group`                               | A field that contains other fields within it.                                                                                                                      |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Hidden](#hidden)                                                                  | <span class="compare-none">N/A</span> | A hidden input field.                                                                                                                                              |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [HTML](#html)                                                                      | `html`                                | A block that allows you to insert HTML into areas of your form.                                                                                                    |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Invisible](#invisible)                                                            | <span class="compare-none">N/A</span> | A field that allows you to collect hidden data in form submissions without a hidden field being present in the template source code.                               |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Multiple Select](#multiple-select)                                                | `multiple-select`                     | A multiple-select field.                                                                                                                                           |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Number](#number)                                                                  | `number`                              | A `number` type input field that is validated to contain certain numbers only.                                                                                     |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Opinion Scale](#opinion-scale)                                                    | `opinion-scale`                       | A special field that allows for flexible opinion scoring.                                                                                                          |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Password](#password)                                                              | `password`                            | A text input field that collects sensitive passwords but does not store them.                                                                                      |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Phone](#phone)                                                                    | `phone`                               | A `tel` type input field that is validated to contain phone numbers only, based on a configured pattern.                                                           |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Radios](#radios)                                                                  | `radios`                              | A group of radio options.                                                                                                                                          |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Rating](#rating)                                                                  | `rating`                              | A special field that allows for star ratings.                                                                                                                      |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Regex](#regex)                                                                    | `regex`                               | An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`).                                                                   |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Rich Text](#rich-text)                                                            | `rich-text`                           | A block that allows you to insert rich text into areas of your form (headings, descriptions, etc).                                                                 |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Signature](#signature)                                                            | `signature`                           | A field that allows users to handwrite signatures inside your form.                                                                                                |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Hidden](#hidden)                                                                 | <span class="compare-none">N/A</span> | A hidden input field.                                                                                                                                              |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
+| [HTML](#html)                                                                     | `html`                                | A block that allows you to insert HTML into areas of your form.                                                                                                    |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
+| [Invisible](#invisible)                                                           | <span class="compare-none">N/A</span> | A field that allows you to collect hidden data in form submissions without a hidden field being present in the template source code.                               |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Multiple Select](#multiple-select)                                               | `multiple-select`                     | A multiple-select field.                                                                                                                                           |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
+| [Number](#number)                                                                 | `number`                              | A `number` type input field that is validated to contain certain numbers only.                                                                                     |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
+| [Opinion Scale](#opinion-scale)                                                   | `opinion-scale`                       | A special field that allows for flexible opinion scoring.                                                                                                          |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Password](#password)                                                             | `password`                            | A text input field that collects sensitive passwords but does not store them.                                                                                      |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Phone](#phone)                                                                   | `phone`                               | A `tel` type input field that is validated to contain phone numbers only, based on a configured pattern.                                                           |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Radios](#radios)                                                                 | `radios`                              | A group of radio options.                                                                                                                                          |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
+| [Rating](#rating)                                                                 | `rating`                              | A special field that allows for star ratings.                                                                                                                      |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Regex](#regex)                                                                   | `regex`                               | An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`).                                                                   |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Rich Text](#rich-text)                                                           | `rich-text`                           | A block that allows you to insert rich text into areas of your form (headings, descriptions, etc).                                                                 |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Signature](#signature)                                                           | `signature`                           | A field that allows users to handwrite signatures inside your form.                                                                                                |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
 | [Stripe Payment](#stripe-payment)<Badge type="feature" text="Improved in 5.0+" /> | `stripe`                              | A set of input fields to allow the validation of credit cards and other payment options for [Stripe Payment](../integrations/stripe-payments.mdx) implementations. |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Submit buttons](#submit-buttons)                                                  | <span class="compare-none">N/A</span> | Handles the submit button(s), including **Save** option for the form.                                                                                              |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Table](#table)<Badge type="feature" text="Improved in 5.8+" /> | `table`                               | A field that allows you to collect and handle repeating data.                                                                                                      |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Text](#text)                                                                      | `text`                                | A single-line text input field.                                                                                                                                    |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Textarea](#textarea)                                                              | `textarea`                            | A multi-line text input field.                                                                                                                                     |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Website](#website)                                                                | `website`                             | A `url` type input field that checks to see if the URL specified has valid syntax.                                                                                 |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Submit buttons](#submit-buttons)                                                 | <span class="compare-none">N/A</span> | Handles the submit button(s), including **Save** option for the form.                                                                                              |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
+| [Table](#table)<Badge type="feature" text="Improved in 5.8+" />                   | `table`                               | A field that allows you to collect and handle repeating data.                                                                                                      |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Text](#text)                                                                     | `text`                                | A single-line text input field.                                                                                                                                    |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
+| [Textarea](#textarea)                                                             | `textarea`                            | A multi-line text input field.                                                                                                                                     |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
+| [Website](#website)                                                               | `website`                             | A `url` type input field that checks to see if the URL specified has valid syntax.                                                                                 |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
 
 ### Favorite Fields
 
 Any field can be a favorite field! If you have a number of fields that are commonly used across more than one form, such as **Name**, **Email**, etc, you can easily save them to your Favorite Fields list. If you need to edit or remove that field, you can always do that later in the manager area.
 
 :::info
+
 - Favorite fields are a snapshot of that field at the time it was saved.
 - Any customizations of a Favorite field or using a field from another form are specific only to the form they're adjusted in.
-:::
+  :::
 
 <Player
-  url={BuilderFavoritesVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/builder-favorites.mp4')
+      .default
+  }
   muted
   loop
   playing
   width="100%"
   height="100%"
 />
-
 
 ## Calculation<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.1+" />
 
@@ -542,18 +514,23 @@ yes
 </TabItem>
 </Tabs>
 
-
 ## Checkbox
 
 A single checkbox field. The `field.type` property value is `checkbox` (for conditionals).
 
-<Photo scale={40} img={CheckboxFieldImg} alt="Checkbox" />
+<Photo
+  scale={40}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/checkbox.png')}
+  alt="Checkbox"
+/>
 
 :::tip
+
 #### User Guides
+
 - [Need to display basic HTML (`<b>`, `<i>`, `<a>`, etc) in your option labels to add emphasis or display a link?](../guides/fields/parsing-html-in-field-options.mdx)
 - [Want to display single checkbox fields as a light switch toggle?](../guides/fields/toggle-switch-checkbox.mdx)
-:::
+  :::
 
 ### Settings
 
@@ -566,18 +543,22 @@ A single checkbox field. The `field.type` property value is `checkbox` (for cond
 
 - `checkedByDefault` (e.g. `1`)
 
-
 ## Checkboxes<Badge type="feature" text="Renamed in 5.0+" />
 
 A group of checkboxes. The `field.type` property value is `checkboxes` (for conditionals).
 
-<Photo img={CheckboxesFieldImg} alt="Checkboxes field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/checkboxes.png')}
+  alt="Checkboxes field type"
+/>
 
 :::tip
+
 #### User Guides
+
 - [Need to display basic HTML (`<b>`, `<i>`, `<a>`, etc) in your option labels to add emphasis or display a link?](../guides/fields/parsing-html-in-field-options.mdx)
 - [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
-:::
+  :::
 
 ### Settings
 
@@ -586,24 +567,29 @@ A group of checkboxes. The `field.type` property value is `checkboxes` (for cond
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 - Can be rendered vertically or horizontally.
 
-
 ## Confirm<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.0+" />
 
 A field that allows you to force a user to re-enter a matching value for another text input field, including [Password](#password) fields (e.g. "Confirm Email Address", "Confirm Password"). It runs through additional validation to make sure field values match. If not, it'll show an error. This field stores the data as well, in case that is important for your site's needs. The `field.type` property value is `confirm` (for conditionals).
 
-<Photo img={ConfirmFieldImg} alt="Confirm field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/confirm.png')}
+  alt="Confirm field type"
+/>
 
 ### Settings
 
 - Choose a target field to validate against, e.g. **Email** field.
   - Available fields must be of text input type, but don't necessarily need to be of the [Text](#text) field type - you can use with [Email](#email) fields, [Password](#password) special fields, [Phone](#phone) fields, etc.
 
-
 ## Date & Time<Badge type="pro" text="Pro" />
 
 A complex date and/or time field. Can be used as Date only, Time only, or both. Many configuration and validation options available as well. The `field.type` property value is `datetime` (for conditionals).
 
-<Photo scale={40} img={DateTimeFieldImg} alt="Date & Time field type" />
+<Photo
+  scale={40}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/date-time.png')}
+  alt="Date & Time field type"
+/>
 
 ### Settings
 
@@ -654,18 +640,22 @@ To customize the date picker appearance and behavior, please see [Date Picker Ev
 - `minDate` (e.g. `five weeks ago`)
 - `maxDate` (e.g. `2024-12-31`)
 
-
 ## Dropdown<Badge type="feature" text="Renamed in 5.0+" />
 
 A select dropdown menu field. The `field.type` property value is `dropdown` (for conditionals).
 
-<Photo img={DropdownFieldImg} alt="Dropdown field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/dropdown.png')}
+  alt="Dropdown field type"
+/>
 
 :::tip
+
 #### User Guides
+
 - [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
 - [Looking to include an additional "Other" choice that displays an input field for users to fill in their own value?](../guides/fields/other-option-for-fields.mdx)
-:::
+  :::
 
 ### Settings
 
@@ -674,12 +664,14 @@ A select dropdown menu field. The `field.type` property value is `dropdown` (for
 - Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-fields-with-elements--predefined-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 
-
 ## Email<Badge type="feature" text="Revised in 5.0+" />
 
 A single-line text input field that includes additional validation to expect a valid email address as well as the possibility of attaching an email notification to it. Pair this with the [Confirm](#confirm) special field type if you wish to have the user enter their email address twice. The `field.type` property value is `email` (for conditionals).
 
-<Photo img={EmailFieldImg} alt="Email field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/email.png')}
+  alt="Email field type"
+/>
 
 :::warning
 It is required to use the **Email** field type if you wish for your users to receive an email notification when submitting the form and/or you're using an Email Marketing API integration.
@@ -698,12 +690,14 @@ It is required to use the **Email** field type if you wish for your users to rec
 
 - `notificationId` (the ID of the assigned email notification template)
 
-
 ## File Upload
 
 A regular file upload field, using [Craft Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html). The `field.type` property value is `file` (for conditionals).
 
-<Photo img={FileUploadFieldImg} alt="File Upload field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/file-upload.png')}
+  alt="File Upload field type"
+/>
 
 :::tip
 [Would you like to allow more file extensions in file uploads?](../guides/fields/allow-additional-file-extensions.mdx)
@@ -741,12 +735,14 @@ A regular file upload field, using [Craft Assets](https://craftcms.com/docs/5.x/
 - `fileCount` (the maximum number of allowed files to be uploaded.)
   - A number larger than `1` will allow multiple files to be uploaded at the same time.
 
-
 ## File Upload Drag & Drop<Badge type="pro" text="Pro" />
 
 An advanced premium javascript-based file uploading field, using [Craft Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html). The `field.type` property value is `file-dnd` (for conditionals).
 
-<Photo img={FileDragDropFieldImg} alt="File Upload Drag & Drop field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/file-upload-drag-drop.png')}
+  alt="File Upload Drag & Drop field type"
+/>
 
 :::tip
 [Would you like to allow more file extensions in file uploads?](../guides/fields/allow-additional-file-extensions.mdx)
@@ -789,7 +785,6 @@ An advanced premium javascript-based file uploading field, using [Craft Assets](
 ### Customizing the Appearance
 
 The form builder includes some options for controlling basic styling, but you can also customize the appearance of the Drag and Drop File Upload field by using your own CSS. To avoid name collision and have maximum flexibility, the CSS class names use [BEM](http://getbem.com/introduction/) methodology. You will also likely need to specify `!important` for each override to ensure it takes effect.
-
 
 <Tabs>
 <TabItem value="file-drag-drop-class-names" label="Class Names" default>
@@ -873,17 +868,24 @@ Below is an example with regular CSS:
 </TabItem>
 </Tabs>
 
-
 ## Group<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.0+" />
 
 A field that contains other fields within it. To use, add a Group field into your form's layout, then add/drag other fields into that Group inside the form builder. This becomes especially powerful when using with [Conditional Rules](./conditional-rules.mdx), as you'll be able create a single rule to show/hide an entire group of fields at once.
 
-<Player url={GroupFieldsVideo} muted loop playing width="100%" height="100%" />
+<Player
+  url={
+    require('@site/static/videos/craft/freeform/v5/group-fields.mp4').default
+  }
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
 
 ### Settings
 
 This field type only contains instructions and attributes for settings inside the builder.
-
 
 ## Hidden
 
@@ -902,12 +904,14 @@ Freeform will load fields of this type at the beginning of the form, regardless 
 To access hidden fields in GraphQL queries you have to loop through the `form > fields` as they are not added to `form > pages > rows > fields`.
 :::
 
-
 ## HTML
 
 A special field type that allows you include HTML and Twig inside your form layout in the form builder. The `field.type` property value is `html` (for conditionals).
 
-<Photo img={HTMLRichTextFieldImg} alt="HTML field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/html-rich-text.png')}
+  alt="HTML field type"
+/>
 
 <details>
 <summary>View Important Notes...</summary>
@@ -932,7 +936,6 @@ If you'd like to display submission data from previous pages, you can do this by
 </ul>
 ```
 
-
 ## Invisible<Badge type="pro" text="Pro" />
 
 A field that allows you to collect hidden data in form submissions without a hidden field being present in the template source code.
@@ -942,12 +945,15 @@ A field that allows you to collect hidden data in form submissions without a hid
 - Can only include text strings at this time (no variables allowed).
   - If you need you pass a value to your hidden field dynamically, you can do so with the `values` parameter. E.g. `values: { myFieldName: "myvalue" }`
 
-
 ## Multiple Select
 
 A multiple-select field. The `field.type` property value is `multiple-select` (for conditionals).
 
-<Photo scale={40} img={MultiSelectFieldImg} alt="Multiple Select field type" />
+<Photo
+  scale={40}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/multi-select.png')}
+  alt="Multiple Select field type"
+/>
 
 :::tip
 [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
@@ -959,12 +965,15 @@ A multiple-select field. The `field.type` property value is `multiple-select` (f
 - Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-fields-with-elements--predefined-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 
-
 ## Number
 
 A single-line `number` type input field that is validated to contain certain numbers only. The `field.type` property value is `number` (for conditionals).
 
-<Photo scale={40} img={NumberFieldImg} alt="Number field type" />
+<Photo
+  scale={40}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/number.png')}
+  alt="Number field type"
+/>
 
 :::tip
 [Want to display a Number field as a range slider?](../guides/fields/range-slider-number.mdx)
@@ -990,12 +999,15 @@ A single-line `number` type input field that is validated to contain certain num
 - `allowNegative` (e.g. `false`)
 - `step`
 
-
 ## Opinion Scale<Badge type="pro" text="Pro" /><Badge type="feature" text="Revised in 5.0+" />
 
 A special field that allows for flexible opinion scoring using Freeform's built in CSS. The `field.type` property value is `opinion-scale` (for conditionals). This field type is included automatically with the _Pro_ edition of Freeform.
 
-<Photo scale={60} img={OpinionScaleFieldImg} alt="Opinion Scale field type" />
+<Photo
+  scale={60}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/opinion-scale.png')}
+  alt="Opinion Scale field type"
+/>
 
 ### Settings
 
@@ -1039,12 +1051,14 @@ To manually render an Opinion Scale field to use your own styles, your code migh
 {% endif %}
 ```
 
-
 ## Password<Badge type="pro" text="Pro" />
 
 A special field type that allows you to securely collect a password from a submitter **but NOT store the value in the Freeform database** (typically used for [User Registration forms](../guides/speciality-forms/user-registration.mdx) with the [Elements integration](../integrations/elements.mdx)). Pair this with the [Confirm](#confirm) special field type if you wish to have the user enter their password twice. The `field.type` property value is `password` (for conditionals).
 
-<Photo img={PasswordFieldImg} alt="Password field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/password.png')}
+  alt="Password field type"
+/>
 
 ### Settings<Badge type="feature" text="New in 5.2+" />
 
@@ -1060,12 +1074,14 @@ A special field type that allows you to securely collect a password from a submi
 
 </details>
 
-
 ## Phone<Badge type="pro" text="Pro" />
 
 A `tel` type input field that is validated to contain phone numbers only, based on a configured pattern. The `field.type` property value is `phone` (for conditionals).
 
-<Photo img={PhoneFieldImg} alt="Phone field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/phone.png')}
+  alt="Phone field type"
+/>
 
 ### Settings
 
@@ -1077,19 +1093,23 @@ A `tel` type input field that is validated to contain phone numbers only, based 
 
 - `pattern`
 
-
 ## Radios<Badge type="feature" text="Renamed in 5.0+" />
 
 A group of radio options. The `field.type` property value is `radios` (for conditionals).
 
-<Photo img={RadiosFieldImg} alt="Radios field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/radios.png')}
+  alt="Radios field type"
+/>
 
 :::tip
+
 #### User Guides
+
 - [Need to display basic HTML (`<b>`, `<i>`, `<a>`, etc) in your option labels to add emphasis or display a link?](../guides/fields/parsing-html-in-field-options.mdx)
 - [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
 - [Looking to include an additional "Other" choice that displays an input field for users to fill in their own value?](../guides/fields/other-option-for-fields.mdx)
-:::
+  :::
 
 ### Settings
 
@@ -1098,13 +1118,15 @@ A group of radio options. The `field.type` property value is `radios` (for condi
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 - Can be rendered vertically or horizontally.
 
-
 ## Rating<Badge type="pro" text="Pro" />
 
 A special field that allows for star ratings using Freeform's built-in CSS. The `field.type` property value is `rating` (for conditionals).
 This field type is included automatically with the _Pro_ edition of Freeform.
 
-<Photo img={RatingFieldImg} alt="Rating field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/rating.png')}
+  alt="Rating field type"
+/>
 
 ### Settings
 
@@ -1129,12 +1151,15 @@ To manually render a Rating field using your own styles, your code might look so
 {% endfor %}
 ```
 
-
 ## Regex<Badge type="pro" text="Pro" />
 
 An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`). The `field.type` property value is `regex` (for conditionals).
 
-<Photo scale={50} img={RegexFieldImg} alt="Regex field type" />
+<Photo
+  scale={50}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/regex.png')}
+  alt="Regex field type"
+/>
 
 ### Settings
 
@@ -1151,12 +1176,14 @@ An input field that is validated based on the specified regex pattern (e.g. `/^[
 - `pattern`
 - `message`
 
-
 ## Rich Text<Badge type="pro" text="Pro" />
 
 A special field type that allows you include rich text inside your form layout in the form builder. The `field.type` property value is `rich-text` (for conditionals).
 
-<Photo img={HTMLRichTextFieldImg} alt="Rich Text field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/html-rich-text.png')}
+  alt="Rich Text field type"
+/>
 
 :::tip
 [Want to allow front end users to use a rich text editor such as **TinyMCE** on a textarea field?](../guides/fields/tinymce-editor-textarea.mdx)
@@ -1170,12 +1197,15 @@ A special field type that allows you include rich text inside your form layout i
 
 </details>
 
-
 ## Signature<Badge type="pro" text="Pro" />
 
 A field that allows users to handwrite signatures with their mouse inside your form. The `field.type` property value is `signature` (for conditionals).
 
-<Photo scale={50} img={SignatureFieldImg} alt="Signature field type" />
+<Photo
+  scale={50}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/signature.png')}
+  alt="Signature field type"
+/>
 
 ### Settings
 
@@ -1197,12 +1227,14 @@ A field that allows users to handwrite signatures with their mouse inside your f
 
 </details>
 
-
 ## Submit buttons<Badge type="feature" text="Revised in 5.0+" />
 
 Submit buttons are handled automatically by Freeform. They are automatically inserted at the end of your form in the form builder. This includes the **Submit/Continue**, **Previous** (where applicable), and **Save & Continue Later** buttons (where available).
 
-<Photo img={SubmitFieldImg} alt="Submit Buttons field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/submit.png')}
+  alt="Submit Buttons field type"
+/>
 
 ### Settings
 
@@ -1313,7 +1345,10 @@ For maximum control, you can use a property attributes render instead. The follo
 
 This feature allows users to save their form progress and continue/complete the form later. For more information about this feature, please see the [Save & Continue Later documentation](./save-continue-later.mdx).
 
-<Photo img={SubmitSaveFieldImg} alt="Save & Continue Later button" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/submit-save.png')}
+  alt="Save & Continue Later button"
+/>
 
 #### Additional Configuration
 
@@ -1326,19 +1361,23 @@ This feature allows users to save their form progress and continue/complete the 
   - Requires targeting of an [Email](#email) field that will contain the user's email address in order to send the email notification.
     - If the user hasn't yet filled out an email address, the email notification attempt will be suppressed (as there is no field validation to ensure the Email field is fillout out). A good way around this would be to have the first page include basic info like _name_ and _email_ but no option to save the form until the second page.
 
-
 ## Stripe Payment<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.0+" />
 
 When the [Stripe Payments](../integrations/stripe-payments.mdx) integration is configured, a Stripe Payments special field type will become available. This field enables your forms to collect (but not store) credit card or other payment information and pass it off to Stripe.
 
-<Photo img={StripeFieldImg} alt="Stripe Payment field Layout Options" />
-
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/stripe.png')}
+  alt="Stripe Payment field Layout Options"
+/>
 
 ## Table<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.8+" />
 
 A field that allows you to collect and handle repeating data. The `field.type` property value is `table` (for conditionals).
 
-<Photo img={TableFieldImg} alt="Table field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/table.png')}
+  alt="Table field type"
+/>
 
 ### Settings
 
@@ -1350,7 +1389,10 @@ A field that allows you to collect and handle repeating data. The `field.type` p
   - Radios<Badge type="feature" text="New in 5.8+" />
 - Enable the _Use built-in javascript for adding and removing rows_ toggle to have Freeform automatically include JS in the form that validates the format and auto-inserts the extra characters like `(`, `-`, `+` etc).
 
-<Photo img={TableBuilderFieldImg} alt="Table field type in form builder" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/table-builder.png')}
+  alt="Table field type in form builder"
+/>
 
 ### Rendering
 
@@ -1563,41 +1605,49 @@ A complete example might look like:
 </TabItem>
 </Tabs>
 
-
 ## Text
 
 A single-line text input field. The `field.type` property value is `text` (for conditionals).
 
-<Photo img={TextFieldImg} alt="Text field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/text.png')}
+  alt="Text field type"
+/>
 
 :::tip
 [Want to display a Text input as a Color Picker?](../guides/fields/color-picker-text.mdx)
 :::
 
-
 ## Textarea
 
 A multi-line text input field. The `field.type` property value is `textarea` (for conditionals).
 
-<Photo img={TextareaFieldImg} alt="Textare field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/textarea.png')}
+  alt="Textare field type"
+/>
 
 :::tip
+
 #### User Guides
+
 - [Need to display linebreaks for Textarea fields in email notifications or on the front end with a Submissions query?](../guides/templating/line-breaks-in-textarea-fields.md)
 - [Want to allow users to use a rich text editor such as **TinyMCE** on the textarea field?](../guides/fields/tinymce-editor-textarea.mdx)
-:::
+  :::
 
 ### Settings
 
 - Can specify the number of rows the textarea should have.
 
-
 ## Website<Badge type="pro" text="Pro" />
 
 A `url` type input field that checks to see if the URL specified has valid syntax (`http://`, `https://`, `ftp://`, etc). The `field.type` property value is `website` (for conditionals).
 
-<Photo scale={50} img={WebsiteFieldImg} alt="Website field type" />
-
+<Photo
+  scale={50}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/website.png')}
+  alt="Website field type"
+/>
 
 ## Populating Fields with Elements & Predefined Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.0+" />
 

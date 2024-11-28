@@ -6,15 +6,6 @@ import Player from 'react-player';
 
 import { Photo } from '@site/src/components/utils';
 
-import TemplatingPhoto from './assets/img/templating.png';
-import SubmissionsDetailPhoto from '../assets/img/submissions-detail.png';
-import SubmissionsListPhoto from '../assets/img/submissions-list.png';
-
-import FeatureVideo from '../assets/videos/builder-feature.mp4';
-import EmailNotificationsVideo from '../assets/videos/email-notifications.mp4';
-import BuilderNotificationsVideo from '../assets/videos/builder-notifications.mp4';
-import BuilderIntegrationsVideo from '../assets/videos/builder-integrations.mp4';
-
 # Getting Started
 
 This guide provides a brief overview of Freeform's features, with links to more information.
@@ -40,13 +31,31 @@ The form builder is a workspace divided into 5 sections:
 - **Settings**
   - This is where you configure all settings and behaviors for the form.
 
-<Player url={FeatureVideo} muted loop playing width="100%" height="100%" />
+<Player
+  url={
+    require('@site/static/videos/craft/freeform/v5/builder-feature.mp4').default
+  }
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
 
 ## Fields
 
 Freeform uses its own set of [field types](../forms/fields.mdx). The form builder will display all available field types for the form (will differ between editions of Freeform). These can then be added to forms indefinitely.
 
-<Player url={FeatureVideo} muted loop playing width="100%" height="100%" />
+<Player
+  url={
+    require('@site/static/videos/craft/freeform/v5/builder-feature.mp4').default
+  }
+  muted
+  loop
+  playing
+  width="100%"
+  height="100%"
+/>
 
 ## Email Notifications
 
@@ -68,7 +77,10 @@ Freeform allows you to send email notifications upon submittal of a form 6 diffe
   - To a user-defined email address (e.g. Tell-a-Friend form), with the email addresses specified/selected in the [Email](../forms/fields.mdx#email) field type.
 
 <Player
-  url={EmailNotificationsVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/email-notifications.mp4')
+      .default
+  }
   muted
   loop
   playing
@@ -76,13 +88,13 @@ Freeform allows you to send email notifications upon submittal of a form 6 diffe
   height="100%"
 />
 
-<Player
-  url={BuilderNotificationsVideo}
-  muted
-  loop
-  playing
-  width="100%"
-  height="100%"
+<Player   url={require('@site/static/videos/craft/freeform/v5/builder-notifications.mp4').default}
+
+muted
+loop
+playing
+width="100%"
+height="100%"
 />
 
 ## Formatting Templates
@@ -101,13 +113,13 @@ Forms can be generated on the front-end templates two different ways:
 
 Freeform supports various popular [integrations](../integrations/index.mdx) so you can do more with your forms, such as accepting payments, subscribing users to email marketing lists, and capturing data in CRMs, etc.
 
-<Player
-  url={BuilderIntegrationsVideo}
-  muted
-  loop
-  playing
-  width="100%"
-  height="100%"
+<Player   url={require('@site/static/videos/craft/freeform/v5/builder-integrations.mp4').default}
+
+muted
+loop
+playing
+width="100%"
+height="100%"
 />
 
 ## Templating
@@ -118,7 +130,10 @@ We strived to make things as flexible as possible while also coming up with temp
 [Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](./testing/troubleshooting-form-issues.mdx)
 :::
 
-<Photo img={TemplatingPhoto} alt="Templating" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/guides/templating.png')}
+  alt="Templating"
+/>
 
 ### Form Query
 
@@ -261,5 +276,11 @@ To display a single submission, your template code might look something like thi
 {% endif %}
 ```
 
-<Photo img={SubmissionsListPhoto} alt="Submission List" />
-<Photo img={SubmissionsDetailPhoto} alt="Submission Details" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/submissions-export-to-csv.png')}
+  alt="Submission List"
+/>
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/submissions-detail.png')}
+  alt="Submission Details"
+/>

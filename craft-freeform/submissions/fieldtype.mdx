@@ -8,22 +8,24 @@ import Player from 'react-player';
 import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-import FieldtypeSubmissionsPhoto from './assets/img/fieldtype-submissions.png';
-
-import FieldtypeSubmissionsVideo from './assets/videos/fieldtype-submissions.mp4';
-
 # _Submissions_ Element Field Type<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
 Freeform includes a _Freeform Submissions_ field type (and [Freeform Form](../forms/fieldtype.mdx)), which allows you to assign/relate submissions to other element types such as Craft Entries.
 
-<Photo img={FieldtypeSubmissionsPhoto} alt="Freeform Submissions Fieldtype" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/fieldtype-submissions.png')}
+  alt="Freeform Submissions Fieldtype"
+/>
 
 ## Overview
 
 When pairing the Freeform Submissions field type with the [Relations](./relations.mdx) feature, Freeform can do extraordinary things like become a tool that let's your users comment on entries, submit ratings and reviews for Commerce products and more! The [Relations](./relations.mdx) feature essentially allows you to feed another Craft Element ID to the form that is attached to the submission(s), and the Freeform submission then becomes attached to the other element the same way an Asset does, etc.
 
 <Player
-  url={FieldtypeSubmissionsVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/fieldtype-submissions.mp4')
+      .default
+  }
   muted
   loop
   playing

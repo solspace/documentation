@@ -12,15 +12,7 @@ import {
   TwoColumnCards,
   ColumnCardData,
 } from '@site/src/components/docs';
-
-import PluginStoreInstallPhoto from './assets/img/plugin-store-install.png';
-import PluginStorePhoto from './assets/img/plugin-store.png';
-import SwitchEditionPhoto from './assets/img/switch-editions-purchase-3.png';
-import UpdatePhoto from './assets/img/updates.png';
-
 import Icons from '@site/static/card-icons';
-
-import SwitchEditionVideo from './assets/videos/switch-edition.mp4';
 
 # Installing & Updating
 
@@ -95,10 +87,10 @@ Freeform 5.x support both [Craft 5.x](https://craftcms.com/docs/5.x/requirements
 - 256MB+ memory allocated to PHP
 - [BC Math](http://php.net/manual/en/book.bc.php) and [GD](http://php.net/manual/en/book.image.php) PHP extensions
 - Windows and macOS browsers:
-    - Chrome 63+
-    - Firefox 67+
-    - Safari 11.1+
-    - Edge 79+
+  - Chrome 63+
+  - Firefox 67+
+  - Safari 11.1+
+  - Edge 79+
 
 </ColumnCardData>
 </TwoColumnCards>
@@ -166,7 +158,9 @@ Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-confi
 Click on the _**EXPRESS** / trial_ button beside Freeform's name and when it takes you to the Plugin Store page, scroll down to the bottom and click on the **Try** button for the _Pro_ edition (see screenshots below).
 
 <Player
-  url={SwitchEditionVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/switch-edition.mp4').default
+  }
   muted
   loop
   playing
@@ -188,13 +182,19 @@ If Freeform is right for your site, [purchase a copy](#purchasing) of it through
 <StepMarkdown>
 Go to the **Plugin Store** area inside your Craft control panel and click on *Freeform*.
 
-<Photo img={PluginStorePhoto} alt="Plugin Store" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/plugin-store.png')}
+  alt="Plugin Store"
+/>
 
 </StepMarkdown>
 <StepMarkdown>
 Once the product page opens, choose whether you want to install it by clicking the **Try** button under the *Lite* or *Pro* edition.
 
-<Photo img={PluginStoreInstallPhoto} alt="Plugin Store - Install Freeform" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/plugin-store-install.png')}
+  alt="Plugin Store - Install Freeform"
+/>
 
 </StepMarkdown>
 <StepMarkdown>
@@ -373,7 +373,10 @@ Be sure to back up the database before proceeding.
 <StepMarkdown>
 Go to the Craft Updates area inside the control panel (**Utilities** → **Updates**) and review the changelog for Freeform.
 
-<Photo img={UpdatePhoto} alt="Craft Updates Service" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/updates.png')}
+  alt="Craft Updates Service"
+/>
 
 </StepMarkdown>
 <StepMarkdown>
@@ -535,7 +538,9 @@ If using Craft's [allowAdminChanges](https://craftcms.com/docs/5.x/reference/con
 - [How to Switch After Purchase](#how-to-switch-after-purchase)
 
 <Player
-  url={SwitchEditionVideo}
+  url={
+    require('@site/static/videos/craft/freeform/v5/switch-edition.mp4').default
+  }
   muted
   loop
   playing
@@ -559,7 +564,10 @@ If, sometime after purchasing Freeform _Lite_ (or using Freeform _Express_), you
 
 Once you're ready to complete the purchase, you can visit the Cart inside your site's control panel:
 
-<Photo img={SwitchEditionPhoto} alt="Switch edition after Purchase - step 3" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/switch-editions-purchase-3.png')}
+  alt="Switch edition after Purchase - step 3"
+/>
 
 ## Troubleshooting
 
