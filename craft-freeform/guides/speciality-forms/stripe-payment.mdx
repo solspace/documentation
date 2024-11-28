@@ -10,53 +10,104 @@ import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
 Freeform allows you to easily create complex payment forms using its own built-in [Stripe Payments](../../integrations/stripe-payments.mdx) integration.
 
-
-
-## Instructions
-
 :::info
 This feature requires the **Freeform Pro** edition and a [Stripe](https://stripe.com) account in order to work.
 :::
 
+## Example Donation Form
+While a wide variety of options are available, the following guide will show you how to make a one-time Donation page that allows your users to choose from a few predefined amounts or enter their own amount.
+
 <VerticalStepWrapper>
 <StepMarkdown>
-### Set up the basics for the form
+### Set up the Form
 
 - Create a new form or open an existing one.
 - Add fields for all of the information you'd like to collect, e.g. _Name_, _Email_, etc.
-- Create a [Radios](../../forms/fields.mdx#radios) or [Dropdown](../../forms/fields.mdx#dropdown) field named **Amount** with all of the necessary predefined options (e.g. `100`, `50`, `20`, etc) and add a final option of `Other`.
+- Create a [Radios](../../forms/fields.mdx#radios) or [Dropdown](../../forms/fields.mdx#dropdown) field named **Amount** with all of the necessary predefined options with the **Use custom values** setting toggled on. Example:
+    - `Select...`, ` `
+    - `$100`,`100`
+    - `$50`,`50`
+    - `$20`,`20`
+    - `Other`, `0`.
 - Create a [Number](../../forms/fields.mdx#number) field named **Other** and place it below or beside the _Amount_ field you just created.
-- Create a [Calculation](../../forms/fields.mdx#calculation) field named **Calculated Amount** and set its visibility to be `Hidden`.
+    - Set a **Default value** of `0` for it.
+- Create a [Calculation](../../forms/fields.mdx#calculation) field named **Calculated Amount**.
 - Create a second page for your form (let's name page 1 as **Details** and page 2 as **Payment**).
-- In the **Payment** page (page 2), create and place a [Stripe](../../forms/fields.mdx#stripe) field named **Payment Details**.
+- In the **Payment** page (page 2), create and place a [Stripe](../../forms/fields.mdx#stripe-payment) field named **Payment Details**.
+
+<Photo img={require('@site/static/img/craft/freeform/v5/guides/stripe-donation-amount-field.png')} alt="Amount field for Donation form" />
 
 </StepMarkdown>
 <StepMarkdown>
-### Set up conditional rules
+### Configure the Calculation field
+
+- Click on the **Calculated Amount** (Calculation) field.
+- In the property editor on the left, fill out the following settings:
+    - Click on the **Calculation Logic** setting area.
+        - Insert the **Amount** and **Other** fields and place a `+` inbetween them. E.g. `amount` `+` `other`.
+        - Press `ESC` or click anywhere else on the page to close the modal.
+    - Set the **Decimal Count** setting to `0` or `2`.
+    - Set the **Input Type** to `Hidden`.
+
+<Photo img={require('@site/static/img/craft/freeform/v5/guides/stripe-donation-calculation-field.png')} alt="Calculation field for Donation form" />
+
+</StepMarkdown>
+<StepMarkdown>
+### Set up Conditional Rules
 
 - Go to the **Rules** tab of the form.
-- Click on the **Other** (Number) field to add a rule.
-- Set it to show only when the Radio field has the "Other" option selected.
+- Click on the **Other** (Number) field and click the **Add rules** button.
+- Set it to _show_ only when the **Amount** (Radio or Dropdown) field has the `Other` option selected.
+
+<Photo img={require('@site/static/img/craft/freeform/v5/guides/stripe-donation-rules.png')} alt="Conditional Rules for Donation form" />
 
 </StepMarkdown>
 <StepMarkdown>
 ### Configure the Stripe integration
 
 - Click on the **Integrations** tab in the form builder.
-- Find your _User_ element integration in the list on the left and click on it.
+- Find your _Stripe_ integration in the list on the left and click on it.
 - Toggle ON the **Enabled** setting.
-- The default settings will show. If you need to override any of these, you can do so here:
-  - **User Group** - select the user group to assign new users to.
+- Configure it as necessary, including mapping to the _Full Name_ and _Email_ fields.
+    - If you are collecting the submitter's name as separate fields (e.g. First Name, Last Name), you can switch the mapping option to **Twig mode** and enter something like `{{ firstName }} {{ lastName }}`.
 
+<Photo img={require('@site/static/img/craft/freeform/v5/guides/stripe-donation-integration.png')} alt="Integration settings for Donation form" />
 
+</StepMarkdown>
+<StepMarkdown>
+### Configure the Stripe field
 
-In the Stripe Payment field's settings (in the Layout tab), select "Dynamic" for "Payment Amount Type".
-In the Payment Amount Field, select the Calculation field.
-Configure the rest of the Stripe field as necessary.
+- Go back to the **Layouts** tab of the form.
+- Click on the **Payment Details** (Stripe) field on the **Payment** page (page 2).
+- In the property editor on the left, fill out the following settings:
+    - Set the field as _required_.
+    - Select your integration name for the **Integration** setting.
+    - Choose _Single_ or _Subscription_ for the **Payment Type** setting.
+    - Select _Dynamic_ for the **Payment Amount Type** setting.
+    - Select the **Calculated Amount** (Calculation) field in the **Payment Amount Field** setting.
+    - Configure any other settings as necessary.
 
-
-
-Once that's all finished, you'll have something that looks like the screenshots above. Check out your form in the Freeform demo templates and see if everything works correctly.
+<Photo scale="30" img={require('@site/static/img/craft/freeform/v5/guides/stripe-donation-payment-field.png')} alt="Stripe Payments field for Donation form" />
 
 </StepMarkdown>
 </VerticalStepWrapper>
+
+Once that's all finished, you'll have something that looks like the screenshots below. Check out your form in the Freeform demo templates and see if everything works correctly.
+
+## Previews
+
+### Form Builder
+
+#### Page 1
+<Photo img={require('@site/static/img/craft/freeform/v5/guides/stripe-donation-form-builder-1.png')} alt="Donation form page 1 in form builder" />
+
+#### Page 2
+<Photo img={require('@site/static/img/craft/freeform/v5/guides/stripe-donation-form-builder-2.png')} alt="Donation form page 2 in form builder" />
+
+### Front End
+
+#### Page 1
+<Photo img={require('@site/static/img/craft/freeform/v5/guides/stripe-donation-form-1.png')} alt="Rendered Donation form page 1" />
+
+#### Page 2
+<Photo img={require('@site/static/img/craft/freeform/v5/guides/stripe-donation-form-2.png')} alt="Rendered Donation form page 2" />
