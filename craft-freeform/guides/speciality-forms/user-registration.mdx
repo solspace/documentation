@@ -6,14 +6,11 @@ title: User Registration
 import { Badge, Photo } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-# Creating User Registration Forms<Badge type="pro" text="Pro" />
+# Creating a User Registration form<Badge type="pro" text="Pro" />
 
 Freeform allows you to easily create and manage beautiful [User](https://craftcms.com/docs/5.x/system/user-management.html#public-registration-pro) registration forms in only minutes! Using the [Elements integration](../../integrations/elements.mdx#craft-users), you can enhance your forms with 1-click to enable AJAX, set [conditional field logic](../../forms/conditional-rules.mdx) to show and hide fields, confirm emails and passwords, add Captchas and send custom email notifications! Pair with [Payments](../../integrations/stripe-payments.mdx) and you can even accept one time or recurring subscription payments for membership! _Leave the heavy lifting to Freeform!_
 
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/cp/user-registration.png')}
-  alt="User Registration"
-/>
+<Photo img={require('@site/static/img/craft/freeform/v5/guides/user-registration-form.png')} alt="User Registration form rendered on front end with error handling" />
 
 ## Instructions
 
@@ -28,11 +25,9 @@ This feature requires the **Freeform Pro** and **Craft Pro** edition in order to
 - Go to the **Elements** integration area in the Freeform settings (_Freeform_ → _Settings_ → _Elements_).
 - Click on the **New Integration** button at the top right.
 - Select _User_ for the **Service Provider** setting.
-- Provide a name for the integration, e.g. `User Registration`.
-- Configure the default settings (these can be overrided for each form inside the form builder):
-  - **User Group** - select the user group to assign new users to.
-  - **Active** - toggle whether the new user account should be active or not.
-  - **Send Activation Email** - whether to send an activation email to the user (if _Active_ is toggled off).
+- Provide a name for the integration, e.g. `Users`.
+- Configure the default setting (this can be overrided for each form inside the form builder):
+  - **Activate Users** - toggle whether the new user account should be active or not.
 - Save the integration.
 
 </StepMarkdown>
@@ -40,7 +35,7 @@ This feature requires the **Freeform Pro** and **Craft Pro** edition in order to
 ### Prepare the Form
 
 - Create a new form in Freeform. We'll call it `User Registration`.
-- Add the fields to the form layout. You can set things up however you like, but keep in mind that some fields are required. A common registration form might have the following (but not limited to):
+- Add the fields to the form layout. You can set things up however you like, but keep in mind that some fields are required by Craft. A common registration form might have the following (but not limited to):
   - _First Name_
   - _Last Name_
   - _Username_
@@ -49,41 +44,45 @@ This feature requires the **Freeform Pro** and **Craft Pro** edition in order to
     - Use the [Confirm](../../forms/fields.mdx#confirm) field type to set this up.
   - _Password_
     - Use the [Password](../../forms/fields.mdx#password) field type for this. It will NOT save any password data in the Freeform database tables.
+    - Set a value for the **Min Length** setting to ensure users are creating long enough passwords.
+    - Enable the **Use Character Variability** setting to force users to create strong passwords.
   - _Confirm Password_
     - Use the [Confirm](../../forms/fields.mdx#confirm) field type to set this up.
-  - _Photo_
-    - Use a Freeform [File Upload](../../forms/fields.mdx#file-upload) field type to set this to map to the User Photo.
-  - A _checkbox_ to agree to terms and conditions
+  - A _checkbox_ to sign up for a newsletter.
+
+<Photo img={require('@site/static/img/craft/freeform/v5/guides/user-registration-form-builder.png')} alt="User Registration form inside the form builder" />
 
 </StepMarkdown>
 <StepMarkdown>
-### Enable the Connection and Map Fields
+### Enable the Integration and Map Fields
 
 - Click on the **Integrations** tab in the form builder.
-- Find your _User_ element integration in the list on the left and click on it.
+- Find your _Users_ element integration in the list on the left and click on it.
 - Toggle ON the **Enabled** setting.
 - The default settings will show. If you need to override any of these, you can do so here:
   - **User Group** - select the user group to assign new users to.
     :::warning
     All user groups (including ones with access to CP) will show here. Use extreme caution if allowing users to self-register for accounts that can access the Craft control panel!
     :::
-  - **Active** - toggle whether the new user account should be active or not.
-  - **Send Activation Email** - whether to send an activation email to the user (if _Active_ is toggled off).
-    - If you'd like new users created from Freeform submissions to not yet be activated (and receive the Craft User Activation email) when submitted, toggle on the **Active** setting. If you'd like to manually approve registrations _**(please see warning below)**_ and suppress the email notification to users, toggle off the **Send Activation Email** setting.
+  - **Activate Users** - toggle whether the new user account should be active or not.
+  - **Send Activation Email** - whether to send an activation email to the user (if _Activate Users_ is toggled off).
+    - If you'd like new users created from Freeform submissions to not yet be activated (and receive the Craft User Activation email) when submitted, toggle on the **Activate Users** setting. If you'd like to manually approve registrations _**(please see warning below)**_ and suppress the email notification to users, toggle off the **Send Activation Email** setting.
       :::danger
       When using a manual Admin approving approach, it's still possible for a **Pending** user to circumvent this process if a [Forgot Password](https://craftcms.com/knowledge-base/front-end-user-accounts#reset-password-forms) form is available to them, as Craft currently does not have a concept of Admin approval only, and allows users to verify their account either through an email notification or using a _Forgot Password_ form.
       :::
-    - If you wish to have users automatically logged in upon success, please be sure to use the `'autoLoginAfterAccountActivation' => true,` config item in your Craft config file, and toggle on the **Active** setting.
+    - If you wish to have users automatically logged in upon success, please be sure to use the `'autoLoginAfterAccountActivation' => true,` config item in your Craft config file, and toggle on the **Activate Users** setting.
 - In the **Attribute Mapping** table, map your Freeform fields to the core Craft User fields.
 - In the **Field Mapping** table, map your Freeform fields to your custom Craft User fields.
   :::info
   There are some obvious limitations with field mapping, as Freeform does not have anything like a Matrix or Table field, etc. Most traditional fields that are similar to each other should be able to correctly map to each other however.
   :::
 
-Once that's all finished, you'll have something that looks like the screenshots above. Check out your form in the Freeform demo templates and see if everything works correctly.
+<Photo img={require('@site/static/img/craft/freeform/v5/guides/user-registration-form-builder-integration.png')} alt="Integration configuration for User Registration form inside the form builder" />
 
 </StepMarkdown>
 </VerticalStepWrapper>
+
+Once that's all finished, you'll have something that looks like the screenshots above. Check out your form in the Freeform demo templates and see if everything works correctly.
 
 ## Important Notes
 
