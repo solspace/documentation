@@ -10,18 +10,14 @@ import {
 } from '@site/src/components/docs';
 import { Badge, Photo } from '@site/src/components/utils';
 
-import AppearancePhoto from './assets/img/appearance.png';
-import AppleGooglePayPhoto from './assets/img/applepay-googlepay.png';
-import LayoutPhoto from './assets/img/layout.png';
-import MethodsPhoto from './assets/img/methods.png';
-import PrepareStripePhoto from './assets/img/prepare-stripe.png';
-import StripePaymentsPhoto from './assets/img/stripe-payments.png';
-
 import Icons from '@site/static/card-icons';
 
 # Stripe Payments Integration<Badge type="pro" text="Pro" />
 
-<Photo img={StripePaymentsPhoto} alt="Accept Payments through Stripe" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/stripe-payments.png')}
+  alt="Accept Payments through Stripe"
+/>
 
 ## Overview
 
@@ -62,8 +58,6 @@ If you need to include more than 1 Payments-enabled form inside the same templat
 Freeform Payments uses the [Payment Element](https://stripe.com/docs/payments/payment-element) approach from [Stripe](https://stripe.com). The Payment Element is a UI component that accepts 40+ payment methods, validates input, and handles errors. This means that in addition to accepting **credit cards**, it will allow you to enable support for **Stripe Link**, **Apple Pay**, **Google Pay**, **PayPal** (within Europe), **bank payments**, **deferred payments** and many other options. Within minutes you can have anything from a form accepting donations to a [membership registration form](../guides/speciality-forms/user-registration.mdx) that has users pay for a subscription at any interval. The possibilities are endless!
 
 ## Strong Customer Authentication (SCA)
-
-![Freeform Payments - SCA](./assets/img/cp_payments-sca.gif)
 
 [Strong Customer Authentication (SCA)](https://stripe.com/docs/strong-customer-authentication) is a **rule that came into effect on September 14, 2019**, as part of PSD2 regulation in Europe, will require changes to how your European customers authenticate online payments. Card payments will require a different user experience, namely 3D Secure, in order to meet SCA requirements. Transactions that don't follow the new authentication guidelines may be declined by your customers' banks.
 

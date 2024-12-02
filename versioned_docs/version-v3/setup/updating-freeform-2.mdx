@@ -9,10 +9,6 @@ import {
   FlexCards,
 } from '@site/src/components/docs';
 
-import V2RenewalPhoto from './assets/img/v2-upgrade-renewal .png';
-import Purchase1Photo from './assets/img/cp_switch-editions-purchase-1.png';
-import Purchase2Photo from './assets/img/cp_switch-editions-purchase-2.png';
-
 import Icons from '@site/static/card-icons';
 
 # Updating from Freeform 2.x
@@ -73,17 +69,17 @@ Freeform 3 brings some exciting new features to Freeform, but there have also be
   × Removed
 </span> | <span class="gray">✓/× No Change</span>
 
-| <h3 class="no-margin">Pricing & Support</h3>                                            |                               <h3 class="no-margin">Lite 3</h3>                               |                                                    <h3 class="no-margin">Pro 3</h3>                                                    |
-| :-------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------: |
+| <h3 class="no-margin">Pricing & Support</h3>                                      |                               <h3 class="no-margin">Lite 3</h3>                               |                                                    <h3 class="no-margin">Pro 3</h3>                                                    |
+| :-------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------: |
 | [Build User registration forms](../guides/speciality-forms/user-registration.mdx) |                                  <span class="red">×</span>                                   |                                                     <span class="yellow">✓</span>                                                      |
-| Confirm field type                                                                      |                                  <span class="red">×</span>                                   |                                                      <span class="gray">✓</span>                                                       |
-| Password field type                                                                     |                                  <span class="red">×</span>                                   |                                                      <span class="gray">✓</span>                                                       |
-| Number, Phone, Website field types                                                      |       <span class="yellow"><sub><sup>Uses designated input types now</sup></sub></span>       |                           <span class="yellow"><sub><sup>Uses designated input types now</sup></sub></span>                            |
-| Retroactively resend email notifications                                                |                                  <span class="red">×</span>                                   |                                                      <span class="gray">✓</span>                                                       |
-| [Map submission data to Craft Elements](../forms/builder.mdx#element-connections)       |                                  <span class="red">×</span>                                   |                                                     <span class="yellow">↻</span>                                                      |
-| Automatically purge submission data                                                     |                                  <span class="red">×</span>                                   |                                                      <span class="gray">✓</span>                                                       |
-| [Accept Payments](../integrations/index.mdx#other) (Stripe)                             | <sub><sup><span class="red">N/A</span><br /><span class="gray"><s>+$59</s></span></sup></sub> | <span class="green">✓</span><br /><sub><sup><span class="green">Included</span><br /><span class="gray"><s>+$59</s></span></sup></sub> |
-| Ability to rename plugin                                                                |                                  <span class="red">×</span>                                   |                                                      <span class="gray">✓</span>                                                       |
+| Confirm field type                                                                |                                  <span class="red">×</span>                                   |                                                      <span class="gray">✓</span>                                                       |
+| Password field type                                                               |                                  <span class="red">×</span>                                   |                                                      <span class="gray">✓</span>                                                       |
+| Number, Phone, Website field types                                                |       <span class="yellow"><sub><sup>Uses designated input types now</sup></sub></span>       |                           <span class="yellow"><sub><sup>Uses designated input types now</sup></sub></span>                            |
+| Retroactively resend email notifications                                          |                                  <span class="red">×</span>                                   |                                                      <span class="gray">✓</span>                                                       |
+| [Map submission data to Craft Elements](../forms/builder.mdx#element-connections) |                                  <span class="red">×</span>                                   |                                                     <span class="yellow">↻</span>                                                      |
+| Automatically purge submission data                                               |                                  <span class="red">×</span>                                   |                                                      <span class="gray">✓</span>                                                       |
+| [Accept Payments](../integrations/index.mdx#other) (Stripe)                       | <sub><sup><span class="red">N/A</span><br /><span class="gray"><s>+$59</s></span></sup></sub> | <span class="green">✓</span><br /><sub><sup><span class="green">Included</span><br /><span class="gray"><s>+$59</s></span></sup></sub> |
+| Ability to rename plugin                                                          |                                  <span class="red">×</span>                                   |                                                      <span class="gray">✓</span>                                                       |
 
 ## Updating from 2.x
 
@@ -99,7 +95,10 @@ Freeform 3 brings some exciting new features to Freeform, but there have also be
 2. Update to the latest versions of _Lite_, _Pro_ and/or _Payments_. This isn't exactly required, but it will help narrow down any potential issues (isolate whether any potential issue has to do with an old Freeform 2.x migration or the 3.x migration, etc).
 3. Carefully review the [changelog](./changelog.mdx) for Freeform 3.x as well as the new [key features/changes table](#key-changes) above.
 4. If your Freeform license(s) are currently expired, you will need to renew the _new Freeform 3 Pro_ license (formerly your _old Freeform 2 Lite_ license, regardless of which edition you had before). If you had an _old Freeform 2 Pro_ license, it essentially no longer exists. We recommend renewing the license inside the [Craft ID](https://id.craftcms.com) site this time:
-   <Photo img={V2RenewalPhoto} alt="Renew the new Freeform 3 Pro license" />
+   <Photo
+     img={require('@site/static/img/craft/freeform/v3/setup/v2-upgrade-renewal.png')}
+     alt="Renew the new Freeform 3 Pro license"
+   />
 5. We recommend updating via Composer from the Terminal:
    - Open your Craft site's main `composer.json` file and make the following changes (note change of `solspace/craft3-freeform` to `solspace/craft-freeform`):
      ```diff
@@ -121,9 +120,15 @@ Freeform 3 brings some exciting new features to Freeform, but there have also be
    - The Freeform 3.x migration and Composer update should have updated Freeform Lite 2.x to Freeform 3.x with a _Pro_ edition license, and have uninstalled and removed the old _Freeform Pro 2.x_ and _Freeform Payments_ plugins.
 7. Go to the Plugins section of your Craft 3 control panel (**Craft CP** -> **Settings** -> **Plugins**) and ensure that you have the _Pro_ edition of Freeform. If not, follow the steps below:
    - Click on the **Lite** flag/button beside the plugin name, which will take you to the Freeform product page inside the Craft Plugin Store.
-     <Photo img={Purchase1Photo} alt="Switch edition after update - step 1" />
+     <Photo
+       img={require('@site/static/img/craft/freeform/v3/setup/cp_switch-editions-purchase-1.png')}
+       alt="Switch edition after update - step 1"
+     />
    - Click on the **Reactivate** (or **Try**) button to activate the _Pro_ edition for your site.
-     <Photo img={Purchase2Photo} alt="Switch edition after update - step 2" />
+     <Photo
+       img={require('@site/static/img/craft/freeform/v3/setup/cp_switch-editions-purchase-2.png')}
+       alt="Switch edition after update - step 2"
+     />
    - Alternatively, you could edit the `edition` setting inside Craft's [Project Config](https://craftcms.com/docs/3.x/project-config.html) file to have a value of `pro`.
 8. Carefully review Freeform inside the control panel and in your templates and ensure that everything works correctly and/or necessary updates to forms/templates/settings are made. If you ever use the demo templates to review/test/experiment, please note that we've made large updates to the demo templates for Freeform 3.x, so you may wish to reinstall them.
 9. Ignore any previous _old Pro_ and _old Payments_ licenses you may have had, as these are now discontinued as of June 11, 2019. Your _old Lite_ license is now a _new Pro_ license, which grants you access to all of Freeform's features.

@@ -22,63 +22,15 @@ import {
   Section,
 } from '@site/src/components/docs';
 import { Photo } from '@site/src/components/utils';
-
 import Icons from '@site/static/card-icons';
-
-import FreeformIntroWhite from './assets/img/freeform-intro-white.png';
-import FreeformIntroBlack from './assets/img/freeform-intro-black.png';
-
-import SpamFolderPhoto from './assets/img/spam-folder.png';
-import SpamDetailPhoto from './assets/img/spam-detail.png';
-import SubmissionsListPhoto from './assets/img/submissions-list.png';
-import SubmissionsDetailPhoto from './assets/img/submissions-detail.png';
-import SubmissionsQuickExport from './assets/img/submissions-quick-export.png';
-import DemoBasicLightPhoto from './assets/img/demo-basic-light.png';
-import FormBuilderPhoto from './assets/img/form-builder.png';
-import ConditionalRulesPhoto from './assets/img/conditional-rules.png';
-import EmailNotificationsListPhoto from './assets/img/email-notifications-list.png';
-import EmailNotificationsTemplatePhoto from './assets/img/email-notifications-template.png';
-import StripePaymentsPhoto from './assets/img/stripe-payments.png';
-import UserRegistraionPhoto from './assets/img/user-registration.png';
-
-import Mailchimp from './assets/icons/integrations/mailchimp.png';
-import HubSpot from './assets/icons/integrations/hubspot.png';
-import Salesforce from './assets/icons/integrations/salesforce.png';
-import Zapier from './assets/icons/integrations/zapier.png';
-import Stripe from './assets/icons/integrations/stripe.png';
-import ConstantContact from './assets/icons/integrations/constant-contact.png';
-import Slack from './assets/icons/integrations/slack.png';
-import ActiveCampaign from './assets/icons/integrations/active-campaign.png';
-import Dotdigital from './assets/icons/integrations/dotdigital.png';
-import CampaignMonitor from './assets/icons/integrations/campaign-monitor.png';
-import Pardot from './assets/icons/integrations/pardot.png';
-import Freshdesk from './assets/icons/integrations/freshdesk.png';
-import Infusionsoft from './assets/icons/integrations/infusionsoft.png';
-import Insightly from './assets/icons/integrations/insightly.png';
-import GoogleSheets from './assets/icons/integrations/google-sheets.png';
-import Zoho from './assets/icons/integrations/zoho.png';
-import Campaign from './assets/icons/integrations/campaign.png';
-import Pipedrive from './assets/icons/integrations/pipedrive.png';
-import Sharpspring from './assets/icons/integrations/sharpspring.png';
-import ClickDimensions from './assets/icons/integrations/click-dimensions.png';
-import ReCAPTCHA from './assets/icons/integrations/recaptcha.png';
-import HCaptcha from './assets/icons/integrations/hcaptcha.png';
-import GenericWebhook from './assets/icons/integrations/generic-webhook.png';
-import GoogleTagManager from './assets/icons/integrations/google-tag-manager.png';
-import TailwindCSS from './assets/icons/integrations/tailwindcss.png';
-import Bootstrap from './assets/icons/integrations/bootstrap.png';
-import CraftEntries from './assets/icons/integrations/craft-entries.png';
-import CraftUsers from './assets/icons/integrations/craft-users.png';
-import CalendarEvents from './assets/icons/integrations/solspace-calendar.png';
-import EditElements from './assets/icons/integrations/edit-elements.png';
 
 # Overview
 
 <section className="flex flex-col items-center gap-6 my-20">
   <ThemedIdealImage
     sources={{
-      light: FreeformIntroBlack,
-      dark: FreeformIntroWhite,
+      light: require('@site/static/img/intro/freeform-light.png'),
+      dark: require('@site/static/img/intro/freeform-dark.png'),
     }}
     className="max-w-3xl"
     alt="Freeform 5 for Craft CMS"
@@ -240,7 +192,7 @@ import EditElements from './assets/icons/integrations/edit-elements.png';
   imgSrc={Icons.MagicWandIcon}
 >
 
-  <Photo img={FormBuilderPhoto} alt="Form Builder" />
+  <Photo img={require('@site/static/img/craft/freeform/v5/cp/form-builder.png')} alt="Form Builder" />
   <FlexButton
     items={[
       { to: 'forms/builder', label: 'Form Builder Overview', },
@@ -322,8 +274,8 @@ import EditElements from './assets/icons/integrations/edit-elements.png';
 
 >
 
-  <BrowserMockupWithPhoto src={SpamFolderPhoto} alt="Spam Folder" />
-  <BrowserMockupWithPhoto src={SpamDetailPhoto} alt="Spam Folder" />
+  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/forms/spam-folder.png')} alt="Spam Folder" />
+  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/forms/spam-detail.png')} alt="Spam Folder" />
   <FlexCards
     items={[
       {
@@ -376,7 +328,10 @@ import EditElements from './assets/icons/integrations/edit-elements.png';
 
 >
 
-<Photo img={ConditionalRulesPhoto} alt="Powerful Fields" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/conditional-rules.png')}
+  alt="Powerful Fields"
+/>
 <FlexCards
   items={[
     {
@@ -617,8 +572,8 @@ import EditElements from './assets/icons/integrations/edit-elements.png';
   imgSrc={Icons.OpenLetterIcon}
 >
 
-  <Photo img={EmailNotificationsListPhoto} alt="Email Notifications List" />
-  <Photo img={EmailNotificationsTemplatePhoto} alt="Email Notifications Template" />
+  <Photo img={require('@site/static/img/craft/freeform/v5/cp/email-notifications-list.png')} alt="Email Notifications List" />
+  <Photo img={require('@site/static/img/craft/freeform/v5/cp/email-notifications-template.png')} alt="Email Notifications Template" />
   <FlexCards
     items={[
       {
@@ -701,7 +656,10 @@ import EditElements from './assets/icons/integrations/edit-elements.png';
   description="Templates are highly customizable for even the most complex forms. With our ready-to-use demo templates and features, you can be up and running in just a few minutes!"
   imgSrc={Icons.CodeIcon}
 >
-  <BrowserMockupWithPhoto src={DemoBasicLightPhoto} alt="Spam Folder" />
+  <BrowserMockupWithPhoto
+    src={require('@site/static/img/craft/freeform/v5/formatting/basic-light.png')}
+    alt="Spam Folder"
+  />
   <FlexCards
     items={[
       {
@@ -744,120 +702,171 @@ import EditElements from './assets/icons/integrations/edit-elements.png';
     {
       title: 'Mailchimp',
       link: 'integrations/mailchimp/',
-      iconSrc: Mailchimp,
+      iconSrc: require('@site/static/icons/api/mailchimp.png'),
     },
-    { title: 'HubSpot', link: 'integrations/hubspot/', iconSrc: HubSpot },
+    {
+      title: 'HubSpot',
+      link: 'integrations/hubspot/',
+      iconSrc: require('@site/static/icons/api/hubspot.png'),
+    },
     {
       title: 'Salesforce',
       link: 'integrations/salesforce/',
-      iconSrc: Salesforce,
+      iconSrc: require('@site/static/icons/api/salesforce.png'),
     },
-    { title: 'Zapier', link: 'integrations/zapier/', iconSrc: Zapier },
-    { title: 'Stripe', link: 'integrations/stripe-payments/', iconSrc: Stripe },
+    {
+      title: 'Zapier',
+      link: 'integrations/zapier/',
+      iconSrc: require('@site/static/icons/api/zapier.png'),
+    },
+    {
+      title: 'Stripe',
+      link: 'integrations/stripe-payments/',
+      iconSrc: require('@site/static/icons/api/stripe.png'),
+    },
     {
       title: 'Constant Contact',
       link: 'integrations/constant-contact/',
-      iconSrc: ConstantContact,
+      iconSrc: require('@site/static/icons/api/constant-contact.png'),
     },
-    { title: 'Slack', link: 'integrations/slack/', iconSrc: Slack },
+    {
+      title: 'Slack',
+      link: 'integrations/slack/',
+      iconSrc: require('@site/static/icons/api/slack.png'),
+    },
     {
       title: 'Active Campaign',
-      iconSrc: ActiveCampaign,
+      iconSrc: require('@site/static/icons/api/active-campaign.png'),
     },
     {
       title: 'Dotdigital',
       link: 'integrations/dotdigital/',
-      iconSrc: Dotdigital,
+      iconSrc: require('@site/static/icons/api/dotdigital.png'),
     },
     {
       title: 'Campaign Monitor',
       link: 'integrations/campaign-monitor/',
-      iconSrc: CampaignMonitor,
+      iconSrc: require('@site/static/icons/api/campaign-monitor.png'),
     },
-    { title: 'Pardot', link: 'integrations/pardot/', iconSrc: Pardot },
+    {
+      title: 'Pardot',
+      link: 'integrations/pardot/',
+      iconSrc: require('@site/static/icons/api/pardot.png'),
+    },
     {
       title: 'Freshdesk',
       link: 'integrations/freshdesk/',
-      iconSrc: Freshdesk,
+      iconSrc: require('@site/static/icons/api/freshdesk.png'),
     },
     {
-      title: 'Infusionsoft',
-      link: 'integrations/infusionsoft/',
-      iconSrc: Infusionsoft,
+      title: 'Keap',
+      link: 'integrations/keap/',
+      iconSrc: require('@site/static/icons/api/keap.png'),
     },
     {
       title: 'Insightly',
       link: 'integrations/insightly/',
-      iconSrc: Insightly,
+      iconSrc: require('@site/static/icons/api/insightly.png'),
     },
     {
       title: 'Google Sheets',
-      iconSrc: GoogleSheets,
+      link: 'integrations/google-sheets/',
+      iconSrc: require('@site/static/icons/api/google-sheets.png'),
     },
-    { title: 'Zoho', link: 'integrations/zoho/', iconSrc: Zoho },
-    { title: 'Campaign', link: 'integrations/campaign/', iconSrc: Campaign },
+    {
+      title: 'Jira',
+      iconSrc: require('@site/static/icons/api/jira.png'),
+    },
+    {
+      title: 'Zoho',
+      link: 'integrations/zoho/',
+      iconSrc: require('@site/static/icons/api/zoho.png'),
+    },
+    {
+      title: 'Campaign',
+      link: 'integrations/campaign/',
+      iconSrc: require('@site/static/icons/api/campaign.png'),
+    },
     {
       title: 'Pipedrive',
       link: 'integrations/pipedrive/',
-      iconSrc: Pipedrive,
+      iconSrc: require('@site/static/icons/api/pipedrive.png'),
     },
     {
       title: 'Sharpspring',
       link: 'integrations/sharpspring/',
-      iconSrc: Sharpspring,
+      iconSrc: require('@site/static/icons/api/sharpspring.png'),
     },
     {
       title: 'ClickDimensions',
-      iconSrc: ClickDimensions,
+      link: 'integrations/clickdimensions/',
+      iconSrc: require('@site/static/icons/api/click-dimensions.png'),
     },
     {
       title: 'reCAPTCHA',
-      iconSrc: ReCAPTCHA,
+      link: 'integrations/recaptcha/',
+      iconSrc: require('@site/static/icons/api/recaptcha.png'),
     },
-    { title: 'hCaptcha', iconSrc: HCaptcha },
+    {
+      title: 'hCaptcha',
+      link: 'integrations/hcaptcha/',
+      iconSrc: require('@site/static/icons/api/hcaptcha.png'),
+    },
+    {
+      title: 'Cloudflare Turnstile',
+      link: 'integrations/turnstile/',
+      iconSrc: require('@site/static/icons/api/turnstile.png'),
+    },
     {
       title: 'Generic Webhooks',
-      iconSrc: GenericWebhook,
+      link: 'integrations/generic-webhooks/',
+      iconSrc: require('@site/static/icons/api/generic-webhook.png'),
     },
     {
       title: 'Google Tag Manager',
       link: 'integrations/google-tag-manager/',
-      iconSrc: GoogleTagManager,
+      iconSrc: require('@site/static/icons/api/google-tag-manager.png'),
     },
     {
       title: 'Tailwind CSS',
       link: 'templates/formatting/#sample-templates',
-      iconSrc: TailwindCSS,
+      iconSrc: require('@site/static/icons/api/tailwindcss.png'),
     },
     {
       title: 'Bootstrap',
       link: 'templates/formatting/#sample-templates',
-      iconSrc: Bootstrap,
+      iconSrc: require('@site/static/icons/api/bootstrap.png'),
     },
     {
       title: 'Craft Entries',
       link: 'integrations/elements/#craft-entries',
-      iconSrc: CraftEntries,
+      iconSrc: require('@site/static/icons/api/craft-entries.png'),
     },
     {
       title: 'Craft Users',
       link: 'integrations/elements/#craft-users',
-      iconSrc: CraftUsers,
+      iconSrc: require('@site/static/icons/api/craft-users.png'),
     },
     {
       title: 'Calendar Events',
       link: 'integrations/elements/#solspace-calendar-events',
-      iconSrc: CalendarEvents,
+      iconSrc: require('@site/static/icons/api/solspace-calendar.png'),
     },
     {
       title: 'Edit Elements',
       link: 'integrations/elements/#editing-elements',
-      iconSrc: EditElements,
+      iconSrc: require('@site/static/icons/api/edit-elements.png'),
     },
   ]}
 />
-<Photo img={StripePaymentsPhoto} alt="Stripe Payments" />
-<Photo img={UserRegistraionPhoto} alt="User Registration" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/feature/stripe-payments.png')}
+  alt="Stripe Payments"
+/>
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/feature/user-registration.png')}
+  alt="User Registration"
+/>
 
   <FlexCards
     items={[
@@ -919,9 +928,9 @@ import EditElements from './assets/icons/integrations/edit-elements.png';
   imgSrc={Icons.ArchiveIcon}
 >
 
-  <BrowserMockupWithPhoto src={SubmissionsListPhoto} alt="Submissions List" />
-  <BrowserMockupWithPhoto src={SubmissionsDetailPhoto} alt="Submissions List" />
-  <BrowserMockupWithPhoto src={SubmissionsQuickExport} alt="Submissions List" />
+  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/cp/submissions-list.png')} alt="Submissions List" />
+  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/cp/submissions-detail.png')} alt="Submissions List" />
+  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/cp/submissions-quick-export.png')} alt="Submissions List" />
   <FlexCards
     items={[
       {

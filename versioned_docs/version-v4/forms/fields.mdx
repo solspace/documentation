@@ -2,7 +2,6 @@
 sidebar_position: 2
 ---
 
-import Player from 'react-player';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -10,44 +9,6 @@ import { FlexCards } from '@site/src/components/docs';
 import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 
 import Icons from '@site/static/card-icons';
-
-import FormBuilderFieldsPhoto from './assets/img/form-builder-fields.png';
-import FieldAttributeEditorPhoto from './assets/img/field-attribute-editor.png';
-import CheckboxPhoto from './assets/img/checkbox.png';
-import CheckboxGroupPhoto from './assets/img/checkbox-group.png';
-import ConfirmPhoto from './assets/img/confirm.png';
-import DateTimePhoto from './assets/img/date-time.png';
-import DropdownPhoto from './assets/img/dropdown.png';
-import EmailPhoto from './assets/img/email.png';
-import FileUploadPhoto from './assets/img/file-upload.png';
-import FileDragDropPhoto from './assets/img/file-upload-drag-drop.png';
-import HTMLPhoto from './assets/img/html.png';
-import MultipleSelectPhoto from './assets/img/miltiple-select.png';
-import NumberPhoto from './assets/img/number.png';
-import OpinionScalePhoto from './assets/img/opinion-scale.png';
-import PasswordPhoto from './assets/img/password.png';
-import PhonePhoto from './assets/img/phone.png';
-import RadiosPhoto from './assets/img/radios.png';
-import RatingPhoto from './assets/img/rating.png';
-import RegexPhoto from './assets/img/regex.png';
-import RichTextPhoto from './assets/img/rich-text.png';
-import SaveContinueLaterPhoto from './assets/img/save-continue-later.png';
-import SignaturePhoto from './assets/img/signature.png';
-import CreditCardPhoto from './assets/img/credit-card.png';
-import TablePhoto from './assets/img/table.png';
-import TextFieldPhoto from './assets/img/text-field.png';
-import TextareaPhoto from './assets/img/textarea.png';
-import WebsitePhoto from './assets/img/website.png';
-import SubmitPhoto from './assets/img/submit.png';
-import DynamicRecipientsPhoto from './assets/img/dynamic-recipients.png';
-import EmailMarketingPhoto from './assets/img/email-marketing.png';
-import CaptchaPhoto from './assets/img/captcha.png';
-import ComposerFeedersElementPhoto from './assets/img/cp_forms-composer-feeders-element.png';
-import ComposerFeedersPredefinedPhoto from './assets/img/cp_forms-composer-feeders-predefined.png';
-
-import BuilderFeatureVideo from './assets/videos/builder-feature.mp4';
-import BuilderFavoritesVideo from './assets/videos/builder-favorites.mp4';
-import GroupFieldsVideo from './assets/videos/group-fields.mp4';
 
 # Fields
 
@@ -82,7 +43,10 @@ Freeform features its own set of robust field types. The form builder displays a
   ]}
 />
 
-<Photo img={FormBuilderFieldsPhoto} alt="Form Builder Fields" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/form-builder-fields.png')}
+  alt="Form Builder Fields"
+/>
 
 ## Overview
 
@@ -173,7 +137,11 @@ Special fields are ones that are not created, but serve a special purpose for yo
 
 A single checkbox field. The `field.type` property value is `checkbox` (for conditionals).
 
-<Photo scale={50} img={CheckboxPhoto} alt="Checkbox" />
+<Photo
+  scale={40}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/checkbox.png')}
+  alt="Checkbox"
+/>
 
 :::tip
 [Need to display basic HTML (`<b>`, `<i>`, `<a>`, etc) in your option labels to add emphasis or display a link?](../guides/fields/parsing-html-in-field-options.mdx)
@@ -197,7 +165,11 @@ A single checkbox field. The `field.type` property value is `checkbox` (for cond
 
 A group of checkboxes. The `field.type` property value is `checkbox_group` (for conditionals).
 
-<Photo scale={25} img={CheckboxGroupPhoto} alt="Checkboxes field type" />
+<Photo
+  scale={40}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/checkbox-group.png')}
+  alt="Checkboxes field type"
+/>
 
 :::tip
 [Need to display basic HTML (`<b>`, `<i>`, `<a>`, etc) in your option labels to add emphasis or display a link?](../guides/fields/parsing-html-in-field-options.mdx)
@@ -221,7 +193,11 @@ A group of checkboxes. The `field.type` property value is `checkbox_group` (for 
 
 A complex date and/or time field. Can be used as Date only, Time only, or both. Many configuration and validation options available as well. The `field.type` property value is `datetime` (for conditionals).
 
-<Photo scale={40} img={DateTimePhoto} alt="Date & Time field type" />
+<Photo
+  scale={40}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/date-time.png')}
+  alt="Date & Time field type"
+/>
 
 ### Settings
 
@@ -281,7 +257,10 @@ A complex date and/or time field. Can be used as Date only, Time only, or both. 
 
 A special field, displayable as a Select, Radio or Checkbox Group that contains protected email addresses and labels for each. The `field.type` property value is `dynamic_recipients` (for conditionals).
 
-<Photo scale={60} img={DynamicRecipientsPhoto} alt="Dynamic Recipients" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/dynamic-recipients.png')}
+  alt="Dropdown field type"
+/>
 
 ### Settings
 
@@ -326,7 +305,10 @@ The only workarounds for this would be to either:
 
 A single-line text input field that includes additional validation to expect a valid email address as well as the possibility of attaching an email notification to it. Pair this with the [Confirm](#confirm) special field type if you wish to have the user enter their email address twice. The `field.type` property value is `email` (for conditionals).
 
-<Photo scale={40} img={EmailPhoto} alt="Email field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/email.png')}
+  alt="Email field type"
+/>
 
 :::info
 It is required to use the **Email** field type if you wish for your users to receive an email notification when submitting the form and/or you're using an Email Marketing API integration.
@@ -350,7 +332,10 @@ It is required to use the **Email** field type if you wish for your users to rec
 
 A regular file upload field, using [Craft Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html). The `field.type` property value is `file` (for conditionals).
 
-<Photo scale={20} img={FileUploadPhoto} alt="File upload field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/file-upload.png')}
+  alt="File Upload field type"
+/>
 
 :::tip
 [Would you like to allow more file extensions in file uploads?](../guides/fields/allow-additional-file-extensions.mdx)
@@ -393,8 +378,7 @@ A regular file upload field, using [Craft Assets](https://craftcms.com/docs/5.x/
 An advanced premium javascript-based file uploading field, using [Craft Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html). The `field.type` property value is `file-dnd` (for conditionals).
 
 <Photo
-  scale={80}
-  img={FileDragDropPhoto}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/file-upload-drag-drop.png')}
   alt="File Upload Drag & Drop field type"
 />
 
@@ -545,7 +529,11 @@ A field that allows you to collect hidden data in form submissions without a hid
 
 A multiple-select field. The `field.type` property value is `multiple-select` (for conditionals).
 
-<Photo scale={35} img={MultipleSelectPhoto} alt="Multiple Select field type" />
+<Photo
+  scale={40}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/multiple-select.png')}
+  alt="Multiple Select field type"
+/>
 
 :::tip
 [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
@@ -564,7 +552,11 @@ A multiple-select field. The `field.type` property value is `multiple-select` (f
 
 A single-line `number` type input field that is validated to contain certain numbers only. The `field.type` property value is `number` (for conditionals).
 
-<Photo scale={20} img={NumberPhoto} alt="Number field type" />
+<Photo
+  scale={40}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/number.png')}
+  alt="Number field type"
+/>
 
 :::tip
 [Want to display a Number field as a range slider?](../guides/fields/range-slider-number.mdx)
@@ -595,7 +587,11 @@ A single-line `number` type input field that is validated to contain certain num
 
 A special field that allows for flexible opinion scoring using Freeform's built in CSS. The `field.type` property value is `opinion_scale` (for conditionals). This field type is included automatically with the _Pro_ edition of Freeform or for _Lite_ users with the **Surveys & Polls** form type add-on.
 
-<Photo scale={40} img={OpinionScalePhoto} alt="Opinion scale field type" />
+<Photo
+  scale={60}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/opinion-scale.png')}
+  alt="Opinion Scale field type"
+/>
 
 ### Settings
 
@@ -643,7 +639,10 @@ To manually render an Opinion Scale field to use your own styles, your code migh
 
 A `tel` type input field that is validated to contain phone numbers only, based on a configured pattern. The `field.type` property value is `phone` (for conditionals).
 
-<Photo scale={75} img={PhonePhoto} alt="Phone field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/phone.png')}
+  alt="Phone field type"
+/>
 
 ### Settings
 
@@ -661,7 +660,10 @@ A `tel` type input field that is validated to contain phone numbers only, based 
 
 A group of radio options. The `field.type` property value is `radios` (for conditionals).
 
-<Photo scale={20} img={RadiosPhoto} alt="Radios field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/radio-group.png')}
+  alt="Radios field type"
+/>
 
 #### Settings
 
@@ -695,7 +697,10 @@ A group of radio options. The `field.type` property value is `radios` (for condi
 A special field that allows for star ratings using Freeform's built-in CSS. The `field.type` property value is `rating` (for conditionals).
 This field type is included automatically with the _Pro_ edition of Freeform.
 
-<Photo scale={25} img={RatingPhoto} alt="Rating field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/rating.png')}
+  alt="Rating field type"
+/>
 
 ### Settings
 
@@ -722,7 +727,11 @@ To manually render a Rating field using your own styles, your code might look so
 
 An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`). The `field.type` property value is `regex` (for conditionals).
 
-<Photo scale={30} img={RegexPhoto} alt="Regex field type" />
+<Photo
+  scale={50}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/regex.png')}
+  alt="Regex field type"
+/>
 
 ### Settings
 
@@ -748,7 +757,11 @@ An input field that is validated based on the specified regex pattern (e.g. `/^[
 
 A select dropdown menu field. The `field.type` property value is `dropdown` (for conditionals).
 
-<Photo scale={40} img={DropdownPhoto} alt="Dropdown field type" />
+<Photo
+  scale={40}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/select.png')}
+  alt="Dropdown field type"
+/>
 
 :::tip
 [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
@@ -772,7 +785,11 @@ A select dropdown menu field. The `field.type` property value is `dropdown` (for
 
 A field that allows users to handwrite signatures with their mouse inside your form. The `field.type` property value is `signature` (for conditionals).
 
-<Photo scale={35} img={SignaturePhoto} alt="Signature field type" />
+<Photo
+  scale={50}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/signature.png')}
+  alt="Signature field type"
+/>
 
 ### Settings
 
@@ -795,7 +812,11 @@ A field that allows users to handwrite signatures with their mouse inside your f
 
 A field that allows you to collect and handle repeating data. The `field.type` property value is `table` (for conditionals).
 
-<Photo scale={80} img={TablePhoto} alt="Table field type" />
+<Photo
+  scale={80}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/table.png')}
+  alt="Table field type"
+/>
 
 ### Settings
 
@@ -944,10 +965,12 @@ A complete example might look like:
 
 A single-line text input field. The `field.type` property value is `text` (for conditionals).
 
-<Photo scale={60} img={TextFieldPhoto} alt="Text field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/text.png')}
+  alt="Text field type"
+/>
 
-:::tip
-[Want to display a Text input as a Color Picker?](../guides/fields/color-picker-text.mdx)
+:::tip [Want to display a Text input as a Color Picker?](../guides/fields/color-picker-text.mdx)
 :::
 
 ### Templating
@@ -958,7 +981,10 @@ A single-line text input field. The `field.type` property value is `text` (for c
 
 A multi-line text input field. The `field.type` property value is `textarea` (for conditionals).
 
-<Photo scale={50} img={TextareaPhoto} alt="Textare field type" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/textarea.png')}
+  alt="Textare field type"
+/>
 
 :::tip
 [Need to display linebreaks for Textarea fields in email notifications or on the front end with a Submissions query?](../guides/templating/line-breaks-in-textarea-fields.md)
@@ -980,7 +1006,11 @@ A multi-line text input field. The `field.type` property value is `textarea` (fo
 
 A `url` type input field that checks to see if the URL specified has valid syntax (`http://`, `https://`, `ftp://`, etc). The `field.type` property value is `website` (for conditionals).
 
-<Photo scale={30} img={WebsitePhoto} alt="Website field type" />
+<Photo
+  scale={50}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/website.png')}
+  alt="Website field type"
+/>
 
 ### Templating
 
@@ -990,7 +1020,11 @@ A `url` type input field that checks to see if the URL specified has valid synta
 
 A field that allows you to force a user to re-enter a matching value for another text input field, including [Password](#password) fields (e.g. "Confirm Email Address", "Confirm Password"). It runs through additional validation to make sure field values match. If not, it'll show an error. This field stores the data as well, in case that is important for your site's needs. The `field.type` property value is `confirm` (for conditionals).
 
-<Photo scale={70} img={ConfirmPhoto} alt="Confirm field type" />
+<Photo
+  scale={70}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/confirm.png')}
+  alt="Confirm field type"
+/>
 
 ### Settings
 
@@ -1007,7 +1041,7 @@ When a [Stripe Payments](../integrations/stripe-payments.mdx) integration is con
 
 <Photo
   scale={50}
-  img={CreditCardPhoto}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/credit-card.png')}
   alt="Stripe Payment field Layout Options"
 />
 
@@ -1024,7 +1058,11 @@ When a [Stripe Payments](../integrations/stripe-payments.mdx) integration is con
 
 A special field type that allows you include HTML and Twig inside your form layout in the form builder. The `field.type` property value is `html` (for conditionals).
 
-<Photo scale={60} img={HTMLPhoto} alt="HTML field type" />
+<Photo
+  scale={60}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/html.png')}
+  alt="HTML field type"
+/>
 
 ### Notes
 
@@ -1049,7 +1087,11 @@ If you'd like to display submission data from previous pages, you can do this by
 
 ## Email Marketing<Badge type="pro" text="Pro" />
 
-<Photo scale={35} img={EmailMarketingPhoto} alt="Mailing list field type" />
+<Photo
+  scale={35}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/email-marketing.png')}
+  alt="Mailing list field type"
+/>
 
 :::tip
 [Want to display this checkbox as a light switch toggle?](../guides/fields/toggle-switch-checkbox.mdx)
@@ -1079,7 +1121,11 @@ While data is passed along to the Email Marketing provider, Freeform does not st
 
 A special field type that allows you to securely collect a password from a submitter **but NOT store the value in the Freeform database** (typically used for [User Registration forms](../guides/speciality-forms/user-registration.mdx) with the [Elements integration](../integrations/elements.mdx)). Pair this with the [Confirm](#confirm) special field type if you wish to have the user enter their password twice. The `field.type` property value is `password` (for conditionals).
 
-<Photo scale={30} img={PasswordPhoto} alt="Password field type" />
+<Photo
+  scale={30}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/password.png')}
+  alt="Password field type"
+/>
 
 ### Notes
 
@@ -1090,7 +1136,11 @@ A special field type that allows you to securely collect a password from a submi
 
 A special field type that displays and handles the [reCAPTCHA](https://www.google.com/recaptcha.mdx) or [hCaptcha](https://www.hcaptcha.com) interaction with the user when the [Checkbox](./spam-protection.mdx) option is enabled and configured for the website. Please note that reCAPTCHA v2 Invisible, reCAPTCHA v3 and hCaptcha Invisble do not require any addition of a special field to the form layout. Freeform will automatically apply that validation and take care of it. The `field.type` property value is `recaptcha` (for conditionals).
 
-<Photo scale={30} img={CaptchaPhoto} alt="reCAPTCHA v2 Checkbox field type" />
+<Photo
+  scale={30}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/recaptcha.png')}
+  alt="reCAPTCHA v2 Checkbox field type"
+/>
 
 ### Notes
 
@@ -1117,7 +1167,11 @@ A special field type that displays and handles the [reCAPTCHA](https://www.googl
 
 A special field type that allows you include rich text inside your form layout in the form builder. The `field.type` property value is `rich-text` (for conditionals).
 
-<Photo scale={60} img={HTMLPhoto} alt="Html field type" />
+<Photo
+  scale={60}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/html.png')}
+  alt="Html field type"
+/>
 
 ### Notes
 
@@ -1135,7 +1189,7 @@ A special field type that lets you place "save" button(s) inside your form layou
 
 <Photo
   scale={45}
-  img={SaveContinueLaterPhoto}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/save.png')}
   alt="Save & Continue later field type"
 />
 
@@ -1169,7 +1223,11 @@ A special field type that lets you place "save" button(s) inside your form layou
 
 A special field type that lets you place submit button(s) inside your form layout in the form builder. The `field.type` property value is `submit` (for conditionals).
 
-<Photo scale={20} img={SubmitPhoto} alt="Submit Buttons field type" />
+<Photo
+  scale={20}
+  img={require('@site/static/img/craft/freeform/v4/forms/fields/submit.png')}
+  alt="Submit Buttons field type"
+/>
 
 ### Settings
 
@@ -1288,7 +1346,10 @@ The following Craft Elements can be fed to the above field types:
     - Price
     - Fields (simple values)
 
-<Photo img={ComposerFeedersElementPhoto} alt="Element Feeders" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp_forms-composer-feeders-elements.png')}
+  alt="Element Feeders"
+/>
 
 ### Available Predefined Options
 
@@ -1355,4 +1416,7 @@ The following Freeform predefined options can be fed to the above field types:
     - Abbreviated (Capitalized 3 letters), e.g. `Thu`
     - Single Number, e.g. `4`
 
-<Photo img={ComposerFeedersPredefinedPhoto} alt="Predefined Feeders" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp_forms-composer-feeders-predefined.png')}
+  alt="Predefined Feeders"
+/>
