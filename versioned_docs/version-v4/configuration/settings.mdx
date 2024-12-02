@@ -13,27 +13,6 @@ import { FlexCards } from '@site/src/components/docs';
 
 import Icons from '@site/static/card-icons';
 
-import SettingCrmPhoto from './assets/img/cp_settings-crm.png';
-import SettingEmailMarktetingPhoto from './assets/img/cp_settings-email-marketing.png';
-import SettingErrorLogPhoto from './assets/img/cp_settings-error-log.png';
-import SettingPaymentsPhoto from './assets/img/cp_settings-payments.png';
-import SettingSlackPhoto from './assets/img/cp_settings-slack.png';
-import SettingStatusEditPhoto from './assets/img/cp_settings-status-edit.png';
-import SettingStatusListPhoto from './assets/img/cp_settings-status-list.png';
-import DemoTemplatesPhoto from './assets/img/cp_settings-demo-templates.png';
-import FormBehaviorPhoto from './assets/img/form-behavior.png';
-import GeneralPhoto from './assets/img/general.png';
-import IntegrationsOtherPhoto from './assets/img/integrations-other.png';
-import LimitedUsersSettingsPhoto from './assets/img/limited-users-settings.png';
-import TemplateManagerPhoto from './assets/img/template-manager.png';
-import SpamPhoto from './assets/img/spam.png';
-import NoticeAlertPhoto from './assets/img/notices-alerts.png';
-import NoticeAlertDashboardPhoto from './assets/img/notices-alerts-dashboard.png';
-import SettingFormBuilderPhoto from './assets/img/cp_settings-form-builder.png';
-import SettingFormattingTemplatesPhoto from './assets/img/cp_settings-formatting-templates.png';
-import SettingEmailTemplatesPhoto from './assets/img/cp_settings-email-templates.png';
-import SettingsRecaptchaPhoto from './assets/img/cp_settings-recaptcha.png';
-
 # Plugin Settings
 
 Freeform includes a wide variety of settings that allow you to customize your form management experience. To adjust your settings, click the **Settings** menu item while in the Freeform plugin, or go to **Settings → Plugins → Freeform** and click the settings link. These can also be configured within your Craft [Project Config](./project-config.mdx) file
@@ -134,7 +113,10 @@ Configure general settings for Freeform.
 This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
-<Photo img={GeneralPhoto} alt="General Settings" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/configuration/general.png')}
+  alt="General Settings"
+/>
 
 | Setting                                                           | Project Config                       | Description                                                                                                                                                                                                                                                      | Lite | Pro                                |
 | ----------------------------------------------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ---------------------------------- |
@@ -161,7 +143,10 @@ Configure the front end form behavior.
 This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
-<Photo img={FormBehaviorPhoto} alt="Form Behavior Settings" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/configuration/form-behavior.png')}
+  alt="Form Behavior Settings"
+/>
 
 | Setting                                                         | Project Config                 | Description                                                                                                                                                                                                                                                                                | Lite | Pro                                |
 | --------------------------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---- | ---------------------------------- |
@@ -218,7 +203,10 @@ Control Freeform's form builder experience.
 This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
-<Photo img={SettingFormBuilderPhoto} alt="Form builder settings" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/form-builder.png')}
+  alt="Form builder settings"
+/>
 
 | Setting                                                     | Project Config                         | Description                                                                                                                                                                                                                                                                                              | Lite | Pro                                |
 | ----------------------------------------------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ---------------------------------- |
@@ -240,7 +228,7 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
 :::
 
 <Photo
-  img={SettingFormattingTemplatesPhoto}
+  img={require('@site/static/img/craft/freeform/v4/cp_settings-formatting-templates.png')}
   alt="Form builder formatting templates settings"
 />
 
@@ -257,16 +245,16 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
 :::
 
 <Photo
-  img={SettingEmailTemplatesPhoto}
+  img={require('@site/static/img/craft/freeform/v4/cp_settings-email-templates.png')}
   alt="Form builder Email templates settings"
 />
 
-| Setting                                                                                                  | Project Config                              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Lite | Pro                                |
-| -------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ---------------------------------- |
-| **Template Storage Type**                                                                                | `emailTemplateStorageType: files_database`  | Choose whether you want to enable email notification templates stored as files, in the database, or have both options available.                                                                                                                                                                                                                                                                                                                                                      | ✓    | <span class="edition-pro">✓</span> |
-| **Default Email Template Creation Method**                                                               | `emailTemplateDefault: files`               | Select which storage method to use when creating new email notifications with 'Add New Template' option in the form builder.                                                                                                                                                                                                                                                                                                                                                          | ✓    | <span class="edition-pro">✓</span> |
+| Setting                                                                                                 | Project Config                              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Lite | Pro                                |
+| ------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ---------------------------------- |
+| **Template Storage Type**                                                                               | `emailTemplateStorageType: files_database`  | Choose whether you want to enable email notification templates stored as files, in the database, or have both options available.                                                                                                                                                                                                                                                                                                                                                      | ✓    | <span class="edition-pro">✓</span> |
+| **Default Email Template Creation Method**                                                              | `emailTemplateDefault: files`               | Select which storage method to use when creating new email notifications with 'Add New Template' option in the form builder.                                                                                                                                                                                                                                                                                                                                                          | ✓    | <span class="edition-pro">✓</span> |
 | **Allow File-based Email Templates to be created inside the CP?**<Badge type="feature" text="4.0.4+" /> | `allowFileTemplateEdit: '1'`                | Allowing users to generate template files from inside the CP can potentially cause issues with certain workflows.                                                                                                                                                                                                                                                                                                                                                                     | ✓    | <span class="edition-pro">✓</span> |
-| **File Directory Path**                                                                                  | `emailTemplateDirectory: _freeform_emails/` | Provide a relative path to the Craft Templates folder where your email templates directory is. If you have not yet created the directory, please do that before filling in this setting. This allows you to use Twig template files for your email formatting and allows Freeform to locate these files when setting up notifications, e.g. `_freeform_notifications`. To add a starter example template, click the "Add a sample template" button, and then edit the template after. | ✓    | <span class="edition-pro">✓</span> |
+| **File Directory Path**                                                                                 | `emailTemplateDirectory: _freeform_emails/` | Provide a relative path to the Craft Templates folder where your email templates directory is. If you have not yet created the directory, please do that before filling in this setting. This allows you to use Twig template files for your email formatting and allows Freeform to locate these files when setting up notifications, e.g. `_freeform_notifications`. To add a starter example template, click the "Add a sample template" button, and then edit the template after. | ✓    | <span class="edition-pro">✓</span> |
 
 :::info
 If you wish to create advanced notification templates, please note that any additional template files (e.g. `_layout.twig`, `_footer.html`, etc) must NOT be stored inside of this directory, as Freeform expects that every file in here is a complete email notification template and will choke on any additional files.
@@ -307,8 +295,14 @@ This area allows you to manage and create new statuses for your forms. To set th
 This page and its settings all remain accessible when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
-<Photo img={SettingStatusListPhoto} alt="Statuses" />
-<Photo img={SettingStatusEditPhoto} alt="Create a Status" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp_settings-status-list.png')}
+  alt="Statuses"
+/>
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp_settings-status-edit.png')}
+  alt="Create a Status"
+/>
 
 ## Demo Templates
 
@@ -318,7 +312,10 @@ Allows you to install the [Demo Templates](./demo-templates.mdx) to get Freeform
 This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
-<Photo img={DemoTemplatesPhoto} alt="Demo Templates settings" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/configuration/demo-templates.png')}
+  alt="Demo Templates settings"
+/>
 
 ## Spam Settings
 
@@ -328,7 +325,10 @@ For more information about Freeform's spam protection features, visit the [Spam 
 This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
-<Photo img={SpamPhoto} alt="Spam Settings" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/configuration/spam.png')}
+  alt="Spam Settings"
+/>
 
 | Setting                                                                     | Project Config                                                          | Description                                                                                                                                                                                                                                                                                                                                                                                       | Lite | Pro                                |
 | --------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ---------------------------------- |
@@ -373,20 +373,23 @@ Freeform currently supports several options of _reCAPTCHA_ and _hCaptcha_.
 This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
-<Photo img={SettingsRecaptchaPhoto} alt="Captcha Settings" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v4/cp_settings-recaptcha.png')}
+  alt="Captcha Settings"
+/>
 
-| Setting                                                                                 | Project Config                        | Description                                                                                                                                                                                                                                                                                                                                            | Lite | Pro                                |
-| --------------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---- | ---------------------------------- |
-| **Use Captchas on Forms?**                                                              | `recaptchaEnabled: '1'`               | Enable this setting and fill in the Captcha _Site Key_ and _Secret Key_ to enable a Captcha service for Freeform. Visit [Google reCAPTCHA site](https://www.google.com/recaptcha.mdx) to register your site and get your _Site Key_ and _Secret Key_.                                                                                                      | ✓    | <span class="edition-pro">✓</span> |
+| Setting                                                                                 | Project Config                        | Description                                                                                                                                                                                                                                                                                                                                        | Lite | Pro                                |
+| --------------------------------------------------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- | ---------------------------------- |
+| **Use Captchas on Forms?**                                                              | `recaptchaEnabled: '1'`               | Enable this setting and fill in the Captcha _Site Key_ and _Secret Key_ to enable a Captcha service for Freeform. Visit [Google reCAPTCHA site](https://www.google.com/recaptcha.mdx) to register your site and get your _Site Key_ and _Secret Key_.                                                                                              | ✓    | <span class="edition-pro">✓</span> |
 | **Captcha type**                                                                        | `recaptchaType: v2_checkbox`          | Choose which Captcha service and type you wish to use:<br /><ul><li>_reCAPTCHA v2 Checkbox_</li><li>_reCAPTCHA v2 Invisible_<Badge type="pro" text="Pro" /></li><li>_reCAPTCHA v3_<Badge type="pro" text="Pro" /></li><li>_hCaptcha Checkbox_<Badge type="pro" text="Pro" /></li><li>_hCaptcha Invisible_<Badge type="pro" text="Pro" /></li></ul> | ✓    | <span class="edition-pro">✓</span> |
-| **Captcha Site Key**                                                                    | `recaptchaKey: XXXXX`                 | The Site Key provided by the Captcha service.                                                                                                                                                                                                                                                                                                          | ✓    | <span class="edition-pro">✓</span> |
-| **Captcha Secret Key**                                                                  | `recaptchaSecret: XXXXX`              | The Secret Key provided by the Captcha service.                                                                                                                                                                                                                                                                                                        | ✓    | <span class="edition-pro">✓</span> |
-| **Only load Captcha scripts once the user interacts with the form?**                    | `recaptchaLazyLoad: '1'`              | If you'd like to have the associated Captcha scripts load only once a user begins filling out the form, enable this setting. If you'd like your forms to be ready to go at page load, disable this setting.                                                                                                                                            | ✓    | <span class="edition-pro">✓</span> |
-| **Failure Behavior** (reCAPTCHA v2 Invisible, reCAPTCHA v3 and hCaptcha Invisible only) | `recaptchaBehaviour: spam`            | The behavior Freeform should take if the validation fails. Options are: _Display error_ (an error saying the Captcha is required) or _Send to Freeform Spam Folder_ (any failed attempt at completing the Captcha will allow the submission through, but flag it as spam and it'll end up in the Freeform Spam Folder).                                |      | <span class="edition-pro">✓</span> |
-| **reCAPTCHA v2 Checkbox Theme**                                                         | `recaptchaTheme: light`               | The theme to be used for the reCAPTCHA checkbox. Options are: _Light_ (default) and _Dark_                                                                                                                                                                                                                                                             | ✓    | <span class="edition-pro">✓</span> |
-| **reCAPTCHA v2 Checkbox Size**                                                          | `recaptchaSize: normal`               | The size to be used for the reCAPTCHA checkbox. Options are: _Normal_ (default) and _Compact_                                                                                                                                                                                                                                                          | ✓    | <span class="edition-pro">✓</span> |
-| **Error Message**                                                                       | `recaptchaErrorMessage: 'Try again!'` | Set a custom error message here, e.g. `Please verify that you are not a robot.`                                                                                                                                                                                                                                                                        | ✓    | <span class="edition-pro">✓</span> |
-| **Minimum Score** (reCAPTCHA v3 only)                                                   | `recaptchaMinScore: '0.7'`            | Enter the minimum score needed to pass the reCAPTCHA v3 test. We recommend starting with `0.5` and see how that goes. A `0.0` score means that it's almost certain a bot, while a `1.0` score means it's a user.                                                                                                                                       |      | <span class="edition-pro">✓</span> |
+| **Captcha Site Key**                                                                    | `recaptchaKey: XXXXX`                 | The Site Key provided by the Captcha service.                                                                                                                                                                                                                                                                                                      | ✓    | <span class="edition-pro">✓</span> |
+| **Captcha Secret Key**                                                                  | `recaptchaSecret: XXXXX`              | The Secret Key provided by the Captcha service.                                                                                                                                                                                                                                                                                                    | ✓    | <span class="edition-pro">✓</span> |
+| **Only load Captcha scripts once the user interacts with the form?**                    | `recaptchaLazyLoad: '1'`              | If you'd like to have the associated Captcha scripts load only once a user begins filling out the form, enable this setting. If you'd like your forms to be ready to go at page load, disable this setting.                                                                                                                                        | ✓    | <span class="edition-pro">✓</span> |
+| **Failure Behavior** (reCAPTCHA v2 Invisible, reCAPTCHA v3 and hCaptcha Invisible only) | `recaptchaBehaviour: spam`            | The behavior Freeform should take if the validation fails. Options are: _Display error_ (an error saying the Captcha is required) or _Send to Freeform Spam Folder_ (any failed attempt at completing the Captcha will allow the submission through, but flag it as spam and it'll end up in the Freeform Spam Folder).                            |      | <span class="edition-pro">✓</span> |
+| **reCAPTCHA v2 Checkbox Theme**                                                         | `recaptchaTheme: light`               | The theme to be used for the reCAPTCHA checkbox. Options are: _Light_ (default) and _Dark_                                                                                                                                                                                                                                                         | ✓    | <span class="edition-pro">✓</span> |
+| **reCAPTCHA v2 Checkbox Size**                                                          | `recaptchaSize: normal`               | The size to be used for the reCAPTCHA checkbox. Options are: _Normal_ (default) and _Compact_                                                                                                                                                                                                                                                      | ✓    | <span class="edition-pro">✓</span> |
+| **Error Message**                                                                       | `recaptchaErrorMessage: 'Try again!'` | Set a custom error message here, e.g. `Please verify that you are not a robot.`                                                                                                                                                                                                                                                                    | ✓    | <span class="edition-pro">✓</span> |
+| **Minimum Score** (reCAPTCHA v3 only)                                                   | `recaptchaMinScore: '0.7'`            | Enter the minimum score needed to pass the reCAPTCHA v3 test. We recommend starting with `0.5` and see how that goes. A `0.0` score means that it's almost certain a bot, while a `1.0` score means it's a user.                                                                                                                                   |      | <span class="edition-pro">✓</span> |
 
 :::info
 To add the **reCAPTCHA v2 Checkbox** or **hCaptcha Checkbox** to your forms, open up each form in the form builder and drag over the **Captcha** special field anywhere you like into your form layout.
@@ -406,7 +409,10 @@ The Email Marketing area allows you to manage your mailing list API integrations
 
 - View the [Email Marketing Integration](../integrations/index.mdx) documentation for more information about setting up and configuring.
 
-<Photo img={SettingEmailMarktetingPhoto} alt="Email marketing" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp_settings-email-marketing.png')}
+  alt="Email marketing"
+/>
 
 ### CRM<Badge type="pro" text="Pro" />
 
@@ -414,7 +420,10 @@ The CRM area allows you to manage your CRM (Customer Relationship Management) AP
 
 - View the [CRM Integration](../integrations/index.mdx) documentation for more information about setting up and configuring.
 
-<Photo img={SettingCrmPhoto} alt="CRM" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp_settings-crm.png')}
+  alt="CRM"
+/>
 
 ### Payments<Badge type="pro" text="Pro" />
 
@@ -422,7 +431,10 @@ This area allows you to configure and manage Stripe Payments for your forms. The
 
 - View the [Payments API Integration](../integrations/stripe-payments.mdx) documentation for more information about setting up and configuring.
 
-<Photo img={SettingPaymentsPhoto} alt="Payments" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp_settings-payments.png')}
+  alt="Payments"
+/>
 
 ### Webhooks<Badge type="pro" text="Pro" />
 
@@ -431,7 +443,10 @@ This area allows you to configure and manage **Slack**, **Zapier** and **generic
 - View the [Slack API Integration](../integrations/slack.mdx) documentation for more information about setting up and configuring.
 - View the [Zapier API Integration](../integrations/zapier.mdx) documentation for more information about setting up and configuring.
 
-<Photo img={SettingSlackPhoto} alt="Slack Webhooks" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp_settings-slack.png')}
+  alt="Slack Webhooks"
+/>
 
 ## Notices & Alerts
 
@@ -447,9 +462,15 @@ Check out the options below to learn more about each:
 - [Email Alerts](../configuration/notices-alerts.mdx)
 - [Weekly Digest](../configuration/notices-alerts.mdx)
 
-<Photo img={NoticeAlertPhoto} alt="Notices & Alerts" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/configuration/notices-alerts.png')}
+  alt="Notices & Alerts"
+/>
 
-<Photo img={NoticeAlertDashboardPhoto} alt="Update Notices preview" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v4/configuration/notices-alerts-dashboard.png')}
+  alt="Update Notices preview"
+/>
 
 ## Error Log
 
@@ -459,4 +480,7 @@ In as many cases as possible, Freeform attempts to write errors and issues to it
 This page remains accessible when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
-<Photo img={SettingErrorLogPhoto} alt="Error Log" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp_settings-error-log.png')}
+  alt="Error Log"
+/>
