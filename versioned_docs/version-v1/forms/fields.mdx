@@ -7,20 +7,6 @@ import { Photo } from '@site/src/components/utils';
 
 import Icons from '@site/static/card-icons';
 
-import QuickFieldsPhoto from './assets/img/cp_forms-composer-quickfield.png';
-import FieldAttributeEditorPhoto from './assets/img/cp_forms-composer-field-attributes.png';
-import FieldsPhoto from './assets/img/cp_fields.png';
-import ConfirmPhoto from './assets/img/confirm.png';
-import NumberPhoto from './assets/img/number.png';
-import CreatePhoto from './assets/img/cp_fields-create.png';
-import DateTimePhoto from './assets/img/cp_field-datetime.png';
-import PhonePhoto from './assets/img/cp_field-phone.png';
-import RatingPhoto from './assets/img/cp_field-regex.png';
-import RegexPhoto from './assets/img/cp_field-regex.png';
-import WebsitePhoto from './assets/img/cp_field-website.png';
-import ComposerFeedersPredefinedPhoto from './assets/img/cp_forms-composer-feeders-predefined.png';
-import ComposerFeedersElementsPhoto from './assets/img/cp_forms-composer-feeders-elements.png';
-
 # Fields & Field Types
 
 Freeform uses its own set of fields and field types. Using a predefined set of fields also gives us the control to more easily account for how each form field should be displayed in Composer's live preview, and provides a smoother experience.
@@ -41,9 +27,15 @@ Some important notes:
 - Once a field is created, you cannot change the field type after.
 - Freeform will load fields of [Hidden](#fields-hidden) type at the beginning of the form, regardless of where they are placed in Composer layout.
 
-<Photo img={QuickFieldsPhoto} alt="Composer - Quick Create Fields" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v1/forms/cp_forms-composer-quickfield.png')}
+  alt="Composer - Quick Create Fields"
+/>
 
-<Photo img={CreatePhoto} alt="Create a Field" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v1/forms/cp_fields-create.png')}
+  alt="Create a Field"
+/>
 
 ## Field Types
 
@@ -153,9 +145,7 @@ The following extra field types are available with Freeform Pro:
     - Can contain default text and/or placeholder.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-confirmation).
 
-  <Photo img={ConfirmPhoto} alt="Confirm fieldtype" />
-
-* **Date & Time** <a href="#fields-date-time" id="fields-date-time" class="docs-anchor">#</a>
+- **Date & Time** <a href="#fields-date-time" id="fields-date-time" class="docs-anchor">#</a>
   - A complex date and/or time field. Can be used as Date only, Time only, or both. Many configuration and validation options available as well:
     - Set a default value.
       - Can use `now`, `today`, `5 days ago`, `2017-01-01 20:00:00`, etc, which will format the default value according to the chosen format as a localized value.
@@ -189,7 +179,10 @@ The following extra field types are available with Freeform Pro:
   * Freeform will automatically insert javascript in the footer of the page for this fieldtype. If you prefer to have this load inside the `<form></form>` tags (for purposes of caching, etc), you can adjust the [Freeform Javascript Insertion Location](../configuration/settings.mdx#scripts-location) setting.
   * View [field specific properties for templating](../templates/objects/field.mdx#field-datetime).
 
-<Photo img={DateTimePhoto} alt="Date & Time fieldtype" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v2/forms/cp_field-datetime.png')}
+  alt="Date & Time fieldtype"
+/>
 
 - **Number** <a href="#fields-number" id="fields-number" class="docs-anchor">#</a>
 
@@ -212,8 +205,6 @@ The following extra field types are available with Freeform Pro:
     - Can contain default text and/or placeholder.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-number).
 
-  <Photo img={NumberPhoto} alt="Number fieldtype" />
-
 * **Phone** <a href="#fields-phone" id="fields-phone" class="docs-anchor">#</a>
   - An input field that is validated to contain phone numbers only, based on pattern configured.
     - Set pattern to desired format, where `x` is a digit between `0` and `9`, e.g:
@@ -224,9 +215,13 @@ The following extra field types are available with Freeform Pro:
     - Can contain default text and/or placeholder.
   * View [field specific properties for templating](../templates/objects/field.mdx#field-phone).
 
-<Photo img={PhonePhoto} alt="Phone fieldtype" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v2/forms/cp_field-phone.png')}
+  alt="Phone fieldtype"
+/>
 
 - **Rating** <a href="#fields-rating" id="fields-rating" class="docs-anchor">#</a>
+
   - A special field that allows for star ratings using Freeform's built in CSS and JS.
     - Set a default star rating value (based on Maximum Number of Stars configuration option)
     - Set the maximum number of stars allowed.
@@ -237,8 +232,6 @@ The following extra field types are available with Freeform Pro:
   - Freeform will automatically insert javascript in the footer of the page for this fieldtype. If you prefer to have this load inside the `<form></form>` tags (for purposes of caching, etc), you can disable the [Include Freeform Scripts in the Page Footer](../configuration/settings.mdx#scripts-footer) setting.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-rating).
 
-<Photo img={RatingPhoto} alt="Rating fieldtype" />
-
 - **Regex** <a href="#fields-regex" id="fields-regex" class="docs-anchor">#</a>
   - An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`).
     - Set error message a user will see if an incorrect value is supplied.
@@ -247,7 +240,10 @@ The following extra field types are available with Freeform Pro:
     - Can contain default text and/or placeholder.
     * View [field specific properties for templating](../templates/objects/field.mdx#field-regex).
 
-<Photo img={RegexPhoto} alt="Regex fieldtype" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v2/forms/cp_field-regex.png')}
+  alt="Regex fieldtype"
+/>
 
 - **Website** <a href="#fields-website" id="fields-website" class="docs-anchor">#</a>
   - A simple input field that checks to see if the URL specified has valid syntax (`http://`, `https://`, `ftp://`, etc).
@@ -255,4 +251,7 @@ The following extra field types are available with Freeform Pro:
     - Can contain default text and/or placeholder.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-website).
 
-<Photo img={WebsitePhoto} alt="Website fieldtype" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v2/forms/cp_field-website.png')}
+  alt="Website fieldtype"
+/>
