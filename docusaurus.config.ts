@@ -291,6 +291,9 @@ const config: Config = {
   ],
 
   themeConfig: {
+    colorMode: {
+      respectPrefersColorScheme: true,
+    },
     algolia: {
       appId: '0I9DTHM8U8',
       apiKey: '4ba7fadf20a42f8515ff213715c1c77f',
