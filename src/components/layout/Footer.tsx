@@ -74,7 +74,7 @@ const Footer: React.FC = () => {
           </svg>
         </a>
         <a
-          href="https://bsky.app/profile/solspaceinc.bsky.social"
+          href="https://bsky.app/profile/solspace.com"
           target="_blank"
           rel="noopener noreferrer"
           title="Bluesky"
