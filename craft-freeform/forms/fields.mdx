@@ -49,7 +49,7 @@ Freeform features its own set of robust field types. The form builder displays a
       title: 'Populating Field Options',
       description: 'With predefined data or other Craft Elements.',
       icon: Icons.ListChecksIcon,
-      fullCardLink: '#populating-fields-with-elements--predefined-options',
+      fullCardLink: '#populating-field-options',
     },
     {
       title: 'Field Encryption',
@@ -121,13 +121,175 @@ For each field that is encrypted and contains submission data, the database row 
 Encryption is not retroactive. Each submission will need to be resaved to update older submissions.
 :::
 
-### Populating Field Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+### Populating Field Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.0+" />
 
-All multi-option field types (such as Dropdown, Checkboxes, etc) can have their option labels and values automatically populated with [Craft Elements or Pre-defined list options](#populating-fields-with-elements--predefined-options).
+All multi-option field types (such as Dropdown, Checkboxes, etc) can have their option labels and values automatically populated with Craft Elements or Pre-defined list options. This allows you to quickly build forms by having fields auto-generated.
 
-- [Applicable Field Types](#applicable-field-types)
-- [Available Craft Elements](#available-craft-elements)
-- [Available Predefined Options](#available-predefined-options)
+:::tip
+[Need more control over populating field options dynamically at template level, such as from a Craft Entry or some other Twig code in your template? Check out how to populate field options at template level.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
+:::
+
+### Applicable Field Types
+
+The following field types can be auto-populated:
+
+- [Dropdown](#dropdown)
+  - Optional **Empty Option Label** to have first option be something like `Please select...`
+- [Multiple Select](#multiple-select)
+- [Checkboxes](#checkboxes)
+- [Radios](#radios)
+
+### Available Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+
+The following Freeform _Predefined Options_ and _Craft Elements_ can be fed to the above [field types](#applicable-field-types):
+
+<Tabs>
+<TabItem value="predefined-options-Dates" label="Dates" default>
+
+#### Months
+
+- All 12 months of the year.
+- **Option Label** and **Option Value** choices:
+  - Full, e.g. `September`
+  - Abbreviated (Capitalized 3 letters), e.g. `Sep`
+  - Single Number, e.g. `9`
+  - 2-digit Number, e.g. `09`
+
+#### Days
+
+- List of days `1` to `31`.
+- **Option Label** and **Option Value** choices:
+  - Single Number, e.g. `3`
+  - 2-digit Number, e.g. `03`
+
+#### Days of Week
+
+- List of all days of week.
+- **Option Label** and **Option Value** choices:
+  - Full, e.g. `Thursday`
+  - Abbreviated (Capitalized 3 letters), e.g. `Thu`
+  - Single Number, e.g. `4`
+
+</TabItem>
+<TabItem value="predefined-options-Ranges" label="Ranges">
+
+#### Numbers <span>(range)</span>
+
+- A custom range of numbers
+- **Range Start** and **Range End**
+  - E.g. `60` - `65` would return list: `60, 61, 62, 63, 64, 65`
+
+#### Years <span>(range)</span>
+
+- A custom range of years
+- **Range Start** - number of years in PAST from current year
+- **Range End** - number of years in FUTURE from current year
+  - E.g. `5` (start) - `0` (end) would return list: `2018, 2017, 2016, 2015, 2014, 2013`
+- **Sort Direction**:
+  - Ascending
+  - Descending
+
+</TabItem>
+<TabItem value="predefined-options-Regions" label="Regions">
+
+#### States
+
+- Official USA states
+- **Option Label** and **Option Value** choices:
+  - Full
+  - Abbreviated (upper case 2 letters)
+
+#### States & Territories
+
+- Official USA states and territories
+- **Option Label** and **Option Value** choices:
+  - Full
+  - Abbreviated (upper case 2 letters)
+
+#### Canadian Provinces
+
+- Official Canadian provinces and territories
+- **Provinces - English**
+  - Canadian Provinces and territories in English
+- **Provinces - French**
+  - Canadian Provinces and territories in French
+- **Provinces - Bilingual**
+  - Bilingual list of Canadian Provinces and territories
+  - **Option Label** and **Option Value** choices:
+    - Full
+    - Abbreviated (upper case 2 letters)
+
+#### Countries
+
+- All world countries
+- **Option Label** and **Option Value** choices:
+  - Full
+  - Abbreviated (upper case 2 letters)
+
+</TabItem>
+<TabItem value="predefined-options-Languages" label="Languages">
+
+#### World Languages
+
+- All world languages
+- **Option Label** and **Option Value** choices:
+  - Full
+  - Abbreviated (lower case 2 letters)
+
+</TabItem>
+<TabItem value="predefined-options-Elements" label="Craft Elements">
+
+#### [Craft Entries](https://craftcms.com/docs/5.x/reference/element-types/entries.html)
+
+- **Target** sections or all sections.
+- **Option Label** and **Option Value** choices:
+  - ID, Title, Slug, URI, Fields (simple values)
+
+#### [Craft Users](https://craftcms.com/docs/5.x/reference/element-types/users.html)
+
+- **Target** user groups or all groups.
+- **Option Label** and **Option Value** choices:
+  - ID, Username, Email, First Name, Last Name, Full Name, Fields (simple values)
+
+#### [Craft Categories](https://craftcms.com/docs/5.x/reference/element-types/categories.html)
+
+- **Target** category groups or all groups.
+- **Option Label** and **Option Value** choices:
+  - ID, Title, Slug, URI, Fields (simple values)
+
+#### [Craft Tags](https://craftcms.com/docs/5.x/reference/element-types/tags.html)
+
+- **Target** tag groups or all groups.
+- **Option Label** and **Option Value** choices:
+  - ID, Title, Slug, URI, Fields (simple values)
+
+#### [Craft Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html)
+
+- **Target** asset groups or all groups.
+- **Option Label** and **Option Value** choices:
+  - Filename, ID, Fields (simple values)
+
+#### [Craft Commerce Products](https://craftcms.com/docs/commerce/5.x/system/products-variants.html)
+
+- **Target** product type or all product types.
+- **Option Label** and **Option Value** choices:
+  - ID, Title, Slug, URI, SKU, Price, Fields (simple values)
+
+</TabItem>
+</Tabs>
+
+### Convert to Custom Options<Badge type="feature" text="New in 5.0+" />
+
+Sometimes you need a little more control over the populated data generated by the _Element_ or _Predefined_ options. You can click the **Convert to Custom Options** button at any time to have the generated option data converted to _Custom_ options that can then have its options edited, removed, added, renamed, and reordered.
+
+:::danger
+There are potentially negative implications with using this feature:
+
+- Your options data can become out of sync when new elements (e.g. Entries) are added after the fact.
+- If you apply this when there are already existing submissions, renaming option values will orphan submissions relying on the old value name.
+- Be very careful if you attempt to redo this process (e.g. changing back to _Element_ source and grabbing a fresh list of Craft Entries, then converting back to _Custom_). If any existing submissions are relying on old or modified option values, they can become orphaned in the process.
+
+:::
 
 ### Field Types
 
@@ -563,7 +725,7 @@ A group of checkboxes. The `field.type` property value is `checkboxes` (for cond
 ### Settings
 
 - Can specify labels (with values assumed) or labels and values (that differ).
-- Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-fields-with-elements--predefined-options).
+- Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-field-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 - Can be rendered vertically or horizontally.
 
@@ -661,7 +823,7 @@ A select dropdown menu field. The `field.type` property value is `dropdown` (for
 
 - Can specify labels (with values assumed) or labels and values (that differ).
   - To make the first option empty, use **labels and values** approach with the first option having something like **Please select...** for the label, and leave option blank.
-- Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-fields-with-elements--predefined-options).
+- Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-field-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 
 ## Email<Badge type="feature" text="Revised in 5.0+" />
@@ -962,7 +1124,7 @@ A multiple-select field. The `field.type` property value is `multiple-select` (f
 ### Settings
 
 - Can specify labels (with values assumed) or labels and values (that differ).
-- Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-fields-with-elements--predefined-options).
+- Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-field-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 
 ## Number
@@ -1114,7 +1276,7 @@ A group of radio options. The `field.type` property value is `radios` (for condi
 ### Settings
 
 - Can specify labels (with values assumed) or labels and values (that differ).
-- Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-fields-with-elements--predefined-options).
+- Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-field-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 - Can be rendered vertically or horizontally.
 
@@ -1648,128 +1810,3 @@ A `url` type input field that checks to see if the URL specified has valid synta
   img={require('@site/static/img/craft/freeform/v5/forms/fields/website.png')}
   alt="Website field type"
 />
-
-## Populating Fields with Elements & Predefined Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.0+" />
-
-Inside the form builder (only), field types with options (such as _Dropdown_, _Radios_, etc) have the ability to be automatically fed options from Craft Elements or Freeform's own predefined options. This allows you to quickly build forms by having fields auto-generated.
-
-:::tip
-[Need more control over populating field options dynamically at template level, such as from a Craft Entry or some other Twig code in your template? Check out how to populate field options at template level.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
-:::
-
-### Applicable Field Types
-
-The following field types can be auto-populated:
-
-- [Dropdown](#dropdown)
-  - Optional **Empty Option Label** to have first option be something like `Please select...`
-- [Multiple Select](#multiple-select)
-- [Checkboxes](#checkboxes)
-- [Radios](#radios)
-
-### Available Craft Elements<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
-
-The following Craft Elements can be fed to the above field types:
-
-- **[Craft Entries](https://craftcms.com/docs/5.x/reference/element-types/entries.html)**
-  - **Target** sections or all sections.
-  - **Option Label** and **Option Value** choices:
-    - ID, Title, Slug, URI, Fields (simple values)
-- **[Craft Users](https://craftcms.com/docs/5.x/reference/element-types/users.html)**
-  - **Target** user groups or all groups.
-  - **Option Label** and **Option Value** choices:
-    - ID, Username, Email, First Name, Last Name, Full Name, Fields (simple values)
-- **[Craft Categories](https://craftcms.com/docs/5.x/reference/element-types/categories.html)**
-  - **Target** category groups or all groups.
-  - **Option Label** and **Option Value** choices:
-    - ID, Title, Slug, URI, Fields (simple values)
-- **[Craft Tags](https://craftcms.com/docs/5.x/reference/element-types/tags.html)**
-  - **Target** tag groups or all groups.
-  - **Option Label** and **Option Value** choices:
-    - ID, Title, Slug, URI, Fields (simple values)
-- **[Craft Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html)**
-  - **Target** asset groups or all groups.
-  - **Option Label** and **Option Value** choices:
-    - Filename, ID, Fields (simple values)
-- **[Craft Commerce Products](https://craftcms.com/docs/commerce/5.x/system/products-variants.html)**
-  - **Target** product type or all product types.
-  - **Option Label** and **Option Value** choices:
-    - ID, Title, Slug, URI, SKU, Price, Fields (simple values)
-
-### Available Predefined Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
-
-The following Freeform predefined options can be fed to the above field types:
-
-- **States**
-  - Official USA States
-  - **Option Label** and **Option Value** choices:
-    - Full
-    - Abbreviated (upper case 2 letters)
-- **States & Territories**
-  - Official USA States and territories
-  - **Option Label** and **Option Value** choices:
-    - Full
-    - Abbreviated (upper case 2 letters)
-- **Canadian Provinces**
-  - **Provinces - English**
-    - Canadian Provinces and territories in English
-  - **Provinces - French**
-    - Canadian Provinces and territories in French
-  - **Provinces - Bilingual**
-    - Bilingual list of Canadian Provinces and territories
-    - **Option Label** and **Option Value** choices:
-      - Full
-      - Abbreviated (upper case 2 letters)
-- **Countries**
-  - All world countries
-  - **Option Label** and **Option Value** choices:
-    - Full
-    - Abbreviated (upper case 2 letters)
-- **Languages**
-  - All world languages
-  - **Option Label** and **Option Value** choices:
-    - Full
-    - Abbreviated (lower case 2 letters)
-- **Numbers** (range)
-  - A custom range of numbers
-  - **Range Start** and **Range End**
-    - E.g. `60` - `65` would return list: `60, 61, 62, 63, 64, 65`
-- **Years** (range)
-  - A custom range of years
-  - **Range Start** - number of years in PAST from current year
-  - **Range End** - number of years in FUTURE from current year
-    - E.g. `5` (start) - `0` (end) would return list: `2018, 2017, 2016, 2015, 2014, 2013`
-  - **Sort Direction**:
-    - Ascending
-    - Descending
-- **Months**
-  - All 12 months of the year.
-  - **Option Label** and **Option Value** choices:
-    - Full, e.g. `September`
-    - Abbreviated (Capitalized 3 letters), e.g. `Sep`
-    - Single Number, e.g. `9`
-    - 2-digit Number, e.g. `09`
-- **Days**
-  - List of days `1` to `31`.
-  - **Option Label** and **Option Value** choices:
-    - Single Number, e.g. `3`
-    - 2-digit Number, e.g. `03`
-- **Days of Week**
-  - List of all days of week.
-  - **Option Label** and **Option Value** choices:
-    - Full, e.g. `Thursday`
-    - Abbreviated (Capitalized 3 letters), e.g. `Thu`
-    - Single Number, e.g. `4`
-
-### Convert to Custom Options<Badge type="feature" text="New in 5.0+" />
-
-Sometimes you need a little more control over the populated data generated by the _Element_ or _Predefined_ options. You can click the **Convert to Custom Options** button at any time to have the generated option data converted to _Custom_ options that can then have its options edited, removed, added, renamed, and reordered.
-
-:::danger
-There are potentially negative implications with using this feature:
-
-- Your options data can become out of sync when new elements (e.g. Entries) are added after the fact.
-- If you apply this when there are already existing submissions, renaming option values will orphan submissions relying on the old value name.
-- Be very careful if you attempt to redo this process (e.g. changing back to _Element_ source and grabbing a fresh list of Craft Entries, then converting back to _Custom_). If any existing submissions are relying on old or modified option values, they can become orphaned in the process.
-
-:::
