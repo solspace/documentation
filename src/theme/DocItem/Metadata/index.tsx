@@ -51,12 +51,12 @@ export default function DocItemMetadata(): JSX.Element {
     );
 
     return matchingItem?.metaDescription;
-  }, [metadata.description, pathname]);
+  }, [pathname]);
 
   return (
     <PageMetadata
       title={mappedTitle}
-      description={mappedDescription}
+      description={frontMatter.description || mappedDescription}
       keywords={frontMatter.keywords}
       image={assets.image ?? frontMatter.image}
     />
