@@ -27,19 +27,19 @@ const Footer: React.FC = () => {
   const { links, copyright } = footerMenu;
 
   return (
-    <div className="flex flex-col m-auto mb-16 mt-32 items-center gap-6 max-w-7xl">
+    <div className="flex flex-col m-auto mb-0 mt-15 items-center gap-6 max-w-7xl">
       <div className="pt-12 pb-8 px-6 md:px-12 lg:px-24 lg:pb-12 text-center rounded-lg transition-all duration-500">
         <h4 className="text-3xl md:text-4xl font-bold mb-4">
           Need Extra Help?
         </h4>
-        <p className="text-lg md:text-xl mb-8">
+        <p className="text-md md:text-lg mt-4 mb-6">
           Stuck on a tough development problem? Our expert team at Solspace is
           here to help you overcome any challenges and keep your projects on
           track.
         </p>
         <PrimaryButtonWithLink
           to="https://solspace.com/services/developer-support/"
-          label="  Get Developer Support Now"
+          label="Get Developer Support Now"
         />
       </div>
       <div className="flex flex-wrap justify-center gap-5 pb-8 social-icons">

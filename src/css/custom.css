@@ -43,6 +43,124 @@
   --ifm-menu-color-background-hover: rgba(0, 0, 0, 0.05);
   --ifm-tabs-padding-vertical: 0.7rem;
   --menu-level-item-color: rgba(0, 0, 0, 0.7);
+
+
+/*
+  --ifm-alert-background-color-highlight: ;
+  --ifm-alert-foreground-color: ;
+  --ifm-alert-foreground-color: ;
+  --ifm-link-decoration: underline;
+  --ifm-alert-foreground-color: ;
+  --ifm-alert-foreground-color: ;
+  --ifm-alert-border-color: ;
+  --ifm-alert-background-color: ;
+  --ifm-alert-border-width: ;
+  --ifm-alert-border-color: ;
+  --ifm-alert-border-left-width: ;
+  --ifm-alert-border-radius: ;
+  --ifm-alert-shadow: ;
+  --ifm-alert-foreground-color: ;
+  --ifm-alert-padding-vertical: ;
+  --ifm-alert-padding-horizontal: ;
+*/
+
+/* alert--warning */
+/*
+  --ifm-alert-background-color: red;
+    --ifm-alert-background-color: red !important;
+rgba(77, 56, 0)
+  --ifm-color-warning-contrast-background: red;
+  --ifm-alert-background-color-highlight: rgba(255, 186, 0, 0.15);
+  --ifm-alert-foreground-color: var(--ifm-color-warning-contrast-foreground);
+  --ifm-alert-border-color: var(--ifm-color-warning-dark);
+*/
+
+}
+
+
+.alert {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-top: 25px;
+  margin-bottom: 25px !important;
+  border-left: 0;
+}
+[data-theme='light'] .alert {
+  color: #000000;
+}
+.alert > div:first-child {
+  height: 28px;
+  width: 28px;
+  left: -14px;
+  top: 11px;
+}
+.alert svg {
+  height: 1.2em !important;
+  width: 1.2em !important;
+}
+.alert p {
+  margin-bottom: 5px;
+}
+.alert h4 {
+  font-size: 1.1em;
+  font-weight: 600;
+  margin-top: 0 !important;
+  margin-bottom: 10px !important;
+  padding-top: 0 !important;
+  border-top: 0;
+}
+.alert hr {
+  margin: 0;
+  padding: 5px 0;
+  background: transparent;
+}
+.alert a, .alert p a, .alert li a {
+  color: var(--ifm-alert-border-color) !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid var(--ifm-alert-border-color) !important;
+}
+.alert a:hover, .alert p a:hover, .alert li a:hover {
+  border-bottom: 1px solid #ff6624 !important;
+}
+.alert--info {
+  color: rgba(76, 179, 212, 1);
+  background: rgba(25, 60, 71, 0.15);
+}
+.alert--info > div:first-child {
+  background: rgba(76, 179, 212, 1);
+}
+[data-theme='light'] .alert--info {
+  background: rgba(76, 179, 212, 0.15);
+}
+.alert--success {
+  color: rgba(0, 148, 0, 1);
+  background: rgba(0, 49, 0, 0.25);
+}
+.alert--success > div:first-child {
+  background: rgba(0, 148, 0, 1);
+}
+[data-theme='light'] .alert--success {
+  background: rgba(0, 148, 0, 0.1);
+}
+.alert--warning {
+  color: rgba(230, 167, 0, 1);
+  background: rgba(77, 56, 0, 0.15);
+}
+.alert--warning > div:first-child {
+  background: rgba(230, 167, 0, 1);
+}
+[data-theme='light'] .alert--warning {
+  background: rgba(230, 167, 0, 0.15);
+}
+.alert--danger {
+  color: rgba(225, 50, 56, 1);
+  background: rgba(75, 17, 19, 0.15);
+}
+.alert--danger > div:first-child {
+  background: rgba(225, 50, 56, 1);
+}
+[data-theme='light'] .alert--danger {
+  background: rgba(225, 50, 56, 0.15);
 }
 
 [data-theme='dark'] {
@@ -135,7 +253,7 @@ strike {
 .theme-admonition a {
   transition: all 0.5s;
   border-bottom: 0 !important;
-  text-decoration: underline !important;
+  text-decoration: none !important;
   text-decoration-color: var(--ifm-alert-border-color) !important;
 }
 
@@ -360,6 +478,16 @@ h2 > .badge-group:first-child,
 h3 > .badge:first-child,
 h3 > .badge-group:first-child {
   margin-left: 7px;
+}
+
+h2.support-page {
+  border-top: 0;
+  margin: 0 0 10px 0 !important;
+  padding: 0 !important;
+}
+h2.support-tab {
+  color: #ffffff;
+  border: 0;
 }
 
 /* Integrations api grid */
@@ -1640,7 +1768,7 @@ html[data-theme='dark'] .top-notice .latest-version-link:hover {
 
 /* Page Default */
 .page-section {
-  color: #49aeff;
+  color: var(--ifm-color-primary);
   font-size: 18px;
   font-weight: 600;
 }
@@ -1828,6 +1956,10 @@ h4:first-of-type {
 h4 span {
   font-size: 1.1rem;
   font-weight: normal;
+}
+h4.product-version-picker:first-of-type {
+  margin: 0;
+  padding: 0 0 10px 0;
 }
 
 .search-page-wrapper h2 {

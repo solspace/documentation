@@ -28,12 +28,12 @@ const Support: React.FC = () => {
             </p>
             <div className="mt-10">
               <div className="flex gap-1">
-                <h2 className="leading-0 !m-0 px-6 py-4 bg-[#ff6624] rounded-t-md">
+                <h2 className="leading-0 !m-0 px-6 py-4 bg-[#ff6624] rounded-t-md support-tab">
                   Private Ticket
                 </h2>
                 <div className="flex gap-1 items-end">
                   <Link
-                    className="px-6 py-2 bg-[rgba(0,127,230,0.2)]  rounded-t-md text-red-600 font-bold hover:text-red-600 hover:bg-[#058ffe] dark:bg-[rgba(0,105,190,0.25)] dark:hover:hover:bg-[#058ffe]"
+                    className="px-6 py-2 bg-red-600 rounded-t-md text-white font-bold hover:text-white hover:bg-red-800 support-tab-urgent"
                     href="/support/premium"
                   >
                     Urgent
@@ -53,7 +53,7 @@ const Support: React.FC = () => {
                 </div>
               </div>
               <div className="mx-auto p-6 bg-[#181d27] text-white rounded-b-md rounded-tr-md border border-solid border-[#ff6624]">
-                <h2 className="text-2xl font-bold mb-4 text-gray-200">
+                <h2 className="text-xl md:text-3xl font-bold mb-4 text-gray-200 support-page">
                   Create a Support Ticket
                 </h2>
                 <p className="text-gray-200">

@@ -23,7 +23,7 @@ const PrimaryButtonWithLink: React.FC<PrimaryButtonWithLink> = ({
     <Link
       to={to}
       className={`primary-btn ${classes} ${
-        size === 'sm' ? 'text-sm py-2 px-2' : 'text-lg py-2 px-6 '
+        size === 'sm' ? 'text-sm py-2 px-2' : 'text-md py-2 px-4 '
       }`}
     >
       <span className={`${arrowDown ? 'arrow-down' : ''}`}>
