@@ -14,7 +14,7 @@ import {
 
 export function CraftFreeformPageHeader() {
   return (
-    <header className="flex flex-col px-4 m-auto items-center gap-6 mt-32 max-w-7xl">
+    <header className="flex flex-col px-4 m-auto items-center gap-6 mt-10 max-w-7xl">
       <ThemedIdealImage
         sources={{
           light: FreeformIntroLight,
@@ -65,8 +65,8 @@ export default function CraftFreeformFreeform(): JSX.Element {
           <CraftFreeformPageHeader />
           <main>
             <section className="container">
-              <div className="flex flex-col gap-2 items-center my-20 py-10 lg:mx-60  bg-slate-200 dark:bg-black rounded-lg">
-                <h4 className="text-lg">
+              <div className="flex flex-col gap-2 items-center my-10 py-5 bg-slate-200 dark:bg-neutral-950 rounded-lg">
+                <h4 className="text-lg product-version-picker">
                   <i>Select a version below:</i>
                 </h4>
                 <div className="flex flex-wrap justify-center gap-4">

@@ -159,7 +159,7 @@ const Card: React.FC<CardProps> = ({
         )}
 
         <div
-          className={`pl-2 flex flex-col ${!description && 'justify-center'}`}
+          className={`pl-1 flex flex-col ${!description && 'justify-center'}`}
         >
           <h3
             className={`font-semibold mb-0 text-black dark:text-white ${
