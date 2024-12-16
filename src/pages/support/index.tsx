@@ -40,7 +40,7 @@ const Support: React.FC = () => {
                   </Link>
                   <Link
                     className="px-6 py-2 bg-[rgba(0,127,230,0.2)]  rounded-t-md text-black dark:text-white font-bold hover:text-white hover:bg-[#058ffe] dark:bg-[rgba(0,105,190,0.25)] dark:hover:hover:bg-[#058ffe]"
-                    to="https://github.com/solspace/craft-freeform/"
+                    to="https://github.com/solspace"
                   >
                     Github
                   </Link>
