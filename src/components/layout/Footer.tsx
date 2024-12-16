@@ -91,7 +91,7 @@ const Footer: React.FC = () => {
         <a
           href="https://mastodon.social/@solspace"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="me noopener noreferrer"
           title="Mastodon"
         >
           <svg
@@ -183,7 +183,6 @@ const Footer: React.FC = () => {
           </a>
           .
         </p>
-        <a rel="me" href="https://mastodon.social/@solspace">Mastodon</a>
       </div>
     </div>
   );
