@@ -73,8 +73,7 @@ const config: Config = {
             keywords: ['youtube', 'guide'],
             extendDefaults: true,
           },
-          editUrl:
-            'https://github.com/solspace/solspace-documentation/edit/main',
+          editUrl: 'https://github.com/solspace/documentation/edit/main',
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -185,7 +184,7 @@ const config: Config = {
         id: 'craft-calendar',
         path: 'craft-calendar',
         routeBasePath: '/craft/calendar',
-        editUrl: 'https://github.com/solspace/solspace-documentation/edit/main',
+        editUrl: 'https://github.com/solspace/documentation/edit/main',
         sidebarPath: './sidebars.ts',
         lastVersion: 'current',
         versions: {
@@ -223,7 +222,7 @@ const config: Config = {
         id: 'ee-freeform',
         path: 'ee-freeform',
         routeBasePath: '/expressionengine/freeform',
-        editUrl: 'https://github.com/solspace/solspace-documentation/edit/main',
+        editUrl: 'https://github.com/solspace/documentation/edit/main',
         sidebarPath: './sidebars.ts',
         lastVersion: 'current',
         versions: {
@@ -256,7 +255,7 @@ const config: Config = {
         id: 'ee-calendar',
         path: 'ee-calendar',
         routeBasePath: '/expressionengine/calendar',
-        editUrl: 'https://github.com/solspace/solspace-documentation/edit/main',
+        editUrl: 'https://github.com/solspace/documentation/edit/main',
         sidebarPath: './sidebars.ts',
         lastVersion: 'current',
         versions: {
