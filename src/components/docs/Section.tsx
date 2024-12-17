@@ -16,7 +16,7 @@ const Section: React.FC<SectionProps> = ({
   children,
 }) => {
   return (
-    <section className="flex flex-col">
+    <section className="flex flex-col my-28">
       <div className="flex flex-col items-center">
         <div className="flex flex-col items-center gap-2 w-full xl:w-3/4">
           {imgSrc && (
