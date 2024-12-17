@@ -117,6 +117,16 @@ Each field includes the ability to optionally encrypt its submission data. Simpl
 
 For each field that is encrypted and contains submission data, the database row column will contain a prefix of `encrypted:` and then the encryption string. Freeform will decrypt the submission data for exports, email notifications, integrations, and viewing submission data inside the control panel and front end (if you have templates set up to show it).
 
+:::info
+Field encryption uses the Craft Security Key (usually `CRAFT_SECURITY_KEY` in your `.env` file), so be sure to use the same key across multiple environments.
+
+```php
+CRAFT_SECURITY_KEY=zVtC4j25ADUxf5H14xiIAzqKoCJtyLu7
+```
+
+If you wish to use a different security key for Freeform specifically, you can specify a custom key in the **Secret Key** setting under the _Form Sessions_ area of the **Form Behavior** settings page (**CP** -> **Freeform** -> **Settings** -> **Form Behavior**).
+:::
+
 :::warning
 Encryption is not retroactive. Each submission will need to be resaved to update older submissions.
 :::
