@@ -1,7 +1,7 @@
 import Layout from '@theme/Layout';
 
 import { ThemedIdealImage } from '@site/src/components/utils';
-import { Footer, LeftNav } from '@site/src/components/layout';
+import { Footer } from '@site/src/components/layout';
 
 import CalendarIntroLight from '@site/static/img/intro/calendar-light.png';
 import CalendarIntroDark from '@site/static/img/intro/calendar-dark.png';
@@ -62,9 +62,8 @@ export default function EECalendar(): JSX.Element {
       description="The most dependable and user-friendly event management add-on for ExpressionEngine CMS."
     >
       <div className="flex">
-        <LeftNav />
 
-        <div className="flex flex-col gap-3 md:ml-72 p-8">
+        <div className="flex flex-col gap-3 mx-auto p-8">
           <EECalendarPageHeader />
           <main>
             <section className="container">
