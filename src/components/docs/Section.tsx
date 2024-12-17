@@ -3,6 +3,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 interface SectionProps {
   imgSrc?: string;
   title: string;
+  anchor?: string;
   subtitle: string;
   description?: string;
   children: React.ReactNode;
@@ -11,12 +12,13 @@ interface SectionProps {
 const Section: React.FC<SectionProps> = ({
   imgSrc,
   title,
+  anchor,
   subtitle,
   description,
   children,
 }) => {
   return (
-    <section className="flex flex-col my-28">
+    <section className="flex flex-col my-28" id={anchor}>
       <div className="flex flex-col items-center">
         <div className="flex flex-col items-center gap-2 w-full xl:w-3/4">
           {imgSrc && (
@@ -28,7 +30,7 @@ const Section: React.FC<SectionProps> = ({
               />
             </div>
           )}
-          <h2 className="text-6xl font-normal text-[#ff6624] mb-2" id="title">
+          <h2 className="text-6xl font-normal text-[#ff6624] mb-2 section-title">
             {title}
           </h2>
           <h3 className="text-2xl text-center font-normal dark:text-gray-300 mb-4">
