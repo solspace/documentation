@@ -287,45 +287,6 @@ const config: Config = {
         },
       },
     ],
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
-        redirects: [
-          {
-            to: '/craft/freeform/v5/',
-            from: '/craft/freeform',
-          },
-          {
-            to: '/craft/freeform/v5/',
-            from: '/craft/freeform/',
-          },
-          {
-            to: '/craft/calendar/v5/',
-            from: '/craft/calendar',
-          },
-          {
-            to: '/craft/calendar/v5/',
-            from: '/craft/calendar/',
-          },
-          {
-            to: '/expressionengine/freeform/v3/',
-            from: '/expressionengine/freeform',
-          },
-          {
-            to: '/expressionengine/freeform/v3/',
-            from: '/expressionengine/freeform/',
-          },
-          {
-            to: '/expressionengine/calendar/v5/',
-            from: '/expressionengine/freeform',
-          },
-          {
-            to: '/expressionengine/calendar/v5/',
-            from: '/expressionengine/calendar/',
-          },
-        ],
-      },
-    ],
   ],
 
   themeConfig: {
