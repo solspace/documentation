@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from '@docusaurus/Link';
 import allPlugins from '@site/allPlugins.json';
 
@@ -20,7 +20,7 @@ export function ProductsList(): JSX.Element {
               {plugin.items.map((item) => (
                 <li key={item.name} className="list-none">
                   <Link
-                    to={item.slug}
+                    to={item.latestVersionSlug}
                     className="text-sm text-blue-400 darktext-white"
                   >
                     {item.name}

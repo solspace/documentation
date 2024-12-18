@@ -23,12 +23,12 @@ export default function ExpressionEngine(): JSX.Element {
                   {
                     title: 'Freeform',
                     icon: Icons.FreeformIcon,
-                    fullCardLink: '/expressionengine/freeform',
+                    fullCardLink: '/expressionengine/freeform/v3',
                   },
                   {
                     title: 'Calendar',
                     icon: Icons.CalendarIcon,
-                    fullCardLink: '/expressionengine/calendar',
+                    fullCardLink: '/expressionengine/calendar/v5',
                   },
                 ]}
               />
