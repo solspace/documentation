@@ -292,20 +292,36 @@ const config: Config = {
       {
         redirects: [
           {
-            to: '/craft/freeform/v5',
+            to: '/craft/freeform/v5/',
             from: '/craft/freeform',
           },
           {
-            to: '/craft/calendar/v5',
+            to: '/craft/freeform/v5/',
+            from: '/craft/freeform/',
+          },
+          {
+            to: '/craft/calendar/v5/',
             from: '/craft/calendar',
           },
           {
-            to: '/expressionengine/freeform/v3',
+            to: '/craft/calendar/v5/',
+            from: '/craft/calendar/',
+          },
+          {
+            to: '/expressionengine/freeform/v3/',
             from: '/expressionengine/freeform',
           },
           {
-            to: '/expressionengine/freeform/v5',
+            to: '/expressionengine/freeform/v3/',
+            from: '/expressionengine/freeform/',
+          },
+          {
+            to: '/expressionengine/freeform/v5/',
             from: '/expressionengine/freeform',
+          },
+          {
+            to: '/expressionengine/freeform/v5/',
+            from: '/expressionengine/freeform/',
           },
         ],
       },
