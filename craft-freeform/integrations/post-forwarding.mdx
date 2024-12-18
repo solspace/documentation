@@ -4,6 +4,7 @@ sidebar_position: 18
 ---
 
 import { Badge, Photo } from '@site/src/components/utils';
+import { IconCards } from '@site/src/components/docs';
 
 # POST Forwarding<Badge type="pro" text="Pro" />
 
@@ -11,15 +12,20 @@ Freeform includes a POST Forwarding feature, which allows your forms to automati
 
 ## Overview
 
-In order to use this feature, you'll need to be using the **Freeform Pro** edition, and be knowledgeable about the service or API you're passing the data off to (whether it's third party service or your own custom one), and how the data is handled on that end. It's possible that some services may require you take additional steps like including JS, setting cookies, etc inside your site templates. For that matter, we cannot provide any assistance with setting this up, aside from the basics.
+To use this feature, you must be using the Freeform Pro edition and have a good understanding of the service or API to which you are sending data—whether it's a third-party service or your own custom solution—and how that data is processed on their end. Some services may require additional steps, such as including JavaScript or setting cookies within your site templates. Please note that we can only provide assistance with the basic setup; we cannot help with the more detailed configurations.
 
 :::warning
-POST Forwarding sends data behind the scenes. If it is important for your project and flow that the 3rd party URL be able to read a user's cookies, this method will not work.
+POST forwarding transmits data in the background. If it is crucial for your project and workflow that the third-party URL be able to access a user's cookies, this method will not work.
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/integrations/post-forwarding.png')}
-  alt="POST Forwarding Integrations"
+  img={require('@site/static/img/craft/freeform/v5/integrations/post-forwarding-1.png')}
+  alt="Post Forwarding settings in Freeform"
+/>
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/post-forwarding-2.png')}
+  alt="Post Forwarding settings in the form builder"
 />
 
 ## Settings
@@ -43,7 +49,7 @@ In addition to the data available for all fields of the form, the POST Forwardin
 
 If you need to override this feature at template level for the form, use the following parameter for the [Form query](../templates/queries/form.mdx).
 
-```twig showLineNumbers
+```php
 postForwarding: {
     url: "https://somesite.com/stuff",
     triggerPhrase: "success"
@@ -52,6 +58,14 @@ postForwarding: {
 
 ## Examples
 
-There is 1 implementation example below:
+Available implementation examples below:
 
-- [ClickDimensions](./clickdimensions.mdx)
+<IconCards
+  items={[
+    {
+      iconSrc: require('@site/static/icons/api/click-dimensions.png'),
+      iconTitle: 'ClickDimensions',
+      link: '../clickdimensions',
+    },
+  ]}
+/>

@@ -40,9 +40,8 @@ Freeform allows you to connect and map Freeform submission data to other Craft E
 />
 
 <Photo
-  className="my-8"
-  img={require('@site/static/img/craft/freeform/v5/cp/user-registration.png')}
-  alt="Form Builder - Elements integration - Users"
+  img={require('@site/static/img/craft/freeform/v5/integrations/elements-2.png')}
+  alt="User Elements integration in Freeform form builder"
 />
 
 :::info
@@ -57,7 +56,7 @@ To use this feature, you set up integration(s) inside the Freeform settings area
 
 The configuration inside the form builder is very flexible and allows you to map a Freeform field or enter a value such as Twig code or hardcode a value. For example, if you have an element that contains a single field for customer name, e.g. `Full Name`, but your form contains two separate fields, e.g. `First Name` and `Last Name`, in the input fields you could specify a value of:
 
-```twig showLineNumbers
+```twig
 {{ firstName }} {{ lastname }}
 ```
 
@@ -77,6 +76,11 @@ This integration allows you to map Freeform submission data to [Craft Entries](h
 - Choose a section and entry type from the **Entry Type** select dropdown.
   - This will only be the default value when configuring the integration in the form builder later.
 - Click the **Save** button.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/elements-1.png')}
+  alt="Elements integration in Freeform settings"
+/>
 
 </StepMarkdown>
 <StepMarkdown stepTitle="Configure the Form">
@@ -279,7 +283,7 @@ See [Mapping Guidelines](#mapping-guidelines) for more info.
 
 In your template that will load the form, you'll need to add the `elementId` parameter. A basic call to it would look something like this (assuming the element ID is in the third segment of the URL):
 
-```twig {2} showLineNumbers
+```twig {2}
 {{ freeform.form("editCraftUsers").render({
     elementId: craft.app.request.segment(3)
 }) }}
@@ -310,12 +314,12 @@ Here are some examples of what this might look like for you...
 
 #### Allow the currently logged in user to update their own User profile
 
-```twig showLineNumbers
+```twig
 {% if currentUser %}
-	<h2>Update Your Profile</h2>
-	{{ freeform.form("editCraftUsers").render({
-		elementId: currentUser.id
-	}) }}
+    <h2>Update Your Profile</h2>
+    {{ freeform.form("editCraftUsers").render({
+        elementId: currentUser.id
+    }) }}
 {% endif %}
 ```
 
@@ -327,31 +331,31 @@ Here are some examples of what this might look like for you...
 {# SAFETY FIRST - LOGGED IN ADMINS ONLY #}
 {% if (currentUser) and (currentUser.admin) %}
 
-	<h2>Craft Entries</h2>
-	{% set entries = craft.entries()
-		.section('mySection')
-		.limit(4)
-	%}
-	<ul>
-	{% for entry in entries.all() %}
-		<li>
-			<a href="{{ siteUrl }}edit-entry/{{ entry.id }}/">{{ entry.title }}</a>
-		</li>
-	{% endfor %}
-	</ul>
+    <h2>Craft Entries</h2>
+    {% set entries = craft.entries()
+        .section('mySection')
+        .limit(4)
+    %}
+    <ul>
+    {% for entry in entries.all() %}
+        <li>
+            <a href="{{ siteUrl }}edit-entry/{{ entry.id }}/">{{ entry.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
 
-	{% if segment2 %}
-		<hr />
-		{{ freeform.form("editCraftEntries").render({
-			elementId: segment2
-		}) }}
-	{% endif %}
+    {% if segment2 %}
+        <hr />
+        {{ freeform.form("editCraftEntries").render({
+            elementId: segment2
+        }) }}
+    {% endif %}
 
 {% endif %}
 ```
 
 You could also use a conditional like this to perform a check on users assigned to a specific group:
 
-```twig showLineNumbers
+```twig
 {% if currentUser.isInGroup('editors') %}{% endif %}
 ```
