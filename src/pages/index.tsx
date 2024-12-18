@@ -45,12 +45,12 @@ export default function Home(): JSX.Element {
                 {
                   title: 'Freeform',
                   icon: Icons.FreeformIcon,
-                  fullCardLink: 'craft/freeform',
+                  fullCardLink: 'craft/freeform/v5',
                 },
                 {
                   title: 'Calendar',
                   icon: Icons.CalendarIcon,
-                  fullCardLink: 'craft/calendar',
+                  fullCardLink: 'craft/calendar/v5',
                 },
                 {
                   title: 'Express Forms',
@@ -67,12 +67,12 @@ export default function Home(): JSX.Element {
                 {
                   title: 'Freeform',
                   icon: Icons.FreeformIcon,
-                  fullCardLink: 'expressionengine/freeform',
+                  fullCardLink: 'expressionengine/freeform/v3',
                 },
                 {
                   title: 'Calendar',
                   icon: Icons.CalendarIcon,
-                  fullCardLink: 'expressionengine/calendar',
+                  fullCardLink: 'expressionengine/calendar/v5',
                 },
               ]}
             />

@@ -23,12 +23,12 @@ export default function Craft(): JSX.Element {
                   {
                     title: 'Freeform',
                     icon: Icons.FreeformIcon,
-                    fullCardLink: '/craft/freeform',
+                    fullCardLink: '/craft/freeform/v5',
                   },
                   {
                     title: 'Calendar',
                     icon: Icons.CalendarIcon,
-                    fullCardLink: '/craft/calendar',
+                    fullCardLink: '/craft/calendar/v5',
                   },
                   {
                     title: 'Express Forms',
