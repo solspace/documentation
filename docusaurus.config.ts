@@ -316,12 +316,12 @@ const config: Config = {
             from: '/expressionengine/freeform/',
           },
           {
-            to: '/expressionengine/freeform/v5/',
+            to: '/expressionengine/calendar/v5/',
             from: '/expressionengine/freeform',
           },
           {
-            to: '/expressionengine/freeform/v5/',
-            from: '/expressionengine/freeform/',
+            to: '/expressionengine/calendar/v5/',
+            from: '/expressionengine/calendar/',
           },
         ],
       },
