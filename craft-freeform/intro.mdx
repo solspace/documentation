@@ -3,6 +3,7 @@ sidebar_position: 1
 title: 'Overview'
 slug: /
 hide_table_of_contents: true
+id: landing-page
 ---
 
 import Player from 'react-player';
@@ -27,40 +28,46 @@ import Icons from '@site/static/card-icons';
 
 # Overview
 
-<section className="flex flex-col items-center gap-6 my-20">
-  <ThemedIdealImage
-    sources={{
-      light: require('@site/static/img/intro/freeform-light.png'),
-      dark: require('@site/static/img/intro/freeform-dark.png'),
-    }}
-    className="max-w-3xl"
-    alt="Freeform 5 for Craft CMS"
-  />
+<section className="landing-header bg-[#1a3e6f]">
+  <div className="container">
+    <div className="flex flex-col items-center gap-6 mt-20 mb-5 px-8">
+      <ThemedIdealImage
+        sources={{
+          light: require('@site/static/img/intro/freeform-light.png'),
+          dark: require('@site/static/img/intro/freeform-dark.png'),
+        }}
+        className="max-w-3xl"
+        alt="Freeform 5 for Craft CMS"
+      />
 
-  <p className="text-center">
-    Freeform is a versatile form-building tool that can adjust to the evolving
-    needs of your project, whether it's a simple or complex form. It offers
-    effective spam protection and an easy-to-use form builder with powerful
-    field types and built-in convenience features that your users will love.
-    Freeform integrates seamlessly with popular CRMs, email marketing services,
-    Craft elements, and more. It includes fully customizable ready-to-go
-    templates and also offers headless support.
-  </p>
-  <FlexButton
-    items={[
-      { to: '#reliability', label: 'Feature Tour', arrowDown: true },
-      { to: '#compare', label: 'Pricing' },
-      { to: 'guides/getting-started', label: 'Getting Started' },
-    ]}
-  />
-  <small>
-    <SimpleTextLink
-      to="https://plugins.craftcms.com/freeform"
-      label="INSTALL A FREE, UNLIMITED TRIAL TODAY!"
-    />
-  </small>
+      <p className="text-center">
+        Freeform is a versatile form-building tool that can adjust to the evolving
+        needs of your project, whether it's a simple or complex form. It offers
+        effective spam protection and an easy-to-use form builder with powerful
+        field types and built-in convenience features that your users will love.
+        Freeform integrates seamlessly with popular CRMs, email marketing services,
+        Craft elements, and more. It includes fully customizable ready-to-go
+        templates and also offers headless support.
+      </p>
+      <FlexButton
+        items={[
+          { to: '#reliability', label: 'Feature Tour', arrowDown: true },
+          { to: '#compare', label: 'Pricing' },
+          { to: 'guides/getting-started', label: 'Getting Started' },
+        ]}
+      />
+      <small>
+        <SimpleTextLink
+          to="https://plugins.craftcms.com/freeform"
+          label="INSTALL A FREE, UNLIMITED TRIAL TODAY!"
+        />
+      </small>
+    </div>
+
+  </div>
 </section>
 
+<div className="intro-main-content container py-8">
 <Player
   url={
     require('@site/static/videos/craft/freeform/v5/builder-feature.mp4').default
@@ -107,6 +114,7 @@ import Icons from '@site/static/card-icons';
 ## Reliability
 
 {' '}
+
 <FlexCards
   items={[
     {
@@ -1309,3 +1317,5 @@ In the Craft Plugin Store you can install a trial of Freeform to try it out!
 <h3>Does the Trial version limit features?</h3>
 
 The trial versions of Solspace software are not limited in any way. However, if you attempt to use a trial version on a production site, Craft will display a red banner at the top of your control panel alerting you to purchase a license.
+
+</div>
