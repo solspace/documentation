@@ -17,9 +17,9 @@ const LeftMenuList: React.FC = () => {
         <ul className="pl-0 space-y-2 list-none">
           {[
             { label: 'Home', to: '/' },
-            { label: 'Support', to: '/support' },
-            { label: 'License Agreement', to: '/license-agreement' },
-            { label: 'Legacy Account', to: '/legacy-account' },
+            { label: 'Support', to: '/support/' },
+            { label: 'License Agreement', to: '/license-agreement/' },
+            { label: 'Legacy Account', to: '/legacy-account/' },
           ].map((link, subIndex) => {
             const isActive = location.pathname === link.to;
 

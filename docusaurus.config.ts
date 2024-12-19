@@ -349,11 +349,11 @@ const config: Config = {
             },
             {
               label: 'Freeform',
-              to: `/craft/freeform`,
+              to: `/craft/freeform/v5`,
             },
             {
               label: 'Calendar',
-              to: `/craft/calendar`,
+              to: `/craft/calendar/v5`,
             },
             {
               label: 'Express Forms',
@@ -368,11 +368,11 @@ const config: Config = {
             },
             {
               label: 'Freeform',
-              to: `/expressionengine/freeform`,
+              to: `/expressionengine/freeform/v3`,
             },
             {
               label: 'Calendar',
-              to: `/expressionengine/calendar`,
+              to: `/expressionengine/calendar/v5`,
             },
           ],
         },
