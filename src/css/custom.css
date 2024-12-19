@@ -1526,17 +1526,51 @@ html[data-theme='dark'] .version {
   }
 }
 /* Intro Page CSS */
-.docs-doc-id-intro aside.theme-doc-sidebar-container {
+.docs-doc-id-intro aside.theme-doc-sidebar-container,
+.docs-doc-id-landing-page aside.theme-doc-sidebar-container {
   display: none;
 }
 
-.docs-doc-id-intro .container {
+.docs-doc-id-intro .container,
+.docs-doc-id-landing-page main > .container {
   position: absolute;
   left: 0;
   right: 0;
 }
 
-.docs-doc-id-intro h1 {
+.docs-doc-id-landing-page article {
+  padding: 0 !important;
+}
+
+.docs-doc-id-landing-page main > .container {
+  max-width: none;
+}
+
+.docs-doc-id-landing-page .landing-header {
+  padding: 100px 0;
+  margin-bottom: 40px;
+}
+
+.docs-doc-id-landing-page article header {
+  display: none;
+}
+
+.docs-doc-id-landing-page main > .container {
+  padding: 0 !important;
+}
+
+.docs-doc-id-landing-page article .theme-doc-breadcrumbs {
+  display: none;
+}
+
+@media (min-width: 1440px) {
+  .docs-doc-id-landing-page .container {
+    max-width: 1240px;
+  }
+}
+
+.docs-doc-id-intro h1,
+.docs-doc-id-landing-page h1 {
   opacity: 0;
   font-size: 10px;
 }
