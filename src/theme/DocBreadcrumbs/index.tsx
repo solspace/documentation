@@ -109,6 +109,7 @@ export default function DocBreadcrumbs(): JSX.Element | null {
             item.type === 'category' && item.linkUnlisted
               ? undefined
               : item.href;
+
           return (
             <BreadcrumbsItem
               key={idx}

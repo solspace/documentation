@@ -7,7 +7,21 @@ import IconHome from '@theme/Icon/Home';
 
 export default function HomeBreadcrumbItem(): JSX.Element {
   const { pathname } = useLocation();
-  const basePath = pathname.split('/').slice(0, 3).join('/');
+
+  // Check if the path starts with '/expressionengine/freeform/classic/'
+  const isClassicPath = pathname.startsWith(
+    '/expressionengine/freeform/classic/'
+  );
+
+  // If it's a classic path, we should handle it differently.
+  let basePath = pathname.split('/').slice(0, 3).join('/');
+
+  // If the path starts with '/expressionengine/freeform/classic/', we adjust the basePath accordingly
+  if (isClassicPath) {
+    basePath = '/expressionengine/freeform/classic';
+  }
+
+  // Version matching, if applicable
   const versionMatch = pathname.match(/\/v\d+/);
   const fullPath = versionMatch ? `${basePath}${versionMatch[0]}` : basePath;
 

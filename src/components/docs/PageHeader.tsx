@@ -113,10 +113,13 @@ export function EEFreeformPageHeader() {
       </p>
       <FlexButton
         items={[
-          { to: '/craft/freeform/v3#reliability', label: 'Feature Tour' },
-          { to: '/craft/freeform/v3#compare', label: 'Compare' },
           {
-            to: '/craft/freeform/v3/guides/getting-started/',
+            to: '/expressionengine/freeform/v3#reliability',
+            label: 'Feature Tour',
+          },
+          { to: '/expressionengine/freeform/v3#compare', label: 'Compare' },
+          {
+            to: '/expressionengine/freeform/v3/guides/getting-started/',
             label: 'Getting Started',
           },
         ]}

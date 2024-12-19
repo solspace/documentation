@@ -9,6 +9,7 @@ import { useLocation } from '@docusaurus/router';
 
 interface LogoItem {
   pathname: string;
+  latestVersionSlug?: string;
   title: string;
   logoLine: string;
   src: string;
@@ -17,12 +18,15 @@ interface LogoItem {
 const logos: LogoItem[] = [
   {
     pathname: '/craft/freeform',
+    latestVersionSlug: '/craft/freeform/v5',
     title: 'Freeform',
     logoLine: 'for Craft',
     src: 'img/icons/freeform.png',
   },
   {
     pathname: '/craft/calendar',
+    latestVersionSlug: '/craft/calendar/v5',
+
     title: 'Calendar',
     logoLine: 'for Craft',
     src: 'img/icons/calendar.png',
@@ -35,12 +39,15 @@ const logos: LogoItem[] = [
   },
   {
     pathname: '/expressionengine/freeform',
+    latestVersionSlug: '/expressionengine/freeform/v3',
+
     title: 'Freeform',
     logoLine: 'for ExpressionEngine',
     src: 'img/icons/freeform.png',
   },
   {
     pathname: '/expressionengine/calendar',
+    latestVersionSlug: '/expressionengine/calendar/v5',
     title: 'Calendar',
     logoLine: 'for ExpressionEngine',
     src: 'img/icons/calendar.png',
@@ -106,7 +113,7 @@ export default function Logo(props: Props): JSX.Element {
 
   return (
     <Link
-      to={currentLogo.pathname}
+      to={currentLogo.latestVersionSlug}
       {...propsRest}
       {...(logo?.target && { target: logo.target })}
     >
