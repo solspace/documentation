@@ -21,7 +21,7 @@ export function ProductsList(): JSX.Element {
                 <li key={item.name} className="list-none">
                   <Link
                     to={item.latestVersionSlug}
-                    className="text-sm text-blue-400 darktext-white"
+                    className="text-sm text-[#0073ff] dark:text-white"
                   >
                     {item.name}
                   </Link>
