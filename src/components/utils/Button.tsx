@@ -3,6 +3,7 @@ import Link from '@docusaurus/Link';
 interface PrimaryButtonWithLink {
   to: string;
   label?: string;
+  outline?: boolean;
   arrowDown?: boolean;
   classes?: string;
   size?: string;
@@ -15,6 +16,7 @@ interface ButtonProps {
 const PrimaryButtonWithLink: React.FC<PrimaryButtonWithLink> = ({
   to,
   label,
+  outline = false,
   arrowDown = false,
   classes,
   size,
@@ -24,7 +26,7 @@ const PrimaryButtonWithLink: React.FC<PrimaryButtonWithLink> = ({
       to={to}
       className={`primary-btn ${classes} ${
         size === 'sm' ? 'text-sm py-2 px-2' : 'text-md py-2 px-4 '
-      }`}
+      } ${outline ? 'outline-btn' : ''}`}
     >
       <span className={`${arrowDown ? 'arrow-down' : ''}`}>
         {label || 'Learn more'}
@@ -42,6 +44,7 @@ const FlexButton: React.FC<ButtonProps> = ({ items }) => {
             key={item.to}
             to={item.to}
             label={item.label || 'Learn more'}
+            outline={item?.outline || false}
             arrowDown={item?.arrowDown || false}
           />
         ))}
