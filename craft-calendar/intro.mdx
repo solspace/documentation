@@ -8,10 +8,17 @@ id: landing-page
 
 import { FlexCards } from '@site/src/components/docs';
 import { CraftCalendarPageHeader } from '@site/src/components/docs/PageHeader';
+import SearchBar from '@theme/SearchBar';
+import NavbarSearch from '@theme/Navbar/Search';
 
 import Icons from '@site/static/card-icons';
 import PromoIcons from '@site/static/promo';
-import { Photo, PrimaryButtonWithLink, SimpleTextLink, FlexButton } from '@site/src/components/utils';
+import {
+  Photo,
+  PrimaryButtonWithLink,
+  SimpleTextLink,
+  FlexButton,
+} from '@site/src/components/utils';
 
 # Overview
 
@@ -24,16 +31,34 @@ import { Photo, PrimaryButtonWithLink, SimpleTextLink, FlexButton } from '@site/
         alt="Calendar 5 for Craft CMS"
       />
       <p className="text-center">
-        Calendar is an effective event management and calendaring plugin. Its user-friendly interface simplifies the creation of events with complex recurring rules and exclusions.
+        Calendar is an effective event management and calendaring plugin. Its
+        user-friendly interface simplifies the creation of events with complex
+        recurring rules and exclusions.
       </p>
-      <FlexButton
-        items={[
-          { to: '#key-features', label: 'Feature Tour', outline: true, arrowDown: true },
-          { to: '#compare', label: 'Pricing', outline: true, arrowDown: true },
-          { to: 'guides/getting-started', label: 'Search' },
-          { to: 'guides/getting-started', label: 'Explore Docs' },
-        ]}
-      />
+      <div className="flex gap-3 landing-header-buttons">
+        <FlexButton
+          items={[
+            {
+              to: '#key-features',
+              label: 'Feature Tour',
+              outline: true,
+              arrowDown: true,
+            },
+            {
+              to: '#compare',
+              label: 'Pricing',
+              outline: true,
+              arrowDown: true,
+            },
+          ]}
+        />
+        <NavbarSearch>
+          <SearchBar />
+        </NavbarSearch>
+        <FlexButton
+          items={[{ to: 'guides/getting-started', label: 'Explore Docs' }]}
+        />
+      </div>
       <small>
         <SimpleTextLink
           to="https://plugins.craftcms.com/calendar"

@@ -6,6 +6,9 @@ hide_table_of_contents: true
 id: landing-page
 ---
 
+import SearchBar from '@theme/SearchBar';
+import NavbarSearch from '@theme/Navbar/Search';
+
 import { FlexCards } from '@site/src/components/docs';
 import { EECalendarPageHeader } from '@site/src/components/docs/PageHeader';
 
@@ -29,16 +32,34 @@ import {
         alt="Calendar 5 for ExpressionEngine CMS"
       />
       <p className="text-center">
-        Calendar is an effective event management and calendaring plugin. Its user-friendly interface simplifies the creation of events with complex recurring rules and exclusions.
+        Calendar is an effective event management and calendaring plugin. Its
+        user-friendly interface simplifies the creation of events with complex
+        recurring rules and exclusions.
       </p>
-      <FlexButton
-        items={[
-          { to: '#key-features', label: 'Feature Tour', outline: true, arrowDown: true },
-          { to: '#pricing', label: 'Pricing', outline: true, arrowDown: true },
-          { to: 'guides/getting-started', label: 'Search' },
-          { to: 'guides/getting-started', label: 'Explore Docs' },
-        ]}
-      />
+      <div className="flex gap-3 landing-header-buttons">
+        <FlexButton
+          items={[
+            {
+              to: '#key-features',
+              label: 'Feature Tour',
+              outline: true,
+              arrowDown: true,
+            },
+            {
+              to: '#pricing',
+              label: 'Pricing',
+              outline: true,
+              arrowDown: true,
+            },
+          ]}
+        />
+        <NavbarSearch>
+          <SearchBar />
+        </NavbarSearch>
+        <FlexButton
+          items={[{ to: 'guides/getting-started', label: 'Explore Docs' }]}
+        />
+      </div>
       <small>
         <SimpleTextLink
           to="https://expressionengine.com/add-ons/calendar"
