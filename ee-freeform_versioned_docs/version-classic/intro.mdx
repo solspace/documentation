@@ -5,6 +5,9 @@ slug: /
 hide_table_of_contents: true
 ---
 
+import SearchBar from '@theme/SearchBar';
+import NavbarSearch from '@theme/Navbar/Search';
+
 import { FlexCards } from '@site/src/components/docs';
 import { EEFreeformPageHeader } from '@site/src/components/docs/PageHeader';
 
@@ -32,12 +35,16 @@ import {
   <p className="text-center max-w-3xl">
     Freeform is a flexible form-building tool that adapts to your project's needs. Its intuitive builder is easy to use and integrates seamlessly with popular CRMs and email marketing services.
   </p>
-  <FlexButton
-    items={[
-      { to: 'guides/getting-started', label: 'Search' },
-      { to: 'how-to-buy', label: 'Getting Started' },
-    ]}
-  />
+    <div className="flex gap-3 landing-header-buttons">
+      <NavbarSearch>
+      <SearchBar />
+    </NavbarSearch>
+    <FlexButton
+      items={[
+      { to: 'how-to-buy', label: 'Getting Started' } ]}
+    />
+  </div>
+
   <small>
     <SimpleTextLink
       to="https://expressionengine.com/add-ons/freeform"
