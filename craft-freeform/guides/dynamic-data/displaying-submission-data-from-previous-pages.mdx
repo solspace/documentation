@@ -8,6 +8,10 @@ import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
 When using multi-page forms, if you'd like to display submission data from previous pages on your last for page (or any page), you can do this by using an HTML block field with some Twig code.
 
+:::info
+This may typically be used as a "Confirmation" page (final page) in a multi-page form before submitting the form. However, these will parse at any point as long as there has been an initial submit (to next page or failed attempt at completing the form).
+:::
+
 ## Instructions
 
 <VerticalStepWrapper>
@@ -27,7 +31,7 @@ Insert some code to retrieve the previous pages' field data.
 
 For example:
 
-```twig showLineNumbers
+```twig
 <ul>
     <li>Name: {{ form.get('firstName').value }} {{ form.get('lastName').value }}</li>
     <li>Email: {{ form.get('email').valueAsString }}</li>
@@ -40,6 +44,18 @@ For example:
 
 </VerticalStepWrapper>
 
-:::info
-This may typically be used as a "Confirmation" page (final page) in a multi-page form before submitting the form. However, these will parse at any point as long as there has been an initial submit (to next page or failed attempt at completing the form).
-:::
+### Retrieving File Uploads
+If you wish to display assets from [File Upload](../../forms/fields.mdx#file-upload) and [File Upload Drag & Drop](../../forms/fields.mdx#file-upload-drag--drop) fields, the code you use might look something like this:
+
+```twig
+<dl>
+  {% for field in allFields|filter(f => f.valueAsString and f.type in ['file', 'file_drag_and_drop']) %}
+    <dt>{{ field.label }}</dt>
+    <dd>
+       {% for asset in field.assets.all %}
+          url: {{ asset.url }}<br>
+       {% endfor %}
+    </dd>
+  {% endfor %}
+</dl>
+```
