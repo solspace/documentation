@@ -161,7 +161,7 @@ const Footer: React.FC = () => {
           </svg>
         </a>
       </div>
-      <div className="flex flex-wrap justify-center gap-6">
+      <div className="flex flex-wrap justify-center gap-2 sm:gap-6 footer-links">
         {links.map((link, index) => (
           <SimpleTextLink
             classes="text-black dark:text-white"

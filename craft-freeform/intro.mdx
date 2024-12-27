@@ -117,58 +117,64 @@ import Icons from '@site/static/card-icons';
   imgSrc={Icons.ShieldIcon}
 >
 
-<FlexCards
-  items={[
-    {
-      title: 'Email Failure Alerts',
-      description:
-        'Freeform will email you if there is a template or setup issue with your site.',
-      icon: Icons.AlertIcon,
-      linkWithDescription: 'configuration/notices-alerts/',
-    },
-    {
-      title: 'Automatic Update Notices',
-      description:
-        'Freeform alerts you to potential website issues, catching errors before you notice.',
-      icon: Icons.UpdateNotificationIcon,
-      linkWithDescription: 'configuration/notices-alerts/',
-    },
-    {
-      title: 'Weekly / Daily Digest Email',
-      description:
-        "Get email updates about what's happening on your site with weekly or daily digests.",
-      icon: Icons.EmailReportIcon,
-      linkWithDescription: 'configuration/notices-alerts/',
-    },
-    {
-      title: 'Error Logging',
-      description:
-        'The error logging system tells you quickly about any problems on your website.',
-      icon: Icons.GuaranteeCertificateIcon,
-    },
-    {
-      title: 'Satisfaction Guaranteed',
-      description:
-        'Try Freeform risk-free with our 90-day full refund guarantee.',
-      icon: Icons.GuaranteeCertificateIcon,
-    },
-    {
-      title: 'Private Support Tickets',
-      description:
-        "If you need help with Freeform, send us a private support ticket and we'll be happy to assist you.",
-      icon: Icons.GuaranteeCertificateIcon,
-      linkWithDescription: '/support',
-      linkWithDescriptionLabel: 'Private support',
-    },
-  ]}
-/>
-
-  <FlexButton
+  <FlexCards
     items={[
-      { to: 'configuration/notices-alerts/', label: 'Reliability options' },
-      { to: '/support', label: 'Support options' },
+      {
+        title: 'Email Failure Alerts',
+        description:
+          'Freeform will email you if there is a template or setup issue with your site.',
+        icon: Icons.AlertIcon,
+        linkWithDescription: 'configuration/notices-alerts/',
+      },
+      {
+        title: 'Automatic Update Notices',
+        description:
+          'Freeform alerts you to potential website issues, catching errors before you notice.',
+        icon: Icons.UpdateNotificationIcon,
+        linkWithDescription: 'configuration/notices-alerts/',
+      },
+      {
+        title: 'Weekly / Daily Digest Email',
+        description:
+          "Get email updates about what's happening on your site with weekly or daily digests.",
+        icon: Icons.EmailReportIcon,
+        linkWithDescription: 'configuration/notices-alerts/',
+      },
+      {
+        title: 'Error Logging',
+        description:
+          'The error logging system tells you quickly about any problems on your website.',
+        icon: Icons.GuaranteeCertificateIcon,
+      },
+      {
+        title: 'Satisfaction Guaranteed',
+        description:
+          'Try Freeform risk-free with our 90-day full refund guarantee.',
+        icon: Icons.GuaranteeCertificateIcon,
+      },
+      {
+        title: 'Private Support Tickets',
+        description:
+          "If you need help with Freeform, send us a private support ticket and we'll be happy to assist you.",
+        icon: Icons.GuaranteeCertificateIcon,
+        linkWithDescription: '/support',
+        linkWithDescriptionLabel: 'Private support',
+      },
     ]}
   />
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'configuration/notices-alerts/', label: 'Reliability options', outline: true },
+        { to: '/support/', label: 'Support options', outline: true },
+        { to: 'setup/installing-upgrading/', label: 'How to Install', outline: true },
+      ]}
+    />
+  </div>
 </Section>
 
 <Section
@@ -178,16 +184,23 @@ import Icons from '@site/static/card-icons';
   description="The Freeform form builder gives you a simple all-in-one interface that lets you tweak just about everything about your forms."
   imgSrc={Icons.MagicWandIcon}
 >
-
   <Player
     url={require('@site/static/videos/craft/freeform/v5/builder-feature.mp4').default}
     muted loop playing width="100%" height="100%"
   />
-  <FlexButton
-    items={[
-      { to: 'forms/builder', label: 'Form Builder Overview', },
-    ]}
-  />
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'guides/getting-started/', label: 'Getting Started', outline: true },
+        { to: 'forms/builder/', label: 'Form Builder', outline: true },
+        { to: 'forms/fields/', label: 'Fields', outline: true },
+      ]}
+    />
+  </div>
 </Section>
 
 <Section
@@ -196,7 +209,6 @@ import Icons from '@site/static/card-icons';
   subtitle="There are tons of plug-and-play features that make creating forms and templates a total breeze!"
   imgSrc={Icons.TrolleyIcon}
 >
-
   <FlexCards
     items={[
       {
@@ -303,6 +315,20 @@ import Icons from '@site/static/card-icons';
       },
     ]}
   />
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'guides/getting-started/', label: 'Getting Started', outline: true },
+        { to: 'forms/spam-protection/', label: 'Spam Protection', outline: true },
+        { to: 'integrations/#captchas--spam-protection', label: 'Captchas', outline: true },
+        { to: 'forms/builder/', label: 'Form Builder', outline: true },
+      ]}
+    />
+  </div>
 </Section>
 
 <Section
@@ -311,249 +337,253 @@ import Icons from '@site/static/card-icons';
   subtitle="Freeform offers a wide range of different field types and cool features to help you manage them easily."
   imgSrc={Icons.FieldTextIcon}
 >
-
-<Player
-  url={
-    require('@site/static/videos/craft/freeform/v5/builder-rules.mp4').default
-  }
-  muted
-  loop
-  playing
-  width="100%"
-  height="100%"
-/>
-<FlexCards
-  items={[
-    {
-      title: 'Conditional Rules',
-      description:
-        'Easily adjust your form by choosing which pages to skip and making certain fields appear or disappear depending on what users select or enter in other fields.',
-      icon: Icons.LogicIcon,
-      linkWithDescription: 'forms/conditional-rules',
-    },
-    {
-      title: 'Populate Field Options',
-      description:
-        'Use Craft Element data or predefined Freeform options such as countries or months to populate dropdowns, checkboxes, and radios.',
-      icon: Icons.CheckListIcon,
-      linkWithdescription: 'forms/fields/#populating-field-options-',
-    },
-    {
-      title: 'Reuse Fields',
-      titleBadge: 'New!',
-      description:
-        'Save common fields as favorites, or quickly search across all forms to reuse an existing field.',
-      icon: Icons.RecycleIcon,
-      linkWithDescription: 'forms/builder',
-    },
-    {
-      title: 'Field Encryption',
-      titleBadge: 'New!',
-      description:
-        'Each field includes the ability to optionally encrypt its submission data. Simply toggle the setting and Freeform will take care of the rest.',
-      icon: Icons.LockIcon,
-      linkWithDescription: 'forms/fields/#field-encryption',
-    },
-    {
-      title: 'Custom Field Types',
-      titleBadge: 'New!',
-      description: 'Easily create your own custom field types!',
-      icon: Icons.GearCodingIcon,
-      linkWithDescription: 'developer/field-types/',
-    },
-    {
-      title: 'Include a Review Page',
-      description:
-        'Use Twig code in an HTML block to create a custom review page for users to double-check form data from previous pages before submission.',
-      icon: Icons.ReviewIcon,
-    },
-  ]}
-/>
-<FlexButton items={[{ to: 'forms/fields', label: 'Fields Overview' }]} />
-
-<FieldCards
-  items={[
-    {
-      link: 'forms/fields#text',
-      title: 'Text',
-      description: 'Regular text inputs',
-      icon: Icons.FieldTextIcon,
-    },
-    {
-      link: 'forms/fields#textarea',
-      title: 'Textarea',
-      description: 'Multi-line text inputs',
-      icon: Icons.TextareaIcon,
-    },
-    {
-      link: 'forms/fields#email',
-      title: 'Email',
-      description: 'Email validation and notifications',
-      icon: Icons.EmailIcon,
-    },
-    {
-      link: 'forms/fields#number',
-      title: 'Number',
-      description: 'Numeric validation and options',
-      icon: Icons.NumbersIcon,
-    },
-    {
-      link: 'forms/fields#hidden',
-      title: 'Hidden',
-      description: 'Hide field data',
-      icon: Icons.HiddenIcon,
-    },
-    {
-      link: 'forms/fields#dropdown',
-      title: 'Dropdown',
-      description: 'Dropdown field with powerful options to populate data',
-      icon: Icons.SelectIcon,
-    },
-    {
-      link: 'forms/fields#multiple-select',
-      title: 'Multiple Select',
-      description: 'Multi-select field with powerful options to populate data',
-      icon: Icons.ListIcon,
-    },
-    {
-      link: 'forms/fields#checkbox',
-      title: 'Checkbox ',
-      description: "Single checkbox, e.g. 'Accept Terms'",
-      icon: Icons.CheckboxIcon,
-    },
-    {
-      link: 'forms/fields#checkboxes',
-      title: 'Checkboxes',
-      description:
-        'Multi-checkboxes field with powerful options to populate data',
-      icon: Icons.CheckListIcon,
-    },
-    {
-      link: 'forms/fields#radios',
-      title: 'Radios',
-      description: 'Radio options field with powerful options to populate data',
-      icon: Icons.RadioListIcon,
-    },
-    {
-      link: 'forms/fields#file-upload',
-      title: 'File Upload',
-      description:
-        'Upload and validate one or multiple files to be attached to the submission',
-      icon: Icons.AttachedIcon,
-    },
-    {
-      link: 'forms/fields#file-upload-drag--drop',
-      title: 'File Drag & Drop',
-      description:
-        'Smart file uploader shows progress, thumbnails and memory when editing',
-      icon: Icons.UploadIcon,
-    },
-    {
-      link: 'forms/fields#date--time',
-      title: 'Date & Time',
-      description: 'Date and time picker with JS validation',
-      icon: Icons.DateTimeIcon,
-    },
-    {
-      link: 'forms/fields#phone',
-      title: 'Phone',
-      description: 'Set a phone pattern with JS validation',
-      icon: Icons.PhoneIcon,
-    },
-    {
-      link: 'forms/fields#table',
-      title: 'Table',
-      description:
-        'Collect tabular or repeating data, allow users to add/remove rows',
-      icon: Icons.TableIcon,
-    },
-    {
-      link: 'forms/fields#group',
-      titleBadge: 'New!',
-      title: 'Group',
-      description: 'Contains other fields within it',
-      icon: Icons.TableIcon,
-    },
-    {
-      link: 'forms/fields#rating',
-      title: 'Rating',
-      description: 'Plug and play rating stars',
-      icon: Icons.RatingIcon,
-    },
-    {
-      link: 'forms/fields#opinion-scale',
-      title: 'Opinion Scale',
-      description: 'Users can select ranges for surveys',
-      icon: Icons.OpinionScaleIcon,
-    },
-    {
-      link: 'forms/fields#calculation',
-      titleBadge: 'New!',
-      title: 'Calculation',
-      description:
-        'Perform dynamic calculations based on user-input values within forms',
-      icon: Icons.CalculationIcon,
-    },
-    {
-      link: 'forms/fields#signature',
-      title: 'Signature',
-      description: 'Users can digitally sign submissions',
-      icon: Icons.SignatureIcon,
-    },
-    {
-      link: 'forms/fields#invisible',
-      title: 'Invisible',
-      description:
-        'Include hidden data that is not visible in rendered source code',
-      icon: Icons.InvisibleIcon,
-    },
-    {
-      link: 'forms/fields#regex',
-      title: 'Regex',
-      description: 'Come up with your own validation for data syntax',
-      icon: Icons.RegexIcon,
-    },
-    {
-      link: 'forms/fields#website',
-      title: 'Website',
-      description: "Validate inputted data includes 'http://', etc",
-      icon: Icons.GlobeIcon,
-    },
-    {
-      link: 'forms/fields#html',
-      title: 'Html Block',
-      description: 'Include HTML/Twig inside form layouts',
-      icon: Icons.CodeIcon,
-    },
-    {
-      link: 'forms/fields#rich-text',
-      title: 'Rich Text Block',
-      description: 'Include Rich Text inside form layouts',
-      icon: Icons.RichTextIcon,
-    },
-    {
-      link: 'forms/fields#confirm',
-      title: 'Confirm',
-      description: 'Target another field that should be retyped (e.g. email)',
-      icon: Icons.FieldTextIcon,
-    },
-    {
-      link: 'forms/fields#password',
-      title: 'Password',
-      description:
-        'Process a password value but do not store it (for user registation forms)',
-      icon: Icons.LockIcon,
-    },
-    {
-      link: 'forms/fields#stripe-payment',
-      title: 'Stripe Payments',
-      description:
-        'Allow users to securely enter payment data for Payment-enabled forms',
-      icon: Icons.CreditCardIcon,
-    },
-  ]}
-/>
-
+  <Player
+    url={require('@site/static/videos/craft/freeform/v5/builder-rules.mp4').default}
+    muted loop playing width="100%" height="100%"
+  />
+  <FlexCards
+    items={[
+      {
+        title: 'Conditional Rules',
+        description:
+          'Easily adjust your form by choosing which pages to skip and making certain fields appear or disappear depending on what users select or enter in other fields.',
+        icon: Icons.LogicIcon,
+        linkWithDescription: 'forms/conditional-rules',
+      },
+      {
+        title: 'Populate Field Options',
+        description:
+          'Use Craft Element data or predefined Freeform options such as countries or months to populate dropdowns, checkboxes, and radios.',
+        icon: Icons.CheckListIcon,
+        linkWithdescription: 'forms/fields/#populating-field-options-',
+      },
+      {
+        title: 'Reuse Fields',
+        titleBadge: 'New!',
+        description:
+          'Save common fields as favorites, or quickly search across all forms to reuse an existing field.',
+        icon: Icons.RecycleIcon,
+        linkWithDescription: 'forms/builder',
+      },
+      {
+        title: 'Field Encryption',
+        titleBadge: 'New!',
+        description:
+          'Each field includes the ability to optionally encrypt its submission data. Simply toggle the setting and Freeform will take care of the rest.',
+        icon: Icons.LockIcon,
+        linkWithDescription: 'forms/fields/#field-encryption',
+      },
+      {
+        title: 'Custom Field Types',
+        titleBadge: 'New!',
+        description: 'Easily create your own custom field types!',
+        icon: Icons.GearCodingIcon,
+        linkWithDescription: 'developer/field-types/',
+      },
+      {
+        title: 'Include a Review Page',
+        description:
+          'Use Twig code in an HTML block to create a custom review page for users to double-check form data from previous pages before submission.',
+        icon: Icons.ReviewIcon,
+      },
+    ]}
+  />
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'guides/getting-started/', label: 'Getting Started', outline: true },
+        { to: 'forms/fields/', label: 'Fields', outline: true },
+        { to: 'forms/builder/', label: 'Form Builder', outline: true },
+        { to: 'forms/conditional-rules/', label: 'Conditional Rules', outline: true },
+      ]}
+    />
+  </div>
+  <FieldCards
+    items={[
+      {
+        link: 'forms/fields#text',
+        title: 'Text',
+        description: 'Regular text inputs',
+        icon: Icons.FieldTextIcon,
+      },
+      {
+        link: 'forms/fields#textarea',
+        title: 'Textarea',
+        description: 'Multi-line text inputs',
+        icon: Icons.TextareaIcon,
+      },
+      {
+        link: 'forms/fields#email',
+        title: 'Email',
+        description: 'Email validation and notifications',
+        icon: Icons.EmailIcon,
+      },
+      {
+        link: 'forms/fields#number',
+        title: 'Number',
+        description: 'Numeric validation and options',
+        icon: Icons.NumbersIcon,
+      },
+      {
+        link: 'forms/fields#hidden',
+        title: 'Hidden',
+        description: 'Hide field data',
+        icon: Icons.HiddenIcon,
+      },
+      {
+        link: 'forms/fields#dropdown',
+        title: 'Dropdown',
+        description: 'Dropdown field with powerful options to populate data',
+        icon: Icons.SelectIcon,
+      },
+      {
+        link: 'forms/fields#multiple-select',
+        title: 'Multiple Select',
+        description: 'Multi-select field with powerful options to populate data',
+        icon: Icons.ListIcon,
+      },
+      {
+        link: 'forms/fields#checkbox',
+        title: 'Checkbox ',
+        description: "Single checkbox, e.g. 'Accept Terms'",
+        icon: Icons.CheckboxIcon,
+      },
+      {
+        link: 'forms/fields#checkboxes',
+        title: 'Checkboxes',
+        description:
+          'Multi-checkboxes field with powerful options to populate data',
+        icon: Icons.CheckListIcon,
+      },
+      {
+        link: 'forms/fields#radios',
+        title: 'Radios',
+        description: 'Radio options field with powerful options to populate data',
+        icon: Icons.RadioListIcon,
+      },
+      {
+        link: 'forms/fields#file-upload',
+        title: 'File Upload',
+        description:
+          'Upload and validate one or multiple files to be attached to the submission',
+        icon: Icons.AttachedIcon,
+      },
+      {
+        link: 'forms/fields#file-upload-drag--drop',
+        title: 'File Drag & Drop',
+        description:
+          'Smart file uploader shows progress, thumbnails and memory when editing',
+        icon: Icons.UploadIcon,
+      },
+      {
+        link: 'forms/fields#date--time',
+        title: 'Date & Time',
+        description: 'Date and time picker with JS validation',
+        icon: Icons.DateTimeIcon,
+      },
+      {
+        link: 'forms/fields#phone',
+        title: 'Phone',
+        description: 'Set a phone pattern with JS validation',
+        icon: Icons.PhoneIcon,
+      },
+      {
+        link: 'forms/fields#table',
+        title: 'Table',
+        description:
+          'Collect tabular or repeating data, allow users to add/remove rows',
+        icon: Icons.TableIcon,
+      },
+      {
+        link: 'forms/fields#group',
+        titleBadge: 'New!',
+        title: 'Group',
+        description: 'Contains other fields within it',
+        icon: Icons.TableIcon,
+      },
+      {
+        link: 'forms/fields#rating',
+        title: 'Rating',
+        description: 'Plug and play rating stars',
+        icon: Icons.RatingIcon,
+      },
+      {
+        link: 'forms/fields#opinion-scale',
+        title: 'Opinion Scale',
+        description: 'Users can select ranges for surveys',
+        icon: Icons.OpinionScaleIcon,
+      },
+      {
+        link: 'forms/fields#calculation',
+        titleBadge: 'New!',
+        title: 'Calculation',
+        description:
+          'Perform dynamic calculations based on user-input values within forms',
+        icon: Icons.CalculationIcon,
+      },
+      {
+        link: 'forms/fields#signature',
+        title: 'Signature',
+        description: 'Users can digitally sign submissions',
+        icon: Icons.SignatureIcon,
+      },
+      {
+        link: 'forms/fields#invisible',
+        title: 'Invisible',
+        description:
+          'Include hidden data that is not visible in rendered source code',
+        icon: Icons.InvisibleIcon,
+      },
+      {
+        link: 'forms/fields#regex',
+        title: 'Regex',
+        description: 'Come up with your own validation for data syntax',
+        icon: Icons.RegexIcon,
+      },
+      {
+        link: 'forms/fields#website',
+        title: 'Website',
+        description: "Validate inputted data includes 'http://', etc",
+        icon: Icons.GlobeIcon,
+      },
+      {
+        link: 'forms/fields#html',
+        title: 'Html Block',
+        description: 'Include HTML/Twig inside form layouts',
+        icon: Icons.CodeIcon,
+      },
+      {
+        link: 'forms/fields#rich-text',
+        title: 'Rich Text Block',
+        description: 'Include Rich Text inside form layouts',
+        icon: Icons.RichTextIcon,
+      },
+      {
+        link: 'forms/fields#confirm',
+        title: 'Confirm',
+        description: 'Target another field that should be retyped (e.g. email)',
+        icon: Icons.FieldTextIcon,
+      },
+      {
+        link: 'forms/fields#password',
+        title: 'Password',
+        description:
+          'Process a password value but do not store it (for user registation forms)',
+        icon: Icons.LockIcon,
+      },
+      {
+        link: 'forms/fields#stripe-payment',
+        title: 'Stripe Payments',
+        description:
+          'Allow users to securely enter payment data for Payment-enabled forms',
+        icon: Icons.CreditCardIcon,
+      },
+    ]}
+  />
 </Section>
 
 <Section
@@ -563,7 +593,6 @@ import Icons from '@site/static/card-icons';
   description="You can create as many templates as you want and pick a different one for each type of email notification."
   imgSrc={Icons.OpenLetterIcon}
 >
-
   <Player
     url={require('@site/static/videos/craft/freeform/v5/builder-integrations.mp4').default}
     muted loop playing width="100%" height="100%"
@@ -572,6 +601,20 @@ import Icons from '@site/static/card-icons';
     url={require('@site/static/videos/craft/freeform/v5/email-notifications.mp4').default}
     muted loop playing width="100%" height="100%"
   />
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'guides/getting-started/', label: 'Getting Started', outline: true },
+        { to: 'forms/email-notifications/', label: 'Email Notifications', outline: true },
+        { to: 'forms/builder/', label: 'Form Builder', outline: true },
+        { to: 'forms/conditional-rules/', label: 'Conditional Rules', outline: true },
+      ]}
+    />
+  </div>
   <FlexCards
     items={[
       {
@@ -658,7 +701,6 @@ import Icons from '@site/static/card-icons';
   description="Templates are super customizable, even for the trickiest forms. With our demo templates and features ready to go, you can jump in and get everything set up in just a few minutes!"
   imgSrc={Icons.CodeIcon}
 >
-
   <BrowserMockupWithPhoto
     src={require('@site/static/img/craft/freeform/v5/formatting/basic-light.png')}
     alt="Spam Folder"
@@ -685,6 +727,20 @@ import Icons from '@site/static/card-icons';
       },
     ]}
   />
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'guides/#templating', label: 'Guides', outline: true },
+        { to: 'templates/', label: 'Templating', outline: true },
+        { to: 'templates/formatting/', label: 'Formatting Templates', outline: true },
+        { to: 'templates/formatting/#template-overrides', label: 'Template Overrides', outline: true },
+      ]}
+    />
+  </div>
 </Section>
 
 <Section
@@ -693,7 +749,6 @@ import Icons from '@site/static/card-icons';
   subtitle="Connect your forms with any application or service."
   imgSrc={Icons.CloudApiIcon}
 >
-
   <IntegrationPhotoCards
     items={[
       {
@@ -859,7 +914,19 @@ import Icons from '@site/static/card-icons';
     ]}
   />
   <br />
-  <FlexButton items={[{ to: 'integrations', label: 'View All Integrations' }]} />
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'integrations/', label: 'View All Integrations', outline: true },
+        { to: 'forms/builder/#integrations', label: 'Form Builder', outline: true },
+        { to: 'guides/developer/custom-integrations/', label: 'Custom Integrations', outline: true },
+      ]}
+    />
+  </div>
   <br />
   <Player
     url={require('@site/static/videos/craft/freeform/v5/builder-integrations.mp4').default}
@@ -924,7 +991,6 @@ import Icons from '@site/static/card-icons';
   description="Optionally turn on multi-site awareness in Freeform if you want to show or hide forms for certain sites. Plus, you can set up translations for forms so they can have different labels and messages that fit each Site."
   imgSrc={Icons.TranslationIcon}
 >
-
   <Player
     url={require('@site/static/videos/craft/freeform/v5/builder-translations.mp4').default}
     muted loop playing width="100%" height="100%"
@@ -968,7 +1034,19 @@ import Icons from '@site/static/card-icons';
       },
     ]}
   />
-  <FlexButton items={[{ to: 'configuration/sites', label: 'Site-Aware Forms Overview' }]} />
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'configuration/sites/', label: 'Site-Aware Forms', outline: true },
+        { to: 'configuration/sites/#translations', label: 'Translatable Forms', outline: true },
+        { to: 'configuration/translating/', label: 'Adding Translations', outline: true },
+      ]}
+    />
+  </div>
 </Section>
 
 <Section
@@ -977,10 +1055,23 @@ import Icons from '@site/static/card-icons';
   subtitle="Collect submission data and do whatever you want with it."
   imgSrc={Icons.ArchiveIcon}
 >
-
   <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/cp/submissions-list.png')} alt="Submissions List" />
   <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/cp/submissions-detail.png')} alt="Submissions List" />
   <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/cp/submissions-quick-export.png')} alt="Submissions List" />
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'submissions/overview/', label: 'Submission Data', outline: true },
+        { to: 'submissions/fieldtype/', label: 'Element Field Type', outline: true },
+        { to: 'submissions/exporting/', label: 'Exporting', outline: true },
+        { to: 'templates/queries/submissions/', label: 'Templating', outline: true },
+      ]}
+    />
+  </div>
   <FlexCards
     items={[
       {
@@ -1062,7 +1153,6 @@ import Icons from '@site/static/card-icons';
   description="Freeform makes it super easy to work with headless website setups, so you can use popular JavaScript front-end frameworks like Vue.js, Next.js, React.js, and others! It also lets you grab form layouts and use mutations to create submissions with GraphQL."
   imgSrc={Icons.HeadlessIcon}
 >
-
   <FlexCards
     items={[
       {
@@ -1091,6 +1181,21 @@ import Icons from '@site/static/card-icons';
       }
     ]}
   />
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'guides/#headless', label: 'User Guides', outline: true },
+        { to: 'headless/graphql', label: 'GraphQL', outline: true },
+        { to: 'headless/vuejs/', label: 'Vue.js', outline: true },
+        { to: 'headless/reactjs/', label: 'React JS', outline: true },
+        { to: 'headless/nextjs/', label: 'Next.js', outline: true },
+      ]}
+    />
+  </div>
 </Section>
 
 <Section
@@ -1146,7 +1251,6 @@ import Icons from '@site/static/card-icons';
   subtitle="Which edition is the best fit for what you need?"
   imgSrc={Icons.ScaleIcon}
 >
-
 <div class="feature-table">
 
 | <h3 class="no-margin"></h3> | <h2 class="edition-express no-margin" id="title">Express</h2><Badge type="feature" text="New!" /> | <h2 class="edition-lite no-margin" id="title">Lite</h2> | <h2 class="edition-pro no-margin" id="title">Pro</h2> |
@@ -1223,6 +1327,20 @@ import Icons from '@site/static/card-icons';
 | <small><SimpleTextLink to="https://plugins.craftcms.com/freeform" label="INSTALL A FREE, UNLIMITED TRIAL TODAY!" /></small> | <PrimaryButtonWithLink to="https://plugins.craftcms.com/freeform" label="Get it!" size="sm" /><br /><div><b className="edition-express">FREE!</b><Badge type="feature" text="New!" /></div> | <PrimaryButtonWithLink to="https://plugins.craftcms.com/freeform" label="Get it!" size="sm" /><br /><div><b className="edition-lite">$99</b></div> | <PrimaryButtonWithLink size="sm" to="https://plugins.craftcms.com/freeform" label="Get it!" /><br /><div><b class="edition-pro">$149</b></div> |
 
 </div>
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'https://plugins.craftcms.com/freeform/', label: 'Plugin Store', outline: true },
+        { to: '/support/', label: 'Support', outline: true },
+        { to: 'setup/installing-upgrading/', label: 'How to Install', outline: true },
+        { to: 'guides/', label: 'User Guides', outline: true },
+      ]}
+    />
+  </div>
 </Section>
 
 <Section
@@ -1273,33 +1391,45 @@ import Icons from '@site/static/card-icons';
   subtitle="You can count on Freeform and the team behind it to give you the quality and support you really deserve."
   imgSrc={Icons.CheckboxIcon}
 >
-
-<FlexCards
-  items={[
-    {
-      title: 'Top Notch Support',
-      description:
-        'Our reputation in the Craft CMS community speaks for itself when it comes to customer support. We strive to offer the best and most reliable help to all our customers.',
-      icon: Icons.SupportIcon,
-      linkWithDescription: 'https://docs.solspace.com/support/',
-    },
-    {
-      title: '20+ Years Experience',
-      description:
-        'For more than 20 years, Solspace has been busy creating and supporting software for over 20,000 customers. Over 400,000 plugins have been sold or downloaded for free!',
-      icon: Icons.HourglassIcon,
-      linkWithDescription: 'https://solspace.com',
-    },
-    {
-      title: 'Active Development',
-      description:
-        'Craft CMS users really like Freeform, a plugin that’s been continuously updated with a ton of new features, improvements, and bug fixes over time.',
-      icon: Icons.DevelopmentIcon,
-      linkWithDescription: 'setup/changelog',
-    },
-  ]}
-/>
-
+  <FlexCards
+    items={[
+      {
+        title: 'Top Notch Support',
+        description:
+          'Our reputation in the Craft CMS community speaks for itself when it comes to customer support. We strive to offer the best and most reliable help to all our customers.',
+        icon: Icons.SupportIcon,
+        linkWithDescription: 'https://docs.solspace.com/support/',
+      },
+      {
+        title: '20+ Years Experience',
+        description:
+          'For more than 20 years, Solspace has been busy creating and supporting software for over 20,000 customers. Over 400,000 plugins have been sold or downloaded for free!',
+        icon: Icons.HourglassIcon,
+        linkWithDescription: 'https://solspace.com',
+      },
+      {
+        title: 'Active Development',
+        description:
+          'Craft CMS users really like Freeform, a plugin that’s been continuously updated with a ton of new features, improvements, and bug fixes over time.',
+        icon: Icons.DevelopmentIcon,
+        linkWithDescription: 'setup/changelog',
+      },
+    ]}
+  />
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'https://plugins.craftcms.com/freeform/', label: 'Plugin Store', outline: true },
+        { to: '/support/', label: 'Support', outline: true },
+        { to: 'setup/installing-upgrading/', label: 'How to Install', outline: true },
+        { to: 'guides/', label: 'User Guides', outline: true },
+      ]}
+    />
+  </div>
 </Section>
 
 <Section
@@ -1308,70 +1438,80 @@ import Icons from '@site/static/card-icons';
   subtitle="Frequently asked questions about buying Freeform."
   imgSrc={Icons.QuestionSignIcon}
 >
+  <div class="faq-list">
+  <details>
+    <summary>Can I test Freeform before I buy?</summary>
 
-<div class="faq-list">
+    Yes! You can use Freeform on any private domain name for as long as you need, just like with Craft. Whether it's on your local dev server or a staging site, you're good to go. You only have to buy a license when you're ready to launch your site live, just like with Craft.
+  </details>
+  <details>
+    <summary>How many sites does a license cover?</summary>
 
-<details>
-  <summary>Can I test Freeform before I buy?</summary>
+    You only need to buy a Freeform license for each Craft license you have. So, if you're running a Craft multi-site on one install, you just need one license. It's just like Craft! There's no need to get separate licenses for other environments of the same site, like development or staging.
+  </details>
+  <details>
+    <summary>Can I switch to a different edition later?</summary>
 
-  Yes! You can use Freeform on any private domain name for as long as you need, just like with Craft. Whether it's on your local dev server or a staging site, you're good to go. You only have to buy a license when you're ready to launch your site live, just like with Craft.
-</details>
-<details>
-  <summary>How many sites does a license cover?</summary>
+    Yes! You can switch to the _Lite_ or _Pro_ editions at any time! You just pay the difference in price. For example, if you're using the _Lite_ edition and wish to switch to _Pro_, you will just pay $50. You don't need to reinstall anything and you won't lose any of your data.
 
-  You only need to buy a Freeform license for each Craft license you have. So, if you're running a Craft multi-site on one install, you just need one license. It's just like Craft! There's no need to get separate licenses for other environments of the same site, like development or staging.
-</details>
-<details>
-  <summary>Can I switch to a different edition later?</summary>
+    Check out the [Changing Editions](./setup/installing-updating/#changing-editions) guide for more information!
+  </details>
+  <details>
+    <summary>Do you offer discounts to non-profits?</summary>
 
-  Yes! You can switch to the _Lite_ or _Pro_ editions at any time! You just pay the difference in price. For example, if you're using the _Lite_ edition and wish to switch to _Pro_, you will just pay $50. You don't need to reinstall anything and you won't lose any of your data.
+    Yes! We offer a discount to non-profits for 20% off the regular price upon proof of non-profit status. Please [contact us](/support/) for more information about this.
+  </details>
+  <details>
+    <summary>Does the Trial version limit features?</summary>
 
-  Check out the [Changing Editions](./setup/installing-updating/#changing-editions) guide for more information!
-</details>
-<details>
-  <summary>Do you offer discounts to non-profits?</summary>
+    The trial versions of Solspace software are fully functional and not limited in any way. However, if you try to use a trial version on a production site, Craft will display a red banner at the top of your control panel, prompting you to purchase a license.
 
-  Yes! We offer a discount to non-profits for 20% off the regular price upon proof of non-profit status. Please [contact us](/support/) for more information about this.
-</details>
-<details>
-  <summary>Does the Trial version limit features?</summary>
+    More information about [Craft's license enforcement](https://craftcms.com/knowledge-base/how-craft-license-enforcement-works).
+  </details>
+  <details>
+    <summary>How long does a license last for?</summary>
 
-  The trial versions of Solspace software are fully functional and not limited in any way. However, if you try to use a trial version on a production site, Craft will display a red banner at the top of your control panel, prompting you to purchase a license.
+    A single license provides one year of updates and support. After this period, you can continue using the plugin but will no longer receive updates or support. To maintain access to updates and support, you will need to renew your license each year at a discounted rate.
+  </details>
+  <details>
+    <summary>Do I have to renew my license each year?</summary>
 
-  More information about [Craft's license enforcement](https://craftcms.com/knowledge-base/how-craft-license-enforcement-works).
-</details>
-<details>
-  <summary>How long does a license last for?</summary>
+    You can renew your license after the initial one-year support period has ended. Your plugin will continue to work properly in the meantime. If you prefer, you can wait until the following year to renew and receive the latest updates.
+    
+    However, we don't recommend avoiding updates altogether, as you would miss out on new features and important fixes.
+  </details>
+  <details>
+    <summary>What are renewals and how do they work?</summary>
 
-  A single license provides one year of updates and support. After this period, you can continue using the plugin but will no longer receive updates or support. To maintain access to updates and support, you will need to renew your license each year at a discounted rate.
-</details>
-<details>
-  <summary>Do I have to renew my license each year?</summary>
+    Renewals help you keep your plugin updated and access technical support. However, they are entirely optional.
+    
+    For example, if you purchase the _Lite_ edition of Freeform for $99, the renewal price after one year is $49. Your initial purchase of $99 includes support and updates for one year. When it's time to renew, you can extend your updates and support for another year at the renewal price of just $49, rather than paying the full amount of $99 again.
+  </details>
+  <details>
+    <summary>How do I install Freeform?</summary>
 
-  You can renew your license after the initial one-year support period has ended. Your plugin will continue to work properly in the meantime. If you prefer, you can wait until the following year to renew and receive the latest updates.
-  
-  However, we don't recommend avoiding updates altogether, as you would miss out on new features and important fixes.
-</details>
-<details>
-  <summary>What are renewals and how do they work?</summary>
+    Installing Freeform is done just like any other plugin for Craft, similar to how you would install Craft itself. Please refer to the [Installation guide](./setup/installing-updating.mdx) in the documentation.
+  </details>
+  <details>
+    <summary>How do I get support for Freeform?</summary>
 
-  Renewals help you keep your plugin updated and access technical support. However, they are entirely optional.
-  
-  For example, if you purchase the _Lite_ edition of Freeform for $99, the renewal price after one year is $49. Your initial purchase of $99 includes support and updates for one year. When it's time to renew, you can extend your updates and support for another year at the renewal price of just $49, rather than paying the full amount of $99 again.
-</details>
-<details>
-  <summary>How do I install Freeform?</summary>
-
-  Installing Freeform is done just like any other plugin for Craft, similar to how you would install Craft itself. Please refer to the [Installation guide](./setup/installing-updating.mdx) in the documentation.
-</details>
-<details>
-  <summary>How do I get support for Freeform?</summary>
-
-  We provide free support for Freeform. If you have any questions or encounter issues, you can [create an issue on GitHub](https://github.com/solspace/craft-freeform/issues/new/choose) or [send us a private support ticket](/support/). We're here to help!
-</details>
-
-</div>
-
+    We provide free support for Freeform. If you have any questions or encounter issues, you can [create an issue on GitHub](https://github.com/solspace/craft-freeform/issues/new/choose) or [send us a private support ticket](/support/). We're here to help!
+  </details>
+  </div>
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'https://plugins.craftcms.com/freeform/', label: 'Plugin Store', outline: true },
+        { to: '/support/', label: 'Support', outline: true },
+        { to: 'setup/installing-upgrading/', label: 'How to Install', outline: true },
+        { to: 'guides/', label: 'User Guides', outline: true },
+      ]}
+    />
+  </div>
 </Section>
 
 </div>
