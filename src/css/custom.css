@@ -376,8 +376,6 @@ html {
 .primary-btn {
   @apply relative w-fit mb-2 inline-block font-medium rounded-full transition-all duration-500 bg-[#ff6624] text-white hover:text-white;
 }
-
-/* Button */
 .primary-btn:hover {
   background-color: rgba(255, 102, 36, 0.8);
 }
@@ -419,6 +417,24 @@ html {
 
 .primary-btn:hover > span.arrow-down::after {
   content: '↓';
+}
+
+.primary-btn.outline-btn {
+  color: #ffffff;
+  border: 2px solid #ff6624;
+  background: transparent;
+}
+.primary-btn.outline-btn:hover {
+  color: #ffffff;
+  border: 2px solid #ff6624;
+  background: rgba(255, 255, 255, 0.1);
+}
+[data-theme='light'] .primary-btn.outline-btn {
+  color: #ff6624;
+  background: #ffffff;
+}
+[data-theme='light'] .primary-btn.outline-btn:hover {
+  color: #ff6624;
 }
 
 /* Video */
@@ -525,15 +541,19 @@ h2.support-tab {
   border: 0;
 }
 
-/* Integrations api grid */
+/* Integrations API grid */
 .api-grid-wrapper-outer {
   display: block;
   margin-bottom: -25px;
+}
+.api-grid-wrapper-outer .feature-api-grid {
+  grid-template-columns: repeat(auto-fill, 8.33%) !important;
 }
 
 .api-grid-wrapper-inner {
   transform: rotate(-10deg);
   margin: -250px;
+  height: 1100px;
 }
 
 .feature-grid {
@@ -562,8 +582,8 @@ h2.support-tab {
 }
 
 .feature-api-grid a {
-  padding: 20px !important;
-  margin: 0 20px 20px 0 !important;
+  padding: 10px !important;
+  margin: 0 10px 10px 0 !important;
   transition: all 0.5s;
   display: inline-block;
   background: rgba(0, 105, 190, 0.15);
@@ -604,94 +624,24 @@ html[data-theme='light'] .feature-api-grid a:hover {
   box-shadow: 0 !important;
 }
 
-@media only screen and (min-width: 0px) and (max-width: 599px) {
-  .feature-grid {
-    grid-template-columns: 100% !important;
-  }
-  .feature-api-grid {
-    grid-template-columns: repeat(auto-fill, 33.33%) !important;
-  }
-  .api-grid-wrapper-outer .feature-api-grid {
-    grid-template-columns: repeat(auto-fill, 14%) !important;
-  }
+/* FlexCards */
+.menu-grid {
+  display: grid !important;
+  grid-template-columns: 33.3% 33.3% 33.3% !important;
+  grid-template-rows: auto !important;
+  background: transparent !important;
+  margin: 30px 0 20px 0 !important;
+  padding: 0 !important;
+  z-index: 3;
+  position: relative;
+  overflow: hidden;
 }
 
-@media only screen and (min-width: 600px) and (max-width: 719px) {
-  .feature-grid {
-    grid-template-columns: repeat(auto-fill, 50%) !important;
-  }
-  .feature-api-grid {
-    grid-template-columns: repeat(auto-fill, 25%) !important;
-  }
-  .api-grid-wrapper-outer .feature-api-grid {
-    grid-template-columns: repeat(auto-fill, 13%) !important;
-  }
-}
-
-@media only screen and (min-width: 720px) and (max-width: 959px) {
-  .feature-grid {
-    grid-template-columns: repeat(auto-fill, 100%) !important;
-  }
-  .feature-api-grid {
-    grid-template-columns: repeat(auto-fill, 33.33%) !important;
-  }
-  .api-grid-wrapper-outer .feature-api-grid {
-    grid-template-columns: repeat(auto-fill, 14%) !important;
-  }
-}
-
-@media only screen and (min-width: 960px) and (max-width: 1199px) {
-  .feature-grid {
-    grid-template-columns: repeat(auto-fill, 50%) !important;
-  }
-  .feature-api-grid {
-    grid-template-columns: repeat(auto-fill, 25%) !important;
-  }
-  .api-grid-wrapper-outer {
-    max-height: 840px;
-  }
-  .api-grid-wrapper-outer .feature-api-grid {
-    grid-template-columns: repeat(auto-fill, 13%) !important;
-  }
-}
-
-@media only screen and (min-width: 1200px) and (max-width: 1399px) {
-  .feature-grid {
-    grid-template-columns: repeat(auto-fill, 50%) !important;
-  }
-  .feature-api-grid {
-    grid-template-columns: repeat(auto-fill, 20%) !important;
-  }
-  .api-grid-wrapper-outer {
-    max-height: 840px;
-  }
-  .api-grid-wrapper-outer .feature-api-grid {
-    grid-template-columns: repeat(auto-fill, 12%) !important;
-  }
-}
-
-@media only screen and (min-width: 1400px) and (max-width: 1799px) {
-  .feature-grid {
-    grid-template-columns: repeat(auto-fill, 33.33%) !important;
-  }
-  .feature-api-grid {
-    grid-template-columns: repeat(auto-fill, 16.6%) !important;
-  }
-  .api-grid-wrapper-outer .feature-api-grid {
-    grid-template-columns: repeat(auto-fill, 11%) !important;
-  }
-}
-
-@media only screen and (min-width: 1800px) {
-  .feature-grid {
-    grid-template-columns: repeat(auto-fill, 33.33%) !important;
-  }
-  .feature-api-grid {
-    grid-template-columns: repeat(auto-fill, 16.6%) !important;
-  }
-  .api-grid-wrapper-outer .feature-api-grid {
-    grid-template-columns: repeat(auto-fill, 10%) !important;
-  }
+.menu-grid h3,
+.grid h3 {
+  border: none;
+  margin: 0 !important;
+  padding: 0;
 }
 
 /* Ideal Image */
@@ -845,70 +795,6 @@ secret:before {
 
 html[data-theme='light'] .filter-icons {
   filter: brightness(0%);
-}
-
-/* FlexCards */
-.menu-grid {
-  display: grid !important;
-  grid-template-columns: 33.3% 33.3% 33.3% !important;
-  grid-template-rows: auto !important;
-  background: transparent !important;
-  margin: 30px 0 20px 0 !important;
-  padding: 0 !important;
-  animation-name: slide-left;
-  animation-duration: 1s;
-  z-index: 3;
-  position: relative;
-  overflow: hidden;
-}
-
-.menu-grid h3,
-.grid h3 {
-  border: none;
-  margin: 0 !important;
-  padding: 0;
-}
-
-@media only screen and (min-width: 1800px) {
-  .menu-grid {
-    grid-template-columns: repeat(auto-fill, 33.33%) !important;
-  }
-}
-
-@media only screen and (min-width: 1400px) and (max-width: 1799px) {
-  .menu-grid {
-    grid-template-columns: repeat(auto-fill, 33.33%) !important;
-  }
-}
-
-@media only screen and (min-width: 1200px) and (max-width: 1399px) {
-  .menu-grid {
-    grid-template-columns: repeat(auto-fill, 50%) !important;
-  }
-}
-
-@media only screen and (min-width: 1200px) and (max-width: 1399px) {
-  .menu-grid {
-    grid-template-columns: repeat(auto-fill, 50%) !important;
-  }
-}
-
-@media only screen and (min-width: 960px) and (max-width: 1199px) {
-  .menu-grid {
-    grid-template-columns: repeat(auto-fill, 50%) !important;
-  }
-}
-
-@media only screen and (min-width: 600px) and (max-width: 959px) {
-  .menu-grid {
-    grid-template-columns: repeat(auto-fill, 50%) !important;
-  }
-}
-
-@media only screen and (min-width: 0px) and (max-width: 599px) {
-  .menu-grid {
-    grid-template-columns: 100% !important;
-  }
 }
 
 /* Docs demo Freeform checkbox */
@@ -1614,6 +1500,7 @@ html[data-theme='dark'] .version {
 }
 .landing-header .primary-btn.outline-btn:hover {
   color: #ffffff;
+  border-color: #ffffff;
   background: rgba(255, 255, 255, 0.1);
 }
 
@@ -1778,6 +1665,27 @@ html[data-theme='dark'] .quote-grid blockquote cite {
 }
 .faq-list details ul:last-of-type {
   margin-bottom: 0 !important;
+}
+
+.intro-cta {
+  margin: 20px 0 0;
+  padding: 30px;
+  border-radius: 10px;
+  background: rgba(76, 179, 212, 0.05);
+}
+.intro-cta .intro-cta-text {
+  margin-right: 20px;
+}
+.intro-cta .intro-cta-text h4 {
+  margin: 0;
+  padding: 0;
+}
+.intro-cta .intro-cta-text p {
+  margin: 0;
+  padding: 0;
+}
+.intro-cta .primary-btn {
+  margin-bottom: 0;
 }
 
 
@@ -2308,4 +2216,173 @@ h2 + h3 .custom-anchor-link {
 .step-content .custom-anchor-link,
 .theme-admonition .custom-anchor-link {
   display: none;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 599px) {
+  .intro-main-content h2 {
+    padding: 0 10px 10px;
+    margin: 0px;
+  }
+  .primary-btn {
+    font-size: 0.9rem;
+    padding: 5px 15px;
+  }
+  .primary-btn > span,
+  .plugin-store-link > span {
+    padding: 0 10px;
+  }
+  .primary-btn:hover > span,
+  .plugin-store-link:hover > span {
+    padding: 0 20px 0 0px;
+  }
+  .menu-grid {
+    grid-template-columns: repeat(auto-fill, 100%) !important;
+  }
+  .feature-grid {
+    grid-template-columns: 100% !important;
+  }
+  .api-grid-wrapper-outer .feature-api-grid {
+    grid-template-columns: repeat(auto-fill, 10%) !important;
+  }
+  .api-grid-wrapper-inner {
+    height: 950px;
+  }
+  .quote-grid {
+    grid-template-columns: 100%;
+  }
+  .faq-list {
+    grid-template-columns: 100%;
+  }
+  .landing-header .max-w-3xl {
+    max-width: 25rem;
+  }
+  .landing-header p {
+    font-size: 1.2rem;
+    line-height: 1.4;
+  }
+  .landing-header small {
+    font-size: 0.9rem;
+  }
+  .landing-header .primary-btn {
+    padding: 3px 10px;
+    font-size: 1.1rem;
+  }
+  .landing-header-buttons .DocSearch.DocSearch-Button {
+    display: none;
+  }
+  .intro-cta {
+    padding: 20px 10px;
+  }
+  .intro-cta .intro-cta-text {
+    margin-right: 0;
+    text-align: center;
+  }
+  .intro-cta .intro-cta-text h4 {
+    margin: 0;
+    padding: 0;
+  }
+  .intro-cta .intro-cta-text p {
+    display: none;
+  }
+  .intro-cta .primary-btn {
+    font-size: 0.7rem;
+    padding: 5px 5px;
+  }
+  .intro-cta .outline-btn,
+  .intro-cta .outline-btn:hover {
+    border-width: 1px;
+  }
+  .intro-cta .primary-btn > span {
+    padding: 0 10px;
+  }
+  .intro-cta .primary-btn:hover > span {
+    padding: 0 20px 0 0px;
+  }
+  .docs-footer .social-icons a svg {
+    height: 1.3rem;
+    width: 1.3rem;
+  }
+  .footer-links {
+    width: 50%;
+    font-size: 0.8rem;
+  }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 719px) {
+  .intro-main-content h2 {
+    padding: 0 10px 10px;
+    margin: 0px;
+  }
+  .menu-grid {
+    grid-template-columns: repeat(auto-fill, 50%) !important;
+  }
+  .feature-grid {
+    grid-template-columns: repeat(auto-fill, 50%) !important;
+  }
+  .api-grid-wrapper-inner {
+    height: 900px;
+  }
+  .quote-grid {
+    grid-template-columns: 100%;
+  }
+  .faq-list {
+    grid-template-columns: 100%;
+  }
+  .landing-header .max-w-3xl {
+    max-width: 30rem;
+  }
+  .landing-header p {
+    font-size: 1.2rem;
+    line-height: 1.4;
+  }
+  .landing-header small {
+    font-size: 0.9rem;
+  }
+  .landing-header .primary-btn {
+    padding: 5px 15px;
+    font-size: 1.1rem;
+  }
+  .landing-header-buttons .DocSearch.DocSearch-Button {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 720px) and (max-width: 959px) {
+  .menu-grid {
+    grid-template-columns: repeat(auto-fill, 50%) !important;
+  }
+  .feature-grid {
+    grid-template-columns: repeat(auto-fill, 100%) !important;
+  }
+  .api-grid-wrapper-inner {
+    height: 1000px;
+  }
+  .landing-header-buttons .DocSearch.DocSearch-Button {
+    display: none;
+  }
+}
+
+/* Just for Search button on landing pages */
+@media only screen and (min-width: 960px) and (max-width: 997px) {
+  .landing-header-buttons .DocSearch.DocSearch-Button {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 960px) and (max-width: 1399px) {
+  .menu-grid {
+    grid-template-columns: repeat(auto-fill, 33.33%) !important;
+  }
+  .feature-grid {
+    grid-template-columns: repeat(auto-fill, 50%) !important;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  .menu-grid {
+    grid-template-columns: repeat(auto-fill, 33.33%) !important;
+  }
+  .feature-grid {
+    grid-template-columns: repeat(auto-fill, 33.33%) !important;
+  }
 }

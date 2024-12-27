@@ -180,7 +180,7 @@ const Card: React.FC<CardProps> = ({
   }
 
   return (
-    <div className="group flex flex-row gap-3 border rounded-lg py-2 px-3 max-w-80 2xl:max-w-fit transition-all duration-500 dark:text-white">
+    <div className="group flex flex-row gap-3 border rounded-lg py-2 px-3 max-w-fit transition-all duration-500 dark:text-white">
       {iconSrc && (
         <div className="flex justify-center">
           <img
@@ -296,31 +296,31 @@ const FlexCards: React.FC<CardSectionProps> = ({ items, promo }) => {
 
 const FieldCards: React.FC<FieldCardsProps> = ({ items }) => {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 py-6 my-10 gap-4">
+    <div className="field-grid grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 py-6 my-10 gap-4">
       {items.map((item, index) => (
         <Link
           key={`field-cards-${index}`}
           to={item.link}
-          className="group flex flex-col items-center gap-2 border rounded-lg p-3 max-w-80 transition-all duration-500 dark:text-white bg-[rgba(0,127,230,0.2)] dark:bg-[rgba(0,105,190,0.25)] hover:bg-[#87c9ff] hover:dark:bg-[#0069be] hover:scale-105"
+          className="group flex flex-col items-center justify-center gap-2 border rounded-lg px-2 sm:px-3 py-3 sm:py-4 transition-all duration-500 dark:text-white bg-[rgba(0,127,230,0.2)] dark:bg-[rgba(0,105,190,0.25)] hover:bg-[#87c9ff] hover:dark:bg-[#0069be] hover:scale-105"
         >
           {item.icon && (
-            <div className="flex justify-center pt-6">
+            <div className="flex justify-center">
               <img
-                className="w-10 h-10 opacity-70	duration-500 transition-all filter-icons"
+                className="w-8 sm:w-10 h-10 opacity-70 duration-500 transition-all filter-icons"
                 src={useBaseUrl(`/card-icons/${item.icon}.svg`)}
                 alt={item.title}
               />
             </div>
           )}
 
-          <div className="text-center pb-4">
-            <h3 className="flex justify-center text-base font-semibold mb-0 text-black dark:text-white">
+          <div className="text-center">
+            <h3 className="flex justify-center text-base font-semibold pb-2 text-black dark:text-white">
               {item.title}{' '}
               {item.titleBadge && (
                <Badge type="feature" text={item.titleBadge} />
               )}
             </h3>
-            <p className="text-xs mb-1 text-gray-800 dark:text-gray-300 transition-all duration-500 dark:group-hover:text-gray-50 ">
+            <p className="text-xs pb-0 mb-0 text-gray-800 dark:text-gray-300 transition-all duration-500 dark:group-hover:text-gray-50 hidden sm:block">
               {item.description}
             </p>
           </div>
@@ -350,11 +350,11 @@ const IntegrationPhotoCards: React.FC<IntegrationPhotoCardsProps> = ({
   items,
 }) => {
   return (
-    <div className="relative block overflow-hidden mt-10 min-h-[650px] rounded-lg">
+    <div className="relative block overflow-hidden mt-10 rounded-lg">
       <div className="api-grid-wrapper-inner">
         <div className="api-grid-wrapper-outer">
           <div className="feature-grid feature-api-grid">
-            {[...Array(2)].map((_value: undefined, index: number) => (
+            {[...Array(3)].map((_value: undefined, index: number) => (
               <PhotoCards key={index} items={items} />
             ))}
           </div>

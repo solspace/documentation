@@ -37,8 +37,8 @@ const PrimaryButtonWithLink: React.FC<PrimaryButtonWithLink> = ({
 
 const FlexButton: React.FC<ButtonProps> = ({ items }) => {
   return (
-    <div className="flex flex-col items-center gap-6">
-      <div className="flex flex-wrap gap-3 justify-center">
+    <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-wrap gap-2 md:gap-3 justify-center">
         {items.map((item) => (
           <PrimaryButtonWithLink
             key={item.to}
