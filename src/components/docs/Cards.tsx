@@ -314,7 +314,7 @@ const FieldCards: React.FC<FieldCardsProps> = ({ items }) => {
           )}
 
           <div className="text-center">
-            <h3 className="flex justify-center text-base font-semibold pb-2 text-black dark:text-white">
+            <h3 className="flex justify-center text-sm sm:text-base font-semibold pb-2 text-black dark:text-white">
               {item.title}{' '}
               {item.titleBadge && (
                <Badge type="feature" text={item.titleBadge} />
