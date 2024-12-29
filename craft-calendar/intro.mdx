@@ -6,7 +6,7 @@ hide_table_of_contents: true
 id: landing-page
 ---
 
-import { FlexCards } from '@site/src/components/docs';
+import { FlexCards, Section } from '@site/src/components/docs';
 import { CraftCalendarPageHeader } from '@site/src/components/docs/PageHeader';
 import SearchBar from '@theme/SearchBar';
 import NavbarSearch from '@theme/Navbar/Search';
@@ -52,7 +52,7 @@ import {
             },
             {
               to: '#compare',
-              label: 'Pricing',
+              label: 'Pricing / Compare',
               outline: true,
               arrowDown: true,
             },
@@ -68,7 +68,7 @@ import {
       <small>
         <SimpleTextLink
           to="https://plugins.craftcms.com/calendar"
-          label="INSTALL A FREE, UNLIMITED TRIAL TODAY!"
+          label="Try out a free unlimited trial today!"
         />
       </small>
     </div>
@@ -313,22 +313,19 @@ Attach events to any other Craft Element type.
   alt="Element Fieldtype"
 />
 
-## Compare
+<Section
+  title="Compare"
+  anchor="compare"
+  subtitle="Which edition is the best fit for what you need?"
+  imgSrc={Icons.ScaleIcon}
+>
+<div class="feature-table two-editions w-full">
 
-Check out the chart below to help you choose the right version for your needs.
-
-| <h3 class="no-margin"></h3>                                                                                                               |                          <h2 class="edition-lite no-margin">Lite</h2>                          |                           <h2 class="edition-pro no-margin">Pro</h2>                            |
-| :---------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------: |
-| Price                                                                                                                                     |                           **<span class="edition-lite">$99</span>**                            |                            **<span class="edition-pro">$199</span>**                            |
-| Number of Sites Allowed per License<br /><small>_Dev/staging environments don't count toward total._</small>                              |                            <span class="edition-lite">1 site</span>                            |                             <span class="edition-pro">1 site</span>                             |
-| Support Options                                                                                                                           |                       <span class="edition-lite">Helpdesk, GitHub</span>                       |                        <span class="edition-pro">Helpdesk, GitHub</span>                        |
-| Support Level<br /><small>_† Typical support ticket first response time within this timeframe or sooner, based on business days._</small> |                           <span class="edition-lite">2 days†</span>                            |                            <span class="edition-pro">2 days†</span>                             |
-| Support term                                                                                                                              |                            <span class="edition-lite">1 year</span>                            |                             <span class="edition-pro">1 year</span>                             |
-| Updates available                                                                                                                         |                            <span class="edition-lite">1 year</span>                            |                             <span class="edition-pro">1 year</span>                             |
-| Renewal (optional)                                                                                                                        |                            <span class="edition-lite">$49/yr</span>                            |                             <span class="edition-pro">$99/yr</span>                             |
-| Compatibility<br /><small>_The same 5.x version works on both Craft 5.x and 4.x._</small>                                                 |                      <span class="edition-lite">Craft 5+, Craft 4+</span>                      |                       <span class="edition-pro">Craft 5+, Craft 4+</span>                       |
-| Works on [Craft Cloud](https://craftcms.com/cloud)                                                                                        |                              <span class="edition-lite">✓</span>                               |                               <span class="edition-pro">✓</span>                                |
-| Refund policy                                                                                                                             |                           <span class="edition-lite">30 days</span>                            |                            <span class="edition-pro">30 days</span>                             |
+| <h3 class="no-margin"></h3> | <h2 class="edition-lite no-margin" id="title">Lite</h2> | <h2 class="edition-pro no-margin" id="title">Pro</h2> |
+|:--- |:---:|:---:|
+| One-time Cost | **<span class="edition-lite">$99</span>** | **<span class="edition-pro">$199</span>** |
+| Renewals (optional) | <span class="edition-lite">$49/yr</span> | <span class="edition-pro">$99/yr</span> |
+| [Compatibility](./setup/installing-updating.mdx#requirements)<br /><small>_The same 5.x version works on Craft 5.x, Craft 4.x and [Craft Cloud](https://craftcms.com/cloud)._</small> | <span class="edition-lite">Craft&nbsp;5+, 4+, _Cloud_</span> | <span class="edition-pro">Craft&nbsp;5+, 4+, _Cloud_</span> |
 | Intuitive event creation interface                                                                                                        |                              <span class="edition-lite">✓</span>                               |                               <span class="edition-pro">✓</span>                                |
 | Intuitive month, week & day views in CP                                                                                                   |                              <span class="edition-lite">✓</span>                               |                               <span class="edition-pro">✓</span>                                |
 | All day & multi-day events                                                                                                                |                              <span class="edition-lite">✓</span>                               |                               <span class="edition-pro">✓</span>                                |
@@ -345,70 +342,185 @@ Check out the chart below to help you choose the right version for your needs.
 | GraphQL support                                                                                                                           |                              <span class="edition-lite">✓</span>                               |                               <span class="edition-pro">✓</span>                                |
 | Translatable                                                                                                                              |                              <span class="edition-lite">✓</span>                               |                               <span class="edition-pro">✓</span>                                |
 | Rename plugin                                                                                                                             |                              <span class="compare-none">✕</span>                               |                               <span class="edition-pro">✓</span>                                |
-| <small><a href="https://plugins.craftcms.com/calendar">INSTALL A FREE, UNLIMITED TRIAL TODAY!</a></small>                                 | <PrimaryButtonWithLink to="https://plugins.craftcms.com/calendar" label="Get it!" size="sm" /> | <PrimaryButtonWithLink to="https://plugins.craftcms.com/calendar" label="Get it!" size="sm"  /> |
+| <small><a href="https://plugins.craftcms.com/calendar">Try out a free unlimited trial today!</a></small>                                 | <PrimaryButtonWithLink to="https://plugins.craftcms.com/calendar" label="Get it!" size="sm" /><br /><b class="edition-lite">$99</b> | <PrimaryButtonWithLink to="https://plugins.craftcms.com/calendar" label="Get it!" size="sm" /><br /><b class="edition-pro">$199</b> |
 
-## Testimonials
+</div>
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Calendar...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'https://plugins.craftcms.com/calendar/', label: 'Plugin Store', outline: true },
+        { to: '/support/', label: 'Support', outline: true },
+        { to: 'setup/installing-updating/', label: 'How to Install', outline: true },
+        { to: 'guides/getting-started/', label: 'Getting Started', outline: true },
+      ]}
+    />
+  </div>
+</Section>
 
-> _"I had never dealt with your support until now... I'm seriously impressed."_
+<Section
+  title="Ratings & Reviews"
+  anchor="ratings-reviews"
+  subtitle="What others are saying about Calendar."
+  imgSrc={Icons.HeartIcon}
+>
 
-> _"I consider Solspace plugins to be top-notch, among the best in the Craft community!"_
+<div class="quote-grid">
+  <blockquote>
+    <span class="stars">★★★★★</span>
+    <p>Provides exactly what it says on the tin. Incredibly powerful and flexible to meet the demands of any calendaring feature.</p>
+    <cite>Steven Grant</cite>
+  </blockquote>
+  <blockquote>
+    <span class="stars">★★★★★</span>
+    <p>I had never dealt with your support until now... I'm seriously impressed.</p>
+  </blockquote>
+  <blockquote>
+    <span class="stars">★★★★★</span>
+    <p>I consider Solspace plugins to be top-notch, among the best in the Craft community!</p>
+  </blockquote>
+  <blockquote>
+    <span class="stars">★★★★★</span>
+    <p>Very glad to find that Solspace has such great support. Never really needed it before, but now twice in one week, I was quickly helped back on track!</p>
+  </blockquote>
+  <blockquote>
+    <span class="stars">★★★★★</span>
+    <p>Calendar has so many repeating event options - it's awesome and my client loves it!</p>
+  </blockquote>
+</div>
 
-> _"Very glad to find that Solspace has such great support. Never really needed it before, but now twice in one week, I was quickly helped back on track!"_
+</Section>
 
-> _"Calendar has so many repeating event options - it's awesome and my client loves it!"_
+<Section
+  title="Why Calendar?"
+  anchor="why-calendar"
+  subtitle="You can count on Calendar and the team behind it to give you the quality and support you really deserve."
+  imgSrc={Icons.CheckboxIcon}
+>
+  <FlexCards
+    items={[
+      {
+        title: 'Top Notch Support',
+        description:
+          'Our reputation in the Craft CMS community speaks for itself when it comes to customer support. We strive to offer the best and most reliable help to all our customers.',
+        icon: Icons.SupportIcon,
+        linkWithDescription: 'https://docs.solspace.com/support/',
+      },
+      {
+        title: '20+ Years Experience',
+        description:
+          'For more than 20 years, Solspace has been busy creating and supporting software for over 20,000 customers. Over 400,000 plugins have been sold or downloaded for free!',
+        icon: Icons.HourglassIcon,
+        linkWithDescription: 'https://solspace.com',
+      },
+      {
+        title: 'Active Development',
+        description:
+          'Craft CMS users really like Calendar, a plugin that’s been continuously updated with a ton of new features, improvements, and bug fixes over time.',
+        icon: Icons.DevelopmentIcon,
+        linkWithDescription: 'setup/changelog',
+      },
+    ]}
+  />
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Calendar...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'https://plugins.craftcms.com/calendar/', label: 'Plugin Store', outline: true },
+        { to: '/support/', label: 'Support', outline: true },
+        { to: 'setup/installing-updating/', label: 'How to Install', outline: true },
+        { to: 'guides/getting-started', label: 'Getting Started', outline: true },
+      ]}
+    />
+  </div>
+</Section>
 
-## Why Calendar?
+<Section
+  title="FAQ"
+  anchor="faq"
+  subtitle="Frequently asked questions about buying Calendar."
+  imgSrc={Icons.QuestionSignIcon}
+>
+  <div class="faq-list">
+  <details>
+    <summary>Can I test Calendar before I buy?</summary>
 
-Rest assured that Calendar and the team behind it are committed to providing you with the level of quality and support that you expect and deserve.
+    Yes! You can use Calendar on any private domain name for as long as you need, just like with Craft. Whether it's on your local dev server or a staging site, you're good to go. You only have to buy a license when you're ready to launch your site live, just like with Craft.
+  </details>
+  <details>
+    <summary>How many sites does a license cover?</summary>
 
-<FlexCards
-  items={[
-    {
-      title: 'Top Notch Support',
-      description:
-        'Our commitment to providing top-notch customer support is well-known in the Craft CMS community. We always aim to deliver the best and most dependable assistance to our valued customers.',
-      icon: Icons.SupportIcon,
-      linkWithDescription: '/support/',
-    },
-    {
-      title: '20+ Years Experience',
-      description:
-        'For over 20 years, Solspace has been creating, maintaining, and providing support for software to more than 20,000 customers. In total, over 400,000 plugins have been sold or downloaded for free.',
-      icon: Icons.HourglassIcon,
-      linkWithDescription: 'https://solspace.com',
-    },
-    {
-      title: 'Active Development',
-      description:
-        'Craft CMS users widely prefer Freeform, a plugin that boasts an impressive track record of continuous development, including numerous feature upgrades, enhancements, and bug fixes.',
-      icon: Icons.DevelopmentIcon,
-      linkWithDescription: 'setup/changelog',
-    },
-  ]}
-/>
+    You only need to buy a Calendar license for each Craft license you have. So, if you're running a Craft multi-site on one install, you just need one license. It's just like Craft! There's no need to get separate licenses for other environments of the same site, like development or staging.
+  </details>
+  <details>
+    <summary>Can I switch to a different edition later?</summary>
 
-## FAQ
+    Yes! You can switch to the _Lite_ or _Pro_ editions at any time! You just pay the difference in price. For example, if you're using the _Lite_ edition and wish to switch to _Pro_, you will just pay $100. You don't need to reinstall anything and you won't lose any of your data.
 
-Frequently asked questions about buying Calendar.
+    Check out the [Changing Editions](./setup/installing-updating/#changing-editions) guide for more information!
+  </details>
+  <details>
+    <summary>Do you offer discounts to non-profits?</summary>
 
-### How many sites can I use my license on?
+    Yes! We offer a discount to non-profits for 20% off the regular price upon proof of non-profit status. Please [contact us](/support/) for more information about this.
+  </details>
+  <details>
+    <summary>Does the Trial version limit features?</summary>
 
-Each purchase of Calendar allows usage for 1 website, with the exception of development and staging versions of that site.
+    The trial versions of Solspace software are fully functional and not limited in any way. However, if you try to use a trial version on a production site, Craft will display a red banner at the top of your control panel, prompting you to purchase a license.
 
-### If I buy Lite now, can I switch to Pro later?
+    More information about [Craft's license enforcement](https://craftcms.com/knowledge-base/how-craft-license-enforcement-works).
+  </details>
+  <details>
+    <summary>How long does a license last for?</summary>
 
-Yes! Just visit Calendar inside the Craft Plugin Store inside your control panel and click on the **Try** or **Buy Now** buttons, and Craft will switch the edition license for the difference in price.
+    A single license provides one year of updates and support. After this period, you can continue using the plugin but will no longer receive updates or support. To maintain access to updates and support, you will need to renew your license each year at a discounted rate.
+  </details>
+  <details>
+    <summary>Do I have to renew my license each year?</summary>
 
-### Do you offer discounts to non-profits?
+    You can renew your license after the initial one-year support period has ended. Your plugin will continue to work properly in the meantime. If you prefer, you can wait until the following year to renew and receive the latest updates.
+    
+    However, we don't recommend avoiding updates altogether, as you would miss out on new features and important fixes.
+  </details>
+  <details>
+    <summary>What are renewals and how do they work?</summary>
 
-Yes, we offer a discount to non-profits for 20% off the regular price upon proof of non-profit status. Please contact us for more information about this.
+    Renewals help you keep your plugin updated and access technical support. However, they are entirely optional.
+    
+    For example, if you purchase the _Lite_ edition of Calendar for $99, the renewal price after one year is $49. Your initial purchase of $99 includes support and updates for one year. When it's time to renew, you can extend your updates and support for another year at the renewal price of just $49, rather than paying the full amount of $99 again.
+  </details>
+  <details>
+    <summary>How do I install Calendar?</summary>
 
-### Can I try before I buy?
+    Installing Calendar is done just like any other plugin for Craft, similar to how you would install Craft itself. Please refer to the [Installation guide](./setup/installing-updating.mdx) in the documentation.
+  </details>
+  <details>
+    <summary>How do I get support for Calendar?</summary>
 
-In the Craft Plugin Store you can install a trial of Calendar to try it out!
-
-### Does the Trial version limit features?
-
-The trial versions of Solspace software are not limited in any way. However, if you attempt to use a trial version on a production site, Craft will display a red banner at the top of your control panel alerting you to purchase a license.
+    We provide free support for Calendar. If you have any questions or encounter issues, you can [create an issue on GitHub](https://github.com/solspace/craft-calendar/issues/new/choose) or [send us a private support ticket](/support/). We're here to help!
+  </details>
+  </div>
+  <div class="intro-cta flex flex-wrap gap-3 justify-center">
+    <div class="intro-cta-text flex flex-col">
+      <h4>Start exploring Calendar...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'https://plugins.craftcms.com/calendar/', label: 'Plugin Store', outline: true },
+        { to: '/support/', label: 'Support', outline: true },
+        { to: 'setup/installing-updating/', label: 'How to Install', outline: true },
+        { to: 'guides/getting-started/', label: 'Getting Started', outline: true },
+      ]}
+    />
+  </div>
+</Section>
 
 </div>
