@@ -868,7 +868,7 @@ In most cases, attributes will automatically be applied in the right spots by Fr
 
 #### Further reading...
 
-If you have this in your template:
+Imagine you have this in your regular template where you're loading the form:
 
 ```twig {4}
 {{ form.renderTag({
@@ -879,17 +879,23 @@ If you have this in your template:
 }) }}
 ```
 
-And you place the following in your formatting template:
+<Tabs>
+  <TabItem value="further-reading-1" label="Example 1" default>
+
+Placing the following in your formatting template:
 
 ```twig
 {{ form.attributes.success|raw }}
 ```
 
-It will render as:
+Will render as:
 
 ```html
 class="freeform-form-success"
 ```
+
+  </TabItem>
+  <TabItem value="further-reading-2" label="Example 2">
 
 A more complete example might be:
 
@@ -907,6 +913,9 @@ Which renders as:
 </div>
 ```
 
+  </TabItem>
+  <TabItem value="further-reading-3" label="Example 3">
+
 You could also approach it differently by accessing the `class` attribute value directly:
 
 ```twig
@@ -918,6 +927,9 @@ Which will render only as:
 ```html
 freeform-form-success
 ```
+
+  </TabItem>
+  <TabItem value="further-reading-4" label="Example 4">
 
 A more complete example might be:
 
@@ -934,6 +946,9 @@ Which renders as:
   <p>Thank you!</p>
 </div>
 ```
+
+  </TabItem>
+</Tabs>
 
 ## Examples
 
