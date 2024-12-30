@@ -68,7 +68,7 @@ interface IconsCardProps {
 
 const IconCards: React.FC<IconsCardProps> = ({ items }) => {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-6 mb-6 justify-start gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-6 mb-6 justify-start gap-4 icon-cards">
       {items.map((item, index) => (
         <Link
           to={item.link}
@@ -78,7 +78,7 @@ const IconCards: React.FC<IconsCardProps> = ({ items }) => {
           {item.iconSrc && (
             <Image
               alt={item.iconTitle || 'Solspace Freeform'}
-              className="opacity-85 px-4 py-5"
+              className="px-4 py-5"
               img={item.iconSrc}
             />
           )}
@@ -337,7 +337,7 @@ const PhotoCards: React.FC<IntegrationPhotoCardsProps> = ({ items }) => {
         <a
           key={`${item.title}-${index}`}
           href={item.link}
-          className="flex flex-col items-center p-3 m-2 bg-gray-800 !dark:bg-red rounded-lg shadow-lg hover:bg-gray-700 transition-colors"
+          className="flex flex-col items-center p-3 m-2 bg-gray-800 rounded-lg shadow-lg hover:bg-gray-700 transition-colors"
         >
           <Image img={item.iconSrc} alt={item.title} />
         </a>
