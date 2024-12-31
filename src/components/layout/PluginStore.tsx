@@ -5,27 +5,27 @@ import { useLocation } from '@docusaurus/router';
 const stores = [
   {
     pathname: '/craft/freeform',
-    title: 'Plugin Store',
+    title: 'Buy Now',
     link: 'https://plugins.craftcms.com/freeform',
   },
   {
     pathname: '/craft/calendar',
-    title: 'Plugin Store',
+    title: 'Buy Now',
     link: 'https://plugins.craftcms.com/calendar',
   },
   {
     pathname: '/craft/express-forms',
-    title: 'Plugin Store',
+    title: 'Buy Now',
     link: 'https://plugins.craftcms.com/express-forms',
   },
   {
     pathname: '/expressionengine/freeform',
-    title: 'Add-ons Store',
+    title: 'Buy Now',
     link: 'https://expressionengine.com/add-ons/freeform',
   },
   {
     pathname: '/expressionengine/calendar',
-    title: 'Add-ons Store',
+    title: 'Buy Now',
     link: 'https://expressionengine.com/add-ons/calendar',
   },
 ];
@@ -40,7 +40,7 @@ export function PluginStore(): JSX.Element {
 
   return (
     <Link
-      className="hidden md:inline-block bg-[#058ffe]  text-white text-sm rounded-2xl px-2 py-1 ml-5 hover:text-white hover:opacity-90 plugin-store-link"
+      className="hidden lg:inline-block bg-[#ff6624] text-white text-md font-bold rounded-2xl px-2 py-1 ml-5 hover:text-white hover:opacity-90 plugin-store-link"
       to={matchedStore.link}
       target="_blank"
       rel="noopener noreferrer"

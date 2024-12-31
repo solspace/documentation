@@ -21,6 +21,7 @@
   --ifm-color-primary-lightest: #3cad6e;
   --ifm-code-font-size: 84%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-link-hover-color: #058ffe;
   --ifm-link-hover-decoration: none;
   --ifm-container-width-xl: 1540px;
   --ifm-table-border-color: transparent;
@@ -29,7 +30,7 @@
   --ifm-color-primary: #058ffe;
   --svg-foreground-color: #fff;
   --ifm-navbar-background-color: rgba(255, 255, 255, 0.9);
-  --ifm-dropdown-background-color: rgba(255, 255, 255, 0.95);
+  --ifm-dropdown-background-color: rgba(255, 255, 255, 1);
   --ifm-toc-border-color: rgba(0, 0, 0, 0.1);
   --ifm-table-stripe-background: #fdfdfd;
   --ifm-blockquote-border-left-width: 10px;
@@ -202,7 +203,7 @@ details ul:last-of-type {
   --ifm-color-primary: #058ffe;
   --svg-foreground-color: #000;
   --ifm-navbar-background-color: rgba(13, 15, 21, 0.85);
-  --ifm-dropdown-background-color: rgba(0, 0, 0, 0.95);
+  --ifm-dropdown-background-color: rgba(0, 0, 0, 1);
   --ifm-menu-color: rgba(255, 255, 255, 0.9);
   --ifm-menu-color-background-active: rgba(255, 255, 255, 0.02);
   --ifm-menu-color-background-hover: rgba(255, 255, 255, 0.05);
@@ -394,7 +395,13 @@ html {
   @apply transition-all duration-500 absolute opacity-0 -top-0.5 -right-2;
   content: '';
 }
-
+.plugin-store-link {
+  position: fixed;
+  right: 375px;
+}
+.docs-doc-id-landing-page .plugin-store-link {
+  right: 470px;
+}
 .plugin-store-link:hover > span::after {
   @apply transition-all duration-500 absolute opacity-0 -right-2;
   content: url('data:image/svg+xml;base64, PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiNGRkZGRkYiIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCI+PHBhdGggZD0iTSAxOCA1IEwgMTggNyBMIDIzLjU2MjUgNyBMIDExLjI4MTI1IDE5LjI4MTI1IEwgMTIuNzE4NzUgMjAuNzE4NzUgTCAyNSA4LjQzNzUgTCAyNSAxNCBMIDI3IDE0IEwgMjcgNSBaIE0gNSA5IEwgNSAyNyBMIDIzIDI3IEwgMjMgMTQgTCAyMSAxNiBMIDIxIDI1IEwgNyAyNSBMIDcgMTEgTCAxNiAxMSBMIDE4IDkgWiIvPjwvc3ZnPg==');
@@ -1138,6 +1145,23 @@ html[data-theme='dark'] .compare-future {
   }
 }
 
+.dropdown__menu ul {
+  margin-bottom: 0;
+}
+.dropdown__menu > div {
+  margin-bottom: 10px;
+}
+.dropdown__menu > div:last-of-type {
+  margin-bottom: 0;
+}
+.dropdown__menu ul li a {
+  border-bottom: 1px solid transparent;
+  transition: all 0.25s;
+}
+.dropdown__menu ul li a:hover {
+  border-bottom: 1px solid #ff6624;
+}
+
 /* Navbar Search icon */
 .navbar-search-icon > button:hover {
   box-shadow: none;
@@ -1467,9 +1491,17 @@ html[data-theme='dark'] .version {
   margin-top: -180px;
 }
 
+.landing-nav-docs {
+  display: block;
+  z-index: 201;
+  position: fixed;
+  top: 9px;
+  right: 355px;
+}
 .landing-header {
   background: linear-gradient(350deg, #0073ff 40%, #058ffe 100%);
-  padding-bottom: 200px !important;
+  padding: 1px 0 200px 0 !important;
+  margin: 0 !important;
 }
 .landing-header .photo img {
   border-radius: 0;
@@ -1538,7 +1570,6 @@ html[data-theme='light'].docs-doc-id-intro .landing-cms-for {
   border-color: #ffffff;
   background: rgba(255, 255, 255, 0.1);
 }
-
 .landing-header-buttons .DocSearch.DocSearch-Button {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont,
   'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
@@ -1554,14 +1585,12 @@ html[data-theme='light'].docs-doc-id-intro .landing-cms-for {
 .landing-header-buttons .DocSearch-Button-Placeholder {
   padding: 0 0 0 8px !important;
 }
-
 .landing-header-buttons .DocSearch.DocSearch-Button:hover {
   color: #ff6624;
   border-color: #ffffff;
   background: #ffffff;
   box-shadow: none;
 }
-
 .landing-header-buttons .DocSearch.DocSearch-Button:hover > span {
   box-shadow: none;
 }
@@ -2468,11 +2497,17 @@ h2 + h3 .custom-anchor-link {
   .landing-header-buttons .DocSearch.DocSearch-Button {
     display: none;
   }
+  .landing-header-docs-links {
+    display: none;
+  }
 }
 
 /* Just for Search button on landing pages */
 @media only screen and (min-width: 960px) and (max-width: 997px) {
   .landing-header-buttons .DocSearch.DocSearch-Button {
+    display: none;
+  }
+  .landing-header-docs-links {
     display: none;
   }
 }
