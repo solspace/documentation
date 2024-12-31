@@ -337,7 +337,7 @@ const config: Config = {
         {
           type: 'dropdown',
           position: 'right',
-          label: 'Products',
+          label: 'Plugins',
           id: 'plugin_products-list',
           items: [
             {
