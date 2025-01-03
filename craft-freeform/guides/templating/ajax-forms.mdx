@@ -256,7 +256,13 @@ form.addEventListener('freeform-ajax-after-submit', function (event) {
 
 ## Manual Implementations
 
-There are cases when an AJAX call has to be made manually. Usually it is because some sort of framework is used to generate the form, such as [Vue.js](https://vuejs.org/). All you need to do when making a manual AJAX request is pass the AJAX specific headers within the request:
+There are cases when an AJAX call has to be made manually. Usually it is because some sort of framework is used to generate the form, such as [Vue.js](https://vuejs.org/).
+
+:::warning
+In order for this approach to work, you will need to disable the [Script Insertion Location](../../configuration/settings.mdx#general-settings) setting and handle everything manually. If you're just needing to adjust the behavior of the built-in AJAX, you should strongly consider using one of the event listeners in the [Advanced example](#advanced) above.
+:::
+
+All you need to do when making a manual AJAX request is pass the AJAX specific headers within the request:
 
 ```js showLineNumbers
 {
