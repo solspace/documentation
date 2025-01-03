@@ -2,6 +2,9 @@
 sidebar_position: 1
 ---
 
+import Player from 'react-player';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import { Photo, PrimaryButtonWithLink } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
@@ -17,16 +20,16 @@ This guide walks you through troubleshooting and diagnosing some of the most com
 
 Some of the most common issues in Freeform are related to the following:
 
-1. A newer version of Freeform resolves the issue. Please make sure you're using the latest version of Freeform, or at least check the [Changelog](../../setup/changelog.mdx) to see if any relevant items have been fixed in newer versions.
-2. [Javascript Test for Honeypot](../../forms/spam-protection.mdx#freeform-javascript-test) is enabled. This feature can be powerful for helping prevent spam on your forms, but it can easily break if your forms are not called correctly and/or you're using caching on your site. If using caching + Javascript Test feature, please see the [Caching](../../guides/templating/caching-forms.mdx) guide.
-3. The [Freeform Script Insert Location](../../configuration/settings.mdx#script-insert-location) setting is set to `Manual`. Most sites should use `Page Footer`, but in some cases it may be necessary to load these manually. If you must use `Manual`, please make sure you're loading Freeform's scripts in your forms with `freeform.loadFreeformPlugin()`. Please see the guide in the [JS Plugin documentation](../../developer/js-plugin.mdx#loading-freeform-js-manually) for more info.
-4. There's an issue that Freeform has logged in the [Error Logs](../../configuration/settings.mdx#error-log). Freeform will sometimes log issues it discovers in its own error log file. Check out this area and see if there are any clues as to what might be causing the issue.
+- A newer version of Freeform resolves the issue. Please make sure you're using the latest version of Freeform, or at least check the [Changelog](../../setup/changelog.mdx) to see if any relevant items have been fixed in newer versions.
+- The [Freeform Script Insert Location](../../configuration/settings.mdx#script-insert-location) setting is set to `Manual`. Most sites should use `Page Footer`, but in some cases it may be necessary to load these manually. If you must use `Manual`, please make sure you're loading Freeform's scripts in your forms with `freeform.loadScripts()`. Please see the guide in the [JS Plugin documentation](../../developer/js-plugin.mdx#loading-freeform-js-manually) for more info.
+- There's an issue that Freeform has logged in the [Error Logs](../../configuration/settings.mdx#error-log). Freeform will sometimes log issues it discovers in its own error log file. Check out this area and see if there are any clues as to what might be causing the issue.
+- A custom module for Freeform is not working correctly or an unrelated module is interfering with Freeform.
 
 If no relevant issues are found on the [Diagnostics](../../configuration/diagnostics.mdx) page, please proceed to step 2 below...
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/cp/diagnostics.png')}
-  alt="Diagbostics"
+  alt="Diagnostics"
 />
 
 </StepMarkdown>
@@ -38,8 +41,7 @@ Sometimes a quick and easy solution is to create a new template and add a basic 
 This can alternatively be done by installing and using the [Demo Templates](../../configuration/demo-templates.mdx) that come with Freeform.
 
 1. Create a new template in your Craft `/templates/` directory. Please ensure this is a blank template file, clean of any existing site layouts, scripts, etc.
-2. Copy and paste the following code into your new template, but replace `yourFormHandle` with the actual handle of your form:
-
+2. Copy and paste the following code into your new template, but replace `yourFormHandle` with the actual handle of your form:<br /><br />
    ```twig showLineNumbers
    <html>
    <head></head>
@@ -53,10 +55,11 @@ This can alternatively be done by installing and using the [Demo Templates](../.
    </html>
    ```
 
-   - The `formattingTemplate: 'basic-light/index.twig'` parameter will force Freeform's **Basic Light** formatting template, which could help narrow down whether there are issues with your own custom formatting template (if applicable).
-     :::warning
-     It is not enough to just paste the `freeform.form` query into a blank template. It needs to contain the closing `</body`>` tag to know where to insert Freeform's scripts (if using the **Page Footer** option).
-     :::
+Some common template-level issues could be due to the following:
+
+- Your custom formatting template contains issues. The `formattingTemplate: 'basic-light/index.twig'` parameter in the above example will enforce Freeform's **Basic Light** formatting template, which could help determine if there are issues with your custom formatting template, if applicable.
+- Your template is missing a closing `</body>` tag. It is not enough to just paste the `freeform.form` query into a blank template. It needs to contain the closing `</body>` tag to know where to insert Freeform's scripts (if using the **Page Footer** option).
+- The form is being cached. Freeform is compatible with all kinds of caching, but please see the [Caching](../../guides/templating/caching-forms.mdx) guide to ensure you're following best practices.
 
 </StepMarkdown>
 <StepMarkdown>
@@ -67,9 +70,10 @@ Go to the newly created template to load the form and see if everything works an
 1. Does the form appear to display and behave correctly?
 2. Does the form submit correctly, without issue?
 
----
+<details>
+<summary class="green">✅ Everything Works?</summary>
 
-**<span class="green">Works?</span>** If the form displays and behaves correctly in this isolated test, it could be an issue with your custom formatting template or conflicts from other scripts with Freeform's scripts.
+If the form displays and behaves correctly in this isolated test, it could be an issue with your custom formatting template or conflicts from other scripts with Freeform's scripts.
 
 - To troubleshoot this further, **work in small steps**. Stay inside the isolated test template and follow the steps below:
   1. Remove the `formattingTemplate: 'basic-light/index.twig'` parameter (thus pulling in your chosen and potentially problematic formatting template) from the [Form query](../../templates/queries/form.mdx) and see how the form displays and behaves.
@@ -80,9 +84,16 @@ Go to the newly created template to load the form and see if everything works an
      - Slowly modify it to become closer to your original custom formatting template, checking the isolated test template often along the way to see when/where it breaks.
      - This process will help you narrow down where the issue might be.
 
-**<span class="red">Still Issues?</span>** If issues are still occurring in this isolated test, there could be an issue with your Freeform settings, site or server configuration, or server rewrite rules.
+</details>
+
+<details>
+<summary class="red">❌ Still Have Issues?</summary>
+
+If issues are still occurring in this isolated test, there could be an issue with your Freeform settings, site or server configuration, or server rewrite rules.
 
 - Proceed to step 4 for diagnosing common issues...
+
+</details>
 
 </StepMarkdown>
 <StepMarkdown>
@@ -91,21 +102,39 @@ Go to the newly created template to load the form and see if everything works an
 If the form still isn't loading or submitting correctly, check the browser's _Console_ and see if any JS errors are logged. Also, check the _Network_ tab for any issues. What you'll be looking for is the _Response_ from a failed item.
 
 1. Click on the _Network_ tab.
-2. In the filters menu, select _All_ to ensure all items are shown.
-3. Look for any items that are in <span class="red">red</span> and click on them. In the case of the below example, the `options` item was red.
-4. On the bottom-right side, click on the _Response_ tab.
-5. The error will be logged here and will likely provide a clue as to where the issue might be. If you need assistance from the Solspace team, copy the error message there and [create a new GitHub issue or private support ticket](/support/).
+    - In the filters menu, select _All_ to ensure all items are shown.
+2. Look for any items that are in <span class="red">red</span> and click on them. In the case of the below example, the `contact` item was red.
+3. On the bottom-right side, click on the _Response_ tab.
+4. The error will be logged here and will likely provide a clue as to where the issue might be. If you need assistance from the Solspace team, copy the error message there and create a new [GitHub issue](https://github.com/solspace/craft-freeform/issues/new/choose) or [private support ticket](/support/).
+
+:::info
+If the error does not show much detail, you may need to check the Craft logs OR consider temporarily enabling `devMode` for the site to see the error and stack trace.
+:::
+
+<Tabs>
+<TabItem value="guide-image" label="Screenshot" default>
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/guides/troubleshooting-forms-network-response.png')}
-  alt="Troubleshooting Network"
+  img={require('@site/static/img/craft/freeform/v5/guides/network-response.png')}
+  alt="Troubleshooting Network Response"
 />
+
+</TabItem>
+<TabItem value="guide-video" label="Video Walkthrough">
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/network-response.mp4').default}
+  muted loop playing width="100%" height="100%"
+/>
+
+</TabItem>
+</Tabs>
 
 </StepMarkdown>
 <StepMarkdown>
 ### Contact Solspace Support
 
-If you are unable to figure out the issue and need assistance from the Solspace team, please don't hesitate to [create a new GitHub issue or private support ticket](/support/) and provide all relevant information you discovered while attempting to troubleshoot the issue.
+If you are unable to figure out the issue and need assistance from the Solspace team, please don't hesitate to create a new [GitHub issue](https://github.com/solspace/craft-freeform/issues/new/choose) or [private support ticket](/support/). and provide all relevant information you discovered while attempting to troubleshoot the issue.
 
 <PrimaryButtonWithLink label="See Support Options" to="/support" />
 
