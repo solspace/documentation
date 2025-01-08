@@ -44,7 +44,7 @@ Once you have a Freeform channel entry field setup, and you've created a form wi
 
 To have the Freeform form display in your EE templates, simply specify the short name of the custom channel field as a variable inside of the [Channel:Entries](https://docs.expressionengine.com/v7/channel/channel_entries.html) tag. If a Freeform form has been selected for the entry, the form will parse fully from that variable.
 
-```html{4}
+```html {4}
 {exp:channel:entries}
     <h2>{title}</h2>
     <p>{body}</p>
@@ -56,7 +56,7 @@ To have the Freeform form display in your EE templates, simply specify the short
 
 There are some current limitations with handling overrides and return URL's, etc. You can however, avoid the field type altogether and create a regular EE field that allows your users to select a form handle or ID from a select field, etc as well as specify other things like return URL and attributes, etc. Then pass it off to the `freeform_next:render` template tag instead, like this:
 
-```html{4-7}
+```html {4-7}
 {exp:channel:entries}
    <h3>{title}</h3>
    ...
