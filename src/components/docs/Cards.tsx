@@ -100,11 +100,11 @@ const AnswerChecklist: React.FC<ChecklistSection> = ({ items }) => {
     <div className="checklist">
       <ul>
         {items.map((item, index) => (
-          <li key={index} className="flex items-start mb-4">
+          <li key={index} className="flex items-start mb-2">
             <input
               type="checkbox"
               id={`${id}-${index}`}
-              className="mt-1.5 mr-2"
+              className="mt-1 mr-2"
             />
             <label htmlFor={`${id}-${index}`} className="flex flex-col">
               {item.text}
@@ -118,7 +118,7 @@ const AnswerChecklist: React.FC<ChecklistSection> = ({ items }) => {
 
 const AnswerCard: React.FC<ChildrenProps> = ({ children }) => {
   return (
-    <div className="border border-solid border-lime-800 p-5 rounded-lg bg-gray-100 dark:bg-[#15231d] answer-card">
+    <div className="border border-solid border-lime-800 p-5 mt-5 rounded-lg bg-gray-100 dark:bg-[#15231d] answer-card">
       <div className="flex">
         <div className="circle">
           <div className="checkmark"></div>
