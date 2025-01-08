@@ -20,59 +20,6 @@ Check out this documentation resource to troubleshoot common problems or find an
 <div class="common-issues">
 
 <details>
-  <summary>404 Errors for 'freeform/plugin.js'</summary>
-
-  Some fields and other JS in my form are not working correctly. I'm also seeing this error in the browser console: `freeform/plugin.js net::ERR_ABORTED 404 (Not Found)`.
-
-  <details>
-    <summary>Freeform 5.3+</summary>
-      <AnswerCard>
-        It's possible this could be a caching issue. First try clearing your Craft cache and see if that helps.
-
-        :::info
-        If you're using Freeform 5.3+, this issue is very unlikely to occur. The _Freeform Script Insert Type_ setting was improved and no longer offers the **Static URLs** option, which was likely to cause this issue in some environments.
-        :::
-    </AnswerCard>
-  </details>
-  <details>
-    <summary>Freeform 5.0.x to 5.2.x</summary>
-    <AnswerCard>
-      It's possible this could be a caching issue. First try clearing your Craft cache and see if that helps.
-
-      If the JS in your form is not working and you're seeing an error like `freeform/plugin.js net::ERR_ABORTED 404 (Not Found)` in the browser console, it's almost certainly due to your site having server rules you have applied to JS and CSS files to see if they are actual files. The default for Freeform is to load its scripts as **Static URLs**, which becomes a problem in this case. To resolve this issue, you can switch the _Freeform Script Insert Type_ setting (_Craft CP → Freeform → Settings → Form Behavior_) to **As Files** instead.
-
-      - **As Static URLs**<Badge type="recommended" text="Recommended" /> offers built-in browser caching and a static endpoint that delivers the latest Freeform scripts, but are not physical files and therefore cannot have server rules applied.
-      - **As Files** (recommended if having issues with _Static URLs_) are actual physical files generated inside of the `cpresources` folder by Craft's asset manager with no caching.
-      - **Inline** will add the scripts as inline scripts and may be useful as a workaround if the other 2 options are not working. This doesn't allow for caching, and pollutes the source code.
-
-      :::info
-      If you're experiencing this issue only in one environment (like production), it's perfectly safe to just set all environments to use **As Files** without issue.
-      :::
-
-      <Photo
-        img={require('@site/static/img/craft/freeform/v5/guides/common-issues_plugin-js-400.png')}
-        alt="404 Errors for freeform/plugin.js"
-      />
-    </AnswerCard>
-  </details>
-</details>
-<details>
-  <summary>How do I transfer local 'dev' changes to 'production'?</summary>
-
-  I have a made a number of updates and changes to my Freeform setup on my local dev environment. I'd like to move that over to the staging/production environments. Is this possible?
-
-  <AnswerCard>
-    The best way to go about this is using Freeform 5's new [Import / Export](../forms/import-export.mdx) feature. It allows you to granularly import and export partial or entire Freeform setups from one site or environment to another. This could be used for performing site updates across environments and syncing changes in Freeform, or as a boilerplate for new sites.
-    
-    <details>
-      <summary>Further reading...</summary>
-      If you're wondering if you can manually carry over changes/additions in the database to forms, fields, submissions, etc from one environment to another, this is not currently possible. The issue is that Freeform submissions are technically Craft elements and therefore, things are intertwined within the Craft `elements` and `elements_sites` database tables. Freeform forms are stored as JSON in the `freeform_forms` and various other `freeform_forms_*` database tables, but the fields within are also attached to the `freeform_submissions_*` database tables, complicating it further.
-      
-      Additionally, if form data and layouts were stored inside Craft's _project config_, it would mean that forms could not be created and edited on sites that use the `allowAdminChanges` setting in Craft. This might work for some customers, but definitely not everyone. This is why we built the new [Import / Export](../forms/import-export.mdx) feature as mentioned above.
-    </details>
-  </AnswerCard>
-</details>
-<details>
   <summary>Emails not sending</summary>
 
   How come email notifications are not sending out when a form is submitted?
@@ -323,6 +270,59 @@ Check out this documentation resource to troubleshoot common problems or find an
   </AnswerCard>
 </details>
 <details>
+  <summary>404 Errors for 'freeform/plugin.js'</summary>
+
+  Some fields and other JS in my form are not working correctly. I'm also seeing this error in the browser console: `freeform/plugin.js net::ERR_ABORTED 404 (Not Found)`.
+
+  <details>
+    <summary>Freeform 5.3+</summary>
+      <AnswerCard>
+        It's possible this could be a caching issue. First try clearing your Craft cache and see if that helps.
+
+        :::info
+        If you're using Freeform 5.3+, this issue is very unlikely to occur. The _Freeform Script Insert Type_ setting was improved and no longer offers the **Static URLs** option, which was likely to cause this issue in some environments.
+        :::
+    </AnswerCard>
+  </details>
+  <details>
+    <summary>Freeform 5.0.x to 5.2.x</summary>
+    <AnswerCard>
+      It's possible this could be a caching issue. First try clearing your Craft cache and see if that helps.
+
+      If the JS in your form is not working and you're seeing an error like `freeform/plugin.js net::ERR_ABORTED 404 (Not Found)` in the browser console, it's almost certainly due to your site having server rules you have applied to JS and CSS files to see if they are actual files. The default for Freeform is to load its scripts as **Static URLs**, which becomes a problem in this case. To resolve this issue, you can switch the _Freeform Script Insert Type_ setting (_Craft CP → Freeform → Settings → Form Behavior_) to **As Files** instead.
+
+      - **As Static URLs**<Badge type="recommended" text="Recommended" /> offers built-in browser caching and a static endpoint that delivers the latest Freeform scripts, but are not physical files and therefore cannot have server rules applied.
+      - **As Files** (recommended if having issues with _Static URLs_) are actual physical files generated inside of the `cpresources` folder by Craft's asset manager with no caching.
+      - **Inline** will add the scripts as inline scripts and may be useful as a workaround if the other 2 options are not working. This doesn't allow for caching, and pollutes the source code.
+
+      :::info
+      If you're experiencing this issue only in one environment (like production), it's perfectly safe to just set all environments to use **As Files** without issue.
+      :::
+
+      <Photo
+        img={require('@site/static/img/craft/freeform/v5/guides/common-issues_plugin-js-400.png')}
+        alt="404 Errors for freeform/plugin.js"
+      />
+    </AnswerCard>
+  </details>
+</details>
+<details>
+  <summary>How do I transfer local 'dev' changes to 'production'?</summary>
+
+  I have a made a number of updates and changes to my Freeform setup on my local dev environment. I'd like to move that over to the staging/production environments. Is this possible?
+
+  <AnswerCard>
+    The best way to go about this is using Freeform 5's new [Import / Export](../forms/import-export.mdx) feature. It allows you to granularly import and export partial or entire Freeform setups from one site or environment to another. This could be used for performing site updates across environments and syncing changes in Freeform, or as a boilerplate for new sites.
+    
+    <details>
+      <summary>Further reading...</summary>
+      If you're wondering if you can manually carry over changes/additions in the database to forms, fields, submissions, etc from one environment to another, this is not currently possible. The issue is that Freeform submissions are technically Craft elements and therefore, things are intertwined within the Craft `elements` and `elements_sites` database tables. Freeform forms are stored as JSON in the `freeform_forms` and various other `freeform_forms_*` database tables, but the fields within are also attached to the `freeform_submissions_*` database tables, complicating it further.
+      
+      Additionally, if form data and layouts were stored inside Craft's _project config_, it would mean that forms could not be created and edited on sites that use the `allowAdminChanges` setting in Craft. This might work for some customers, but definitely not everyone. This is why we built the new [Import / Export](../forms/import-export.mdx) feature as mentioned above.
+    </details>
+  </AnswerCard>
+</details>
+<details>
   <summary>500 Error - No form ID specified OR The request response is empty</summary>
 
   When trying to save my form in the form builder, I get a `No form ID specified` OR `The request response is empty` error.
@@ -334,7 +334,7 @@ Check out this documentation resource to troubleshoot common problems or find an
 
     ##### _.htaccess_
 
-    ```nginx{5-6}
+    ```nginx {5-6}
     # Append a trailing slash
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
@@ -487,7 +487,7 @@ Check out this documentation resource to troubleshoot common problems or find an
   <AnswerCard>
     Textarea data is stored in the database as newlines, which obviously don't parse as line breaks when trying to display in email notifications or on front end with Submissions object. To make this happen, use the `nl2br` Twig filter:
 
-    ```twig showLineNumbers
+    ```twig
     {{ myFieldHandle|nl2br }}
     ```
   </AnswerCard>
@@ -522,14 +522,16 @@ Check out this documentation resource to troubleshoot common problems or find an
 
     Getting HTML (`b`, `i`, etc) to parse for field option labels:
 
-    ```twig showLineNumbers {11}
+    ```twig {7}
     {{ field.renderLabel() }}
 
     {% for option in field.options %}
-        <div class="checkbox">
-            <label> <input type="checkbox"     name="{{ field.handle }}[]"     value="{{ option.value }}"     {{ option.value in field.value ? "checked" : "" }} /> {{ option.label|raw }}
-            </label>
-        </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="{{ field.handle }}[]" value="{{ option.value }}" {{ option.value in field.value ? "checked" : "" }} />
+          {{ option.label|raw }}
+        </label>
+      </div>
     {% endfor %}
     ```
   </AnswerCard>
