@@ -17,14 +17,8 @@ Be sure to configure the [Email Alert](../configuration/settings.mdx#notices--al
 :::
 
 <Player
-  url={
-    require('@site/static/videos/craft/freeform/v5/builder-notifications.mp4').default
-  }
-  muted
-  loop
-  playing
-  width="100%"
-  height="100%"
+  url={require('@site/static/videos/craft/freeform/v5/builder-notifications.mp4').default}
+  muted loop playing width="100%" height="100%"
 />
 
 :::tip
@@ -202,7 +196,7 @@ Be sure to have an email notification template ready before proceding.
 
 In your regular Twig template where the form is located, add the following parameter to your [Form query](../templates/queries/form.mdx):
 
-```twig showLineNumbers
+```twig
 dynamicNotification: {
     recipients: "admin@example.com",
     template: "my-template.twig"
@@ -211,7 +205,7 @@ dynamicNotification: {
 
 For multiples, use the array brackets:
 
-```twig showLineNumbers
+```twig
 dynamicNotification: {
     recipients: ["admin@example.com", "support@example.com"],
     template: "my-template.twig"
@@ -232,22 +226,15 @@ Email notification templates are available to be stored as files, in the databas
 If adding a brand new email notification template inside the form builder, Freeform will respect the [Default Email Template Creation Method](../configuration/settings.mdx#email-templates) setting and contain basic default content that should be checked and updated once finished building your form.
 
 <Player
-  url={
-    require('@site/static/videos/craft/freeform/v5/email-notifications.mp4')
-      .default
-  }
-  muted
-  loop
-  playing
-  width="100%"
-  height="100%"
+  url={require('@site/static/videos/craft/freeform/v5/email-notifications.mp4').default}
+  muted loop playing width="100%" height="100%"
 />
 
 ## Template Options
 
 When editing templates directly inside the control panel, Freeform will automatically handle the structure of the template file. If you're creating/editing template files directly, there should be a heading comment block of code for all configuration options that might look something like this:
 
-```twig showLineNumbers
+```twig
 {# subject: New submission from your {{ form.name }} form #}
 {# fromEmail: {{ craft.app.projectConfig.get('email.fromEmail') }} #}
 {# fromName: {{ craft.app.projectConfig.get('email.fromName') }} #}
@@ -263,26 +250,21 @@ When editing templates directly inside the control panel, Freeform will automati
 
 Email Notification templates may contain the following options:
 
-### Name
-
+#### Name
 A common name for the notification template to identify it easier.
 
-### Handle
-
+#### Handle
 The unique identifier for the notification template, used when in your regular templates when specifying a notification template.
 
-### Description
-
+#### Description
 A description for the notification template to help identify what it's used for, etc.
 
-### Subject
-
+#### Subject
 The subject line for the email notification.
 
 - May include any Freeform field variables (`fieldName`) as well as `form.name`.
 
-### From Email
-
+#### From Email
 The email address the email notification will appear from.
 
 - May include any Freeform field variable (`fieldName`).
@@ -299,7 +281,7 @@ If you are using **SMTP** or a service that uses SMTP (like _Sendgrid_, etc), pl
 [Need to use the submitter of the form as Reply-to email address in admin email notifications?](../guides/best-practices/admin-notifications-replyto-submitter.mdx)
 :::
 
-### From Name
+#### From Name
 
 The email address the email notification will appear from.
 
@@ -309,21 +291,21 @@ The email address the email notification will appear from.
 Using a dynamic approach with variables like above could have your emails marked as spam. It would be better to use something general here and set these in the _Reply-to Email_ and _Reply-to Name_ settings instead.
 :::
 
-### Reply-to Email
+#### Reply-to Email
 
 The email address the email notification will have set for Reply-to.
 
 - May include any Freeform field variable (`fieldName`).
 - Leave blank to use the _From Email_ value.
 
-### Reply-to Name
+#### Reply-to Name
 
 The name of the email/sender the email notification will have set for Reply-to.
 
 - May include any Freeform field variable (`fieldName`).
 - Leave blank to use the _From Name_ value.
 
-### CC
+#### CC
 
 The email address the email notification will also send to as CC.
 
@@ -331,7 +313,7 @@ The email address the email notification will also send to as CC.
 - Separate multiples with a comma.
 - Leave blank to not use CC.
 
-### BCC
+#### BCC
 
 The email address the email notification will also send to as BCC.
 
@@ -339,11 +321,11 @@ The email address the email notification will also send to as BCC.
 - Separate multiples with a comma.
 - Leave blank to not use BCC.
 
-### Include Attachments
+#### Include Attachments
 
 Include uploaded files as attachments in email notification.
 
-### Email Body (HTML)
+#### Email Body (HTML)
 
 The HTML body of the email notification to be sent.
 
@@ -353,76 +335,76 @@ The HTML body of the email notification to be sent.
 - Available field options:
   - `fieldName.label` - displays the label (name) of the field.
   - `fieldName` or `fieldName.value` or `fieldName.valueAsString` - displays the data submitted.<Badge type="feature" text="Revised for 5.0+" />
-  - Example: `apples`
-  - Array of data example: `apples, oranges`
+    - Example: `apples`
+    - Array of data example: `apples, oranges`
   - `fieldName.labels` or `fieldName.labelsAsString` - displays the option label(s) submitted (for fields with options).<Badge type="feature" text="New in 5.0+" />
-  - Example: `Apples`
-  - Array of data example: `Apples, Oranges`
-    :::warning
-    Avoid using `fieldName.value` or `fieldName.labels`, as it may not be a string and could trigger an error.
-    :::
+    - Example: `Apples`
+    - Array of data example: `Apples, Oranges`
+      :::warning
+      Avoid using `fieldName.value` or `fieldName.labels`, as it may not be a string and could trigger an error.
+      :::
   - `fieldName.instructions` - displays the instructions for the field.
   - `fieldName.handle` - displays the handle of the field.
   - `fieldName.placeholder` - displays the placeholder of the field.
 - May also use `allFields` or `allFieldsAndBlocks` variables to automate parsing of fields.
-- `allFieldsAndBlocks` works like `allFields`, but includes HTML and Rich Text blocks.
+  - `allFieldsAndBlocks` works like `allFields`, but includes HTML and Rich Text blocks.
   - To benefit from inclusion of HTML and Rich Text blocks correctly rendering HTML, you'll need to use a conditional inside the loop and add the `|raw` filter to `field.value`. [See example below](#include-html-and-rich-text-blocks).
-- Available options:
-  - `field.label` - displays the label (name) of the field.
-  - `field.valueAsString` - displays the option value(s) submitted.<Badge type="feature" text="Revised for 5.0+" />
-  - Example: `apples`
-  - Array of data example: `apples, oranges`
-  - `field.labelsAsString` - displays the option label(s) submitted (for fields with options).<Badge type="feature" text="New in 5.0+" />
-  - Example: `Apples`
-  - Array of data example: `Apples, Oranges`
-    :::warning
-    Avoid using `field.value` or `field.labels`, as it may not be a string and could trigger an error.
-    :::
-  - `field.instructions` - displays the instructions for the field.
-  - `field.handle` - displays the handle of the field.
-  - `field.placeholder` - displays the placeholder of the field.
-- To parse only fields with data, you can use:
-  ```twig showLineNumbers
-  {% for field in allFields if field.valueAsString %}
-  ```
-- Excludes _File Upload_ fields. To render these manually, [see example here](#including-file-upload-data).
-- Excludes _Email Marketing_ (mailing list checkbox) selection. To render manually, [see example here](#including-email-marketing-selection-data).
-- Excludes _Signature_ fields. To render manually, use:
-  ```twig showLineNumbers
-  <img src="{{ submission.myFieldHandle.value }}" alt="Signature" />
-  ```
+  - Available options:
+    - `field.label` - displays the label (name) of the field.
+    - `field.valueAsString` - displays the option value(s) submitted.<Badge type="feature" text="Revised for 5.0+" />
+      - Example: `apples`
+      - Array of data example: `apples, oranges`
+    - `field.labelsAsString` - displays the option label(s) submitted (for fields with options).<Badge type="feature" text="New in 5.0+" />
+      - Example: `Apples`
+      - Array of data example: `Apples, Oranges`
+        :::warning
+        Avoid using `field.value` or `field.labels`, as it may not be a string and could trigger an error.
+        :::
+    - `field.instructions` - displays the instructions for the field.
+    - `field.handle` - displays the handle of the field.
+    - `field.placeholder` - displays the placeholder of the field.
+  - To parse only fields with data, you can use:
+    ```twig
+    {% for field in allFields if field.valueAsString %}
+    ```
+  - Excludes _File Upload_ fields. To render these manually, [see example here](#including-file-upload-data).
+  - Excludes _Email Marketing_ (mailing list checkbox) selection. To render manually, [see example here](#including-email-marketing-selection-data).
+  - Excludes _Signature_ fields. To render manually, use:
+    ```twig
+    <img src="{{ submission.myFieldHandle.value }}" alt="Signature" />
+    ```
 - You may iterate over submission values from the [Submission object](../templates/objects/submission.mdx) (as long as you're [storing submitted data](./builder.mdx#settings))
-- If using the [Elements integration](./fieldtype.mdx), you may use the `element` object to display data from the newly created Craft Element such as ID, title, username, etc.
-- For example (but not limited to):
-  - `element.id` will return the ID of the newly created Element
-  - `element.title` will return the title of the newly created Craft Entry
-  - `element.username` will return the username of the newly created Craft User
-- If you have more than 1 element integration for the form, you can use either:
-  ```twig showLineNumbers
-  {% for item in element %}
-  {{ element[0].id }}, {{ element[1].id }}, etc
-  ```
+- If using the [Elements integration](../integrations/elements.mdx), you may use the `element` object to display data from the newly created Craft Element such as ID, title, username, etc.
+  - For example (but not limited to):
+    - `element.id` will return the ID of the newly created Element
+    - `element.title` will return the title of the newly created Craft Entry
+    - `element.username` will return the username of the newly created Craft User
+  - If you have more than 1 element integration for the form, you can use either:
+    ```twig
+    {% for item in element %}
+    {{ element[0].id }}, {{ element[1].id }}, etc
+    ```
 
-### Auto 'Text-Only' version
+#### Auto 'Text-Only' version
 
 When enabled, Freeform will automatically provide a Text-only version of the notification based on the HTML version. If disabled, a **Text-Only** Body setting will display for manually handling this.
 
-### Email Body (Text)
+#### Email Body (Text)
 
 The Plain Text body of the email notification to be sent.
 
 - All of the variables listed above for _Email Body (HTML)_ are available here as well.
 - To use HTML only, leave the Plain Text field empty. To use Plain Text only, leave the HTML field empty. To use HTML with a Plain Text fallback, use both.
-- When making templates directly (outside of the control panel), simply wrap an additional set of email body contents with `{# text #} {# /text #}` in your notification template. [See example below](#include-a-text-only-version).
+- When using file-based templates, simply wrap an additional set of email body contents with `{# text #} {# /text #}` in your notification template. [See example below](#include-a-text-only-version).
 
-### Predefined Assets<Badge type="pro" text="Pro" />
+#### Predefined Assets<Badge type="pro" text="Pro" />
 
 Select any Assets you wish to include as attachments on all email notifications using this template.
 
 - Useful if you wish to include a PDF ticket or instructions document to submitter email notifictions, etc.
 - Can also preparse Twig, allowing you to dynamically attach an asset to the email notification based on a user's selection, etc.
 
-### PDF Templates<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.7+" />
+#### PDF Templates<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.7+" />
 
 Select any PDF Templates you wish to generate and include as attachments on all email notifications using this template.
 
@@ -553,7 +535,7 @@ The following submission came in on {{ dateCreated|date('l, F j, Y \\a\\t g:ia')
 
 To only parse fields that include data submitted with them, you would add the following conditional:
 
-```twig {4} showLineNumbers
+```twig {4}
 <p>The following submission came in on {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}.</p>
 <p>Here are the details:</p>
 <ul>
@@ -567,7 +549,7 @@ To only parse fields that include data submitted with them, you would add the fo
 
 If you wish to include HTML and Rich Text blocks in the output, use the `allFieldsAndBlocks` variable instead of `allFields`. You'll need to perform the additional step of using a conditional to sniff out these fields and apply the `|raw` filter:
 
-```twig showLineNumbers
+```twig
 <p>The following submission came in on {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}.</p>
 <p>Here are the details:</p>
 {% for field in allFieldsAndBlocks %}
@@ -579,11 +561,33 @@ If you wish to include HTML and Rich Text blocks in the output, use the `allFiel
 {% endfor %}
 ```
 
+### Translatable Notifications
+
+When using the [Site-Aware/Translatable Forms](../configuration/sites.mdx) feature, you can build translatable email notification templates.
+
+While there is currently no option to select different email notifications for each Site, it is possible to translate these notifications on a per-site basis. This can be done within the email notification template itself by using a conditional statement to check the current language.
+
+For instance, in the message body of the email template, you can utilize the [`currentSite` variable](https://craftcms.com/docs/5.x/system/sites.html#site-groups) that Craft provides as a conditional.
+
+```twig
+{% if currentSite.language == "en" %}
+  Thank you for contacting us!
+{% elseif currentSite.language == "de" %}
+  Vielen Dank, dass Sie uns kontaktiert haben!
+{% elseif currentSite.language == "fr" %}
+  Merci de nous avoir contactés!
+{% else %}
+  Thank you!
+{% endif %}
+```
+
+Any [translations](../configuration/sites.mdx#translations) you have set up in the form builder for each field will automatically display when loading the fields with `allFields`. For example, if you have a field labeled `First Name` that is translated to `Vorname` on your _German_ site, when the form is submitted on the _German_ site, the email notification will show the field label as `Vorname` instead of `First Name`.
+
 ### Using Submission object
 
 You may also have your notification email template code iterate over submission values from the [Submission object](../templates/objects/submission.mdx) (as long as you're [storing submitted data](./builder.mdx#settings)) like this:
 
-```twig showLineNumbers
+```twig
 {% if submission is not null %}
     <h4>{{ submission.id }}: {{ submission.title }}</h4>
     <ul>
@@ -604,7 +608,7 @@ Create a layout template anywhere in your Craft Templates directory (e.g. `_layo
 Please note that any additional template files (e.g. `_layout.twig`, `_footer.html`, etc) must NOT be stored inside of the _Email Notification Templates_ directory, as Freeform expects that every file in here is a complete email notification template and will choke on any additional files.
 :::
 
-```twig showLineNumbers
+```twig
 <html>
 <head>
     <title>Global Layout</title>
@@ -622,7 +626,7 @@ Please note that any additional template files (e.g. `_layout.twig`, `_footer.ht
 
 And then in your Freeform email notification template, something like:
 
-```twig showLineNumbers
+```twig
 {% extends "_layout/email-notifications" %}
 
 {% block content %}
@@ -690,15 +694,8 @@ Textarea data is stored in the database as newlines, which obviously don't parse
 Freeform allows you to send extra email notifications for any reason.
 
 <Player
-  url={
-    require('@site/static/videos/craft/freeform/v5/extra-notifications.mp4')
-      .default
-  }
-  muted
-  loop
-  playing
-  width="100%"
-  height="100%"
+  url={require('@site/static/videos/craft/freeform/v5/extra-notifications.mp4').default}
+  muted loop playing width="100%" height="100%"
 />
 
 ### Resending Email Notifications<Badge type="pro" text="Pro" />

@@ -56,6 +56,13 @@ Once the **Translations** setting is enabled for a form, various parts of the fo
 
 The translation icon will turn blue if a translation exists for a site other than the primary site. Clicking this icon will allow you to cancel the translation value for that site and revert it to the configuration set for the primary site.
 
+- [Translatable Settings](#translatable-settings)
+- [Translatable Fields](#translatable-fields)
+- [Translatable Field Options](#translatable-field-options)
+- [Translatable Email Notifications](#translatable-email-notifications)
+- [Translatable Items](#translatable-items)
+- [Field Compatibility](#field-compatibility)
+
 ### Translatable Settings
 
 Various settings for forms become translatable, including form name and description, processing text, and success and error messages.
@@ -82,6 +89,26 @@ If a field contains options such as Dropdowns or Checkboxes, the option labels c
   img={require('@site/static/img/craft/freeform/v5/configuration/builder-translations-options.png')}
   alt="Translatable Field Options in Form Builder"
 />
+
+### Translatable Email Notifications
+
+Currently, there is no option to select different [email notifications](../forms/email-notifications.mdx) for each Site. However, it is possible to translate these notifications on a per-site basis. This can be done within the email notification template itself by using a conditional statement to check the current language.
+
+For instance, in the message body of the email template, you can utilize the [`currentSite` variable](https://craftcms.com/docs/5.x/system/sites.html#site-groups) that Craft provides as a conditional.
+
+```twig
+{% if currentSite.language == "en" %}
+  Thank you for contacting us!
+{% elseif currentSite.language == "de" %}
+  Vielen Dank, dass Sie uns kontaktiert haben!
+{% elseif currentSite.language == "fr" %}
+  Merci de nous avoir contactés!
+{% else %}
+  Thank you!
+{% endif %}
+```
+
+Any translations you have set up in the form builder for each field will automatically display when loading the fields with `allFields`. For example, if you have a field labeled `First Name` that is translated to `Vorname` on your _German_ site, when the form is submitted on the _German_ site, the email notification will show the field label as `Vorname` instead of `First Name`.
 
 ### Translatable Items
 
@@ -198,7 +225,7 @@ Export profiles will become filtered by forms that are assigned to the active Si
 
 ## Templates
 
-It's important to note that if a form is only enabled for _Site A_ and _Site B_, it will show when viewing _Site C_ in the front end.
+It's important to note that if a form is only enabled for _Site A_ and _Site B_, it will **NOT** show when viewing _Site C_ in the front end.
 
 ## Retroactively Apply to Existing Installs
 

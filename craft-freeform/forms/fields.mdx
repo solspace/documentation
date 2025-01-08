@@ -1462,13 +1462,14 @@ The following are available:
     {# Your fields #}
 
     {% set page = form.pages.current %}
+    {% set button = page.buttons %}
 
-    {{ page.buttons.renderSubmit({ 'data-optional': 'attributes here' }) }}
-    {% if form.pages.current.buttons.back %}
-        {{ page.buttons.renderBack }}
+    {{ button.renderSubmit({ 'data-optional': 'attributes here' }) }}
+    {% if button.back %}
+        {{ button.renderBack }}
     {% endif %}
-    {% if form.pages.current.buttons.save %}
-        {{ page.buttons.renderSave }}
+    {% if button.save %}
+        {{ button.renderSave }}
     {% endif %}
 
 {{ form.renderClosingTag }}
@@ -1479,9 +1480,12 @@ The following are available:
 
 For maximum control, you can use a property attributes render instead. The following are available:
 
-- `renderSubmitProps` - render the property attributes to attach to your **Submit** button
-- `renderBackProps` - render the property attributes to attach to your **Back** button
-- `renderSaveProps` - render the property attributes to attach to your **Save** button
+- `renderSubmitProps` - render the property attributes to attach to your **Submit** button.
+    - `submitLabel` - render the label defined for the **Submit** button inside the builder.
+- `renderBackProps` - render the property attributes to attach to your **Back** button.
+    - `backLabel` - render the label defined for the **Back** button inside the builder.
+- `renderSaveProps` - render the property attributes to attach to your **Save** button.
+    - `saveLabel` - render the label defined for the **Save** button inside the builder.
 
 ```twig showLineNumbers
 {{ form.renderTag({
@@ -1492,23 +1496,28 @@ For maximum control, you can use a property attributes render instead. The follo
     {# Your fields #}
 
     {% set page = form.pages.current %}
+    {% set button = page.buttons %}
 
-    <button {{ page.buttons.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
-        Submit
+    <button {{ button.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
+        {{ button.submitLabel }}
     </button>
-    {% if form.pages.current.buttons.back %}
-        <button {{ page.buttons.backRenderProps }}>
-            Back
+    {% if button.back %}
+        <button {{ button.backRenderProps }}>
+            {{ button.backLabel }}
         </button>
     {% endif %}
-    {% if form.pages.current.buttons.save %}
-        <button {{ page.buttons.saveRenderProps }}>
-            Save
+    {% if button.save %}
+        <button {{ button.saveRenderProps }}>
+            {{ button.saveLabel }}
         </button>
     {% endif %}
 
 {{ form.renderClosingTag }}
 ```
+
+:::info
+If you need to parse HTML on your button labels, add the `|raw` filter to `submitLabel`, etc. E.g. `{{ page.buttons.submitLabel|raw }}`.
+:::
 
 </TabItem>
 </Tabs>
