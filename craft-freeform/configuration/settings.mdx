@@ -112,6 +112,9 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
   alt="General Settings"
 />
 
+<details className="hidden-heading">
+  <summary>View list of Settings</summary>
+
 | Setting&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Project Config                         | Description                                                                                                                                                                                                                                           | <span class="edition-express">Express</span> | <span class="edition-lite">Lite</span> | <span class="edition-pro">Pro</span> |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------: | :------------------------------------: | :----------------------------------: |
 | **Custom Plugin Name**                                                                                                                                                                                                                            | `pluginName: 'Forms'`                  | Override the plugin name by specifying your own here.                                                                                                                                                                                                 |     <span class="compare-none">✕</span>      |  <span class="compare-none">✕</span>   |  <span class="edition-pro">✓</span>  |
@@ -130,6 +133,7 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
 :::warning
 Enabling the **Purge Submissions** feature and saving this settings page will result in purging feature beginning, and cannot be undone (it may not happen immediately, and may take a couple hours before the next process runs). This process will only run every hour, and only when Freeform is accessed on the front end in templates or in the control panel.
 :::
+</details>
 
 ## Form Behavior
 
@@ -143,6 +147,9 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
   img={require('@site/static/img/craft/freeform/v5/configuration/form-behavior.png')}
   alt="Form Behavior Settings"
 />
+
+<details className="hidden-heading">
+  <summary>View list of Settings</summary>
 
 | Setting                                                                          | Project Config                        | Description                                                                                                                                                                                                                                                                                                                                                                                                             | <span class="edition-express">Express</span> | <span class="edition-lite">Lite</span> | <span class="edition-pro">Pro</span> |
 | -------------------------------------------------------------------------------- | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------: | :------------------------------------: | :----------------------------------: |
@@ -161,39 +168,43 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
 The **Automatically Scroll to Form on Errors and Multipage forms** feature can have its behavior can been manipulated with the [Autoscroll Events](../developer/js-plugin.mdx#autoscroll-events).
 :::
 
-### Script Insert Location
+</details>
 
-The location of where you want Freeform to insert it's scripts for form and field functionality (such as spam protection and advanced field types).
+<details className="hidden-heading">
+  <summary>Script Insert Location</summary>
 
-- **Page Footer**<Badge type="recommended" text="Recommended" />
-- **Page Header**<Badge type="feature" text="New in 5.0+" />
-- **Inside Form**
-- **None** (manually load the JS instead)
-  - If you choose this option, please be sure to manually load Freeform's JS with `/freeform/plugin.js` and CSS with `/freeform/plugin.css` (optional, as it's currently just for the Opinion field type handling) in your template(s). See [Freeform JS plugin](../developer/js-plugin.mdx#loading-freeform-js-manually) documentation for more information.
+  The location of where you want Freeform to insert it's scripts for form and field functionality (such as spam protection and advanced field types).
 
-### Freeform Session Context<Badge type="feature" text="Deprecated in 5.0+" />
+  - **Page Footer**<Badge type="recommended" text="Recommended" />
+  - **Page Header**<Badge type="feature" text="New in 5.0+" />
+  - **Inside Form**
+  - **None** (manually load the JS instead)
+    - If you choose this option, please be sure to manually load Freeform's JS with `/freeform/plugin.js` and CSS with `/freeform/plugin.css` (optional, as it's currently just for the Opinion field type handling) in your template(s). See [Freeform JS plugin](../developer/js-plugin.mdx#loading-freeform-js-manually) documentation for more information.
+</details>
+<details className="hidden-heading">
+  <summary>Freeform Session Context<Badge type="feature" text="Deprecated in 5.0+" /></summary>
 
-Choose the way form context is passed between form submits.
+  Choose the way form context is passed between form submits.
 
-:::warning
-The _PHP Sessions_ and _Database Table_ options for the Freeform Session Context setting are deprecated and are planned to be removed in Freeform 6. Encrypted Payload continues to be the assumed and recommended approach, but can still be overrided to PHP Sessions or Database Table in project config.
+  :::warning
+  The _PHP Sessions_ and _Database Table_ options for the Freeform Session Context setting are deprecated and are planned to be removed in Freeform 6. Encrypted Payload continues to be the assumed and recommended approach, but can still be overrided to PHP Sessions or Database Table in project config.
 
-Options are:
+  Options are:
 
-- `sessionContext: payload` (default)
-- `sessionContext: session`
-- `sessionContext: database`
+  - `sessionContext: payload` (default)
+  - `sessionContext: session`
+  - `sessionContext: database`
+  :::
 
-:::
-
-- **As an encrypted payload**<Badge type="recommended" text="Default/Recommended" />
-  - The key benefits are that it never stores anything anywhere, has no impact on the server, and can be cached out-of-the-box.
-- **Using PHP's sessions**
-  - The key benefits are that it stores the context in memory and everything per session ID.
-  - The problems with this approach are that it expires eventually with no way to persist this for longer periods of time. It's also unreliable due to _garbage collection_ on most servers which typically runs every 24 min­utes by default.
-- **Using a database table**
-  - The key benefits are that the context is stored in the database reliably for as long as you wish, offering more control if you have large forms that take a very long time to complete.
-  - The problems with this approach is that high traffic sites may run into performance issues as the database table fills up and attempts to clear regularly, etc.
+  - **As an encrypted payload**<Badge type="recommended" text="Default/Recommended" />
+    - The key benefits are that it never stores anything anywhere, has no impact on the server, and can be cached out-of-the-box.
+  - **Using PHP's sessions**
+    - The key benefits are that it stores the context in memory and everything per session ID.
+    - The problems with this approach are that it expires eventually with no way to persist this for longer periods of time. It's also unreliable due to _garbage collection_ on most servers which typically runs every 24 min­utes by default.
+  - **Using a database table**
+    - The key benefits are that the context is stored in the database reliably for as long as you wish, offering more control if you have large forms that take a very long time to complete.
+    - The problems with this approach is that high traffic sites may run into performance issues as the database table fills up and attempts to clear regularly, etc.
+</details>
 
 ## Form Builder<Badge type="feature" text="Improved in 5.0+" />
 
@@ -204,16 +215,12 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
 :::
 
 <Player
-  url={
-    require('@site/static/videos/craft/freeform/v5/builder-defaults.mp4')
-      .default
-  }
-  muted
-  loop
-  playing
-  width="100%"
-  height="100%"
+  url={require('@site/static/videos/craft/freeform/v5/builder-defaults.mp4').default}
+  muted loop playing width="100%" height="100%"
 />
+
+<details className="hidden-heading">
+  <summary>View list of Settings</summary>
 
 | Setting                                                                       | Project Config                                            | Description                                                                                                                                                                                                                                                                                                     | <span class="edition-express">Express</span> | <span class="edition-lite">Lite</span> | <span class="edition-pro">Pro</span> |
 | ----------------------------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------: | :------------------------------------: | :----------------------------------: |
@@ -224,9 +231,11 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
 | **Form Builder Notifications tab**<Badge type="feature" text="New in 5.0+" /> | `defaults: notifications: ...`                            | Set the default templates for each email notification type. Optionally lock values as well.                                                                                                                                                                                                                     |    <span class="edition-express">✓</span>    |  <span class="edition-lite">✓</span>   |  <span class="edition-pro">✓</span>  |
 | **Form Builder Settings tab**<Badge type="feature" text="New in 5.0+" />      | `defaults: settings: ...`                                 | Set the default values for settings. Optionally lock values as well.                                                                                                                                                                                                                                            |    <span class="edition-express">✓</span>    |  <span class="edition-lite">✓</span>   |  <span class="edition-pro">✓</span>  |
 
+</details>
+
 ## Limited Users<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.4+" />
 
-- View the [Limited Users](../configuration/limited-users.mdx) documentation for more information about setting up and configuring.
+View the [Limited Users](../configuration/limited-users.mdx) documentation for more information about setting up and configuring.
 
 :::info
 This page and its settings all remain accessible when the Craft `allowAdminChanges` config setting is set to `false`.
@@ -250,7 +259,8 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
   alt="Email Templates"
 />
 
-### Formatting Templates
+<details className="hidden-heading">
+  <summary>Formatting Templates Settings</summary>
 
 [Formatting Templates](../templates/formatting/index.mdx) are predefined templates that you can specify for forms to handle simplified rendering of the form on the front end. You can have as many as you wish, and customize them however you like.
 
@@ -258,7 +268,9 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
 | ---------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------: | :------------------------------------: | :----------------------------------: |
 | <span class="nowrap">**Directory Path**</span> | `formTemplateDirectory: _freeform/formatting/` | When using custom formatting templates for your forms, you'll need to specify where your Twig-based templates are stored. Provide a relative path to craft root to your custom form templates directory, e.g. `freeform_formatting_templates`. To add a starter example template, click the "Add a sample template" button, and then edit the template after. |    <span class="edition-express">✓</span>    |  <span class="edition-lite">✓</span>   |  <span class="edition-pro">✓</span>  |
 
-### Email Templates
+</details>
+<details className="hidden-heading">
+  <summary>Email Templates Settings</summary>
 
 Email Notification templates are available to be stored as files, in the database, or both. You can choose which one is best for your site. In order to send file-based email notifications, a directory path must be set for Freeform to manage these templates, as they are stored as Twig-based files. See [Email Notifications](../forms/email-notifications.mdx) documentation for more information about implementation.
 
@@ -279,7 +291,9 @@ If you wish to create advanced notification templates, please note that any addi
 
 This is a utility that allows you to migrate your existing database email templates over to file-based email templates (you can continue to edit these from the CP). The utility will also update all existing forms to use the new file version of the email template. If you wish to have Freeform clean up and remove the old database email templates after, check the checkbox as well.
 
-### Success Templates
+</details>
+<details className="hidden-heading">
+  <summary>Success Templates Settings</summary>
 
 Success templates are predefined templates that you can specify for your forms to display when a form has been successfully submitted. Instead of redirecting to a return URL or reloading the form, it'll display the contents of this template. You can have as many as you wish, and customize them however you like. To use these, be sure to select the **Load Success Template** option for the **Success Behavior** setting in the form builder for each form.
 
@@ -289,7 +303,7 @@ Success templates are predefined templates that you can specify for your forms t
 
 Your success template might look something like this:
 
-```twig showLineNumbers
+```twig
 <div id="freeform-success">
     <h3>Thank you!</h3>
     <p>We have successfully received your submission.</p>
@@ -297,6 +311,8 @@ Your success template might look something like this:
 ```
 
 Things like `form.id`, `form.handle` and `form.name` are available for use here as well.
+
+</details>
 
 ## PDF Templates<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.7+" />
 
@@ -358,6 +374,9 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
   alt="Spam Settings"
 />
 
+<details className="hidden-heading">
+  <summary>View list of Settings</summary>
+
 | Setting                                                  | Project Config                                                                            | Description                                                                                                                                                                                                                                                                                                                                                                                       | <span class="edition-express">Express</span> | <span class="edition-lite">Lite</span> | <span class="edition-pro">Pro</span> |
 | -------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------: | :------------------------------------: | :----------------------------------: |
 | <span class="nowrap">**Spam Protection Behavior**</span> | `spamProtectionBehavior: simulate_success`<Badge type="feature" text="Renamed in 5.0+" /> | Select the behavior you'd like Freeform to take when it detects a submission as being spam: _Simulate Success_ (recommended), _Display Errors_ (for debugging).                                                                                                                                                                                                                                   |    <span class="edition-express">✓</span>    |  <span class="edition-lite">✓</span>   |  <span class="edition-pro">✓</span>  |
@@ -375,6 +394,8 @@ Enabling the **Spam Folder** feature will not retroactively bring back any previ
 :::warning
 Enabling the **Purge Submissions** feature and saving this settings page will result in purging feature beginning, and cannot be undone (it may not happen immediately, and may take a couple hours before the next process runs). This process will only run every hour, and only when Freeform is accessed on the front end in templates or in the control panel.
 :::
+
+</details>
 
 ## Integrations<Badge type="feature" text="Improved in 5.0+" />
 
