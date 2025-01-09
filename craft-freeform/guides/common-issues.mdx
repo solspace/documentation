@@ -316,6 +316,7 @@ Check out this documentation resource to troubleshoot common problems or find an
     
     <details>
       <summary>Further reading...</summary>
+      
       If you're wondering if you can manually carry over changes/additions in the database to forms, fields, submissions, etc from one environment to another, this is not currently possible. The issue is that Freeform submissions are technically Craft elements and therefore, things are intertwined within the Craft `elements` and `elements_sites` database tables. Freeform forms are stored as JSON in the `freeform_forms` and various other `freeform_forms_*` database tables, but the fields within are also attached to the `freeform_submissions_*` database tables, complicating it further.
       
       Additionally, if form data and layouts were stored inside Craft's _project config_, it would mean that forms could not be created and edited on sites that use the `allowAdminChanges` setting in Craft. This might work for some customers, but definitely not everyone. This is why we built the new [Import / Export](../forms/import-export.mdx) feature as mentioned above.

@@ -69,23 +69,26 @@ Freeform includes its own Honeypot spam protection feature. This is enabled by d
 
 It works by inserting an input in the form that is invisible to a regular user. A regular user will not see or be able to add a value to the field, leaving it empty and passing the test. If the bot enters a value in the input, the test will fail.
 
-### Settings
+<details className="hidden-heading">
+  <summary>Settings</summary>
 
-You can specify the behavior Freeform takes when the test fails with the [Spam Protection Behavior](../configuration/settings.mdx#spam-protection) setting:
+  You can specify the behavior Freeform takes when the test fails with the [Spam Protection Behavior](../configuration/settings.mdx#spam-protection) setting:
 
-- **Custom Input Name**
+  - **Custom Input Name**
   - Enter a new value to rename the default Freeform Honeypot input name. Default is `freeform_form_handle`.
-- **Custom Error Message**
+  - **Custom Error Message**
   - Enter a new value to change the default error message for the Freeform Honeypot.
   - This is only applied if the **Spam Behavior** setting is set to _Display Error Messages_.
 
-:::info
-If using the **Custom Input Name** setting, be careful when choosing a custom name, as it's possible the user's browser auto-fill settings may accidentally fill out the field unbeknownst to them (e.g. `email_address2`).
-:::
+  :::info
+  If using the **Custom Input Name** setting, be careful when choosing a custom name, as it's possible the user's browser auto-fill settings may accidentally fill out the field unbeknownst to them (e.g. `email_address2`).
+  :::
+</details>
+<details className="hidden-heading">
+  <summary>Templating</summary>
 
-### Templating
-
-The Freeform Honeypot will automatically be inserted in the form by Freeform when rendering the form.
+  The Freeform Honeypot will automatically be inserted in the form by Freeform when rendering the form.
+</details>
 
 ## Freeform Javascript Test<Badge type="feature" text="Improved in 5.0+" />
 
@@ -93,23 +96,26 @@ Freeform includes its own Javascript Test spam protection feature. When enabled,
 
 It works by inserting an input in the form that is invisible to a regular user with a random value. The javascript loaded into the page then automatically removes the value from the input, allowing the test to pass. If the user or bot doesn't have javascript enabled, the value will not be removed from the input and will fail the test.
 
-### Settings
+<details className="hidden-heading">
+  <summary>Settings</summary>
 
-You can specify the behavior Freeform takes when the test fails with the [Spam Protection Behavior](../configuration/settings.mdx#spam-protection-behavior) setting:
+  You can specify the behavior Freeform takes when the test fails with the [Spam Protection Behavior](../configuration/settings.mdx#spam-protection-behavior) setting:
 
-- **Custom Input Name**
-  - Enter a new value to rename the default Freeform Javascript Test input name. Default is `freeform_check`.
-- **Custom Error Message**
-  - Enter a new value to change the default error message for the Freeform Javascript Test.
-  - This is only applied if the **Spam Behavior** setting is set to _Display Error Messages_.
+  - **Custom Input Name**
+    - Enter a new value to rename the default Freeform Javascript Test input name. Default is `freeform_check`.
+  - **Custom Error Message**
+    - Enter a new value to change the default error message for the Freeform Javascript Test.
+    - This is only applied if the **Spam Behavior** setting is set to _Display Error Messages_.
 
-:::info
-If using the **Custom Input Name** setting, be careful when choosing a custom name, as it's possible the user's browser auto-fill settings may accidentally fill out the field unbeknownst to them (e.g. `email_address2`).
-:::
+  :::info
+  If using the **Custom Input Name** setting, be careful when choosing a custom name, as it's possible the user's browser auto-fill settings may accidentally fill out the field unbeknownst to them (e.g. `email_address2`).
+  :::
+</details>
+<details className="hidden-heading">
+  <summary>Templating</summary>
 
-### Templating
-
-The Freeform Javascript Test will automatically be inserted in the form by Freeform when rendering the form.
+  The Freeform Javascript Test will automatically be inserted in the form by Freeform when rendering the form.
+</details>
 
 ## Spam Behavior
 
@@ -137,15 +143,18 @@ When the [Spam Folder](../configuration/settings.mdx#spam-folder) setting is ena
 Enabling the **Spam Folder** feature will not retroactively bring back any previously blocked spam submissions. Any submissions that have been blocked in the past (without Spam Folder setting on) are never recorded in the database.
 :::
 
-### How it Works
+<details className="hidden-heading">
+  <summary>How it Works</summary>
 
-- Email notifications and API integrations will all be suppressed and queued.
-- When viewing the _Spam Folder_ in the Freeform control panel, you have the ability to delete or approve/allow each submission.
-  - Allowing spammy submissions will retroactively fire off email notifications and any API integration data as well.
-- The Spam Folder can be set to have older spammy submissions automatically purged after a period of time. To enable this, enable the [Automatically Purge Spam Submissions](../configuration/settings.mdx#auto-purge-spam) setting and specify the number of days after submission date it should purge them.
-  :::danger
-  Enabling this and saving this settings page will begin the purging of submissions flagged as spam, and cannot be undone.
-  :::
+  - Email notifications and API integrations will all be suppressed and queued.
+  - When viewing the _Spam Folder_ in the Freeform control panel, you have the ability to delete or approve/allow each submission.
+    - Allowing spammy submissions will retroactively fire off email notifications and any API integration data as well.
+  - The Spam Folder can be set to have older spammy submissions automatically purged after a period of time. To enable this, enable the [Automatically Purge Spam Submissions](../configuration/settings.mdx#auto-purge-spam) setting and specify the number of days after submission date it should purge them.
+    :::danger
+    Enabling this and saving this settings page will begin the purging of submissions flagged as spam, and cannot be undone.
+    :::
+</details>
+<br />
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/forms/spam-folder.png')}
@@ -181,11 +190,13 @@ To configure spam blocking, visit the **Settings** > **Integrations** > **Spam B
   - When blocking individual characters (e.g. Russian letters) or partial words or strings, be sure to put the wildcard at the start and end of the value, e.g.: `*й*`, `*Д*`, `*url=http*`, etc.
 - To block phrases, wrap quotes around the keywords (e.g. `"generate new leads"`).
 
-### How it Works
+<details className="hidden-heading">
+  <summary>How it Works</summary>
 
-- If the submission fails, it will then match the behavior of the [Spam Protection Behavior](../configuration/settings.mdx#spam-behavior) setting.
-- If you have the [Spam Folder](#spam-folder) feature enabled, spammy submissions will go through to the Spam Folder in the Freeform control panel.
-- You have the option to display errors for fields using a blocked email address or keyword, but we recommend only using this for troubleshooting purposes.
+  - If the submission fails, it will then match the behavior of the [Spam Protection Behavior](../configuration/settings.mdx#spam-behavior) setting.
+  - If you have the [Spam Folder](#spam-folder) feature enabled, spammy submissions will go through to the Spam Folder in the Freeform control panel.
+  - You have the option to display errors for fields using a blocked email address or keyword, but we recommend only using this for troubleshooting purposes.
+</details>
 
 ## Throttling
 

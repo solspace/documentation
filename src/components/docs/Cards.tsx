@@ -365,11 +365,11 @@ const IntegrationPhotoCards: React.FC<IntegrationPhotoCardsProps> = ({
 };
 
 const ColumnCardData: React.FC<ChildrenProps> = ({ children }) => {
-  return <div>{children}</div>;
+  return <div className="pr-5">{children}</div>;
 };
 
 const TwoColumnCards: React.FC<ChildrenProps> = ({ children }) => {
-  return <div className="grid grid-cols-2 gap-4">{children}</div>;
+  return <div className="grid grid-cols-2 gap-6 two-column-cards">{children}</div>;
 };
 
 export {
