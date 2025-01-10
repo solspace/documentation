@@ -44,21 +44,33 @@ Freeform allows you to connect and map Freeform submission data to other Craft E
   alt="User Elements integration in Freeform form builder"
 />
 
-:::info
-Freeform includes the ability to map the Freeform submission ID, submission token, submission title, form ID, form handle and form name to other element fields as well. You can choose these as options in the mapping table in the Integrations tab.
-:::
-
 ## Overview
 
 Freeform includes the ability to map submission data to create and [edit](#editing-elements) other Craft elements, including [Craft Entries](#craft-entries), [Craft Users](#craft-users) and [Calendar Events](#calendar-events). Since Freeform already includes various other functionality such as [spam protection](../forms/spam-protection.mdx), [integrations](../integrations/index.mdx), [email notifications](../forms/email-notifications.mdx), [Stripe payments](./stripe-payments.mdx) and much more, this allows you to quickly create very powerful forms.
 
 To use this feature, you set up integration(s) inside the Freeform settings area, and then configure them individually for each form you wish to use them on.
 
+### Map Twig code or Text<Badge type="feature" text="New in 5.0+" />
+
 The configuration inside the form builder is very flexible and allows you to map a Freeform field or enter a value such as Twig code or hardcode a value. For example, if you have an element that contains a single field for customer name, e.g. `Full Name`, but your form contains two separate fields, e.g. `First Name` and `Last Name`, in the input fields you could specify a value of:
 
 ```twig
 {{ firstName }} {{ lastname }}
 ```
+
+For fields and settings that contain a boolean value, such as **Enabled**, you can map a boolean value such as `true`/`false`, `yes`/`no`, `1`/`0`, etc.
+
+Additionally, you can map from the [Submission object](../templates/objects/submission.mdx) and [Form object](../templates/objects/form.mdx). So things like Freeform submission ID, submission token, submission title, form ID, form handle and form name are all possible:
+
+```twig
+{{ submisson.id }}
+{{ form.handle }}
+```
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/elements-3.png')}
+  alt="Map submission and form details to other elements in the Elements integration"
+/>
 
 ## Craft Entries
 
