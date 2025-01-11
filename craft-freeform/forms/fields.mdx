@@ -1895,6 +1895,49 @@ A complete example might look like:
 </Tabs>
 
 </details>
+<details className="hidden-heading">
+<summary>Email Notification Template</summary>
+
+By default, Table field data will be rendered as comma separated values in [email notifications](./email-notifications.mdx), which is not ideal. To account for Table fields in your email notification template, you can use the template code below:
+
+```twig
+<p>The following submission came in on {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}.</p>
+<p>Here are the details:</p>
+<ul>
+{% for field in allFields %}
+  <li>
+    {{ field.label }}: 
+    {% if field.implements('options') %}
+      {{ field.labelsAsString }}
+    // highlight-start
+    {% elseif field.type == "table" %}
+      <table>
+        <thead>
+          <tr>
+          {% for column in field.tableLayout %}
+            <th>{{ column.label|default("-") }}</th>
+          {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+        {% for row in field.value %}
+          <tr>
+          {% for index, column in field.tableLayout %}
+            <td>{{ row[index] }}</td>
+          {% endfor %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    // highlight-end
+    {% else %}
+      {{ field.valueAsString }}
+    {% endif %}
+  </li>
+{% endfor %}
+</ul>
+```
+</details>
 
 ## Text
 

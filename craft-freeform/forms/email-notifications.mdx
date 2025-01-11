@@ -553,6 +553,48 @@ If you wish to include HTML and Rich Text blocks in the output, use the `allFiel
 {% endfor %}
 ```
 
+### Format Table fields
+
+By default, [Table field](./fields.mdx#table) data will be rendered as comma separated values, which is not ideal. To account for Table fields, you can use the template code below:
+
+```twig
+<p>The following submission came in on {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}.</p>
+<p>Here are the details:</p>
+<ul>
+{% for field in allFields %}
+  <li>
+    {{ field.label }}: 
+    {% if field.implements('options') %}
+      {{ field.labelsAsString }}
+    // highlight-start
+    {% elseif field.type == "table" %}
+      <table>
+        <thead>
+          <tr>
+          {% for column in field.tableLayout %}
+            <th>{{ column.label|default("-") }}</th>
+          {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+        {% for row in field.value %}
+          <tr>
+          {% for index, column in field.tableLayout %}
+            <td>{{ row[index] }}</td>
+          {% endfor %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    // highlight-end
+    {% else %}
+      {{ field.valueAsString }}
+    {% endif %}
+  </li>
+{% endfor %}
+</ul>
+```
+
 ### Translatable Notifications
 
 When using the [Site-Aware/Translatable Forms](../configuration/sites.mdx) feature, you can build translatable email notification templates.
