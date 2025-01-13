@@ -9,7 +9,7 @@ import { Badge, Photo } from '@site/src/components/utils';
 
 Expand the possibilities of Freeform with the _Surveys & Polls_ form type! If you have the _Pro_ edition of Freeform, this is a plug and play feature that instantly adds access to a special reporting area inside the Freeform control panel that allows you to view stats and charts for each field type. The reports can be customized to use different chart types and hide specific fields. You can even generate a PDF exported document to share with other members of your team.
 
-:::tip
+:::info
 If you already have some forms used as surveys or polls, simply switch the **Form Type** setting from _Regular_ to _Surveys & Polls_ and you'll instantly and retroactively have reports available for these forms!
 :::
 
@@ -124,7 +124,7 @@ To convert an existing form to be a _Surveys & Polls_ form, simply follow the in
 
 The _Surveys & Polls_ form type offers a handful of settings that help you set defaults and styling for reports.
 
-:::tip
+:::warning
 This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
@@ -138,7 +138,7 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
 | **Highlight Highest Ranking Option** | The highest ranking option chosen for each question will be highlighted with an alternate color.              |
 | **Default Chart Types**              | Select the default chart types for each field type. These can be overridden for each form in the report view. |
 
-:::tip
+:::info
 For page usibility, the Surveys & Polls report page will automatically switch the default chart type from **vertical bar** to **horizontal bar** if the field contains more than 10 values. You can change it back to vertical bar inside the report page if you wish.
 :::
 
@@ -184,7 +184,7 @@ The following are several examples of how to iterate over fields' submission dat
 
 The following example will generate survey or poll results for a specific field.
 
-```twig showLineNumbers
+```twig
 {% set form = freeform.form("myFormHandle") %}
 
 {% set field = form.get('myFieldHande') %}

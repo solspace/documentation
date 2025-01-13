@@ -337,14 +337,14 @@ const config: Config = {
         {
           type: 'dropdown',
           position: 'right',
-          label: 'Products',
+          label: 'Plugins',
           id: 'plugin_products-list',
           items: [
             {
               label: 'Craft',
               to: `/craft`,
               activeBaseRegex: '/craft',
-              class: 'craft',
+              className: 'craft',
               id: 'craft-products',
             },
             {
@@ -362,7 +362,7 @@ const config: Config = {
             {
               label: 'ExpressionEngine',
               to: `/expressionengine`,
-              class: 'expressionengine',
+              className: 'expressionengine',
               id: 'expressionengine-products',
               activeBaseRegex: '/expressionengine',
             },
@@ -384,7 +384,11 @@ const config: Config = {
           type: 'custom-productsList',
           position: 'right',
         },
-        { to: '/support/', label: 'Support', position: 'right' },
+        {
+          to: 'https://support.solspace.com/',
+          label: 'Support',
+          position: 'right',
+        },
         {
           type: 'search',
           position: 'right',

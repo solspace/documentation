@@ -43,7 +43,7 @@ export function CraftCalendarPageHeader() {
           <small>
             <SimpleTextLink
               to="https://plugins.craftcms.com/calendar"
-              label="INSTALL A FREE, UNLIMITED TRIAL TODAY!"
+              label="Try out a free unlimited trial today!"
             />
           </small>
         </div>

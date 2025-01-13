@@ -12,6 +12,7 @@ interface LogoItem {
   latestVersionSlug?: string;
   title: string;
   logoLine: string;
+  logoLineShort: string;
   src: string;
 }
 
@@ -21,28 +22,30 @@ const logos: LogoItem[] = [
     latestVersionSlug: '/craft/freeform/v5',
     title: 'Freeform',
     logoLine: 'for Craft',
+    logoLineShort: null,
     src: 'img/icons/freeform.png',
   },
   {
     pathname: '/craft/calendar',
     latestVersionSlug: '/craft/calendar/v5',
-
     title: 'Calendar',
     logoLine: 'for Craft',
+    logoLineShort: null,
     src: 'img/icons/calendar.png',
   },
   {
     pathname: 'https://discontinued-docs.solspace.com/express-forms/',
     title: 'Express Forms',
     logoLine: 'for Craft',
+    logoLineShort: null,
     src: 'img/icons/express-forms.png',
   },
   {
     pathname: '/expressionengine/freeform',
     latestVersionSlug: '/expressionengine/freeform/v3',
-
     title: 'Freeform',
     logoLine: 'for ExpressionEngine',
+    logoLineShort: 'for EE',
     src: 'img/icons/freeform.png',
   },
   {
@@ -50,6 +53,7 @@ const logos: LogoItem[] = [
     latestVersionSlug: '/expressionengine/calendar/v5',
     title: 'Calendar',
     logoLine: 'for ExpressionEngine',
+    logoLineShort: 'for EE',
     src: 'img/icons/calendar.png',
   },
 ];
@@ -131,7 +135,14 @@ export default function Logo(props: Props): JSX.Element {
               <b className="navbar__title text--truncate">
                 {matchedLogo.title}
               </b>
-              <span className="logo-line">{matchedLogo.logoLine}</span>
+              {matchedLogo.logoLineShort ? (
+                <>
+                  <span className="logo-line hidden sm:block">{matchedLogo.logoLine}</span>
+                  <span className="logo-line block sm:hidden">{matchedLogo.logoLineShort}</span>
+                </>
+              ) : (
+                <span className="logo-line text--truncate">{matchedLogo.logoLine}</span>
+              )}
             </div>
           )}
         </>

@@ -2,7 +2,6 @@
 sidebar_position: 1
 title: 'Overview'
 slug: /
-hide_table_of_contents: true
 ---
 
 import SearchBar from '@theme/SearchBar';
@@ -23,7 +22,7 @@ import {
 
 # Overview
 
-<div className="flex flex-col items-center gap-6 mt-20 mb-5 px-8">
+<div className="flex flex-col items-center gap-6 mt-20 mb-5 px-1">
   <ThemedIdealImage
     sources={{
       light: require('@site/static/img/intro/calendar-light.png'),
@@ -46,7 +45,7 @@ import {
           outline: true,
           arrowDown: true,
         },
-        { to: '#compare', label: 'Pricing', outline: true, arrowDown: true },
+        { to: '#compare', label: 'Pricing', outline: true, arrowDown: true, mobileHidden: true },
       ]}
     />
     <NavbarSearch>
@@ -59,7 +58,7 @@ import {
   <small>
     <SimpleTextLink
       to="https://plugins.craftcms.com/calendar"
-      label="INSTALL A FREE, UNLIMITED TRIAL TODAY!"
+      label="Try out a free unlimited trial today!"
     />
   </small>
 </div>
@@ -111,7 +110,7 @@ Calendar is loaded with features that have been battle-tested over the years fro
       description:
         'Create and manage beautiful and flexible calendars, each with their own unique field layout and color that is used throughout the CP and optionally front end.',
       icon: PromoIcons.TabsIcon,
-      fullCardLink: './calendar/',
+      fullCardLink: './calendars/',
     },
     {
       title: 'ICS Exporting & Subscriptions',
@@ -299,34 +298,38 @@ Attach events to any other Craft Element type.
 
 Check out the chart below to help you choose the right version for your needs.
 
-| <h3 class="no-margin">Pricing & Support</h3>                                                                                              |                                <h2 class="no-margin">Lite</h2>                                 |                                     <h2 class="orange no-margin">Pro</h2>                                     |
+<div className="feature-table two-editions w-full">
+
+| <h3 className="no-margin">Pricing & Support</h3>                                                                                              |                                <h2 className="no-margin">Lite</h2>                                 |                                     <h2 className="orange no-margin">Pro</h2>                                     |
 | :---------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: |
-| Price                                                                                                                                     |                                              $99                                               |                                       <span class="orange">$199</span>                                        |
-| Number of sites (including dev/staging)                                                                                                   |                                             1 site                                             |                                      <span class="orange">1 site</span>                                       |
-| Support Options                                                                                                                           |                                        Helpdesk, GitHub                                        |                                 <span class="orange">Helpdesk, GitHub</span>                                  |
-| Support Level<br /><small>_† Typical support ticket first response time within this timeframe or sooner, based on business days._</small> |                                            2 days†                                             |                                      <span class="orange">2 days†</span>                                      |
-| Support term                                                                                                                              |                                             1 year                                             |                                      <span class="orange">1 year</span>                                       |
-| Updates available                                                                                                                         |                                             1 year                                             |                                      <span class="orange">1 year</span>                                       |
-| Renewal (optional)                                                                                                                        |                                             $49/yr                                             |                                      <span class="orange">$99/yr</span>                                       |
-| Compatibility                                                                                                                             |                                            Craft 4+                                            |                                     <span class="orange">Craft 4+</span>                                      |
-| Refund policy                                                                                                                             |                                            30 days                                             |                                      <span class="orange">30 days</span>                                      |
-| Intuitive event creation interface                                                                                                        |                                               ✓                                                |                                         <span class="orange">✓</span>                                         |
-| Intuitive month, week & day views in CP                                                                                                   |                                               ✓                                                |                                         <span class="orange">✓</span>                                         |
-| All day & multi-day events                                                                                                                |                                               ✓                                                |                                         <span class="orange">✓</span>                                         |
-| Recurring event rules                                                                                                                     |                                                                                                |                                         <span class="orange">✓</span>                                         |
-| Exclusion dates from recurrences                                                                                                          |                                                                                                |                                         <span class="orange">✓</span>                                         |
-| Unlimited calendar groups & colors                                                                                                        |                                               ✓                                                |                                         <span class="orange">✓</span>                                         |
-| Element fieldtype for adding events to other Craft Elements                                                                               |                                               ✓                                                |                                         <span class="orange">✓</span>                                         |
-| ICS exporting                                                                                                                             |                                                                                                |                                         <span class="orange">✓</span>                                         |
-| ICS subscriptions                                                                                                                         |                                                                                                |                                         <span class="orange">✓</span>                                         |
-| Powerful & flexible templating                                                                                                            |                                               ✓                                                |                                         <span class="orange">✓</span>                                         |
-| Show events by lists, months, weeks, and days                                                                                             |                                               ✓                                                |                                         <span class="orange">✓</span>                                         |
-| Dashboard widgets                                                                                                                         |                                                                                                |                                         <span class="orange">✓</span>                                         |
-| 1-click demo templates                                                                                                                    |                                               ✓                                                |                                         <span class="orange">✓</span>                                         |
-| GraphQL support                                                                                                                           |                                               ✓                                                |                                         <span class="orange">✓</span>                                         |
-| Translatable                                                                                                                              |                                               ✓                                                |                                         <span class="orange">✓</span>                                         |
-| Rename plugin                                                                                                                             |                                                                                                |                                         <span class="orange">✓</span>                                         |
-| <small><a href="https://plugins.craftcms.com/calendar">INSTALL A FREE, UNLIMITED TRIAL TODAY!</a></small>                                 | <PrimaryButtonWithLink to="https://plugins.craftcms.com/calendar" label="Get it!" size="sm" /> | <PrimaryButtonWithLink to="https://plugins.craftcms.com/calendar" class="button" label="Get it!" size="sm" /> |
+| Price                                                                                                                                     |                                              $99                                               |                                       <span className="orange">$199</span>                                        |
+| Number of sites (including dev/staging)                                                                                                   |                                             1 site                                             |                                      <span className="orange">1 site</span>                                       |
+| Support Options                                                                                                                           |                                        Helpdesk, GitHub                                        |                                 <span className="orange">Helpdesk, GitHub</span>                                  |
+| Support Level<br /><small>_† Typical support ticket first response time within this timeframe or sooner, based on business days._</small> |                                            2 days†                                             |                                      <span className="orange">2 days†</span>                                      |
+| Support term                                                                                                                              |                                             1 year                                             |                                      <span className="orange">1 year</span>                                       |
+| Updates available                                                                                                                         |                                             1 year                                             |                                      <span className="orange">1 year</span>                                       |
+| Renewal (optional)                                                                                                                        |                                             $49/yr                                             |                                      <span className="orange">$99/yr</span>                                       |
+| Compatibility                                                                                                                             |                                            Craft 4+                                            |                                     <span className="orange">Craft 4+</span>                                      |
+| Refund policy                                                                                                                             |                                            30 days                                             |                                      <span className="orange">30 days</span>                                      |
+| Intuitive event creation interface                                                                                                        |                                               ✓                                                |                                         <span className="orange">✓</span>                                         |
+| Intuitive month, week & day views in CP                                                                                                   |                                               ✓                                                |                                         <span className="orange">✓</span>                                         |
+| All day & multi-day events                                                                                                                |                                               ✓                                                |                                         <span className="orange">✓</span>                                         |
+| Recurring event rules                                                                                                                     |                                                                                                |                                         <span className="orange">✓</span>                                         |
+| Exclusion dates from recurrences                                                                                                          |                                                                                                |                                         <span className="orange">✓</span>                                         |
+| Unlimited calendar groups & colors                                                                                                        |                                               ✓                                                |                                         <span className="orange">✓</span>                                         |
+| Element fieldtype for adding events to other Craft Elements                                                                               |                                               ✓                                                |                                         <span className="orange">✓</span>                                         |
+| ICS exporting                                                                                                                             |                                                                                                |                                         <span className="orange">✓</span>                                         |
+| ICS subscriptions                                                                                                                         |                                                                                                |                                         <span className="orange">✓</span>                                         |
+| Powerful & flexible templating                                                                                                            |                                               ✓                                                |                                         <span className="orange">✓</span>                                         |
+| Show events by lists, months, weeks, and days                                                                                             |                                               ✓                                                |                                         <span className="orange">✓</span>                                         |
+| Dashboard widgets                                                                                                                         |                                                                                                |                                         <span className="orange">✓</span>                                         |
+| 1-click demo templates                                                                                                                    |                                               ✓                                                |                                         <span className="orange">✓</span>                                         |
+| GraphQL support                                                                                                                           |                                               ✓                                                |                                         <span className="orange">✓</span>                                         |
+| Translatable                                                                                                                              |                                               ✓                                                |                                         <span className="orange">✓</span>                                         |
+| Rename plugin                                                                                                                             |                                                                                                |                                         <span className="orange">✓</span>                                         |
+| <small><a href="https://plugins.craftcms.com/calendar">Try out a free unlimited trial today!</a></small>                                 | <PrimaryButtonWithLink to="https://plugins.craftcms.com/calendar" label="Get it!" size="sm" /> | <PrimaryButtonWithLink to="https://plugins.craftcms.com/calendar" className="button" label="Buy" size="sm" /> |
+
+</div>
 
 ## Testimonials
 
@@ -349,7 +352,7 @@ Rest assured that Calendar and the team behind it are committed to providing you
       description:
         'Our commitment to providing top-notch customer support is well-known in the Craft CMS community. We always aim to deliver the best and most dependable assistance to our valued customers.',
       icon: Icons.SupportIcon,
-      linkWithDescription: '/support',
+      linkWithDescription: 'https://support.solspace.com/',
     },
     {
       title: '20+ Years Experience',

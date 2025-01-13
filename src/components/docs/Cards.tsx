@@ -68,7 +68,7 @@ interface IconsCardProps {
 
 const IconCards: React.FC<IconsCardProps> = ({ items }) => {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-6 mb-6 justify-start gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 2xl:grid-cols-6 mb-6 justify-start gap-4 icon-cards">
       {items.map((item, index) => (
         <Link
           to={item.link}
@@ -78,7 +78,7 @@ const IconCards: React.FC<IconsCardProps> = ({ items }) => {
           {item.iconSrc && (
             <Image
               alt={item.iconTitle || 'Solspace Freeform'}
-              className="opacity-85 px-4 py-5"
+              className="px-4 py-5"
               img={item.iconSrc}
             />
           )}
@@ -100,11 +100,11 @@ const AnswerChecklist: React.FC<ChecklistSection> = ({ items }) => {
     <div className="checklist">
       <ul>
         {items.map((item, index) => (
-          <li key={index} className="flex items-start mb-4">
+          <li key={index} className="flex items-start mb-2">
             <input
               type="checkbox"
               id={`${id}-${index}`}
-              className="mt-1.5 mr-2"
+              className="mt-1 mr-2"
             />
             <label htmlFor={`${id}-${index}`} className="flex flex-col">
               {item.text}
@@ -118,7 +118,7 @@ const AnswerChecklist: React.FC<ChecklistSection> = ({ items }) => {
 
 const AnswerCard: React.FC<ChildrenProps> = ({ children }) => {
   return (
-    <div className="border border-solid border-lime-800 p-5 rounded-lg bg-gray-100 dark:bg-[#15231d] answer-card">
+    <div className="border border-solid border-lime-800 p-5 mt-5 rounded-lg bg-gray-100 dark:bg-[#15231d] answer-card">
       <div className="flex">
         <div className="circle">
           <div className="checkmark"></div>
@@ -180,7 +180,7 @@ const Card: React.FC<CardProps> = ({
   }
 
   return (
-    <div className="group flex flex-row gap-3 border rounded-lg py-2 px-3 max-w-80 2xl:max-w-fit transition-all duration-500 dark:text-white">
+    <div className="group flex flex-row gap-3 border rounded-lg py-2 px-3 max-w-fit transition-all duration-500 dark:text-white">
       {iconSrc && (
         <div className="flex justify-center">
           <img
@@ -296,31 +296,31 @@ const FlexCards: React.FC<CardSectionProps> = ({ items, promo }) => {
 
 const FieldCards: React.FC<FieldCardsProps> = ({ items }) => {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 py-6 my-10 gap-4">
+    <div className="field-grid grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 py-6 my-10 gap-4">
       {items.map((item, index) => (
         <Link
           key={`field-cards-${index}`}
           to={item.link}
-          className="group flex flex-col items-center gap-2 border rounded-lg p-3 max-w-80 transition-all duration-500 dark:text-white bg-[rgba(0,127,230,0.2)] dark:bg-[rgba(0,105,190,0.25)] hover:bg-[#87c9ff] hover:dark:bg-[#0069be] hover:scale-105"
+          className="group flex flex-col items-center justify-center gap-2 border rounded-lg px-2 sm:px-3 py-3 sm:py-4 transition-all duration-500 dark:text-white bg-[rgba(0,127,230,0.2)] dark:bg-[rgba(0,105,190,0.25)] hover:bg-[#87c9ff] hover:dark:bg-[#0069be] hover:scale-105"
         >
           {item.icon && (
-            <div className="flex justify-center pt-6">
+            <div className="flex justify-center">
               <img
-                className="w-10 h-10 opacity-70	duration-500 transition-all filter-icons"
+                className="w-8 sm:w-10 h-10 opacity-70 duration-500 transition-all filter-icons"
                 src={useBaseUrl(`/card-icons/${item.icon}.svg`)}
                 alt={item.title}
               />
             </div>
           )}
 
-          <div className="text-center pb-4">
-            <h3 className="flex justify-center text-base font-semibold mb-0 text-black dark:text-white">
+          <div className="text-center">
+            <h3 className="flex justify-center text-sm sm:text-base font-semibold pb-2 text-black dark:text-white">
               {item.title}{' '}
               {item.titleBadge && (
                <Badge type="feature" text={item.titleBadge} />
               )}
             </h3>
-            <p className="text-xs mb-1 text-gray-800 dark:text-gray-300 transition-all duration-500 dark:group-hover:text-gray-50 ">
+            <p className="text-xs pb-0 mb-0 text-gray-800 dark:text-gray-300 transition-all duration-500 dark:group-hover:text-gray-50 hidden sm:block">
               {item.description}
             </p>
           </div>
@@ -337,7 +337,7 @@ const PhotoCards: React.FC<IntegrationPhotoCardsProps> = ({ items }) => {
         <a
           key={`${item.title}-${index}`}
           href={item.link}
-          className="flex flex-col items-center p-3 m-2 bg-gray-800 !dark:bg-red rounded-lg shadow-lg hover:bg-gray-700 transition-colors"
+          className="flex flex-col items-center p-3 m-2 bg-gray-800 rounded-lg shadow-lg hover:bg-gray-700 transition-colors"
         >
           <Image img={item.iconSrc} alt={item.title} />
         </a>
@@ -350,11 +350,11 @@ const IntegrationPhotoCards: React.FC<IntegrationPhotoCardsProps> = ({
   items,
 }) => {
   return (
-    <div className="relative block overflow-hidden mt-10 min-h-[650px] rounded-lg">
+    <div className="relative block overflow-hidden mt-10 rounded-lg">
       <div className="api-grid-wrapper-inner">
         <div className="api-grid-wrapper-outer">
           <div className="feature-grid feature-api-grid">
-            {[...Array(2)].map((_value: undefined, index: number) => (
+            {[...Array(3)].map((_value: undefined, index: number) => (
               <PhotoCards key={index} items={items} />
             ))}
           </div>
@@ -365,11 +365,11 @@ const IntegrationPhotoCards: React.FC<IntegrationPhotoCardsProps> = ({
 };
 
 const ColumnCardData: React.FC<ChildrenProps> = ({ children }) => {
-  return <div>{children}</div>;
+  return <div className="pr-5">{children}</div>;
 };
 
 const TwoColumnCards: React.FC<ChildrenProps> = ({ children }) => {
-  return <div className="grid grid-cols-2 gap-4">{children}</div>;
+  return <div className="grid grid-cols-2 gap-6 two-column-cards">{children}</div>;
 };
 
 export {
