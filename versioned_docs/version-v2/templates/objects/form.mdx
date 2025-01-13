@@ -12,58 +12,58 @@ Freeform will automatically insert javascript in the footer of the page for feat
 
 ## Properties
 
-- `name` <a href="#prop-name" id="prop-name" class="docs-anchor">#</a>
+- `name` <a href="#prop-name" id="prop-name" className="docs-anchor">#</a>
   - Outputs the name of the form.
-- `handle` <a href="#prop-handle" id="prop-handle" class="docs-anchor">#</a>
+- `handle` <a href="#prop-handle" id="prop-handle" className="docs-anchor">#</a>
   - Outputs the handle of the form.
-- `id` <a href="#prop-id" id="prop-id" class="docs-anchor">#</a>
+- `id` <a href="#prop-id" id="prop-id" className="docs-anchor">#</a>
   - Outputs the unique ID of the form.
-- `description` <a href="#prop-description" id="prop-description" class="docs-anchor">#</a>
+- `description` <a href="#prop-description" id="prop-description" className="docs-anchor">#</a>
   - Outputs the description of the form.
-- `submissionTitleFormat` <a href="#prop-submissionTitleFormat" id="prop-submissionTitleFormat" class="docs-anchor">#</a>
+- `submissionTitleFormat` <a href="#prop-submissionTitleFormat" id="prop-submissionTitleFormat" className="docs-anchor">#</a>
   - Outputs the submissionTitleFormat used when creating new submissions based on this form.
-- `returnUrl` <a href="#prop-returnUrl" id="prop-returnUrl" class="docs-anchor">#</a>
+- `returnUrl` <a href="#prop-returnUrl" id="prop-returnUrl" className="docs-anchor">#</a>
   - Outputs the returnUrl of the form.
-- `hasErrors` <a href="#prop-hasErrors" id="prop-hasErrors" class="docs-anchor">#</a>
+- `hasErrors` <a href="#prop-hasErrors" id="prop-hasErrors" className="docs-anchor">#</a>
   - A bool variable, which will be `true` if there are any errors in any of the fields or the form.
   - Might be `true` even if `form.errors` list is empty, (e.g. if one or more fields have an error).
   - Can be used in conjunction with the [Errors object](./errors.mdx) for displaying special and general errors.
-- `pages` <a href="#prop-pages" id="prop-pages" class="docs-anchor">#</a>
+- `pages` <a href="#prop-pages" id="prop-pages" className="docs-anchor">#</a>
   - Returns a list of [Page objects](./page.mdx) each containing its label and index.
-- `currentPage` <a href="#prop-currentPage" id="prop-currentPage" class="docs-anchor">#</a>
+- `currentPage` <a href="#prop-currentPage" id="prop-currentPage" className="docs-anchor">#</a>
   - Returns the current [Page object](./page.mdx) containing its label and index.
-- **Custom Attributes** (`customAttributes`) <a href="#prop-custom-attributes" id="prop-custom-attributes" class="docs-anchor">#</a>
+- **Custom Attributes** (`customAttributes`) <a href="#prop-custom-attributes" id="prop-custom-attributes" className="docs-anchor">#</a>
   - The following properties are available to ease the customizability of field rendering if set as parameters (each one is `null` if not set):
-    - `id` <a href="#prop-custattr-id" id="prop-custattr-id" class="docs-anchor">#</a>
+    - `id` <a href="#prop-custattr-id" id="prop-custattr-id" className="docs-anchor">#</a>
       - The ID attribute of the HTML form tag.
-    - `class` <a href="#prop-custattr-class" id="prop-custattr-class" class="docs-anchor">#</a>
+    - `class` <a href="#prop-custattr-class" id="prop-custattr-class" className="docs-anchor">#</a>
       - The CLASS attribute of the HTML form tag.
-    - `method` <a href="#prop-custattr-method" id="prop-custattr-method" class="docs-anchor">#</a>
+    - `method` <a href="#prop-custattr-method" id="prop-custattr-method" className="docs-anchor">#</a>
       - The METHOD attribute for the form tag.
-    - `action` <a href="#prop-custattr-action" id="prop-custattr-action" class="docs-anchor">#</a>
+    - `action` <a href="#prop-custattr-action" id="prop-custattr-action" className="docs-anchor">#</a>
       - The ACTION attribute for the form tag.
-    - `status` <a href="#prop-custattr-action" id="prop-custattr-action" class="docs-anchor">#</a>
+    - `status` <a href="#prop-custattr-action" id="prop-custattr-action" className="docs-anchor">#</a>
       - The status ID or Handle.
-    - `returnUrl` <a href="#prop-custattr-returnurl" id="prop-custattr-returnurl" class="docs-anchor">#</a>
+    - `returnUrl` <a href="#prop-custattr-returnurl" id="prop-custattr-returnurl" className="docs-anchor">#</a>
       - Allows overriding the return URL of the form upon successful submit.
       - You can override the return URL manually with a hidden field or checkbox, etc named `formReturnUrl`, allowing for a more dynamic return URL dependent on the user's choice or action, as long as you hash the value as of Freeform 2.5.27+ (e.g. `<input type="checkbox" name="formReturnUrl" value="{{ 'whatever/my-url'|hash }}" />`).
-    - `rowClass` <a href="#prop-custattr-rowclass" id="prop-custattr-rowclass" class="docs-anchor">#</a>
+    - `rowClass` <a href="#prop-custattr-rowclass" id="prop-custattr-rowclass" className="docs-anchor">#</a>
       - The CLASS attribute of all HTML row tags.
-    - `columnClass` <a href="#prop-custattr-columnclass" id="prop-custattr-columnclass" class="docs-anchor">#</a>
+    - `columnClass` <a href="#prop-custattr-columnclass" id="prop-custattr-columnclass" className="docs-anchor">#</a>
       - The CLASS attribute of all HTML column tags.
-    - `submitClass` <a href="#prop-custattr-submitclass" id="prop-custattr-submitclass" class="docs-anchor">#</a>
+    - `submitClass` <a href="#prop-custattr-submitclass" id="prop-custattr-submitclass" className="docs-anchor">#</a>
       - The CLASS attribute of submit field input elements.
-    - `inputClass` <a href="#prop-custattr-inputclass" id="prop-custattr-inputclass" class="docs-anchor">#</a>
+    - `inputClass` <a href="#prop-custattr-inputclass" id="prop-custattr-inputclass" className="docs-anchor">#</a>
       - The CLASS attribute of all HTML input fields.
-    - `labelClass` <a href="#prop-custattr-labelclass" id="prop-custattr-labelclass" class="docs-anchor">#</a>
+    - `labelClass` <a href="#prop-custattr-labelclass" id="prop-custattr-labelclass" className="docs-anchor">#</a>
       - The CLASS attribute of all HTML label fields.
-    - `errorClass` <a href="#prop-custattr-errorclass" id="prop-custattr-errorclass" class="docs-anchor">#</a>
+    - `errorClass` <a href="#prop-custattr-errorclass" id="prop-custattr-errorclass" className="docs-anchor">#</a>
       - The CLASS attribute of all HTML error lists.
-    - `instructionsClass` <a href="#prop-custattr-instructionsclass" id="prop-custattr-instructionsclass" class="docs-anchor">#</a>
+    - `instructionsClass` <a href="#prop-custattr-instructionsclass" id="prop-custattr-instructionsclass" className="docs-anchor">#</a>
       - The CLASS attribute of all instruction fields.
-    - `instructionsBelowField` <a href="#prop-custattr-instructionsbelowfield" id="prop-custattr-instructionsbelowfield" class="docs-anchor">#</a>
+    - `instructionsBelowField` <a href="#prop-custattr-instructionsbelowfield" id="prop-custattr-instructionsbelowfield" className="docs-anchor">#</a>
       - A boolean value. Set to true to render instructions below, not above the input field.
-    - `overrideValues` <a href="#prop-custattr-overridevalues" id="prop-custattr-overridevalues" class="docs-anchor">#</a>
+    - `overrideValues` <a href="#prop-custattr-overridevalues" id="prop-custattr-overridevalues" className="docs-anchor">#</a>
       - Allows you to override the value inside Text fields, or pre-select a default option for multi-option field types (specify option values in this case). E.g.:
         - `hiddenFieldHandle: entry.id` - pull in an entry ID from a Craft Entry.
         - `stateSelect: "AZ"` - pre-select **Arizona** state in a State select field.
@@ -71,13 +71,13 @@ Freeform will automatically insert javascript in the footer of the page for feat
         - `firstName: currentUser.name` - pull in the currently logged in user's name into the Name field.
       - Specify the field `handle` as key, and provide the custom value override as its value.
       - If a [Field](./field.mdx) uses an `overrideValue` attribute, it will take precedence over the value specified in this attribute.
-    - `formAttributes` <a href="#prop-custattr-formattributes" id="prop-custattr-formattributes" class="docs-anchor">#</a>
+    - `formAttributes` <a href="#prop-custattr-formattributes" id="prop-custattr-formattributes" className="docs-anchor">#</a>
       - An object of attributes which will be added to the form.
       - Ex: `formAttributes: { "novalidate": true, "data-form-id": "test" }`
-    - `inputAttributes` <a href="#prop-custattr-inputattributes" id="prop-custattr-inputattributes" class="docs-anchor">#</a>
+    - `inputAttributes` <a href="#prop-custattr-inputattributes" id="prop-custattr-inputattributes" className="docs-anchor">#</a>
       - An object of attributes which will be added to all input fields.
       - Ex: `inputAttributes: { "readonly": true, "data-field-id": "test" }`
-    - `useRequiredAttribute: true` <a href="#prop-custattr-userequiredattribute" id="prop-custattr-userequiredattribute" class="docs-anchor">#</a>
+    - `useRequiredAttribute: true` <a href="#prop-custattr-userequiredattribute" id="prop-custattr-userequiredattribute" className="docs-anchor">#</a>
       - Adds `required` attribute to input fields that have been set to be required in Composer.
 
 :::info

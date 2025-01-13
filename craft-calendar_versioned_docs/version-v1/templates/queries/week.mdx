@@ -9,37 +9,37 @@ The _calendar.week_ template query assembles a [Week object](../objects/week.mdx
 
 ## Parameters
 
-- `date` <a href="#param-date" id="param-date" class="docs-anchor">#</a>
+- `date` <a href="#param-date" id="param-date" className="docs-anchor">#</a>
   - A date string representing a date within the week that should be compiled.
   - `"march 15 2016"` is a valid `date` value
   - `"2016-03-10"` would be valid and return the [Week object](../objects/week.mdx) for the week containing **March 15, 2016**
-- `calendar` <a href="#param-calendar" id="param-calendar" class="docs-anchor">#</a>
+- `calendar` <a href="#param-calendar" id="param-calendar" className="docs-anchor">#</a>
   - Handle of the calendar, e.g. `"holidays"`, or an array of handles: `["holidays", "football"]`.
   - Use `"not holidays"` to select all calendars EXCEPT the **Holidays** calendar
-- `calendarId` <a href="#param-calendar-id" id="param-calendar-id" class="docs-anchor">#</a>
+- `calendarId` <a href="#param-calendar-id" id="param-calendar-id" className="docs-anchor">#</a>
   - An ID of the calendar, or array of ID's, e.g. `[1, 2, 3]`
   - If you want to select all calendars EXCEPT the calendar with an ID of **1**, use `"not 1"`
-- `allDay` <a href="#param-all-day" id="param-all-day" class="docs-anchor">#</a>
+- `allDay` <a href="#param-all-day" id="param-all-day" className="docs-anchor">#</a>
   - Selects only events that are set to be **All Day** events went set to `true`.
-- `authorId` <a href="#param-author-id" id="param-author-id" class="docs-anchor">#</a>
+- `authorId` <a href="#param-author-id" id="param-author-id" className="docs-anchor">#</a>
   - Selects events from specific author ID's
-- `limit` <a href="#param-limit" id="param-limit" class="docs-anchor">#</a>
+- `limit` <a href="#param-limit" id="param-limit" className="docs-anchor">#</a>
   - Supply an `int` to limit the amount of events returned
-- `order` <a href="#param-order" id="param-order" class="docs-anchor">#</a>
+- `order` <a href="#param-order" id="param-order" className="docs-anchor">#</a>
   - Override default sort order by for each day with this parameter, e.g. `order: "startDate ASC"`
-- `status` <a href="#param-status" id="param-status" class="docs-anchor">#</a>
+- `status` <a href="#param-status" id="param-status" className="docs-anchor">#</a>
   - By default, `live` is used, showing only enabled events
   - Can be set to `disabled` to show disabled events
   - Or `null` to show all events regardless of their status
-- `loadOccurrences` <a href="#param-load-occurrences" id="param-load-occurrences" class="docs-anchor">#</a>
+- `loadOccurrences` <a href="#param-load-occurrences" id="param-load-occurrences" className="docs-anchor">#</a>
   - Set this to `false` to not load any recurring events. Default is `true`.
   - When setting this to `false`, Calendar will display only the very first occurrence in the results ONLY if that same occurrence falls within the Week date range. It will NOT just show the next recurrence available, and does NOT show any events that just have recurrences within the Week date range.
-- `firstDay` <a href="#param-first-day" id="param-first-day" class="docs-anchor">#</a>
+- `firstDay` <a href="#param-first-day" id="param-first-day" className="docs-anchor">#</a>
   - An `int` value representing the first day of week.
   - Defaults to the currently logged in user's first day of week.
   - If user not logged in, it defaults to the global **First Day of Week** Craft setting
   - Accepts `int` values from `0-6`, `0` being **Sunday**, `6` being **Saturday**
-- `search: "customField:myvalue*"` <a href="#param-search" id="param-search" class="docs-anchor">#</a>
+- `search: "customField:myvalue*"` <a href="#param-search" id="param-search" className="docs-anchor">#</a>
   - Works just like regular [Craft Searching](https://docs.craftcms.com/v2/searching.html).
 
 ## Usage in Templates

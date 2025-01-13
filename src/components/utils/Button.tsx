@@ -7,6 +7,7 @@ interface PrimaryButtonWithLink {
   arrowDown?: boolean;
   classes?: string;
   size?: string;
+  mobileHidden?: boolean;
 }
 
 interface ButtonProps {
@@ -20,13 +21,14 @@ const PrimaryButtonWithLink: React.FC<PrimaryButtonWithLink> = ({
   arrowDown = false,
   classes,
   size,
+  mobileHidden = false,
 }) => {
   return (
     <Link
       to={to}
       className={`primary-btn ${classes} ${
         size === 'sm' ? 'text-sm py-2 px-2' : 'text-md py-2 px-4 '
-      } ${outline ? 'outline-btn' : ''}`}
+      } ${outline ? 'outline-btn' : ''} ${mobileHidden ? 'mobile-hidden' : ''}`}
     >
       <span className={`${arrowDown ? 'arrow-down' : ''}`}>
         {label || 'Learn more'}
@@ -37,8 +39,8 @@ const PrimaryButtonWithLink: React.FC<PrimaryButtonWithLink> = ({
 
 const FlexButton: React.FC<ButtonProps> = ({ items }) => {
   return (
-    <div className="flex flex-col items-center gap-6">
-      <div className="flex flex-wrap gap-3 justify-center">
+    <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-wrap gap-2 md:gap-3 justify-center">
         {items.map((item) => (
           <PrimaryButtonWithLink
             key={item.to}
@@ -46,6 +48,7 @@ const FlexButton: React.FC<ButtonProps> = ({ items }) => {
             label={item.label || 'Learn more'}
             outline={item?.outline || false}
             arrowDown={item?.arrowDown || false}
+            mobileHidden={item?.mobileHidden || false}
           />
         ))}
       </div>

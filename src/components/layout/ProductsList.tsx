@@ -5,7 +5,7 @@ import allPlugins from '@site/allPlugins.json';
 export function ProductsList(): JSX.Element {
   return (
     <div className="navbar__item dropdown dropdown--hoverable cursor-pointer hidden md:block">
-      <div className="navbar__item navbar__link">Products</div>
+      <div className="navbar__item navbar__link">Plugins</div>
 
       <div className="absolute left-0 dropdown__menu min-w-[190px]">
         {allPlugins.map((plugin) => (

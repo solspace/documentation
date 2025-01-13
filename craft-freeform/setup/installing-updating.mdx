@@ -573,44 +573,47 @@ Once you're ready to complete the purchase, you can visit the Cart inside your s
 
 Third-party plugin licenses are managed and validated entirely by Craft. Some issues may require that you contact the Craft Team directly if issues persist. The following troubleshooting tips account for the most common issues we've seen our customers report to us:
 
-- [Error: 'This license is tied to another Craft install'](#error-this-license-is-tied-to-another-craft-install)
-- [Error: 'This license isn't allowed to run version X.X.X.'](#error-this-license-isnt-allowed-to-run-version-xxx)
-- [Plugin shows it's 'Missing'](#plugin-shows-its-missing)
-- [Can't purchase upgrade from Lite to Pro edition](#cant-purchase-upgrade-from-lite-to-pro-edition)
+<details className="hidden-heading">
+  <summary>Error: 'This license is tied to another Craft install'</summary>
 
-#### Error: 'This license is tied to another Craft install'
+  If you receive the error `This license is tied to another Craft install. Visit id.craftcms.com to resolve.` it indicates that the license is tied to another install of Craft CMS. This is likely because either you purchased this under a different domain or subdomain, or something glitched in the process of purchasing the license. Regardless of what happened here, this can likely be resolved by:
 
-If you receive the error `This license is tied to another Craft install. Visit id.craftcms.com to resolve.` it indicates that the license is tied to another install of Craft CMS. This is likely because either you purchased this under a different domain or subdomain, or something glitched in the process of purchasing the license. Regardless of what happened here, this can likely be resolved by:
+  1. Visit your [Craft Console account](https://console.craftcms.com/).
+  2. Under **Licenses** → **Plugins**, look for the _Freeform_ (or affected plugin) license in the list and confirm it's tied to the correct Craft CMS license. If not, click into the license (e.g. `CRZ6`) and click on the _Detach from this Craft license_ button. This will release it from being attached to the wrong or orphaned Craft CMS license and allow you to enter it into the Craft install you're using.
 
-1. Visit your [Craft Console account](https://console.craftcms.com/).
-2. Under **Licenses** → **Plugins**, look for the _Freeform_ (or affected plugin) license in the list and confirm it's tied to the correct Craft CMS license. If not, click into the license (e.g. `CRZ6`) and click on the _Detach from this Craft license_ button. This will release it from being attached to the wrong or orphaned Craft CMS license and allow you to enter it into the Craft install you're using.
+  If you are moving an existing site to a new non-public domain from a different local hostname, you will need to clear your data caches from the **Clear Caches** tool on the **Settings** page before Craft realizes that the hostname has changed.
 
-If you are moving an existing site to a new non-public domain from a different local hostname, you will need to clear your data caches from the **Clear Caches** tool on the **Settings** page before Craft realizes that the hostname has changed.
+</details>
+<details className="hidden-heading">
+  <summary>Error: 'This license isn't allowed to run version X.X.X.'</summary>
 
-#### Error: 'This license isn't allowed to run version X.X.X.'
+  If you receive the error `This license isn't allowed to run version X.X.X.`, it indicates that you're using a version of the plugin that your license isn't eligible for, which in almost all cases would be a plugin license that expired/finished the 1-year term since the initial purchase. According to Craft's policy (out of Solspace's control), once the plugin license has expired, the current version you have installed is the maximum version you can have. The rationale behind this (according to Craft) is that if, for example, you were using Freeform 3.10.1 at the time of expiry, but 3.11.4 was available to you just before the license expiry date, if that 3.11.4 version was available to you indefinitely, one might update to that version months or years later and experience issues while upgrading, which could generate issues and support requests to the developer beyond that initial 1 year term. This is a fair statement and concern on Craft's part, in our opinion. Craft does send out 30-day notices reminding customers of plugin licenses nearing expiry, so it would be wise to consider squeezing in your final update(s) earlier in that 30-day window if you do not wish to renew your license for future updates beyond the initial 1-year term.
 
-If you receive the error `This license isn't allowed to run version X.X.X.`, it indicates that you're using a version of the plugin that your license isn't eligible for, which in almost all cases would be a plugin license that expired/finished the 1-year term since the initial purchase. According to Craft's policy (out of Solspace's control), once the plugin license has expired, the current version you have installed is the maximum version you can have. The rationale behind this (according to Craft) is that if, for example, you were using Freeform 3.10.1 at the time of expiry, but 3.11.4 was available to you just before the license expiry date, if that 3.11.4 version was available to you indefinitely, one might update to that version months or years later and experience issues while upgrading, which could generate issues and support requests to the developer beyond that initial 1 year term. This is a fair statement and concern on Craft's part, in our opinion. Craft does send out 30-day notices reminding customers of plugin licenses nearing expiry, so it would be wise to consider squeezing in your final update(s) earlier in that 30-day window if you do not wish to renew your license for future updates beyond the initial 1-year term.
+  > When a license expires, you can keep using the version that's currently installed. However, you won't be able to update it to newer versions until you've renewed the license.
 
-> When a license expires, you can keep using the version that's currently installed. However, you won't be able to update it to newer versions until you've renewed the license.
+  As for **_how_ this happened** in the first place, Craft's [CP updater](#update-from-the-control-panel) and their recommended built-in [_update_ command](#update-from-the-cli) feature will make sure that you never update to a plugin version you don't have access to. However, if you used [Composer](#update-via-composer-from-the-cli) to update, it bypasses all of Craft's license validation and you can get yourself into the situation where you now have a version that your license shouldn't have access to, which then generates the error inside the Craft CP. The only way to resolve this would be reverting back to the previous version (which is not always recommended, as it's possible plugin update migration(s) could have taken place, and reverting could break your install), or renew your license. Please feel free to reach out to us for further clarification and assistance if you're in a bind with this, and we'll do the best we can to help.
 
-As for **_how_ this happened** in the first place, Craft's [CP updater](#update-from-the-control-panel) and their recommended built-in [_update_ command](#update-from-the-cli) feature will make sure that you never update to a plugin version you don't have access to. However, if you used [Composer](#update-via-composer-from-the-cli) to update, it bypasses all of Craft's license validation and you can get yourself into the situation where you now have a version that your license shouldn't have access to, which then generates the error inside the Craft CP. The only way to resolve this would be reverting back to the previous version (which is not always recommended, as it's possible plugin update migration(s) could have taken place, and reverting could break your install), or renew your license. Please feel free to reach out to us for further clarification and assistance if you're in a bind with this, and we'll do the best we can to help.
+</details>
+<details className="hidden-heading">
+  <summary>Plugin shows it's 'Missing'</summary>
 
-#### Plugin shows it's 'Missing'
+  If you have a plugin that shows as _Missing_, this is because you don't have the plugin installed and/or the plugin files are not in the Craft **vendor** folder, BUT you have a valid purchased Craft 3 license for the plugin tied to that Craft install. Depending on your scenario, you likely either have the issue of wanting the plugin to be available or not wanting it to show up there.
 
-If you have a plugin that shows as _Missing_, this is because you don't have the plugin installed and/or the plugin files are not in the Craft **vendor** folder, BUT you have a valid purchased Craft 3 license for the plugin tied to that Craft install. Depending on your scenario, you likely either have the issue of wanting the plugin to be available or not wanting it to show up there.
+  If you purchased the plugin and are expecting it to show up for installation, what likely happened is that Craft or your server environment glitched and didn't correctly add the plugin dependency (files) to your Craft site's **vendor** folder (but knows that you have a valid purchase of it). If this is the case, you'll need to follow the [Installation Instructions](#installation) documentation above to install the plugin.
 
-If you purchased the plugin and are expecting it to show up for installation, what likely happened is that Craft or your server environment glitched and didn't correctly add the plugin dependency (files) to your Craft site's **vendor** folder (but knows that you have a valid purchase of it). If this is the case, you'll need to follow the [Installation Instructions](#installation) documentation above to install the plugin.
+  If the above is not the case for you, and you don't want this license showing up on your Craft site, this can likely be resolved by:
 
-If the above is not the case for you, and you don't want this license showing up on your Craft site, this can likely be resolved by:
+  1. Visit your [Craft Console account](https://console.craftcms.com/).
+  2. Under **Licenses** → **Plugins**, look for the _Freeform_ (or affected plugin) license in the list and confirm it's tied to the correct Craft CMS license. If not, click into the license (e.g. `CRZ6`) and click on the _Detach from this Craft license_ button. This will release it from being attached to the wrong or orphaned Craft CMS license, and later use it on the correct/different Craft install.
 
-1. Visit your [Craft Console account](https://console.craftcms.com/).
-2. Under **Licenses** → **Plugins**, look for the _Freeform_ (or affected plugin) license in the list and confirm it's tied to the correct Craft CMS license. If not, click into the license (e.g. `CRZ6`) and click on the _Detach from this Craft license_ button. This will release it from being attached to the wrong or orphaned Craft CMS license, and later use it on the correct/different Craft install.
+</details>
+<details className="hidden-heading">
+  <summary>Can't purchase upgrade from Lite to Pro edition</summary>
 
-#### Can't purchase upgrade from Lite to Pro edition
+  If you're currently using the _Lite_ edition of Freeform and are trying to purchase an upgrade to the _Pro_ edition, but it's not letting you (the **Add to Cart** button isn't showing), please ensure that the `allowUpdates` and `allowAdminChanges` [Craft General Config items](https://docs.craftcms.com/api/v4/craft-config-generalconfig.html#public-properties) are NOT set to `false`. At least enable them temporarily to allow this change to happen.
 
-If you're currently using the _Lite_ edition of Freeform and are trying to purchase an upgrade to the _Pro_ edition, but it's not letting you (the **Add to Cart** button isn't showing), please ensure that the `allowUpdates` and `allowAdminChanges` [Craft General Config items](https://docs.craftcms.com/api/v4/craft-config-generalconfig.html#public-properties) are NOT set to `false`. At least enable them temporarily to allow this change to happen.
-
-```php
-'allowUpdates' => true
-'allowAdminChanges' => true
-```
+  ```php
+  'allowUpdates' => true
+  'allowAdminChanges' => true
+  ```
+</details>

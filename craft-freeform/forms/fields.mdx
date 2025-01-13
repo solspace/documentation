@@ -97,9 +97,9 @@ There is a standard number of settings available to all forms (with some excepti
 | **Instructions**                                                                 | `instructions`                                     | Specify intructions for the field if you wish.                                                                                                                                                                                                                                                                                                                                                                                                          |
 | **Default Value**                                                                | `defaultValue`                                     | For applicable fields, you can set a default value or selected option for the field.                                                                                                                                                                                                                                                                                                                                                                    |
 | **Placeholder**                                                                  | `placeholder`                                      | Specify placeholder text for the field, if applicable.                                                                                                                                                                                                                                                                                                                                                                                                  |
-| **Maximum&nbsp;Length**                                                          | `maxlength`                                        | The maximum number of characters for the field's value. Applicable only to the following field types: <ul><li>[Confirm](#confirm)</li><li>[Date & Time](#date-time)</li><li>[Email](#email)</li><li>[Hidden](#hidden)</li><li>[Invisible](#invisible)</li><li>[Number](#number)</li><li>[Password](#password)</li><li>[Phone](#phone)</li><li>[Regex](#regex)</li><li>[Text](#text)</li><li>[Textarea](#textarea)</li><li>[Website](#website)</li></ul> |
+| **Maximum&nbsp;Length**                                                          | `maxlength`                                        | The maximum number of characters for the field's value. <details><summary>Applicable to the following Field types</summary><ul><li>[Confirm](#confirm)</li><li>[Date & Time](#date-time)</li><li>[Email](#email)</li><li>[Hidden](#hidden)</li><li>[Invisible](#invisible)</li><li>[Number](#number)</li><li>[Password](#password)</li><li>[Phone](#phone)</li><li>[Regex](#regex)</li><li>[Text](#text)</li><li>[Textarea](#textarea)</li><li>[Website](#website)</li></ul></details> |
 | **Attribute Editor**                                                             |                                                    | Apply any kind of attribute on the input, label, error, instruction in Freeform's automated rendering of the form.                                                                                                                                                                                                                                                                                                                                      |
-| **Options**                                                                      | `options`<ul><li>`label`</li><li>`value`</li></ul> | Specify the option labels and values for applicable field types. Available only for the following field types: <ul><li>[Checkboxes](#checkboxes)</li><li>[Dropdown](#dropdown)</li><li>[Multiple Select](#multiple-select)</li><li>[Radios](#radios)</li></ul>                                                                                                                                                                                          |
+| **Options**                                                                      | `options`<ul><li>`label`</li><li>`value`</li></ul> | Specify the option labels and values for applicable field types. <details><summary>Applicable to the following Field types</summary><ul><li>[Checkboxes](#checkboxes)</li><li>[Dropdown](#dropdown)</li><li>[Multiple Select](#multiple-select)</li><li>[Radios](#radios)</li></ul></details>                                                                                                                                                                                          |
 
 :::info
 All field types conveniently include the ability to set attributes for their **labels**, **inputs**, **errors** and **instructions** directly inside the form builder property editor.
@@ -131,7 +131,7 @@ If you wish to use a different security key for Freeform specifically, you can s
 Encryption is not retroactive. Each submission will need to be resaved to update older submissions.
 :::
 
-### Populating Field Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.0+" />
+## Populating Field Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.0+" />
 
 All multi-option field types (such as Dropdown, Checkboxes, etc) can have their option labels and values automatically populated with Craft Elements or Pre-defined list options. This allows you to quickly build forms by having fields auto-generated.
 
@@ -301,7 +301,7 @@ There are potentially negative implications with using this feature:
 
 :::
 
-### Field Types
+## Field Types
 
 Freeform contains a rich set of field types to handle just about every possible scenario you might get yourself into.
 
@@ -309,37 +309,37 @@ Freeform contains a rich set of field types to handle just about every possible 
 Fields can be changed to other field types at any point, but be aware that data loss could occur when switching incompatible field types.
 :::
 
-| Name                                                                              | `field.type`                          | Description                                                                                                                                                        | <span class="edition-express no-margin">Express</span> | <span class="edition-lite no-margin">Lite</span> | <span class="edition-pro no-margin">Pro</span> |
+| Name                                                                              | `field.type`                          | Description                                                                                                                                                        | <span className="edition-express no-margin">Express</span> | <span className="edition-lite no-margin">Lite</span> | <span className="edition-pro no-margin">Pro</span> |
 | --------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------: | :----------------------------------------------: | :--------------------------------------------: |
-| [Calculation](#calculation)<Badge type="feature" text="New in 5.1+" />            | `calculation`                         | Perform dynamic calculations based on user-input values within forms.                                                                                              |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Checkbox](#checkbox)                                                             | `checkbox`                            | A single checkbox field.                                                                                                                                           |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Checkboxes](#checkboxes)                                                         | `checkboxes`                          | A group of checkboxes.                                                                                                                                             |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Confirm](#confirm)                                                               | `confirm`                             | A text input field that targets another similar field and ensures the values match.                                                                                |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Date & Time](#date--time)                                                        | `datetime`                            | A complex date and/or time field.                                                                                                                                  |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Dropdown](#dropdown)                                                             | `dropdown`                            | A select dropdown menu field.                                                                                                                                      |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Email](#email)                                                                   | `email`                               | A text input field that includes additional email validation and possibility for attaching an email notification to it.                                            |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [File Upload](#file-upload)                                                       | `file`                                | A regular file upload field.                                                                                                                                       |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [File Upload Drag & Drop](#file-upload-drag--drop)                                | `file-dnd`                            | An advanced javascript-based file uploading field.                                                                                                                 |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Group](#group)<Badge type="feature" text="New in 5.0+" />                        | `group`                               | A field that contains other fields within it.                                                                                                                      |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Hidden](#hidden)                                                                 | <span class="compare-none">N/A</span> | A hidden input field.                                                                                                                                              |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [HTML](#html)                                                                     | `html`                                | A block that allows you to insert HTML into areas of your form.                                                                                                    |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Invisible](#invisible)                                                           | <span class="compare-none">N/A</span> | A field that allows you to collect hidden data in form submissions without a hidden field being present in the template source code.                               |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Multiple Select](#multiple-select)                                               | `multiple-select`                     | A multiple-select field.                                                                                                                                           |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Number](#number)                                                                 | `number`                              | A `number` type input field that is validated to contain certain numbers only.                                                                                     |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Opinion Scale](#opinion-scale)                                                   | `opinion-scale`                       | A special field that allows for flexible opinion scoring.                                                                                                          |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Password](#password)                                                             | `password`                            | A text input field that collects sensitive passwords but does not store them.                                                                                      |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Phone](#phone)                                                                   | `phone`                               | A `tel` type input field that is validated to contain phone numbers only, based on a configured pattern.                                                           |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Radios](#radios)                                                                 | `radios`                              | A group of radio options.                                                                                                                                          |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Rating](#rating)                                                                 | `rating`                              | A special field that allows for star ratings.                                                                                                                      |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Regex](#regex)                                                                   | `regex`                               | An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`).                                                                   |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Rich Text](#rich-text)                                                           | `rich-text`                           | A block that allows you to insert rich text into areas of your form (headings, descriptions, etc).                                                                 |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Signature](#signature)                                                           | `signature`                           | A field that allows users to handwrite signatures inside your form.                                                                                                |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Stripe Payment](#stripe-payment)<Badge type="feature" text="Improved in 5.0+" /> | `stripe`                              | A set of input fields to allow the validation of credit cards and other payment options for [Stripe Payment](../integrations/stripe-payments.mdx) implementations. |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Submit buttons](#submit-buttons)                                                 | <span class="compare-none">N/A</span> | Handles the submit button(s), including **Save** option for the form.                                                                                              |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Table](#table)<Badge type="feature" text="Improved in 5.8+" />                   | `table`                               | A field that allows you to collect and handle repeating data.                                                                                                      |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
-| [Text](#text)                                                                     | `text`                                | A single-line text input field.                                                                                                                                    |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Textarea](#textarea)                                                             | `textarea`                            | A multi-line text input field.                                                                                                                                     |         <span class="edition-express">✓</span>         |       <span class="edition-lite">✓</span>        |       <span class="edition-pro">✓</span>       |
-| [Website](#website)                                                               | `website`                             | A `url` type input field that checks to see if the URL specified has valid syntax.                                                                                 |          <span class="compare-none">✕</span>           |       <span class="compare-none">✕</span>        |       <span class="edition-pro">✓</span>       |
+| [Calculation](#calculation)<Badge type="feature" text="New in 5.1+" />            | `calculation`                         | Perform dynamic calculations based on user-input values within forms.                                                                                              |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Checkbox](#checkbox)                                                             | `checkbox`                            | A single checkbox field.                                                                                                                                           |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Checkboxes](#checkboxes)                                                         | `checkboxes`                          | A group of checkboxes.                                                                                                                                             |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Confirm](#confirm)                                                               | `confirm`                             | A text input field that targets another similar field and ensures the values match.                                                                                |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Date & Time](#date--time)                                                        | `datetime`                            | A complex date and/or time field.                                                                                                                                  |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Dropdown](#dropdown)                                                             | `dropdown`                            | A select dropdown menu field.                                                                                                                                      |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Email](#email)                                                                   | `email`                               | A text input field that includes additional email validation and possibility for attaching an email notification to it.                                            |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [File Upload](#file-upload)                                                       | `file`                                | A regular file upload field.                                                                                                                                       |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [File Upload Drag & Drop](#file-upload-drag--drop)                                | `file-dnd`                            | An advanced javascript-based file uploading field.                                                                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Group](#group)<Badge type="feature" text="New in 5.0+" />                        | `group`                               | A field that contains other fields within it.                                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Hidden](#hidden)                                                                 | <span className="compare-none">N/A</span> | A hidden input field.                                                                                                                                              |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [HTML](#html)                                                                     | `html`                                | A block that allows you to insert HTML into areas of your form.                                                                                                    |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Invisible](#invisible)                                                           | <span className="compare-none">N/A</span> | A field that allows you to collect hidden data in form submissions without a hidden field being present in the template source code.                               |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Multiple Select](#multiple-select)                                               | `multiple-select`                     | A multiple-select field.                                                                                                                                           |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Number](#number)                                                                 | `number`                              | A `number` type input field that is validated to contain certain numbers only.                                                                                     |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Opinion Scale](#opinion-scale)                                                   | `opinion-scale`                       | A special field that allows for flexible opinion scoring.                                                                                                          |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Password](#password)                                                             | `password`                            | A text input field that collects sensitive passwords but does not store them.                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Phone](#phone)                                                                   | `phone`                               | A `tel` type input field that is validated to contain phone numbers only, based on a configured pattern.                                                           |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Radios](#radios)                                                                 | `radios`                              | A group of radio options.                                                                                                                                          |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Rating](#rating)                                                                 | `rating`                              | A special field that allows for star ratings.                                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Regex](#regex)                                                                   | `regex`                               | An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`).                                                                   |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Rich Text](#rich-text)                                                           | `rich-text`                           | A block that allows you to insert rich text into areas of your form (headings, descriptions, etc).                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Signature](#signature)                                                           | `signature`                           | A field that allows users to handwrite signatures inside your form.                                                                                                |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Stripe Payment](#stripe-payment)<Badge type="feature" text="Improved in 5.0+" /> | `stripe`                              | A set of input fields to allow the validation of credit cards and other payment options for [Stripe Payment](../integrations/stripe-payments.mdx) implementations. |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Submit buttons](#submit-buttons)                                                 | <span className="compare-none">N/A</span> | Handles the submit button(s), including **Save** option for the form.                                                                                              |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Table](#table)<Badge type="feature" text="Improved in 5.8+" />                   | `table`                               | A field that allows you to collect and handle repeating data.                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Text](#text)                                                                     | `text`                                | A single-line text input field.                                                                                                                                    |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Textarea](#textarea)                                                             | `textarea`                            | A multi-line text input field.                                                                                                                                     |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Website](#website)                                                               | `website`                             | A `url` type input field that checks to see if the URL specified has valid syntax.                                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 
 ### Favorite Fields
 
@@ -371,11 +371,19 @@ The Calculation field allows you to perform dynamic calculations based on user-i
 For the Calculation field to work as a dynamic amount with the [Stripe Payments](../integrations/stripe-payments.mdx) integration, the **Input Type** setting should be set to _Regular Text Input_ or _Plain Text_. If set to _Hidden_, the Calculation field should be within a multipage setup where it is on a page _before_ the page with the Stripe Payment Element field.
 :::
 
+<details className="hidden-heading">
+<summary>Settings</summary>
+
+The following additional settings are available to this field type:
+
 #### Decimal Count<Badge type="feature" text="New in 5.6+" />
 
 The _Decimal Count_ setting allows you to set the maximum number of decimal places the calculated result should have. Leave blank if you don't want to limit the decimal places. If you'd like to have no decimals (whole numbers only), enter a value of `0`.
 
-### Supported Fields
+</details>
+
+<details className="hidden-heading">
+<summary>Supported Field Types</summary>
 
 The following fields can be accessed within field calculation formulas:
 
@@ -390,7 +398,10 @@ The following fields can be accessed within field calculation formulas:
 - [Text](#text)
 - [Textarea](#textarea)
 
-### Supported Operators
+</details>
+
+<details className="hidden-heading">
+<summary>Supported Operators</summary>
 
 Utilizing [Symfony Expression Syntax](https://symfony.com/doc/current/reference/formats/expression_language.html), the Calculation field type empowers users to create sophisticated calculations effortlessly. From fundamental arithmetic to complex logical operations, users can employ an array of operators and functions to achieve desired outcomes.
 
@@ -685,6 +696,7 @@ yes
 
 </TabItem>
 </Tabs>
+</details>
 
 ## Checkbox
 
@@ -702,18 +714,24 @@ A single checkbox field. The `field.type` property value is `checkbox` (for cond
 
 - [Need to display basic HTML (`<b>`, `<i>`, `<a>`, etc) in your option labels to add emphasis or display a link?](../guides/fields/parsing-html-in-field-options.mdx)
 - [Want to display single checkbox fields as a light switch toggle?](../guides/fields/toggle-switch-checkbox.mdx)
-  :::
+:::
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Specify a value (e.g. `y` or `yes`, etc).
   - Has a default value of **Yes**, which can be overwritten with any value you want. No matter what value is set manually on the front end, Freeform will interpret it as checked and record the value specified in the form builder.
 - May be checked by default.
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 
-### Templating
+</details>
+
+<details className="hidden-heading">
+<summary>Templating</summary>
 
 - `checkedByDefault` (e.g. `1`)
+
+</details>
 
 ## Checkboxes<Badge type="feature" text="Renamed in 5.0+" />
 
@@ -732,12 +750,15 @@ A group of checkboxes. The `field.type` property value is `checkboxes` (for cond
 - [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
   :::
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Can specify labels (with values assumed) or labels and values (that differ).
 - Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-field-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 - Can be rendered vertically or horizontally.
+
+</details>
 
 ## Confirm<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.0+" />
 
@@ -748,10 +769,13 @@ A field that allows you to force a user to re-enter a matching value for another
   alt="Confirm field type"
 />
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Choose a target field to validate against, e.g. **Email** field.
   - Available fields must be of text input type, but don't necessarily need to be of the [Text](#text) field type - you can use with [Email](#email) fields, [Password](#password) special fields, [Phone](#phone) fields, etc.
+
+</details>
 
 ## Date & Time<Badge type="pro" text="Pro" />
 
@@ -763,7 +787,8 @@ A complex date and/or time field. Can be used as Date only, Time only, or both. 
   alt="Date & Time field type"
 />
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - May contain a default date value.
   - You may use `now`, `today`, `5 days ago`, `2017-01-01 20:00:00`, etc, which will format the default value according to the chosen format as a localized value.
@@ -782,21 +807,9 @@ A complex date and/or time field. Can be used as Date only, Time only, or both. 
 - Choose if placeholder should separate AM/PM with a space (for 12hr clock).
 - Select the Min and Max dates for the date picker and validation (optional). Use static dates (e.g. `2018-11-01`, `2018-11-30`) or relative date strings (e.g. `-10 days`, `+3 months`).
 
-<details>
-<summary>View Important Notes...</summary>
-
-For **localization** reference:
-
-- The _Flatpickr_ date picker will automatically localize according to the locale set for your site. Locales available are only 2-letter codes like `fr`, `de`, etc. In the event you're using a locale like `fr-CA` or `es-US`, etc, Freeform will just look at the first 2 letters and use that as the locale.
-- To translate the formatting syntax error message, be sure to translate the following strings:
-  - `"{value}" does not conform to "{format}" format.`
-  - To translate the `{format}` rendered value to match the current locale, be sure to also translate whatever the rendered string is in the error message. For example, if you're using `fr` locale, and wish to have the default English `DD/MM/YYYY` show up as `JJ/MM/AAAA`, create a static translation for this manually.
-
-To customize the date picker appearance and behavior, please see [Date Picker Events](../developer/datepicker.mdx) documentation.
-
 </details>
-
-### Templating
+<details className="hidden-heading">
+<summary>Templating</summary>
 
 - `initialValue`
 - `dateTimeType` (e.g. `both`)
@@ -811,6 +824,21 @@ To customize the date picker appearance and behavior, please see [Date Picker Ev
 - `useDatepicker` (e.g. `true`)
 - `minDate` (e.g. `five weeks ago`)
 - `maxDate` (e.g. `2024-12-31`)
+
+</details>
+<details>
+<summary>View Important Notes...</summary>
+
+For **localization** reference:
+
+- The _Flatpickr_ date picker will automatically localize according to the locale set for your site. Locales available are only 2-letter codes like `fr`, `de`, etc. In the event you're using a locale like `fr-CA` or `es-US`, etc, Freeform will just look at the first 2 letters and use that as the locale.
+- To translate the formatting syntax error message, be sure to translate the following strings:
+  - `"{value}" does not conform to "{format}" format.`
+  - To translate the `{format}` rendered value to match the current locale, be sure to also translate whatever the rendered string is in the error message. For example, if you're using `fr` locale, and wish to have the default English `DD/MM/YYYY` show up as `JJ/MM/AAAA`, create a static translation for this manually.
+
+To customize the date picker appearance and behavior, please see [Date Picker Events](../developer/datepicker.mdx) documentation.
+
+</details>
 
 ## Dropdown<Badge type="feature" text="Renamed in 5.0+" />
 
@@ -827,14 +855,17 @@ A select dropdown menu field. The `field.type` property value is `dropdown` (for
 
 - [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
 - [Looking to include an additional "Other" choice that displays an input field for users to fill in their own value?](../guides/fields/other-option-for-fields.mdx)
-  :::
+:::
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Can specify labels (with values assumed) or labels and values (that differ).
   - To make the first option empty, use **labels and values** approach with the first option having something like **Please select...** for the label, and leave option blank.
 - Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-field-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
+
+</details>
 
 ## Email<Badge type="feature" text="Revised in 5.0+" />
 
@@ -853,14 +884,19 @@ It is required to use the **Email** field type if you wish for your users to rec
 [Need to prevent users from using certain types of email addresses (e.g. common free ones such as Gmail, Yahoo, etc)?](../guides/form-validation/preventing-email-addresses.mdx)
 :::
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Optionally choose an email notification template (see [Email Notifications](./email-notifications.mdx#email-fields) documentation) to be used to send to the submitter of the form (or the email address entered in this field).
   - Users/groups need to have permissions for **Notifications** to create new formatting templates inside the form builder.
 
-### Templating
+</details>
+<details className="hidden-heading">
+<summary>Templating</summary>
 
 - `notificationId` (the ID of the assigned email notification template)
+
+</details>
 
 ## File Upload
 
@@ -875,7 +911,8 @@ A regular file upload field, using [Craft Assets](https://craftcms.com/docs/5.x/
 [Would you like to allow more file extensions in file uploads?](../guides/fields/allow-additional-file-extensions.mdx)
 :::
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Must have a [Craft Asset](https://craftcms.com/docs/5.x/reference/element-types/assets.html) Source location where the file will be uploaded to.
   - Does NOT work with [Image Transforms](https://craftcms.com/docs/5.x/reference/element-types/assets.html#image-transforms).
@@ -891,6 +928,16 @@ A regular file upload field, using [Craft Assets](https://craftcms.com/docs/5.x/
 - Select which file types can be uploaded.
   - Leaving all options unchecked will allow ALL file types.
 
+</details>
+<details className="hidden-heading">
+<summary>Templating</summary>
+
+- `fileKinds` (an array of allowed file kinds, e.g. `image`, `document`, `audio`, etc.)
+- `maxFileSizeKB` (the numeric representation of the upload limit in kilobytes.)
+- `fileCount` (the maximum number of allowed files to be uploaded.)
+  - A number larger than `1` will allow multiple files to be uploaded at the same time.
+
+</details>
 <details>
 <summary>View Important Notes...</summary>
 
@@ -899,13 +946,6 @@ A regular file upload field, using [Craft Assets](https://craftcms.com/docs/5.x/
 - If you're handling sensitive files, you may wish to choose an Asset volume without public URL's (**Assets in this volume have public URLs** toggle is off).
 
 </details>
-
-### Templating
-
-- `fileKinds` (an array of allowed file kinds, e.g. `image`, `document`, `audio`, etc.)
-- `maxFileSizeKB` (the numeric representation of the upload limit in kilobytes.)
-- `fileCount` (the maximum number of allowed files to be uploaded.)
-  - A number larger than `1` will allow multiple files to be uploaded at the same time.
 
 ## File Upload Drag & Drop<Badge type="pro" text="Pro" />
 
@@ -920,7 +960,8 @@ An advanced premium javascript-based file uploading field, using [Craft Assets](
 [Would you like to allow more file extensions in file uploads?](../guides/fields/allow-additional-file-extensions.mdx)
 :::
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Can control the placeholder wording, e.g. `Drag and drop files here, or click to upload`.
 - Choose a default style/theme, e.g. `Light` or `Dark`.
@@ -937,24 +978,18 @@ An advanced premium javascript-based file uploading field, using [Craft Assets](
 - Select which file types can be uploaded.
   - Leaving all options unchecked will allow ALL file types.
 
-<details>
-<summary>View Important Notes...</summary>
-
-- Unlike the regular [File Upload](#file-upload) field, the **File Upload Drag & Drop** field will remember files that have been uploaded to it regardless of the context: errors upon submission, [multi-page forms](../forms/builder.mdx#multi-page-forms), returning to edit the submission later.
-  - If the form is never completed, incomplete submissions are stored for 3hrs, and then are removed (along with the files) after that.
-- While files are uploading, Freeform will disable the **Submit** button so that the form has time to finish uploading the files. If the form is submitted while files are still uploading, any that are incomplete will not be saved.
-- If you're handling sensitive files, you may wish to choose an Asset volume without public URL's (**Assets in this volume have public URLs** toggle is off). However, please note that image file thumbnails will only be present directly after initial upload. Afterward (error when submitting, multi-page forms, returning to edit) the image thumbnails will no longer be accessible to Freeform.
-
 </details>
-
-### Templating
+<details className="hidden-heading">
+<summary>Templating</summary>
 
 - `fileKinds` (an array of allowed file kinds, e.g. `image`, `document`, `audio`, etc.)
 - `maxFileSizeKB` (the numeric representation of the upload limit in kilobytes.)
 - `fileCount` (the maximum number of allowed files to be uploaded.)
   - A number larger than `1` will allow multiple files to be uploaded at the same time.
 
-### Customizing the Appearance
+</details>
+<details className="hidden-heading">
+<summary>Customizing the Appearance</summary>
 
 The form builder includes some options for controlling basic styling, but you can also customize the appearance of the Drag and Drop File Upload field by using your own CSS. To avoid name collision and have maximum flexibility, the CSS class names use [BEM](http://getbem.com/introduction/) methodology. You will also likely need to specify `!important` for each override to ensure it takes effect.
 
@@ -1040,6 +1075,17 @@ Below is an example with regular CSS:
 </TabItem>
 </Tabs>
 
+</details>
+<details>
+<summary>View Important Notes...</summary>
+
+- Unlike the regular [File Upload](#file-upload) field, the **File Upload Drag & Drop** field will remember files that have been uploaded to it regardless of the context: errors upon submission, [multi-page forms](../forms/builder.mdx#multi-page-forms), returning to edit the submission later.
+  - If the form is never completed, incomplete submissions are stored for 3hrs, and then are removed (along with the files) after that.
+- While files are uploading, Freeform will disable the **Submit** button so that the form has time to finish uploading the files. If the form is submitted while files are still uploading, any that are incomplete will not be saved.
+- If you're handling sensitive files, you may wish to choose an Asset volume without public URL's (**Assets in this volume have public URLs** toggle is off). However, please note that image file thumbnails will only be present directly after initial upload. Afterward (error when submitting, multi-page forms, returning to edit) the image thumbnails will no longer be accessible to Freeform.
+
+</details>
+
 ## Group<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.0+" />
 
 A field that contains other fields within it. To use, add a Group field into your form's layout, then add/drag other fields into that Group inside the form builder. This becomes especially powerful when using with [Conditional Rules](./conditional-rules.mdx), as you'll be able create a single rule to show/hide an entire group of fields at once.
@@ -1055,9 +1101,12 @@ A field that contains other fields within it. To use, add a Group field into you
   height="100%"
 />
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 This field type only contains instructions and attributes for settings inside the builder.
+
+</details>
 
 ## Hidden
 
@@ -1067,10 +1116,13 @@ A hidden input field.
 Freeform will load fields of this type at the beginning of the form, regardless of where they are placed in the form builder layout.
 :::
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Can only include text strings at this time (no variables allowed).
   - If you need you pass a value to your hidden field dynamically, you can do so with the `values` parameter. E.g. `values: { myFieldName: "myvalue" }`
+
+</details>
 
 :::info
 To access hidden fields in GraphQL queries you have to loop through the `form > fields` as they are not added to `form > pages > rows > fields`.
@@ -1112,10 +1164,13 @@ If you'd like to display submission data from previous pages, you can do this by
 
 A field that allows you to collect hidden data in form submissions without a hidden field being present in the template source code.
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Can only include text strings at this time (no variables allowed).
   - If you need you pass a value to your hidden field dynamically, you can do so with the `values` parameter. E.g. `values: { myFieldName: "myvalue" }`
+
+</details>
 
 ## Multiple Select
 
@@ -1131,11 +1186,14 @@ A multiple-select field. The `field.type` property value is `multiple-select` (f
 [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
 :::
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Can specify labels (with values assumed) or labels and values (that differ).
 - Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-field-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
+
+</details>
 
 ## Number
 
@@ -1151,7 +1209,8 @@ A single-line `number` type input field that is validated to contain certain num
 [Want to display a Number field as a range slider?](../guides/fields/range-slider-number.mdx)
 :::
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Choose if validation should allow negative numbers.
 - Optionally set Min/Max values.
@@ -1161,7 +1220,9 @@ A single-line `number` type input field that is validated to contain certain num
 - Optionally set the number of decimals allowed.
 - Set the `step` number to set default increments when a user uses the browser up/down arrows to increase/decrease the value.
 
-### Templating
+</details>
+<details className="hidden-heading">
+<summary>Templating</summary>
 
 - `minLength`
 - `maxLength`
@@ -1170,6 +1231,8 @@ A single-line `number` type input field that is validated to contain certain num
 - `decimalCount`
 - `allowNegative` (e.g. `false`)
 - `step`
+
+</details>
 
 ## Opinion Scale<Badge type="pro" text="Pro" /><Badge type="feature" text="Revised in 5.0+" />
 
@@ -1181,17 +1244,22 @@ A special field that allows for flexible opinion scoring using Freeform's built 
   alt="Opinion Scale field type"
 />
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Set the field's option values and optional corresponding labels.
 - Optionally add legends to correspond to with choice options (e.g. _Less Satisfied_, _More Satisfied_).
 
-### Templating
+</details>
+<details className="hidden-heading">
+<summary>Templating</summary>
 
 - `scales`
 - `legends`
 
-### Customizing the Appearance
+</details>
+<details className="hidden-heading">
+<summary>Customizing the Appearance</summary>
 
 To manually render an Opinion Scale field to use your own styles, your code might look something like this:
 
@@ -1222,6 +1290,7 @@ To manually render an Opinion Scale field to use your own styles, your code migh
     </ul>
 {% endif %}
 ```
+</details>
 
 ## Password<Badge type="pro" text="Pro" />
 
@@ -1232,12 +1301,14 @@ A special field type that allows you to securely collect a password from a submi
   alt="Password field type"
 />
 
-### Settings<Badge type="feature" text="New in 5.2+" />
+<details className="hidden-heading">
+<summary>Settings<Badge type="feature" text="New in 5.2+" /></summary>
 
 - **Min Length** - the minimum number of characters the password should be.
 - **Max Length** - the maximum number of characters the password should be.
 - **Character Variability** - the password should contain at least one number, one lowercase letter, one uppercase letter, and one special character.
 
+</details>
 <details>
 <summary>View Important Notes...</summary>
 
@@ -1255,15 +1326,20 @@ A `tel` type input field that is validated to contain phone numbers only, based 
   alt="Phone field type"
 />
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Set pattern to desired format, where `0` is a digit between `0` and `9`.
   - E.g. `(000) 000-0000` or `+0 0000 000000`, etc.
   - Toggle the _Use JS validation_ setting to have Freeform include JS in the form that validates the format and auto-inserts the extra characters like `(`, `-`, `+` etc).
 
-### Templating
+</details>
+<details className="hidden-heading">
+<summary>Templating</summary>
 
 - `pattern`
+
+</details>
 
 ## Radios<Badge type="feature" text="Renamed in 5.0+" />
 
@@ -1281,14 +1357,17 @@ A group of radio options. The `field.type` property value is `radios` (for condi
 - [Need to display basic HTML (`<b>`, `<i>`, `<a>`, etc) in your option labels to add emphasis or display a link?](../guides/fields/parsing-html-in-field-options.mdx)
 - [Need to populate field options at template level? Check out the guide for workaround options.](../guides/dynamic-data/populate-field-options-at-template-level.mdx)
 - [Looking to include an additional "Other" choice that displays an input field for users to fill in their own value?](../guides/fields/other-option-for-fields.mdx)
-  :::
+:::
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Can specify labels (with values assumed) or labels and values (that differ).
 - Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-field-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 - Can be rendered vertically or horizontally.
+
+</details>
 
 ## Rating<Badge type="pro" text="Pro" />
 
@@ -1300,19 +1379,24 @@ This field type is included automatically with the _Pro_ edition of Freeform.
   alt="Rating field type"
 />
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Set the field's number of stars (`3`-`10`).
 - Style the color of the stars for the _unselected_, _hover_ and _selected_ states.
 
-### Templating
+</details>
+<details className="hidden-heading">
+<summary>Templating</summary>
 
 - `colorIdle` (e.g. `#ddd`)
 - `colorHover` (e.g. `gold`)
 - `colorSelected` (e.g. `#f70`)
 - `maxValue` (e.g. `5`)
 
-### Customizing the Appearance
+</details>
+<details className="hidden-heading">
+<summary>Customizing the Appearance</summary>
 
 To manually render a Rating field using your own styles, your code might look something like this:
 
@@ -1322,6 +1406,8 @@ To manually render a Rating field using your own styles, your code might look so
     <input type="radio" id="rating-{{ i }}" value="{{ i }}" name="{{ field.handle }}">
 {% endfor %}
 ```
+
+</details>
 
 ## Regex<Badge type="pro" text="Pro" />
 
@@ -1333,7 +1419,8 @@ An input field that is validated based on the specified regex pattern (e.g. `/^[
   alt="Regex field type"
 />
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Specify a required pattern for values to match, e.g. `/^[a-zA-Z0-9]*$/`.
   - When needing to use `{}` for attributes in **Regex** fields (such as `pattern`), you will need to specify them differently, as Freeform is built to allow Twig rendering and it'll choke. So for example, if you need to use `[0-9]{4,5}`, change it to:
@@ -1343,10 +1430,14 @@ An input field that is validated based on the specified regex pattern (e.g. `/^[
 - Set the error message a user will see if an incorrect value is supplied.
   - Any occurrences of `{pattern}` will be replaced with specified regex pattern inside the error message, if any are found.
 
-### Templating
+</details>
+<details className="hidden-heading">
+<summary>Templating</summary>
 
 - `pattern`
 - `message`
+
+</details>
 
 ## Rich Text<Badge type="pro" text="Pro" />
 
@@ -1379,13 +1470,15 @@ A field that allows users to handwrite signatures with their mouse inside your f
   alt="Signature field type"
 />
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Set the dimensions of the field writing/drawing area.
 - Set the border and background colors.
 - Set the pen dot size (in pixels) and the color.
 - To include ability for a user to click a button to erase their signature and start over, check off the **Show 'Clear' button?** checkbox.
 
+</details>
 <details>
 <summary>View Important Notes...</summary>
 
@@ -1408,14 +1501,19 @@ Submit buttons are handled automatically by Freeform. They are automatically ins
   alt="Submit Buttons field type"
 />
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 The Submit button settings allow you to edit the button label(s) and adjust the positioning of the buttons.
 
 - When using with multi-page forms, Freeform will detect when you're on a page after first page, and provide you with the option to toggle a **Back** button.
 - When using with the **Pro** edition, Freeform will provide you with the option to toggle a **Save** button.
 
-### Templating<Badge type="feature" text="Revised in 5.0+" />
+</details>
+<details className="hidden-heading">
+<summary>Templating</summary>
+
+#### Templating<Badge type="feature" text="Revised in 5.0+" />
 
 Controlling the format for submit buttons is now done through the new `buttons` namespace available in the [Template Overrides](../templates/formatting/index.mdx#template-overrides) feature or render helpers for more extensive customization.
 
@@ -1462,13 +1560,14 @@ The following are available:
     {# Your fields #}
 
     {% set page = form.pages.current %}
+    {% set button = page.buttons %}
 
-    {{ page.buttons.renderSubmit({ 'data-optional': 'attributes here' }) }}
-    {% if form.pages.current.buttons.back %}
-        {{ page.buttons.renderBack }}
+    {{ button.renderSubmit({ 'data-optional': 'attributes here' }) }}
+    {% if button.back %}
+        {{ button.renderBack }}
     {% endif %}
-    {% if form.pages.current.buttons.save %}
-        {{ page.buttons.renderSave }}
+    {% if button.save %}
+        {{ button.renderSave }}
     {% endif %}
 
 {{ form.renderClosingTag }}
@@ -1479,9 +1578,12 @@ The following are available:
 
 For maximum control, you can use a property attributes render instead. The following are available:
 
-- `renderSubmitProps` - render the property attributes to attach to your **Submit** button
-- `renderBackProps` - render the property attributes to attach to your **Back** button
-- `renderSaveProps` - render the property attributes to attach to your **Save** button
+- `renderSubmitProps` - render the property attributes to attach to your **Submit** button.
+    - `submitLabel` - render the label defined for the **Submit** button inside the builder.
+- `renderBackProps` - render the property attributes to attach to your **Back** button.
+    - `backLabel` - render the label defined for the **Back** button inside the builder.
+- `renderSaveProps` - render the property attributes to attach to your **Save** button.
+    - `saveLabel` - render the label defined for the **Save** button inside the builder.
 
 ```twig showLineNumbers
 {{ form.renderTag({
@@ -1492,26 +1594,32 @@ For maximum control, you can use a property attributes render instead. The follo
     {# Your fields #}
 
     {% set page = form.pages.current %}
+    {% set button = page.buttons %}
 
-    <button {{ page.buttons.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
-        Submit
+    <button {{ button.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
+        {{ button.submitLabel }}
     </button>
-    {% if form.pages.current.buttons.back %}
-        <button {{ page.buttons.backRenderProps }}>
-            Back
+    {% if button.back %}
+        <button {{ button.backRenderProps }}>
+            {{ button.backLabel }}
         </button>
     {% endif %}
-    {% if form.pages.current.buttons.save %}
-        <button {{ page.buttons.saveRenderProps }}>
-            Save
+    {% if button.save %}
+        <button {{ button.saveRenderProps }}>
+            {{ button.saveLabel }}
         </button>
     {% endif %}
 
 {{ form.renderClosingTag }}
 ```
 
+:::info
+If you need to parse HTML on your button labels, add the `|raw` filter to `submitLabel`, etc. E.g. `{{ page.buttons.submitLabel|raw }}`.
+:::
+
 </TabItem>
 </Tabs>
+</details>
 
 ### Save & Continue Later<Badge type="pro" text="Pro" />
 
@@ -1522,7 +1630,8 @@ This feature allows users to save their form progress and continue/complete the 
   alt="Save & Continue Later button"
 />
 
-#### Additional Configuration
+<details className="hidden-heading">
+<summary>Additional Configuration</summary>
 
 - A return URL must be configured. This is where the user should be returned to if they click the button.
   - Special `token` and `key` variables are available to include in the return path.
@@ -1532,6 +1641,8 @@ This feature allows users to save their form progress and continue/complete the 
   - The message of this email notification is completely customizable, but be sure to include instructions to the user including a URL for where to return to complete the form later.
   - Requires targeting of an [Email](#email) field that will contain the user's email address in order to send the email notification.
     - If the user hasn't yet filled out an email address, the email notification attempt will be suppressed (as there is no field validation to ensure the Email field is fillout out). A good way around this would be to have the first page include basic info like _name_ and _email_ but no option to save the form until the second page.
+
+</details>
 
 ## Stripe Payment<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.0+" />
 
@@ -1551,7 +1662,13 @@ A field that allows you to collect and handle repeating data. The `field.type` p
   alt="Table field type"
 />
 
-### Settings
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/table-builder.png')}
+  alt="Table field type in form builder"
+/>
+
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Use the Table Layout area to create columns for the table. Options are:
   - Text
@@ -1561,12 +1678,9 @@ A field that allows you to collect and handle repeating data. The `field.type` p
   - Radios<Badge type="feature" text="New in 5.8+" />
 - Enable the _Use built-in javascript for adding and removing rows_ toggle to have Freeform automatically include JS in the form that validates the format and auto-inserts the extra characters like `(`, `-`, `+` etc).
 
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/forms/fields/table-builder.png')}
-  alt="Table field type in form builder"
-/>
-
-### Rendering
+</details>
+<details className="hidden-heading">
+<summary>Templating</summary>
 
 The Table field type includes various parameter options to override labels and finer control of classes and attributes on each part of the Table field.
 
@@ -1649,8 +1763,9 @@ Here's how you can use `field.render` for an automated approach to render your T
 
 </TabItem>
 </Tabs>
-
-### Customizing the Appearance
+</details>
+<details className="hidden-heading">
+<summary>Customizing the Appearance</summary>
 
 For **manual** rendering of the Table field inside your form for full customizability, your code might look something like this:
 
@@ -1712,7 +1827,9 @@ For **manual** rendering of the Table field inside your form for full customizab
 </table>
 ```
 
-### Submission Data
+</details>
+<details className="hidden-heading">
+<summary>Submission Data</summary>
 
 <Tabs>
 <TabItem value="table-submission-basic" label="Basic Example" default>
@@ -1777,6 +1894,51 @@ A complete example might look like:
 </TabItem>
 </Tabs>
 
+</details>
+<details className="hidden-heading">
+<summary>Email Notification Template</summary>
+
+By default, Table field data will be rendered as comma separated values in [email notifications](./email-notifications.mdx), which is not ideal. To account for Table fields in your email notification template, you can use the template code below:
+
+```twig
+<p>The following submission came in on {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}.</p>
+<p>Here are the details:</p>
+<ul>
+{% for field in allFields %}
+  <li>
+    {{ field.label }}: 
+    {% if field.implements('options') %}
+      {{ field.labelsAsString }}
+    // highlight-start
+    {% elseif field.type == "table" %}
+      <table>
+        <thead>
+          <tr>
+          {% for column in field.tableLayout %}
+            <th>{{ column.label|default("-") }}</th>
+          {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+        {% for row in field.value %}
+          <tr>
+          {% for index, column in field.tableLayout %}
+            <td>{{ row[index] }}</td>
+          {% endfor %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    // highlight-end
+    {% else %}
+      {{ field.valueAsString }}
+    {% endif %}
+  </li>
+{% endfor %}
+</ul>
+```
+</details>
+
 ## Text
 
 A single-line text input field. The `field.type` property value is `text` (for conditionals).
@@ -1807,9 +1969,12 @@ A multi-line text input field. The `field.type` property value is `textarea` (fo
 - [Want to allow users to use a rich text editor such as **TinyMCE** on the textarea field?](../guides/fields/tinymce-editor-textarea.mdx)
   :::
 
-### Settings
+<details className="hidden-heading">
+<summary>Settings</summary>
 
 - Can specify the number of rows the textarea should have.
+
+</details>
 
 ## Website<Badge type="pro" text="Pro" />
 

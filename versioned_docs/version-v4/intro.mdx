@@ -2,7 +2,6 @@
 sidebar_position: 1
 title: 'Overview'
 slug: /
-hide_table_of_contents: true
 ---
 
 import Player from 'react-player';
@@ -29,19 +28,26 @@ import Icons from '@site/static/card-icons';
 
 # Overview
 
-<div className="flex flex-col items-center gap-6 mt-20 mb-5 px-8">
+<div className="flex flex-col items-center gap-6 mt-20 mb-5 px-1">
   <ThemedIdealImage
     sources={{
       light: require('@site/static/img/intro/freeform-light.png'),
       dark: require('@site/static/img/intro/freeform-dark.png'),
     }}
-    className="max-w-3xl"
+    className="landing-logo mb-6"
     alt="Freeform 4 for Craft CMS"
   />
+  <span className="landing-cms-for">for</span>
+  <ThemedIdealImage
+    sources={{
+      light: require('@site/static/logos/craftcms-light.png'),
+      dark: require('@site/static/logos/craftcms.png'),
+    }}
+    className="landing-cms-logo"
+    alt="Craft CMS"
+  />
   <p className="text-center max-w-3xl">
-    Freeform is a flexible form-building tool that adapts to your project's
-    needs. Its intuitive builder is easy to use and integrates seamlessly with
-    popular CRMs and email marketing services.
+    Freeform is a super flexible form-building tool that’s perfect for whatever project you’re working on! Its easy-to-use builder makes creating forms a piece of cake. Plus, it works great with your go-to CRMs and email marketing tools.
   </p>
   <div className="flex gap-3 landing-header-buttons">
     <FlexButton
@@ -52,7 +58,7 @@ import Icons from '@site/static/card-icons';
           outline: true,
           arrowDown: true,
         },
-        { to: '#compare', label: 'Pricing', outline: true, arrowDown: true },
+        { to: '#compare', label: 'Pricing', outline: true, arrowDown: true, mobileHidden: true },
       ]}
     />
     <NavbarSearch>
@@ -65,22 +71,13 @@ import Icons from '@site/static/card-icons';
   <small>
     <SimpleTextLink
       to="https://plugins.craftcms.com/freeform"
-      label="INSTALL A FREE, UNLIMITED TRIAL TODAY!"
+      label="Try out a free unlimited trial today!"
     />
   </small>
 </div>
 
 <br />
 <br />
-
-<iframe
-  class="video-iframe"
-  src="https://www.youtube.com/embed/94H5c9T4EHE?autoplay=1&mute=1"
-  title="Form Builder - Overview"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  allowfullscreen
-></iframe>
 
 <FlexCards
   items={[
@@ -94,20 +91,14 @@ import Icons from '@site/static/card-icons';
       title: 'User Guides',
       description: 'See solutions to common problems and questions.',
       icon: Icons.GraduationCapIcon,
-      fullCardLink: './guides',
-    },
-    {
-      title: 'Common Issues',
-      description: 'Troubleshoot and find answers to common problems.',
-      icon: Icons.ToolsIcon,
-      fullCardLink: './guides/common-issues',
+      fullCardLink: './guides/',
     },
     {
       title: 'Support',
       description:
         'Questions or issues? We want to help your project go smoothly!',
       icon: Icons.DiscussionIcon,
-      fullCardLink: '/support',
+      fullCardLink: 'https://support.solspace.com/',
     },
 
 ]}
@@ -116,8 +107,8 @@ import Icons from '@site/static/card-icons';
 <Section
   title="Reliability"
   anchor="reliability"
-  subtitle="Functional forms are crucial. Impressive features are useless if they don't work."
-  description="Losing customer leads can result in significant revenue loss and a negative impression on potential clients. We prioritize reliability above all else in Freeform to address this issue."
+  subtitle="Forms that work are super important."
+  description="Missing out on customer leads can really hurt our revenue and leave a bad impression on potential clients. That's why we focus on being reliable more than anything else."
   imgSrc={Icons.ShieldIcon}
 >
 
@@ -158,44 +149,13 @@ import Icons from '@site/static/card-icons';
           'Try Freeform risk-free with our 90-day full refund guarantee.',
         icon: Icons.GuaranteeCertificateIcon,
       },
-    ]}
-  />
-</Section>
-
-<Section
-  title="Here for you"
-  anchor="here-for-you"
-  subtitle="Robust private support when you need it."
-  description="You can count on Solspace for excellent support! We also offer Premium Support, which includes priority access to email, chat, and web calls with our Software team for fast and efficient assistance."
-  imgSrc={Icons.SupportIcon}
->
-
-## Here for you
-
-  <FlexCards
-    items={[
       {
         title: 'Private Support Tickets',
         description:
           "If you need help with Freeform, send us a private support ticket and we'll be happy to assist you.",
-        icon: Icons.SupportIcon,
-        linkWithDescription: '/support',
-      },
-      {
-        title: 'GitHub Issues',
-        description:
-          'Check our GitHub Issues page for current issues or to submit a new issue report.',
-        icon: Icons.GithubIcon,
-        linkWithDescription:
-          'https://github.com/solspace/craft-freeform/issues',
-      },
-      {
-        title: 'GitHub Discussion',
-        description:
-          'Do you have any questions or ideas to share? Check out our GitHub Discussions area!',
-        icon: Icons.DiscussionIcon,
-        linkWithDescription:
-          'https://github.com/solspace/craft-freeform/discussions',
+        icon: Icons.GuaranteeCertificateIcon,
+        linkWithDescription: 'https://support.solspace.com/',
+        linkWithDescriptionLabel: 'Private support',
       },
     ]}
   />
@@ -204,13 +164,14 @@ import Icons from '@site/static/card-icons';
 <Section
   title="Form Builder"
   anchor="form-builder"
-  subtitle="Everything is at your fingertips in our elegant and intuitive form builder."
+  subtitle="Our user-friendly form builder has everything you need at your fingertips."
+  description="The Freeform form builder gives you a simple all-in-one interface that lets you tweak just about everything about your forms."
   imgSrc={Icons.MagicWandIcon}
 >
 
 ## Form Builder
 
-  <Photo img={require('@site/static/img/craft/freeform/v5/cp/form-builder.png')} alt="Form Builder" />
+  <Photo img={require('@site/static/img/craft/freeform/v4/cp/form-builder.png')} alt="Form Builder" />
   <FlexButton
     items={[
       { to: 'forms/builder', label: 'Form Builder Overview', },
@@ -221,7 +182,7 @@ import Icons from '@site/static/card-icons';
 <Section
   title="Convenience"
   anchor="convenience"
-  subtitle="So many plug-and-play features that make form building and templating a breeze!"
+  subtitle="There are tons of plug-and-play features that make creating forms and templates a total breeze!"
   imgSrc={Icons.TrolleyIcon}
 >
 
@@ -231,54 +192,46 @@ import Icons from '@site/static/card-icons';
     items={[
       {
         title: 'Forms Dashboard',
-        description:
-          'The Forms Dashboard provides a clear overview of your forms, submissions, and updates in one convenient location.',
+        description: 'The Forms Dashboard provides a clear overview of your forms, submissions, and updates in one convenient location.',
         icon: Icons.DashboardIcon,
         linkWithDescription: 'forms/builder',
       },
       {
         title: 'Multi-Page Forms',
-        description:
-          'Do you have a lengthy form? With Freeform, you can divide your form into several pages.',
+        description: 'Do you have a lengthy form? With Freeform, you can divide your form into several pages.',
         icon: Icons.PagesIcon,
         linkWithDescription: 'forms/builder/#multi-page-forms',
       },
       {
         title: 'Complete Validation',
-        description:
-          'Freeform has validation features for fields, including making them required and ensuring specific data.',
+        description: 'Freeform has validation features for fields, including making them required and ensuring specific data.',
         icon: Icons.ValidCheckIcon,
       },
       {
         title: 'Built-in AJAX',
-        description:
-          'By simply checking a checkbox, Freeform will handle the AJAX processing for your form effortlessly.',
+        description: 'By simply checking a checkbox, Freeform will handle the AJAX processing for your form effortlessly.',
         icon: Icons.JsFormatIcon,
       },
       {
         title: 'Drag & Drop File Upload',
-        description:
-          'The premium JS-based file uploading field shows progress and thumbnails and remembers existing files when editing.',
+        description: 'The premium JS-based file uploading field shows progress and thumbnails and remembers existing files when editing.',
         icon: Icons.UploadIcon,
         linkWithDescription: 'forms/fields/#file-upload',
       },
       {
         title: 'Google Tag Manager',
-        description:
-          'Built-in flexible Google Tag Manager support with AJAX implementations.',
+        description: 'Built-in flexible Google Tag Manager support with AJAX implementations.',
         icon: Icons.AnalyticsIcon,
       },
       {
         title: 'Sample Templates',
-        description:
-          'Offers a variety of popular framework formatting templates that you can use as a starting point to develop your own project.',
+        description: 'Offers a variety of popular framework formatting templates that you can use as a starting point to develop your own project.',
         icon: Icons.StarterTemplatesIcon,
         linkWithDescription: 'templates/formatting/',
       },
       {
         title: 'Widgets',
-        description:
-          'Enhance your Craft Dashboard with stunning widgets like linear charts, radial charts, and recent submissions widgets.',
+        description: 'Enhance your Craft Dashboard with stunning widgets like linear charts, radial charts, and recent submissions widgets.',
         icon: Icons.WidgetsIcon,
       },
     ]}
@@ -289,50 +242,48 @@ import Icons from '@site/static/card-icons';
   title="Spam Protection"
   anchor="spam-protection"
   subtitle="Fight spam effectively."
+  description="Freeform packs a bunch of handy spam control features that make protecting forms from spam a breeze."
   imgSrc={Icons.CarrotIcon}
 >
 
 ## Spam Protection
 
-  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/forms/spam-folder.png')} alt="Spam Folder" />
-  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/forms/spam-detail.png')} alt="Spam Folder" />
+  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v4/forms/spam-folder.png')} alt="Spam Folder" />
+  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v4/forms/spam-detail.png')} alt="Spammy submission inside the Spam Folder" />
   <FlexCards
     items={[
       {
         title: 'Freeform Honeypot',
         description: 'The Honeypot feature included in the system effectively deals with simple bot spam.',
         icon: Icons.CarrotIcon,
-        linkWithDescription: './forms/spam-protection/#freeform-honeypot',
+        linkWithDescription: 'forms/spam-protection/#freeform-honeypot',
       },
       {
         title: 'Built-in Spam Folder',
         description: 'Use the Spam Folder to catch any potential spam without risking missing legitimate submissions.',
         icon: Icons.SpamIcon,
-        linkWithDescription: './forms/spam-protection/#spam-folder',
+        linkWithDescription: 'forms/spam-protection/#spam-folder',
       },
       {
         title: 'reCAPTCHA & hCaptcha',
-        description:
-          'To enhance your spam-fighting capabilities, you can choose to enable either reCAPTCHA or hCaptcha.',
+        description: 'To enhance your spam-fighting capabilities, you can choose to enable either reCAPTCHA or hCaptcha.',
         icon: Icons.CaptchaIcon,
-        linkWithDescription: './forms/spam-protection/#captchas',
+        linkWithDescription: 'forms/spam-protection/#captchas',
       },
       {
         title: 'Keyword Blocking',
         description: 'With Freeform, you have the power to target and block specific email addresses, keywords, and IP addresses.',
         icon: Icons.BlockedIcon,
-        linkWithDescription: './forms/spam-protection/#spam-blocking',
+        linkWithDescription: 'forms/spam-protection/#spam-blocking',
       },
       {
         title: 'Throttling / Submit Time',
-        description:
-          'Limit form submissions by settƒing restrictions such as submission frequency, waiting period, or time limit for completion.',
+        description: 'Limit form submissions by settƒing restrictions such as submission frequency, waiting period, or time limit for completion.',
         icon: Icons.ThrottlingIcon,
       },
-        {
+      {
         title: 'Automatic Purging',
-        description:
-          'Freeform can automatically delete submissions marked as spam after a set number of days.',
+        description: 'Freeform can automatically delete submissions marked as spam after a set number of days.',
         icon: Icons.TimeDeleteIcon,
       },
     ]}
@@ -342,122 +293,111 @@ import Icons from '@site/static/card-icons';
 <Section
   title="Powerful Fields"
   anchor="powerful-fields"
-  subtitle="Freeform offers a diverse range of fieldtypes and advanced features to populate and control them."
+  subtitle="Freeform offers a wide range of different field types and cool features to help you manage them easily."
   imgSrc={Icons.FieldTextIcon}
 >
 
 ## Powerful Fields
 
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/cp/conditional-rules.png')}
-  alt="Powerful Fields"
-/>
-<FlexCards
-  items={[
-    {
-      title: 'Conditional Rules',
-      description:
-        'Customize your form by setting pages to skip and fields to appear/disappear based on other field contents or selections.',
-      icon: Icons.LogicIcon,
-      linkWithDescription: 'forms/conditional-rules',
-    },
-    {
-      title: 'Populate Field Options',
-      description:
-        'Use Craft Element data or predefined Freeform options such as countries or months to populate dropdowns, checkboxes, and radios.',
-      icon: Icons.CheckListIcon,
-      linkWithDescription:
-        'forms/fields/#populating-fields-with-elements--predefined-options-',
-    },
-    {
-      title: 'Include a Review Page',
-      description:
-        'Use Twig code in an HTML block to create a custom review page for users to double-check form data from previous pages before submission.',
-      icon: Icons.ReviewIcon,
-    },
-  ]}
-/>
-
-  <FieldCards items={[
-       {
+  <Photo
+    img={require('@site/static/img/craft/freeform/v4/cp/conditional-rules.png')}
+    alt="Powerful Fields"
+  />
+  <FlexCards
+    items={[
+      {
+        title: 'Conditional Rules',
+        description:
+          'Easily adjust your form by choosing which pages to skip and making certain fields appear or disappear depending on what users select or enter in other fields.',
+        icon: Icons.LogicIcon,
+        linkWithDescription: 'forms/conditional-rules',
+      },
+      {
+        title: 'Populate Field Options',
+        description:
+          'Use Craft Element data or predefined Freeform options such as countries or months to populate dropdowns, checkboxes, and radios.',
+        icon: Icons.CheckListIcon,
+        linkWithdescription: 'forms/fields/#populating-fields-with-elements--predefined-options',
+      },
+      {
+        title: 'Include a Review Page',
+        description:
+          'Use Twig code in an HTML block to create a custom review page for users to double-check form data from previous pages before submission.',
+        icon: Icons.ReviewIcon,
+      },
+    ]}
+  />
+  <FieldCards
+    items={[
+      {
         link: 'forms/fields#text',
         title: 'Text',
-        description:
-          'Regular text inputs',
+        description: 'Regular text inputs',
         icon: Icons.FieldTextIcon,
       },
-           {
+      {
         link: 'forms/fields#textarea',
         title: 'Textarea',
-        description:
-          'Multi-line text inputs',
+        description: 'Multi-line text inputs',
         icon: Icons.TextareaIcon,
       },
-           {
+      {
         link: 'forms/fields#email',
         title: 'Email',
-        description:
-          'Email validation and notifications',
+        description: 'Email validation and notifications',
         icon: Icons.EmailIcon,
       },
-           {
+      {
         link: 'forms/fields#number',
         title: 'Number',
-        description:
-          'Numeric validation and options',
+        description: 'Numeric validation and options',
         icon: Icons.NumbersIcon,
       },
-           {
+      {
         link: 'forms/fields#hidden',
         title: 'Hidden',
-        description:
-          'Hide field data',
+        description: 'Hide field data',
         icon: Icons.HiddenIcon,
       },
-
-           {
-        link: 'forms/fields#dropdown',
+      {
+        link: 'forms/fields#select',
         title: 'Select',
-        description:
-          'Dropdown field with powerful options to populate data',
+        description: 'Dropdown field with powerful options to populate data',
         icon: Icons.SelectIcon,
       },
-           {
+      {
         link: 'forms/fields#multiple-select',
         title: 'Multiple Select',
-        description:
-          'Multi-select field with powerful options to populate data',
+        description: 'Multi-select field with powerful options to populate data',
         icon: Icons.ListIcon,
       },
-           {
+      {
         link: 'forms/fields#checkbox',
-        title: 'Checkbox ',
-        description:
-          "Single checkbox, e.g. 'Accept Terms'",
+        title: 'Checkbox',
+        description: "Single checkbox, e.g. 'Accept Terms'",
         icon: Icons.CheckboxIcon,
       },
-           {
-        link: 'forms/fields#checkboxes',
-        title: 'Checkbox Group',
+      {
+        link: 'forms/fields#checkbox-group',
+        title: 'Checkboxes',
         description:
           'Multi-checkboxes field with powerful options to populate data',
         icon: Icons.CheckListIcon,
       },
-           {
-        link: 'forms/fields#radios',
-        title: 'Radio Group',
-        description:
-          'Radio options field with powerful options to populate data',
+      {
+        link: 'forms/fields#radio-group',
+        title: 'Radios',
+        description: 'Radio options field with powerful options to populate data',
         icon: Icons.RadioListIcon,
       },
-           {
+      {
         link: 'forms/fields#file-upload',
         title: 'File Upload',
         description:
           'Upload and validate one or multiple files to be attached to the submission',
         icon: Icons.AttachedIcon,
       },
-           {
+      {
         link: 'forms/fields#file-upload-drag--drop',
         title: 'File Drag & Drop',
         description:
@@ -465,7 +405,7 @@ import Icons from '@site/static/card-icons';
         icon: Icons.UploadIcon,
       },
       {
-        link: 'forms/fields#dynamic--recipients',
+        link: 'forms/fields#dynamic-recipients',
         title: 'Dynamic Recipients',
         description:
           'Date and time picker with JS validation',
@@ -474,18 +414,16 @@ import Icons from '@site/static/card-icons';
       {
         link: 'forms/fields#date--time',
         title: 'Date & Time',
-        description:
-          'Date and time picker with JS validation',
+        description: 'Date and time picker with JS validation',
         icon: Icons.DateTimeIcon,
       },
       {
         link: 'forms/fields#phone',
         title: 'Phone',
-        description:
-          'Set a phone pattern with JS validation',
+        description: 'Set a phone pattern with JS validation',
         icon: Icons.PhoneIcon,
       },
-           {
+      {
         link: 'forms/fields#table',
         title: 'Table',
         description:
@@ -495,144 +433,127 @@ import Icons from '@site/static/card-icons';
       {
         link: 'forms/fields#rating',
         title: 'Rating',
-        description:
-          'Plug and play rating stars',
+        description: 'Plug and play rating stars',
         icon: Icons.RatingIcon,
       },
       {
         link: 'forms/fields#opinion-scale',
         title: 'Opinion Scale',
-        description:
-          'Users can select ranges for surveys',
+        description: 'Users can select ranges for surveys',
         icon: Icons.OpinionScaleIcon,
       },
-    {
-    link: 'forms/fields#signature',
-    title: 'Signature',
-    description:
-    'Users can digitally sign submissions',
-    icon: Icons.SignatureIcon,
-    },
-
-    {
-    link: 'forms/fields#invisible',
-    title: 'Invisible',
-    description:
-    'Include hidden data that is not visible in rendered source code',
-    icon: Icons.InvisibleIcon,
-    },
-
-    {
-    link: 'forms/fields#regex',
-    title: 'Regex',
-    description:
-    'Come up with your own validation for data syntax',
-    icon: Icons.RegexIcon,
-    },
-    {
-    link: 'forms/fields#website',
-    title: 'Website',
-    description:
-    "Validate inputted data includes 'http://', etc",
-    icon: Icons.GlobeIcon,
-    },
-    {
-    link: 'forms/fields#html',
-    title: 'Html Block',
-    description:
-    'Include HTML/Twig inside form layouts',
-    icon: Icons.CodeIcon,
-    },
-    {
-    link: 'forms/fields#rich-text',
-    title: 'Rich Text Block',
-    description:
-    'Include Rich Text inside form layouts',
-    icon: Icons.RichTextIcon,
-    },
-    {
-    link: 'forms/fields#confirm',
-    title: 'Confirm',
-    description:
-    'Target another field that should be retyped (e.g. email)',
-    icon: Icons.FieldTextIcon,
-    },
-    {
-    link: 'forms/fields#password',
-    title: 'Password',
-    description:
-    'Process a password value but do not store it (for user registation forms)',
-    icon: Icons.LockIcon,
-    },
-    {
-    link: 'forms/fields#credit-card',
-    title: 'Credit Card',
-    description:
-    'Allow users to securely enter payment data for Payment-enabled forms',
-    icon: Icons.CreditCardIcon,
-    },
-    {
-    link: 'forms/fields#email-marketing',
-    title: 'Email Marketing',
-    description:
-    'Checkbox to allow users to subscribe to a mailing list.',
-    icon: Icons.MegaphoneIcon,
-    }
-
-]} />
-
+      {
+        link: 'forms/fields#signature',
+        title: 'Signature',
+        description: 'Users can digitally sign submissions',
+        icon: Icons.SignatureIcon,
+      },
+      {
+        link: 'forms/fields#invisible',
+        title: 'Invisible',
+        description:
+          'Include hidden data that is not visible in rendered source code',
+        icon: Icons.InvisibleIcon,
+      },
+      {
+        link: 'forms/fields#regex',
+        title: 'Regex',
+        description: 'Come up with your own validation for data syntax',
+        icon: Icons.RegexIcon,
+      },
+      {
+        link: 'forms/fields#website',
+        title: 'Website',
+        description: "Validate inputted data includes 'http://', etc",
+        icon: Icons.GlobeIcon,
+      },
+      {
+        link: 'forms/fields#html',
+        title: 'Html Block',
+        description: 'Include HTML/Twig inside form layouts',
+        icon: Icons.CodeIcon,
+      },
+      {
+        link: 'forms/fields#rich-text',
+        title: 'Rich Text Block',
+        description: 'Include Rich Text inside form layouts',
+        icon: Icons.RichTextIcon,
+      },
+      {
+        link: 'forms/fields#confirm',
+        title: 'Confirm',
+        description: 'Target another field that should be retyped (e.g. email)',
+        icon: Icons.FieldTextIcon,
+      },
+      {
+        link: 'forms/fields#password',
+        title: 'Password',
+        description:
+          'Process a password value but do not store it (for user registation forms)',
+        icon: Icons.LockIcon,
+      },
+      {
+        link: 'integrations/stripe-payments/',
+        title: 'Stripe Payments',
+        description:
+          'Allow users to securely enter payment data for Payment-enabled forms',
+        icon: Icons.CreditCardIcon,
+      },
+    ]}
+  />
 </Section>
 
 <Section
   title="Email Notifications"
   anchor="email-notifications"
-  subtitle="Every conceivable option for sending fully customizable email notifications."
-  description="Have as many templates as you like, and use different ones for every type."
+  subtitle="Tons of ways to send email notifications that you can totally customize."
+  description="You can create as many templates as you want and pick a different one for each type of email notification."
   imgSrc={Icons.OpenLetterIcon}
 >
 
 ## Email Notifications
 
-  <Photo img={require('@site/static/img/craft/freeform/v5/cp/email-notifications-list.png')} alt="Email Notifications List" />
-  <Photo img={require('@site/static/img/craft/freeform/v5/cp/email-notifications-template.png')} alt="Email Notifications Template" />
+  <Photo img={require('@site/static/img/craft/freeform/v4/cp/email-notifications-list.png')} alt="Email Notifications List" />
+  <Photo img={require('@site/static/img/craft/freeform/v4/cp/email-notifications-template.png')} alt="Email Notifications Template" />
   <FlexCards
     items={[
       {
         title: 'Notify Admins',
         description: 'Send email notifications for successful form submissions.',
         icon: Icons.EmailGroupIcon,
-        linkWithDescription: 'forms/email-notifications',
+        linkWithDescription: 'forms/email-notifications/#admin-notifications',
       },
-           {
+      {
         title: 'Notify Submitter',
         description: 'Upon success, send an email notification to the submitter of the form.',
         icon: Icons.EmailUserIcon,
-        linkWithDescription: 'forms/email-notifications/#email-fields',
+        linkWithDescription: 'forms/email-notifications/#usersubmitter-notifications',
       },
-            {
-        title: "User Select's Recipient",
+      {
+        title: "Dynamic Recipients",
         description: 'Let users select the email recipient of the form submission from a list of predefined options.',
         icon: Icons.EmailListIcon,
-        linkWithDescription: 'forms/email-notifications/#user-select',
+        linkWithDescription: 'forms/email-notifications/#dynamic-recipients',
       },
-            {
+      {
         title: 'Template-level Recipients',
         description: 'Set email address(es) at template-level to be notified, allowing you to pass a value from another element dynamically.',
         icon: Icons.CodingIcon,
+        linkWithDescription: 'forms/email-notifications/#dynamic-template-notifications',
       },
-            {
+      {
         title: 'Tell-a-Friend',
         description: "Include additional Email fields inside your form to allow users to type out a friend's email address to receive a separate notification.",
         icon: Icons.EmailPlaneIcon,
         linkWithDescription: 'forms/email-notifications/#user-defined',
       },
-            {
+      {
         title: 'Multiple Notifications',
         description: "There's no limit to the number of email notifications you can send, each with different templates/messages, etc.",
         icon: Icons.EmailGroupIcon,
         linkWithDescription: 'forms/email-notifications',
       },
-            {
+      {
         title: 'Export Notifications',
         description: 'You can set up customized export reports and receive them via email on a daily or weekly basis automatically.',
         icon: Icons.ExportIcon,
@@ -642,17 +563,17 @@ import Icons from '@site/static/card-icons';
         description: 'Personalize the plain text version of email notifications or let Freeform convert it automatically.',
         icon: Icons.OpenLetterIcon,
       },
-            {
+      {
         title: 'Attach Files',
         description: "Select asset file(s) to pre-attach to your email notification templates, allowing for the inclusion of 'welcome' documents, a PDF ticket, etc.",
         icon: Icons.EmailFileIcon,
       },
-            {
+      {
         title: 'Resend Email Notifications',
         description: 'Freeform allows you to resend an email notification (or set of them) for one or more submissions at a time.',
         icon: Icons.ResendEmailIcon,
       },
-            {
+      {
         title: 'Unlimited Templates',
         description: 'Create as many notification templates as needed, with the option to use the same one for all forms or tailor them to each use case.',
         icon: Icons.MultipleEmailTemplateIcon,
@@ -664,45 +585,40 @@ import Icons from '@site/static/card-icons';
         linkWithDescription: 'forms/email-notifications/#examples',
       },
     ]}
-
-/>
-
+  />
 </Section>
 
 <Section
   title="Flexible Templating"
   anchor="flexible-templating"
-  subtitle="Fast and easy, yet highly customizable."
-  description="Templates are highly customizable for even the most complex forms. With our ready-to-use demo templates and features, you can be up and running in just a few minutes!"
+  subtitle="Quick and simple templating that is also highly customizable."
+  description="Templates are super customizable, even for the trickiest forms. With our demo templates and features ready to go, you can jump in and get everything set up in just a few minutes!"
   imgSrc={Icons.CodeIcon}
 >
 
 ## Flexible Templating
 
   <BrowserMockupWithPhoto
-    src={require('@site/static/img/craft/freeform/v5/formatting/basic-light.png')}
-    alt="Spam Folder"
+    src={require('@site/static/img/craft/freeform/v4/formatting/basic-light.png')}
+    alt="Basic Light formatting template"
   />
   <FlexCards
     items={[
       {
         title: 'Sample Templates',
-        description:
-          'Includes a diverse selection of examples that can be used as a starting poinnt for building your own.',
+        description: 'Includes a diverse selection of examples that can be used as a starting poinnt for building your own.',
         icon: Icons.StarterTemplatesIcon,
         linkWithDescription: 'templates/formatting',
       },
       {
         title: 'Demo Templates',
-        description:
-          'By simply clicking a few buttons, the demo templates offer a complete and operational section for your website.',
+        description: 'By simply clicking a few buttons, the demo templates offer a complete and operational section for your website.',
         icon: Icons.StarterTemplatesIcon,
         linkWithDescription: 'configuration/demo-templates/',
       },
       {
         title: 'Flexible Templating',
-        description:
-          'Creating templates is a breeze, even for complex forms! With our pre-made demo templates and features, you can have your forms up and running quickly.',
+        description: 'Creating templates is a breeze, even for complex forms! With our pre-made demo templates and features, you can have your forms up and running quickly.',
         icon: Icons.CodeIcon,
       },
     ]}
@@ -712,207 +628,203 @@ import Icons from '@site/static/card-icons';
 <Section
   title="Integrations"
   anchor="integrations"
-  subtitle="Integrate your forms with anything."
+  subtitle="Connect your forms with any application or service."
   imgSrc={Icons.CloudApiIcon}
 >
 
 ## Integrations
 
-<IntegrationPhotoCards
-  items={[
-    {
-      title: 'Mailchimp',
-      link: 'integrations/mailchimp/',
-      iconSrc: require('@site/static/icons/api/mailchimp.png'),
-    },
-    {
-      title: 'HubSpot',
-      link: 'integrations/hubspot/',
-      iconSrc: require('@site/static/icons/api/hubspot.png'),
-    },
-    {
-      title: 'Salesforce',
-      link: 'integrations/salesforce/',
-      iconSrc: require('@site/static/icons/api/salesforce.png'),
-    },
-    {
-      title: 'Zapier',
-      link: 'integrations/zapier/',
-      iconSrc: require('@site/static/icons/api/zapier.png'),
-    },
-    {
-      title: 'Stripe',
-      link: 'integrations/stripe-payments/',
-      iconSrc: require('@site/static/icons/api/stripe.png'),
-    },
-    {
-      title: 'Constant Contact',
-      link: 'integrations/constant-contact/',
-      iconSrc: require('@site/static/icons/api/constant-contact.png'),
-    },
-    {
-      title: 'Slack',
-      link: 'integrations/slack/',
-      iconSrc: require('@site/static/icons/api/slack.png'),
-    },
-    {
-      title: 'Active Campaign',
-      iconSrc: require('@site/static/icons/api/active-campaign.png'),
-    },
-    {
-      title: 'Dotdigital',
-      link: 'integrations/dotdigital/',
-      iconSrc: require('@site/static/icons/api/dotdigital.png'),
-    },
-    {
-      title: 'Campaign Monitor',
-      link: 'integrations/campaign-monitor/',
-      iconSrc: require('@site/static/icons/api/campaign-monitor.png'),
-    },
-    {
-      title: 'Pardot',
-      link: 'integrations/pardot/',
-      iconSrc: require('@site/static/icons/api/pardot.png'),
-    },
-    {
-      title: 'Freshdesk',
-      link: 'integrations/freshdesk/',
-      iconSrc: require('@site/static/icons/api/freshdesk.png'),
-    },
-    {
-      title: 'Insightly',
-      link: 'integrations/insightly/',
-      iconSrc: require('@site/static/icons/api/insightly.png'),
-    },
-    {
-      title: 'Zoho',
-      link: 'integrations/zoho/',
-      iconSrc: require('@site/static/icons/api/zoho.png'),
-    },
-    {
-      title: 'Campaign',
-      link: 'integrations/campaign/',
-      iconSrc: require('@site/static/icons/api/campaign.png'),
-    },
-    {
-      title: 'Pipedrive',
-      link: 'integrations/pipedrive/',
-      iconSrc: require('@site/static/icons/api/pipedrive.png'),
-    },
-    {
-      title: 'Sharpspring',
-      link: 'integrations/sharpspring/',
-      iconSrc: require('@site/static/icons/api/sharpspring.png'),
-    },
-    {
-      title: 'ClickDimensions',
-      link: 'integrations/clickdimensions/',
-      iconSrc: require('@site/static/icons/api/click-dimensions.png'),
-    },
-    {
-      title: 'reCAPTCHA',
-      link: './forms/spam-protection/#captchas',
-      iconSrc: require('@site/static/icons/api/recaptcha.png'),
-    },
-    {
-      title: 'hCaptcha',
-      link: './forms/spam-protection/#hcaptcha',
-      iconSrc: require('@site/static/icons/api/hcaptcha.png'),
-    },
-    {
-      title: 'Generic Webhooks',
-      link: 'integrations/generic-webhooks/',
-      iconSrc: require('@site/static/icons/api/generic-webhook.png'),
-    },
-    {
-      title: 'Google Tag Manager',
-      link: 'integrations/google-tag-manager/',
-      iconSrc: require('@site/static/icons/api/google-tag-manager.png'),
-    },
-    {
-      title: 'Tailwind CSS',
-      link: 'templates/formatting/#sample-templates',
-      iconSrc: require('@site/static/icons/api/tailwindcss.png'),
-    },
-    {
-      title: 'Bootstrap',
-      link: 'templates/formatting/#sample-templates',
-      iconSrc: require('@site/static/icons/api/bootstrap.png'),
-    },
-    {
-      title: 'Craft Entries',
-      link: 'integrations/elements/#craft-entries',
-      iconSrc: require('@site/static/icons/api/craft-entries.png'),
-    },
-    {
-      title: 'Craft Users',
-      link: 'integrations/elements/#craft-users',
-      iconSrc: require('@site/static/icons/api/craft-users.png'),
-    },
-    {
-      title: 'Calendar Events',
-      link: 'integrations/elements/#solspace-calendar-events',
-      iconSrc: require('@site/static/icons/api/solspace-calendar.png'),
-    },
-    {
-      title: 'Edit Elements',
-      link: 'integrations/elements/#editing-elements',
-      iconSrc: require('@site/static/icons/api/edit-elements.png'),
-    },
-  ]}
-/>
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/feature/stripe-payments.png')}
-  alt="Stripe Payments"
-/>
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/feature/user-registration.png')}
-  alt="User Registration"
-/>
-
+  <IntegrationPhotoCards
+    items={[
+      {
+        title: 'Mailchimp',
+        link: 'integrations/mailchimp/',
+        iconSrc: require('@site/static/icons/api/mailchimp.png'),
+      },
+      {
+        title: 'HubSpot',
+        link: 'integrations/hubspot/',
+        iconSrc: require('@site/static/icons/api/hubspot.png'),
+      },
+      {
+        title: 'Salesforce',
+        link: 'integrations/salesforce/',
+        iconSrc: require('@site/static/icons/api/salesforce.png'),
+      },
+      {
+        title: 'Zapier',
+        link: 'integrations/zapier/',
+        iconSrc: require('@site/static/icons/api/zapier.png'),
+      },
+      {
+        title: 'Stripe',
+        link: 'integrations/stripe-payments/',
+        iconSrc: require('@site/static/icons/api/stripe.png'),
+      },
+      {
+        title: 'Constant Contact',
+        link: 'integrations/constant-contact/',
+        iconSrc: require('@site/static/icons/api/constant-contact.png'),
+      },
+      {
+        title: 'Slack',
+        link: 'integrations/slack/',
+        iconSrc: require('@site/static/icons/api/slack.png'),
+      },
+      {
+        title: 'Active Campaign',
+        iconSrc: require('@site/static/icons/api/active-campaign.png'),
+      },
+      {
+        title: 'Dotdigital',
+        link: 'integrations/dotdigital/',
+        iconSrc: require('@site/static/icons/api/dotdigital.png'),
+      },
+      {
+        title: 'Campaign Monitor',
+        link: 'integrations/campaign-monitor/',
+        iconSrc: require('@site/static/icons/api/campaign-monitor.png'),
+      },
+      {
+        title: 'Pardot',
+        link: 'integrations/pardot/',
+        iconSrc: require('@site/static/icons/api/pardot.png'),
+      },
+      {
+        title: 'Freshdesk',
+        link: 'integrations/freshdesk/',
+        iconSrc: require('@site/static/icons/api/freshdesk.png'),
+      },
+      {
+        title: 'Insightly',
+        link: 'integrations/insightly/',
+        iconSrc: require('@site/static/icons/api/insightly.png'),
+      },
+      {
+        title: 'Zoho',
+        link: 'integrations/zoho/',
+        iconSrc: require('@site/static/icons/api/zoho.png'),
+      },
+      {
+        title: 'Campaign',
+        link: 'integrations/campaign/',
+        iconSrc: require('@site/static/icons/api/campaign.png'),
+      },
+      {
+        title: 'Pipedrive',
+        link: 'integrations/pipedrive/',
+        iconSrc: require('@site/static/icons/api/pipedrive.png'),
+      },
+      {
+        title: 'Sharpspring',
+        link: 'integrations/sharpspring/',
+        iconSrc: require('@site/static/icons/api/sharpspring.png'),
+      },
+      {
+        title: 'ClickDimensions',
+        link: 'integrations/clickdimensions/',
+        iconSrc: require('@site/static/icons/api/click-dimensions.png'),
+      },
+      {
+        title: 'reCAPTCHA',
+        link: './forms/spam-protection/#captchas',
+        iconSrc: require('@site/static/icons/api/recaptcha.png'),
+      },
+      {
+        title: 'hCaptcha',
+        link: './forms/spam-protection/#hcaptcha',
+        iconSrc: require('@site/static/icons/api/hcaptcha.png'),
+      },
+      {
+        title: 'Generic Webhooks',
+        link: 'integrations/generic-webhooks/',
+        iconSrc: require('@site/static/icons/api/generic-webhook.png'),
+      },
+      {
+        title: 'Google Tag Manager',
+        link: 'integrations/google-tag-manager/',
+        iconSrc: require('@site/static/icons/api/google-tag-manager.png'),
+      },
+      {
+        title: 'Tailwind CSS',
+        link: 'templates/formatting/#sample-templates',
+        iconSrc: require('@site/static/icons/api/tailwindcss.png'),
+      },
+      {
+        title: 'Bootstrap',
+        link: 'templates/formatting/#sample-templates',
+        iconSrc: require('@site/static/icons/api/bootstrap.png'),
+      },
+      {
+        title: 'Craft Entries',
+        link: 'integrations/elements/#craft-entries',
+        iconSrc: require('@site/static/icons/api/craft-entries.png'),
+      },
+      {
+        title: 'Craft Users',
+        link: 'integrations/elements/#craft-users',
+        iconSrc: require('@site/static/icons/api/craft-users.png'),
+      },
+      {
+        title: 'Calendar Events',
+        link: 'integrations/elements/#solspace-calendar-events',
+        iconSrc: require('@site/static/icons/api/solspace-calendar.png'),
+      },
+      {
+        title: 'Edit Elements',
+        link: 'integrations/elements/#editing-elements',
+        iconSrc: require('@site/static/icons/api/edit-elements.png'),
+      },
+    ]}
+  />
+  <br />
+  <Photo
+    img={require('@site/static/img/craft/freeform/v4/feature/stripe-payments.png')}
+    alt="Stripe Payments"
+  />
+  <Photo
+    img={require('@site/static/img/craft/freeform/v4/feature/user-registration.png')}
+    alt="User Registration"
+  />
   <FlexCards
     items={[
       {
         title: 'CRMs',
         description: 'Easily integrate your forms with popular CRMs like Salesforce and HubSpot.',
         icon: Icons.CrmIcon,
-        linkWithDescription: 'integrations',
+        linkWithDescription: 'integrations#crm',
       },
-        {
+      {
         title: 'Email Marketing',
         description: 'Connect your forms to Email Marketing services like Mailchimp and Constant Contact to streamline mailing list sign-ups.',
         icon: Icons.MegaphoneIcon,
         linkWithDescription: 'integrations#email-marketing',
       },
-        {
+      {
         title: 'Webhooks',
         description: 'Connect submissions to Slack, create workflows with Zapier, or use the generic webhook for custom endpoints.',
         icon: Icons.WebhookIcon,
         linkWithDescription: 'integrations#webhooks',
-      }
-      ,
-        {
+      },
+      {
         title: 'Craft Elements',
         description: 'Create stunning forms that create or modify entries, users, Calendar events and complex user registration forms.',
         icon: Icons.ContentIcon,
         linkWithDescription: 'integrations/elements/',
-      }
-      ,
-        {
+      },
+      {
         title: 'Accept Payments',
         description: 'You can start accepting payments and subscriptions for your forms through Stripe in just a few minutes.',
         icon: Icons.CreditCardIcon,
         linkWithDescription: 'integrations/stripe-payments/',
-      }
-      ,
-        {
+      },
+      {
         title: 'POST Forwarding',
         description: 'Automatically submit form data to an external API URL after successful submission of the form.',
         icon: Icons.DocumentCloudIcon,
         linkWithDescription: 'integrations/post-forwarding/',
-      }
-      ,
-        {
+      },
+      {
         title: 'Custom',
         description: 'Create your own integration by developing a custom module that utilizes any of the numerous developer events available.',
         icon: Icons.ApiGearIcon,
@@ -925,15 +837,15 @@ import Icons from '@site/static/card-icons';
 <Section
   title="Submission Data"
   anchor="submission-data"
-  subtitle="Capture and do what you please with submission data."
+  subtitle="Collect submission data and do whatever you want with it."
   imgSrc={Icons.ArchiveIcon}
 >
 
 ## Submission Data
 
-  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/cp/submissions-list.png')} alt="Submissions List" />
-  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/cp/submissions-detail.png')} alt="Submissions List" />
-  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/cp/submissions-quick-export.png')} alt="Submissions List" />
+  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v4/cp/submissions-list.png')} alt="Submissions List" />
+  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v4/cp/submissions-detail.png')} alt="Submissions Detail" />
+  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v4/cp/submissions-quick-export.png')} alt="Submissions Quick Export" />
   <FlexCards
     items={[
       {
@@ -941,58 +853,57 @@ import Icons from '@site/static/card-icons';
         description: "Save submission data or don't store it at all, but only send it through email notifications or an API integration, etc.",
         icon: Icons.ArchiveIcon,
       },
-         {
+      {
         title: 'GDPR Compliant',
         description: 'Freeform simplifies GDPR compliance for your forms with thorough documentation and many configuration options.',
         icon: Icons.GdprIcon,
         linkWithDescription: 'configuration/gdpr-compliance/',
       },
-         {
+      {
         title: 'Manage Submissions',
         description: 'View, manage, edit and delete submission data inside the control panel as well as front end templates!',
         icon: Icons.DataManageIcon,
         linkWithDescription: 'submissions/overview/',
       },
-         {
+      {
         title: 'Exporting',
         description: 'Quickly export submission data or generate Export Profile reports in Excel, CSV, Text, XML, or JSON formats.',
         icon: Icons.ExportIcon,
       },
-         {
+      {
         title: 'Reviews & Comments',
         description: 'Freeform can be customized to effectively manage discussion comments, product reviews, and more.',
         icon: Icons.CommentReviewIcon,
       },
-         {
+      {
         title: 'Surveys',
         description: 'Freeform offers a vast selection of field types to effortlessly create visually appealing survey forms.',
         icon: Icons.SurveyIcon,
-        linkWithDescription: 'forms/types/surveys-polls/',
       },
-         {
+      {
         title: 'Front End Editing',
         description: 'Enable front-end editing of form submissions for both admins and users to handle a wide variety of use cases.',
         icon: Icons.EditIcon,
-        linkWithDescription: 'submissions/overview',
+        linkWithDescription: 'submissions/submission-editing/',
       },
-         {
+      {
         title: 'Save & Continue Later',
         description: 'Users can save their form progress securely and come back later to complete it.',
         icon: Icons.PlayButtonIcon,
         linkWithDescription: 'forms/save-continue-later/',
       },
-         {
+      {
         title: 'Limit Submissions',
         description: 'Limit submissions per user, allow only one submission, require login, or set a close date for the form submission period.',
         icon: Icons.StopIcon,
-        linkWithDescription: 'submissions/overview/#submission-limits',
+        linkWithDescription: 'submissions/submission-limits/',
       },
-         {
+      {
         title: 'Relate to other Elements',
         description: 'Easily relate Freeform submissions with other element types, such as Craft Entries, allowing endless use cases.',
         icon: Icons.RelationIcon,
       },
-         {
+      {
         title: 'Custom Statuses',
         description: 'Create unlimited statuses that can be applied to form submissions, allowing you to sort and filter submissions.',
         icon: Icons.CategoryIcon,
@@ -1005,8 +916,8 @@ import Icons from '@site/static/card-icons';
 <Section
   title="Headless"
   anchor="headless"
-  subtitle="Full support for your headless implementation."
-  description="Freeform supports headless website architecture making it easy to use JavaScript-based front-end frameworks such as Vue.js, Next.js, React JS and more! Freeform also supports querying form layouts and using mutations to create submissions via GraphQL."
+  subtitle="We've got your back when it comes to your headless setup!"
+  description="Freeform makes it super easy to work with headless website setups, so you can use popular JavaScript front-end frameworks like Vue.js, Next.js, React.js, and others! It also lets you grab form layouts and use mutations to create submissions with GraphQL."
   imgSrc={Icons.HeadlessIcon}
 >
 
@@ -1046,6 +957,7 @@ import Icons from '@site/static/card-icons';
   title="And more..."
   anchor="and-more"
   subtitle="The possibilities are endless."
+  imgSrc={Icons.BoxIcon}
 >
 
 ## And more...
@@ -1058,47 +970,29 @@ import Icons from '@site/static/card-icons';
         icon: Icons.PadlockIcon,
         linkWithDescription: 'configuration/permissions/',
       },
-     {
+      {
         title: 'Attach Forms to Elements',
         description: 'Easily relate Freeform forms with other element types, such as Craft Entries, allowing endless use cases.',
         icon: Icons.ReferralIcon,
       },
-         {
+      {
         title: 'Loads of Settings',
         description: 'Access to an extensive range of settings to tailor the management, behavior, and overall user experience of your forms.',
         icon: Icons.ConfigPageIcon,
         linkWithDescription: 'configuration/settings/',
       },
-         {
-        title: 'Project Config',
-        description: "You can use Craft's Project Config to manage and adjust Freeform's settings.",
-        icon: Icons.DocumentGearIcon,
-        linkWithDescription: 'configuration/project-config/',
-      },
-         {
+      {
         title: 'Javascript Plugin',
         description: "Freeform's Javascript plugin simplifies form customization for developers, regardless of website setup.",
         icon: Icons.JsCodeIcon,
         linkWithDescription: 'developer/js-plugin/',
       },
-         {
-        title: 'GraphQL',
-        description: 'With Freeform, you can easily query form layouts and submit form mutations using GraphQL.',
-        icon: Icons.GraphqlIcon,
-        linkWithDescription: 'headless/graphql',
-      },
-         {
+      {
         title: 'Accessibility tested',
         description: 'We have tested our sample templates to ensure that they are accessible to everyone, using best-practice accessibility implementations.',
         icon: Icons.UserCheckIcon,
       },
-         {
-        title: 'Translatable',
-        description: 'Ability to translate the Freeform control panel, form messages, and field options using static translation files.',
-        icon: Icons.TranslationIcon,
-        linkWithDescription: 'configuration/translating/',
-      },
-         {
+      {
         title: 'Developer-friendly',
         description: 'Freeform is highly customizable and provides a wide range of developer events to easily extend it for your needs.',
         icon: Icons.DeveloperIcon,
@@ -1111,146 +1005,252 @@ import Icons from '@site/static/card-icons';
 <Section
   title="Compare"
   anchor="compare"
-  subtitle="Which edition is right for your needs."
+  subtitle="Which edition is the best fit for what you need?"
+  imgSrc={Icons.ScaleIcon}
 >
 
 ## Compare
 
-<div class="feature-table">
+<div className="feature-table two-editions w-full">
 
-| <h3 class="no-margin">Pricing & Support</h3>                                                                                                            |                                             <h3 class="edition-lite no-margin text-3xl ">Lite</h3>                                             |                                                                                 <h3 class="edition-pro text-3xl no-margin">Pro</h3>                                                                                  |
-| :------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| Price                                                                                                                                                   |                                                   <span class="edition-lite">**$99**</span>                                                    |                                                                                      **<span class="edition-pro">$149</span>**                                                                                       |
-| Number of sites (including dev/staging)                                                                                                                 |                                                    <span class="edition-lite">1 site</span>                                                    |                                                                                       <span class="edition-pro">1 site</span>                                                                                        |
-| Support Options                                                                                                                                         |                                               <span class="edition-lite">Helpdesk, GitHub</span>                                               |                                                                                  <span class="edition-pro">Helpdesk, GitHub</span>                                                                                   |
-| Support Level<br /><small>_† Typical support ticket first response time within this timeframe or sooner, based on business days._</small>               |                                                  <span class="edition-lite">1-2 days†</span>                                                   |                                                                                      <span class="edition-pro">1-2 days†</span>                                                                                      |
-| Support term                                                                                                                                            |                                                    <span class="edition-lite">1 year</span>                                                    |                                                                                       <span class="edition-pro">1 year</span>                                                                                        |
-| Updates available                                                                                                                                       |                                                    <span class="edition-lite">1 year</span>                                                    |                                                                                       <span class="edition-pro">1 year</span>                                                                                        |
-| Renewal (optional)                                                                                                                                      |                                                    <span class="edition-lite">$49/yr</span>                                                    |                                                                                       <span class="edition-pro">$79/yr</span>                                                                                        |
-| Compatibility                                                                                                                                           |                                               <span class="edition-lite">Craft&nbsp;4.0+</span>                                                |                                                                                   <span class="edition-pro">Craft&nbsp;4.0+</span>                                                                                   |
-| Refund policy                                                                                                                                           |                                                   <span class="edition-lite">30 days</span>                                                    |                                                                                       <span class="edition-pro">30 days</span>                                                                                       |
-| <h3 class="compare-feature">Features</h3>                                                                                                               |                                                                                                                                                |                                                                                                                                                                                                                      |
-| Intuitive drag and drop interface                                                                                                                       |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Popular framework examples                                                                                                                              |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Automated templating                                                                                                                                    |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Multi-page forms                                                                                                                                        |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Save & continue form later                                                                                                                              |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Conditional Rules logic                                                                                                                                 |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Built-in AJAX                                                                                                                                           |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Store, view and edit submissions                                                                                                                        |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Edit submissions on front end                                                                                                                           |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| GDPR compliant                                                                                                                                          |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Automatically purge submission data                                                                                                                     |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Automatically purge spam submission data                                                                                                                |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Variety of email notification options                                                                                                                   |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Email Alert of failed email notifications                                                                                                               |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Weekly/Daily Digest emails                                                                                                                              |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Exporting of data                                                                                                                                       |                                                     <span class="edition-lite">CSV</span>                                                      |                                                                             <span class="edition-pro">Excel, CSV, XML, JSON, Text</span>                                                                             |
-| Export profiles (pre-configured)                                                                                                                        |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Export email notifications                                                                                                                              |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Attach forms to entries                                                                                                                                 |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Unlimited custom fields                                                                                                                                 |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Custom statuses                                                                                                                                         |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Basic field types (text, textarea, email, number, checkbox, checkbox group, radio buttons, file upload, hidden, select, dynamic recipients, HTML block) |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Premium field types                                                                                                                                     |                                                                                                                                                |                 <span class="edition-pro">File Upload Drag & Drop, Date & Time, Phone, Table, Rating, Opinion Scale, Signature, Invisible, Regex, Website, Rich Text block, Confirm, Password</span>                 |
-| Populate fields with Element data or Predefined options                                                                                                 |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Limit form to 1 submission per user                                                                                                                     |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Limit number of submissions per form                                                                                                                    |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Set a close date per form                                                                                                                               |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Automatically store logged in user ID on submissions                                                                                                    |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Map submission data to Craft Elements                                                                                                                   |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Edit other Craft Elements                                                                                                                               |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Relate submissions to Craft Elements                                                                                                                    |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Built-in spam protection                                                                                                                                |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Spam folder                                                                                                                                             |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Spam blocking                                                                                                                                           |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Captchas                                                                                                                                                |                                          <span class="edition-lite">reCAPTCHA v2&nbsp;Checkbox</span>                                          |                                                  <span class="edition-pro">reCAPTCHA v2 Checkbox or Invisible, reCAPTCHA v3, hCaptcha Checkbox or Invisible</span>                                                   |
-| Email Marketing integrations                                                                                                                            |                                                                                                                                                |                                           <span class="edition-pro">Mailchimp, Campaign Monitor, Constant Contact, ActiveCampaign, dotmailer, Craft Campaign plugin</span>                                           |
-| CRM API integrations                                                                                                                                    |                                                                                                                                                | <span class="edition-pro">Salesforce Lead, Salesforce Opportunities, Pardot, HubSpot, ActiveCampaign, Pipedrive Deals, Pipedrive Leads, Zoho Lead, Zoho Deal, Infusionsoft, Insightly, SharpSpring, Freshdesk</span> |
-| Webhooks integrations                                                                                                                                   |                                                                                                                                                |                                                                               <span class="edition-pro">Slack, Zapier, generic</span>                                                                                |
-| POST Forwarding                                                                                                                                         |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| GraphQL support                                                                                                                                         |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Accept Payments through Stripe                                                                                                                          |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Dashboard widgets                                                                                                                                       |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Important Update Warnings & Notices                                                                                                                     |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Translatable                                                                                                                                            |                                                      <span class="edition-lite">✓</span>                                                       |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| Rename plugin                                                                                                                                           |                                                                                                                                                |                                                                                          <span class="edition-pro">✓</span>                                                                                          |
-| <small><SimpleTextLink to="https://plugins.craftcms.com/freeform" label="INSTALL A FREE, UNLIMITED TRIAL TODAY!" /></small>                             | <PrimaryButtonWithLink to="https://plugins.craftcms.com/freeform" label="Buy" size="sm" /><br /><div><b className="edition-lite">$99</b></div> |                                     <PrimaryButtonWithLink size="sm" to="https://plugins.craftcms.com/freeform" label="Buy" /><br /><div><b class="edition-pro">$149</b> </div>                                      |
+| | <h2 className="edition-lite">Lite</h2> | <h2 className="edition-pro">Pro</h2> |
+|:--- |:---:|:---:|
+| One-time Cost | **<span className="edition-lite">$99</span>** | **<span className="edition-pro">$149</span>** |
+| Renewals (optional) | <span className="edition-lite">$49/yr</span> | <span className="edition-pro">$79/yr</span> |
+| [Compatibility](./setup/installing-updating.mdx#requirements) | <span className="edition-lite">Craft&nbsp;4+</span> | <span className="edition-pro">Craft&nbsp;4+</span> |
+| [Drag & Drop Form Builder](./forms/builder.mdx) | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
+| [Multi-page Forms](./forms/builder.mdx#multi-page-forms) | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
+| [Conditional Rules Logic](./forms/conditional-rules.mdx) | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
+| [Save & Continue Form Later](./forms/save-continue-later.mdx) | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
+| [Number of Forms](./forms/index.mdx) | <span className="edition-lite">Unlimited</span> | <span className="edition-pro">Unlimited</span> |
+| [Number of Fields](./forms/fields.mdx) | <span className="edition-lite">Unlimited</span> | <span className="edition-pro">Unlimited</span> |
+| [Field Types](./forms/fields.mdx) | <details className="edition-lite"><summary>Basic</summary><small>Checkbox<br />Checkboxes<br />Dropdown/Select<br />Dynamic Recipients<br />Email<br />File Upload<br />Hidden<br />HTML<br />Multiple Select<br />Number<br />Radios<br />Text<br />Textarea</small></details> | <details className="edition-pro"><summary>Basic + Advanced</summary><small>Checkbox<br />Checkboxes<br />Confirm<br />Date & Time<br />Dropdown/Select<br />Dynamic Recipients<br />Email<br />File Upload<br />File Upload Drag & Drop<br />Hidden<br />HTML<br />Invisible<br />Multiple Select<br />Number<br />Opinion Scale<br />Password<br />Phone<br />Radios<br />Rating<br />Regex<br />Rich Text<br />Signature<br />Stripe Payment<br />Table<br />Text<br />Textarea<br />Website</small></details> |
+| [Populate Fields with Element Data or Predefined Options](./forms/fields.mdx#populating-field-options) | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
+| [Field Encryption](https://docs.solspace.com/craft/freeform/v5/forms/fields.mdx#field-encryption) | <span className="compare-none">✕</span> | <small className="compare-future">Freeform 5+</small> |
+| [Email Notifications](./forms/email-notifications.mdx) | <small className="edition-lite">Admin<br />User Select<br />Email Field<br />User-Defined<br />Template-based</small> | <small className="edition-pro">Admin<br />Conditional<br />User Select<br />Email Field<br />User-Defined<br />Template-based</small> |
+| [Dynamic PDF Templates](https://docs.solspace.com/craft/freeform/v5/configuration/settings.mdx#pdf-templates) | <span className="compare-none">✕</span> | <small className="compare-future">Freeform 5+</small> |
+| [Store, View and Edit Submissions](./submissions/overview.mdx) | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
+| [Edit Submissions on Front End](./submissions/overview.mdx#submission-editing) | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
+| [Exporting of Submission Data](./submissions/exporting.mdx) | <small className="edition-lite">Basic CSV</small> | <small className="edition-pro">Excel<br />CSV<br />XML<br />JSON<br />Text</small> |
+| [Advanced Exporting](./submissions/exporting.mdx) | <span className="compare-none">✕</span> | <small className="edition-pro">Quick Export<br />Export Profiles (pre-configured)<br />Export Email Notifications</small> |
+| [Dashboard Widgets](./submissions/widgets.mdx) | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
+| [GDPR Compliant](./configuration/gdpr-compliance.mdx) | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
+| [Automatically Purge Submission Data](./configuration/settings.mdx#general-settings) | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
+| [Automatically Purge Spam Submission Data](./configuration/settings.mdx#spam-protection) | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
+| [Site-Aware Forms](https://docs.solspace.com/craft/freeform/v5/configuration/sites.mdx) | <span className="compare-none">✕</span> | <small className="compare-future">Freeform 5+</small> |
+| [Translations per Site inside Builder](https://docs.solspace.com/craft/freeform/v5/configuration/sites.mdx#translations) | <span className="compare-none">✕</span> | <small className="compare-future">Freeform 5+</small> |
+| [Attach Forms to Entries](./forms/fieldtype.mdx) |<span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
+| [Attach Submissions to Entries](./submissions/fieldtype.mdx) | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
+| [Surveys & Polls Reporting](./forms/types/surveys-polls.mdx) | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
+| [Form Limiting](./submissions/overview.mdx#submission-limits) | <small className="edition-lite">Form Close Date</small> | <small className="edition-pro">Duplicate Check<br />Total Submissions Per Form<br />Form Close Date</small> |
+| [Spam Protection](./forms/spam-protection.mdx) | <small className="edition-lite">Honeypot Test<br />Javascript Test<br />reCAPTCHA Checkbox (v2)</small> | <small className="edition-pro">Honeypot Test<br />Javascript Test<br />reCAPTCHA (all)<br />hCaptcha (all)<br />Cloudflare Turnstile (all)</small> |
+| [Spam Folder](./forms/spam-protection.mdx#spam-folder) | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
+| [Spam Blocking](./forms/spam-protection.mdx#spam-blocking) | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
+| [Craft Element Integrations](./integrations/elements.mdx) | <span className="compare-none">✕</span> | <small className="edition-pro">Map to Craft Elements<br />Edit Other Elements<br />Relate Submissions to Elements</small> |
+| [Email Marketing Integrations](./integrations/index.mdx#email-marketing) | <span className="compare-none">✕</span> | <details className="edition-pro"><summary>Popular Services</summary><small className="edition-pro">Mailchimp<br />Campaign Monitor<br />Constant Contact<br />ActiveCampaign<br />Dotdigital<br />Campaign plugin</small></details> |
+| [CRM Integrations](./integrations/index.mdx#crm) | <span className="compare-none">✕</span> | <details className="edition-pro"><summary>Popular Services</summary><small className="edition-pro">Salesforce<br />Pardot<br />HubSpot<br />ActiveCampaign<br />Pipedrive<br />Zoho CRM<br />Keap<br />Insightly<br />SharpSpring<br />Freshdesk</small></details> |
+| [Webhooks Integrations](./integrations/index.mdx#webhooks) | <span className="compare-none">✕</span> | <small className="edition-pro">Slack, Zapier, generic</small> |
+| [POST Forwarding](./integrations/post-forwarding.mdx) | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
+| [Stripe Payments](./integrations/stripe-payments.mdx) | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
+| [GraphQL Support](./headless/graphql.mdx) | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
+| [Build Custom Field Types](https://docs.solspace.com/craft/freeform/v5/developer/field-types.mdx) | <small className="compare-future">Freeform 5+</small> | <small className="compare-future">Freeform 5+</small> |
+| [Build Custom Integrations, Modules and more](./developer/index.mdx) | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
+| [Notices, Alerts & Digest](./configuration/notices-alerts.mdx) | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
+| [Limited Users](https://docs.solspace.com/craft/freeform/v5/configuration/limited-users.mdx) (form builder permissions) | <span className="compare-none">✕</span> | <small className="compare-future">Freeform 5+</small> |
+| [Set Defaults and/or Lock Form Builder Settings](https://docs.solspace.com/craft/freeform/v5/configuration/settings.mdx#form-builder) | <small className="compare-future">Freeform 5+</small> | <small className="compare-future">Freeform 5+</small> |
+| [Rename Plugin](./configuration/settings.mdx#general-settings) | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
+| [Translations Included](./configuration/translating.mdx) | <small className="edition-lite">🇺🇸 🇬🇧 English<br />🇩🇪 German<br />🇳🇱 Dutch</small> | <small className="edition-pro">🇺🇸 🇬🇧 English<br />🇩🇪 German<br />🇳🇱 Dutch</small> |
+| <small><SimpleTextLink to="https://plugins.craftcms.com/freeform" label="Try out a free unlimited trial today!" /></small> | <PrimaryButtonWithLink to="https://plugins.craftcms.com/freeform" label="Get it!" size="sm" /><br /><b className="edition-lite">$99</b> | <PrimaryButtonWithLink size="sm" to="https://plugins.craftcms.com/freeform" label="Get it!" /><br /><b className="edition-pro">$149</b> |
 
+</div>
+  <div className="intro-cta flex flex-wrap gap-3 justify-center">
+    <div className="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'https://plugins.craftcms.com/freeform/', label: 'Plugin Store', outline: true },
+        { to: 'https://support.solspace.com/', label: 'Support', outline: true },
+        { to: 'setup/installing-updating/', label: 'How to Install', outline: true },
+        { to: 'guides/', label: 'User Guides', outline: true },
+      ]}
+    />
+  </div>
+</Section>
+
+<Section
+  title="Ratings & Reviews"
+  anchor="ratings-reviews"
+  subtitle="What others are saying about Freeform."
+  imgSrc={Icons.HeartIcon}
+>
+
+## Ratings & Reviews
+
+<div className="quote-grid">
+  <blockquote>
+    <span className="stars">★★★★★</span>
+    <p>Great plugin over all. I use it on my own website and client website. I recently started to use the Stripe integration as well, and it is very smooth and comfortable. Besides that, the support is awesome, quick and personal!</p>
+    <cite>Matan Levkowich</cite>
+  </blockquote>
+  <blockquote>
+    <span className="stars">★★★★★</span>
+    <p>Freeform is a very powerful form builder with options based on your needs. I've used it on a number of projects over the past few years because it just works, and our clients love it. Support is top-notch too!</p>
+    <cite>Todd Richards</cite>
+  </blockquote>
+  <blockquote>
+    <span className="stars">★★★★★</span>
+    <p>Extremely rich feature set, and a long history of being well-maintained and supported.</p>
+    <cite>Brandon Kelly</cite>
+  </blockquote>
+  <blockquote>
+    <span className="stars">★★★★★</span>
+    <p>My go-to form builder for years now. A lot of features and great support.</p>
+    <cite>Erika G</cite>
+  </blockquote>
+  <blockquote>
+    <span className="stars">★★★★★</span>
+    <p>If you need forms with a bunch of different integrations and great support to boot, Solspace Freeform is it. Built on decades of experience with CMS forms, Freeform does everything you need.</p>
+    <cite>Steven Grant</cite>
+  </blockquote>
+  <blockquote>
+    <span className="stars">★★★★★</span>
+    <p>Flexible, client friendly, well documented.</p>
+    <cite>Peter Mitchell</cite>
+  </blockquote>
 </div>
 
 </Section>
 
-## Testimonials
-
-> "Freeform Pro is really head and shoulders above any other form builder I've used."
-
-> "Having reliable form processing is critical to making my clients' websites work. Using Freeform gives me the power to create flexible forms with less hassle than creating them manually."
-
-> "It's a fantastic plugin for Craft which we use on nearly all of our project websites."
-
-> "Freeform tends to add features before I realize I need them!"
-
-> "I love Freeform! Been using it on sites for a long time and I like how full-featured it is."
-
-> "Love this product... one of the best things built for Craft in my opinion."
-
-> "Awesome plugin! Saved a ton of time for me. Worth the money spent."
-
-> "Freeform has allowed me to do things that were once impossible for a project I was working on. It's easy to use and incredibly powerful!"
-
-_\*(Testimonials collected from an anonymous Freeform product feedback survey and through private support tickets)_
+<Section
+  title="Why Freeform?"
+  anchor="why-freeform"
+  subtitle="You can count on Freeform and the team behind it to give you the quality and support you really deserve."
+  imgSrc={Icons.CheckboxIcon}
+>
 
 ## Why Freeform?
 
-Rest assured that Freeform and the team behind it are committed to providing you with the level of quality and support that you expect and deserve.
+  <FlexCards
+    items={[
+      {
+        title: 'Top Notch Support',
+        description:
+          'Our reputation in the Craft CMS community speaks for itself when it comes to customer support. We strive to offer the best and most reliable help to all our customers.',
+        icon: Icons.SupportIcon,
+        linkWithDescription: 'https://support.solspace.com/',
+      },
+      {
+        title: '20+ Years Experience',
+        description:
+          'For more than 20 years, Solspace has been busy creating and supporting software for over 20,000 customers. Over 400,000 plugins have been sold or downloaded for free!',
+        icon: Icons.HourglassIcon,
+        linkWithDescription: 'https://solspace.com',
+      },
+      {
+        title: 'Active Development',
+        description:
+          'Craft CMS users really like Freeform, a plugin that’s been continuously updated with a ton of new features, improvements, and bug fixes over time.',
+        icon: Icons.DevelopmentIcon,
+        linkWithDescription: 'setup/changelog',
+      },
+    ]}
+  />
+  <div className="intro-cta flex flex-wrap gap-3 justify-center">
+    <div className="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'https://plugins.craftcms.com/freeform/', label: 'Plugin Store', outline: true },
+        { to: 'https://support.solspace.com/', label: 'Support', outline: true },
+        { to: 'setup/installing-updating/', label: 'How to Install', outline: true },
+        { to: 'guides/', label: 'User Guides', outline: true },
+      ]}
+    />
+  </div>
+</Section>
 
-<FlexCards
-  items={[
-    {
-      title: 'Top Notch Support',
-      description:
-        'Our commitment to providing top-notch customer support is well-known in the Craft CMS community. We always aim to deliver the best and most dependable assistance to our valued customers.',
-      icon: Icons.SupportIcon,
-      linkWithDescription: 'https://docs.solspace.com/support/',
-    },
-    {
-      title: '20+ Years Experience',
-      description:
-        'For over 20 years, Solspace has been creating, maintaining, and providing support for software to more than 20,000 customers. In total, over 400,000 plugins have been sold or downloaded for free.',
-      icon: Icons.HourglassIcon,
-      linkWithDescription: 'https://solspace.com',
-    },
-    {
-      title: 'Active Development',
-      description:
-        'Craft CMS users widely prefer Freeform, a plugin that boasts an impressive track record of continuous development, including numerous feature upgrades, enhancements, and bug fixes.',
-      icon: Icons.DevelopmentIcon,
-      linkWithDescription: 'setup/changelog',
-    },
-  ]}
-/>
+<Section
+  title="FAQ"
+  anchor="faq"
+  subtitle="Frequently asked questions about buying Freeform."
+  imgSrc={Icons.QuestionSignIcon}
+>
+  <div className="faq-list">
+  <details>
+    <summary>Can I test Freeform before I buy?</summary>
 
-## FAQ
+    Yes! You can use Freeform on any private domain name for as long as you need, just like with Craft. Whether it's on your local dev server or a staging site, you're good to go. You only have to buy a license when you're ready to launch your site live, just like with Craft.
+  </details>
+  <details>
+    <summary>How many sites does a license cover?</summary>
 
-Frequently asked questions about buying Freeform.
+    You only need to buy a Freeform license for each Craft license you have. So, if you're running a Craft multi-site on one install, you just need one license. It's just like Craft! There's no need to get separate licenses for other environments of the same site, like development or staging.
+  </details>
+  <details>
+    <summary>Can I switch to a different edition later?</summary>
 
-<h3>How many sites can I use my license on?</h3>
+    Yes! You can switch to the _Lite_ or _Pro_ editions at any time! You just pay the difference in price. For example, if you're using the _Lite_ edition and wish to switch to _Pro_, you will just pay $50. You don't need to reinstall anything and you won't lose any of your data.
 
-Each purchase of Freeform allows usage for 1 website, with the exception of development and staging versions of that site.
+    Check out the [Changing Editions](./setup/installing-updating/#changing-editions) guide for more information!
+  </details>
+  <details>
+    <summary>Do you offer discounts to non-profits?</summary>
 
-<h3>If I buy Lite now, can I switch to Pro later?</h3>
+    Yes! We offer a discount to non-profits for 20% off the regular price upon proof of non-profit status. Please [contact us](https://support.solspace.com/) for more information about this.
+  </details>
+  <details>
+    <summary>Does the Trial version limit features?</summary>
 
-Yes! Just visit Freeform inside the Craft Plugin Store inside your control panel and click on the **Try** or **Buy Now** buttons, and Craft will switch the edition license for the difference in price.
+    The trial versions of Solspace software are fully functional and not limited in any way. However, if you try to use a trial version on a production site, Craft will display a red banner at the top of your control panel, prompting you to purchase a license.
 
-<h3>Do you offer discounts to non-profits?</h3>
+    More information about [Craft's license enforcement](https://craftcms.com/knowledge-base/how-craft-license-enforcement-works).
+  </details>
+  <details>
+    <summary>How long does a license last for?</summary>
 
-Yes, we offer a discount to non-profits for 20% off the regular price upon proof of non-profit status. Please contact us for more information about this.
+    A single license provides one year of updates and support. After this period, you can continue using the plugin but will no longer receive updates or support. To maintain access to updates and support, you will need to renew your license each year at a discounted rate.
+  </details>
+  <details>
+    <summary>Do I have to renew my license each year?</summary>
 
-<h3>Can I try before I buy?</h3>
+    You can renew your license after the initial one-year support period has ended. Your plugin will continue to work properly in the meantime. If you prefer, you can wait until the following year to renew and receive the latest updates.
+    
+    However, we don't recommend avoiding updates altogether, as you would miss out on new features and important fixes.
+  </details>
+  <details>
+    <summary>What are renewals and how do they work?</summary>
 
-In the Craft Plugin Store you can install a trial of Freeform to try it out!
+    Renewals help you keep your plugin updated and access technical support. However, they are entirely optional.
+    
+    For example, if you purchase the _Lite_ edition of Freeform for $99, the renewal price after one year is $49. Your initial purchase of $99 includes support and updates for one year. When it's time to renew, you can extend your updates and support for another year at the renewal price of just $49, rather than paying the full amount of $99 again.
+  </details>
+  <details>
+    <summary>How do I install Freeform?</summary>
 
-<h3>Does the Trial version limit features?</h3>
+    Installing Freeform is done just like any other plugin for Craft, similar to how you would install Craft itself. Please refer to the [Installation guide](./setup/installing-updating.mdx) in the documentation.
+  </details>
+  <details>
+    <summary>How do I get support for Freeform?</summary>
 
-The trial versions of Solspace software are not limited in any way. However, if you attempt to use a trial version on a production site, Craft will display a red banner at the top of your control panel alerting you to purchase a license.
+    We provide free support for Freeform. If you have any questions or encounter issues, you can [create an issue on GitHub](https://github.com/solspace/craft-freeform/issues/new/choose) or [send us a private support ticket](https://support.solspace.com/). We're here to help!
+  </details>
+  </div>
+  <div className="intro-cta flex flex-wrap gap-3 justify-center">
+    <div className="intro-cta-text flex flex-col">
+      <h4>Start exploring Freeform...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'https://plugins.craftcms.com/freeform/', label: 'Plugin Store', outline: true },
+        { to: 'https://support.solspace.com/', label: 'Support', outline: true },
+        { to: 'setup/installing-updating/', label: 'How to Install', outline: true },
+        { to: 'guides/', label: 'User Guides', outline: true },
+      ]}
+    />
+  </div>
+</Section>

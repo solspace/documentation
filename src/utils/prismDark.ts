@@ -3,7 +3,7 @@ import { type PrismTheme } from 'prism-react-renderer';
 const theme: PrismTheme = {
   plain: {
     color: '#ffffff',
-    backgroundColor: '#1d222d',
+    backgroundColor: 'rgb(12 17 25)',
   },
   styles: [
     {
@@ -100,7 +100,7 @@ const theme: PrismTheme = {
     {
       types: ['line-highlight'],
       style: {
-        backgroundColor: 'rgba(5, 143, 254, 0.1)',
+        backgroundColor: 'rgb(9 28 53)',
       },
     },
   ],

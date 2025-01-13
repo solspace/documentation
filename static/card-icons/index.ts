@@ -114,6 +114,7 @@ export default {
   RichTextIcon: 'rich-text',
   RoadmapIcon: 'roadmap',
   RobotIcon: 'robot',
+  ScaleIcon: 'scale',
   SelectIcon: 'select',
   SettingsIcon: 'settings',
   ShieldIcon: 'shield',
