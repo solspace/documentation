@@ -19,7 +19,7 @@ The _calendar.export_ template function is fairly simple in that it receives a l
 {{ craft.calendar.export(events, {timezone: "America/New_York"}) }}
 ```
 
-- `timezone` <a href="#param-timezone" id="param-timezone" class="docs-anchor">#</a>
+- `timezone` <a href="#param-timezone" id="param-timezone" className="docs-anchor">#</a>
   - Allows you to simulate a localized timezone. By default, Calendar dates are stored as [floating timezones](https://tools.ietf.org/html/rfc5545#section-3.3.5), so an event with start time of `1pm` would have a "floating" time of `1pm` for `UTC±0`. If you specify `"America/New_York"` (`UTC-4`), the start time of the event will still show as `1pm`, but pretend to be on a **New York/UTC-4** timezone. If you then viewed this exported event in a timezone outside of `UTC-4` such as `UTC-5`, the start time would display as `12pm`. This feature is more-so available as a workaround for [Google Calendar not correctly supporting floating timezones](https://www.finalsitesupport.com/hc/en-us/articles/115000804047-When-displayed-via-a-Google-Calendar-event-times-are-incorrect).
   - Specify the same format Craft does... `Region/City`, e.g. `timezone: "America/New_York"`.
   - Warning: Dates/times will be will be localized (changed) for users **outside** of the specified timezone.

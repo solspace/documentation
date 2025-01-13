@@ -92,20 +92,20 @@ All fieldtypes conveniently include the ability to set attributes for their **la
 
 The following field types are available ([see below for additional Pro Field Types](#pro-field-types)):
 
-- **Text** <a href="#fields-text" id="fields-text" class="docs-anchor">#</a>
+- **Text** <a href="#fields-text" id="fields-text" className="docs-anchor">#</a>
   - A simple input field.
     - Can be marked as required.
     - Can contain default text and/or placeholder.
     - Can set `maxlength` property.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-text).
-- **Textarea** <a href="#fields-textarea" id="fields-textarea" class="docs-anchor">#</a>
+- **Textarea** <a href="#fields-textarea" id="fields-textarea" className="docs-anchor">#</a>
   - A simple multi-line input field.
     - Specify the number of rows the textarea should have.
     - Can be marked as required.
     - Can contain default text and/or placeholder.
     - Can set `maxlength` property.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-textarea).
-- **Email** <a href="#fields-email" id="fields-email" class="docs-anchor">#</a>
+- **Email** <a href="#fields-email" id="fields-email" className="docs-anchor">#</a>
   - An input field that is flagged in Freeform to expect an email address value as well as possibility for receiving email notifications.
     - In the Property Editor (right column) in Composer, select a notification template if you want the email entered for this field to receive an email notification.
       - Users/groups need to have permissions access for **Email Notifications** to create new formatting templates.
@@ -115,7 +115,7 @@ The following field types are available ([see below for additional Pro Field Typ
     - Can be marked as required.
     - Can contain default text and/or placeholder.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-email).
-- **Number**<Badge type="feature" text="Pro only prior to 2.3.0" /> <a href="#fields-number" id="fields-number" class="docs-anchor">#</a>
+- **Number**<Badge type="feature" text="Pro only prior to 2.3.0" /> <a href="#fields-number" id="fields-number" className="docs-anchor">#</a>
   - An input field that is validated to contain numbers only, based on several configuration options.
     - Choose if validation should allow negative numbers.
     - Optionally set Min/Max values.
@@ -134,13 +134,13 @@ The following field types are available ([see below for additional Pro Field Typ
     - Can be marked as required.
     - Can contain default text and/or placeholder.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-number).
-- **Hidden** <a href="#fields-hidden" id="fields-hidden" class="docs-anchor">#</a>
+- **Hidden** <a href="#fields-hidden" id="fields-hidden" className="docs-anchor">#</a>
   - A hidden field.
     - Can only include text strings at this time (no variables allowed).
       - If you need you pass a value to your hidden field dynamically, you can do so with the `overrideValues` parameter. Ex: `overrideValues: { myFieldname: myvalue }`
     - Cannot be marked as required.
     - Freeform will load fields of this type at the beginning of the form, regardless of where they are placed in Composer layout.
-- **Select** <a href="#fields-select" id="fields-select" class="docs-anchor">#</a>
+- **Select** <a href="#fields-select" id="fields-select" className="docs-anchor">#</a>
   - A select dropdown menu field.
     - Can specify labels (with values assumed) or labels and values (that differ).
       - To make the first option empty, use **labels and values** approach with first option having **--** or **Please select...**, etc for the label, and leave option blank.
@@ -148,28 +148,28 @@ The following field types are available ([see below for additional Pro Field Typ
     - Can be marked as required.
     - Can specify default option to be selected.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-select).
-- **Multiple Select** <a href="#fields-multiple-select" id="fields-multiple-select" class="docs-anchor">#</a>
+- **Multiple Select** <a href="#fields-multiple-select" id="fields-multiple-select" className="docs-anchor">#</a>
   - A multiple select field.
     - Can specify labels (with values assumed) or labels and values (that differ).
     - Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-fields-with-elements-predefined-options).
     - Can be marked as required.
     - Can specify default option(s) to be selected.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-multiple_select).
-- **Checkbox** <a href="#fields-checkbox" id="fields-checkbox" class="docs-anchor">#</a>
+- **Checkbox** <a href="#fields-checkbox" id="fields-checkbox" className="docs-anchor">#</a>
   - A single checkbox field.
     - Can be rendered vertically or horizontally.<Badge type="feature" text="2.5.0+" />
     - Has a default value of **Yes**, which can be overwritten with any value you want. The front end however, will always display the value as `1`, but upon submission, the value will be switched to the one you have set.
     - Can be marked as required, which would essentially require that this checkbox be checked.
     - Can be checked by default.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-checkbox).
-- **Checkbox Group** <a href="#fields-checkbox-group" id="fields-checkbox-group" class="docs-anchor">#</a>
+- **Checkbox Group** <a href="#fields-checkbox-group" id="fields-checkbox-group" className="docs-anchor">#</a>
   - A group of checkboxes.
     - Can specify labels (with values assumed) or labels and values (that differ).
     - Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-fields-with-elements-predefined-options).
     - Can be marked as required.
     - Can specify which (if any) options to be checked by default.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-checkbox_group).
-- **Radio Group** <a href="#fields-radio-group" id="fields-radio-group" class="docs-anchor">#</a>
+- **Radio Group** <a href="#fields-radio-group" id="fields-radio-group" className="docs-anchor">#</a>
   - A group of radio options.
     - Can specify labels (with values assumed) or labels and values (that differ).
     - Can be rendered vertically or horizontally.<Badge type="feature" text="2.5.0+" />
@@ -177,7 +177,7 @@ The following field types are available ([see below for additional Pro Field Typ
     - Can be marked as required.
     - Can specify which (if any) option to be selected by default.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-radio_group).
-- **File Upload** <a href="#fields-file-upload" id="fields-file-upload" class="docs-anchor">#</a>
+- **File Upload** <a href="#fields-file-upload" id="fields-file-upload" className="docs-anchor">#</a>
   - A file upload field, using [Craft Assets](https://docs.craftcms.com/v3/assets.html).
     - Can allow a single file or multiple files (applies `multiple` attribute to the single file upload input) to be uploaded.
       - Specify a number larger than `1` in the **File Count** setting to allow multiple files to be uploaded at the same time.
@@ -194,7 +194,7 @@ The following field types are available ([see below for additional Pro Field Typ
       - If the form is never completed, incomplete submissions are stored for 3hrs, and then are removed (along with the file(s)) after that.
     - Can be marked as required.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-file).
-- **Dynamic Recipients** <a href="#fields-dynamic-recipients" id="fields-dynamic-recipients" class="docs-anchor">#</a>
+- **Dynamic Recipients** <a href="#fields-dynamic-recipients" id="fields-dynamic-recipients" className="docs-anchor">#</a>
   - A select dropdown menu field that contains protected email addresses and labels for each.
     - Can be switched to Radio or Checkbox options<Badge type="feature" text="2.1.0+" /> at form level inside Composer.
     - Can be rendered vertically or horizontally.<Badge type="feature" text="2.5.0+" />
@@ -215,7 +215,7 @@ The following field types are available ([see below for additional Pro Field Typ
 
 The following extra field types are available with Freeform Pro:
 
-- **Date & Time** <a href="#fields-date-time" id="fields-date-time" class="docs-anchor">#</a>
+- **Date & Time** <a href="#fields-date-time" id="fields-date-time" className="docs-anchor">#</a>
   - A complex date and/or time field. Can be used as Date only, Time only, or both. Many configuration and validation options available as well:
     - Set a default value.
       - Can use `now`, `today`, `5 days ago`, `2017-01-01 20:00:00`, etc, which will format the default value according to the chosen format as a localized value.
@@ -255,7 +255,7 @@ The following extra field types are available with Freeform Pro:
   alt="Date & Time fieldtype"
 />
 
-- **Phone** <a href="#fields-phone" id="fields-phone" class="docs-anchor">#</a>
+- **Phone** <a href="#fields-phone" id="fields-phone" className="docs-anchor">#</a>
   - An input field that is validated to contain phone numbers only, based on a configured pattern.
     - Set pattern to desired format, where `0` is a digit between `0` and `9`, e.g:<Badge type="feature" text="Improved in 2.2.0" />
       - `(000) 000-0000`
@@ -270,7 +270,7 @@ The following extra field types are available with Freeform Pro:
   alt="Phone fieldtype"
 />
 
-- **Rating** <a href="#fields-rating" id="fields-rating" class="docs-anchor">#</a>
+- **Rating** <a href="#fields-rating" id="fields-rating" className="docs-anchor">#</a>
 
   - A special field that allows for star ratings using Freeform's built in CSS and JS.
     - Set a default star rating value (based on Maximum Number of Stars configuration option)
@@ -282,7 +282,7 @@ The following extra field types are available with Freeform Pro:
   - Freeform will automatically insert javascript in the footer of the page for this fieldtype. If you prefer to have this load inside the `<form></form>` tags (for purposes of caching, etc), you can adjust the [Freeform Javascript Insertion Location](../configuration/settings.mdx#scripts-location) setting.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-rating).
 
-- **Regex** <a href="#fields-regex" id="fields-regex" class="docs-anchor">#</a>
+- **Regex** <a href="#fields-regex" id="fields-regex" className="docs-anchor">#</a>
   _ An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]_$/`).
   - Set error message a user will see if an incorrect value is supplied. \* Any occurrences of `{{pattern}}` will be replaced with specified regex pattern inside the error message, if any are found.
     _ Can be marked as required.
@@ -293,7 +293,7 @@ The following extra field types are available with Freeform Pro:
   alt="Regex fieldtype"
 />
 
-- **Website** <a href="#fields-website" id="fields-website" class="docs-anchor">#</a>
+- **Website** <a href="#fields-website" id="fields-website" className="docs-anchor">#</a>
   - A simple input field that checks to see if the URL specified has valid syntax (`http://`, `https://`, `ftp://`, etc).
     - Can be marked as required.
     - Can contain default text and/or placeholder.
@@ -308,7 +308,7 @@ The following extra field types are available with Freeform Pro:
 
 Special fields are ones that either every form needs (such as Submit button), ones that assist in setting up form behaviors (such as Confirm and Password), and ones that aid in the layout and content of forms (such as the HTML block). None of these fields store any submission data in the database. The following special fields are available to use:
 
-- **Submit** <a href="#fields-submit" id="fields-submit" class="docs-anchor">#</a>
+- **Submit** <a href="#fields-submit" id="fields-submit" className="docs-anchor">#</a>
   - Settings allow you to edit the button label.
   - You may adjust the positioning of the submit button:
     - Aligned to Left
@@ -323,24 +323,24 @@ Special fields are ones that either every form needs (such as Submit button), on
       - Together at Center
       - Together at Right
   - You may include 1 per page in your form.
-- **HTML** <a href="#fields-html" id="fields-html" class="docs-anchor">#</a>
+- **HTML** <a href="#fields-html" id="fields-html" className="docs-anchor">#</a>
   - Property Editor will load an HTML area for you to type or paste your code into.
   - Layout column will live parse your HTML.
   - All HTML is allowed here.
   - You can include as many of these in your form as you wish.
-- **Confirm**<Badge type="feature" text="Improved in 2.2.0" /> <a href="#fields-confirm" id="fields-confirm" class="docs-anchor">#</a>
+- **Confirm**<Badge type="feature" text="Improved in 2.2.0" /> <a href="#fields-confirm" id="fields-confirm" className="docs-anchor">#</a>
   - Allows you to force a user to enter a matching value for another field, including [Password](#fields-password) special field (e.g. "Confirm Email Address").
     - Select a target field to compare with.
     - Can be marked as required.
     - Can contain default text and/or placeholder.
-- **Password**<Badge type="feature" text="2.2.0+" /> <a href="#fields-password" id="fields-password" class="docs-anchor">#</a>
+- **Password**<Badge type="feature" text="2.2.0+" /> <a href="#fields-password" id="fields-password" className="docs-anchor">#</a>
   - Allows you to collect a password from a submitter, **but NOT store the value in the database**.
     - Useful for [creating a user registration form](../guides/speciality-forms/user-registration.mdx) (using the [Element Connections](./element-connections.mdx) feature) and in other very specific use-cases where you're passing the password off somewhere else.
     - Collected data is not stored in Freeform anywhere, nor is it included in the Submission object or `allFields` variable in [email notifications](./email-notifications.mdx#all-fields).
     - When using with Users [Element Connections](./element-connections.mdx) feature, the password will be passed off to Craft's [Users](https://docs.craftcms.com/v3/users.html) member account feature.
     - Can be marked as required.
     - Can contain default text and/or placeholder.
-- **reCAPTCHA**<Badge type="pro" text="Pro" /> <a href="#fields-recaptcha" id="fields-recaptcha" class="docs-anchor">#</a>
+- **reCAPTCHA**<Badge type="pro" text="Pro" /> <a href="#fields-recaptcha" id="fields-recaptcha" className="docs-anchor">#</a>
   - Built in support for [reCAPTCHA](https://www.google.com/recaptcha.mdx).
   - See [reCAPTCHA documentation](./spam-protection.mdx#recaptcha) for more information.
   - _reCAPTCHA_ fields will render automatically like the rest of your fields in your form, but if you're building a form manually, you'd call it like this (using the Hash value for _reCAPTCHA_ field in Property Editor of Composer):
