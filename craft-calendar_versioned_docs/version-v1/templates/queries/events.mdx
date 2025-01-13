@@ -9,46 +9,46 @@ The _calendar.events_ template function fetches a list of events based on some o
 
 ## Parameters
 
-- `dateRangeStart` <a href="#param-date-range-start" id="param-date-range-start" class="docs-anchor">#</a>
+- `dateRangeStart` <a href="#param-date-range-start" id="param-date-range-start" className="docs-anchor">#</a>
   - Selects events that fall into a given date range. Defaults to no date (beginning of time). A date range of `2016-01-01` to `2016-02-15` would show all events and their recurrences that occur between January 1, 2016 to February 15, 2016. A start range of `2016-01-01` with no end range would show all events and their recurrences that occur January 1, 2016 and beyond.
   - Time ranges can be specified as 24hr or 12hr:
     - `2016-01-01 16:30` or `2016-01-01 5:00 pm`
     - Times consider any events with a duration that overlaps (even partially) with the time range specified.
   - Used in conjunction with [dateRangeEnd](#param-date-range-end) parameter.
-- `dateRangeEnd` <a href="#param-date-range-end" id="param-date-range-end" class="docs-anchor">#</a>
+- `dateRangeEnd` <a href="#param-date-range-end" id="param-date-range-end" className="docs-anchor">#</a>
   - Selects events that fall into a given date range. Defaults to no date (end of time). A date range of `2016-01-01` to `2016-02-15` would show all events and their recurrences that occur between January 1, 2016 to February 15, 2016. An end range of `2016-02-15` with no start range would show all events and their recurrences that occur February 15, 2016 and earlier.
   - Time ranges can be specified as 24hr or 12hr:
     - `2016-01-01 16:30` or `2016-01-01 5:00 pm`
     - Times consider any events with a duration that overlaps (even partially) with the time range specified.
   - Used in conjunction with [dateRangeStart](#param-date-range-start) parameter.
-- `calendar` <a href="#param-calendar" id="param-calendar" class="docs-anchor">#</a>
+- `calendar` <a href="#param-calendar" id="param-calendar" className="docs-anchor">#</a>
   - Handle of the calendar, e.g. `"holidays"`, or an array of handles: `["holidays", "football"]`.
   - Use `"not holidays"` to select all calendars EXCEPT the **Holidays** calendar
-- `calendarId` <a href="#param-calendar-id" id="param-calendar-id" class="docs-anchor">#</a>
+- `calendarId` <a href="#param-calendar-id" id="param-calendar-id" className="docs-anchor">#</a>
   - An ID of the calendar, or array of ID's, e.g. `[1, 2, 3]`
   - If you want to select all calendars EXCEPT the calendar with an ID of **1**, use `"not 1"`
-- `id` <a href="#param-id" id="param-id" class="docs-anchor">#</a>
+- `id` <a href="#param-id" id="param-id" className="docs-anchor">#</a>
   - An event ID, or array of ID's, e.g. `[1, 2, 3]`
   - If you want to select all events EXCEPT the event with an ID of **1**, use `"not 1"`
-- `slug` <a href="#param-slug" id="param-slug" class="docs-anchor">#</a>
+- `slug` <a href="#param-slug" id="param-slug" className="docs-anchor">#</a>
   - An event slug, or array of slugs, e.g. `[event-one, event-two, event-three]`
   - If you want to select all events EXCEPT the event with a slug of **event-two**, use `"not event-two"`
-- `allDay` <a href="#param-all-day" id="param-all-day" class="docs-anchor">#</a>
+- `allDay` <a href="#param-all-day" id="param-all-day" className="docs-anchor">#</a>
   - Selects only events that are set to be **All Day** events went set to `true`.
-- `authorId` <a href="#param-author-id" id="param-author-id" class="docs-anchor">#</a>
+- `authorId` <a href="#param-author-id" id="param-author-id" className="docs-anchor">#</a>
   - Selects events from specific author ID's
-- `limit` <a href="#param-limit" id="param-limit" class="docs-anchor">#</a>
+- `limit` <a href="#param-limit" id="param-limit" className="docs-anchor">#</a>
   - Supply an `int` to limit the amount of events returned
-- `order` <a href="#param-order" id="param-order" class="docs-anchor">#</a>
+- `order` <a href="#param-order" id="param-order" className="docs-anchor">#</a>
   - Use any of the above keys (plus `RAND()`) to order by and include the `ASC` or `DESC` parameter in the string, e.g. `order: "startDate ASC"`
-- `status` <a href="#param-status" id="param-status" class="docs-anchor">#</a>
+- `status` <a href="#param-status" id="param-status" className="docs-anchor">#</a>
   - By default, `live` is used, showing only enabled events
   - Can be set to `disabled` to show disabled events
   - Or `null` to show all events regardless of their status
-- `loadOccurrences` <a href="#param-load-occurrences" id="param-load-occurrences" class="docs-anchor">#</a>
+- `loadOccurrences` <a href="#param-load-occurrences" id="param-load-occurrences" className="docs-anchor">#</a>
   - Set this to `false` to not load event recurrences. Default is `true`
   - When setting this to `false`, Calendar will display only the very first occurrence in the results ONLY if that same occurrence falls within the specified date range. It will NOT just show the next recurrence available, and does NOT show any events that just have recurrences within the specified date range.
-- `search: "customField:myvalue*"` <a href="#param-search" id="param-search" class="docs-anchor">#</a>
+- `search: "customField:myvalue*"` <a href="#param-search" id="param-search" className="docs-anchor">#</a>
   - Works just like regular [Craft Searching](https://docs.craftcms.com/v2/searching.html).
 
 ## Usage in Templates

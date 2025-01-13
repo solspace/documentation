@@ -38,46 +38,46 @@ So following this format: `{{ craft.freeform.form("FORMHANDLE", {OVERRIDES}) }}`
 }).render() }}
 ```
 
-- First parameter: `formID` or `formHandle` <a href="#param-first-param" id="param-first-param" class="docs-anchor">#</a>
+- First parameter: `formID` or `formHandle` <a href="#param-first-param" id="param-first-param" className="docs-anchor">#</a>
 - Second parameter (optional) is an object of the following overriding options:
 
-  - `inputClass` <a href="#param-inputclass" id="param-inputclass" class="docs-anchor">#</a>
+  - `inputClass` <a href="#param-inputclass" id="param-inputclass" className="docs-anchor">#</a>
     - Applies a class name for all input elements.
-  - `submitClass` <a href="#param-submitclass" id="param-submitclass" class="docs-anchor">#</a>
+  - `submitClass` <a href="#param-submitclass" id="param-submitclass" className="docs-anchor">#</a>
     - Applies a class name for all submit elements.
-  - `rowClass` <a href="#param-rowclass" id="param-rowclass" class="docs-anchor">#</a>
+  - `rowClass` <a href="#param-rowclass" id="param-rowclass" className="docs-anchor">#</a>
     - Applies a class name for all row `<div>` elements.
-  - `columnClass` <a href="#param-columnclass" id="param-columnclass" class="docs-anchor">#</a>
+  - `columnClass` <a href="#param-columnclass" id="param-columnclass" className="docs-anchor">#</a>
     - Applies a class name for all field column `<div>` elements.
-  - `labelClass` <a href="#param-labelclass" id="param-labelclass" class="docs-anchor">#</a>
+  - `labelClass` <a href="#param-labelclass" id="param-labelclass" className="docs-anchor">#</a>
     - Applies a class name for all `<label>` elements.
-  - `errorClass` <a href="#param-errorclass" id="param-errorclass" class="docs-anchor">#</a>
+  - `errorClass` <a href="#param-errorclass" id="param-errorclass" className="docs-anchor">#</a>
     - Applies a class name for all error `<ul>` elements.
-  - `instructionsClass` <a href="#param-instructionsclass" id="param-instructionsclass" class="docs-anchor">#</a>
+  - `instructionsClass` <a href="#param-instructionsclass" id="param-instructionsclass" className="docs-anchor">#</a>
     - Applies a class name for all instruction `<div>` elements.
-  - `instructionsBelowField` <a href="#param-instructionsbelowfield" id="param-instructionsbelowfield" class="docs-anchor">#</a>
+  - `instructionsBelowField` <a href="#param-instructionsbelowfield" id="param-instructionsbelowfield" className="docs-anchor">#</a>
     - A `boolean` value, if set to `true` - will render field instructions below the `<input>` element.
-  - `class` <a href="#param-class" id="param-class" class="docs-anchor">#</a>
+  - `class` <a href="#param-class" id="param-class" className="docs-anchor">#</a>
     - Applies a `<form>` class name.
-  - `id` <a href="#param-id" id="param-id" class="docs-anchor">#</a>
+  - `id` <a href="#param-id" id="param-id" className="docs-anchor">#</a>
     - Overrides the `<form>` ID attribute.
     - If using [AJAX](../../guides/templating/ajax-forms.mdx) and loading the same form more than once in the same template, be sure to specify this parameter for each instance so that AJAX submit can account for it correctly.
-  - `returnUrl` <a href="#param-returnurl" id="param-returnurl" class="docs-anchor">#</a>
+  - `returnUrl` <a href="#param-returnurl" id="param-returnurl" className="docs-anchor">#</a>
     - Overrides the return URL for the form.
     - You can override the return URL manually with a hidden field or checkbox, etc named `formReturnUrl`, allowing for a more dynamic return URL dependent on the user's choice or action, as long as you hash the value as of Freeform 3.5.6+ (e.g. `<input type="checkbox" name="formReturnUrl" value="{{ 'whatever/my-url'|hash }}" />`).
-  - `method` <a href="#param-method" id="param-method" class="docs-anchor">#</a>
+  - `method` <a href="#param-method" id="param-method" className="docs-anchor">#</a>
     - Overrides the `<form>` method attribute. `POST` by default.
-  - `name` <a href="#param-name" id="param-name" class="docs-anchor">#</a>
+  - `name` <a href="#param-name" id="param-name" className="docs-anchor">#</a>
     - Overrides the `<form>` name attribute. `POST` by default.
-  - `action` <a href="#param-action" id="param-action" class="docs-anchor">#</a>
+  - `action` <a href="#param-action" id="param-action" className="docs-anchor">#</a>
     - Overrides the `<form>` action attribute.
-  - `status` <a href="#param-status" id="param-status" class="docs-anchor">#</a>
+  - `status` <a href="#param-status" id="param-status" className="docs-anchor">#</a>
     - Overrides the default status of the generated submission.
     - Can be either an `ID` or `handle` of an existing `Status` record.
   - `formattingTemplate`<Badge type="feature" text="3.8.0+" />
     - Allows you to override/set a formatting template for a form at template level.
     - Be sure to include the file extension, e.g. `formattingTemplate: 'template-name.html'`.
-  - `suppress` <a href="#param-suppress" id="param-suppress" class="docs-anchor">#</a><Badge type="feature" text="3.1.0+" />
+  - `suppress` <a href="#param-suppress" id="param-suppress" className="docs-anchor">#</a><Badge type="feature" text="3.1.0+" />
 
     - Allows you to suppress email notifications, API integrations and [Element Connections](../../integrations/elements.mdx) for a form by passing an object of suppressions you wish to enable, typically used for [editing submissions](../../submissions/submission-editing.mdx), e.g.:
 
@@ -91,7 +91,7 @@ So following this format: `{{ craft.freeform.form("FORMHANDLE", {OVERRIDES}) }}`
 
     - You can also just set this to `true` (`suppress: true`) to enable all suppressions at once.
 
-  - `relations` <a href="#param-relations" id="param-relations" class="docs-anchor">#</a><Badge type="feature" text="3.2.0+" /><Badge type="pro" text="Pro" />
+  - `relations` <a href="#param-relations" id="param-relations" className="docs-anchor">#</a><Badge type="feature" text="3.2.0+" /><Badge type="pro" text="Pro" />
 
     - This is a powerful feature that allows you to relate the posted submission to any other Craft Element, as long as it contains a [Freeform Submissions element field type](../../forms/fieldtype.mdx). This allows you to quickly turn Freeform into a plugin replacement for Comments, Reviews, Ratings, and more!
 
@@ -106,7 +106,7 @@ So following this format: `{{ craft.freeform.form("FORMHANDLE", {OVERRIDES}) }}`
 
     - The above would map the posted submission to the Elements with ID's `55`, `106` and `251`. More specifically, adding the submission to the field with handle `myFreeformSubmissionsFieldHandle` for elements with ID's `55` and `106` and one to the field with handle `myOtherFreeformSubmissionFieldHandle` for element with ID `251`.
 
-    * `overrideValues` <a href="#param-overridevalues" id="param-overridevalues" class="docs-anchor">#</a>
+    * `overrideValues` <a href="#param-overridevalues" id="param-overridevalues" className="docs-anchor">#</a>
     * Allows you to override the value inside Text fields, or pre-select a default option for multi-option field types (specify option values in this case). E.g.:
       - `hiddenFieldHandle: entry.id` - pull in an entry ID from a Craft Entry.
       - `stateSelect: "AZ"` - pre-select **Arizona** state in a State select field.
@@ -115,23 +115,23 @@ So following this format: `{{ craft.freeform.form("FORMHANDLE", {OVERRIDES}) }}`
     * Specify the field `handle` as key, and provide the custom value override as its value.
     * If a [Field](../objects/field.mdx) uses an `overrideValue` attribute, it will take precedence over the value specified in this attribute.
 
-  * `formAttributes` <a href="#param-formattributes" id="param-formattributes" class="docs-anchor">#</a>
+  * `formAttributes` <a href="#param-formattributes" id="param-formattributes" className="docs-anchor">#</a>
     - An object of attributes which will be added to the form.
     - Ex: `formAttributes: { "novalidate": true, "data-form-id": "test" }`
-  * `inputAttributes` <a href="#param-inputattributes" id="param-inputattributes" class="docs-anchor">#</a>
+  * `inputAttributes` <a href="#param-inputattributes" id="param-inputattributes" className="docs-anchor">#</a>
     - An object of attributes which will be added to all input fields.
     - Ex: `inputAttributes: { "readonly": true, "data-field-id": "test" }`
-  * `useRequiredAttribute: true` <a href="#param-userequiredattribute" id="param-userequiredattribute" class="docs-anchor">#</a>
+  * `useRequiredAttribute: true` <a href="#param-userequiredattribute" id="param-userequiredattribute" className="docs-anchor">#</a>
     - Adds `required` attribute to input fields that have been set to be required in the Form Builder.
-  * `fieldIdPrefix: 'myform-'` <a href="#param-fieldidprefix" id="param-fieldidprefix" class="docs-anchor">#</a>
+  * `fieldIdPrefix: 'myform-'` <a href="#param-fieldidprefix" id="param-fieldidprefix" className="docs-anchor">#</a>
     - Adds a prefix value on field outputs. Helpful if you have more than 1 form on the same template and are sharing fields.
-  * `dynamicNotification: { recipients: ["admin@example.com", "support@example.com"], template: "test.html" }` <a href="#param-dynamicnotification" id="param-dynamicnotification" class="docs-anchor">#</a>
+  * `dynamicNotification: { recipients: ["admin@example.com", "support@example.com"], template: "test.html" }` <a href="#param-dynamicnotification" id="param-dynamicnotification" className="docs-anchor">#</a>
     - Allows using a dynamic template level notification for a more fine-grained control.
     - Hard code values or pass a value from another element such as an Entry.
     - For Database entry based templates, specify the handle for `template`.
     - For Twig file based templates, specify the full file name including **.html** for `template`.
     - **NOTE:** this feature uses Session data. It will likely not work properly if the page is cached with something like Varnish, etc.
-  * `disableRecaptcha: true` <a href="#param-disablerecaptcha" id="param-disablerecaptcha" class="docs-anchor">#</a><Badge type="feature" text="3.9+" />
+  * `disableRecaptcha: true` <a href="#param-disablerecaptcha" id="param-disablerecaptcha" className="docs-anchor">#</a><Badge type="feature" text="3.9+" />
     - Allows you to disable Captchas such as reCAPTCHA v2 Invisible and v3 per form at template level.
   * `disableHoneypot: true`<Badge type="feature" text="3.12+" />
     - Allows you to disable the Freeform Honeypot feature per form at template level.
@@ -143,9 +143,9 @@ So following this format: `{{ craft.freeform.form("FORMHANDLE", {OVERRIDES}) }}`
         triggerPhrase: "success"
       }
       ```
-  * `submissionToken` <a href="#param-submissiontoken" id="param-submissiontoken" class="docs-anchor">#</a>
+  * `submissionToken` <a href="#param-submissiontoken" id="param-submissiontoken" className="docs-anchor">#</a>
     - Provide the submission `token` from the `submission` object to switch the form into **edit mode** and allow [editing of submissions on front end](../../submissions/submission-editing.mdx).
-  * Custom Form Properties <a href="#param-custom-properties" id="param-custom-properties" class="docs-anchor">#</a><Badge type="feature" text="3.12+" />
+  * Custom Form Properties <a href="#param-custom-properties" id="param-custom-properties" className="docs-anchor">#</a><Badge type="feature" text="3.12+" />
     - You can pass custom properties and values into the form payload and then display or perform conditionals on them. For example, in your main template (where `showFormTitle` is just a custom property):
       ```
       {{ form.render({ showFormTitle: true }) }}

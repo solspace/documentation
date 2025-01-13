@@ -46,28 +46,28 @@ Freeform Composer is an all-in-one interface that lets you take control of almos
 - Freeform Composer tries to handle as much work for you as possible. It will auto-split rows into columns to fit your fields beside each other, if you wish (to a maximum of 4 columns).
 - As mentioned in the [Fields & Field Types documentation](./fields.mdx), fields are global and available to all forms, but they can also be overwritten per form. This allows you to save time reusing existing fields when making other forms, but also gives you flexibility to make adjustments to them when needed.
 
-* **Name** <a href="#form-name" id="form-name" class="docs-anchor">#</a>
+* **Name** <a href="#form-name" id="form-name" className="docs-anchor">#</a>
   - A name for your form to identify it easier.
-* **Handle** <a href="#form-handle" id="form-handle" class="docs-anchor">#</a>
+* **Handle** <a href="#form-handle" id="form-handle" className="docs-anchor">#</a>
   - The unique identifier for the form used in your regular templates calling the form.
-* **Submission Title** <a href="#submission-title" id="submission-title" class="docs-anchor">#</a>
+* **Submission Title** <a href="#submission-title" id="submission-title" className="docs-anchor">#</a>
   - The variable(s) you place here will establish the title of each form submission to be displayed in the Submissions list.
     - Can include any Freeform field variables (`{{ fieldName }}`) as well as `{{ form.name }}`, `{{ form.id }}`, `{{ form.handle }}` and `{{ dateCreated }}`.
-* **Store Submitted Data** <a href="#submission-store-data" id="submission-store-data" class="docs-anchor">#</a>
+* **Store Submitted Data** <a href="#submission-store-data" id="submission-store-data" className="docs-anchor">#</a>
   - This setting allows you to specify whether the submission data for this form should be stored in the database or not.
     - Typical use-cases for not storing submission data on your site would be if you just wanted the [email notification](./email-notifications.mdx) and/or wanted the data submitted over to a [Mailing List](../integrations/index.mdx#email-marketing) or [CRM](../integrations/index.mdx#crm) API.
-* **Formatting Template** <a href="#formatting-template" id="formatting-template" class="docs-anchor">#</a>
+* **Formatting Template** <a href="#formatting-template" id="formatting-template" className="docs-anchor">#</a>
   - Optional, if using the [render() method](../templates/queries/form.mdx#render), this essentially allows you to "attach" a formatting template to a form so that you don't need to include formatting inside the template(s) you place the form inside.
   - Select from an existing sample or custom template, or create a new one.
     - If creating a new one, a new template file will automatically be created for you in your [Form Template Directory](../configuration/settings.mdx#form-template-directory) containing sample template code that you can adjust later.
     - Users/groups need to have permissions access for **Settings** to create new formatting templates.
-* **Status** <a href="#form-status" id="form-status" class="docs-anchor">#</a>
+* **Status** <a href="#form-status" id="form-status" className="docs-anchor">#</a>
   - The default status to be used when users submit the form, unless overwritten at template level.
   - See [Statuses documentation](../configuration/settings.mdx#statuses) for managing statuses.
-* **Return URL** <a href="#form-return-url" id="form-return-url" class="docs-anchor">#</a>
+* **Return URL** <a href="#form-return-url" id="form-return-url" className="docs-anchor">#</a>
   - The URL that the form will redirect to after successful submit.
   - May contain `{{ form.handle }}` and/or `{{ submission.id }}` to parse the newly created unique submission ID in the URL. This would allow you to use the [freeform.submissions](../templates/queries/submissions.mdx) template function to display some or all of the users' submission on the success page.
-* **Description** <a href="#form-description" id="form-description" class="docs-anchor">#</a>
+* **Description** <a href="#form-description" id="form-description" className="docs-anchor">#</a>
   - A description for the form to store notes or help identify what it's used for, etc.
 
 ## Admin Email Notifications
@@ -87,12 +87,12 @@ To use any fields, simply drag the field over to the **Layout** area (center col
 
 Special Fields include _HTML_ and _Submit_ button(s):
 
-- **HTML** <a href="#form-html" id="form-html" class="docs-anchor">#</a>
+- **HTML** <a href="#form-html" id="form-html" className="docs-anchor">#</a>
   - Property Editor will load an HTML area for you to type or paste your code into.
   - Layout column will live parse your HTML.
   - All HTML is allowed here.
   - You can include as many of these in your form as you wish.
-- **Submit** <a href="#form-submit" id="form-submit" class="docs-anchor">#</a>
+- **Submit** <a href="#form-submit" id="form-submit" className="docs-anchor">#</a>
   - Settings allow you to edit the button label.
   - You may adjust the positioning of the submit button:
     - Aligned to Left
@@ -110,7 +110,7 @@ Special Fields include _HTML_ and _Submit_ button(s):
 
 If you have configured a [Mailing Lists integration](../configuration/settings.mdx#mailing-lists), you'll see a list for Mailing List integrations. There will be 1 displayed per connection, but you can include the mailing list sign up field as many times as you wish, as long as each uses a different list for that integration.
 
-- **Mailing Lists** <a href="#form-mailing-list" id="form-mailing-list" class="docs-anchor">#</a>
+- **Mailing Lists** <a href="#form-mailing-list" id="form-mailing-list" className="docs-anchor">#</a>
   - Can only be displayed as a single checkbox.
     - Label is customizable.
     - Checkbox can be checked by default.

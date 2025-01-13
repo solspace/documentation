@@ -41,20 +41,20 @@ Some important notes:
 
 The following field types are available ([see below for additional Pro Field Types](#pro-field-types)):
 
-- **Text** <a href="#fields-text" id="fields-text" class="docs-anchor">#</a>
+- **Text** <a href="#fields-text" id="fields-text" className="docs-anchor">#</a>
   - A simple input field.
     - Can be marked as required.
     - Can contain default text and/or placeholder.
     - Can set `maxlength` property.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-text).
-- **Textarea** <a href="#fields-textarea" id="fields-textarea" class="docs-anchor">#</a>
+- **Textarea** <a href="#fields-textarea" id="fields-textarea" className="docs-anchor">#</a>
   - A simple multi-line input field.
     - Specify the number of rows the textarea should have.
     - Can be marked as required.
     - Can contain default text and/or placeholder.
     - Can set `maxlength` property.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-textarea).
-- **Email** <a href="#fields-email" id="fields-email" class="docs-anchor">#</a>
+- **Email** <a href="#fields-email" id="fields-email" className="docs-anchor">#</a>
 
   - An input field that is flagged in Freeform to expect an email address value as well as possibility for receiving email notifications.
     - In the Property Editor (right column) in Composer, select a notification template if you want the email entered for this field to receive an email notification.
@@ -66,38 +66,38 @@ The following field types are available ([see below for additional Pro Field Typ
     - Can contain default text and/or placeholder.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-email).
 
-- **Hidden** <a href="#fields-hidden" id="fields-hidden" class="docs-anchor">#</a>
+- **Hidden** <a href="#fields-hidden" id="fields-hidden" className="docs-anchor">#</a>
   - A hidden field.
     - Can only include text strings at this time (no variables allowed).
       - If you need you pass a value to your hidden field dynamically, you can do so with the `overrideValues` parameter. Ex: `overrideValues: { myFieldname: myvalue }`
     - Cannot be marked as required.
     - Freeform will load fields of this type at the beginning of the form, regardless of where they are placed in Composer layout.
-- **Select** <a href="#fields-select" id="fields-select" class="docs-anchor">#</a>
+- **Select** <a href="#fields-select" id="fields-select" className="docs-anchor">#</a>
   - A select dropdown menu field.
     - Can specify labels (with values assumed) or labels and values (that differ).
       - To make the first option empty, use **labels and values** approach with first option having **--** or **Please select...**, etc for the label, and leave option blank.
     - Can be marked as required.
     - Can specify default option to be selected.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-select).
-- **Checkbox** <a href="#fields-checkbox" id="fields-checkbox" class="docs-anchor">#</a>
+- **Checkbox** <a href="#fields-checkbox" id="fields-checkbox" className="docs-anchor">#</a>
   - A single checkbox field.
     - Has a default value of **Yes**, which can be overwritten with any value you want. The front end however, will always display the value as `1`, but upon submission, the value will be switched to the one you have set.
     - Can be marked as required, which would essentially require that this checkbox be checked.
     - Can be checked by default.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-checkbox).
-- **Checkbox Group** <a href="#fields-checkbox-group" id="fields-checkbox-group" class="docs-anchor">#</a>
+- **Checkbox Group** <a href="#fields-checkbox-group" id="fields-checkbox-group" className="docs-anchor">#</a>
   - A group of checkboxes.
     - Can specify labels (with values assumed) or labels and values (that differ).
     - Can be marked as required.
     - Can specify which (if any) options to be checked by default.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-checkbox_group).
-- **Radio Group** <a href="#fields-radio-group" id="fields-radio-group" class="docs-anchor">#</a>
+- **Radio Group** <a href="#fields-radio-group" id="fields-radio-group" className="docs-anchor">#</a>
   - A group of radio options.
     - Can specify labels (with values assumed) or labels and values (that differ).
     - Can be marked as required.
     - Can specify which (if any) option to be selected by default.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-radio_group).
-- **File Upload** <a href="#fields-file-upload" id="fields-file-upload" class="docs-anchor">#</a>
+- **File Upload** <a href="#fields-file-upload" id="fields-file-upload" className="docs-anchor">#</a>
   - A file upload field, using [Craft Assets](https://docs.craftcms.com/v3/assets.html).
     - Can allow a single file or multiple files (applies `multiple` attribute to the single file upload input) to be uploaded.
       - Specify a number larger than `1` in the **File Count** setting to allow multiple files to be uploaded at the same time.
@@ -114,7 +114,7 @@ The following field types are available ([see below for additional Pro Field Typ
       - If the form is never completed, incomplete submissions are stored for 3hrs, and then are removed (along with the file(s)) after that.
     - Can be marked as required.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-file).
-- **Dynamic Recipients** <a href="#fields-dynamic-recipients" id="fields-dynamic-recipients" class="docs-anchor">#</a>
+- **Dynamic Recipients** <a href="#fields-dynamic-recipients" id="fields-dynamic-recipients" className="docs-anchor">#</a>
 
   - A select dropdown menu field that contains protected email addresses and labels for each.
 
@@ -137,7 +137,7 @@ The following field types are available ([see below for additional Pro Field Typ
 
 The following extra field types are available with Freeform Pro:
 
-- **Confirmation** <a href="#fields-confirmation" id="fields-confirmation" class="docs-anchor">#</a>
+- **Confirmation** <a href="#fields-confirmation" id="fields-confirmation" className="docs-anchor">#</a>
 
   - Allows you to force a user to enter a matching value for another field (e.g. "Confirm Email Address").
     - Select a target field to compare with.
@@ -145,7 +145,7 @@ The following extra field types are available with Freeform Pro:
     - Can contain default text and/or placeholder.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-confirmation).
 
-- **Date & Time** <a href="#fields-date-time" id="fields-date-time" class="docs-anchor">#</a>
+- **Date & Time** <a href="#fields-date-time" id="fields-date-time" className="docs-anchor">#</a>
   - A complex date and/or time field. Can be used as Date only, Time only, or both. Many configuration and validation options available as well:
     - Set a default value.
       - Can use `now`, `today`, `5 days ago`, `2017-01-01 20:00:00`, etc, which will format the default value according to the chosen format as a localized value.
@@ -184,7 +184,7 @@ The following extra field types are available with Freeform Pro:
   alt="Date & Time fieldtype"
 />
 
-- **Number** <a href="#fields-number" id="fields-number" class="docs-anchor">#</a>
+- **Number** <a href="#fields-number" id="fields-number" className="docs-anchor">#</a>
 
   - An input field that is validated to contain numbers only, based on several configuration options.
     - Choose if validation should allow negative numbers.
@@ -205,7 +205,7 @@ The following extra field types are available with Freeform Pro:
     - Can contain default text and/or placeholder.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-number).
 
-* **Phone** <a href="#fields-phone" id="fields-phone" class="docs-anchor">#</a>
+* **Phone** <a href="#fields-phone" id="fields-phone" className="docs-anchor">#</a>
   - An input field that is validated to contain phone numbers only, based on pattern configured.
     - Set pattern to desired format, where `x` is a digit between `0` and `9`, e.g:
       - `(xxx) xxx xxxx`
@@ -220,7 +220,7 @@ The following extra field types are available with Freeform Pro:
   alt="Phone fieldtype"
 />
 
-- **Rating** <a href="#fields-rating" id="fields-rating" class="docs-anchor">#</a>
+- **Rating** <a href="#fields-rating" id="fields-rating" className="docs-anchor">#</a>
 
   - A special field that allows for star ratings using Freeform's built in CSS and JS.
     - Set a default star rating value (based on Maximum Number of Stars configuration option)
@@ -232,7 +232,7 @@ The following extra field types are available with Freeform Pro:
   - Freeform will automatically insert javascript in the footer of the page for this fieldtype. If you prefer to have this load inside the `<form></form>` tags (for purposes of caching, etc), you can disable the [Include Freeform Scripts in the Page Footer](../configuration/settings.mdx#scripts-footer) setting.
   - View [field specific properties for templating](../templates/objects/field.mdx#field-rating).
 
-- **Regex** <a href="#fields-regex" id="fields-regex" class="docs-anchor">#</a>
+- **Regex** <a href="#fields-regex" id="fields-regex" className="docs-anchor">#</a>
   - An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`).
     - Set error message a user will see if an incorrect value is supplied.
       - Any occurrences of `{{pattern}}` will be replaced with specified regex pattern inside the error message, if any are found.
@@ -245,7 +245,7 @@ The following extra field types are available with Freeform Pro:
   alt="Regex fieldtype"
 />
 
-- **Website** <a href="#fields-website" id="fields-website" class="docs-anchor">#</a>
+- **Website** <a href="#fields-website" id="fields-website" className="docs-anchor">#</a>
   - A simple input field that checks to see if the URL specified has valid syntax (`http://`, `https://`, `ftp://`, etc).
     - Can be marked as required.
     - Can contain default text and/or placeholder.

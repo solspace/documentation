@@ -66,45 +66,45 @@ More information about Composer features:
 
 When you first create a form, the Property Editor (right column) will display overall setting for your form. You can get back here to adjust these details at any time by clicking the **Form Settings** (cog icon) tab at the top right of the **Property Editor** (right column) area.
 
-- **Name** <a href="#form-name" id="form-name" class="docs-anchor">#</a>
+- **Name** <a href="#form-name" id="form-name" className="docs-anchor">#</a>
   - A name for your form to identify it easier.
-- **Handle** <a href="#form-handle" id="form-handle" class="docs-anchor">#</a>
+- **Handle** <a href="#form-handle" id="form-handle" className="docs-anchor">#</a>
   - The unique identifier for the form used in your regular templates calling the form.
-- **Submission Title** <a href="#submission-title" id="submission-title" class="docs-anchor">#</a>
+- **Submission Title** <a href="#submission-title" id="submission-title" className="docs-anchor">#</a>
   - The variable(s) you place here will establish the title of each form submission to be displayed in the Submissions list.
     - Can include any Freeform field variables (`{{ fieldName }}`) as well as `{{ form.name }}`, `{{ form.id }}`, `{{ form.handle }}` and `{{ dateCreated }}`.
-- **Return URL** <a href="#form-return-url" id="form-return-url" class="docs-anchor">#</a>
+- **Return URL** <a href="#form-return-url" id="form-return-url" className="docs-anchor">#</a>
   - The URL that the form will redirect to after successful submit.
   - May contain:
     - `{{ form.handle }}` - handle of form.
     - `{{ submission.token }}` - "secure" token created for the submission.
     - `{{ submission.id }}` - newly created unique submission ID in the URL. This would allow you to use the [freeform.submissions](../submissions/overview.mdx) template function to display some or all of the users' submission on the success page.
-- **Default Status** <a href="#form-status" id="form-status" class="docs-anchor">#</a>
+- **Default Status** <a href="#form-status" id="form-status" className="docs-anchor">#</a>
   - The default status to be used when users submit the form, unless overwritten at template level.
   - See [Statuses documentation](../configuration/settings.mdx#statuses) for managing statuses.
-- **Formatting Template** <a href="#formatting-template" id="formatting-template" class="docs-anchor">#</a>
+- **Formatting Template** <a href="#formatting-template" id="formatting-template" className="docs-anchor">#</a>
   - Optional, if using the [render() method](../templates/queries/form.mdx#render), this essentially allows you to "attach" a formatting template to a form so that you don't need to include formatting inside the template(s) you place the form inside.
   - Select from an existing sample or custom template, or create a new one.
     - If creating a new one, a new template file will automatically be created for you in your [Form Template Directory](../configuration/settings.mdx#form-template-directory) containing sample template code that you can adjust later.
     - Users/groups need to have permissions access for **Settings** to create new formatting templates.
-- **Enable AJAX**<Badge type="feature" text="2.5.0+" /> <a href="#enable-ajax" id="enable-ajax" class="docs-anchor">#</a>
+- **Enable AJAX**<Badge type="feature" text="2.5.0+" /> <a href="#enable-ajax" id="enable-ajax" className="docs-anchor">#</a>
   - To enable Freeform's built-in automated AJAX submit support, simply check this checkbox and Freeform will then handle the rest (as long as you're using a standard formatting template - very custom formatting templates may not work properly).
-- **Collect IP Addresses** <a href="#submission-collect-ip" id="submission-collect-ip" class="docs-anchor">#</a>
+- **Collect IP Addresses** <a href="#submission-collect-ip" id="submission-collect-ip" className="docs-anchor">#</a>
   - This setting allows you to specify whether or not the form should collect IP addresses from submitters.
     - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../configuration/gdpr-compliance.mdx) for more information.
-- **Store Submitted Data** <a href="#submission-store-data" id="submission-store-data" class="docs-anchor">#</a>
+- **Store Submitted Data** <a href="#submission-store-data" id="submission-store-data" className="docs-anchor">#</a>
   - This setting allows you to specify whether the submission data for this form should be stored in the database or not.
     - Typical use-cases for not storing submission data on your site would be if you just wanted the [email notification](./email-notifications.mdx) and/or wanted the data submitted over to a [Mailing List](../integrations/index.mdx#mailing-list-integrations) or [CRM](../integrations/index.mdx#crm) API.
     - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../configuration/gdpr-compliance.mdx) for more information.
-- **Opt-In Data Storage Checkbox** <a href="#submission-data-storage-opt-in" id="submission-data-storage-opt-in" class="docs-anchor">#</a>
+- **Opt-In Data Storage Checkbox** <a href="#submission-data-storage-opt-in" id="submission-data-storage-opt-in" className="docs-anchor">#</a>
   - This setting allows the submitter to choose whether or not they want their submission data stored on your site. In the select dropdown, select a **Checkbox** fieldtype you want to be the designated opt-in field, or choose **Disabled** to not use this feature.
     - This setting will still send off API data and email notifications.
     - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../configuration/gdpr-compliance.mdx) for more information.
-- **Form tag Attributes**<Badge type="feature" text="2.5.0+" /> <a href="#form-attributes" id="form-attributes" class="docs-anchor">#</a>
+- **Form tag Attributes**<Badge type="feature" text="2.5.0+" /> <a href="#form-attributes" id="form-attributes" className="docs-anchor">#</a>
   - Add any `<form>` tag attributes for the form here, e.g. `novalidate`, `data-my-attribute` and `autocomplete="on"`.
-- **Form Color** <a href="#form-color" id="form-color" class="docs-anchor">#</a>
+- **Form Color** <a href="#form-color" id="form-color" className="docs-anchor">#</a>
   - Used for features like charts in Freeform dashboard widgets.
-- **Description** <a href="#form-description" id="form-description" class="docs-anchor">#</a>
+- **Description** <a href="#form-description" id="form-description" className="docs-anchor">#</a>
   - A description for the form to store notes or help identify what it's used for, etc.
 
 ## Admin Email Notifications
@@ -137,7 +137,7 @@ To use any fields, simply click on them or drag the field over to the **Layout**
 
 If you have configured a [Mailing Lists integration](../configuration/settings.mdx#mailing-lists), you'll see a list for Mailing List integrations. There will be 1 displayed per connection, but you can include the mailing list sign up field as many times as you wish, as long as each uses a different list for that integration.
 
-- **Mailing Lists** <a href="#form-mailing-list" id="form-mailing-list" class="docs-anchor">#</a>
+- **Mailing Lists** <a href="#form-mailing-list" id="form-mailing-list" className="docs-anchor">#</a>
   - Can only be displayed as a single checkbox.
     - Label is customizable.
     - Checkbox can be checked by default.
