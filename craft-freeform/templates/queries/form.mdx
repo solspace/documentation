@@ -592,20 +592,20 @@ Form formatting can also be extremely manual, if that is something you prefer. H
 
     {# The submit buttons will no longer be automatically inserted by Freeform with `disable: ["submitButtons"]` #}
 
-    {# We need to set the `page` variable from the `form.pages.current` in order for this to work #}
-    {% set page = form.pages.current %}
+    {# We need to set the `button` variable from the `form.currentPage.buttons` in order for this to work #}
+    {% set button = form.currentPage.buttons %}
 
-    {# Complete buttons can be rendered with `page.buttons.renderSubmit`, etc, but for maximum control, you can just get the properties attributes only #}
-    <button {{ page.buttons.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
+    {# Complete buttons can be rendered with `button.renderSubmit`, etc, but for maximum control, you can just get the properties attributes only #}
+    <button {{ button.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
         Submit
     </button>
-    {% if form.pages.current.buttons.back %}
-        <button {{ page.buttons.backRenderProps }}>
+    {% if button.back %}
+        <button {{ button.backRenderProps }}>
             Back
         </button>
     {% endif %}
-    {% if form.pages.current.buttons.save %}
-        <button {{ page.buttons.saveRenderProps }}>
+    {% if button.save %}
+        <button {{ button.saveRenderProps }}>
             Save
         </button>
     {% endif %}
@@ -684,20 +684,20 @@ You can manually format multi-page forms as well. The key is to wrap page contex
 
         {# The submit buttons will no longer be automatically inserted by Freeform with `disable: ["submitButtons"]` #}
 
-        {# We need to set the `page` variable from the `form.pages.current` in order for this to work #}
-        {% set page = form.pages.current %}
+        {# We need to set the `button` variable from the `form.currentPage.buttons` in order for this to work #}
+        {% set button = form.currentPage.buttons %}
 
-        {# Complete buttons can be rendered with `page.buttons.renderSubmit`, etc, but for maximum control, you can just get the properties attributes only #}
-        <button {{ page.buttons.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
+        {# Complete buttons can be rendered with `button.renderSubmit`, etc, but for maximum control, you can just get the properties attributes only #}
+        <button {{ button.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
             Submit
         </button>
-        {% if form.pages.current.buttons.back %}
-            <button {{ page.buttons.backRenderProps }}>
+        {% if button.back %}
+            <button {{ button.backRenderProps }}>
                 Back
             </button>
         {% endif %}
-        {% if form.pages.current.buttons.save %}
-            <button {{ page.buttons.saveRenderProps }}>
+        {% if button.save %}
+            <button {{ button.saveRenderProps }}>
                 Save
             </button>
         {% endif %}
@@ -734,20 +734,20 @@ You can manually format multi-page forms as well. The key is to wrap page contex
 
         {# The submit buttons will no longer be automatically inserted by Freeform with `disable: ["submitButtons"]` #}
 
-        {# We need to set the `page` variable from the `form.pages.current` in order for this to work #}
-        {% set page = form.pages.current %}
+        {# We need to set the `button` variable from the `form.currentPage.buttons` in order for this to work #}
+        {% set button = form.currentPage.buttons %}
 
-        {# Complete buttons can be rendered with `page.buttons.renderSubmit`, etc, but for maximum control, you can just get the properties attributes only #}
-        <button {{ page.buttons.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
+        {# Complete buttons can be rendered with `button.renderSubmit`, etc, but for maximum control, you can just get the properties attributes only #}
+        <button {{ button.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
             Submit
         </button>
-        {% if form.pages.current.buttons.back %}
-            <button {{ page.buttons.backRenderProps }}>
+        {% if button.back %}
+            <button {{ button.backRenderProps }}>
                 Back
             </button>
         {% endif %}
-        {% if form.pages.current.buttons.save %}
-            <button {{ page.buttons.saveRenderProps }}>
+        {% if button.save %}
+            <button {{ button.saveRenderProps }}>
                 Save
             </button>
         {% endif %}
