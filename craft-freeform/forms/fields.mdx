@@ -1559,8 +1559,7 @@ The following are available:
 
     {# Your fields #}
 
-    {% set page = form.pages.current %}
-    {% set button = page.buttons %}
+    {% set button = form.currentPage.buttons %}
 
     {{ button.renderSubmit({ 'data-optional': 'attributes here' }) }}
     {% if button.back %}
@@ -1593,8 +1592,7 @@ For maximum control, you can use a property attributes render instead. The follo
 
     {# Your fields #}
 
-    {% set page = form.pages.current %}
-    {% set button = page.buttons %}
+    {% set button = form.currentPage.buttons %}
 
     <button {{ button.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
         {{ button.submitLabel }}
@@ -1614,7 +1612,7 @@ For maximum control, you can use a property attributes render instead. The follo
 ```
 
 :::info
-If you need to parse HTML on your button labels, add the `|raw` filter to `submitLabel`, etc. E.g. `{{ page.buttons.submitLabel|raw }}`.
+If you need to parse HTML on your button labels, add the `|raw` filter to `submitLabel`, etc. E.g. `{{ button.submitLabel|raw }}`.
 :::
 
 </TabItem>

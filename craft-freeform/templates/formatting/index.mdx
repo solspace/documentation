@@ -185,18 +185,18 @@ If you absolutely prefer to do so, you can use a [Form query](../queries/form.md
       </select>
 
       {# Manual submit buttons #}
-      {% set page = form.pages.current %}
+      {% set button = form.currentPage.buttons %}
 
-      <button {{ page.buttons.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
+      <button {{ button.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
           Submit
       </button>
-      {% if form.pages.current.buttons.back %}
-          <button {{ page.buttons.backRenderProps }}>
+      {% if button.back %}
+          <button {{ button.backRenderProps }}>
               Back
           </button>
       {% endif %}
-      {% if form.pages.current.buttons.save %}
-          <button {{ page.buttons.saveRenderProps }}>
+      {% if button.save %}
+          <button {{ button.saveRenderProps }}>
               Save
           </button>
       {% endif %}
@@ -722,14 +722,14 @@ The following are available:
 
     {# Your fields #}
 
-    {% set page = form.pages.current %}
+    {% set button = form.currentPage.buttons %}
 
-    {{ page.buttons.renderSubmit({ 'data-optional': 'attributes here' }) }}
-    {% if form.pages.current.buttons.back %}
-        {{ page.buttons.renderBack }}
+    {{ button.renderSubmit({ 'data-optional': 'attributes here' }) }}
+    {% if button.back %}
+        {{ button.renderBack }}
     {% endif %}
-    {% if form.pages.current.buttons.save %}
-        {{ page.buttons.renderSave }}
+    {% if button.save %}
+        {{ button.renderSave }}
     {% endif %}
 
 {{ form.renderClosingTag }}
@@ -749,18 +749,18 @@ And finally, for maximum control, you can use a property attributes render inste
 
     {# Your fields #}
 
-    {% set page = form.pages.current %}
+    {% set button = form.currentPage.buttons %}
 
-    <button {{ page.buttons.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
+    <button {{ button.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
         Submit
     </button>
-    {% if form.pages.current.buttons.back %}
-        <button {{ page.buttons.backRenderProps }}>
+    {% if button.back %}
+        <button {{ button.backRenderProps }}>
             Back
         </button>
     {% endif %}
-    {% if form.pages.current.buttons.save %}
-        <button {{ page.buttons.saveRenderProps }}>
+    {% if button.save %}
+        <button {{ button.saveRenderProps }}>
             Save
         </button>
     {% endif %}
@@ -777,7 +777,7 @@ To workaround this issue, you can place `{{ form.renderCaptchas }}` wherever you
 Your template code might look something like this:
 
 ```twig {13}
-{% set page = form.pages.current %}
+{% set button = form.currentPage.buttons %}
 {% set firstName = form.get("firstName") %}
 {% set lastName = form.get("lastName") %}
 
@@ -791,7 +791,7 @@ Your template code might look something like this:
 
 {{ form.renderCaptchas }}
 
-{{ page.buttons.renderSubmit({ 'data-optional': 'attributes here' }) }}
+{{ button.renderSubmit({ 'data-optional': 'attributes here' }) }}
 
 {{ form.renderClosingTag }}
 ```
@@ -1566,18 +1566,18 @@ Form formatting can also be extremely manual, if that is something you prefer. H
     </select>
 
     {# Manual submit buttons #}
-    {% set page = form.pages.current %}
+    {% set button = form.currentPage.buttons %}
 
-    <button {{ page.buttons.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
+    <button {{ button.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
         Submit
     </button>
-    {% if form.pages.current.buttons.back %}
-        <button {{ page.buttons.backRenderProps }}>
+    {% if button.back %}
+        <button {{ button.backRenderProps }}>
             Back
         </button>
     {% endif %}
-    {% if form.pages.current.buttons.save %}
-        <button {{ page.buttons.saveRenderProps }}>
+    {% if button.save %}
+        <button {{ button.saveRenderProps }}>
             Save
         </button>
     {% endif %}
