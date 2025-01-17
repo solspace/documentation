@@ -1,0 +1,219 @@
+---
+title: 'Custom Pre-Defined Options'
+sidebar_position: 5
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Custom Pre-Defined Options
+
+With Freeform 5 you can add custom Pre-Defined Options to your option fields.
+
+## Setup Guide
+
+The creation of custom pre-defined options in Freeform will require using a custom [Craft module](https://craftcms.com/docs/5.x/extend/module-guide.html). This guide assumes you already have that knowledge. If not, please [check out the guide](../guides/developer/building-a-custom-module.mdx) we have.
+
+:::tip
+[View the guide on how to build a custom module.](../guides/developer/building-a-custom-module.mdx)
+:::
+
+<VerticalStepWrapper>
+<StepMarkdown>
+### Create a Pre-Defined Option Class
+
+The custom pre-defined options class must implement `PredefinedSourceTypeInterface`. The interface requireds you to implement a `::getName(): string` and `::generateOptions(): OptionCollection` methods.
+
+As an example we will add a pre-defined list of animals, with the option to choose between their class - mammals, insects and birds. As well as list either their species as option labels, or the sound they make.
+
+First lets create a new `animals.json` file in our `modules\CustomModule\Animals` folder.
+
+```json
+// animals.json
+
+[
+  {
+    "type": "sphynx",
+    "sound": "meow",
+    "class": "mammal"
+  },
+  {
+    "type": "labrador",
+    "sound": "woof",
+    "class": "mammal"
+  },
+  {
+    "type": "hummingbird",
+    "sound": "tweet",
+    "class": "bird"
+  },
+  {
+    "type": "parrot",
+    "sound": "tweet",
+    "class": "bird"
+  },
+  {
+    "type": "penguin",
+    "sound": "tweet",
+    "class": "bird"
+  },
+  {
+    "type": "goldfish",
+    "sound": "blub",
+    "class": "fish"
+  },
+  {
+    "type": "shark",
+    "sound": "blub",
+    "class": "fish"
+  },
+  {
+    "species": "snake",
+    "sound": "hiss",
+    "class": "reptile"
+  },
+  {
+    "species": "turtle",
+    "sound": "hiss",
+    "class": "reptile"
+  },
+  {
+    "species": "lizard",
+    "sound": "hiss",
+    "class": "reptile"
+  }
+]
+```
+
+Then we will create a new class `AnimalOptions` in the `modules\CustomModule\Animals` folder.
+
+```php showLineNumbers
+<?php
+
+namespace modules\CustomModule\Animals;
+
+use Solspace\Freeform\Attributes\Property\Implementations\Options\OptionCollection;
+use Solspace\Freeform\Attributes\Property\Input\Select;
+use Solspace\Freeform\Fields\Properties\Options\Predefined\Types\PredefinedSourceTypeInterface;
+
+class AnimalOptions implements PredefinedSourceTypeInterface
+{
+    private const DISPLAY_TYPE = 'type';
+    private const DISPLAY_SOUND = 'sound';
+
+    private const CLASS_ALL = 'all';
+    private const CLASS_MAMMAL = 'mammal';
+    private const CLASS_BIRD = 'bird';
+    private const CLASS_REPTILE = 'reptile';
+
+    #[Select(
+        label: 'Option Label',
+        options: [
+            self::DISPLAY_TYPE => 'Type',
+            self::DISPLAY_SOUND => 'Sound',
+        ],
+    )]
+    private string $label = self::DISPLAY_TYPE;
+
+    #[Select(
+        label: 'List by Type',
+        options: [
+            self::CLASS_ALL => 'All',
+            self::CLASS_MAMMAL => 'Mammals',
+            self::CLASS_BIRD => 'Birds',
+            self::CLASS_REPTILE => 'Reptiles',
+        ],
+    )]
+    private string $listBy = self::CLASS_ALL;
+
+    public function getName(): string
+    {
+        return 'Animal Options';
+    }
+
+    public function generateOptions(): OptionCollection
+    {
+        $collection = new OptionCollection();
+
+        $json = json_decode(file_get_contents(__DIR__ . '/animals.json'));
+        foreach ($json as $animal) {
+            $class = $animal->class;
+            if ($this->listBy !== self::CLASS_ALL && $class !== $this->listBy) {
+                continue;
+            }
+
+            $type = $animal->type;
+            $sound = $animal->sound;
+
+            $collection->add($type, $this->label === self::DISPLAY_TYPE ? $type : $sound);
+        }
+
+        return $collection;
+    }
+}
+```
+
+We specify the `$label` as a Dropdown choice of `Type` and `Sound`, where the form administrator will decide which value to use for displaying option labels on the front-end.
+
+We spcify `$listBy` as a Dropdown choice of `All`, `Mammals`, `Birds` and `Reptiles`, where the form administrator will decide which class of animals to display (or display all of them).
+
+Then in the `::generateOptions()` method we read the `animals.json` file and generate the options based on the selected class and label.
+
+</StepMarkdown>
+<StepMarkdown>
+### Registering the Custom Pre-Defined Options Class
+
+To register the newly created pre-defined options in our custom module or plugin, listen to the `OptionTypesProvider::EVENT_REGISTER_PREDEFINED_TYPES` event.
+
+```php showLineNumbers
+<?php
+
+namespace modules\CustomModule;
+
+use modules\CustomModule\Animals\AnimalOptions;
+use Solspace\Freeform\Events\Forms\RegisterOptionTypesEvent;
+use Solspace\Freeform\Fields\Properties\Options\Elements\Types\OptionTypesProvider;
+use yii\base\Event;
+
+class Module extends \yii\base\Module
+{
+    public function init()
+    {
+        parent::init();
+
+        Event::on(
+            OptionTypesProvider::class,
+            OptionTypesProvider::EVENT_REGISTER_PREDEFINED_TYPES,
+            function (RegisterOptionTypesEvent $event) {
+                $event->addType(new AnimalOptions());
+            }
+        );
+    }
+}
+```
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+## Available Property Types
+
+Currently, these are the available property types you can add to your Pre-Defined Options class properties to display them as controls in the builder:
+
+- `#[Boolean]` - display a Lightswitch field.
+- `#[Checkboxes]` - display a list of checkboxes.
+- `#[CodeEditor]` - display a code editor with specific syntax highlighting.
+- `#[ColorPicker]` - display a color picker.
+- `#[DatePicker]` - display a date picker.
+- `#[DynamicSelect]` - display a dropdown that populates values from an endpoint, capable of also reading other properties to pass to the endpoint
+- `#[Field]` - display a dropdown of all the currently available form fields. The fields displayed can be filtered by their implementations.
+- `#[FieldMapping]` - display a mapping between anything and the currently available form fields. Used extensively in CRM integrations. Fetched via endpoint.
+- `#[Hidden]` - having a property be available for other fields, but not displaying it in the builder.
+- `#[Integer]` - numeric input field.
+- `#[MinMax]` - a two-input combo for setting min and max numeric values.
+- `#[NotificationTemplate]` - a dropdown letting you select a notification template.
+- `#[Recipients]` - an input that lets the user specify one or more email recipients.
+- `#[Select]` - a dropdown with predetermined values.
+- `#[TabularData]` - lets the user edit tabular data, which is configured by the attribute.
+- `#[Text]` - an input field.
+- `#[TextArea]` - a textarea field.
+- `#[Wysiwyg]` - a WYSIWYG editor.
