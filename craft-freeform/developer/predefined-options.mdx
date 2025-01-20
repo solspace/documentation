@@ -1,18 +1,18 @@
 ---
-title: 'Custom Pre-Defined Options'
+title: 'Custom Predefined Options'
 sidebar_position: 5
 ---
 
-import { Badge, Photo } from '@site/src/components/utils';
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-# Custom Pre-Defined Options
+# Custom Predefined Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
-With Freeform 5 you can add custom Pre-Defined Options to your option fields.
+If you wish to supply some of your own predefined option lists that show up inside the [Predefined options source](../forms/fields.mdx#populating-field-options) for multi-option fields, this is possible with the development of a custom module.
 
 ## Setup Guide
 
-The creation of custom pre-defined options in Freeform will require using a custom [Craft module](https://craftcms.com/docs/5.x/extend/module-guide.html). This guide assumes you already have that knowledge. If not, please [check out the guide](../guides/developer/building-a-custom-module.mdx) we have.
+The creation of custom predefined options in Freeform will require using a custom [Craft module](https://craftcms.com/docs/5.x/extend/module-guide.html). This guide assumes you already have that knowledge. If not, please [check out the guide](../guides/developer/building-a-custom-module.mdx) we have.
 
 :::tip
 [View the guide on how to build a custom module.](../guides/developer/building-a-custom-module.mdx)
@@ -20,13 +20,11 @@ The creation of custom pre-defined options in Freeform will require using a cust
 
 <VerticalStepWrapper>
 <StepMarkdown>
-### Create a Pre-Defined Option Class
+### Prepare the Predefined Options
 
-The custom pre-defined options class must implement `PredefinedSourceTypeInterface`. The interface requireds you to implement a `::getName(): string` and `::generateOptions(): OptionCollection` methods.
+Let's first create a predefined list of animals, allowing users to choose between three classes: mammals, insects, and birds. Additionally, users will have the option to see either the species of the animals as option labels or the sounds they make.
 
-As an example we will add a pre-defined list of animals, with the option to choose between their class - mammals, insects and birds. As well as list either their species as option labels, or the sound they make.
-
-First lets create a new `animals.json` file in our `modules\CustomModule\Animals` folder.
+Create a new file named `animals.json` in the `modules\CustomModule\Animals` folder.
 
 ```json
 // animals.json
@@ -85,7 +83,13 @@ First lets create a new `animals.json` file in our `modules\CustomModule\Animals
 ]
 ```
 
-Then we will create a new class `AnimalOptions` in the `modules\CustomModule\Animals` folder.
+</StepMarkdown>
+<StepMarkdown>
+### Create a Predefined Option Class
+
+To create a custom predefined options class, you must implement the `PredefinedSourceTypeInterface`. This interface requires you to define two methods: `::getName(): string` and `::generateOptions(): OptionCollection`.
+
+Create a new class called `AnimalOptions` in the `modules\CustomModule\Animals` folder.
 
 ```php showLineNumbers
 <?php
@@ -153,17 +157,17 @@ class AnimalOptions implements PredefinedSourceTypeInterface
 }
 ```
 
-We specify the `$label` as a Dropdown choice of `Type` and `Sound`, where the form administrator will decide which value to use for displaying option labels on the front-end.
+We specify the `$label` as a dropdown choice of `Type` and `Sound`, allowing the form administrator to decide which value to use for displaying option labels on the front-end.
 
-We spcify `$listBy` as a Dropdown choice of `All`, `Mammals`, `Birds` and `Reptiles`, where the form administrator will decide which class of animals to display (or display all of them).
+We specify `$listBy` as a dropdown choice of `All`, `Mammals`, `Birds`, and `Reptiles`, where the form administrator will determine which class of animals to display or choose to display all of them.
 
-Then in the `::generateOptions()` method we read the `animals.json` file and generate the options based on the selected class and label.
+Then, in the `::generateOptions()` method, we read the `animals.json` file and generate options based on the selected class and label.
 
 </StepMarkdown>
 <StepMarkdown>
-### Registering the Custom Pre-Defined Options Class
+### Registering the Custom Predefined Options Class
 
-To register the newly created pre-defined options in our custom module or plugin, listen to the `OptionTypesProvider::EVENT_REGISTER_PREDEFINED_TYPES` event.
+To register the newly created predefined options in our custom module or plugin, listen to the `OptionTypesProvider::EVENT_REGISTER_PREDEFINED_TYPES` event.
 
 ```php showLineNumbers
 <?php
@@ -181,6 +185,7 @@ class Module extends \yii\base\Module
     {
         parent::init();
 
+// highlight-start
         Event::on(
             OptionTypesProvider::class,
             OptionTypesProvider::EVENT_REGISTER_PREDEFINED_TYPES,
@@ -188,6 +193,7 @@ class Module extends \yii\base\Module
                 $event->addType(new AnimalOptions());
             }
         );
+// highlight-end
     }
 }
 ```
@@ -197,7 +203,7 @@ class Module extends \yii\base\Module
 
 ## Available Property Types
 
-Currently, these are the available property types you can add to your Pre-Defined Options class properties to display them as controls in the builder:
+These are the property types available for adding to your Predefined Options class properties, allowing you to display them as controls in the builder:
 
 - `#[Boolean]` - display a Lightswitch field.
 - `#[Checkboxes]` - display a list of checkboxes.
@@ -208,7 +214,7 @@ Currently, these are the available property types you can add to your Pre-Define
 - `#[Field]` - display a dropdown of all the currently available form fields. The fields displayed can be filtered by their implementations.
 - `#[FieldMapping]` - display a mapping between anything and the currently available form fields. Used extensively in CRM integrations. Fetched via endpoint.
 - `#[Hidden]` - having a property be available for other fields, but not displaying it in the builder.
-- `#[Integer]` - numeric input field.
+- `#[Integer]` - a numeric input field.
 - `#[MinMax]` - a two-input combo for setting min and max numeric values.
 - `#[NotificationTemplate]` - a dropdown letting you select a notification template.
 - `#[Recipients]` - an input that lets the user specify one or more email recipients.
