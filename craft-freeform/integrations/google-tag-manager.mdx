@@ -51,14 +51,25 @@ To use this integration on your form(s), you'll need to configure each form indi
 
 To customize what gets sent to the events, you can write your own JS and add an event listener in your template, like this:
 
-```js showLineNumbers
-window.addEventListener('freeform-gtm-data-layer-push', function (event) {
+```js
+document.addEventListener('freeform-gtm-data-layer-push', function (event) {
   event.payload.myCustomValue = 'something_here';
   event.payload.otherCustomValue = 'other_value';
 });
 ```
 
 This would then attach whatever you add to the payload to the event that is being pushed to GTM.
+
+To dynamically map a value from a Freeform field to GTM, your code might look something like this:
+
+```js
+document.addEventListener('freeform-gtm-data-layer-push', function (event) {
+  const form = event.form;
+  const element = form.querySelector('input[name="myFieldHandle"]');
+
+  event.payload.myFieldHandle = element.value;
+});
+```
 
 </StepMarkdown>
 <StepMarkdown>
@@ -90,8 +101,10 @@ The success of this is not observable on your site, as this event goes to GTM vi
 
 To see if your test worked correctly, visit the [Google Tag Manager](https://tagmanager.google.com/) website and open your project workspace. Then click on the **Preview** button near the top right side of the page.
 
-<Photo   img={require('@site/static/img/craft/freeform/v5/integrations/gtm-3.png')}
- alt="Google Tag Manager" />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/gtm-3.png')}
+  alt="Google Tag Manager"
+/>
 </StepMarkdown>
 <StepMarkdown>
 ### Troubleshooting
