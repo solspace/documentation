@@ -335,6 +335,10 @@ const config: Config = {
           position: 'left',
         },
         {
+          type: 'custom-pluginStore',
+          position: 'right',
+        },
+        {
           type: 'dropdown',
           position: 'right',
           label: 'Plugins',
@@ -375,10 +379,6 @@ const config: Config = {
               to: `/expressionengine/calendar/v5`,
             },
           ],
-        },
-        {
-          type: 'custom-pluginStore',
-          position: 'left',
         },
         {
           type: 'custom-productsList',
