@@ -83,7 +83,7 @@ const IconCards: React.FC<IconsCardProps> = ({ items }) => {
             />
           )}
           {item.extraContent && (
-            <div className="absolute bottom-0 left-0 right-0 py-1.5 text-center rounded-b-2xl text-sm text-slate-400 bg-slate-900  w-full">
+            <div className="absolute bottom-0 left-0 right-0 py-1.5 text-center font-semibold rounded-b-2xl text-sm text-white bg-green-600 dark:bg-green-800 w-full">
               {item.extraContent}
             </div>
           )}
