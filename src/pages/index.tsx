@@ -93,10 +93,10 @@ export default function Home(): JSX.Element {
                   linkWithDescription: 'https://support.solspace.com/',
                 },
                 {
-                  title: '20+ Years Experience',
+                  title: '25+ Years Experience',
                   icon: Icons.HourglassIcon,
                   description:
-                    'For over 20 years, Solspace has been creating, maintaining, and providing support for software to more than 20,000 customers. In total, over 400,000 plugins have been sold or downloaded for free.',
+                    'For over 25 years, Solspace has been creating, maintaining, and providing support for software to more than 30,000 customers. In total, over 500,000 plugins have been sold or downloaded for free.',
                   linkWithDescription: 'https://solspace.com',
                 },
                 {
