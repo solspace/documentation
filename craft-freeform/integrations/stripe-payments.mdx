@@ -170,11 +170,14 @@ The Freeform Stripe integration has the following requirements:
 
 _Stripe_ makes some strong recommendations and assumptions that the _Stripe Payment Element_ will only be displayed once the payment amount is determined and payment is ready to be made (on the last page of a multi-page form). Therefore, it works best when its placed on the last page inside of a [multi-page](../forms/builder.mdx#multi-page-forms) form.
 
-If you choose **not** to do it this way, some Stripe behaviors are worked around to ensure the feature still works:
+:::warning
+#### Single Page forms & other Deviations
+If you choose to have your Stripe field on a single page form or include payment amount fields on the same page as the Stripe field, beware of the following Stripe behaviors that are out of our control:
 
 - The Stripe Payment Element field will not load if there is no payment amount entered or selected (when allowing the user to specify). When possible, either default the _Amount_ field to something other than `0` or empty OR ensure that the _Amount_ field is on an earlier page than the Stripe Payment Element field so it is populated in time. If the _Amount_ field is empty or `0`, the Stripe Payment Element field will display the message: `Could not load payment element`.
 - If allowing users to dynamically configure payment amount and/or interval when the Stripe Payment Element field is in the same page, the form will temporarily disable each time one of those fields is modified and the Stripe Payment Element field will reload.
 - The Stripe.com dashboard will display an `Incomplete` or `Canceled` transaction each time the Stripe Payment Element field is loaded to a user and NOT completed or a payment amount or interval is changed while the Stripe field is present. To prevent this, avoid showing the Stripe Payment Element field and keep it on the last page of a multi-page form.
+:::
 
 ### Conditional Rules for Multiple Payment Options
 
