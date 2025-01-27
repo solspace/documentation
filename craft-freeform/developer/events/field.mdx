@@ -79,12 +79,12 @@ Event::on(
 This event is fired for every active Freeform field right before it's being validated when a form is submitted. Use this event to attach your own validators for fields.
 
 ```php showLineNumbers
-use Solspace\Freeform\Services\FieldsService;
+use Solspace\Freeform\Fields\FieldInterface;
 use Solspace\Freeform\Events\Fields\ValidateEvent;
 
 Event::on(
-  FieldsService::class,
-  FieldsService::EVENT_VALIDATE,
+  FieldInterface::class,
+  FieldInterface::EVENT_VALIDATE,
   function (ValidateEvent $event) {
     $form = $event->getForm();
     $field = $event->getField();
