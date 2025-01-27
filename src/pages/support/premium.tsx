@@ -18,7 +18,7 @@ const Support: React.FC = () => {
 
         <div className="flex flex-col gap-3 md:ml-72 p-8">
           <main className="max-w-6xl m-auto my-3">
-            <span className="page-section">Premium Support</span>
+            <span className="page-section">Support</span>
 
             <h1>Premium Support</h1>
             <p>
@@ -134,11 +134,11 @@ const Support: React.FC = () => {
               </div>
               <div className="mx-auto p-6 bg-[#181d27] text-white rounded-b-md rounded-tr-md border border-solid border-[#ff6624]">
                 <Admonition type="info">
-                  If you have any questions about our Premium Support service,
+                  <span className="text-gray-100">If you have any questions about our Premium Support service,
                   feel free to <Link href="/support">contact us</Link> and we
                   can determine if our Premium Support service is right for you.
                   If you're ready to proceed, fill out the form, select the
-                  number of hours and submit payment below:
+                  number of hours and submit payment below:</span>
                 </Admonition>
                 <iframe
                   title="Support Form"
