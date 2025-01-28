@@ -14,33 +14,33 @@ const StepMarkdown: React.FC<StepMarkdownProps> = ({
   const [isDone, setIsDone] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const handleClick = () => {
-    setIsDone((prevIsDone) => !prevIsDone);
-  };
+  // const handleClick = () => {
+  //   setIsDone((prevIsDone) => !prevIsDone);
+  // };
 
-  useEffect(() => {
-    const contentElement = contentRef.current;
+  // useEffect(() => {
+  //   const contentElement = contentRef.current;
 
-    if (!stepTitle && contentElement) {
-      const h3Element = contentElement.querySelector('h3');
+  //   if (!stepTitle && contentElement) {
+  //     const h3Element = contentElement.querySelector('h3');
 
-      if (h3Element) {
-        h3Element.classList.add('text-[#ff6624]', 'cursor-pointer');
-        h3Element.addEventListener('click', handleClick);
+  //     if (h3Element) {
+  //       h3Element.classList.add('text-[#ff6624]', 'cursor-pointer');
+  //       h3Element.addEventListener('click', handleClick);
 
-        return () => {
-          h3Element.removeEventListener('click', handleClick);
-        };
-      } else {
-        contentElement.classList.add('cursor-pointer');
-        contentElement.addEventListener('click', handleClick);
+  //       return () => {
+  //         h3Element.removeEventListener('click', handleClick);
+  //       };
+  //     } else {
+  //       contentElement.classList.add('cursor-pointer');
+  //       contentElement.addEventListener('click', handleClick);
 
-        return () => {
-          contentElement.removeEventListener('click', handleClick);
-        };
-      }
-    }
-  }, [stepTitle]);
+  //       return () => {
+  //         contentElement.removeEventListener('click', handleClick);
+  //       };
+  //     }
+  //   }
+  // }, [stepTitle]);
 
   return (
     <div className={`relative mb-8 step ${isDone ? 'step-active' : ''}`}>
@@ -96,7 +96,7 @@ const VerticalStepWrapper = ({ children }: { children: React.ReactNode }) => {
   });
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col steps-wrapper">
       {childrenWithStepNumbers}
       <div className="flex">
         <div className="flex flex-col md:items-center mr-6">
