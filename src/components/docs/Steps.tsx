@@ -61,14 +61,13 @@ const StepMarkdown: React.FC<StepMarkdownProps> = ({
         <div className="ml-12">
           {stepTitle && (
             <h3
-              className="text-[#ff6624] cursor-pointer ml-12"
-              onClick={handleClick}
+              className="text-[#ff6624] ml-12"
             >
               {stepTitle}
             </h3>
           )}
           {!stepTitle && !children && (
-            <div className="cursor-pointer" onClick={handleClick}>
+            <div className="cursor-pointer">
               Click here to toggle
             </div>
           )}
