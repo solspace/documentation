@@ -3,6 +3,9 @@ title: GraphQL
 sidebar_position: 1
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
@@ -31,6 +34,9 @@ Freeform has a root `freeform` query, which contains all the possible queries ne
 
 ### Querying multiple Forms
 
+<Tabs>
+<TabItem value="query-multiple-forms" label="Query" default>
+
 To query all or some forms, you have to use the `forms` query:
 
 ```graphql {3} showLineNumbers
@@ -55,6 +61,9 @@ query {
   }
 }
 ```
+
+</TabItem>
+<TabItem value="response-multiple-forms" label="Response">
 
 Example response data:
 
@@ -96,11 +105,17 @@ Example response data:
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ### Querying a single Form
+
+<Tabs>
+<TabItem value="query-single-form" label="Query" default>
 
 You can query a single form directly by using the `form` query:
 
-```graphql {3} showLineNumbers
+```graphql {3}
 query {
   freeform {
     form (handle: "my-form") {
@@ -113,6 +128,9 @@ query {
   }
 }
 ```
+
+</TabItem>
+<TabItem value="response-single-form" label="Response">
 
 Example response data:
 
@@ -146,10 +164,15 @@ Example response data:
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ### Querying a form field on a Craft Entry
 
-You can query an Entry form field by using the form field name in the query:
-Assuming the form field's handle is `myFormFieldHandle` and the section is called `Blog`
+<Tabs>
+<TabItem value="query-field-craft-entry" label="Query" default>
+
+You can query an Entry form field by using the form field name in the query. Assuming the form field's handle is `myFormFieldHandle` and the section is called `Blog`:
 
 ```graphql {5-15} showLineNumbers
 query {
@@ -170,6 +193,9 @@ query {
   }
 }
 ```
+
+</TabItem>
+<TabItem value="response-field-craft-entry" label="Response">
 
 Example response data:
 
@@ -196,6 +222,9 @@ Example response data:
   }
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ### Form Query Arguments
 
@@ -240,7 +269,7 @@ You can query fields by the following arguments:
 | `id`     | `[Int]`    | Narrow the queried fields by one or more field's ID's    |
 | `handle` | `[String]` | Narrow the queried fields by one or more field's handles |
 
-```graphql showLineNumbers
+```graphql
 query {
   freeform {
     forms {
@@ -299,11 +328,11 @@ mutation SaveContactSubmission(
 // Query Variables
 {
     "formProperties": {
-		"dynamicNotification": {
-    	    "recipients": ["support@solspace.com", "user@solspace.com"],
+        "dynamicNotification": {
+            "recipients": ["support@solspace.com", "user@solspace.com"],
             "template": "new_template_1.twig"
-  	    }
-	}
+        }
+    }
     "honeypot": {
         "name": "freeform_form_handle",
         "value": ""
@@ -324,7 +353,7 @@ mutation SaveContactSubmission(
 
 Example response data:
 
-```json showLineNumbers
+```json
 {
   "data": {
     "save_contact_Submission": {
@@ -649,7 +678,7 @@ Use `FreeformDynamicNotificationInterface`.
 | `value`       | `String` | The default value             |
 | `placeholder` | `String` | Input's placeholder attribute |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Text {
     value
@@ -666,7 +695,7 @@ fields {
 | `rows`        | `Int`    | Number of rows shown for this textarea |
 | `placeholder` | `String` | Input's placeholder attribute          |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Textarea {
     value
@@ -683,7 +712,7 @@ fields {
 | `value`   | `String`                                         | The default value    |
 | `options` | [`[FreeformOptionInterface]`](#option-interface) | The assigned options |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Dropdown {
     value
@@ -703,7 +732,7 @@ fields {
 | `value`   | `String`  | The default value                         |
 | `checked` | `Boolean` | Should the checkbox be checked by default |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Checkbox {
     value
@@ -719,7 +748,7 @@ fields {
 | `values`  | `[String]`                                       | The default values   |
 | `options` | [`[FreeformOptionInterface]`](#option-interface) | The assigned options |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_MultipleSelect {
     values
@@ -740,7 +769,7 @@ fields {
 | `oneLine` | `Boolean`                                        | Should this be shown in a single line |
 | `options` | [`[FreeformOptionInterface]`](#option-interface) | The assigned options                  |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Checkboxes {
     values
@@ -761,7 +790,7 @@ fields {
 | `value`   | `String`                                         | The default value    |
 | `options` | [`[FreeformOptionInterface]`](#option-interface) | The assigned options |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Radios {
     value
@@ -780,7 +809,7 @@ fields {
 | ------------- | -------- | ----------------------------- |
 | `placeholder` | `String` | Input's placeholder attribute |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Email {
     placeholder
@@ -802,7 +831,7 @@ fields {
 | `allowNegative`      | `Bool`   | Allow negative numbers        |
 | `placeholder`        | `String` | Input's placeholder attribute |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Number {
     value
@@ -826,7 +855,7 @@ fields {
 | `maxFileSizeKB` | `Int`      | Maximum allowed filesize in KB              |
 | `fileCount`     | `Int`      | Number of allowed simultaneous file uploads |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_File {
     fileKinds
@@ -842,7 +871,7 @@ fields {
 | ----------------- | -------- | ------------------------------------------ |
 | `targetFieldHash` | `String` | Hash of the field that has to be confirmed |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Confirmation {
     targetFieldHash
@@ -868,7 +897,7 @@ fields {
 | `minDate`             | `String`  | Specifies the minimum allowed date that can be picked           |
 | `maxDate`             | `String`  | Specifies the maximum allowed date that can be picked           |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Datetime {
     value
@@ -896,7 +925,7 @@ fields {
 | `legends` | `[String]`                                                    | A list of all the assigned Legends                                     |
 | `scales`  | [`[FreeformOpinionScaleInterface]`](#opinion-scale-interface) | The assigned [FreeformOpinionScaleInterface](#opinion-scale-interface) |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_OpinionScale {
     value
@@ -917,7 +946,7 @@ fields {
 | `pattern`   | `String`  | Phone number pattern                                      |
 | `useJsMask` | `Boolean` | Should the built-in pattern matcher javascript be enabled |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Phone {
     value
@@ -937,7 +966,7 @@ fields {
 | `colorHover`    | `String` | Color of the hovered rating star               |
 | `colorSelected` | `String` | Color of the selected rating star              |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Rating {
     value
@@ -957,7 +986,7 @@ fields {
 | `pattern` | `String` | Regex pattern                     |
 | `message` | `String` | The error message to be displayed |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Regex {
     value
@@ -979,7 +1008,7 @@ fields {
 | `penColor`        | `String`  | Signature field pen color                            |
 | `penDotSize`      | `Float`   | The size of the pen dot                              |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Signature {
     width
@@ -1005,7 +1034,7 @@ fields {
 | `removeButtonMarkup` | `String`  | Custom html for the "delete row" button                        |
 | `tableLayout`        | `String`  | JSON of the table layout                                       |
 
-```graphql showLineNumbers
+```graphql
 fields {
   ... on FreeformField_Table {
     useScript
@@ -1088,11 +1117,12 @@ class FreeformModule extends Module
 ```
 
 </StepMarkdown>
+<StepMarkdown>
 ### Update the Application Config
 
 Add your module to your project's application configuration by listing it in the `/config/app.php` file:
 
-```php showLineNumbers
+```php
 <?php
 
 use modules\FreeformModule;
@@ -1105,6 +1135,7 @@ return [
 ];
 ```
 
+</StepMarkdown>
 <StepMarkdown>
 ### Add Controller
 
@@ -1142,11 +1173,12 @@ class FormController extends Controller
 ```
 
 </StepMarkdown>
+<StepMarkdown>
 ### Update the Routes
 
 Update the `/config/routes.php` with your new module controller actions:
 
-```php showLineNumbers
+```php
 <?php
 
 return [
@@ -1156,6 +1188,7 @@ return [
 ];
 ```
 
+</StepMarkdown>
 <StepMarkdown>
 
 ### Example JSON Response

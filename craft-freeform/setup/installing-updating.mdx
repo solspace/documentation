@@ -3,6 +3,8 @@ sidebar_position: 1
 ---
 
 import Player from 'react-player';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 import { Badge, Photo } from '@site/src/components/utils';
 import {
@@ -62,9 +64,8 @@ import Icons from '@site/static/card-icons';
 
 Freeform 5.x support both [Craft 5.x](https://craftcms.com/docs/5.x/requirements.html) and [Craft 4.x](https://craftcms.com/docs/4.x/requirements.html). It meets mostly the same requirements as listed on the Craft Requirements page.
 
-<TwoColumnCards>
-<ColumnCardData>
-### Craft 5.x<Badge type="feature" text="New in 5.1+" />
+<Tabs>
+<TabItem value="requirements-craft-5" label="Craft 5.x" default>
 
 - **Craft 5.0.0+**
 - PHP 8.2.0+
@@ -77,9 +78,8 @@ Freeform 5.x support both [Craft 5.x](https://craftcms.com/docs/5.x/requirements
   - Safari 11.1+
   - Edge 79+
 
-</ColumnCardData>
-<ColumnCardData>
-### Craft 4.x
+</TabItem>
+<TabItem value="requirements-craft-4" label="Craft 4.x">
 
 - **Craft 4.0.0+**
 - PHP 8.0.2+
@@ -92,15 +92,15 @@ Freeform 5.x support both [Craft 5.x](https://craftcms.com/docs/5.x/requirements
   - Safari 11.1+
   - Edge 79+
 
-</ColumnCardData>
-</TwoColumnCards>
+</TabItem>
+</Tabs>
 
 ## Installation
 
 Freeform can be installed one of two ways:
 
-- [Install from the CLI](#install-from-the-cli)<Badge type="recommended" text="Recommended" />
-- [Install from the Control Panel](#install-from-the-control-panel)
+<Tabs>
+<TabItem value="install-cli" label="Command Line (CLI)" default>
 
 ### Install from the CLI<Badge type="recommended" text="Recommended" />
 
@@ -140,7 +140,10 @@ php craft plugin/install freeform
 
 </StepMarkdown>
 <StepMarkdown>
-Craft will automatically install the _Express_ edition of Freeform. If you'd like the _Lite_ or _Pro_ edition, you can switch the edition 1 of 2 ways:
+Craft will automatically install the _Express_ edition of Freeform. If you'd like the _Lite_ or _Pro_ edition, you can switch the edition one of two ways:
+
+<Tabs>
+<TabItem value="install-switch-project-config" label="Project Config" default>
 
 #### Project Config<Badge type="recommended" text="Recommended" />
 
@@ -153,9 +156,12 @@ Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-confi
      enabled: true
 ```
 
+</TabItem>
+<TabItem value="install-switch-cp" label="Control Panel">
+
 #### Control Panel
 
-Click on the _**EXPRESS** / trial_ button beside Freeform's name and when it takes you to the Plugin Store page, scroll down to the bottom and click on the **Try** button for the _Pro_ edition (see screenshots below).
+Click on the _**EXPRESS** / trial_ button beside Freeform's name and when it takes you to the Plugin Store page, scroll down to the bottom and click on the **Try** button for the _Pro_ edition (see video below).
 
 <Player
   url={
@@ -168,12 +174,18 @@ Click on the _**EXPRESS** / trial_ button beside Freeform's name and when it tak
   height="100%"
 />
 
+</TabItem>
+</Tabs>
+
 </StepMarkdown>
 <StepMarkdown>
 If Freeform is right for your site, [purchase a copy](#purchasing) of it through the Plugin Store when you're ready!
 
 </StepMarkdown>
 </VerticalStepWrapper>
+
+</TabItem>
+<TabItem value="install-cp" label="Control Panel">
 
 ### Install from the Control Panel
 
@@ -202,6 +214,10 @@ If Freeform is right for your site, [purchase a copy](#purchasing) of it through
 </StepMarkdown>
 </VerticalStepWrapper>
 
+</TabItem>
+</Tabs>
+
+
 ## Updating
 
 Freeform uses the **Craft Updates Service**, which means that every time there's an update available, it'll show up in the _Updates_ area (**Utilities** → **Updates**) of the Craft control panel. You can then review the changelog there, or [view it here](./changelog.mdx).
@@ -212,9 +228,8 @@ Freeform uses the **Craft Updates Service**, which means that every time there's
 
 Freeform can be updated one of three ways:
 
-- [Update from the CLI](#update-from-the-cli)<Badge type="recommended" text="Recommended" />
-- [Update via Composer from the CLI](#update-via-composer-from-the-cli)
-- [Update from the Control Panel](#update-from-the-control-panel)
+<Tabs>
+<TabItem value="update-cli" label="Command Line (CLI)" default>
 
 ### Update from the CLI<Badge type="recommended" text="Recommended" />
 
@@ -283,6 +298,9 @@ username@Computer site.test %
 
 </StepMarkdown>
 </VerticalStepWrapper>
+
+</TabItem>
+<TabItem value="update-cli-composer" label="Composer CLI">
 
 ### Update via Composer from the CLI
 
@@ -360,6 +378,9 @@ username@Computer site.test %
 </StepMarkdown>
 </VerticalStepWrapper>
 
+</TabItem>
+<TabItem value="update-cp" label="Control Panel">
+
 ### Update from the Control Panel
 
 :::warning
@@ -381,6 +402,10 @@ Simply click the **Update** button and Craft will do the rest.
 
 </StepMarkdown>
 </VerticalStepWrapper>
+
+</TabItem>
+</Tabs>
+
 
 ## Disable Freeform
 
