@@ -1,0 +1,135 @@
+import { Photo } from '@site/src/components/utils';
+
+# Export Types
+
+Extend Freeform Exporting capabilities by adding your own export types:
+
+## Registering Custom Export Types
+
+To create and use your own Export Type you must implement `\Solspace\Freeform\Bundles\Export\SubmissionExportInterface`. For convenience we have added the `\Solspace\Freeform\Bundles\Export\AbstractSubmissionExport` class which you can extend.
+
+First, create your own export type, which extends the `AbstractSubmissionExport` class, and implement its methods.
+As an example - we'll create an HTML export type.
+
+```php showLineNumbers
+<?php
+
+namespace modules\Exports;
+
+use Solspace\Freeform\Bundles\Export\AbstractSubmissionExport;
+
+class HtmlExport extends AbstractSubmissionExport
+{
+    public static function getLabel(): string
+    {
+        return 'HTML';
+    }
+
+    public function getMimeType(): string
+    {
+        return 'text/html';
+    }
+
+    public function getFileExtension(): string
+    {
+        return 'html';
+    }
+
+    public function export($resource): void
+    {
+        // export logic will come here
+    }
+}
+```
+
+In this class we define the label, mime type, file extension and the export method. The export method is where you would write the logic to export the submissions to the desired format. We will cover this in the next section.
+
+Now we register the exporter type:
+
+```php showLineNumbers
+use Solspace\Freeform\Services\ExportProfilesService;
+use Solspace\Freeform\Events\ExportProfiles\RegisterExporterEvent;
+use modules\Exports\HtmlExport;
+
+Event::on(
+  ExportProfilesService::class,
+  ExportProfilesService::EVENT_REGISTER_EXPORTER,
+  function (RegisterExporterEvent $event) {
+    $event->addExporter('html', HtmlExport::class);
+  }
+);
+```
+
+You should now see your custom export type available in the export profiles view and in the quick export pop-up.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/export-1.png')}
+  alt="Export Profiles HTML option"
+/>
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/export-2.png')}
+  alt="Quick Export HTML option"
+/>
+
+## Export logic
+
+The `::export()` method is where you write the logic to export the submissions to the desired format. The `$resource` parameter is a writable stream resource, which lets us write to the file in a memory efficient way. After the `::export()` method finishes, the file will be returned to the user for download and then removed from the temp directory.
+
+Here is an example of how you can export submissions to an HTML file:
+
+```php showLineNumbers
+<?php
+
+namespace modules\Exports;
+
+use Solspace\Freeform\Bundles\Export\AbstractSubmissionExport;
+
+class HtmlExport extends AbstractSubmissionExport
+{
+    // ...
+
+    public function export($resource): void
+    {
+        // Write the HTML header
+        fwrite($resource, "<html>\n<body>\n");
+
+        $count = 1;
+        // Iterate through a 100 rows at a time
+        foreach ($this->getRowBatch() as $rows) {
+            foreach ($rows as $columns) {
+                // Write the entry header
+                fwrite($resource, "\t<div>\n");
+                fwrite($resource, "\t\t<h2>Entry {$count}</h2>\n");
+
+                // Iterate through all available columns
+                foreach ($columns as $column) {
+                    // Get the value and label
+                    $value = $column->getValue();
+                    $label = $column->getDescriptor()->getLabel();
+
+                    // Transform the value if needed
+                    if ($value instanceof \DateTime) {
+                        $value = $value->format('Y-m-d H:i:s');
+                    }
+
+                    if (\is_array($value)) {
+                        $value = implode(', ', $value);
+                    }
+
+                    // Write the column label and value to the file
+                    fwrite($resource, "\t\t<div><b>" . $label . '</b>: ' . $value . "</div>\n");
+                }
+
+                fwrite($resource, "\t</div>\n");
+                $count++;
+            }
+        }
+
+        // Write the HTML footer
+        fwrite($resource, "</body>\n</html>\n");
+    }
+}
+```
+
+Now you should be able to export submissions to an HTML file.
