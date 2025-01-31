@@ -409,6 +409,8 @@ These are the fields available for the `FreeformFormInterface`:
 | `disableReset`                                           | `Boolean`                                                 | Should the form’s submit button be disabled state be reset             |
 | `enctype`                                                | `String`                                                  | The form’s enctype                                                     |
 | `rules`                                                  | [`FreeformRulesInterface`](#rules-interface)              | The form’s rules                                                       |
+| `postForwarding`                                         | [`FreeformPostForwardingInterface`](#post-forwarding-interface)      | The Post Forwarding for this form                           |
+| `gtm`                                                    | [`FreeformGoogleTagManagerInterface`](#google-tag-manager-interface) | The Google Tag Manager for this form                        |
 
 ### Field Interface
 
@@ -668,6 +670,25 @@ Use `FreeformDynamicNotificationInterface`.
 | ------------ | ---------- | ------------------------------------- |
 | `recipients` | `[String]` | The recipients of the notification    |
 | `template`   | `String`   | The name of the notification template |
+
+### Post Forwarding Interface<Badge type="feature" text="New in 5.0+" />
+
+Use `FreeformPostForwardingInterface`.
+
+| Field          | Type      | Description                        |
+|----------------|-----------|------------------------------------|
+| `url`          | `String`  | The Post Forwarding URL.           |
+| `eventTrigger` | `String`  | The Post Forwarding error trigger. |
+| `sendFiles`    | `Boolean` | Will Post Forwarding send files.   |
+
+### Google Tag Manager Interface<Badge type="feature" text="New in 5.0+" />
+
+Use `FreeformGoogleTagManagerInterface`.
+
+| Field         | Type     | Description      |
+|---------------|----------|------------------|
+| `containerId` | `String` | The container ID |
+| `eventName`   | `String` | The event name   |
 
 ## Field Types
 
