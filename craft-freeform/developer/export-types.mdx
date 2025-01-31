@@ -1,15 +1,32 @@
-import { Photo } from '@site/src/components/utils';
+---
+title: 'Custom Export Types'
+sidebar_position: 7
+---
 
-# Export Types
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-Extend Freeform Exporting capabilities by adding your own export types:
+# Custom Export Types<Badge type="feature" text="New in 5.0+" />
 
-## Registering Custom Export Types
+If you wish to build your own export types that appear as options in the [Quick Export](../submissions/exporting.mdx#quick-export) and [Export Profiles](../submissions/exporting.mdx#export-profiles) features, this is possible with the development of a custom module.
 
-To create and use your own Export Type you must implement `\Solspace\Freeform\Bundles\Export\SubmissionExportInterface`. For convenience we have added the `\Solspace\Freeform\Bundles\Export\AbstractSubmissionExport` class which you can extend.
+## Setup Guide
+
+The creation of custom export types in Freeform will require using a custom [Craft module](https://craftcms.com/docs/5.x/extend/module-guide.html). This guide assumes you already have that knowledge. If not, please [check out the guide](../guides/developer/building-a-custom-module.mdx) we have.
+
+:::tip
+[View the guide on how to build a custom module.](../guides/developer/building-a-custom-module.mdx)
+:::
+
+<VerticalStepWrapper>
+<StepMarkdown>
+### Registering Custom Export Types
+
+To create and use your own Export Type, you must implement `\Solspace\Freeform\Bundles\Export\SubmissionExportInterface`. For convenience we have added the `\Solspace\Freeform\Bundles\Export\AbstractSubmissionExport` class which you can extend.
 
 First, create your own export type, which extends the `AbstractSubmissionExport` class, and implement its methods.
-As an example - we'll create an HTML export type.
+
+As an example, we'll create an HTML export type:
 
 ```php showLineNumbers
 <?php
@@ -44,6 +61,9 @@ class HtmlExport extends AbstractSubmissionExport
 
 In this class we define the label, mime type, file extension and the export method. The export method is where you would write the logic to export the submissions to the desired format. We will cover this in the next section.
 
+</StepMarkdown>
+<StepMarkdown>
+
 Now we register the exporter type:
 
 ```php showLineNumbers
@@ -60,19 +80,26 @@ Event::on(
 );
 ```
 
-You should now see your custom export type available in the export profiles view and in the quick export pop-up.
+</StepMarkdown>
+<StepMarkdown>
+
+You should now see your custom export type available in the export profiles view and in the quick export pop-up:
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/developer/export-1.png')}
   alt="Export Profiles HTML option"
+  scale="35"
 />
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/developer/export-2.png')}
   alt="Quick Export HTML option"
+  scale="35"
 />
 
-## Export logic
+</StepMarkdown>
+<StepMarkdown>
+### Export logic
 
 The `::export()` method is where you write the logic to export the submissions to the desired format. The `$resource` parameter is a writable stream resource, which lets us write to the file in a memory efficient way. After the `::export()` method finishes, the file will be returned to the user for download and then removed from the temp directory.
 
@@ -132,4 +159,7 @@ class HtmlExport extends AbstractSubmissionExport
 }
 ```
 
-Now you should be able to export submissions to an HTML file.
+</StepMarkdown>
+</VerticalStepWrapper>
+
+You should now be able to export submissions to an HTML file.
