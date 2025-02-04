@@ -231,7 +231,7 @@ Example response data:
 The following arguments are available when querying single or multiple forms:
 
 | Argument  | Type       | Description                                          |
-| --------- | ---------- | ---------------------------------------------------- |
+|-----------|------------|------------------------------------------------------|
 | `id`      | `[Int]`    | Narrow the queried forms by one or more form ID's    |
 | `uid`     | `[String]` | Narrow the queried forms by one or more form UID's   |
 | `handle`  | `[String]` | Narrow the queried forms by one or more form handles |
@@ -265,7 +265,7 @@ query {
 You can query fields by the following arguments:
 
 | Argument | Type       | Description                                              |
-| -------- | ---------- | -------------------------------------------------------- |
+|----------|------------|----------------------------------------------------------|
 | `id`     | `[Int]`    | Narrow the queried fields by one or more field's ID's    |
 | `handle` | `[String]` | Narrow the queried fields by one or more field's handles |
 
@@ -370,7 +370,7 @@ Example response data:
 ### Submission Mutation Arguments
 
 | Argument | Type | Description                                          |
-| -------- | ---- | ---------------------------------------------------- |
+|----------|------|------------------------------------------------------|
 | `...`    |      | Arguments depending on the field layout for the form |
 
 ## Interfaces
@@ -379,45 +379,40 @@ Example response data:
 
 These are the fields available for the `FreeformFormInterface`:
 
-| Field                                                       | Type                                                                 | Description                                                            |
-| ----------------------------------------------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `id`                                                        | `Int`                                                                | ID                                                                     |
-| `uid`                                                       | `String`                                                             | UID                                                                    |
-| `name`                                                      | `String`                                                             | Name                                                                   |
-| `handle`                                                    | `String`                                                             | Handle                                                                 |
-| `type`                                                      | `String`                                                             | Type                                                                   |
-| `hash`                                                      | `String`                                                             | The form's hash needed to submit forms                                 |
-| `color`                                                     | `String`                                                             | Color                                                                  |
-| `description`                                               | `String`                                                             | Description                                                            |
-| `successBehavior`                                           | `String`                                                             | The form's success behavior                                            |
-| `successTemplate`                                           | `String`                                                             | The form's success template                                            |
-| `returnUrl`                                                 | `String`                                                             | The specified return URL                                               |
-| `storeData`                                                 | `Boolean`                                                            | Are submissions being stored for this form                             |
-| `submissionTitleFormat`                                     | `String`                                                             | Title format used for new submission titles                            |
-| `submissionMutationName`                                    | `String`                                                             | The forms GraphQL mutation name for submissions                        |
-| `ipCollectingEnabled`                                       | `Boolean`                                                            | Are the IP addresses being stored                                      |
-| `ajax`<Badge type="feature" text="Renamed in 5.0+" />       | `Boolean`                                                            | Is the ajax enabled for this form                                      |
-| `showProcessingSpinner`                                     | `Boolean`                                                            | Should the submit button show a spinner when submitting                |
-| `showProcessingText`                                        | `Boolean`                                                            | Should the submit button change the button label while submitting      |
-| `processingText`                                            | `String`                                                             | The submit button loading label text                                   |
-| `defaultStatus`                                             | `Int`                                                                | The assigned default status ID of new submissions                      |
-| `formTemplate`                                              | `String`                                                             | The assigned default formatting template                               |
-| `honeypot`                                                  | [`FreeformHoneypotInterface`](#honeypot-interface)                   | A fresh honeypot instance                                              |
-| `csrfToken`                                                 | [`FreeformCsrfTokenInterface`](#csrf-token-interface)                | A fresh csrf token                                                     |
-| `captcha`<Badge type="feature" text="Renamed in 5.0+" />    | [`FreeformFormCaptchaInterface`](#form-captcha-interface)            | The captcha for this form                                              |
-| `fields`                                                    | [`[FreeformFieldInterface]`](#field-interface)                       | A list of Form's `Field`                                               |
-| `pages`                                                     | [`[FreeformPageInterface]`](#page-interface)                         | A list of Form's `Page` entities                                       |
-| `successMessage`                                            | `String`                                                             | The specified success message                                          |
-| `errorMessage`                                              | `String`                                                             | The specified error message                                            |
-| `duplicateCheck`                                            | `String`                                                             | The form’s duplicate check rule                                        |
-| `stopSubmissionsAfter`                                      | `String`                                                             | The form’s stop submissions after date                                 |
-| `disableSubmit`                                             | `Boolean`                                                            | Should the form’s submit button be disabled when the form is submitted |
-| `disableReset`                                              | `Boolean`                                                            | Should the form’s submit button be disabled state be reset             |
-| `enctype`                                                   | `String`                                                             | The form’s enctype                                                     |
-| `rules`                                                     | [`FreeformRulesInterface`](#rules-interface)                         | The form’s rules                                                       |
-| `postForwarding`<Badge type="feature" text="New in 5.0+" /> | [`FreeformPostForwardingInterface`](#post-forwarding-interface)      | The Post Forwarding integration for this form                                      |
-| `gtm`<Badge type="feature" text="New in 5.0+" />            | [`FreeformGoogleTagManagerInterface`](#google-tag-manager-gtm-interface) | The Google Tag Manager integration for this form                                   |
-| `javascriptTest`<Badge type="feature" text="New in 5.0+" /> | [`FreeformJavascriptTestInterface`](#javascript-test-interface)      | The Javascript Test for this form                                      |
+| Field                                                       | Type                                                                     | Description                                                            |
+|-------------------------------------------------------------|--------------------------------------------------------------------------|------------------------------------------------------------------------|
+| `id`                                                        | `Int`                                                                    | ID                                                                     |
+| `uid`                                                       | `String`                                                                 | UID                                                                    |
+| `name`                                                      | `String`                                                                 | Name                                                                   |
+| `handle`                                                    | `String`                                                                 | Handle                                                                 |
+| `type`                                                      | `String`                                                                 | Type                                                                   |
+| `hash`                                                      | `String`                                                                 | The form's hash needed to submit forms                                 |
+| `color`                                                     | `String`                                                                 | Color                                                                  |
+| `description`                                               | `String`                                                                 | Description                                                            |
+| `returnUrl`                                                 | `String`                                                                 | The specified return URL                                               |
+| `storeData`                                                 | `Boolean`                                                                | Are submissions being stored for this form                             |
+| `submissionTitleFormat`                                     | `String`                                                                 | Title format used for new submission titles                            |
+| `submissionMutationName`                                    | `String`                                                                 | The forms GraphQL mutation name for submissions                        |
+| `ipCollectingEnabled`                                       | `Boolean`                                                                | Are the IP addresses being stored                                      |
+| `ajax`<Badge type="feature" text="Renamed in 5.0+" />       | `Boolean`                                                                | Is the ajax enabled for this form                                      |
+| `showProcessingSpinner`                                     | `Boolean`                                                                | Should the submit button show a spinner when submitting                |
+| `showProcessingText`                                        | `Boolean`                                                                | Should the submit button change the button label while submitting      |
+| `processingText`                                            | `String`                                                                 | The submit button loading label text                                   |
+| `defaultStatus`                                             | `Int`                                                                    | The assigned default status ID of new submissions                      |
+| `formTemplate`                                              | `String`                                                                 | The assigned default formatting template                               |
+| `honeypot`                                                  | [`FreeformHoneypotInterface`](#honeypot-interface)                       | A fresh honeypot instance                                              |
+| `csrfToken`                                                 | [`FreeformCsrfTokenInterface`](#csrf-token-interface)                    | A fresh csrf token                                                     |
+| `captcha`<Badge type="feature" text="Renamed in 5.0+" />    | [`FreeformFormCaptchaInterface`](#form-captcha-interface)                | The captcha for this form                                              |
+| `fields`                                                    | [`[FreeformFieldInterface]`](#field-interface)                           | A list of Form's `Field`                                               |
+| `pages`                                                     | [`[FreeformPageInterface]`](#page-interface)                             | A list of Form's `Page` entities                                       |
+| `successMessage`                                            | `String`                                                                 | The specified success message                                          |
+| `errorMessage`                                              | `String`                                                                 | The specified error message                                            |
+| `disableSubmit`                                             | `Boolean`                                                                | Should the form’s submit button be disabled when the form is submitted |
+| `disableReset`                                              | `Boolean`                                                                | Should the form’s submit button be disabled state be reset             |
+| `enctype`                                                   | `String`                                                                 | The form’s enctype                                                     |
+| `rules`                                                     | [`FreeformRulesInterface`](#rules-interface)                             | The form’s rules                                                       |
+| `postForwarding`<Badge type="feature" text="New in 5.0+" /> | [`FreeformPostForwardingInterface`](#post-forwarding-interface)          | The Post Forwarding integration for this form                          |
+| `gtm`<Badge type="feature" text="New in 5.0+" />            | [`FreeformGoogleTagManagerInterface`](#google-tag-manager-gtm-interface) | The Google Tag Manager integration for this form                       |
 
 ### Field Interface
 
@@ -426,7 +421,7 @@ Use `FreeformFieldInterface`.
 The base `FreeformFieldInterface` implemented by all field types. You can see specific Field Type fields [here](#field-types).
 
 | Field                                                   | Type                                                     | Description                              |
-| ------------------------------------------------------- | -------------------------------------------------------- | ---------------------------------------- |
+|---------------------------------------------------------|----------------------------------------------------------|------------------------------------------|
 | `id`                                                    | `Int`                                                    | ID                                       |
 | `type`                                                  | `String`                                                 | Type                                     |
 | `label`                                                 | `String`                                                 | Label                                    |
@@ -443,7 +438,7 @@ Use `FreeformPageInterface`.
 Each page contains a list of [`FreeformRowInterface`](#row-interface) objects:
 
 | Field   | Type                                       | Description                              |
-| ------- | ------------------------------------------ | ---------------------------------------- |
+|---------|--------------------------------------------|------------------------------------------|
 | `index` | `Int`                                      | Index of the page                        |
 | `label` | `String`                                   | Page's label                             |
 | `rows`  | [`[FreeformRowInterface]`](#row-interface) | A list of `FreeformRowInterface` objects |
@@ -455,7 +450,7 @@ Use `FreeformRowInterface`.
 Each row contains a list of [fields](#field-interface):
 
 | Field    | Type                                           | Description                                |
-| -------- | ---------------------------------------------- | ------------------------------------------ |
+|----------|------------------------------------------------|--------------------------------------------|
 | `id`     | `String`                                       | A unique hash generated for each row       |
 | `fields` | [`[FreeformFieldInterface]`](#field-interface) | A list of `FreeformFieldInterface` objects |
 
@@ -464,7 +459,7 @@ Each row contains a list of [fields](#field-interface):
 These are the fields available for the `FreeformSubmissionInterface`:
 
 | Field                                                      | Type                                                                  | Description                                       |
-| ---------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------- |
+|------------------------------------------------------------|-----------------------------------------------------------------------|---------------------------------------------------|
 | `id`                                                       | `Int`                                                                 | The ID of the submission                          |
 | `finished`                                                 | `Boolean`                                                             | Whether the submission is finished or not         |
 | `freeformPayload`                                          | `String`                                                              | The payload of the submission                     |
@@ -493,7 +488,7 @@ These are the fields available for the `FreeformSubmissionInterface`:
 Use `FreeformOptionInterface`.
 
 | Field     | Type      | Description           |
-| --------- | --------- | --------------------- |
+|-----------|-----------|-----------------------|
 | `value`   | `String`  | Option's value        |
 | `label`   | `String`  | Option's label        |
 | `checked` | `Boolean` | Is the option checked |
@@ -503,7 +498,7 @@ Use `FreeformOptionInterface`.
 Use `FreeformOpinionScaleInterface`.
 
 | Field   | Type     | Description |
-| ------- | -------- | ----------- |
+|---------|----------|-------------|
 | `value` | `String` | Value       |
 | `label` | `String` | Label       |
 
@@ -512,7 +507,7 @@ Use `FreeformOpinionScaleInterface`.
 Use `FreeformAttributesInterface`.
 
 | Field          | Type                                                 | Description             |
-| -------------- | ---------------------------------------------------- | ----------------------- |
+|----------------|------------------------------------------------------|-------------------------|
 | `input`        | [`FreeformAttributeInterface`](#attribute-interface) | Input attributes        |
 | `label`        | [`FreeformAttributeInterface`](#attribute-interface) | Label attributes        |
 | `instructions` | [`FreeformAttributeInterface`](#attribute-interface) | Instructions attributes |
@@ -524,7 +519,7 @@ Use `FreeformAttributesInterface`.
 Use `FreeformAttributeInterface`.
 
 | Field       | Type     | Description            |
-| ----------- | -------- | ---------------------- |
+|-------------|----------|------------------------|
 | `attribute` | `String` | Name of the Attribute  |
 | `value`     | `String` | Value of the Attribute |
 
@@ -533,7 +528,7 @@ Use `FreeformAttributeInterface`.
 Use `FreeformHoneypotInterface`.
 
 | Field   | Type     | Description       |
-| ------- | -------- | ----------------- |
+|---------|----------|-------------------|
 | `name`  | `String` | Name of Honeypot  |
 | `value` | `String` | Value of Honeypot |
 
@@ -542,7 +537,7 @@ Use `FreeformHoneypotInterface`.
 Use `FreeformCsrfTokenInterface`.
 
 | Field   | Type     | Description             |
-| ------- | -------- | ----------------------- |
+|---------|----------|-------------------------|
 | `name`  | `String` | Name of the CSRF token  |
 | `value` | `String` | Value of the CSRF token |
 
@@ -551,7 +546,7 @@ Use `FreeformCsrfTokenInterface`.
 Use `FreeformFormCaptchaInterface`.
 
 | Field     | Type      | Description                                       |
-| --------- | --------- | ------------------------------------------------- |
+|-----------|-----------|---------------------------------------------------|
 | `name`    | `String`  | The forms GraphQL mutation name for submissions   |
 | `handle`  | `String`  | The forms GraphQL mutation handle for submissions |
 | `enabled` | `Boolean` | Is Captcha enabled for this form                  |
@@ -571,7 +566,7 @@ Use `FreeformFormCaptchaInterface`.
 Use `FreeformSubmissionCaptchaInterface`.
 
 | Field   | Type     | Description          |
-| ------- | -------- | -------------------- |
+|---------|----------|----------------------|
 | `name`  | `String` | Name of the Captcha  |
 | `value` | `String` | Value of the Captcha |
 
@@ -580,7 +575,7 @@ Use `FreeformSubmissionCaptchaInterface`.
 Use `FreeformButtonsInterface`.
 
 | Field                  | Type                                                                        | Description                               |
-| ---------------------- | --------------------------------------------------------------------------- | ----------------------------------------- |
+|------------------------|-----------------------------------------------------------------------------|-------------------------------------------|
 | `layout`               | `String`                                                                    | The button layout                         |
 | `submitLabel`          | `String`                                                                    | The button submit label                   |
 | `back`                 | `Boolean`                                                                   | Whether the button has back button or not |
@@ -597,7 +592,7 @@ Use `FreeformButtonsInterface`.
 Use `FreeformButtonsAttributesInterface`.
 
 | Field           | Type                                                 | Description               |
-| --------------- | ---------------------------------------------------- | ------------------------- |
+|-----------------|------------------------------------------------------|---------------------------|
 | `container`     | [`FreeformAttributeInterface`](#attribute-interface) | Container attributes      |
 | `column`        | [`FreeformAttributeInterface`](#attribute-interface) | Column attributes         |
 | `buttonWrapper` | [`FreeformAttributeInterface`](#attribute-interface) | Button Wrapper attributes |
@@ -610,7 +605,7 @@ Use `FreeformButtonsAttributesInterface`.
 Use `FreeformNotificationTemplateInterface`.
 
 | Field                | Type       | Description                                                                                                   |
-| -------------------- | ---------- | ------------------------------------------------------------------------------------------------------------- |
+|----------------------|------------|---------------------------------------------------------------------------------------------------------------|
 | `id`                 | `Int`      | The ID of the notification template                                                                           |
 | `name`               | `String`   | The name of the notification template                                                                         |
 | `handle`             | `String`   | The file name of the notification template                                                                    |
@@ -633,7 +628,7 @@ Use `FreeformNotificationTemplateInterface`.
 Use `FreeformRulesInterface`.
 
 | Field    | Type                                                    | Description     |
-| -------- | ------------------------------------------------------- | --------------- |
+|----------|---------------------------------------------------------|-----------------|
 | `pages`  | [`[FreeformPageRuleInterface]`](#page-rule-interface)   | The page rules  |
 | `fields` | [`[FreeformFieldRuleInterface]`](#field-rule-interface) | The field rules |
 
@@ -642,7 +637,7 @@ Use `FreeformRulesInterface`.
 Use `FreeformPageRuleInterface`.
 
 | Field        | Type                                                            | Description                      |
-| ------------ | --------------------------------------------------------------- | -------------------------------- |
+|--------------|-----------------------------------------------------------------|----------------------------------|
 | `id`         | `Int`                                                           | The ID for the page rule         |
 | `uid`        | `String`                                                        | The UID for the page rule        |
 | `page`       | [`FreeformPageInterface`](#page-interface)                      | The page for the rule            |
@@ -654,7 +649,7 @@ Use `FreeformPageRuleInterface`.
 Use `FreeformFieldRuleInterface`.
 
 | Field        | Type                                                            | Description                       |
-| ------------ | --------------------------------------------------------------- | --------------------------------- |
+|--------------|-----------------------------------------------------------------|-----------------------------------|
 | `id`         | `Int`                                                           | The ID for the field rule         |
 | `uid`        | `String`                                                        | The UID for the field rule        |
 | `field`      | [`FreeformFieldInterface`](#field-interface)                    | The field for the field rule      |
@@ -666,7 +661,7 @@ Use `FreeformFieldRuleInterface`.
 Use `FreeformRuleConditionInterface`.
 
 | Field      | Type                                         | Description                         |
-| ---------- | -------------------------------------------- | ----------------------------------- |
+|------------|----------------------------------------------|-------------------------------------|
 | `uid`      | `String`                                     | The UID for the rule condition      |
 | `field`    | [`FreeformFieldInterface`](#field-interface) | The field for the rule condition    |
 | `operator` | `String`                                     | The operator for the rule condition |
@@ -677,7 +672,7 @@ Use `FreeformRuleConditionInterface`.
 Use `FreeformFormPropertiesInterface`.
 
 | Field                 | Type                                                                       | Description                                                                         |
-| --------------------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+|-----------------------|----------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
 | `dynamicNotification` | [`FreeformDynamicNotificationInterface`](#dynamic-notification-interface)` | Allows using a dynamic template level notification for a more fine-grained control. |
 
 ### Dynamic Notification Interface<Badge type="feature" text="New in 5.0+" />
@@ -685,7 +680,7 @@ Use `FreeformFormPropertiesInterface`.
 Use `FreeformDynamicNotificationInterface`.
 
 | Field        | Type       | Description                           |
-| ------------ | ---------- | ------------------------------------- |
+|--------------|------------|---------------------------------------|
 | `recipients` | `[String]` | The recipients of the notification    |
 | `template`   | `String`   | The name of the notification template |
 
@@ -722,7 +717,7 @@ Use `FreeformJavascriptTestInterface`.
 ### Text
 
 | Field         | Type     | Description                   |
-| ------------- | -------- | ----------------------------- |
+|---------------|----------|-------------------------------|
 | `value`       | `String` | The default value             |
 | `placeholder` | `String` | Input's placeholder attribute |
 
@@ -738,7 +733,7 @@ fields {
 ### Textarea
 
 | Field         | Type     | Description                            |
-| ------------- | -------- | -------------------------------------- |
+|---------------|----------|----------------------------------------|
 | `value`       | `String` | The default value                      |
 | `rows`        | `Int`    | Number of rows shown for this textarea |
 | `placeholder` | `String` | Input's placeholder attribute          |
@@ -756,7 +751,7 @@ fields {
 ### Dropdown
 
 | Field     | Type                                             | Description          |
-| --------- | ------------------------------------------------ | -------------------- |
+|-----------|--------------------------------------------------|----------------------|
 | `value`   | `String`                                         | The default value    |
 | `options` | [`[FreeformOptionInterface]`](#option-interface) | The assigned options |
 
@@ -776,7 +771,7 @@ fields {
 ### Checkbox
 
 | Field     | Type      | Description                               |
-| --------- | --------- | ----------------------------------------- |
+|-----------|-----------|-------------------------------------------|
 | `value`   | `String`  | The default value                         |
 | `checked` | `Boolean` | Should the checkbox be checked by default |
 
@@ -792,7 +787,7 @@ fields {
 ### Multi-Select
 
 | Field     | Type                                             | Description          |
-| --------- | ------------------------------------------------ | -------------------- |
+|-----------|--------------------------------------------------|----------------------|
 | `values`  | `[String]`                                       | The default values   |
 | `options` | [`[FreeformOptionInterface]`](#option-interface) | The assigned options |
 
@@ -812,7 +807,7 @@ fields {
 ### Checkboxes
 
 | Field     | Type                                             | Description                           |
-| --------- | ------------------------------------------------ | ------------------------------------- |
+|-----------|--------------------------------------------------|---------------------------------------|
 | `values`  | `[String]`                                       | The default values                    |
 | `oneLine` | `Boolean`                                        | Should this be shown in a single line |
 | `options` | [`[FreeformOptionInterface]`](#option-interface) | The assigned options                  |
@@ -834,7 +829,7 @@ fields {
 ### Radios
 
 | Field     | Type                                             | Description          |
-| --------- | ------------------------------------------------ | -------------------- |
+|-----------|--------------------------------------------------|----------------------|
 | `value`   | `String`                                         | The default value    |
 | `options` | [`[FreeformOptionInterface]`](#option-interface) | The assigned options |
 
@@ -854,7 +849,7 @@ fields {
 ### Email
 
 | Field         | Type     | Description                   |
-| ------------- | -------- | ----------------------------- |
+|---------------|----------|-------------------------------|
 | `placeholder` | `String` | Input's placeholder attribute |
 
 ```graphql
@@ -868,7 +863,7 @@ fields {
 ### Number
 
 | Field                | Type     | Description                   |
-| -------------------- | -------- | ----------------------------- |
+|----------------------|----------|-------------------------------|
 | `value`              | `String` | The default value             |
 | `minLength`          | `Int`    | Minimum length of the number  |
 | `minValue`           | `Int`    | Minimum value of the number   |
@@ -898,7 +893,7 @@ fields {
 ### File
 
 | Field           | Type       | Description                                 |
-| --------------- | ---------- | ------------------------------------------- |
+|-----------------|------------|---------------------------------------------|
 | `fileKinds`     | `[String]` | Allowed file kinds                          |
 | `maxFileSizeKB` | `Int`      | Maximum allowed filesize in KB              |
 | `fileCount`     | `Int`      | Number of allowed simultaneous file uploads |
@@ -916,7 +911,7 @@ fields {
 ### Confirmation
 
 | Field             | Type     | Description                                |
-| ----------------- | -------- | ------------------------------------------ |
+|-------------------|----------|--------------------------------------------|
 | `targetFieldHash` | `String` | Hash of the field that has to be confirmed |
 
 ```graphql
@@ -930,7 +925,7 @@ fields {
 ### Date & Time
 
 | Field                 | Type      | Description                                                     |
-| --------------------- | --------- | --------------------------------------------------------------- |
+|-----------------------|-----------|-----------------------------------------------------------------|
 | `value`               | `String`  | The default value                                               |
 | `dateTimeType`        | `String`  | Type of the date field. ("date", "time", "both")                |
 | `generatePlaceholder` | `Boolean` | Should a placeholder be auto-generated for this field           |
@@ -968,7 +963,7 @@ fields {
 ### Opinion Scale
 
 | Field     | Type                                                          | Description                                                            |
-| --------- | ------------------------------------------------------------- | ---------------------------------------------------------------------- |
+|-----------|---------------------------------------------------------------|------------------------------------------------------------------------|
 | `value`   | `String`                                                      | The default value                                                      |
 | `legends` | `[String]`                                                    | A list of all the assigned Legends                                     |
 | `scales`  | [`[FreeformOpinionScaleInterface]`](#opinion-scale-interface) | The assigned [FreeformOpinionScaleInterface](#opinion-scale-interface) |
@@ -989,7 +984,7 @@ fields {
 ### Phone
 
 | Field       | Type      | Description                                               |
-| ----------- | --------- | --------------------------------------------------------- |
+|-------------|-----------|-----------------------------------------------------------|
 | `value`     | `String`  | The default value                                         |
 | `pattern`   | `String`  | Phone number pattern                                      |
 | `useJsMask` | `Boolean` | Should the built-in pattern matcher javascript be enabled |
@@ -1007,7 +1002,7 @@ fields {
 ### Rating
 
 | Field           | Type     | Description                                    |
-| --------------- | -------- | ---------------------------------------------- |
+|-----------------|----------|------------------------------------------------|
 | `value`         | `String` | The default value                              |
 | `maxValue`      | `Int`    | Phone number pattern                           |
 | `colorIdle`     | `String` | Color of the unselected, unhovered rating star |
@@ -1029,7 +1024,7 @@ fields {
 ### Regex
 
 | Field     | Type     | Description                       |
-| --------- | -------- | --------------------------------- |
+|-----------|----------|-----------------------------------|
 | `value`   | `String` | The default value                 |
 | `pattern` | `String` | Regex pattern                     |
 | `message` | `String` | The error message to be displayed |
@@ -1047,7 +1042,7 @@ fields {
 ### Signature
 
 | Field             | Type      | Description                                          |
-| ----------------- | --------- | ---------------------------------------------------- |
+|-------------------|-----------|------------------------------------------------------|
 | `width`           | `Int`     | Width in pixels                                      |
 | `height`          | `Int`     | Height in pixels                                     |
 | `showClearButton` | `Boolean` | Determines if the "clear" button should be displayed |
@@ -1073,7 +1068,7 @@ fields {
 ### Table
 
 | Field                | Type      | Description                                                    |
-| -------------------- | --------- | -------------------------------------------------------------- |
+|----------------------|-----------|----------------------------------------------------------------|
 | `useScript`          | `Boolean` | Should the built-in javascript for handling table rows be used |
 | `maxRows`            | `Int`     | Number of maximum allowed rows this table can have             |
 | `addButtonLabel`     | `Boolean` | The label for the "add row" button                             |
@@ -1294,6 +1289,10 @@ The JSON response looks like this:
         "name": "freeform_form_handle",
         "value": ""
     },
+    "javascriptTest": {
+        "errorMessage": "Javascript must be enabled to submit this form",
+        "inputName": "freeform_javascript_test",
+    },
     // If using encrypted payloads:
     "freeform_payload": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     "anchor": "xxxxxx-form-xxxxxxxx-xxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -1306,7 +1305,17 @@ The JSON response looks like this:
     "captcha": {
         "enabled": true,
         "handle": "captcha",
-        "name": "g-recaptcha-response" // or h-captcha-response
+        "name": "g-recaptcha-response" // or h-captcha-response or cf-turnstile-response
+        "action": "submit",
+        "errorMessage": "Please verify that you are not a robot.",
+        "failureBehavior": "display-error",
+        "fieldHandle": "g-recaptcha-response",
+        "locale": "en",
+        "scoreThreshold": "0.5",
+        "size": "normal",
+        "theme": "light",
+        "triggerOnInteract": true,
+        "version": "v2-checkbox"
     }
 }
 ```
