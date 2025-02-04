@@ -6,6 +6,15 @@ sidebar_position: 5
 
 import { TitleDate } from '@site/src/components/docs'
 
+## 5.9.6<TitleDate date="2025-02-04" />
+
+### Changed
+- Improved some migrations not to fail if there were any previous failures.
+
+### Fixed
+- Fixed a bug where the _Form Submission Throttling_ diagnostic item showed an extra warning message.
+- Fixed a bug where _Captchas_, _Javascript Test_ and various other form settings were not supported in GraphQL.
+
 ## 5.9.5<TitleDate date="2025-01-31" />
 
 ### Added
@@ -1253,7 +1262,7 @@ If upgrading from Freeform 4, please see the special [upgrade guide](https://doc
     - The `freeform/fields/create` field creation console command has been removed as it is no longer applicable.
     - The following attribute control parameters have been removed and replaced by accessing them via the new `attributes` object: `inputClass`, `submitClass`, `rowClass`, `columnClass`, `labelClass`, `errorClass`, `instructionsClass`, `class`, `id`, `name`, `method`, and `action`.
 - **GraphQL**
-    - The `extraPostUrl`, `extraPostTriggerPhrase`, `gtmId`, and `gtmEventName` fields have been removed from `FreeformFormInterface` in GraphQL. Please use the new interface instead (TBD).
+    - The `extraPostUrl`, `extraPostTriggerPhrase`, `gtmId`, and `gtmEventName` fields have been removed from `FreeformFormInterface` in GraphQL. Please use `postForwarding` and `gtm`, as well as the new `FreeformPostForwardingInterface` and `FreeformGoogleTagManagerInterface` interfaces instead.
     - The `inputAttributes`, `labelAttributes`, `errorAttributes`, and `instructionAttributes` fields have been removed from `FreeformFormInterface` in GraphQL. Please use the `FreeformAttributesInterface` instead.
     - The `hash` field has been removed from `FreeformFieldInterface` in GraphQL as it is no longer relevant.
 - **Stripe Payments**
