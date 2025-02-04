@@ -305,6 +305,7 @@ See [How to Render a Form](#how-to-render-a-form).
 mutation SaveContactSubmission(
     $formProperties: FreeformFormPropertiesInputType,
     $honeypot: FreeformHoneypotInputType,
+    $javascriptTest: FreeformJavascriptInputType,
     $captcha: FreeformSubmissionCaptchaInputType,
     $csrfToken: FreeformCsrfTokenInputType,
     $firstName: String,
@@ -314,6 +315,7 @@ mutation SaveContactSubmission(
     save_contact_Submission(
         formProperties: $formProperties
         honeypot: $honeypot
+        javascriptTest: $javascriptTest
         captcha: $captcha
         csrfToken: $csrfToken
         firstName: $firstName
@@ -345,6 +347,7 @@ mutation SaveContactSubmission(
         "name": "INSERT CSRF TOKEN NAME",
         "value": "INSERT CSRF TOKEN VALUE",
     },
+    "javascriptTest": "",
     "firstName": "Solspace",
     "lastName": "Freeform",
     "email": "support@solspace.com"
@@ -386,6 +389,8 @@ These are the fields available for the `FreeformFormInterface`:
 | `hash`                                                      | `String`                                                             | The form's hash needed to submit forms                                 |
 | `color`                                                     | `String`                                                             | Color                                                                  |
 | `description`                                               | `String`                                                             | Description                                                            |
+| `successBehavior`                                           | `String`                                                             | The form's success behavior                                            |
+| `successTemplate`                                           | `String`                                                             | The form's success template                                            |
 | `returnUrl`                                                 | `String`                                                             | The specified return URL                                               |
 | `storeData`                                                 | `Boolean`                                                            | Are submissions being stored for this form                             |
 | `submissionTitleFormat`                                     | `String`                                                             | Title format used for new submission titles                            |
@@ -404,12 +409,15 @@ These are the fields available for the `FreeformFormInterface`:
 | `pages`                                                     | [`[FreeformPageInterface]`](#page-interface)                         | A list of Form's `Page` entities                                       |
 | `successMessage`                                            | `String`                                                             | The specified success message                                          |
 | `errorMessage`                                              | `String`                                                             | The specified error message                                            |
+| `duplicateCheck`                                            | `String`                                                             | The form’s duplicate check rule                                        |
+| `stopSubmissionsAfter`                                      | `String`                                                             | The form’s stop submissions after date                                 |
 | `disableSubmit`                                             | `Boolean`                                                            | Should the form’s submit button be disabled when the form is submitted |
 | `disableReset`                                              | `Boolean`                                                            | Should the form’s submit button be disabled state be reset             |
 | `enctype`                                                   | `String`                                                             | The form’s enctype                                                     |
 | `rules`                                                     | [`FreeformRulesInterface`](#rules-interface)                         | The form’s rules                                                       |
 | `postForwarding`<Badge type="feature" text="New in 5.0+" /> | [`FreeformPostForwardingInterface`](#post-forwarding-interface)      | The Post Forwarding integration for this form                                      |
 | `gtm`<Badge type="feature" text="New in 5.0+" />            | [`FreeformGoogleTagManagerInterface`](#google-tag-manager-gtm-interface) | The Google Tag Manager integration for this form                                   |
+| `javascriptTest`<Badge type="feature" text="New in 5.0+" /> | [`FreeformJavascriptTestInterface`](#javascript-test-interface)      | The Javascript Test for this form                                      |
 
 ### Field Interface
 
@@ -478,6 +486,7 @@ These are the fields available for the `FreeformSubmissionInterface`:
 | `spamReasons`                                              | `String`                                                              | Spam reasons for the submission                   |
 | `user`                                                     | `User`                                                                | The author of the submission                      |
 | `assets`                                                   | `[Asset]`                                                             | The assets of the submission                      |
+| `javascriptTest`                                           | [`FreeformJavascriptTestInterface`](#javascript-test-interface)       | The Javascript Test of the submission             |
 
 ### Option Interface
 
@@ -546,6 +555,16 @@ Use `FreeformFormCaptchaInterface`.
 | `name`    | `String`  | The forms GraphQL mutation name for submissions   |
 | `handle`  | `String`  | The forms GraphQL mutation handle for submissions |
 | `enabled` | `Boolean` | Is Captcha enabled for this form                  |
+| `action`  | `String`  | The Captcha action                                |
+| `errorMessage` | `String` | The Captcha custom error message              |
+| `failureBehavior` | `String` | The Captcha failure behaviour              |
+| `fieldHandle` | `String` | The Captcha field handle                       |
+| `locale`  | `String`  | The Captcha locale                                |
+| `scoreThreshold` | `String` | The Captcha score threshold                 |
+| `size`    | `String`  | The Captcha size                                  |
+| `theme`   | `String`  | The Captcha theme                                 |
+| `triggerOnInteract` | `Boolean`  | Will the Captcha trigger on interaction|
+| `version` | `String`  | The Captcha version                               |
 
 ### Submission Captcha Interface
 
@@ -688,6 +707,15 @@ Use `FreeformGoogleTagManagerInterface`.
 |---------------|----------|------------------|
 | `containerId` | `String` | The container ID |
 | `eventName`   | `String` | The event name   |
+
+### Javascript Test Interface
+
+Use `FreeformJavascriptTestInterface`.
+
+| Field          | Type     | Description                             |
+|----------------|----------|-----------------------------------------|
+| `errorMessage` | `String` | Custom error message of Javascript Test |
+| `inputName`    | `String` | Input Name of Javascript Test           |
 
 ## Field Types
 
