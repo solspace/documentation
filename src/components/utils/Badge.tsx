@@ -1,4 +1,4 @@
-type BadgeType = 'lite' | 'pro' | 'feature' | 'addon' | 'recommended';
+type BadgeType = 'lite' | 'pro' | 'feature' | 'addon' | 'recommended' | 'deprecated';
 
 interface BadgeProps {
   type: BadgeType;
@@ -15,6 +15,7 @@ const badgeStyles: { [key in BadgeType]: string } = {
   feature: 'bg-gradient-to-r from-blue-800 to-violet-600 text-white',
   addon: 'bg-gradient-to-r from-amber-300 to-yellow-600 text-black',
   recommended: 'bg-gradient-to-r from-lime-700 to-lime-500 text-black',
+  deprecated: 'bg-gradient-to-r from-pink-700 to-pink-500 text-white',
 };
 
 const Badge: React.FC<BadgeProps> = ({ type, text }) => {
