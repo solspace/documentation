@@ -405,8 +405,8 @@ These are the fields available for the `FreeformFormInterface`:
 | `formTemplate`                                                      | `String`                                                                 | The assigned default formatting template                               |
 | `honeypot`                                                          | [`FreeformHoneypotInterface`](#honeypot-interface)                       | A fresh honeypot instance                                              |
 | `csrfToken`                                                         | [`FreeformCsrfTokenInterface`](#csrf-token-interface)                    | A fresh csrf token                                                     |
-| `captcha`<Badge type="deprecated" text="Deprecated in 6.0+" />      | [`FreeformCaptchaInterface`](#captcha-interface)                         | The captcha for this form                                              |
-| `captchas`<Badge type="feature" text="Renamed in 5.0+" />           | [`[FreeformCaptchaInterface]`](#captcha-interface)                       | The captchas for this form                                             |
+| `captcha`<Badge type="deprecated" text="Deprecated in 5.9.7+" />    | [`FreeformCaptchaInterface`](#captcha-interface)                         | The captcha for this form                                              |
+| `captchas`<Badge type="feature" text="Renamed in 5.9.7+" />           | [`[FreeformCaptchaInterface]`](#captcha-interface)                       | The captchas for this form                                             |
 | `fields`                                                            | [`[FreeformFieldInterface]`](#field-interface)                           | A list of Form's `Field`                                               |
 | `pages`                                                             | [`[FreeformPageInterface]`](#page-interface)                             | A list of Form's `Page` entities                                       |
 | `successBehavior`<Badge type="feature" text="New in 5.9.6+" />      | `String`                                                                 | The form's success behavior                                            |
@@ -419,8 +419,8 @@ These are the fields available for the `FreeformFormInterface`:
 | `stopSubmissionsAfter`<Badge type="feature" text="New in 5.9.6+" /> | `String`                                                                 | The form’s stop submissions after date                                 |
 | `enctype`                                                           | `String`                                                                 | The form’s enctype                                                     |
 | `rules`                                                             | [`FreeformRulesInterface`](#rules-interface)                             | The form’s rules                                                       |
-| `postForwarding`<Badge type="feature" text="New in 5.9.6+" />       | [`FreeformPostForwardingInterface`](#post-forwarding-interface)          | The Post Forwarding integration for this form                          |
-| `gtm`<Badge type="feature" text="New in 5.9.6+" />                  | [`FreeformGoogleTagManagerInterface`](#google-tag-manager-gtm-interface) | The Google Tag Manager integration for this form                       |
+| `postForwarding`<Badge type="feature" text="New in 5.9.5+" />       | [`FreeformPostForwardingInterface`](#post-forwarding-interface)          | The Post Forwarding integration for this form                          |
+| `gtm`<Badge type="feature" text="New in 5.9.5+" />                  | [`FreeformGoogleTagManagerInterface`](#google-tag-manager-gtm-interface) | The Google Tag Manager integration for this form                       |
 | `javascriptTest`<Badge type="feature" text="New in 5.9.6+" />       | [`FreeformJavascriptTestInterface`](#javascript-test-interface)          | The Javascript Test integration for this form                          |
 
 ### Field Interface
@@ -467,33 +467,33 @@ Each row contains a list of [fields](#field-interface):
 
 These are the fields available for the `FreeformSubmissionInterface`:
 
-| Field                                                          | Type                                                                     | Description                                          |
-|----------------------------------------------------------------|--------------------------------------------------------------------------|------------------------------------------------------|
-| `id`                                                           | `Int`                                                                    | The ID of the submission                             |
-| `finished`                                                     | `Boolean`                                                                | Whether the submission is finished or not            |
-| `freeformPayload`                                              | `String`                                                                 | The payload of the submission                        |
-| `hash`                                                         | `String`                                                                 | The generated hash for the submission                |
-| `captcha`<Badge type="deprecated" text="Deprecated in 6.0+" /> | [`FreeformCaptchaInterface`](#captcha-interface)                         | The captcha for this form.                           |
-| `captchas`<Badge type="feature" text="New in 5.9.6+" />        | [`[FreeformCaptchaInterface]`](#captcha-interface)                       | The captchas for this form                           |
-| `csrfToken`                                                    | [`FreeformCsrfTokenInterface`](#csrf-token-interface)                    | The CSRF token (name and value) of the submission    |
-| `honeypot`                                                     | [`FreeformHoneypotInterface`](#honeypot-interface)                       | The Honeypot (name and value) of the submission      |
-| `html`                                                         | `String`                                                                 | The generated HTML for the submission                |
-| `multiPage`                                                    | `Boolean`                                                                | Whether the submission has multiple pages or not     |
-| `onSuccess`                                                    | `String`                                                                 | The success behavior of the submission               |
-| `returnUrl`                                                    | `String`                                                                 | The return URL of the submission                     |
-| `submissionId`                                                 | `Int`                                                                    | The ID of the submission                             |
-| `duplicate`<Badge type="feature" text="Renamed in 5.0+" />     | `Boolean`                                                                | Whether the form submission is a duplicate or not    |
-| `submissionToken`                                              | `String`                                                                 | The generated token for the submission               |
-| `success`                                                      | `Boolean`                                                                | Whether the submission is a success or not           |
-| `dateCreated`                                                  | `DateTime`                                                               | The created date for the submission                  |
-| `dateUpdated`                                                  | `DateTime`                                                               | The updated date for the submission                  |
-| `isSpam`                                                       | `Boolean`                                                                | Whether the submission is a spam or not              |
-| `spamReasons`                                                  | `String`                                                                 | Spam reasons for the submission                      |
-| `user`                                                         | `User`                                                                   | The author of the submission                         |
-| `assets`                                                       | `[Asset]`                                                                | The assets of the submission                         |
-| `postForwarding`<Badge type="feature" text="New in 5.9.6+" />  | [`FreeformPostForwardingInterface`](#post-forwarding-interface)          | The Post Forwarding integration of the submission    |
-| `gtm`<Badge type="feature" text="New in 5.9.6+" />             | [`FreeformGoogleTagManagerInterface`](#google-tag-manager-gtm-interface) | The Google Tag Manager integration of the submission |
-| `javascriptTest`<Badge type="feature" text="New in 5.9.6+" />  | [`FreeformJavascriptTestInterface`](#javascript-test-interface)          | The Javascript Test integration of the submission    |
+| Field                                                            | Type                                                                     | Description                                          |
+|------------------------------------------------------------------|--------------------------------------------------------------------------|------------------------------------------------------|
+| `id`                                                             | `Int`                                                                    | The ID of the submission                             |
+| `finished`                                                       | `Boolean`                                                                | Whether the submission is finished or not            |
+| `freeformPayload`                                                | `String`                                                                 | The payload of the submission                        |
+| `hash`                                                           | `String`                                                                 | The generated hash for the submission                |
+| `captcha`<Badge type="deprecated" text="Deprecated in 5.9.7+" /> | [`FreeformCaptchaInterface`](#captcha-interface)                         | The captcha for this form.                           |
+| `captchas`<Badge type="feature" text="Renamed in 5.9.7+" />      | [`[FreeformCaptchaInterface]`](#captcha-interface)                       | The captchas for this form                           |
+| `csrfToken`                                                      | [`FreeformCsrfTokenInterface`](#csrf-token-interface)                    | The CSRF token (name and value) of the submission    |
+| `honeypot`                                                       | [`FreeformHoneypotInterface`](#honeypot-interface)                       | The Honeypot (name and value) of the submission      |
+| `html`                                                           | `String`                                                                 | The generated HTML for the submission                |
+| `multiPage`                                                      | `Boolean`                                                                | Whether the submission has multiple pages or not     |
+| `onSuccess`                                                      | `String`                                                                 | The success behavior of the submission               |
+| `returnUrl`                                                      | `String`                                                                 | The return URL of the submission                     |
+| `submissionId`                                                   | `Int`                                                                    | The ID of the submission                             |
+| `duplicate`<Badge type="feature" text="Renamed in 5.0+" />       | `Boolean`                                                                | Whether the form submission is a duplicate or not    |
+| `submissionToken`                                                | `String`                                                                 | The generated token for the submission               |
+| `success`                                                        | `Boolean`                                                                | Whether the submission is a success or not           |
+| `dateCreated`                                                    | `DateTime`                                                               | The created date for the submission                  |
+| `dateUpdated`                                                    | `DateTime`                                                               | The updated date for the submission                  |
+| `isSpam`                                                         | `Boolean`                                                                | Whether the submission is a spam or not              |
+| `spamReasons`                                                    | `String`                                                                 | Spam reasons for the submission                      |
+| `user`                                                           | `User`                                                                   | The author of the submission                         |
+| `assets`                                                         | `[Asset]`                                                                | The assets of the submission                         |
+| `postForwarding`<Badge type="feature" text="New in 5.9.5+" />    | [`FreeformPostForwardingInterface`](#post-forwarding-interface)          | The Post Forwarding integration of the submission    |
+| `gtm`<Badge type="feature" text="New in 5.9.5+" />               | [`FreeformGoogleTagManagerInterface`](#google-tag-manager-gtm-interface) | The Google Tag Manager integration of the submission |
+| `javascriptTest`<Badge type="feature" text="New in 5.9.6+" />    | [`FreeformJavascriptTestInterface`](#javascript-test-interface)          | The Javascript Test integration of the submission    |
 
 ### Option Interface
 
@@ -539,11 +539,11 @@ Use `FreeformAttributeInterface`.
 
 Use `FreeformHoneypotInterface`.
 
-| Field                                                        | Type     | Description                |
-|--------------------------------------------------------------|----------|----------------------------|
-| `errorMessage`<Badge type="feature" text="New in 5.9.6+" />  | `String` | Error message for Honeypot |
-| `name`                                                       | `String` | Name of Honeypot           |
-| `value`<Badge type="deprecated" text="Deprecated in 6.0+" /> | `String` | Value of Honeypot.         |
+| Field                                                          | Type     | Description                |
+|----------------------------------------------------------------|----------|----------------------------|
+| `errorMessage`<Badge type="feature" text="New in 5.9.6+" />    | `String` | Error message for Honeypot |
+| `name`                                                         | `String` | Name of Honeypot           |
+| `value`<Badge type="deprecated" text="Deprecated in 5.9.7+" /> | `String` | Value of Honeypot.         |
 
 ### CSRF Token Interface
 
@@ -561,8 +561,8 @@ Use `FreeformCaptchaInterface`.
 | Field                                                            | Type      | Description                                        |
 |------------------------------------------------------------------|-----------|----------------------------------------------------|
 | `name`                                                           | `String`  | The forms GraphQL mutation name for submissions    |
-| `handle`<Badge type="deprecated" text="Deprecated in 6.0+" />    | `String`  | The forms GraphQL mutation handle for submissions. |
-| `enabled`<Badge type="deprecated" text="Deprecated in 6.0+" />   | `Boolean` | Is Captcha enabled for this form.                  |
+| `handle`<Badge type="deprecated" text="Deprecated in 5.9.7+" />  | `String`  | The forms GraphQL mutation handle for submissions. |
+| `enabled`<Badge type="deprecated" text="Deprecated in 5.9.7+" /> | `Boolean` | Is Captcha enabled for this form.                  |
 | `action`<Badge type="feature" text="New in 5.9.6+" />            | `String`  | The Captcha action                                 |
 | `errorMessage`<Badge type="feature" text="New in 5.9.6+" />      | `String`  | The Captcha custom error message                   |
 | `failureBehavior`<Badge type="feature" text="New in 5.9.6+" />   | `String`  | The Captcha failure behaviour                      |
@@ -688,7 +688,7 @@ Use `FreeformDynamicNotificationInterface`.
 | `recipients` | `[String]` | The recipients of the notification    |
 | `template`   | `String`   | The name of the notification template |
 
-### Post Forwarding Interface<Badge type="feature" text="New in 5.9.6+" />
+### Post Forwarding Interface<Badge type="feature" text="New in 5.9.5+" />
 
 Use `FreeformPostForwardingInterface`.
 
@@ -698,7 +698,7 @@ Use `FreeformPostForwardingInterface`.
 | `eventTrigger` | `String`  | The Post Forwarding error trigger |
 | `sendFiles`    | `Boolean` | Will Post Forwarding send files   |
 
-### Google Tag Manager (GTM) Interface<Badge type="feature" text="New in 5.9.6+" />
+### Google Tag Manager (GTM) Interface<Badge type="feature" text="New in 5.9.5+" />
 
 Use `FreeformGoogleTagManagerInterface`.
 
