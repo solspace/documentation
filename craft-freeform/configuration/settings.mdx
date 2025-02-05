@@ -106,11 +106,18 @@ Freeform includes a wide variety of settings that allow you to customize your fo
       fullCardLink: '#error-log',
     },
     {
-      title: 'Notifications Log',
+      title: 'Integrations Log',
       description: 'Helpful for debugging potential issues with integrations.',
       icon: Icons.ReviewIcon,
       titleBadge: 'New!',
-      fullCardLink: '#notifications-log',
+      fullCardLink: '#integrations-log',
+    },
+    {
+      title: 'Email Log',
+      description: 'Helpful for debugging potential issues with email notifications.',
+      icon: Icons.ReviewIcon,
+      titleBadge: 'New!',
+      fullCardLink: '#email-log',
     },
   ]}
 />
@@ -138,7 +145,7 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
 | **Plugin Badge**                                                                                                                                                                                                                                  | `badgeType: all`                            | Select the options you'd like to be included in the plugin badge count (when applicable). Options are: _Don't Show_, _Update Notices & Logged Errors_ (default), _Update Notices only_, _Logged Errors only_, _Submission Count_, _Spam Folder Count_                             |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
 | **Site-Aware Forms**<Badge type="feature" text="New in 5.2+, Improved in 5.7+" />                                                                                                                                                                 | `sitesEnabled: true`                        | Allows you to optionally enable [Site](https://craftcms.com/docs/5.x/system/sites.html) awareness in Freeform to show/hide them for specific Sites and enable translations per site for forms to have unique labels and messages on the front end.                                |     <span className="compare-none">✕</span>      |  <span className="compare-none">✕</span>   |  <span className="edition-pro">✓</span>  |
 | **Queue Job Priority**<Badge type="feature" text="New in 5.5.6+" />                                                                                                                                                                               | `queuePriority: 20`                         | Set the queue job priority for background Freeform tasks to determine if they should run with a different priority compared to other jobs. Jobs with a lower priority are executed first.                                                                                         |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
-| **Integration Logging Level**<Badge type="feature" text="New in 5.9+" />                                                                                                                                                                          | `loggingLevel: 'debug'`                     | Set the logging level for integrations as desired. _Errors_ logs only errors (default), _Info_ logs information about which integrations processed which mapped objects, and _Debug_ logs all processes occurring within integrations, which is useful for setup and debugging.   |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
+| **Logging Level**<Badge type="feature" text="New in 5.9+" />                                                                                                                                                                                      | `loggingLevel: 'debug'`                     | Set the logging level for Freeform. _Errors_ logs only errors (default), _Info_ logs information about what's been processed, and _Debug_ logs all processes occurring, which is useful for setup and debugging.                                                                  |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
 | **Restrict Form options in Form Field Type to User permissions**                                                                                                                                                                                  | `formFieldShowOnlyAllowedForms: false`      | Enable this to only show forms the user or group has permissions to manage in the list of options for the Form Element Field Type (relating forms in Entries, etc).                                                                                                               |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
 | **Remove Newlines from Textareas for Exporting**                                                                                                                                                                                                  | `removeNewlines: true`                      | Enable this to have newlines removed from Textarea fields in submissions when exporting.                                                                                                                                                                                          |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
 | **Use Option Labels when Exporting**                                                                                                                                                                                                              | `exportLabels: true`                        | Enable this to have fields with options use the submission's option labels instead of values when exporting.                                                                                                                                                                      |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
@@ -531,9 +538,9 @@ This page remains accessible when the Craft `allowAdminChanges` config setting i
   alt="Error Log"
 />
 
-## Notifications Log<Badge type="feature" text="New in 5.9+" />
+## Integrations Log<Badge type="feature" text="New in 5.9+" />
 
-If you have set the **Integration Logging Level** setting to _Info_ or _Debug_, Freeform will log all info and debugging data to the Integrations Log. The file is physically located in the same place as the Craft logs (`/storage/logs/freeform-integrations.log`), but can be conveniently viewed inside the _Integrations Log_ page inside Freeform Settings area (**Freeform** → **Settings** → **Integrations Log**).
+If you have set the **Logging Level** setting to _Info_ or _Debug_, Freeform will log all info and debugging data to the Integrations Log. The file is physically located in the same place as the Craft logs (`/storage/logs/freeform-integrations.log`), but can be conveniently viewed inside the _Integrations Log_ page inside Freeform Settings area (**Freeform** → **Settings** → **Integrations Log**).
 
 :::warning
 A logging level of `Info` or `Debug` should not be used in production regularly as logs may contain sensitive data.
@@ -547,3 +554,15 @@ This page remains accessible when the Craft `allowAdminChanges` config setting i
   img={require('@site/static/img/craft/freeform/v5/configuration/integrations-log.png')}
   alt="Integrations Log"
 />
+
+## Email Log<Badge type="feature" text="New in 5.9.7+" />
+
+If you have set the **Logging Level** setting to _Info_ or _Debug_, Freeform will log all info and debugging data to the Email Log. The file is physically located in the same place as the Craft logs (`/storage/logs/freeform-email.log`), but can be conveniently viewed inside the _Email Log_ page inside Freeform Settings area (**Freeform** → **Settings** → **Email Log**).
+
+:::warning
+A logging level of `Info` or `Debug` should not be used in production regularly as logs may contain sensitive data.
+:::
+
+:::info
+This page remains accessible when the Craft `allowAdminChanges` config setting is set to `false`.
+:::
