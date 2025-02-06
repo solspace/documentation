@@ -166,13 +166,13 @@ There are 3 different approaches you can take:
 {% set company = form.get("company") %}
 {% set email = form.get("email") %}
 
-<div class="form-field" {{ company.attributes.container }}>
+<div class="form-field" {{ company.attributes.container|raw }}>
     {{ company.renderLabel() }}
     {{ company.renderInput() }}
     {{ company.renderErrors() }}
 </div>
 
-<div class="form-field" {{ email.attributes.container }}>
+<div class="form-field" {{ email.attributes.container|raw }}>
     <label>Email Address</label>
     <input name="email" value="{{ email.value }}" />
     {{ email.renderErrors() }}
