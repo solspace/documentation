@@ -38,6 +38,7 @@ const config: Config = {
       'classic',
       {
         docs: {
+          sidebarCollapsed: false,
           lastVersion: 'current',
           versions: {
             current: {
@@ -186,6 +187,7 @@ const config: Config = {
         routeBasePath: '/craft/calendar',
         editUrl: 'https://github.com/solspace/documentation/edit/main',
         sidebarPath: './sidebars.ts',
+        sidebarCollapsed: false,
         lastVersion: 'current',
         versions: {
           current: {
@@ -224,6 +226,7 @@ const config: Config = {
         routeBasePath: '/expressionengine/freeform',
         editUrl: 'https://github.com/solspace/documentation/edit/main',
         sidebarPath: './sidebars.ts',
+        sidebarCollapsed: false,
         lastVersion: 'current',
         versions: {
           current: {
@@ -257,6 +260,7 @@ const config: Config = {
         routeBasePath: '/expressionengine/calendar',
         editUrl: 'https://github.com/solspace/documentation/edit/main',
         sidebarPath: './sidebars.ts',
+        sidebarCollapsed: false,
         lastVersion: 'current',
         versions: {
           current: {
@@ -385,7 +389,7 @@ const config: Config = {
           position: 'right',
         },
         {
-          to: 'https://support.solspace.com/',
+          to: '/support/',
           label: 'Support',
           position: 'right',
         },

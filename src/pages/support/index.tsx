@@ -20,12 +20,10 @@ const Support: React.FC = () => {
               Need help with Freeform or Calendar? We love helping our customers
               discover best practices, resolve issues, and achieve their goals!
             </p>
-            <p>            
-            <Link href="https://support.solspace.com/" target="_parent">
-                If you weren't redirected to the new Support page, please click here.
-            </Link>
+            <p>
+              For more extensive or urgent needs, consider our <a href="/support/premium/">premium support services</a>.
+              Get direct, high-priority access to our Software team for complex questions, custom modules, and complicated upgrades.
             </p>
-            {/* Disabling in favor of redirect to support.solspace.com - 2025-01-06
             <div className="mt-10">
               <div className="flex gap-1">
                 <h2 className="leading-0 !m-0 px-6 py-4 bg-[#ff6624] rounded-t-md support-tab">
@@ -72,7 +70,6 @@ const Support: React.FC = () => {
                 ></iframe>
               </div>
             </div>
-            */}
           </main>
           <footer className="docusaurus-mt-lg docs-footer">
             <Footer />

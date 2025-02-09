@@ -43,14 +43,13 @@ const StepMarkdown: React.FC<StepMarkdownProps> = ({
   // }, [stepTitle]);
 
   return (
-    <div className={`relative mb-8 step ${isDone ? 'step-active' : ''}`}>
+    <div className={`relative mb-4 step ${isDone ? 'step-active' : ''}`}>
       {stepNumber && (
         <div className="absolute h-full">
           <div className="flex flex-col items-center mr-6 step-number-wrapper h-full">
             <div className="flex w-8 p-1.5 items-center justify-center text-sm font-bold border rounded-lg bg-[#ff6624] text-white dark:text-black step-number">
               {stepNumber}
             </div>
-            {!isDone && <div className="w-px min-h-9 relative step-line" />}
           </div>
         </div>
       )}
@@ -97,13 +96,6 @@ const VerticalStepWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex flex-col steps-wrapper">
       {childrenWithStepNumbers}
-      <div className="flex">
-        <div className="flex flex-col md:items-center mr-6">
-          <div className="flex items-center justify-center py-2 px-3 mb-8 text-xs font-medium border rounded-[10px] bg-[#008000] text-white dark:text-black">
-            Finished!
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

@@ -11,8 +11,9 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-background-color: #fff;
-  --ifm-color-primary: #2e8555;
+  --doc-sidebar-width: 300px;
+  --ifm-background-color: #ffffff;
+  --ifm-color-primary: #058ffe;
   --ifm-color-primary-dark: #29784c;
   --ifm-color-primary-darker: #277148;
   --ifm-color-primary-darkest: #205d3b;
@@ -27,9 +28,8 @@
   --ifm-table-border-color: transparent;
   --edition-pro: #ff6624;
   --table-border-color: #f2f2f2;
-  --ifm-color-primary: #058ffe;
   --svg-foreground-color: #fff;
-  --ifm-navbar-background-color: rgba(255, 255, 255, 0.9);
+  --ifm-navbar-background-color: #ffffff;
   --ifm-dropdown-background-color: rgba(255, 255, 255, 1);
   --ifm-toc-border-color: rgba(0, 0, 0, 0.1);
   --ifm-table-stripe-background: #fdfdfd;
@@ -39,11 +39,91 @@
   --ifm-blockquote-padding-horizontal: 15px;
   --ifm-blockquote-font-size: 15px;
   --ifm-blockquote-color: rgba(255, 255, 255, 0.8);
+  --ifm-menu-link-padding-horizontal: 0;
+  --ifm-menu-link-padding-vertical: 7px;
   --ifm-menu-color: rgba(0, 0, 0, 0.9);
-  --ifm-menu-color-background-active: rgba(0, 0, 0, 0.02);
-  --ifm-menu-color-background-hover: rgba(0, 0, 0, 0.05);
+  --ifm-menu-color-background-active: transparent;
+  --ifm-menu-color-background-hover: rgba(0, 0, 0, 0.01);
   --ifm-tabs-padding-vertical: 0.7rem;
   --menu-level-item-color: rgba(0, 0, 0, 0.7);
+  --ifm-toc-padding-horizontal: 0;
+  --ifm-toc-padding-vertical: 0;
+}
+
+.theme-doc-sidebar-menu {
+  padding-left: 5px;
+  padding-right: 15px;
+}
+
+.theme-doc-sidebar-menu li {
+
+}
+.theme-doc-sidebar-menu li a {
+  padding-left: 10px;
+}
+.theme-doc-sidebar-menu > li > ul > li {
+  margin-top: 0 !important;
+  margin-left: 10px;
+}
+.theme-doc-sidebar-menu > li > ul > li > ul {
+  margin-top: 0 !important;
+}
+.theme-doc-sidebar-menu > li > ul > li > ul > li {
+  margin-top: 0 !important;
+}
+.theme-doc-sidebar-menu li ul li a {
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+}
+.theme-doc-sidebar-menu > li > ul > li > a {
+  padding-left: 15px;
+}
+.theme-doc-sidebar-menu > li > ul > li > ul > li > a {
+  padding-left: 30px;
+}
+.theme-doc-sidebar-menu li ul li a:hover {
+  border-left: 1px solid rgba(0, 0, 0, 0.3);
+}
+.theme-doc-sidebar-menu li ul li a.menu__link--active {
+  border-left: 1px solid var(--ifm-color-primary) !important;
+}
+[data-theme='dark'] .theme-doc-sidebar-menu li ul li a {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+[data-theme='dark'] .theme-doc-sidebar-menu li ul li a:hover {
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+
+.theme-doc-sidebar-item-category.menu__list-item:last-child {
+  margin-bottom: 0 !important;
+}
+.theme-doc-sidebar-item-link.menu__list-item:last-child {
+  margin-bottom: 0 !important;
+}
+
+.table-of-contents {
+  border-left: 0;
+}
+.table-of-contents a {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+[data-theme='dark'] .table-of-contents a {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+.table-of-contents > li > a {
+  padding-left: 15px;
+}
+.table-of-contents > li > ul > li > a {
+  padding-left: 30px;
+}
+.table-of-contents > li > ul > li > ul > li > a {
+  padding-left: 45px;
+}
+.table-of-contents__link.toc-highlight.table-of-contents__link--active {
+  border-color: var(--ifm-color-primary) !important;
 }
 
 .alert {
@@ -205,16 +285,16 @@ details ul:last-of-type {
   --table-border-color: #173154;
   --ifm-color-primary: #058ffe;
   --svg-foreground-color: #000;
-  --ifm-navbar-background-color: rgba(13, 15, 21, 0.85);
+  --ifm-navbar-background-color: #000000;
   --ifm-dropdown-background-color: rgba(0, 0, 0, 1);
   --ifm-menu-color: rgba(255, 255, 255, 0.9);
-  --ifm-menu-color-background-active: rgba(255, 255, 255, 0.02);
-  --ifm-menu-color-background-hover: rgba(255, 255, 255, 0.05);
+  --ifm-menu-color-background-active: transparent;
+  --ifm-menu-color-background-hover: rgba(255, 255, 255, 0.01);
   --menu-level-item-color: rgba(255, 255, 255, 0.7);
 }
 
 html[data-theme='dark'] {
-  --ifm-background-color: #121825;
+  --ifm-background-color: #040711;
   --ifm-table-stripe-background: rgba(0, 0, 0, 0.1);
   --ifm-toc-border-color: rgba(255, 255, 255, 0.1);
 }
@@ -222,15 +302,6 @@ html[data-theme='dark'] {
 /**
 * Global css
 */
-
-/* Background color */
-html[data-theme='light'] body {
-  background: linear-gradient(350deg, #ffffff 40%, #edf6ff 75%, #e1f1ff 100%);
-}
-
-html[data-theme='dark'] body {
-  background: linear-gradient(350deg, #121825 40%, #0f2538 75%, #104571 100%);
-}
 
 /* Container */
 .container {
@@ -348,10 +419,12 @@ strike {
 .menu__caret:before,
 .menu__link--sublist-caret:after {
   background: var(--ifm-menu-link-sublist-icon) 50% / 2rem 1.4rem;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .theme-doc-sidebar-container .menu__link {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .theme-doc-sidebar-item-category-level-1
@@ -368,12 +441,10 @@ strike {
 .theme-doc-sidebar-item-link.theme-doc-sidebar-item-link-level-1:not(
     :first-child
   ) {
-  border-top: 1px solid rgba(5, 143, 254, 0.05);
   padding: 8px 0 4px 0;
 }
 
 .theme-doc-sidebar-item-category.theme-doc-sidebar-item-category-level-1 {
-  border-top: 1px solid rgba(5, 143, 254, 0.05);
   padding: 8px 0 4px 0;
 }
 
@@ -381,7 +452,12 @@ strike {
 .menu__list .theme-doc-sidebar-item-category.menu__list-item:last-child {
   margin-bottom: 10px;
 }
-
+.theme-doc-sidebar-item-category-level-1 .menu__list-item-collapsible--active {
+  background: transparent;
+}
+.theme-doc-sidebar-item-category-level-1 .menu__list-item-collapsible--active:hover {
+  background: var(--ifm-menu-color-background-hover);
+}
 .theme-doc-sidebar-item-link-level-2 .menu__link:not(.menu__link--active),
 .theme-doc-sidebar-item-link-level-3 .menu__link:not(.menu__link--active) {
   color: var(--menu-level-item-color);

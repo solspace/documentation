@@ -6,7 +6,7 @@ import {
 const footerMenu = {
   links: [
     { label: 'Home', to: '/' },
-    { label: 'Support', to: 'https://support.solspace.com/' },
+    { label: 'Support', to: '/support/' },
     {
       label: 'Premium Support',
       to: '/support/premium/',

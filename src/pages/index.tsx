@@ -90,7 +90,7 @@ export default function Home(): JSX.Element {
                   icon: Icons.SupportIcon,
                   description:
                     'Our commitment to providing top-notch customer support is well-known in the Craft CMS community. We always aim to deliver the best and most dependable assistance to our valued customers.',
-                  linkWithDescription: 'https://support.solspace.com/',
+                  linkWithDescription: '/support/',
                 },
                 {
                   title: '25+ Years Experience',
