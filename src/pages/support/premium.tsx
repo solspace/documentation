@@ -143,7 +143,7 @@ const Support: React.FC = () => {
                 <iframe
                   title="Support Form"
                   id="support-form"
-                  src="/support/software/premium-support"
+                  src="https://support.solspace.com/software/premium-support"
                   scrolling="yes"
                   height="850px"
                   width="100%"
