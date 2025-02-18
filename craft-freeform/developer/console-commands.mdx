@@ -3,6 +3,9 @@ title: 'Console Commands'
 sidebar_position: 11
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 import { Badge, BadgeGroup } from '@site/src/components/utils';
 
 # Console Commands
@@ -49,35 +52,50 @@ The following arguments are available:
 
 ### Examples
 
+<Tabs>
+<TabItem value="fake-submissions-basic" label="Basic" default>
+
 Generate 10 spam submissions in French to the `contactForm` form:
 
-```sh showLineNumbers
+```sh
 php craft freeform/submissions/generate --form=contactForm --spam --count=10 --locale=fr
 ```
 
+</TabItem>
+<TabItem value="fake-submissions-date-ranges" label="Date Ranges">
+
 Generate 100 submissions in English to the `survey2024` form between 3 weeks ago and tomorrow:
 
-```sh showLineNumbers
+```sh
 php craft freeform/submissions/generate --form=survey2024 --count=100 --locale=en --range-start="3 weeks ago" --range-end="tomorrow"
 ```
 
+</TabItem>
+<TabItem value="fake-submissions-statuses" label="Statuses">
+
 Generate 50 submissions in English to the `quoteRequest` form with a mix of the statuses `open`, `pending`, and `closed`:
 
-```sh showLineNumbers
+```sh
 php craft freeform/submissions/generate -f=quoteRequest -c=50 -l=en -s="open,pending,closed"
 ```
 
+</TabItem>
+<TabItem value="fake-submissions-statuses-skewed-ratio" label="Statuses with Skewed Ratio">
+
 Generate 50 submissions in English to the `quoteRequest` form with a mix of the statuses `open` and `closed`, with a much higher proportion of them being `open`:
 
-```sh showLineNumbers
+```sh
 php craft freeform/submissions/generate -f=quoteRequest -c=50 -l=en -s="open,open,open,open,closed"
 ```
+
+</TabItem>
+</Tabs>
 
 ## Resave Submissions<Badge type="feature" text="5.1.13+" />
 
 If you need to resave all Freeform submissions, you can do so with the `freeform/submissions/resave` CLI command. Most of the arguments available to Craft's `resave/entries` command are available here too, so if you need to also update the Craft Search Index, be sure to add `--update-search-index`.
 
-```sh showLineNumbers
+```sh
 php craft freeform/submissions/resave --update-search-index
 ```
 
@@ -91,9 +109,65 @@ While most plugins could include a separate migration script to handle this, Fre
 This CLI command is only applicable to sites that have migrated from Craft 4 to Craft 5 while Freeform was installed.
 :::
 
-```sh showLineNumbers
+```sh
 php craft freeform/submissions/fix-titles
 ```
+
+## Convert Form Handles and Field Handles <Badge type="feature" text="5.9.11+" />
+
+This console command is available in the event you need to convert all form handles and field handles to _camelCase_ or _under_scores_. This allows you to correct your data from much older versions of Freeform where dashes were allowed inside of form handles and field handles.
+
+Common reasons for using this command would be:
+
+- To correct compatibility with GraphQL.
+- Dashes in forms and field handles are now considered invalid for Craft.
+- You want all of your forms and field handles to be more uniform.
+
+:::warning
+After running this command, please review all templates and email notification templates to ensure that any hard-coded form handles and field handles are updated to match their new converted values.
+:::
+
+### Options
+
+The following arguments are available:
+
+- `--case`, `-c`
+  - Convert dashes to underscores instead of _camelCase_. When not used, defaults to _camelCase_.
+  - E.g. `--case=underscores`, `-c=undercores`.
+- `--dry-run`
+  - Displays a list of all of the form and field handles that will be converted, as well as what they will be converted to inside the CLI without actually making the changes, allowing you to know what to expect. Defaults to off.
+
+### Examples
+
+<Tabs>
+<TabItem value="convert-handles-camel-case" label="Camel Case" default>
+
+Convert all forms and field handles with dashes to _camelCase_, e.g. `my-field` becomes `myField`, `My_other_field` becomes `myOtherField`.
+
+```sh
+php craft freeform/freeform/convert-handles
+```
+
+</TabItem>
+<TabItem value="convert-handles-underscores" label="Underscores">
+
+Convert all forms and field handles with dashes to _underscores_, e.g. `my-field` becomes `my_field`.
+
+```sh
+php craft freeform/freeform/convert-handles --case underscores
+```
+
+</TabItem>
+<TabItem value="convert-handles-dry-run" label="Dry Run">
+
+Perform a dry run of the command to see which form and field handles will be converted without actually making the changes.
+
+```sh
+php craft freeform/freeform/convert-handles --dryRun
+```
+
+</TabItem>
+</Tabs>
 
 ## Purge Commands
 
@@ -103,7 +177,7 @@ Freeform automatically attempts to routinely execute all of the below commands a
 
 Allows you to purge all submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Submission Data** setting.
 
-```sh showLineNumbers
+```sh
 php craft freeform/purge/submissions --age-in-days=30
 ```
 
@@ -111,7 +185,7 @@ php craft freeform/purge/submissions --age-in-days=30
 
 Allows you to purge all spam submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Spam Submissions** setting.
 
-```sh showLineNumbers
+```sh
 php craft freeform/purge/spam --age-in-days=30
 ```
 
@@ -119,6 +193,6 @@ php craft freeform/purge/spam --age-in-days=30
 
 Allows you to purge all unfinalized assets older than a specific number of minutes. Freeform automatically attempts to execute this service every 3 hours.
 
-```sh showLineNumbers
+```sh
 php craft freeform/purge/unfinalized-assets --age-in-minutes=180
 ```
