@@ -3,14 +3,14 @@ sidebar_position: 1
 ---
 
 import Player from 'react-player';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 import { Badge, Photo } from '@site/src/components/utils';
 import {
   VerticalStepWrapper,
   StepMarkdown,
   FlexCards,
-  TwoColumnCards,
-  ColumnCardData,
 } from '@site/src/components/docs';
 
 import Icons from '@site/static/card-icons';
@@ -65,9 +65,8 @@ import SwitchEditionVideo from '@site/static/videos/craft/calendar/switch-editio
 
 Calendar 5.x support both [Craft 5.x](https://craftcms.com/docs/5.x/requirements.html) and [Craft 4.x](https://craftcms.com/docs/4.x/requirements.html). It meets mostly the same requirements as listed on the Craft Requirements page.
 
-<TwoColumnCards>
-<ColumnCardData>
-### Craft 5.x<Badge type="feature" text="New in 5.1+" />
+<Tabs>
+<TabItem value="requirements-craft-5" label="Craft 5.x" default>
 
 - **Craft 5.0.0+**
 - PHP 8.2.0+
@@ -80,28 +79,29 @@ Calendar 5.x support both [Craft 5.x](https://craftcms.com/docs/5.x/requirements
   - Safari 11.1+
   - Edge 79+
 
-</ColumnCardData>
-<ColumnCardData>
+</TabItem>
+<TabItem value="requirements-craft-4" label="Craft 4.x">
+
 - **Craft 4.0.0+**
 - PHP 8.0.2+
 - MySQL 5.7.8+ with InnoDB, MariaDB 10.2.7+, or PostgreSQL 10+
 - 256MB+ memory allocated to PHP
 - [BC Math](http://php.net/manual/en/book.bc.php) and [GD](http://php.net/manual/en/book.image.php) PHP extensions
 - Windows and macOS browsers:
-    - Chrome 63+
-    - Firefox 67+
-    - Safari 11.1+
-    - Edge 79+
+  - Chrome 63+
+  - Firefox 67+
+  - Safari 11.1+
+  - Edge 79+
 
-</ColumnCardData>
-</TwoColumnCards>
+</TabItem>
+</Tabs>
 
 ## Installation
 
 Calendar can be installed one of two ways:
 
-- [Install from the CLI](#install-from-the-cli)<Badge type="recommended" text="Recommended" />
-- [Install from the Control Panel](#install-from-the-control-panel)
+<Tabs>
+<TabItem value="install-cli" label="CLI" default>
 
 ### Install from the CLI<Badge type="recommended" text="Recommended" />
 
@@ -117,18 +117,27 @@ cd /path/to/project
 
 </StepMarkdown>
 <StepMarkdown>
+
+<Tabs>
+<TabItem value="install-cli-latest-version" label="Latest Version" default>
+
 Then tell _Composer_ to require the plugin:
 
 ```sh command-line
 composer require solspace/craft-calendar -w
 ```
 
+</TabItem>
+<TabItem value="install-cli-specific-version" label="Specific Version">
+
 To load a specific version, use:
 
 ```sh command-line
-composer require solspace/craft-calendar:5.0.0 -w
+composer require solspace/craft-calendar:5.0.15 -w
 ```
 
+</TabItem>
+</Tabs>
 </StepMarkdown>
 <StepMarkdown>
 Install Calendar by running the following command:
@@ -143,13 +152,8 @@ php craft plugin/install calendar
 <StepMarkdown>
 Craft will automatically install the _Lite_ edition of Calendar. If you'd like the _Pro_ edition, you can switch the edition 1 of 2 ways:
 
-```sh command-line
-php craft plugin/install calendar
-```
-
-**OR** to install via the Craft control panel, go to _Settings → Plugins_ and click the **Cog button** for Calendar and select **Install**.
-
-#### Project Config<Badge type="recommended" text="Recommended" />
+<Tabs>
+<TabItem value="install-cli-switch-edition-project-config" label="Project Config" default>
 
 Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file (`/config/project/project.yaml`) and/ search for `calendar`. Where it says `edition: lite`, switch that to `edition: pro` and then approve the update inside the CP.
 
@@ -160,7 +164,8 @@ Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-confi
      enabled: true
 ```
 
-#### Control Panel
+</TabItem>
+<TabItem value="install-cli-switch-edition-control-panel" label="Control Panel">
 
 Click on the _**LITE** / trial_ button beside Calendar's name and when it takes you to the Plugin Store page, scroll down to the bottom and click on the **Try** button for the _Pro_ edition (see screenshots below).
 
@@ -173,12 +178,17 @@ Click on the _**LITE** / trial_ button beside Calendar's name and when it takes 
   height="100%"
 />
 
+</TabItem>
+</Tabs>
 </StepMarkdown>
 <StepMarkdown>
 If Calendar is right for your site, [purchase a copy](#purchasing) of it through the Plugin Store when you're ready!
 
 </StepMarkdown>
 </VerticalStepWrapper>
+
+</TabItem>
+<TabItem value="install-control-panel" label="Control Panel">
 
 ### Install from the Control Panel
 
@@ -210,6 +220,10 @@ If Calendar is right for your site, [purchase a copy](#purchasing) of it through
 </StepMarkdown>
 </VerticalStepWrapper>
 
+</TabItem>
+</Tabs>
+
+
 ## Updating
 
 Calendar uses the **Craft Updates Service**, which means that every time there's an update available, it'll show up in the _Updates_ area (**Utilities** → **Updates**) of the Craft control panel. You can then review the changelog there, or [view it here](./changelog.mdx).
@@ -220,9 +234,8 @@ Calendar 5.x is not an overhaul of the plugin, so **upgrading from Calendar 4.x*
 
 Calendar can be updated one of three ways:
 
-- [Update from the CLI](#update-from-the-clil)<Badge type="recommended" text="Recommended" />
-- [Update via Composer from the CLI](#update-via-composer-from-the-cli)
-- [Update from the Control Panel](#update-from-the-control-panel)
+<Tabs>
+<TabItem value="updating-cli" label="CLI" default>
 
 ### Update from the CLI<Badge type="recommended" text="Recommended" />
 
@@ -252,11 +265,17 @@ php craft update
 </StepMarkdown>
 <StepMarkdown>
 
+<Tabs>
+<TabItem value="updating-cli-latest-version" label="Latest Version" default>
+
 Follow the prompts, or run:
 
 ```sh command-line
 php craft update calendar
 ```
+
+</TabItem>
+<TabItem value="updating-cli-specific-version" label="Specific Version">
 
 To update to a specific version of Calendar, run:
 
@@ -264,35 +283,29 @@ To update to a specific version of Calendar, run:
 php craft update calendar:5.0.0
 ```
 
-Updating from the CLI will look something like this:
+</TabItem>
+</Tabs>
 
-```nix app-window
-[username@Computer site.test % php craft update
-Fetching available updates ... done
-You've got one available update:
+</StepMarkdown>
+<StepMarkdown>
 
-  - calendar 5.0.2 => 5.1.6
+If you are upgrading from Craft 4.x to Craft 5.x, you will likely need to run the following console command to migrate event titles:
 
-Run craft update all or craft update <handle> to perform an update.
+```sh command-line
+php craft calendar/events/fix-titles
+```
 
-[username@Computer site.test % php craft update calendar
-Fetching available updates ... done
-Performing one update:
+If you were running Calendar 5.x on Craft 4.x before upgrading to Craft 5.x, you will likely need to run the following console command to resolve some potentially missing event content:
 
-  - calendar 5.0.2 => 5.1.6
-
-Create database backup? (yes no) [yes]:yes
-Backing up the database ... done
-Performing update with Composer ... done
-Applying new migrations ... done
-Checking for pending Craft and plugin migrations ...
-No new migrations found. Your system is up to date.
-
-username@Computer site.test %
+```sh command-line
+php craft calendar/events/fix-contents
 ```
 
 </StepMarkdown>
 </VerticalStepWrapper>
+
+</TabItem>
+<TabItem value="updating-cli-composer" label="CLI via Composer">
 
 ### Update via Composer from the CLI
 
@@ -337,41 +350,53 @@ composer update
 </StepMarkdown>
 <StepMarkdown>
 
-Proceed to the Craft control panel and click the **Finish Updates** button if it shows.
+Enter one of the following commands:
 
-_OR_ enter the following command to check for migrations for Craft and all plugins:
+<Tabs>
+<TabItem value="updating-cli-composer-all" label="Craft and All Plugins" default>
+
+Check for available migrations for Craft and all plugins:
 
 ```sh command-line
 php craft migrate/all
 ```
 
-_OR_ just perform Calendar migration(s):
+</TabItem>
+<TabItem value="updating-cli-composer-calendar" label="Calendar only">
+
+Check for available migrations for Calendar only:
 
 ```sh command-line
 php craft migrate --plugin=calendar
 ```
 
-Migrating from the CLI will look something like this:
+</TabItem>
+</Tabs>
 
-```nix app-window
-[username@Computer site.test % php craft migrate --plugin=freeform
-Checking for pending Freeform migrations ...
-Total 1 new migration to be applied:
-	m230901_143430_ChangeLabelFieldColumnType
+_OR_ 
 
-Apply the above migration? (yes|no) [no]:yes
-*** applying m230901_143430_ChangeLabelFieldColumnType
-    > alter column label in table {{%freeform_crm_fields}} to text ... done (time: 0.044s)
-*** applied m230901_143430_ChangeLabelFieldColumnType (time: 0.054s)
+Proceed to the Craft control panel and click the **Finish Updates** button if it shows.
 
-1 migration was applied.
+</StepMarkdown>
+<StepMarkdown>
 
-Migrated up successfully.
-username@Computer site.test %
+If you are upgrading from Craft 4.x to Craft 5.x, you will likely need to run the following console command to migrate event titles:
+
+```sh command-line
+php craft calendar/events/fix-titles
+```
+
+If you were running Calendar 5.x on Craft 4.x before upgrading to Craft 5.x, you will likely need to run the following console command to resolve some potentially missing event content:
+
+```sh command-line
+php craft calendar/events/fix-contents
 ```
 
 </StepMarkdown>
 </VerticalStepWrapper>
+
+</TabItem>
+<TabItem value="updating-control-panel" label="Control Panel">
 
 ### Update from the Control Panel
 
@@ -396,6 +421,10 @@ Simply click the **Update** button and Craft will do the rest.
 
 </StepMarkdown>
 </VerticalStepWrapper>
+
+</TabItem>
+</Tabs>
+
 
 ## Disable Calendar
 
