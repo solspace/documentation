@@ -31,6 +31,20 @@ This CLI command is only applicable to sites that have migrated from Craft 4 to 
 php craft calendar/events/fix-titles
 ```
 
+## Migrate Craft 4 Event Content<Badge type="feature" text="5.0.15+" />
+
+If you were running Calendar 5.x on Craft 4.x before upgrading to Craft 5.x, some of your event data may not automatically be carried over. In Craft 5, Calendar event Element data is no longer stored in the `content` table.
+
+While most plugins could include a separate migration script to handle this, Calendar 5 supports both Craft 4 and Craft 5, making this path impossible. Instead, a CLI command has been included that needs to be executed once after upgrading from Craft 4 to Craft 5.
+
+:::warning
+This CLI command is only applicable to sites that were running Calendar 5.x on Craft 4.x before upgrading to Craft 5.x.
+:::
+
+```sh command-line
+php craft calendar/events/fix-contents
+```
+
 ## Fix Field Layout Tabs Elements UIDs<Badge type="feature" text="5.0.10+" />
 
 There was a bug in Calendar 4.x and earlier versions of 5.0.x where unique UIDs were not being generated for field layout elements when duplicating calendars. The issue has been resolved in later versions of Calendar 4.x and 5.x, but the issue still needs to be resolved if your site is affected.
