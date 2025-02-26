@@ -118,16 +118,22 @@ cd /path/to/project
 <StepMarkdown>
 Then tell _Composer_ to require the plugin:
 
+<Tabs>
+<TabItem value="install-cli-latest-version" label="Latest Version" default>
+
 ```sh command-line
 composer require solspace/craft-freeform -w
 ```
 
-To load a specific version, use:
+</TabItem>
+<TabItem value="install-cli-specific-version" label="Specific Version">
 
 ```sh command-line
-composer require solspace/craft-freeform:5.0.0 -w
+composer require solspace/craft-freeform:5.9.15 -w
 ```
 
+</TabItem>
+</Tabs>
 </StepMarkdown>
 <StepMarkdown>
 Install Freeform by running the following command:
@@ -145,33 +151,27 @@ Craft will automatically install the _Express_ edition of Freeform. If you'd lik
 <Tabs>
 <TabItem value="install-switch-project-config" label="Project Config" default>
 
-#### Project Config<Badge type="recommended" text="Recommended" />
-
-Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file (`/config/project/project.yaml`) and/ search for `freeform`. Where it says `edition: express`, switch that to `edition: pro` and then approve the update inside the CP.
-
-```diff
-   freeform:
--    edition: express
-+    edition: pro
-     enabled: true
-```
+1. Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file (`/config/project/project.yaml`).
+2. Search for `freeform`.
+3. Where it says `edition: express`, switch that to `edition: pro`.
+    ```diff
+    freeform:
+    -   edition: express
+    +   edition: pro
+        enabled: true
+    ```
+4. Approve the update inside the CP.
 
 </TabItem>
 <TabItem value="install-switch-cp" label="Control Panel">
 
-#### Control Panel
-
-Click on the _**EXPRESS** / trial_ button beside Freeform's name and when it takes you to the Plugin Store page, scroll down to the bottom and click on the **Try** button for the _Pro_ edition (see video below).
+1. Go to the _Settings_ → _Plugins_ page in the Craft control panel.
+2. Click on the _**EXPRESS** / trial_ button beside Freeform's name.
+3. On the Plugin Store page it takes you to, scroll down to the bottom and click on the **Try** button for the _Pro_ edition (see video below).
 
 <Player
-  url={
-    require('@site/static/videos/craft/freeform/v5/switch-edition.mp4').default
-  }
-  muted
-  loop
-  playing
-  width="100%"
-  height="100%"
+  url={require('@site/static/videos/craft/freeform/v5/switch-edition.mp4').default}
+  muted loop playing width="100%" height="100%"
 />
 
 </TabItem>
@@ -259,43 +259,22 @@ php craft update
 <StepMarkdown>
 Follow the prompts, or run:
 
+<Tabs>
+<TabItem value="updating-cli-latest-version" label="Latest Version" default>
+
 ```sh command-line
 php craft update freeform
 ```
 
-To update to a specific version of Freeform, run:
+</TabItem>
+<TabItem value="updating-cli-specific-version" label="Specific Version">
 
 ```sh command-line
-php craft update freeform:5.0.0
+php craft update freeform:5.9.15
 ```
 
-Updating from the CLI will look something like this:
-
-```nix app-window
-[username@Computer site.test % php craft update
-Fetching available updates ... done
-You've got one available update:
-
-  - freeform 5.0.2 => 5.1.6
-
-Run craft update all or craft update <handle> to perform an update.
-
-[username@Computer site.test % php craft update freeform
-Fetching available updates ... done
-Performing one update:
-
-  - freeform 5.0.2 => 5.1.6
-
-Create database backup? (yes no) [yes]:yes
-Backing up the database ... done
-Performing update with Composer ... done
-Applying new migrations ... done
-Checking for pending Craft and plugin migrations ...
-No new migrations found. Your system is up to date.
-
-username@Computer site.test %
-```
-
+</TabItem>
+</Tabs>
 </StepMarkdown>
 </VerticalStepWrapper>
 
@@ -342,38 +321,32 @@ composer update
 
 </StepMarkdown>
 <StepMarkdown>
-Proceed to the Craft control panel and click the **Finish Updates** button if it shows.
+Enter one of the following commands:
 
-_OR_ enter the following command to check for migrations for Craft and all plugins:
+<Tabs>
+<TabItem value="updating-cli-composer-all" label="Craft and All Plugins" default>
+
+Check for available migrations for Craft and all plugins:
 
 ```sh command-line
 php craft migrate/all
 ```
 
-_OR_ just perform Freeform migration(s):
+</TabItem>
+<TabItem value="updating-cli-composer-freeform" label="Freeform only">
+
+Check for available migrations for Freeform only:
 
 ```sh command-line
 php craft migrate --plugin=freeform
 ```
 
-Migrating from the CLI will look something like this:
+</TabItem>
+</Tabs>
 
-```nix app-window
-[username@Computer site.test % php craft migrate --plugin=freeform
-Checking for pending Freeform migrations ...
-Total 1 new migration to be applied:
-	m230901_143430_ChangeLabelFieldColumnType
+_OR_ 
 
-Apply the above migration? (yes|no) [no]:yes
-*** applying m230901_143430_ChangeLabelFieldColumnType
-    > alter column label in table {{%freeform_crm_fields}} to text ... done (time: 0.044s)
-*** applied m230901_143430_ChangeLabelFieldColumnType (time: 0.054s)
-
-1 migration was applied.
-
-Migrated up successfully.
-username@Computer site.test %
-```
+Proceed to the Craft control panel and click the **Finish Updates** button if it shows.
 
 </StepMarkdown>
 </VerticalStepWrapper>
@@ -526,11 +499,13 @@ If there are more unreleased changes to the repo in the future, you could change
 
 ## Purchasing
 
-### Trialing
+<Tabs>
+<TabItem value="purchasing-trialing" label="Trialing" default>
 
 Craft allows you to trial third-party plugins to see if they're right for your needs. We recommend **trying** any commercial plugin first before buying it. You can trial any plugin or Craft CMS itself by running your site from any domain [that Craft does not consider to be a public domain](https://craftcms.com/knowledge-base/how-craft-license-enforcement-works).
 
-### Purchasing
+</TabItem>
+<TabItem value="purchasing-purchasing" label="Purchasing">
 
 If this is your first time purchasing a third-party plugin, here's an overview of the purchasing process of plugins. You may purchase licenses for plugins either via the [Craft Plugin Store website](https://plugins.craftcms.com) or directly through the Craft Control Panel. For the latter, here is the process:
 
@@ -541,52 +516,56 @@ If this is your first time purchasing a third-party plugin, here's an overview o
 
 If you encounter any issues with licensing your plugin, please refer to the [Troubleshooting guide](#troubleshooting) below.
 
-### Renewals
+</TabItem>
+<TabItem value="purchasing-renewals" label="Renewals">
 
 Renewals are not required to continue using Freeform past the one-year term, but they are required if you wish to update to newer versions of Freeform and receive official support from Solspace. Renewals can be set to automatic, or you may also purchase a renewal directly through the Craft Control Panel or via the [Craft Console website](https://console.craftcms.com/).
 
+</TabItem>
+</Tabs>
+
 ## Changing Editions
 
-If you wish to change the edition of Freeform from _Lite_ to _Pro_ (or _Pro_ to _Lite_ while trialling), simply visit the Plugin Store area in the Craft control panel and click on the **Try** button for the edition you wish to change to. If you've already purchased a copy of Freeform _Lite_ but wish to upgrade to the _Pro_ edition, you can do so for the price difference only ($50).
+If you wish to change the edition of Freeform from _Lite_ to _Pro_ (or _Pro_ to _Lite_ while trialing), simply visit the Plugin Store area in the Craft control panel and click on the **Try** button for the edition you wish to change to. If you've already purchased a copy of Freeform _Lite_ but wish to upgrade to the _Pro_ edition, you can do so for the price difference only ($50).
 
-:::info
-If using Craft's [allowAdminChanges](https://craftcms.com/docs/5.x/reference/config/general.html#allowadminchanges) config setting, be sure to temporarily set it to `true` in order to make changes to the edition (which can be switched back to `false` afterward).
-:::
-
-- [How to Switch During Trial](#how-to-switch-during-trial)
-- [How to Switch After Purchase](#how-to-switch-after-purchase)
-
-<Player
-  url={
-    require('@site/static/videos/craft/freeform/v5/switch-edition.mp4').default
-  }
-  muted
-  loop
-  playing
-  width="100%"
-  height="100%"
-/>
-
-### How to Switch During Trial
+<Tabs>
+<TabItem value="purchasing-trialing" label="Switch During Trial" default>
 
 If you'd like to switch during the trial from _Express_ or _Lite_ to the _Pro_ edition, you can switch the edition 1 of 2 ways:
 
 - **From Project Config**: Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file (`/config/project/project.yaml`) and search for `freeform`. Where it says `edition: express` (or `lite`), switch that to `edition: pro` and then approve the update inside the CP.
 - **From CP**: Click on the _**EXPRESS** / trial_ (or LITE) button beside Freeform's name and when it takes you to the Plugin Store page and click on the **Try** button for the _Pro_ edition.
 
-### How to Switch After Purchase
+:::info
+If using Craft's [allowAdminChanges](https://craftcms.com/docs/5.x/reference/config/general.html#allowadminchanges) config setting, be sure to temporarily set it to `true` in order to make changes to the edition (which can be switched back to `false` afterward).
+:::
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/switch-edition.mp4').default}
+  muted loop playing width="100%" height="100%"
+/>
+
+</TabItem>
+<TabItem value="purchasing-purchasing" label="Switch After Purchase">
 
 If, sometime after purchasing Freeform _Lite_ (or using Freeform _Express_), you decide that you need more features that are available in the _Lite_ or _Pro_ edition, you can switch at any time for the price difference (e.g. from Lite to Pro would be $50) rather than needing to purchase the _Pro_ edition at full price. We suggest you start by switching to a trial of the _Pro_ edition and then purchase it if it meets your needs. You can switch the edition 1 of 2 ways:
 
 - **From Project Config**: Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file (`/config/project/project.yaml`) and search for `freeform`. Where it says `edition: express` (or `lite`), switch that to `edition: pro` and then approve the update inside the CP.
 - **From CP**: Click on the _**EXPRESS** / trial_ (or LITE) button beside Freeform's name and when it takes you to the Plugin Store page and click on the **Try** button for the _Pro_ edition.
 
+:::info
+If using Craft's [allowAdminChanges](https://craftcms.com/docs/5.x/reference/config/general.html#allowadminchanges) config setting, be sure to temporarily set it to `true` in order to make changes to the edition (which can be switched back to `false` afterward).
+:::
+
 Once you're ready to complete the purchase, you can visit the Cart inside your site's control panel:
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/cp/switch-editions-purchase-3.png')}
-  alt="Switch edition after Purchase - step 3"
+  alt="Switch edition after Purchase"
 />
+
+</TabItem>
+</Tabs>
 
 ## Troubleshooting
 
@@ -606,7 +585,7 @@ Third-party plugin licenses are managed and validated entirely by Craft. Some is
 <details className="hidden-heading">
   <summary>Error: 'This license isn't allowed to run version X.X.X.'</summary>
 
-  If you receive the error `This license isn't allowed to run version X.X.X.`, it indicates that you're using a version of the plugin that your license isn't eligible for, which in almost all cases would be a plugin license that expired/finished the 1-year term since the initial purchase. According to Craft's policy (out of Solspace's control), once the plugin license has expired, the current version you have installed is the maximum version you can have. The rationale behind this (according to Craft) is that if, for example, you were using Freeform 3.10.1 at the time of expiry, but 3.11.4 was available to you just before the license expiry date, if that 3.11.4 version was available to you indefinitely, one might update to that version months or years later and experience issues while upgrading, which could generate issues and support requests to the developer beyond that initial 1 year term. This is a fair statement and concern on Craft's part, in our opinion. Craft does send out 30-day notices reminding customers of plugin licenses nearing expiry, so it would be wise to consider squeezing in your final update(s) earlier in that 30-day window if you do not wish to renew your license for future updates beyond the initial 1-year term.
+  If you receive the error `This license isn't allowed to run version X.X.X.`, it indicates that you're using a version of the plugin that your license isn't eligible for, which in almost all cases would be a plugin license that expired/finished the 1-year term since the initial purchase. According to Craft's policy (out of Solspace's control), once the plugin license has expired, the current version you have installed is the maximum version you can have. The rationale behind this (according to Craft) is that if, for example, you were using Freeform 5.6.1 at the time of expiry, but 5.7.4 was available to you just before the license expiry date, if that 5.7.4 version was available to you indefinitely, one might update to that version months or years later and experience issues while upgrading, which could generate issues and support requests to the developer beyond that initial 1 year term. This is a fair statement and concern on Craft's part, in our opinion. Craft does send out 30-day notices reminding customers of plugin licenses nearing expiry, so it would be wise to consider squeezing in your final update(s) earlier in that 30-day window if you do not wish to renew your license for future updates beyond the initial 1-year term.
 
   > When a license expires, you can keep using the version that's currently installed. However, you won't be able to update it to newer versions until you've renewed the license.
 

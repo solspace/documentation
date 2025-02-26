@@ -2,6 +2,9 @@
 sidebar_position: 2
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 import { Badge } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
@@ -104,18 +107,22 @@ Edit your project's `composer.json` file and update the Freeform version to 5.x:
 
 ### Get Latest 5.x Package
 
-Get the latest 5.x package of Freeform by running the following command:
+<Tabs>
+<TabItem value="updating-cli-latest-version" label="Latest Version" default>
 
-```sh
+```sh command-line
 php craft update freeform
 ```
 
-To get a specific version, run the following command:
+</TabItem>
+<TabItem value="updating-cli-specific-version" label="Specific Version">
 
-```sh
-php craft update freeform:5.7.0
+```sh command-line
+php craft update freeform:5.9.15
 ```
 
+</TabItem>
+</Tabs>
 </StepMarkdown>
 <StepMarkdown>
 
@@ -123,17 +130,22 @@ php craft update freeform:5.7.0
 
 In your CLI, run one of the following commands:
 
-#### Update all plugins including Craft
+<Tabs>
+<TabItem value="updating-cli-composer-all" label="Craft and All Plugins" default>
 
-```sh
+```sh command-line
 php craft migrate/all
 ```
 
-#### Update Freeform only
+</TabItem>
+<TabItem value="updating-cli-composer-freeform" label="Freeform only">
 
-```sh
+```sh command-line
 php craft migrate --plugin=freeform
 ```
+
+</TabItem>
+</Tabs>
 
 :::warning
 We strongly advise against using the Control Panel for updates and migrations. Sites with numerous forms, fields, and submission data may encounter issues using this method.
