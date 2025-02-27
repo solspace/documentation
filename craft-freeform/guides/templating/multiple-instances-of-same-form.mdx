@@ -1,0 +1,112 @@
+---
+sidebar_position: 5
+title: Multiple Instances of the Same Form
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+
+# Multiple Instances of the Same Form<Badge type="feature" text="Improved in 5.9.15+" />
+
+It's possible to load multiple Freeform forms on the same page. However, you may encounter issues such as certain features or field types not behaving correctly. You may also see form attributes duplicating in some cases.
+
+## Instructions
+
+If you encounter any problems, or wish to prevent potential issues, you can do so by following these best practices:
+
+- Enable AJAX for the form if you haven't already.
+  - If not using AJAX, please [see the example for additional instructions](#non-ajax-example).
+- Set the `id` value under the [attributes](../../templates/queries/form.mdx#template-overrides) parameter for the _Form query_ in your template with unique values.
+- Use the [fieldIdPrefix](../../templates/queries/form.mdx#fieldidprefix) parameter for the _Form query_ in your template with unique values. This will add a prefix value to the `id` attribute on field labels and inputs, which prevents issues with forms having the same field handles, etc.
+- Specify a third argument (or second if not specifying custom attributes) in the form with a unique value. This will tell Freeform to create an entirely separate form instance with its own configurations that can be overridden. For example:
+  - With custom attributes: `{{ freeform.form("myForm", { whatever ... }, "two").render }}`
+  - Shorthand (no custom attributes): `{{ freeform.form("myForm", "two").render }}`
+
+### Common Example
+The below example will render the same form twice inside a template, but will assign each of them a custom form ID, form class, and prefix each field's input and label ID's with a unique prefix value:
+
+```twig showLineNumbers
+<html>
+<head></head>
+<body>
+
+{{ freeform.form(
+  "myForm",
+  {
+// highlight-start
+    attributes: {
+        id: "form-one",
+        class: "class-one",
+    },
+    fieldIdPrefix: "form-one-",
+// highlight-end
+  },
+// highlight-start
+  "first-form"
+// highlight-end
+  ).render
+}}
+
+<hr />
+
+{{ freeform.form(
+  "myForm",
+  {
+// highlight-start
+    attributes: {
+        id: "form-two",
+        class: "class-two",
+    },
+    fieldIdPrefix: "form-two-",
+// highlight-end
+  },
+// highlight-start
+  "second-form"
+// highlight-end
+  ).render
+}}
+
+</body>
+</html>
+```
+
+### Non AJAX Example
+When AJAX is disabled for your form, you may run into issues where form ID's and other attributes may get overwritten by the first form instance's values. A workaround for this is to use the [`"=attribute": "whatever"`](../../templates/formatting/index.mdx#behavior-syntax) approach on successive instances of the form.
+
+```twig showLineNumbers
+<html>
+<head></head>
+<body>
+
+{{ freeform.form(
+  "myForm",
+  {
+    attributes: {
+        id: "form-one",
+        class: "class-one",
+    },
+    fieldIdPrefix: "form-one-",
+  },
+  "first-form"
+  ).render
+}}
+
+<hr />
+
+{{ freeform.form(
+  "myForm",
+  {
+    attributes: {
+// highlight-start
+        "=id": "form-two",
+        "=class": "class-two",
+// highlight-end
+    },
+    fieldIdPrefix: "form-two-",
+  },
+  "second-form"
+  ).render
+}}
+
+</body>
+</html>
+```

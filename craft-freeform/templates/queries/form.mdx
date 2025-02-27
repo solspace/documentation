@@ -20,6 +20,7 @@ Freeform will automatically insert javascript in the footer of the page for feat
 #### User Guides
 - [Using headless website architecture with JavaScript-based front-end frameworks such as Vue.js, Next.js, React JS and more.](../../headless/graphql.mdx)
 - [Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../../guides/testing/troubleshooting-form-issues.mdx)
+- [Using a form more than once in the same template? Check out the additional steps necessary to prevent potential issues.](../../guides/templating/multiple-instances-of-same-form.mdx)
 :::
 
 <Photo
@@ -245,11 +246,15 @@ The above would map the posted submission to the Elements with ID's `55`, `106` 
 
 ### `fieldIdPrefix`
 
-Adds a prefix value on field outputs. Helpful if you have more than 1 form on the same template and are sharing fields.
+Adds a prefix value to the `id` attribute on field labels and inputs. This is helpful when you have multiple forms on the same template that share the same field handles.
 
 ```php
 fieldIdPrefix: 'myform-'
 ```
+
+:::tip
+[Using a form more than once in the same template? Check out the additional steps necessary to prevent potential issues.](../../guides/templating/multiple-instances-of-same-form.mdx)
+:::
 
 ### `dynamicNotification`
 
