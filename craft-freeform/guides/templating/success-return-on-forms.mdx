@@ -2,6 +2,9 @@
 sidebar_position: 7
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 import { Photo } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
@@ -11,7 +14,8 @@ Freeform offers a wide variety of ways to handle the success return on forms. Ch
 
 ## Available Options
 
-### Through the Form Builder
+<Tabs>
+<TabItem value="success-return-builder" label="Form Builder" default>
 
 If you wish to offer flexibility and control to your clients for setting the Return URL, this can be set inside the form builder for each form.
 
@@ -52,6 +56,9 @@ You can also use the following (wrap with `{{` and `}}`):
 - This approach can easily be overwritten by any template parameters. As soon as the template level `returnUrl` parameter is specified, Freeform will ignore the value set inside the form builder.
 - This approach will not immediately work with AJAX. When AJAX is enabled, Freeform will by default stay on the same page and just show a success banner. To have Freeform perform a redirect to the return URL specified in the form builder upon successful AJAX submit, you'll need to add some JS to your page template. See example below:
 
+<Tabs>
+<TabItem value="success-return-builder-form" label="Specific Form" default>
+
 ```twig {8-22}
 <html>
 <head>
@@ -79,6 +86,9 @@ You can also use the following (wrap with `{{` and `}}`):
 </body>
 </html>
 ```
+
+</TabItem>
+<TabItem value="success-return-builder-all" label="All Forms">
 
 If you'd like something that is not specific to a single form, you can use `document` instead:
 
@@ -108,7 +118,12 @@ If you'd like something that is not specific to a single form, you can use `docu
 </html>
 ```
 
-### At Template Level
+</TabItem>
+</Tabs>
+
+</TabItem>
+<TabItem value="success-return-template" label="Template">
+
 
 If you wish to set the Return URL at template level, whether you're doing this to include a dynamic segment in the return URL, etc, you can do so by specifying the `returnUrl` parameter on the [Form query](../../templates/queries/form.mdx) or the [form object](../../templates/objects/form.mdx).
 
@@ -180,11 +195,31 @@ returnUrl: "{{ siteUrl }}freeform-demo/bootstrap/{{ form.handle }}/{% if submiss
 </html>
 ```
 
+</TabItem>
+</Tabs>
+
 ## Advanced Options
 
 ### Returning Submit to Same Page
 
-Aside from the obvious of using [AJAX](../../guides/templating/ajax-forms.mdx), you can achieve this by adding a query in the success URL instead of an additional segment, etc.
+Aside from the obvious of using [AJAX](../../guides/templating/ajax-forms.mdx), you can achieve this by...
+
+<Tabs>
+<TabItem value="returning-to-same-page-query" label="Query" default>
+
+Adding a simple query in the success URL instead of an additional segment, e.g. `/contact?success`:
+
+```twig
+{% set successParam = craft.app.request.getParam('success') %}
+{% if successParam is not null %}
+  <p>Success!!</p>
+{% endif %}
+```
+
+</TabItem>
+<TabItem value="returning-to-same-page-query-value" label="Query + Value">
+
+Including a query with a value, e.g. `/contact?success=1`:
 
 ```twig {1-3,6}
 {% if craft.app.request.getQueryParam('success') == 1 %}
@@ -200,20 +235,18 @@ Aside from the obvious of using [AJAX](../../guides/templating/ajax-forms.mdx), 
 {% endif %}
 ```
 
-Or a different option, simply redirecting to `/contact?success`:
+</TabItem>
+
+<TabItem value="returning-to-same-page-dynamic-url" label="Dynamic Return URL">
+
+In case you're looking for a dynamic way of setting a return URL with combining several segments:
 
 ```twig
-{% set successParam = craft.app.request.getParam('success') %}
-{% if successParam is not null %}
-  <p>Success!!</p>
-{% endif %}
+{% set returnUrlPath = siteUrl ~ "get-quote/" ~ craft.app.request.getSegment(2) ~ "?success" %}
 ```
 
-And in case you're looking for a dynamic way of setting a return URL with combining several segments:
-
-```twig
-{% set returnUrlPath = siteUrl ~ "get-quote/" ~ craft.app.request.getSegment(2) ~ "?success=1" %}
-```
+</TabItem>
+</Tabs>
 
 ### Forcing a different Success URL on AJAX forms
 
@@ -248,7 +281,8 @@ Once using AJAX with your forms, Freeform will ignore any Return URL value you h
 
 The built-in AJAX functionality lets you completely customize the way your forms work if you're not satisfied with anything in the provided defaults. If you only need to customize the error messages, you can do so by overriding the defaults like this:
 
-#### Apply to ALL forms on the page
+<Tabs>
+<TabItem value="ajax-success-message-all-forms" label="Apply to ALL forms on the page" default>
 
 ```twig {11-18}
 <html>
@@ -274,7 +308,8 @@ The built-in AJAX functionality lets you completely customize the way your forms
 </html>
 ```
 
-#### Apply to a specific form
+</TabItem>
+<TabItem value="ajax-success-message-specific-forms" label="Apply to a specific form">
 
 ```twig {11-20}
 <html>
@@ -302,12 +337,15 @@ The built-in AJAX functionality lets you completely customize the way your forms
 </html>
 ```
 
+</TabItem>
+</Tabs>
+
 ### Display alternate Success markup from a Template or Existing Div after AJAX Submit
 
 When using the Freeform built-in [AJAX](../../guides/templating/ajax-forms.mdx) feature, if you wish to override the default AJAX success message and instead load alternate success markup from a template or existing `div`, follow the instructions below:
 
-#### From Existing Div
-
+<Tabs>
+<TabItem value="alternate-success-markup-div" label="From Existing Div" default>
 <VerticalStepWrapper>
 <StepMarkdown title="Step 1">
 Create a new form or edit an existing one as usual. Be sure to check off the **Enable AJAX** checkbox inside the form settings area in the form builder.
@@ -356,9 +394,8 @@ In the footer of the template that will contain the form, be sure to include som
 
 </StepMarkdown>
 </VerticalStepWrapper>
-
-#### From a Template
-
+</TabItem>
+<TabItem value="alternate-success-markup-template" label="From a Template">
 <VerticalStepWrapper>
 <StepMarkdown title="Step 1">
 Create a new form or edit an existing one as usual. Be sure to check off the **Enable AJAX** checkbox inside the form settings area in the form builder.
@@ -407,6 +444,8 @@ In the footer of the template that will contain the form, be sure to include som
 
 </StepMarkdown>
 </VerticalStepWrapper>
+</TabItem>
+</Tabs>
 
 ### User Chooses Return URL
 
@@ -423,14 +462,17 @@ Please keep in mind that if you're wanting to make the return path dependent on 
 If you're using an automated rendering of the form, you'll need to consider how and where to add this into the formatting template. In most cases it might be best to add a conditional and pair this with the submit button or another field.
 
 #### EXAMPLES
+Below are some examples of how this could be applied:
 
-#### Hidden field
+<Tabs>
+<TabItem value="user-chooses-url-hidden" label="Hidden field" default>
 
 ```twig
 <input type="hidden" name="formReturnUrl" value="{{ 'whatever/my-url'|hash }}" />
 ```
 
-#### Checkbox field
+</TabItem>
+<TabItem value="user-chooses-url-checkbox" label="Checkbox field">
 
 ```twig
 <label for="return-checkbox">
@@ -439,7 +481,8 @@ If you're using an automated rendering of the form, you'll need to consider how 
 </label>
 ```
 
-#### Dropdown field
+</TabItem>
+<TabItem value="user-chooses-url-dropdown" label="Dropdown field">
 
 ```twig
 <label for="return-select">
@@ -451,3 +494,6 @@ If you're using an automated rendering of the form, you'll need to consider how 
     <option value="{{ 'whatever/something-else'|hash }}">Option Three</option>
 </select>
 ```
+
+</TabItem>
+</Tabs>
