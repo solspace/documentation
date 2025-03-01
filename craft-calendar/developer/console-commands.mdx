@@ -13,7 +13,7 @@ Calendar includes several console commands to allow you to run cleanup tasks and
 
 If you need to resave all Calendar events, you can do so with the `calendar/events/resave` CLI command. Most of the arguments available to Craft's `resave/entries` command are available here too, so if you need to also update the Craft Search Index, be sure to add `--update-search-index`.
 
-```sh command-line
+```sh
 php craft calendar/events/resave --update-search-index
 ```
 
@@ -27,7 +27,7 @@ While most plugins could include a separate migration script to handle this, Cal
 This CLI command is only applicable to sites that have migrated from Craft 4 to Craft 5 while Calendar was installed.
 :::
 
-```sh command-line
+```sh
 php craft calendar/events/fix-titles
 ```
 
@@ -41,7 +41,7 @@ While most plugins could include a separate migration script to handle this, Cal
 This CLI command is only applicable to sites that were running Calendar 5.x on Craft 4.x before upgrading to Craft 5.x.
 :::
 
-```sh command-line
+```sh
 php craft calendar/events/fix-contents
 ```
 
@@ -55,6 +55,6 @@ To help the smaller number of affected sites resolve this issue, we have include
 This CLI command is only applicable to sites on Craft 4 that may have duplicated calendars in earlier versions of Calendar 4.x and 5.x. This command will not work on Craft 5 due to bigger differences in how the data is stored.
 :::
 
-```sh command-line
+```sh
 php craft calendar/calendars/fix-field-layout-tabs-elements-uids --rebuildProjectConfig
 ```
