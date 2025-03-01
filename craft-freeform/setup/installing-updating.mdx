@@ -64,63 +64,64 @@ import Icons from '@site/static/card-icons';
 
 Freeform 5.x support both [Craft 5.x](https://craftcms.com/docs/5.x/requirements.html) and [Craft 4.x](https://craftcms.com/docs/4.x/requirements.html). It meets mostly the same requirements as listed on the Craft Requirements page.
 
-<Tabs>
-<TabItem value="requirements-craft-5" label="Craft 5.x" default>
+<details className="hidden-heading">
+  <summary>View full requirement details...</summary>
+  <Tabs>
+    <TabItem value="requirements-craft-5" label="Craft 5.x" default>
 
-- **Craft 5.0.0+**
-- PHP 8.2.0+
-- MySQL 8.0.17+ using InnoDB, MariaDB 10.4.6+, or PostgreSQL 13+
-- 256MB+ of memory allocated to PHP
-- [BC Math](http://php.net/manual/en/book.bc.php) and [GD](http://php.net/manual/en/book.image.php) PHP extensions
-- Windows and macOS browsers:
-  - Chrome 63+
-  - Firefox 67+
-  - Safari 11.1+
-  - Edge 79+
+    - **Craft 5.0.0+**
+    - PHP 8.2.0+
+    - MySQL 8.0.17+ using InnoDB, MariaDB 10.4.6+, or PostgreSQL 13+
+    - 256MB+ of memory allocated to PHP
+    - [BC Math](http://php.net/manual/en/book.bc.php) and [GD](http://php.net/manual/en/book.image.php) PHP extensions
+    - Windows and macOS browsers:
+      - Chrome 63+
+      - Firefox 67+
+      - Safari 11.1+
+      - Edge 79+
 
-</TabItem>
-<TabItem value="requirements-craft-4" label="Craft 4.x">
+    </TabItem>
+    <TabItem value="requirements-craft-4" label="Craft 4.x">
 
-- **Craft 4.0.0+**
-- PHP 8.0.2+
-- MySQL 5.7.8+ with InnoDB, MariaDB 10.2.7+, or PostgreSQL 10+
-- 256MB+ memory allocated to PHP
-- [BC Math](http://php.net/manual/en/book.bc.php) and [GD](http://php.net/manual/en/book.image.php) PHP extensions
-- Windows and macOS browsers:
-  - Chrome 63+
-  - Firefox 67+
-  - Safari 11.1+
-  - Edge 79+
+    - **Craft 4.0.0+**
+    - PHP 8.0.2+
+    - MySQL 5.7.8+ using InnoDB, MariaDB 10.2.7+, or PostgreSQL 10+
+    - 256MB+ of memory allocated to PHP
+    - [BC Math](http://php.net/manual/en/book.bc.php) and [GD](http://php.net/manual/en/book.image.php) PHP extensions
+    - Windows and macOS browsers:
+      - Chrome 63+
+      - Firefox 67+
+      - Safari 11.1+
+      - Edge 79+
 
-</TabItem>
-</Tabs>
+    </TabItem>
+    </Tabs>
+</details>
 
 ## Installation
 
 Freeform can be installed one of two ways:
 
 <Tabs>
-<TabItem value="install-cli" label="Command Line (CLI)" default>
+<TabItem value="install-cli" label="Composer (CLI)" default>
 
-### Install from the CLI<Badge type="recommended" text="Recommended" />
-
-Freeform can be installed by running the following set of commands in your favorite CLI app:
+Freeform can be installed by running the following set of commands in your favorite CLI app: <Badge type="recommended" text="Recommended" />
 
 <VerticalStepWrapper>
 <StepMarkdown stepTitle="Open your Craft project">
-```sh
+```nix
 cd /path/to/project
 ```
 </StepMarkdown>
 <StepMarkdown stepTitle="Get Freeform">
 <Tabs>
 <TabItem value="install-cli-latest-version" label="Latest Version" default>
-```sh
+```nix
 composer require solspace/craft-freeform -w
 ```
 </TabItem>
 <TabItem value="install-cli-specific-version" label="Specific Version">
-```sh
+```nix
 composer require solspace/craft-freeform:5.9.15 -w
 ```
 </TabItem>
@@ -129,8 +130,8 @@ composer require solspace/craft-freeform:5.9.15 -w
 <StepMarkdown stepTitle="Install Freeform">
 <Tabs>
 <TabItem value="install-cli-install-plugin-cli" label="CLI" default>
-```sh
-php craft plugin/install freeform
+```nix
+./craft plugin/install freeform
 ```
 </TabItem>
 <TabItem value="install-cli-install-plugin-cp" label="Control Panel">
@@ -183,7 +184,7 @@ If Freeform is right for your site, [purchase a copy](#purchasing) of it through
 </TabItem>
 <TabItem value="install-cp" label="Control Panel">
 
-### Install from the Control Panel
+Freeform can be installed via the control panel by following these instructions:
 
 <VerticalStepWrapper>
 <StepMarkdown stepTitle="Get Freeform">
@@ -213,20 +214,9 @@ If Freeform is right for your site, [purchase a copy](#purchasing) of it through
 
 ## Updating
 
-Freeform uses the **Craft Updates Service**, which means that every time there's an update available, it'll show up in the _Updates_ area (**Utilities** → **Updates**) of the Craft control panel. You can then review the changelog there, or [view it here](./changelog.mdx).
-
 :::warning
 **If you're upgrading from Freeform 4.x**, please see the special [upgrade guide here](./updating-freeform-4.mdx).
 :::
-
-Freeform can be updated one of three ways:
-
-<Tabs>
-<TabItem value="update-cli" label="Command Line (CLI)" default>
-
-### Update from the CLI<Badge type="recommended" text="Recommended" />
-
-You can use the Craft [_update_ command](https://craftcms.com/docs/5.x/update.html#updating-from-the-terminal) to update Freeform.
 
 :::warning
 #### Back up your database before continuing...
@@ -236,137 +226,129 @@ If the upgrade migration fails at any point, you must be prepared to fully resto
 **It is essential that you take a complete backup of your database before proceeding with this update!**
 :::
 
-<VerticalStepWrapper>
-<StepMarkdown>
-Open your CLI and go to your Craft project:
+Freeform can be updated one of three ways:
 
-```sh
+<Tabs>
+<TabItem value="update-cli" label="Craft Update (CLI)" default>
+
+You can use the Craft [_update_ command](https://craftcms.com/docs/5.x/update.html#updating-from-the-terminal) to update Freeform. <Badge type="recommended" text="Recommended" />
+
+<VerticalStepWrapper>
+<StepMarkdown stepTitle="Open your Craft project">
+
+```nix
 cd /path/to/project
 ```
-
 </StepMarkdown>
-<StepMarkdown>
-To see available updates, run this command:
+<StepMarkdown stepTitle="Check for Updates">
 
-```sh
-php craft update
+```nix
+./craft update
 ```
-
 </StepMarkdown>
-<StepMarkdown>
-Follow the prompts, or run:
-
+<StepMarkdown stepTitle="Perform the Updates">
 <Tabs>
 <TabItem value="updating-cli-latest-version" label="Latest Version" default>
 
-```sh
-php craft update freeform
+```nix
+./craft update freeform
 ```
-
 </TabItem>
 <TabItem value="updating-cli-specific-version" label="Specific Version">
 
-```sh
-php craft update freeform:5.9.15
+```nix
+./craft update freeform:5.9.15
 ```
-
 </TabItem>
 </Tabs>
 </StepMarkdown>
 </VerticalStepWrapper>
 
 </TabItem>
-<TabItem value="update-cli-composer" label="Composer CLI">
-
-### Update via Composer from the CLI
+<TabItem value="update-cli-composer" label="Composer (CLI)">
 
 You can also update Freeform more manually if you like, using Composer (`composer update`). This may also be helpful in certain scenarios where you need to workaround an issue while updating.
 
-:::warning
-#### Back up your database before continuing...
-
-If the upgrade migration fails at any point, you must be prepared to fully restore your database using the backup you created before initiating the update again. A failed migration may leave the database partially changed or other migrations may have occurred. Downgrading to an earlier version could corrupt the database and make it unrecoverable.
-
-**It is essential that you take a complete backup of your database before proceeding with this update!**
-:::
-
 <VerticalStepWrapper>
-<StepMarkdown>
-Open your Craft site's main `composer.json` file and adjust the version number for Freeform ([see guide below](#understanding-versions-and-composer-update)).
+<StepMarkdown stepTitle="Update composer.json">
+<Tabs>
+<TabItem value="updating-cli-composer-latest-versions" label="Latest Versions" default>
 
-```diff
+Specifying the caret (`^`) before the version number will always grab the latest available version:
+
+```json {4}
 "require": {
     "craftcms/cms": "^5.0.0",
     "vlucas/phpdotenv": "^5.4.0",
--   "solspace/craft-freeform": "^5.0.0",
-+   "solspace/craft-freeform": "^5.3.0",
+    "solspace/craft-freeform": "^5.0.0",
     "solspace/craft-calendar": "^5.0.0"
 },
 ```
+</TabItem>
+<TabItem value="updating-cli-composer-locked-versions" label="Locked Versions">
 
+If you are locking your versions, you will need to open your Craft site's main `composer.json` file and adjust the version number for Freeform ([see guide below](#understanding-versions-and-composer-update)).
+
+```diff
+"require": {
+    "craftcms/cms": "5.6.1",
+    "vlucas/phpdotenv": "5.4.0",
+-   "solspace/craft-freeform": "5.7.2",
++   "solspace/craft-freeform": "5.9.15",
+    "solspace/craft-calendar": "5.0.14"
+},
+```
+</TabItem>
+</Tabs>
 </StepMarkdown>
-<StepMarkdown>
-Open your CLI app and go to your Craft project:
+<StepMarkdown stepTitle="Open your Craft project">
 
-```sh
+```nix
 cd /path/to/project
 ```
-
 </StepMarkdown>
-<StepMarkdown>
-To run any available updates for your site, run:
+<StepMarkdown stepTitle="Get Updates">
 
-```sh
+```nix
 composer update
 ```
-
 </StepMarkdown>
-<StepMarkdown>
-Enter one of the following commands:
-
+<StepMarkdown stepTitle="Run Migrations">
 <Tabs>
 <TabItem value="updating-cli-composer-all" label="Craft and All Plugins" default>
 
-Check for available migrations for Craft and all plugins:
-
-```sh
-php craft migrate/all
+```nix
+./craft migrate/all
 ```
-
 </TabItem>
 <TabItem value="updating-cli-composer-freeform" label="Freeform only">
 
-Check for available migrations for Freeform only:
-
-```sh
-php craft migrate --plugin=freeform
+```nix
+./craft migrate --plugin=freeform
 ```
+</TabItem>
+<TabItem value="updating-cli-control-panel" label="Control Panel">
+
+  Proceed to the Craft control panel and click the **Finish Updates** button if it shows.
+
+  :::warning
+  We strongly advise against using the Control Panel for updates and migrations.
+  :::
 
 </TabItem>
 </Tabs>
-
-_OR_ 
-
-Proceed to the Craft control panel and click the **Finish Updates** button if it shows.
-
 </StepMarkdown>
 </VerticalStepWrapper>
 
 </TabItem>
 <TabItem value="update-cp" label="Control Panel">
 
-### Update from the Control Panel
-
 :::warning
-#### Back up your database before continuing...
-
-If the upgrade migration fails at any point, you must be prepared to fully restore your database using the backup you created before initiating the update again. A failed migration may leave the database partially changed or other migrations may have occurred. Downgrading to an earlier version could corrupt the database and make it unrecoverable.
-
-**It is essential that you take a complete backup of your database before proceeding with this update!**
+We strongly advise against using the Control Panel for updates and migrations.
 :::
 
 <VerticalStepWrapper>
-<StepMarkdown>
+<StepMarkdown stepTitle="Check for Updates">
 Go to the Craft Updates area inside the control panel (**Utilities** → **Updates**) and review the changelog for Freeform.
 
 <Photo
@@ -375,7 +357,7 @@ Go to the Craft Updates area inside the control panel (**Utilities** → **Updat
 />
 
 </StepMarkdown>
-<StepMarkdown>
+<StepMarkdown stepTitle="Run Updates">
 Simply click the **Update** button and Craft will do the rest.
 
 </StepMarkdown>
@@ -390,23 +372,28 @@ Simply click the **Update** button and Craft will do the rest.
 Freeform can be temporarily disabled from the CLI or control panel. The benefit of this is to troubleshoot potential issues and conflicts while preserving your data until a proper fix or change to the site is made.
 
 <VerticalStepWrapper>
-<StepMarkdown>
-Open your CLI app and go to your Craft project:
+<StepMarkdown stepTitle="Open your Craft Project">
 
-```sh
+```nix
 cd /path/to/project
 ```
-
 </StepMarkdown>
-<StepMarkdown>
-Disable Freeform by running the following command in your CLI app:<Badge type="recommended" text="Recommended" />
-
-```sh
-php craft plugin/disable freeform
+<StepMarkdown stepTitle="Disable Freeform">
+<Tabs>
+<TabItem value="disable-plugin-cli" label="CLI" default>
+```nix
+./craft plugin/disable freeform
 ```
+</TabItem>
+<TabItem value="disable-plugin-cp" label="Control Panel">
+  To disable Freeform via the Craft control panel instead:
+  
+  1. Go to _Settings → Plugins_.
+  2. Click the **Cog button** for Freeform
+  3. Select **Disable**.
 
-**OR** to disable via the Craft control panel, go to _Settings → Plugins_ and click the **Cog button** for Freeform and select **Disable**.
-
+</TabItem>
+</Tabs>
 </StepMarkdown>
 </VerticalStepWrapper>
 
@@ -414,40 +401,44 @@ php craft plugin/disable freeform
 
 Follow the steps below to uninstall Freeform from your site.
 
-<VerticalStepWrapper>
-<StepMarkdown>
-Open your CLI app and go to your Craft project:
-
-```sh
-cd /path/to/project
-```
-
-</StepMarkdown>
-<StepMarkdown>
-Uninstall Freeform by running the following command in your CLI app:<Badge type="recommended" text="Recommended" />
-
 :::danger
 This action cannot be undone. All of your Freeform data be will lost forever, unless you have made a backup.
 :::
 
-```sh
-php craft plugin/uninstall freeform
+<VerticalStepWrapper>
+<StepMarkdown stepTitle="Open your Craft Project">
+
+```nix
+cd /path/to/project
 ```
-
-**OR** to uninstall via the Craft control panel, go to _Settings → Plugins_ and click the **Cog button** for Freeform and select **Uninstall**.
-
 </StepMarkdown>
-<StepMarkdown>
-Then tell _Composer_ to remove the plugin:
+<StepMarkdown stepTitle="Uninstall Freeform">
+<Tabs>
+<TabItem value="uninstall-plugin-cli" label="CLI" default>
+
+```nix
+./craft plugin/uninstall freeform
+```
+</TabItem>
+<TabItem value="uninstall-plugin-cp" label="Control Panel">
+  To uninstall Freeform via the Craft control panel instead:
+  
+  1. Go to _Settings → Plugins_.
+  2. Click the **Cog button** for Freeform
+  3. Select **Uninstall**.
+
+</TabItem>
+</Tabs>
+</StepMarkdown>
+<StepMarkdown stepTitle="Remove Dependencies">
 
 :::danger
 Do not remove a plugin package with Composer before uninstalling it from the control panel or with Craft's CLI.
 :::
 
-```sh
+```nix
 composer remove solspace/craft-freeform
 ```
-
 </StepMarkdown>
 </VerticalStepWrapper>
 
@@ -471,11 +462,13 @@ Your final `composer.json` file might have something like this:
 },
 ```
 
-### Getting Latest Unreleased Version
+<details className="hidden-heading">
+  <summary>Getting Latest Unreleased Version...</summary>
 
 Sometimes you need to update your site to use the latest _unreleased_ changes in the Calendar repository. This could be in the main branch or a temporary fix/feat branch, e.g. `v5` or `feat/SFT-123`.
 
 To access the latest unreleased version of Calendar (`v5`), you would set the version in your `composer.json` file to just `v5.x-dev` and run `composer update` after. Your final `composer.json` file might have something like this:
+<br />
 
 ```json {4}
 "require": {
@@ -488,6 +481,7 @@ To access the latest unreleased version of Calendar (`v5`), you would set the ve
 
 To access an unreleased version from a different branch (e.g. `feat/SFT-123`), you would prefix the branch with `dev-` + the exact branch path/name. We also recommend that you run those changes as a "dummy" next version number and append a beta version. For example, if the current released version of Freeform is `5.3.4` and there are new unreleased changes in the `feat/SFT-123` branch you want to grab, go up 1 patch version number + `-beta.1`. In this case, we would assume `5.3.5` was the next version, so we'd create the version number: `5.3.5-beta.1`. Altogether, we'd be specifying: `dev-feat/SFT-123 as 5.3.5-beta.1`.
 Your final `composer.json` file might have something like this:
+<br />
 
 ```json {4}
 "require": {
@@ -501,6 +495,8 @@ Your final `composer.json` file might have something like this:
 :::info
 If there are more unreleased changes to the repo in the future, you could change `-beta.1` to `-beta.2` and so on. For example, `dev-feat/SFT-123 as 5.3.5-beta.2`.
 :::
+
+</details>
 
 ## Purchasing
 
