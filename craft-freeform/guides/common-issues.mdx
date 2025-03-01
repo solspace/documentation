@@ -422,13 +422,28 @@ Check out this documentation resource to troubleshoot common problems or find an
     This is usually a result of the file actually being missing on the site, or being blocked for some reason. Make sure that your server, site, or FTP client is not ignoring or excluding certain files and/or directories for any reason (e.g. an **.htaccess** rewrite rule that manipulates URL's can interfere with Freeform's POST to `/save` by redirecting it to `/save/`, etc). In all known cases of this, the aforementioned solutions always resolved the issue. Also be sure that you don't have any agressive security settings enabled on your server such as **ModSecurity** / **SQL injection detection**.
   </AnswerCard>
 </details>
+
+<details>
+  <summary>SQLSTATE[42S22]: Column NOT found: 1054 Unknown column 'my_table_prefix.column_name_1' IN 'field list'</summary>
+
+  I'm seeing an error that says:
+  `SQLSTATE[42S22]: Column NOT found: 1054 Unknown column 'my_table_prefix.column_name_1' IN 'field list'`
+
+  <AnswerCard>
+    This is error is indicating that there is a column mismatch between `freeform_forms_fields` table and related `freeform_submissions_` table.
+
+    It could be caused by a migration during a Freeform update. If this just happened after updating Freeform, try fully restoring your database using the backup you created before initiating the update again. A failed migration may leave the database partially changed or other migrations may have occurred. Downgrading to an earlier version could corrupt the database and make it unrecoverable.
+  </AnswerCard>
+</details>
+
+
 <details>
   <summary>Javascript errors in Safari when using reCAPTCHA</summary>
 
   I'm seeing JS errors that say `"The source list for Content Security Policy directive 'script-src' contains an invalid source: "strict-dynamic". It will be ignored.` on forms using reCAPTCHA in Safari.
 
   <AnswerCard>
-  This is out of our control as it is a [known issue with Google and Safari](https://github.com/google/google-api-javascript-client/issues/397). It technically does not interfere with the form functioning correctly, but they are choosing not to address the issue for some reason.
+    This is out of our control as it is a [known issue with Google and Safari](https://github.com/google/google-api-javascript-client/issues/397). It technically does not interfere with the form functioning correctly, but they are choosing not to address the issue for some reason.
   </AnswerCard>
 </details>
 <details>

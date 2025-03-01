@@ -54,7 +54,11 @@ The Freeform 5.0 update is a major overhaul to the structure, templating, and fo
 While updating from Freeform 3.x directly to 5.x is possible, we strongly recommend the following additional steps to help the process go smoother...
 
 :::danger
-Be sure to back up your site files and database before proceeding.
+#### Back up your database before continuing...
+
+If the upgrade migration fails at any point, you must be prepared to fully restore your database using the backup you created before initiating the update again. A failed migration may leave the database partially changed or other migrations may have occurred. Downgrading to an earlier version could corrupt the database and make it unrecoverable.
+
+**It is essential that you take a complete backup of your database before proceeding with this update!**
 :::
 
 <VerticalStepWrapper>
@@ -75,7 +79,11 @@ Proceed to the Updating from 4.x guide below...
 ## Updating from 4.x
 
 :::danger
-Be sure to back up your site files and database before proceeding.
+#### Back up your database before continuing...
+
+If the upgrade migration fails at any point, you must be prepared to fully restore your database using the backup you created before initiating the update again. A failed migration may leave the database partially changed or other migrations may have occurred. Downgrading to an earlier version could corrupt the database and make it unrecoverable.
+
+**It is essential that you take a complete backup of your database before proceeding with this update!**
 :::
 
 <VerticalStepWrapper>
@@ -110,14 +118,14 @@ Edit your project's `composer.json` file and update the Freeform version to 5.x:
 <Tabs>
 <TabItem value="updating-cli-latest-version" label="Latest Version" default>
 
-```sh command-line
+```sh
 php craft update freeform
 ```
 
 </TabItem>
 <TabItem value="updating-cli-specific-version" label="Specific Version">
 
-```sh command-line
+```sh
 php craft update freeform:5.9.15
 ```
 
@@ -133,14 +141,14 @@ In your CLI, run one of the following commands:
 <Tabs>
 <TabItem value="updating-cli-composer-all" label="Craft and All Plugins" default>
 
-```sh command-line
+```sh
 php craft migrate/all
 ```
 
 </TabItem>
 <TabItem value="updating-cli-composer-freeform" label="Freeform only">
 
-```sh command-line
+```sh
 php craft migrate --plugin=freeform
 ```
 

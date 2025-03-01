@@ -104,48 +104,46 @@ Freeform can be installed one of two ways:
 
 ### Install from the CLI<Badge type="recommended" text="Recommended" />
 
-Freeform can be installed through the CLI:
+Freeform can be installed by running the following set of commands in your favorite CLI app:
 
 <VerticalStepWrapper>
-<StepMarkdown>
-Open your CLI app and go to your Craft project:
-
-```sh command-line
+<StepMarkdown stepTitle="Open your Craft project">
+```sh
 cd /path/to/project
 ```
-
 </StepMarkdown>
-<StepMarkdown>
-Then tell _Composer_ to require the plugin:
-
+<StepMarkdown stepTitle="Get Freeform">
 <Tabs>
 <TabItem value="install-cli-latest-version" label="Latest Version" default>
-
-```sh command-line
+```sh
 composer require solspace/craft-freeform -w
 ```
-
 </TabItem>
 <TabItem value="install-cli-specific-version" label="Specific Version">
-
-```sh command-line
+```sh
 composer require solspace/craft-freeform:5.9.15 -w
 ```
+</TabItem>
+</Tabs>
+</StepMarkdown>
+<StepMarkdown stepTitle="Install Freeform">
+<Tabs>
+<TabItem value="install-cli-install-plugin-cli" label="CLI" default>
+```sh
+php craft plugin/install freeform
+```
+</TabItem>
+<TabItem value="install-cli-install-plugin-cp" label="Control Panel">
+  To install Freeform via the Craft control panel instead:
+  
+  1. Go to _Settings → Plugins_.
+  2. Click the **Cog button** for Freeform
+  3. Select **Install**.
 
 </TabItem>
 </Tabs>
 </StepMarkdown>
-<StepMarkdown>
-Install Freeform by running the following command:
-
-```sh command-line
-php craft plugin/install freeform
-```
-
-**OR** to install via the Craft control panel, go to _Settings → Plugins_ and click the **Cog button** for Freeform and select **Install**.
-
-</StepMarkdown>
-<StepMarkdown>
+<StepMarkdown stepTitle="Choose Edition">
 Craft will automatically install the _Express_ edition of Freeform. If you'd like the _Lite_ or _Pro_ edition, you can switch the edition one of two ways:
 
 <Tabs>
@@ -173,12 +171,10 @@ Craft will automatically install the _Express_ edition of Freeform. If you'd lik
   url={require('@site/static/videos/craft/freeform/v5/switch-edition.mp4').default}
   muted loop playing width="100%" height="100%"
 />
-
 </TabItem>
 </Tabs>
-
 </StepMarkdown>
-<StepMarkdown>
+<StepMarkdown stepTitle="Purchase">
 If Freeform is right for your site, [purchase a copy](#purchasing) of it through the Plugin Store when you're ready!
 
 </StepMarkdown>
@@ -190,30 +186,27 @@ If Freeform is right for your site, [purchase a copy](#purchasing) of it through
 ### Install from the Control Panel
 
 <VerticalStepWrapper>
-<StepMarkdown>
+<StepMarkdown stepTitle="Get Freeform">
 Go to the **Plugin Store** area inside your Craft control panel and click on *Freeform*.
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/cp/plugin-store.png')}
   alt="Plugin Store"
 />
-
 </StepMarkdown>
-<StepMarkdown>
+<StepMarkdown stepTitle="Choose Edition">
 Once the product page opens, choose whether you want to install it by clicking the **Try** button under the *Lite* or *Pro* edition.
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/cp/plugin-store-install.png')}
   alt="Plugin Store - Install Freeform"
 />
-
 </StepMarkdown>
-<StepMarkdown>
+<StepMarkdown stepTitle="Purchase">
 If Freeform is right for your site, [purchase a copy](#purchasing) of it through the Plugin Store when you're ready!
 
 </StepMarkdown>
 </VerticalStepWrapper>
-
 </TabItem>
 </Tabs>
 
@@ -236,14 +229,18 @@ Freeform can be updated one of three ways:
 You can use the Craft [_update_ command](https://craftcms.com/docs/5.x/update.html#updating-from-the-terminal) to update Freeform.
 
 :::warning
-Be sure to back up the database before proceeding.
+#### Back up your database before continuing...
+
+If the upgrade migration fails at any point, you must be prepared to fully restore your database using the backup you created before initiating the update again. A failed migration may leave the database partially changed or other migrations may have occurred. Downgrading to an earlier version could corrupt the database and make it unrecoverable.
+
+**It is essential that you take a complete backup of your database before proceeding with this update!**
 :::
 
 <VerticalStepWrapper>
 <StepMarkdown>
 Open your CLI and go to your Craft project:
 
-```sh command-line
+```sh
 cd /path/to/project
 ```
 
@@ -251,7 +248,7 @@ cd /path/to/project
 <StepMarkdown>
 To see available updates, run this command:
 
-```sh command-line
+```sh
 php craft update
 ```
 
@@ -262,14 +259,14 @@ Follow the prompts, or run:
 <Tabs>
 <TabItem value="updating-cli-latest-version" label="Latest Version" default>
 
-```sh command-line
+```sh
 php craft update freeform
 ```
 
 </TabItem>
 <TabItem value="updating-cli-specific-version" label="Specific Version">
 
-```sh command-line
+```sh
 php craft update freeform:5.9.15
 ```
 
@@ -286,7 +283,11 @@ php craft update freeform:5.9.15
 You can also update Freeform more manually if you like, using Composer (`composer update`). This may also be helpful in certain scenarios where you need to workaround an issue while updating.
 
 :::warning
-Be sure to back up the database before proceeding.
+#### Back up your database before continuing...
+
+If the upgrade migration fails at any point, you must be prepared to fully restore your database using the backup you created before initiating the update again. A failed migration may leave the database partially changed or other migrations may have occurred. Downgrading to an earlier version could corrupt the database and make it unrecoverable.
+
+**It is essential that you take a complete backup of your database before proceeding with this update!**
 :::
 
 <VerticalStepWrapper>
@@ -307,7 +308,7 @@ Open your Craft site's main `composer.json` file and adjust the version number f
 <StepMarkdown>
 Open your CLI app and go to your Craft project:
 
-```sh command-line
+```sh
 cd /path/to/project
 ```
 
@@ -315,7 +316,7 @@ cd /path/to/project
 <StepMarkdown>
 To run any available updates for your site, run:
 
-```sh command-line
+```sh
 composer update
 ```
 
@@ -328,7 +329,7 @@ Enter one of the following commands:
 
 Check for available migrations for Craft and all plugins:
 
-```sh command-line
+```sh
 php craft migrate/all
 ```
 
@@ -337,7 +338,7 @@ php craft migrate/all
 
 Check for available migrations for Freeform only:
 
-```sh command-line
+```sh
 php craft migrate --plugin=freeform
 ```
 
@@ -357,7 +358,11 @@ Proceed to the Craft control panel and click the **Finish Updates** button if it
 ### Update from the Control Panel
 
 :::warning
-Be sure to back up the database before proceeding.
+#### Back up your database before continuing...
+
+If the upgrade migration fails at any point, you must be prepared to fully restore your database using the backup you created before initiating the update again. A failed migration may leave the database partially changed or other migrations may have occurred. Downgrading to an earlier version could corrupt the database and make it unrecoverable.
+
+**It is essential that you take a complete backup of your database before proceeding with this update!**
 :::
 
 <VerticalStepWrapper>
@@ -388,7 +393,7 @@ Freeform can be temporarily disabled from the CLI or control panel. The benefit 
 <StepMarkdown>
 Open your CLI app and go to your Craft project:
 
-```sh command-line
+```sh
 cd /path/to/project
 ```
 
@@ -396,7 +401,7 @@ cd /path/to/project
 <StepMarkdown>
 Disable Freeform by running the following command in your CLI app:<Badge type="recommended" text="Recommended" />
 
-```sh command-line
+```sh
 php craft plugin/disable freeform
 ```
 
@@ -413,7 +418,7 @@ Follow the steps below to uninstall Freeform from your site.
 <StepMarkdown>
 Open your CLI app and go to your Craft project:
 
-```sh command-line
+```sh
 cd /path/to/project
 ```
 
@@ -425,7 +430,7 @@ Uninstall Freeform by running the following command in your CLI app:<Badge type=
 This action cannot be undone. All of your Freeform data be will lost forever, unless you have made a backup.
 :::
 
-```sh command-line
+```sh
 php craft plugin/uninstall freeform
 ```
 
@@ -439,7 +444,7 @@ Then tell _Composer_ to remove the plugin:
 Do not remove a plugin package with Composer before uninstalling it from the control panel or with Craft's CLI.
 :::
 
-```sh command-line
+```sh
 composer remove solspace/craft-freeform
 ```
 
