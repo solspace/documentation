@@ -267,7 +267,7 @@ If you wish to create your own modified version, you can copy from the code exam
 
 :::
 
-## Template Overrides<Badge type="feature" text="New in 5.0+" />
+## Template Overrides<Badge type="feature" text="New in 5.0+, Improved in 5.10+" />
 
 The form and each field have the ability to control **attributes**, **values** and more at the template level. Each one of them is entirely optional. There are several namespaces:
 
@@ -275,6 +275,7 @@ The form and each field have the ability to control **attributes**, **values** a
 - `buttons` - controls the output of the [Submit button(s)](../../forms/fields.mdx#submit-buttons).
 - `fields` - controls the output of all [Fields](../../forms/fields.mdx).
 - `captchas` - add attributes to the main Captcha wrapper automatically inserted by Freeform when using [reCAPTCHA](../../integrations/recaptcha.mdx) or [hCaptcha](../../integrations/hcaptcha.mdx).
+- `tag` - a special attribute that allows you to change the default HTML tag for fields and form markup. [See examples](#overriding-html-tags)<Badge type="feature" text="New in 5.10+" />
 
 Here's a breakdown:
 
@@ -282,6 +283,7 @@ Here's a breakdown:
   - `"foo": "bar"`- unknown attributes - applied directly to the `<form>` tag.
   - `class: "my-form-class"` - known attributes - applied directly to the corresponding attribute on the `<form>` tag.
   - `row` - applied directly to form `<div>` rows.
+  - `column` - applied directly to form `<div>` columns.
   - `success` - applied directly to Success banner wrapper `div`.
   - `error` - applied directly to Error banner wrapper `div`.
 - `buttons` - control overrides for submit buttons
@@ -309,17 +311,24 @@ Here's a breakdown:
     - `attributes`
       - `container` - applied to field wrapper `<div>` for all fields of this type.
       - `input` - applied to `<input>` (and `<select>`, etc) for all fields of this type.
-      - `label` - applied to `<label>` for all fields of this type.
+      - `label` - applied to the field's `<label>` for all fields of this type.
+      - `optionLabel` - applied to `<label>` for all options in _Checkboxes_ and _Radios_ fields.<Badge type="feature" text="New in 5.10+" />
+      - `option` - applied to `<option>` for all options in _Dropdown_ and _Multi-Select_ fields.<Badge type="feature" text="New in 5.10+" />
       - `instructions` - applied to instructions `<div>` for all fields of this type.
       - `errors` - applied to errors `<div>` for all fields of this type.
     - `value` - override the default value for the specified field type(s).
     - `label` - override the field label for the specified field type(s).
     - `instructions` - override the field instructions for the specified field type(s).
   - `"myFieldHandle"` applied to a specific field. Use the field handle name.
+    :::info
+    Field types and field handles can be mixed together to receive shared attributes. Just specify them like: `"@fieldtypename, @anotherfieldtypename, myFieldHandle"`.
+    :::
     - `attributes`
       - `container` - applied to field wrapper `<div>` for this specific field handle.
       - `input` - applied to `<input>` (and `<select>`, etc) for this specific field handle.
       - `label` - applied to `<label>` for this specific field handle.
+      - `optionLabel` - applied to `<label>` for this specific field's options (applies to _Checkboxes_ and _Radios_ fields).<Badge type="feature" text="New in 5.10+" />
+      - `option` - applied to `<option>` for this specific field's options (applies to _Dropdown_ and _Multi-Select_ fields).<Badge type="feature" text="New in 5.10+" />
       - `instructions` - applied to instructions `<div>` for this specific field handle.
       - `errors` - applied to errors `<div>` for this specific field handle.
     - `value` - override the default value for the specified field.
@@ -328,10 +337,6 @@ Here's a breakdown:
 - `captchas` - add attributes to the main Captcha wrapper automatically inserted by Freeform when using [reCAPTCHA](../../integrations/recaptcha.mdx) or [hCaptcha](../../integrations/hcaptcha.mdx).<Badge type="feature" text="New in 5.1+" />
   - `"foo": "bar"`- unknown attributes - applied directly to the `<div data-freeform-recaptcha-container>` tag.
   - `class: "my-form-class"` - known attributes - applied directly to the corresponding attribute on the `<div data-freeform-recaptcha-container>` tag.
-
-:::info
-Field types and field handles can be mixed together to receive shared attributes. Just specify them like: `"@fieldtypename, @anotherfieldtypename, myFieldHandle"`.
-:::
 
 ### Behavior Syntax
 
@@ -343,222 +348,398 @@ This works for unknown attributes as well, e.g. `"my-attribute": "whatever"` can
 - The `-` prefix will **remove** the specified values from any existing values for the same attribute set elsewhere.
 - The `=` prefix will **replace** all existing values of the same attribute set elsewhere with the ones set here.
 
-For example:
+<Tabs>
+  <TabItem value="behavior-syntax-example" label="Example" default>
 
-```twig showLineNumbers {11,17-18,25}
-{{ form.render({
-    fields: {
-        "@global": {
-            attributes: {
-                input: { class: "form-input form-text" },
-                label: { class: "form-label" },
-            },
-        },
-        ":required": {
-            attributes: {
-                label: { "+class": "form-required" },
-            },
-        },
-        "@dropdown": {
-            attributes: {
-                input: {
-                    "-class": "form-text",
-                    "+class": "form-select",
+    In the below example:
+
+    - All field inputs will be given the classes: `form-input form-text`.
+    - **Dropdown** input fields will remove the `form-text` class and add `form-select`, resulting in it having the classes: `form-input form-select`.
+    - The **Checkbox** input fields will replace the classes: `form-input form-text` entirely with just `form-check`.
+    - All fields that are set to be required inside the form builder will have the additional class of `form-required` as well as `form-label`.
+
+    ```twig showLineNumbers {11,17-18,25}
+    {{ form.render({
+        fields: {
+            "@global": {
+                attributes: {
+                    input: { class: "form-input form-text" },
+                    label: { class: "form-label" },
                 },
             },
-        },
-        "@checkbox" : {
-            attributes: {
-                input: {
-                    "=class": "form-check",
+            ":required": {
+                attributes: {
+                    label: { "+class": "form-required" },
                 },
             },
+            "@dropdown": {
+                attributes: {
+                    input: {
+                        "-class": "form-text",
+                        "+class": "form-select",
+                    },
+                },
+            },
+            "@checkbox" : {
+                attributes: {
+                    input: {
+                        "=class": "form-check",
+                    },
+                },
+            },
+        }
+    }) }}
+    ```
+
+  </TabItem>
+  <TabItem value="behavior-syntax-output" label="Output">
+
+    The resulting code might look something like this:
+
+    ```html showLineNumbers
+    // Each field input would render as:
+    <label class="form-label" ...>
+      <input class="form-input form-text" ... />
+    </label>
+
+    // Required fields would render with the additional "form-required" class:
+    <label class="form-label form-required" ... >
+      <input class="form-input form-text" ... />
+    </label>
+
+    // Dropdown fields would render with the "form-text" class removed and the
+    "form-select" class added:
+    <label class="form-label" ...>
+      <select class="form-input form-select" ... >
+    </label>
+
+    // Checkbox fields would render with both "form-text" and "form-select"
+    classes replaced with "form-check":
+    <label class="form-label" ... >
+      <input class="form-check" ... />
+    </label>
+    ```
+
+  </TabItem>
+</Tabs>
+
+### Overriding HTML Tags<Badge type="feature" text="New in 5.10+" />
+
+If you need to override any of Freeform's default HTML tags, you can use the reserved `tag` attribute.
+
+The `tag` attribute override is available within:
+
+- `attributes`
+  - `row`, `column`
+- `fields`
+  - `"@global"`, `"@fieldtypename"`, `"myFieldHandle"`
+    - `attributes`
+      - `container`, `label`, `optionLabel`, `instructions`, `errors`
+
+:::info
+It is not possible to override the `input` tag at this time.
+:::
+
+<Tabs>
+  <TabItem value="overriding-html-tags-example" label="General Example" default>
+
+    In the below example:
+
+    - All rows and columns in the form will be switched from the default tag of `div` to `ul` and `li`, respectively.
+    - All fields of the [Checkboxes](../../forms/fields.mdx#checkboxes) and [Radios](../../forms/fields.mdx#radios) type will have their:
+      - Field wrapper switched from the default tag of `div` to `fieldset` and a class of `container`.
+      - Field label switched from the default tag of `label` to `legend` and a class of `label`.
+      - Field options' labels given a tag of `label` and a class of `option-label`.
+    - All fields of the [HTML](../../forms/fields.mdx#html) type will have their:
+      - Field wrapper switched from the default tag of `div` to `p`.
+
+    ```twig showLineNumbers
+    {{ form.render({
+      attributes: {
+        row: {
+          tag: 'ul',
         },
-    }
-}) }}
-```
+        column: {
+          tag: 'li',
+        },
+      },
+      fields: {
+        "@checkboxes, @radios": {
+          attributes: {
+            container: {
+              tag: "fieldset",
+              class: "container",
+            },
+            label: {
+              tag: "legend",
+              class: "label",
+            },
+            optionLabel: {
+              tag: "label",
+              class: "option-label",
+            },
+          }
+        },
+        "@html": {
+          attributes: {
+            container: {
+              tag: "p",
+            },
+          }
+        },
+      },
+    }) }}
+    ```
 
-In the above example:
+  </TabItem>
+  <TabItem value="overriding-html-tags-checkboxes-radios" label="Checkboxes & Radios">
 
-- All field inputs will be given the classes: `form-input form-text`.
-- **Dropdown** input fields will remove the `form-text` class and add `form-select`, resulting in it having the classes: `form-input form-select`.
-- The **Checkbox** input fields will replace the classes: `form-input form-text` entirely with just `form-check`.
-- All fields that are set to be required inside the form builder will have the additional class of `form-required` as well as `form-label`.
+    If you want your [Checkboxes](../../forms/fields.mdx#checkboxes) and [Radios](../../forms/fields.mdx#radios) fields to follow best practices for accessibility, you can implement the following overrides:
+    
+    The result will be that their:
+      - Field wrapper switched from the default tag of `div` to `fieldset`.
+      - Field label switched from the default tag of `label` to `legend`.
+      - Field options' labels given a tag of `label` and a class of `option-label`.
 
-The resulting code might look something like this:
+    ```twig showLineNumbers
+    {{ form.render({
+      fields: {
+        "@checkboxes, @radios": {
+          attributes: {
+            container: {
+              tag: "fieldset",
+            },
+            label: {
+              tag: "legend",
+            },
+            optionLabel: {
+              tag: "label",
+              class: "option-label",
+            },
+          }
+        },
+      },
+    }) }}
+    ```
 
-```html showLineNumbers
-// Each field input would render as:
-<label class="form-label" ...>
-  <input class="form-input form-text" ... />
-</label>
-
-// Required fields would render with the additional "form-required" class:
-<label class="form-label form-required" ... >
-  <input class="form-input form-text" ... />
-</label>
-
-// Dropdown fields would render with the "form-text" class removed and the
-"form-select" class added:
-<label class="form-label" ...>
-  <select class="form-input form-select" ... >
-</label>
-
-// Checkbox fields would render with both "form-text" and "form-select"
-classes replaced with "form-check":
-<label class="form-label" ... >
-  <input class="form-check" ... />
-</label>
-```
+    <Tabs>
+      <TabItem value="overriding-html-tags-checkboxes-radios-after" label="After Overrides" default>
+        ```html
+        <fieldset>
+          <legend>Favorite Food</legend>
+          <label for="form-input-favoriteFood-0">
+            <input type="checkbox" id="form-input-favoriteFood-0" name="favoriteFood[]" value="Peanuts" />
+            Peanuts
+          </label>
+          <label for="form-input-favoriteFood-1">
+            <input type="checkbox" id="form-input-favoriteFood-1" name="favoriteFood[]" value="Crackers" />
+            Crackers
+          </label>
+          <label for="form-input-favoriteFood-2">
+            <input type="checkbox" id="form-input-favoriteFood-2" name="favoriteFood[]" value="Cheese" />
+            Cheese
+          </label>
+        </fieldset>
+        ```
+      </TabItem>
+      <TabItem value="overriding-html-tags-checkboxes-radios-before" label="Default (Before)">
+        ```html
+        <div>
+          <label>Favorite Food</label>
+          <label for="form-input-favoriteFood-0">
+            <input type="checkbox" id="form-input-favoriteFood-0" name="favoriteFood[]" value="Peanuts" />
+            Peanuts
+          </label>
+          <label for="form-input-favoriteFood-1">
+            <input type="checkbox" id="form-input-favoriteFood-1" name="favoriteFood[]" value="Crackers" />
+            Crackers
+          </label>
+          <label for="form-input-favoriteFood-2">
+            <input type="checkbox" id="form-input-favoriteFood-2" name="favoriteFood[]" value="Cheese" />
+            Cheese
+          </label>
+        </div>
+        ```
+      </TabItem>
+    </Tabs>
+  </TabItem>
+</Tabs>
 
 ### Full Example
 
 The example below shows the hierarchy and behavior of each option.
 
-<div className="flex overflow-scroll">
+<div className="flex overflow-scroll side-by-side-code-blocks">
 <div>
 
-```twig showLineNumbers {2,18,31,122}
+```twig showLineNumbers
 {{ form.render({
+// highlight-start
+  attributes: {
+// highlight-end
+    novalidate: true,
+    "data-form": true,
+    id: "my-form-id",
+    class: "my-form-class",
+    row: {
+      tag: 'ul',
+      "data-row": true,
+      class: "form-row",
+    },
+    column: {
+      tag: 'li',
+      class: "form-column",
+    },
+    success: {
+      class: "form-success",
+    },
+    error: {
+      class: "form-error",
+    },
+  },
+// highlight-start
+  buttons: {
+// highlight-end
     attributes: {
-        novalidate: true,
-        "data-form": true,
-        id: "my-form-id",
-        class: "my-form-class",
-        row: {
-            "data-row": true,
-            class: "form-row",
-        },
-        success: {
-            class: "form-success",
-        },
-        error: {
-            class: "form-error",
-        },
+      container: { ... },
+      column: { ... },
+      buttonWrapper: { ... },
+      submit: { class: "form-field-button blue" },
+      back: { class: "form-field-button gray" },
+      save: { class: "form-field-button blue" },
     },
-    buttons: {
-        attributes: {
-            container: { ... },
-            column: { ... },
-            buttonWrapper: { ... },
-            submit: { class: "form-field-button blue" },
-            back: { class: "form-field-button gray" },
-            save: { class: "form-field-button blue" },
+    submitLabel: "Send",
+    backLabel: "Previous",
+    saveLabel: "Save",
+  },
+// highlight-start
+  fields: {
+// highlight-end
+    "@global": {
+      attributes: {
+        container: {
+          "data-container": true,
+          class: "form-field-wrapper",
         },
-        submitLabel: "Send",
-        backLabel: "Previous",
-        saveLabel: "Save",
+        input: {
+          "data-field": true,
+          class: "form-field-input",
+        },
+        label: {
+          class: "form-field-label",
+        },
+        instructions: {
+          class: "form-field-instructions",
+        },
+      },
     },
-    fields: {
-        "@global": {
-            attributes: {
-                container: {
-                    "data-container": true,
-                    class: "form-field-wrapper",
-                },
-                input: {
-                    "data-field": true,
-                    class: "form-field-input",
-                },
-                label: {
-                    class: "form-field-label",
-                },
-                instructions: {
-                    class: "form-field-instructions",
-                },
-            },
-        },
-        ":required": {
-            attributes: {
-                label: { "+class": "form-field-required" },
-            },
-        },
-        ":errors": {
-            attributes: {
-                input: { "+class": "form-field-is-invalid" },
-            },
-        },
-        ":options": { ... },
-        ":fileUpload": { ... },
-        ":multiValue": { ... },
-        ":noStorage": { ... },
-        ":placeholder": { ... },
-        "@dropdown": {
-            attributes: {
-                container: {
-                    "data-select-container": true,
-                },
-                input: {
-                    "+class": "form-field-select fullwidth",
-                },
-            },
-        },
-        "@checkbox" : {
-            attributes: {
-                input: {
-                    "=class": "form-field-check-input",
-                },
-                label: {
-                    "=class": "form-field-check-label",
-                },
-            },
-        },
-        "@signature": {
-            attributes: {
-                input: {
-                    "-class": "form-field-input",
-                    "+class": "form-field-button",
-                },
-            },
-        }
-        "@checkboxes, @radios" : {
-            attributes: {
-                input: {
-                    "+class": "form-field-options",
-                },
-            },
-        },
-        "myFieldHandle": {
-            value: "John Doe",
-            label: "First Name",
-            instructions: "This is a test",
-            attributes: {
-                container: {
-                    "data-my-input-container": true,
-                },
-                input: {
-                    id: "my-special-id",
-                    "+class": "my-special-class",
-                },
-            },
-        },
-        "@website, @regex, myFieldHandle" : {
-            attributes: {
-                input: {
-                    "+class": "my-special-class",
-                },
-            },
-        },
+    ":required": {
+      attributes: {
+        label: { "+class": "form-field-required" },
+      },
     },
-    captchas: {
-        class: ["custom-class", "another-class"],
-        "data-test": true,
+    ":errors": {
+      attributes: {
+        input: { "+class": "form-field-is-invalid" },
+      },
+    },
+    ":options": { ... },
+    ":fileUpload": { ... },
+    ":multiValue": { ... },
+    ":noStorage": { ... },
+    ":placeholder": { ... },
+    "@dropdown": {
+      attributes: {
+        container: {
+          "data-select-container": true,
+        },
+        input: {
+          "+class": "form-field-select fullwidth",
+        },
+        option: {
+          "data-option": true,
+        },
+      },
+    },
+    "@checkbox" : {
+      attributes: {
+        input: {
+          "=class": "form-field-check-input",
+        },
+        label: {
+          "=class": "form-field-check-label",
+        },
+      },
+    },
+    "@signature": {
+      attributes: {
+        input: {
+          "-class": "form-field-input",
+          "+class": "form-field-button",
+        },
+      },
     }
+    "@checkboxes, @radios" : {
+      attributes: {
+        input: {
+          "+class": "form-field-options",
+        },
+        optionLabel: {
+          tag: "div",
+          class: "checkbox-option-label",
+        },
+      },
+    },
+    "myFieldHandle": {
+      value: "John Doe",
+      label: "First Name",
+      instructions: "This is a test",
+      attributes: {
+        container: {
+          "data-my-input-container": true,
+        },
+        input: {
+          id: "my-special-id",
+          "+class": "my-special-class",
+        },
+      },
+    },
+    "@website, @regex, myFieldHandle" : {
+      attributes: {
+        input: {
+          "+class": "my-special-class",
+        },
+      },
+    },
+  },
+// highlight-start
+  captchas: {
+// highlight-end
+    class: ["custom-class", "another-class"],
+    "data-test": true,
+  }
 }) }}
 ```
 
 </div>
 <div className="no-copy">
 
-```_ {2,18,31,122}
+```_
 
+// highlight-start
 ← Applied directly to the <form> tag.
+// highlight-end
 
 
 
 
-← Applied directly to various structure of
-  the form render.
+← Applied directly to each row in the form render.
+← Changes the default `div` tag to something else.
+
+
+
+← Applied directly to each column (field) in the form render.
+← Changes the default `div` tag to something else.
 
 
 ← Apply attributes to the success and error
@@ -568,7 +749,9 @@ The example below shows the hierarchy and behavior of each option.
 
 
 
+// highlight-start
 ← Overrides for submit buttons.
+// highlight-end
 
 
 
@@ -581,7 +764,9 @@ The example below shows the hierarchy and behavior of each option.
 
 
 
+// highlight-start
 ← Overrides for fields.
+// highlight-end
 ← Overrides applied globally to all fields.
 
 
@@ -623,6 +808,9 @@ The example below shows the hierarchy and behavior of each option.
 
 ← The "+" prefix adds the specified values to
   existing values for same attribute set elsewhere.
+← Apply attributes to the `<option>` tags for the field options.
+
+
 
 
 
@@ -646,6 +834,10 @@ The example below shows the hierarchy and behavior of each option.
 ← Apply overrides to multiple field types by
   separating with a comma.
 
+
+
+← Apply attributes to the `<label>` tags for the field options.
+← Changes the default `label` tag to something else.
 
 
 
@@ -672,7 +864,9 @@ The example below shows the hierarchy and behavior of each option.
 
 
 
+// highlight-start
 ← Applied directly to the Captcha <div> wrapper.
+// highlight-end
 
 
 
