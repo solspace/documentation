@@ -449,164 +449,6 @@ This works for unknown attributes as well, e.g. `"my-attribute": "whatever"` can
   </TabItem>
 </Tabs>
 
-### Overriding HTML Tags<Badge type="feature" text="New in 5.10+" />
-
-If you need to override any of Freeform's default HTML tags, you can use the reserved `tag` attribute.
-
-The `tag` attribute override is available within:
-
-- `attributes`
-  - `row`
-- `fields`
-  - `"@global"`, `"@fieldtypename"`, `"myFieldHandle"`
-    - `attributes`
-      - `container`, `label`, `optionLabel`, `instructions`
-
-:::info
-It is not possible to override the `input` tag at this time.
-:::
-
-<Tabs>
-  <TabItem value="overriding-html-tags-example" label="General Example" default>
-
-    In the below example:
-
-    - All fields of the [Checkboxes](../../forms/fields.mdx#checkboxes) and [Radios](../../forms/fields.mdx#radios) type will have their:
-      - Field wrapper switched from the default tag of `div` to `fieldset` and a class of `container`.
-      - Field label switched from the default tag of `label` to `legend` and a class of `label`.
-      - Field options' labels given a tag of `label` and a class of `option-label`.
-    - All fields of the [HTML](../../forms/fields.mdx#html) type will have their:
-      - Field wrapper switched from the default tag of `div` to `p`.
-
-    ```twig showLineNumbers
-    {{ form.render({
-      fields: {
-        "@checkboxes, @radios": {
-          attributes: {
-            container: {
-              tag: "fieldset",
-              class: "container",
-            },
-            label: {
-              tag: "legend",
-              class: "label",
-            },
-            optionLabel: {
-              tag: "label",
-              class: "option-label",
-            },
-          }
-        },
-        "@html": {
-          attributes: {
-            container: {
-              tag: "p",
-            },
-          }
-        },
-      },
-    }) }}
-    ```
-  </TabItem>
-  <TabItem value="overriding-html-tags-checkboxes-radios" label="Accessible Checkboxes & Radios">
-
-    If you want your [Checkboxes](../../forms/fields.mdx#checkboxes) and [Radios](../../forms/fields.mdx#radios) fields to follow best practices for accessibility, you can implement the following overrides:
-    
-    The result will be that their:
-      - Field wrapper switched from the default tag of `div` to `fieldset`.
-      - Field label switched from the default tag of `label` to `legend`.
-      - Field options' labels given a tag of `label` and a class of `option-label`.
-
-    ```twig showLineNumbers
-    {{ form.render({
-      fields: {
-        "@checkboxes, @radios": {
-          attributes: {
-            container: {
-              tag: "fieldset",
-            },
-            label: {
-              tag: "legend",
-            },
-            optionLabel: {
-              tag: "label",
-              class: "option-label",
-            },
-          }
-        },
-      },
-    }) }}
-    ```
-
-    <Tabs>
-      <TabItem value="overriding-html-tags-checkboxes-radios-after" label="After Overrides" default>
-        ```html
-        <fieldset>
-          <legend>Favorite Food</legend>
-          <label for="form-input-favoriteFood-0">
-            <input type="checkbox" id="form-input-favoriteFood-0" name="favoriteFood[]" value="Peanuts" />
-            Peanuts
-          </label>
-          <label for="form-input-favoriteFood-1">
-            <input type="checkbox" id="form-input-favoriteFood-1" name="favoriteFood[]" value="Crackers" />
-            Crackers
-          </label>
-          <label for="form-input-favoriteFood-2">
-            <input type="checkbox" id="form-input-favoriteFood-2" name="favoriteFood[]" value="Cheese" />
-            Cheese
-          </label>
-        </fieldset>
-        ```
-      </TabItem>
-      <TabItem value="overriding-html-tags-checkboxes-radios-before" label="Default (Before)">
-        ```html
-        <div>
-          <label>Favorite Food</label>
-          <label for="form-input-favoriteFood-0">
-            <input type="checkbox" id="form-input-favoriteFood-0" name="favoriteFood[]" value="Peanuts" />
-            Peanuts
-          </label>
-          <label for="form-input-favoriteFood-1">
-            <input type="checkbox" id="form-input-favoriteFood-1" name="favoriteFood[]" value="Crackers" />
-            Crackers
-          </label>
-          <label for="form-input-favoriteFood-2">
-            <input type="checkbox" id="form-input-favoriteFood-2" name="favoriteFood[]" value="Cheese" />
-            Cheese
-          </label>
-        </div>
-        ```
-      </TabItem>
-    </Tabs>
-  </TabItem>
-  <TabItem value="overriding-html-tags-fields-as-list" label="Fields as a List">
-
-    If you'd like to display your form and its fields as a list (`ul`/`li`), you can do that with the following example:
-
-    - All rows in the form will be switched from the default tag of `div` to `ul`.
-    - All field columns (wrappers) will be switched from the default tag of `div` to `li`.
-
-    ```twig showLineNumbers
-    {{ form.render({
-      attributes: {
-        row: {
-          tag: 'ul',
-        },
-      },
-      fields: {
-        "@global": {
-          attributes: {
-            container: {
-              tag: "li",
-            },
-          },
-        },
-      },
-    }) }}
-    ```
-  </TabItem>
-</Tabs>
-
 ### Full Example
 
 The example below shows the hierarchy and behavior of each option.
@@ -1039,6 +881,171 @@ Your template code might look something like this:
 {{ form.renderClosingTag }}
 ```
 
+### Overriding HTML Tags<Badge type="feature" text="New in 5.10+" />
+
+If you need to override any of Freeform's default HTML tags, you can use the reserved `tag` attribute.
+
+The `tag` attribute override is available within:
+
+- `attributes`
+  - `row`
+- `fields`
+  - `"@global"`, `"@fieldtypename"`, `"myFieldHandle"`
+    - `attributes`
+      - `container`, `label`, `optionLabel`, `instructions`
+
+You can also override the default HTML tags from inside of the [Field Attribute Editor](#field-attributes-editor) for the field inside the form builder:
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-field-attributes.png')}
+  alt="Form Builder Field Attributes"
+/>
+
+:::info
+It is not possible to override the `input` tag at this time.
+:::
+
+<Tabs>
+  <TabItem value="overriding-html-tags-example" label="General Example" default>
+
+    In the below example:
+
+    - All fields of the [Checkboxes](../../forms/fields.mdx#checkboxes) and [Radios](../../forms/fields.mdx#radios) type will have their:
+      - Field wrapper switched from the default tag of `div` to `fieldset` and a class of `container`.
+      - Field label switched from the default tag of `label` to `legend` and a class of `label`.
+      - Field options' labels given a tag of `label` and a class of `option-label`.
+    - All fields of the [HTML](../../forms/fields.mdx#html) type will have their:
+      - Field wrapper switched from the default tag of `div` to `p`.
+
+    ```twig showLineNumbers
+    {{ form.render({
+      fields: {
+        "@checkboxes, @radios": {
+          attributes: {
+            container: {
+              tag: "fieldset",
+              class: "container",
+            },
+            label: {
+              tag: "legend",
+              class: "label",
+            },
+            optionLabel: {
+              tag: "label",
+              class: "option-label",
+            },
+          }
+        },
+        "@html": {
+          attributes: {
+            container: {
+              tag: "p",
+            },
+          }
+        },
+      },
+    }) }}
+    ```
+  </TabItem>
+  <TabItem value="overriding-html-tags-checkboxes-radios" label="Accessible Checkboxes & Radios">
+
+    If you want your [Checkboxes](../../forms/fields.mdx#checkboxes) and [Radios](../../forms/fields.mdx#radios) fields to follow best practices for accessibility, you can implement the following overrides:
+    
+    The result will be that their:
+      - Field wrapper switched from the default tag of `div` to `fieldset`.
+      - Field label switched from the default tag of `label` to `legend`.
+      - Field options' labels given a tag of `label` and a class of `option-label`.
+
+    ```twig showLineNumbers
+    {{ form.render({
+      fields: {
+        "@checkboxes, @radios": {
+          attributes: {
+            container: {
+              tag: "fieldset",
+            },
+            label: {
+              tag: "legend",
+            },
+            optionLabel: {
+              tag: "label",
+              class: "option-label",
+            },
+          }
+        },
+      },
+    }) }}
+    ```
+
+    <Tabs>
+      <TabItem value="overriding-html-tags-checkboxes-radios-after" label="After Overrides" default>
+        ```html
+        <fieldset>
+          <legend>Favorite Food</legend>
+          <label for="form-input-favoriteFood-0">
+            <input type="checkbox" id="form-input-favoriteFood-0" name="favoriteFood[]" value="Peanuts" />
+            Peanuts
+          </label>
+          <label for="form-input-favoriteFood-1">
+            <input type="checkbox" id="form-input-favoriteFood-1" name="favoriteFood[]" value="Crackers" />
+            Crackers
+          </label>
+          <label for="form-input-favoriteFood-2">
+            <input type="checkbox" id="form-input-favoriteFood-2" name="favoriteFood[]" value="Cheese" />
+            Cheese
+          </label>
+        </fieldset>
+        ```
+      </TabItem>
+      <TabItem value="overriding-html-tags-checkboxes-radios-before" label="Default (Before)">
+        ```html
+        <div>
+          <label>Favorite Food</label>
+          <label for="form-input-favoriteFood-0">
+            <input type="checkbox" id="form-input-favoriteFood-0" name="favoriteFood[]" value="Peanuts" />
+            Peanuts
+          </label>
+          <label for="form-input-favoriteFood-1">
+            <input type="checkbox" id="form-input-favoriteFood-1" name="favoriteFood[]" value="Crackers" />
+            Crackers
+          </label>
+          <label for="form-input-favoriteFood-2">
+            <input type="checkbox" id="form-input-favoriteFood-2" name="favoriteFood[]" value="Cheese" />
+            Cheese
+          </label>
+        </div>
+        ```
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem value="overriding-html-tags-fields-as-list" label="Fields as a List">
+
+    If you'd like to display your form and its fields as a list (`ul`/`li`), you can do that with the following example:
+
+    - All rows in the form will be switched from the default tag of `div` to `ul`.
+    - All field columns (wrappers) will be switched from the default tag of `div` to `li`.
+
+    ```twig showLineNumbers
+    {{ form.render({
+      attributes: {
+        row: {
+          tag: 'ul',
+        },
+      },
+      fields: {
+        "@global": {
+          attributes: {
+            container: {
+              tag: "li",
+            },
+          },
+        },
+      },
+    }) }}
+    ```
+  </TabItem>
+</Tabs>
+
 ### How to Set Attributes
 
 These parameters can be passed to any of the render functions, or done separately before.
@@ -1080,6 +1087,11 @@ These parameters can be passed to any of the render functions, or done separatel
 ### Field Attributes Editor
 
 Freeform allows you to also specify attributes for each field inside the form builder. These can be mixed in with the `attributes` parameter in your form or field render.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-field-attributes.png')}
+  alt="Form Builder Field Attributes"
+/>
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/formatting/builder-attributes.png')}
@@ -1361,6 +1373,7 @@ If you would like to add a certain class and a `data-container` attribute to the
     {{ field.render({
       attributes: {
         container: {
+          tag: "fieldset",
           class: "certain-class",
           "data-container": true,
         },
@@ -1371,10 +1384,10 @@ If you would like to add a certain class and a `data-container` attribute to the
   <TabItem value="output" label="Output">
     ```html
     // Output would generate that class on the container element
-    <div class="certain-class" data-container>
+    <fieldset class="certain-class" data-container>
       <label>
       <input />
-    </div>
+    </fieldset>
     ```
   </TabItem>
 </Tabs>
