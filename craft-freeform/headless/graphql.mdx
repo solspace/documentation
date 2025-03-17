@@ -406,7 +406,7 @@ These are the fields available for the `FreeformFormInterface`:
 | `honeypot`                                                          | [`FreeformHoneypotInterface`](#honeypot-interface)                       | A fresh honeypot instance                                              |
 | `csrfToken`                                                         | [`FreeformCsrfTokenInterface`](#csrf-token-interface)                    | A fresh csrf token                                                     |
 | `captcha`<Badge type="deprecated" text="Deprecated in 5.9.7+" />    | [`FreeformCaptchaInterface`](#captcha-interface)                         | The captcha for this form                                              |
-| `captchas`<Badge type="feature" text="Renamed in 5.9.7+" />           | [`[FreeformCaptchaInterface]`](#captcha-interface)                       | The captchas for this form                                             |
+| `captchas`<Badge type="feature" text="Renamed in 5.9.7+" />         | [`[FreeformCaptchaInterface]`](#captcha-interface)                       | The captchas for this form                                             |
 | `fields`                                                            | [`[FreeformFieldInterface]`](#field-interface)                           | A list of Form's `Field`                                               |
 | `pages`                                                             | [`[FreeformPageInterface]`](#page-interface)                             | A list of Form's `Page` entities                                       |
 | `successBehavior`<Badge type="feature" text="New in 5.9.6+" />      | `String`                                                                 | The form's success behavior                                            |
@@ -557,6 +557,10 @@ Use `FreeformCsrfTokenInterface`.
 ### Captcha Interface<Badge type="feature" text="Renamed in 5.0+, Improved in 5.9.6+" />
 
 Use `FreeformCaptchaInterface`.
+
+:::warning
+In Freeform 5.9.6+, `FreeformSubmissionCaptchaInputType` was renamed to `FreeformCaptchaInputType`. If using `FreeformSubmissionCaptchaInputType`, be sure to change it to `FreeformCaptchaInputType`.
+:::
 
 | Field                                                            | Type      | Description                                        |
 |------------------------------------------------------------------|-----------|----------------------------------------------------|

@@ -316,8 +316,8 @@ Fields can be changed to other field types at any point, but be aware that data 
 | Name                                                                              | `field.type`                          | Description                                                                                                                                                        | <span className="edition-express no-margin">Express</span> | <span className="edition-lite no-margin">Lite</span> | <span className="edition-pro no-margin">Pro</span> |
 | --------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------: | :----------------------------------------------: | :--------------------------------------------: |
 | [Calculation](#calculation)<Badge type="feature" text="New in 5.1+" />            | `calculation`                         | Perform dynamic calculations based on user-input values within forms.                                                                                              |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Checkbox](#checkbox)                                                             | `checkbox`                            | A single checkbox field.                                                                                                                                           |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [Checkboxes](#checkboxes)                                                         | `checkboxes`                          | A group of checkboxes.                                                                                                                                             |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Checkbox](#checkbox)<Badge type="feature" text="Improved in 5.10+" />            | `checkbox`                            | A single checkbox field.                                                                                                                                           |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Checkboxes](#checkboxes)<Badge type="feature" text="Improved in 5.10+" />        | `checkboxes`                          | A group of checkboxes.                                                                                                                                             |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Confirm](#confirm)                                                               | `confirm`                             | A text input field that targets another similar field and ensures the values match.                                                                                |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Date & Time](#date--time)                                                        | `datetime`                            | A complex date and/or time field.                                                                                                                                  |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Dropdown](#dropdown)                                                             | `dropdown`                            | A select dropdown menu field.                                                                                                                                      |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
@@ -336,7 +336,7 @@ Fields can be changed to other field types at any point, but be aware that data 
 | [Radios](#radios)                                                                 | `radios`                              | A group of radio options.                                                                                                                                          |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Rating](#rating)                                                                 | `rating`                              | A special field that allows for star ratings.                                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Regex](#regex)                                                                   | `regex`                               | An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`).                                                                   |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Rich Text](#rich-text)                                                           | `rich-text`                           | A block that allows you to insert rich text into areas of your form (headings, descriptions, etc).                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Rich Text](#rich-text)<Badge type="feature" text="Improved in 5.10+" />          | `rich-text`                           | A block that allows you to insert rich text into areas of your form (headings, descriptions, etc).                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Signature](#signature)                                                           | `signature`                           | A field that allows users to handwrite signatures inside your form.                                                                                                |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Stripe Payment](#stripe-payment)<Badge type="feature" text="Improved in 5.0+" /> | `stripe`                              | A set of input fields to allow the validation of credit cards and other payment options for [Stripe Payment](../integrations/stripe-payments.mdx) implementations. |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Submit buttons](#submit-buttons)                                                 | <span className="compare-none">N/A</span> | Handles the submit button(s), including **Save** option for the form.                                                                                              |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
@@ -701,7 +701,7 @@ yes
 </Tabs>
 </details>
 
-## Checkbox
+## Checkbox<Badge type="feature" text="Improved in 5.10+" />
 
 A single checkbox field. The `field.type` property value is `checkbox` (for conditionals).
 
@@ -709,6 +709,11 @@ A single checkbox field. The `field.type` property value is `checkbox` (for cond
   scale={40}
   img={require('@site/static/img/craft/freeform/v5/forms/fields/checkbox.png')}
   alt="Checkbox"
+/>
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-checkbox-rich-text.png')}
+  alt="Checkbox with Rich Text editor"
 />
 
 :::tip
@@ -722,6 +727,8 @@ A single checkbox field. The `field.type` property value is `checkbox` (for cond
 <details className="hidden-heading">
 <summary>Settings</summary>
 
+- The **Label** setting allows rich text to be added. <Badge type="feature" text="New in 5.10+" />
+  - This allows you to easily bold and italicize options or even add links (perfect for agreeing to terms and conditions).
 - Specify a value (e.g. `y` or `yes`, etc).
   - Has a default value of **Yes**, which can be overwritten with any value you want. No matter what value is set manually on the front end, Freeform will interpret it as checked and record the value specified in the form builder.
 - May be checked by default.
@@ -736,7 +743,7 @@ A single checkbox field. The `field.type` property value is `checkbox` (for cond
 
 </details>
 
-## Checkboxes<Badge type="feature" text="Renamed in 5.0+" />
+## Checkboxes<Badge type="feature" text="Renamed in 5.0+, Improved in 5.10+" />
 
 A group of checkboxes. The `field.type` property value is `checkboxes` (for conditionals).
 
@@ -759,6 +766,7 @@ A group of checkboxes. The `field.type` property value is `checkboxes` (for cond
 - Can specify labels (with values assumed) or labels and values (that differ).
 - Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-field-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
+- Can set limits on the number of options a user must select, including a minimum, maximum, exact number, or range.<Badge type="feature" text="New in 5.10+" />
 - Can be rendered vertically or horizontally.
 
 </details>
@@ -1442,7 +1450,7 @@ An input field that is validated based on the specified regex pattern (e.g. `/^[
 
 </details>
 
-## Rich Text<Badge type="pro" text="Pro" />
+## Rich Text<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.10+" />
 
 A special field type that allows you include rich text inside your form layout in the form builder. The `field.type` property value is `rich-text` (for conditionals).
 
