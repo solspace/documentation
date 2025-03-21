@@ -60,6 +60,8 @@ Email notifications can be sent upon successful submit of the form to one or mor
       an email notification each time the form is submitted successfully. If you
       need to specify more than one email address, hit _Enter_ and additional
       email inputs will appear.
+      
+      Twig (isolated to `form` and field handles) is allowed here, e.g. `{{ email }}` or `{{ form.handle }}`.<Badge type="feature" text="New in 5.10.3+" />
     </StepMarkdown>
   </VerticalStepWrapper>
 </details>
@@ -78,7 +80,11 @@ Email notifications can be conditionally sent to one or more admin email address
       Choose an email notification template from the **Notification Template** setting. If you haven't created any yet, be sure to do so.
     </StepMarkdown>
     <StepMarkdown>
-      In the **Recipients** area, add any email address(es) you'd like to receive an email notification each time the form is submitted successfully **when the following condition(s) are met**. If you need to specify more than one email address, hit _Enter_ and additional email inputs will appear.
+      In the **Recipients** area, add any email address(es) you'd like to receive an email notification each time the form is submitted
+      successfully **when the following condition(s) are met**. If you need to specify more than one email address, hit _Enter_ and additional
+      email inputs will appear.
+      
+      Twig (isolated to `form` and field handles) is allowed here, e.g. `{{ email }}` or `{{ form.handle }}`.<Badge type="feature" text="New in 5.10.3+" />
     </StepMarkdown>
     <StepMarkdown>
       In the **Rules** area, configure any conditional rules you'd like to be met in order for this email notification to be sent.
@@ -121,9 +127,12 @@ Be sure to set up your option fields as usual, and do not set email addresses as
       **Otherwise, leave this setting blank.**
     </StepMarkdown>
     <StepMarkdown>
-      In the **Recipient Mapping** area, add email address(es) for each corresponding option. If you need to specify more than one email address for an option, hit _Enter_ and additional email inputs will appear.
+      In the **Recipient Mapping** area, add email address(es) for each corresponding option. If you need
+      to specify more than one email address for an option, hit _Enter_ and additional email inputs will appear.
 
       You can also choose to specify a different email notification template for any or all options.
+
+      Twig (isolated to `form` and field handles) is allowed here, e.g. `{{ email }}` or `{{ form.handle }}`.<Badge type="feature" text="New in 5.10.3+" />
 
       :::info
       Email addresses will never be rendered in the front-end form.
