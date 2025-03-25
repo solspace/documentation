@@ -174,7 +174,7 @@ const config: Config = {
       {
         quality: 90,
         max: 2040,
-        min: 640,
+        min: 1200,
         steps: 2,
         disableInDev: false,
       } satisfies IdealImageOptions,
