@@ -377,7 +377,8 @@ Example template code might look something like this:
     <ul>
         <li>Amount: ${{ payments.amount }} {{ payments.currency }}</li>
         <li>
-            Card ending in: •••• {{ payments.card }}
+            Method: {{ payments.method.type }}
+            {% if payments.method.type == "card" %}ending in: •••• {{ payments.card }}{% endif %}
             ({{ payments.status }}{% if payments.errorMessage|length %} - {{ payments.errorMessage }}{% endif %})
         </li>
     {% if payments.type == "subscription" %}
@@ -429,6 +430,8 @@ The following properties are available for use inside email notification templat
   - Outputs the currency used for the submission, e.g. `usd`.
 - `payments.type`
   - Outputs the payment type for the submission, e.g. `single` or `subscription`.
+- `payments.method.type`<Badge type="feature" text="New in 5.10.4+" />
+  - Outputs the payment method for the submission, e.g. `card` or `cashapp`.
 - `payments.status`
   - Outputs the payment status to for the submission, e.g. `paid`, `active`, `failed`.
 - `payments.errorMessage`
@@ -458,7 +461,8 @@ For displaying the **submission data**, your code may look something like this:
     <ul>
         <li>Amount: ${{ payments.amount }} {{ payments.currency }}</li>
         <li>
-            Card ending in: •••• {{ payments.card }}
+            Method: {{ payments.method.type }}
+            {% if payments.method.type == "card" %}ending in: •••• {{ payments.card }}{% endif %}
             ({{ payments.status }}{% if payments.errorMessage|length %} - {{ payments.errorMessage }}{% endif %})
         </li>
     {% if payments.type == "subscription" %}
@@ -626,7 +630,8 @@ Full documentation can be found here: [Stripe Elements Appearance API](https://s
     <ul>
         <li>Amount: ${{ payments.amount }} {{ payments.currency }}</li>
         <li>
-            Card ending in: •••• {{ payments.card }}
+            Method: {{ payments.method.type }}
+            {% if payments.method.type == "card" %}ending in: •••• {{ payments.card }}{% endif %}
             ({{ payments.status }}{% if payments.errorMessage|length %} - {{ payments.errorMessage }}{% endif %})
         </li>
     {% if payments.type == "subscription" %}
