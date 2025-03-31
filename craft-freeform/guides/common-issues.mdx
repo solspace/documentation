@@ -275,7 +275,8 @@ Check out this documentation resource to troubleshoot common problems or find an
   When attempting to run migrations during an upgrade of Freeform, I get an error like `Table already exists...`
 
   <AnswerCard>
-    Getting an error like `Table already exists...` while running migrations during an upgrade is almost always due to a previously failed migration that is trying to be run again.
+    Getting an error like `Table already exists...` while running migrations during an upgrade is almost always caused by a previously failed migration that is trying to be run again.
+    In cases like this, it's likely that an upgrade was attempted, a migration error occurred, and then a downgrade to the original version was attempted.
 
     If an upgrade migration fails at any point, you must be prepared to **fully restore your database using the backup you created before initiating the update again**.
     A failed migration may leave the database partially changed or other migrations may have occurred. Downgrading to an earlier version could corrupt the database and
