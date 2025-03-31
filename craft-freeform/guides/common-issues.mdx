@@ -270,6 +270,23 @@ Check out this documentation resource to troubleshoot common problems or find an
   </AnswerCard>
 </details>
 <details>
+  <summary>'Table already exists' during upgrade/migration</summary>
+
+  When attempting to run migrations during an upgrade of Freeform, I get an error like `Table already exists...`
+
+  <AnswerCard>
+    Getting an error like `Table already exists...` while running migrations during an upgrade is almost always due to a previously failed migration that is trying to be run again.
+
+    If an upgrade migration fails at any point, you must be prepared to **fully restore your database using the backup you created before initiating the update again**.
+    A failed migration may leave the database partially changed or other migrations may have occurred. Downgrading to an earlier version could corrupt the database and
+    make it unrecoverable.
+
+    :::warning
+    Always backup your site and database before upgrading your Craft site and/or plugins.
+    :::
+  </AnswerCard>
+</details>
+<details>
   <summary>404 Errors for 'freeform/plugin.js'</summary>
 
   Some fields and other JS in my form are not working correctly. I'm also seeing this error in the browser console: `freeform/plugin.js net::ERR_ABORTED 404 (Not Found)`.
