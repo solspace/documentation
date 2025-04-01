@@ -145,14 +145,31 @@ If you wish to have a different admin recipient for each site, there isn't any b
   </StepMarkdown>
 </VerticalStepWrapper>
 
-#### Unique _From Email_ per Site
+#### Unique _From Email_ per Site<Badge type="feature" text="New in 5.10.5+" />
 
-In Craft 5.6+, a new feature called [Site Overrides](https://craftcms.com/docs/5.x/system/mail.html#site-overrides) was added to the Email Settings area. All you need to do is configure the **Site Overrides** feature and Freeform will respect those settings.
+In Craft 5.6+, a new feature called [Site Overrides](https://craftcms.com/docs/5.x/system/mail.html#site-overrides) was added to the Email Settings area. All you need to do is the following:
 
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/site-email-overrides.png')}
-  alt="Site Overrides in Craft Email settings"
-/>
+<VerticalStepWrapper>
+  <StepMarkdown>
+    Set the following settings in your Freeform notification template:
+    - **From Email** to `{{ craft.app.projectConfig.get('email.fromEmail') }}`
+    - **From Name** to `{{ craft.app.projectConfig.get('email.fromName') }}`
+    - **Reply-to Email** to `{{ craft.app.projectConfig.get('email.replyToEmail') }}`
+
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/configuration/site-email-notification-template.png')}
+      alt="Configure the Freeform email notification template"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    Configure the **Site Overrides** feature in Craft's **Email Settings** area and Freeform will respect those settings.
+
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/configuration/site-email-overrides.png')}
+      alt="Site Overrides in Craft Email settings"
+    />
+  </StepMarkdown>
+</VerticalStepWrapper>
 
 <details className="hidden-heading">
   <summary>Workaround for older versions of Craft 4.x or 5.x</summary>
