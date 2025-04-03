@@ -3,46 +3,105 @@ sidebar_position: 4
 title: 'Constant Contact'
 ---
 
-# Constant Contact Mailing List API Integration
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-This documentation page assumes you have read over the [Mailing List Integration Overview page](./index.mdx). If you have not yet read it, please do so now. We assume that you have a [Constant Contact ](http://constantcontact.com) account already, along with mailing list(s) already created.
+# Constant Contact<Badge type="feature" text="Improved in 3.1.4+" />
+
+This guide assumes you have a [Constant Contact](https://www.constantcontact.com) account already.
 
 ## Compatibility
 
-Includes support for the following:
+Uses OAuth flow on `v3` of the REST API.
 
-- Field mapping to standard fields.
+### Endpoints
+
+Maps data to the following endpoints:
+
+- **Contact Lists**
+
+Does your project require something else? &nbsp; <PrimaryButtonWithLink to='/support/' label='Contact Us' />
+
+### Fields
+
+Maps data to the following field types:
+
+- **Standard**
 
 ## Setup Instructions
 
-Constant Contact API integrations are a little uglier since they include another layer of API calls by using _Mashery_ API Management. You essentially have to connect Constant Contact to Mashery, and then Mashery to Freeform. Don't trust your instincts and just follow the steps below closely and it won't be as bad as it looks.
+<VerticalStepWrapper>
+<StepMarkdown>
 
-1. Sign up for a _Mashery_ API Management account:
-   - Constant Contact runs it's API through Mashery, so you will actually not be setting any of this up inside your Constant Contact account.
-   - [Visit the Mashery site to sign up for a Mashery account](https://constantcontact.mashery.com/member/register)
-     - OR, if you have one already, [log in to your Mashery account](https://constantcontact.mashery.com/login).
-   - Fill out the form and then click **Register** button.
-   - You'll receive a confirmation email with a link to click to verify your account.
-2. Create Mashery API Application:
-   - After verifying your account, [create/register a new application](https://constantcontact.mashery.com/apps/register) to begin creating your API app.
-   - Fill out the form and click **Register Application** button.
-   - On the success page, it'll display your app's **Key** and **Secret**. Ignore the **Secret** and copy down the value for the **Key** somewhere in a note file.
-3. Connect Mashery API Application to Constant Contact:
-   - Click on the **API tester tab**.
-   - In the select dropdown menu, select your app/key from the list and click the **Get Access Token** button.
-   - You'll be taken to a Constant Contact page where it asks you to register. Click the **I already have an account** link at the top of the page, and then log into Constant Contact (if not already).
-   - Once logged in, you'll be presented an OAuth form, asking if you want to allow access. Click **Allow** button.
-   - When you're shown the **Access Token**, be sure to copy it down somewhere in your note file. Click **Done** button.
-   - You have now connected Constant Contact to Mashery.
-4. Prepare your site's end for Integration:
-   - Go to the [Mailing Lists section in Freeform Integrations area](./index.mdx) (**Freeform > Integrations > Mailing Lists**)
-   - Click the **New Integration** at the top right.
-   - Select _Constant Contact_ from the **Service Provider** select dropdown.
-   - Enter a name and handle for the integration.
-   - Copy the Constant Contact Mashery **Key** value you saved to a note file earlier (should be a long alphanumeric hash) and paste into the **API Key** field in Freeform.
-   - Copy the Constant Contact Mashery **Access Token** value you saved to a note file earlier (should be a long alphanumeric hash) and paste into the **Access Token** field in Freeform.
-   - At the bottom of the page, click the **Save** button.
-5. Verify Authorization:
-   - After the integration is saved, it'll return you to the list of mailing list integrations.
-   - Click into the newly created integration.
-   - Confirm that there is green circle with **Authorized** in the middle of the page.
+### Prepare your site's end for Integration
+
+- Go to the [Mailing Lists section in Freeform Settings](../../configuration/settings.mdx) (**Freeform → Settings → Mailing Lists**).
+- Click the **New Integration** button at the top right.
+- Select _Constant Contact (v3)_ from the **Service Provider** select dropdown.
+- Enter a name and handle for the integration.
+- Copy the URL in the **OAuth 2.0 Return URI** field to your clipboard.
+- Leave this page open.
+
+</StepMarkdown>
+<StepMarkdown>
+
+### Prepare Constant Contact's end for Integration
+
+- Open up a new browser tab and go to Constant Contact's API [My Applications website](https://app.constantcontact.com/pages/dma/portal/).
+- Log into your Constant Contact account there.
+- Go to the **My Applications** page.
+- Click on the **New Application** button at top right.
+    - In the modal window that pops up, enter a name for the application.
+    - Leave the other 2 settings as they are defaulted.
+    - Click the **Create** button.
+- Once saved, it'll display a list of your applications.
+- For the application you just created, click on the **Edit** button.
+    - In the Constant Contact **Redirect URI** field, click on the pencil icon at the right to edit the value.
+    - Paste the value you copied from Freeform's **OAuth 2.0 Return URI** field.
+    - Click the **Confirm** button.
+- Click the **Save** button at the top right.
+- On the **Details** page of your application, copy the `API Key` value.
+- Click the **Generate Client Secret** button beside the API Key field.
+    - On the confirm screen that loads, click the **Generate Client Secret** button.
+    - Copy the newly created **Application Secret** value from Constant Contact.
+
+</StepMarkdown>
+<StepMarkdown>
+
+### Prepare the Connection
+
+- Go back to your ExpressionEngine/Freeform browser tab.
+- Paste the `API Key` value from Constant Contact into the the **Client ID** field in Freeform.
+- Paste the `Application Secret` value from Constant Contact into the the **Client Secret** field in Freeform.
+
+</StepMarkdown>
+<StepMarkdown>
+
+### Finish the Connection
+
+- Click the **Save** button.
+- You will be returned to the integration settings page and the **Is Authorized?** section will say `Not authorized yet.`
+- Click on the `Click here to authorize` link.
+- You will be redirected to a Constant Contact OAuth page to allow permissions.
+  - If not currently logged in, fill in your credentials.
+  - Click **Allow Access** when asked for permissions.
+- You will then be redirected back to the **Freeform Mailing List Integration** page.
+- Confirm that there is a green circle with **Authorized** in the middle of the page.
+
+</StepMarkdown>
+<StepMarkdown>
+
+### Configure the Form
+
+To use this integration on your form(s), you'll need to configure each form individually.
+
+- Visit the form inside the form builder.
+- At the bottom left corner of the builder, click and drag on your **Constant Contact** special field under the **Mailing Lists** section into your form layout.
+- Click on the **Constant Contact** special mailing list field inside the form layout.
+- On the right side of the page:
+  - Select a mailing list that new users should be subscribed to.
+  - Choose a Freeform field to be the target opt-in field.
+  - Map Freeform fields to the Constant Contact fields as you wish.
+
+</StepMarkdown>
+</VerticalStepWrapper>
