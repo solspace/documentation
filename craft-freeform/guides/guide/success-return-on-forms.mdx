@@ -8,492 +8,341 @@ import TabItem from '@theme/TabItem';
 import { Photo } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-# Success Return URL on Forms
+# Success Return on Forms
 
-Freeform offers a wide variety of ways to handle the success return on forms. Check out the list below to see all available options and how to use them.
+Freeform offers a wide variety of ways to handle the success return on forms. Check out the list below to see all available options and how to use them:
 
-## Available Options
+- [Reload form with a Success banner above](#reload-form-with-a-success-banner-above)
+- [Replace form with a Success message](#replace-form-with-a-success-message)
+- [Return the Submitter to a URL](#return-the-submitter-to-a-url)
 
-<Tabs>
-<TabItem value="success-return-builder" label="Form Builder" default>
+## Reload form with a Success banner above
 
-If you wish to offer flexibility and control to your clients for setting the Return URL, this can be set inside the form builder for each form.
-
-<VerticalStepWrapper>
-<StepMarkdown>
-Open up the form inside the form builder.
-
-</StepMarkdown>
-<StepMarkdown>
-Go to the **Settings** tab.
-
-</StepMarkdown>
-<StepMarkdown>
-For the **Success Behavior** setting, select _Return the Submitter to the following URL_.
-
-</StepMarkdown>
-<StepMarkdown>
-Inside the **Return URL** setting, add the path you want Freeform to return the user to upon success.
-
-You can also use the following (wrap with `{{` and `}}`):
-
-- `form.handle` - handle of the form.
-- `submission.token` - the secure token created for the submission.
-- `submission.id` - the newly created unique submission ID in the URL. This (and `submission.token`) would allow you to use the [Submissions query](../../templates/queries/submissions.mdx) to display some or all of the users' submission on the success page.
-
-#### EXAMPLE
-
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/guides/success-return-form-builder.png')}
-  alt="Success Return URL on Forms"
-/>
-
-</StepMarkdown>
-</VerticalStepWrapper>
-
-#### IMPORTANT NOTES
-
-- This approach can easily be overwritten by any template parameters. As soon as the template level `returnUrl` parameter is specified, Freeform will ignore the value set inside the form builder.
-- This approach will not immediately work with AJAX. When AJAX is enabled, Freeform will by default stay on the same page and just show a success banner. To have Freeform perform a redirect to the return URL specified in the form builder upon successful AJAX submit, you'll need to add some JS to your page template. See example below:
+If you'd like to customize the success banner message for your form, choose one of the options below.
 
 <Tabs>
-<TabItem value="success-return-builder-form" label="Specific Form" default>
+  <TabItem value="success-banner-builder" label="Form Builder" default>
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Go to the **Success & Errors** section under the **Settings** tab in the form builder.
+      </StepMarkdown>
+      <StepMarkdown>
+        For the **Success Behavior** setting, select the `Reload form with a Success banner above` option.
+      </StepMarkdown>
+      <StepMarkdown>
+        For the **Success Message** setting, enter the message you'd like.
+      </StepMarkdown>
+    </VerticalStepWrapper>
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/guides/success-banner.png')}
+      alt="Adjust the Success Banner message for Forms"
+    />
+  </TabItem>
+  <TabItem value="success-banner-template" label="Template">
 
-```twig {8-22}
-<html>
-<head>
-</head>
-<body>
+    It's also possible to override the success and error messages at the template level using the [Freeform JS Plugin](../../developer/js-plugin.mdx):
 
-    {{ freeform.form("myFormHandle", {id: 'my-form'}).render() }}
+    <Tabs>
+      <TabItem value="success-banner-all-forms" label="Apply to ALL forms on the page" default>
 
-    <script>
-      // Find the form element
-      const myForm = document.getElementById('my-form');
-      // Do something on a successful ajax submit
-      myForm.addEventListener('freeform-ajax-success', function(event) {
-        // Redirect the user
-        if (event.response.finished) {
-          window.location.href = event.response.returnUrl;
-        }
-      })
-      myForm.addEventListener("freeform-render-success", function (event) {
-      // Stop the default success message rendering
-        event.preventDefault();
-      });
-    </script>
+        ```twig {3-8}
+        {{ freeform.form("myFormHandle").render() }}
 
-</body>
-</html>
-```
-
-</TabItem>
-<TabItem value="success-return-builder-all" label="All Forms">
-
-If you'd like something that is not specific to a single form, you can use `document` instead:
-
-```twig {8-20}
-<html>
-<head>
-</head>
-<body>
-
-    {{ freeform.form("myFormHandle", {id: 'my-form'}).render() }}
-
-    <script>
-      // Do something on a successful ajax submit
-      document.addEventListener('freeform-ajax-success', function(event) {
-        // Redirect the user
-        if (event.response.finished) {
-          window.location.href = event.response.returnUrl;
-        }
-      })
-      document.addEventListener("freeform-render-success", function (event) {
-      // Stop the default success message rendering
-        event.preventDefault();
-      });
-    </script>
-
-</body>
-</html>
-```
-
-</TabItem>
-</Tabs>
-
-</TabItem>
-<TabItem value="success-return-template" label="Template">
-
-
-If you wish to set the Return URL at template level, whether you're doing this to include a dynamic segment in the return URL, etc, you can do so by specifying the `returnUrl` parameter on the [Form query](../../templates/queries/form.mdx) or the [form object](../../templates/objects/form.mdx).
-
-```twig
-{{ form.renderTag({returnUrl: "contact/success"}) }}
-```
-
-<VerticalStepWrapper>
-<StepMarkdown>
-Open up your page template.
-
-</StepMarkdown>
-<StepMarkdown>
-Inside the [Form query](../../templates/queries/form.mdx) or the [form object](../../templates/objects/form.mdx), add the `returnUrl: "contact/success"` parameter.
-
-You can add most variables such as `form.handle`, `submission.id`, `submission.token` as well as perform conditional checks, etc:
-
-```twig
-returnUrl: "{{ siteUrl }}freeform-demo/bootstrap/{{ form.handle }}/{% if submission %}submissions/{{ submission.id }}/{% endif %}success"
-```
-
-#### EXAMPLE
-
-```twig {7}
-<html>
-<head>
-</head>
-<body>
-
-    {{ freeform.form("myFormHandle", {
-        returnUrl: "contact/success",
-        id: 'my-form'
-    }).render() }}
-
-</body>
-</html>
-```
-
-</StepMarkdown>
-</VerticalStepWrapper>
-
-#### IMPORTANT NOTES
-
-- This approach overrides anything set inside the form builder.
-- This approach will not immediately work with AJAX. When AJAX is enabled, Freeform will by default stay on the same page and just show a success banner. To have Freeform perform a redirect to the return URL specified in the parameter upon successful AJAX submit, you'll need to add some JS to your page template. See example below:
-
-```twig {7,11-19}
-<html>
-<head>
-</head>
-<body>
-
-    {{ freeform.form("myFormHandle", {
-        returnUrl: "contact/success",
-        id: 'my-form'
-    }).render() }}
-
-    <script>
-        // Find the form element
-        const myForm = document.getElementById('my-form');
-        // Do something on a successful ajax submit
-        myForm.addEventListener('freeform-ajax-success', function(event) {
-          // Redirect the user
-          window.location.href = event.response.returnUrl;
-        })
-    </script>
-
-</body>
-</html>
-```
-
-</TabItem>
-</Tabs>
-
-## Advanced Options
-
-### Returning Submit to Same Page
-
-Aside from the obvious of using [AJAX](../../guides/guide/ajax-forms.mdx), you can achieve this by...
-
-<Tabs>
-<TabItem value="returning-to-same-page-query" label="Query" default>
-
-Adding a simple query in the success URL instead of an additional segment, e.g. `/contact?success`:
-
-```twig
-{% set successParam = craft.app.request.getParam('success') %}
-{% if successParam is not null %}
-  <p>Success!!</p>
-{% endif %}
-```
-
-</TabItem>
-<TabItem value="returning-to-same-page-query-value" label="Query + Value">
-
-Including a query with a value, e.g. `/contact?success=1`:
-
-```twig {1-3,6}
-{% if craft.app.request.getQueryParam('success') == 1 %}
-  <div class="callout success">Your message has been sent.</div>
-{% endif %}
-
-  {{ freeform.form("contactForm", {
-      returnUrl: "/contact?success=1",
-      submitClass: "button",
-    }
-  ).render() }}
-
-{% endif %}
-```
-
-</TabItem>
-
-<TabItem value="returning-to-same-page-dynamic-url" label="Dynamic Return URL">
-
-In case you're looking for a dynamic way of setting a return URL with combining several segments:
-
-```twig
-{% set returnUrlPath = siteUrl ~ "get-quote/" ~ craft.app.request.getSegment(2) ~ "?success" %}
-```
-
-</TabItem>
-</Tabs>
-
-### Forcing a different Success URL on AJAX forms
-
-Once using AJAX with your forms, Freeform will ignore any Return URL value you have set for the form inside the form builder as well as the `returnUrl` parameter. Only once you add some additional JS overrides using Freeform's Javascript handling will it begin to work that way:
-
-```twig {7,11-19}
-<html>
-<head>
-</head>
-<body>
-
-    {{ freeform.form("myFormHandle", {
-        returnUrl: "contact/success",
-        id: 'my-form'
-    }).render() }}
-
-    <script>
-        // Find the form element
-        const myForm = document.getElementById('my-form');
-        // Do something on a successful ajax submit
-        myForm.addEventListener('freeform-ajax-success', function(event) {
-          // Redirect the user
-          window.location.href = event.response.returnUrl;
-        })
-    </script>
-
-</body>
-</html>
-```
-
-### Customizing the AJAX Success Message
-
-The built-in AJAX functionality lets you completely customize the way your forms work if you're not satisfied with anything in the provided defaults. If you only need to customize the error messages, you can do so by overriding the defaults like this:
-
-<Tabs>
-<TabItem value="ajax-success-message-all-forms" label="Apply to ALL forms on the page" default>
-
-```twig {11-18}
-<html>
-<head>
-</head>
-<body>
-
-    {{ freeform.form("myFormHandle", {
-        returnUrl: "contact/success",
-        id: 'my-form'
-    }).render() }}
-
-    <script>
-        // Change success and error messages for all forms on this page
-        document.addEventListener('freeform-ready', function(event) {
-            // Customize the error and success messages
+        <script>
+          document.addEventListener('freeform-ready', function(event) {
             event.options.successBannerMessage = 'My custom success message';
             event.options.errorBannerMessage = 'My custom error message';
-        });
-    </script>
+          });
+        </script>
+        ```
+      </TabItem>
+      <TabItem value="success-banner-specific-forms" label="Apply to a specific form">
 
-</body>
-</html>
-```
+        ```twig {2,5-11}
+        {{ freeform.form("myFormHandle", {
+          attributes: { id: 'my-form' },
+        }).render() }}
 
-</TabItem>
-<TabItem value="ajax-success-message-specific-forms" label="Apply to a specific form">
-
-```twig {11-20}
-<html>
-<head>
-</head>
-<body>
-
-    {{ freeform.form("myFormHandle", {
-        returnUrl: "contact/success",
-        id: 'my-form'
-    }).render() }}
-
-    <script>
-        // You can also add this only to a specific form, by listening to the
-        // "freeform-ready" event on the specific form.
-        const form = document.getElementById('my-form');
-        form.addEventListener('freeform-ready', function (event) {
-            // Customize the error and success messages
+        <script>
+          const form = document.getElementById('my-form');
+          form.addEventListener('freeform-ready', function (event) {
             event.options.successBannerMessage = 'My custom success message';
             event.options.errorBannerMessage = 'My custom error message';
-        });
-    </script>
-
-</body>
-</html>
-```
-
-</TabItem>
+          });
+        </script>
+        ```
+      </TabItem>
+    </Tabs>
+  </TabItem>
 </Tabs>
 
-### Display alternate Success markup from a Template or Existing Div after AJAX Submit
+## Replace form with a Success message
 
-When using the Freeform built-in [AJAX](../../guides/guide/ajax-forms.mdx) feature, if you wish to override the default AJAX success message and instead load alternate success markup from a template or existing `div`, follow the instructions below:
+If you'd like to have your entire form replaced with custom success content, choose one of the options below.
 
 <Tabs>
-<TabItem value="alternate-success-markup-div" label="From Existing Div" default>
-<VerticalStepWrapper>
-<StepMarkdown title="Step 1">
-Create a new form or edit an existing one as usual. Be sure to check off the **Enable AJAX** checkbox inside the form settings area in the form builder.
+  <TabItem value="success-template-builder" label="Form Builder" default>
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Go to the [Template Manager](../../configuration/settings.mdx#template-manager) settings area and configure the _Success Templates_ directory.
+      </StepMarkdown>
+      <StepMarkdown>
+        Add a new _Success_ template. A basic one might look like this:
 
-</StepMarkdown>
-<StepMarkdown title="Step 2">
-Add a `div` to hold the success contents inside your existing template that contains the form, e.g. `custom-content`:
+        ```html
+        <div id="freeform-success">
+          <h3>Thank you!</h3>
+          <p>We have successfully received your submission.</p>
+        </div>
+        ```
+      </StepMarkdown>
+      <StepMarkdown>
+        Go to the **Success & Errors** section under the **Settings** tab in the form builder.
+      </StepMarkdown>
+      <StepMarkdown>
+        For the **Success Behavior** setting, select the `Replace form with a Success message` option.
+      </StepMarkdown>
+      <StepMarkdown>
+        For the **Success Template** setting, select a _Success template_.
+      </StepMarkdown>
+    </VerticalStepWrapper>
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/guides/success-template.png')}
+      alt="Replace form with Success Template content"
+    />
+  </TabItem>
+  <TabItem value="success-template-template" label="Template">
 
-```twig
-<div id="custom-content">
-    <h3>Thank you!</h3>
-    <p>
-        We have received your submission. You may now
-        <a href="{{ siteUrl('path-to/file.pdf') }}">download the PDF guide</a>.
-    </p>
-</div>
-```
+    It's also possible to override this at the template level using the [Freeform JS Plugin](../../developer/js-plugin.mdx), and can be done as a template or a `div`.
 
-</StepMarkdown>
-<StepMarkdown title="Step 3">
-Wrap your existing form render with a `div` to make it easier to swap out with the custom success `div`, e.g. `form-wrapper`:
+    <Tabs>
+      <TabItem value="success-template-template" label="With a Template" default>
+        <VerticalStepWrapper>
+          <StepMarkdown>
+            Create a new form or edit an existing one as usual. Be sure to enable **AJAX** for the form inside the form settings area in the form builder.
+          </StepMarkdown>
+          <StepMarkdown>
+            Create a new template to hold the success contents, e.g. named `ajax-success.twig` with content of:
 
-```twig
-<div id="form-wrapper">
-    {{ freeform.form('myContactForm').render }}
-</div>
-```
+            ```twig
+            <h3>Thank you!</h3>
+            <p>
+              We have received your submission. You may now
+              <a href="{{ siteUrl('path-to/file.pdf') }}">download the PDF guide</a>.
+            </p>
+            ```
+          </StepMarkdown>
+          <StepMarkdown>
+            Wrap your existing form render with a `div` to make it easier to swap out with the success template, e.g. `form-wrapper`:
 
-</StepMarkdown>
-<StepMarkdown title="Step 4">
-In the footer of the template that will contain the form, be sure to include something like this in the footer area:
+            ```twig
+            <div id="form-wrapper">
+              {{ freeform.form('myContactForm').render }}
+            </div>
+            ```
+          </StepMarkdown>
+          <StepMarkdown>
+            In the footer of the template that will contain the form, be sure to include something like this in the footer area:
 
-```js
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript">
-    document.addEventListener('freeform-render-success', function (event) {
-        // Disable the default success rendering
-        event.preventDefault();
-        // We locate the 'form-wrapper' DIV element which contains our form
-        // and we swap its contents (the whole form) with the HTML that we
-        // fetch from any other element already present on the page
-        $('#form-wrapper').html($('#custom-content').html());
-    });
-</script>
-```
+            ```js
+            <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+            <script type="text/javascript">
+              document.addEventListener('freeform-render-success', function (event) {
+                // Disable the default success rendering
+                event.preventDefault();
+                // We locate the 'form-wrapper' DIV element which contains our form
+                // and we swap its contents (the whole form) with the HTML that we
+                // fetch from the "/freeform-demo/ajax-success" template
+                $('#form-wrapper').load('/freeform-demo/ajax-success');
+              });
+            </script>
+            ```
+          </StepMarkdown>
+        </VerticalStepWrapper>
 
-</StepMarkdown>
-</VerticalStepWrapper>
-</TabItem>
-<TabItem value="alternate-success-markup-template" label="From a Template">
-<VerticalStepWrapper>
-<StepMarkdown title="Step 1">
-Create a new form or edit an existing one as usual. Be sure to check off the **Enable AJAX** checkbox inside the form settings area in the form builder.
+        Your final template code might look something like this:
 
-</StepMarkdown>
-<StepMarkdown title="Step 2">
-Create a new template to hold the success contents, e.g. named `ajax-success.html` with content of:
+        ```twig
+        <div id="form-wrapper">
+          {{ freeform.form('myContactForm').render }}
+        </div>
 
-```twig
-<h3>Thank you!</h3>
-<p>
-    We have received your submission. You may now
-    <a href="{{ siteUrl('path-to/file.pdf') }}">download the PDF guide</a>.
-</p>
-```
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script type="text/javascript">
+          document.addEventListener('freeform-render-success', function (event) {
+            event.preventDefault();
+            $('#form-wrapper').load('/freeform-demo/ajax-success');
+          });
+        </script>
+        ```
+      </TabItem>
+      <TabItem value="success-template-div" label="With a Div">
+        <VerticalStepWrapper>
+          <StepMarkdown>
+            Create a new form or edit an existing one as usual. Be sure to enable **AJAX** for the form inside the form settings area in the form builder.
+          </StepMarkdown>
+          <StepMarkdown>
+            Add a `div` to hold the success contents inside your existing template that contains the form, e.g. `custom-content`:
 
-</StepMarkdown>
-<StepMarkdown title="Step 3">
-Wrap your existing form render with a `div` to make it easier to swap out with the success template, e.g. `form-wrapper`:
+            ```twig
+            <div id="custom-content">
+              <h3>Thank you!</h3>
+              <p>
+                We have received your submission. You may now
+                <a href="{{ siteUrl('path-to/file.pdf') }}">download the PDF guide</a>.
+              </p>
+            </div>
+            ```
+          </StepMarkdown>
+          <StepMarkdown>
+            Wrap your existing form render with a `div` to make it easier to swap out with the custom success `div`, e.g. `form-wrapper`:
 
-```twig
-<div id="form-wrapper">
-    {{ freeform.form('myContactForm').render }}
-</div>
-```
+            ```twig
+            <div id="form-wrapper">
+              {{ freeform.form('myContactForm').render }}
+            </div>
+            ```
+          </StepMarkdown>
+          <StepMarkdown>
+            In the footer of the template that will contain the form, be sure to include something like this in the footer area:
 
-</StepMarkdown>
-<StepMarkdown title="Step 4">
-In the footer of the template that will contain the form, be sure to include something like this in the footer area:
+            ```js
+            <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+            <script type="text/javascript">
+              document.addEventListener('freeform-render-success', function (event) {
+                // Disable the default success rendering
+                event.preventDefault();
+                // We locate the 'form-wrapper' DIV element which contains our form
+                // and we swap its contents (the whole form) with the HTML that we
+                // fetch from any other element already present on the page
+                $('#form-wrapper').html($('#custom-content').html());
+              });
+            </script>
+            ```
+          </StepMarkdown>
+        </VerticalStepWrapper>
 
-```js
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript">
-    // Find the form element, can be a specific ID or just look for any forms
-    var form = $('form[data-id]');
-    form.on('freeform-render-success', function (event) {
-        // Disable the default success rendering
-        event.preventDefault();
-        // We locate the 'form-wrapper' DIV element which contains our form
-        // and we swap its contents (the whole form) with the HTML that we
-        // fetch from the "/freeform-demo/ajax-success" template
-        $('#form-wrapper').load('/freeform-demo/ajax-success');
-    });
-</script>
-```
+        Your final template code might look something like this:
 
-</StepMarkdown>
-</VerticalStepWrapper>
-</TabItem>
+        ```twig
+        <div id="form-wrapper">
+          {{ freeform.form('myContactForm').render }}
+        </div>
+
+        <div id="custom-content">
+          <h3>Thank you!</h3>
+          <p>
+            We have received your submission. You may now
+            <a href="{{ siteUrl('path-to/file.pdf') }}">download the PDF guide</a>.
+          </p>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script type="text/javascript">
+          document.addEventListener('freeform-render-success', function (event) {
+            event.preventDefault();
+            $('#form-wrapper').html($('#custom-content').html());
+          });
+        </script>
+        ```
+      </TabItem>
+    </Tabs>
+  </TabItem>
 </Tabs>
 
-### User Chooses Return URL
+## Return the Submitter to a URL
 
-If you wish to have the return URL based upon the user's form selection, etc, you can override the return URL manually with a hidden field or checkbox, etc named `formReturnUrl`, allowing for a more dynamic return URL dependent on the user's choice or action, as long as you hash the value.
-
-Some examples of this might be:
-
-- Having the form return to a different page if _Field X_ contains `Y`.
-- Providing a single checkbox that, when checked, returns them to a different URL.
-- Providing a series of options in a radio or select field that contain different return values.
-
-Please keep in mind that if you're wanting to make the return path dependent on another field selection, or if you wish to know which "return option" the user chose, using the `formReturnUrl` field does NOT collect and store the data selection. In this case, you would be best to use a real Freeform field to collect the data, and then implement your own custom JS that calculates and/or copies another field's option values and inserts a return URL into the `formReturnUrl` hidden field accordingly.
-
-If you're using an automated rendering of the form, you'll need to consider how and where to add this into the formatting template. In most cases it might be best to add a conditional and pair this with the submit button or another field.
-
-#### EXAMPLES
-Below are some examples of how this could be applied:
+If you'd like to redirect the form submitter to a different return URL, this can be handled a few different ways.
 
 <Tabs>
-<TabItem value="user-chooses-url-hidden" label="Hidden field" default>
+  <TabItem value="success-url-builder" label="Form Builder" default>
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Go to the **Success & Errors** section under the **Settings** tab in the form builder.
+      </StepMarkdown>
+      <StepMarkdown>
+        For the **Success Behavior** setting, select the `Return the Submitter to the following URL` option.
+      </StepMarkdown>
+      <StepMarkdown>
+        For the **Return URL** setting, enter the URL path you'd like. The path is relative, so you may need to begin the URL with `/`.
 
-```twig
-<input type="hidden" name="formReturnUrl" value="{{ 'whatever/my-url'|hash }}" />
-```
+        You can also use any of the following:
+        - `{{ form.handle }}` - handle of the form.
+        - `{{ submission.token }}` - the secure token created for the submission.
+        - `{{ submission.id }}` - the newly created unique submission ID in the URL. This (and `submission.token`) would allow you to use the [Submissions query](../../templates/queries/submissions.mdx) to display some or all of the users' submission on the success page.
 
-</TabItem>
-<TabItem value="user-chooses-url-checkbox" label="Checkbox field">
+        :::warning
+        If the `returnUrl` parameter is specified at the template level, Freeform will ignore the value set inside the form builder.
+        :::
 
-```twig
-<label for="return-checkbox">
-    <input type="checkbox" name="formReturnUrl" id="return-checkbox" value="{{ 'whatever/my-url'|hash }}" />
-    Some descriptive text about this checkbox
-</label>
-```
+      </StepMarkdown>
+    </VerticalStepWrapper>
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/guides/success-url.png')}
+      alt="Set a Return URL for the form"
+    />
+  </TabItem>
+  <TabItem value="success-url-template-parameter" label="Template Parameter">
 
-</TabItem>
-<TabItem value="user-chooses-url-dropdown" label="Dropdown field">
+    If you wish to set the return URL at the template level, you can do this by specifying the `returnUrl` parameter on the [Form query](../../templates/queries/form.mdx) or the [form object](../../templates/objects/form.mdx).
 
-```twig
-<label for="return-select">
-    Please choose...
-</label>
-<select name="formReturnUrl" id="return-select">
-    <option value="{{ 'whatever/my-url'|hash }}">Option One</option>
-    <option value="{{ 'whatever/my-other-url'|hash }}">Option Two</option>
-    <option value="{{ 'whatever/something-else'|hash }}">Option Three</option>
-</select>
-```
+    ```twig {2}
+    {{ freeform.form("myFormHandle", {
+      returnUrl: "/contact/success"
+    }).render() }}
+    ```
 
-</TabItem>
+    You can add most variables such as `form.handle`, `submission.id`, `submission.token` as well as perform conditional checks, etc:
+
+    ```twig {2}
+    {{ freeform.form("myFormHandle", {
+      returnUrl: "/{{ form.handle }}/{% if submission %}submissions/{{ submission.id }}/{% endif %}success"
+    }).render() }}
+    ```
+  </TabItem>
+  <TabItem value="success-url-template-input" label="Template Input">
+
+    If you wish to have the return URL based upon the user's form selection, you can override the return URL manually with a hidden field or checkbox named
+    `formReturnUrl`, allowing for a more dynamic return URL dependent on the user's choice or action, as long as you hash the value (`{{ 'whatever/my-url'|hash }}`).
+
+    #### Field type Examples
+
+    <Tabs>
+      <TabItem value="user-chooses-url-dropdown" label="Dropdown" default>
+        ```twig
+        <label for="return-select">
+          Please choose...
+        </label>
+        <select name="formReturnUrl" id="return-select">
+          <option value="{{ 'whatever/my-url'|hash }}">Option One</option>
+          <option value="{{ 'whatever/my-other-url'|hash }}">Option Two</option>
+          <option value="{{ 'whatever/something-else'|hash }}">Option Three</option>
+        </select>
+        ```
+      </TabItem>
+      <TabItem value="user-chooses-url-checkbox" label="Checkbox">
+        ```twig
+        <label for="return-checkbox">
+          <input type="checkbox" name="formReturnUrl" id="return-checkbox" value="{{ 'whatever/my-url'|hash }}" />
+          Some descriptive text about this checkbox
+        </label>
+        ```
+      </TabItem>
+      <TabItem value="user-chooses-url-hidden" label="Hidden">
+        ```twig
+        <input type="hidden" name="formReturnUrl" value="{{ 'whatever/my-url'|hash }}" />
+        ```
+      </TabItem>
+    </Tabs>
+
+    :::info
+    Please keep in mind that if you're wanting to make the return path dependent on another field selection, or if you wish to know which "return option"
+    the user chose, using the `formReturnUrl` field does NOT collect and store the data selection. In this case, you would be best to use a real Freeform
+    field to collect the data, and then implement your own custom JS that calculates and/or copies another field's option values and inserts a return URL
+    into the `formReturnUrl` hidden field accordingly.
+    :::
+
+    If you're using an automated rendering of the form, you'll need to consider how and where to add this into the formatting template. In most cases it
+    might be best to add a conditional and pair this with the submit button or another field.
+  </TabItem>
 </Tabs>

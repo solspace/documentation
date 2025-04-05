@@ -103,62 +103,53 @@ Once [Template Overrides](../../templates/formatting/index.mdx#template-override
 
 ### `returnUrl`
 
-Overrides the return URL for the form. You can override the return URL manually with a hidden field or checkbox, etc named `formReturnUrl`, allowing for a more dynamic return URL dependent on the user's choice or action, as long as you hash the value:
+Overrides the return URL for the form. You can also override the return URL manually with a field input named `formReturnUrl`, allowing for a more dynamic return URL dependent on the user's choice or action, as long as you hash the value.
 
 <Tabs>
-  <TabItem value="checkbox" label="Checkbox" default>
+  <TabItem value="return-url-parameter" label="Parameter" default>
+    ```twig {2}
+    {{ freeform.form("myFormHandle", {
+      returnUrl: "/contact/success"
+    }).render() }}
+    ```
+
+    You can add most variables such as `form.handle`, `submission.id`, `submission.token` as well as perform conditional checks, etc:
+
+    ```twig {2}
+    {{ freeform.form("myFormHandle", {
+      returnUrl: "/{{ form.handle }}/{% if submission %}submissions/{{ submission.id }}/{% endif %}success"
+    }).render() }}
+    ```
+  </TabItem>
+  <TabItem value="return-url-dropdown" label="Dropdown">
     ```twig
-    <label>
-      <input
-        type="checkbox"
-        name="formReturnUrl"
-        value="{{ 'whatever/my-url'|hash }}"
-      />
-      <span>My Label</span>
+    <label for="return-select">
+      Please choose...
+    </label>
+    <select name="formReturnUrl" id="return-select">
+      <option value="{{ 'whatever/my-url'|hash }}">Option One</option>
+      <option value="{{ 'whatever/my-other-url'|hash }}">Option Two</option>
+      <option value="{{ 'whatever/something-else'|hash }}">Option Three</option>
+    </select>
+    ```
+  </TabItem>
+  <TabItem value="return-url-checkbox" label="Checkbox">
+    ```twig
+    <label for="return-checkbox">
+      <input type="checkbox" name="formReturnUrl" id="return-checkbox" value="{{ 'whatever/my-url'|hash }}" />
+      Some descriptive text about this checkbox
     </label>
     ```
   </TabItem>
-  <TabItem value="radios" label="Radios">
+  <TabItem value="return-url-hidden" label="Hidden">
     ```twig
-    <label>
-      <input
-        type="radio"
-        name="formReturnUrl"
-        value="{{ 'whatever/my-url/one'|hash }}"
-      />
-      <span>Option One</span>
-    </label>
-    <label>
-      <input
-        type="radio"
-        name="formReturnUrl"
-        value="{{ 'whatever/my-url/two'|hash }}"
-      />
-      <span>Option Two</span>
-    </label>
-    <label>
-      <input
-        type="radio"
-        name="formReturnUrl"
-        value="{{ 'whatever/my-url/three'|hash }}"
-      />
-      <span>Option Three</span>
-    </label>
-    ```
-  </TabItem>
-  <TabItem value="hidden" label="Hidden">
-    ```twig
-    <input
-      type="hidden"
-      name="formReturnUrl"
-      value="{{ 'whatever/my-url'|hash }}"
-    />
+    <input type="hidden" name="formReturnUrl" value="{{ 'whatever/my-url'|hash }}" />
     ```
   </TabItem>
 </Tabs>
 
 :::tip
-[Options for handling the Success Return URL on forms.](../../guides/guide/success-return-on-forms.mdx)
+[Options for handling the Success return on forms.](../../guides/guide/success-return-on-forms.mdx)
 :::
 
 ### `status`
