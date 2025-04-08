@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 title: Caching Forms
 ---
 
@@ -45,7 +45,7 @@ Here are some solutions, depending on your caching approach:
 />
 
 :::tip
-[Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../guide/troubleshooting-form-issues.mdx)
+[Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../guides/guide/troubleshooting-form-issues.mdx)
 :::
 
 ## Craft Caching
@@ -241,7 +241,7 @@ There are a few different approaches you can take:
   </TabItem>
   <TabItem value="static-caching-blitz-csrf" label="Blitz `csrfInput()`">
 
-    Another option is to use [Blitz's CSRF Token Input tag](https://putyourlightson.com/plugins/blitz#craft-blitz-csrfinput). However, this method requires coding your form formatting inside your template rather than using a [formatting template](../../templates/formatting/index.mdx), which can be quite inconvenient.
+    Another option is to use [Blitz's CSRF Token Input tag](https://putyourlightson.com/plugins/blitz#craft-blitz-csrfinput). However, this method requires coding your form formatting inside your template rather than using a [formatting template](./formatting/index.mdx), which can be quite inconvenient.
 
     ```twig showLineNumbers
     {# Initialize the form #}
@@ -277,12 +277,12 @@ There are a few different approaches you can take:
 
 ## Stripe Payment Forms
 
-When using the built-in [Stripe integration](../../integrations/stripe-payments.mdx), Freeform will trigger _Payment Intent_ requests automatically upon page load. These requests use the initial form data, meaning the original CSRF token.
+When using the built-in [Stripe integration](../integrations/stripe-payments.mdx), Freeform will trigger _Payment Intent_ requests automatically upon page load. These requests use the initial form data, meaning the original CSRF token.
 
 The assumption is that payment forms should never be cached, so if your form has a Stripe integration enabled and you are using [Blitz caching](https://plugins.craftcms.com/blitz) and refreshing your CSRF tokens, we suggest injecting your payment form into your template using [Blitz dynamic content](https://putyourlightson.com/plugins/blitz#dynamic-content) or [Sprig](https://putyourlightson.com/plugins/sprig#component-attributes).
 
 There is then no need to refresh CSRF tokens as the dynamic content is injected after the page loads. Otherwise, you risk a `400 Bad Request - Unable to verify your data submission` error.
 
 :::tip
-[Using a form more than once in the same template? Check out the additional steps necessary to prevent potential issues.](./multiple-instances-of-same-form.mdx)
+[Using a form more than once in the same template? Check out the additional steps necessary to prevent potential issues.](../guides/guide/multiple-instances-of-same-form.mdx)
 :::

@@ -381,7 +381,7 @@ Check out this documentation resource to troubleshoot common problems or find an
   <AnswerCard>
     This is almost always because Craft's CSRF token is invalid or expired. The most common causes of this are:
 
-    - **Form/template/website is cached** - if using cache, please see the [Caching Forms](./guide/caching-forms.mdx) documentation guide to see how you will need to manually refresh the Craft CSRF token.
+    - **Form/template/website is cached** - if using cache, please see the [Caching Forms](../templates/caching.mdx) documentation guide to see how you will need to manually refresh the Craft CSRF token.
     - **Browser left open too long** - if the user leaves the page open for a while and revisits later, or spends too much time to complete the form (2-3 hours), the Craft CSRF token will expire. This is a limitation of the current PHP Session limit setting for your server. You may be able to extend it for a greater length of time if you contact your webhost/web admin, however.
     - **Loading Freeform onto a different website/domain** - this should work by default, but if you have the `sameSiteCookieValue` [Craft config](https://craftcms.com/docs/5.x/reference/config/general.html#samesitecookievalue) setting set to `strict` or `lax`, it may cause an issue. You'll need to remove the setting line or set it to `null` in order for it to work correctly.
   </AnswerCard>
