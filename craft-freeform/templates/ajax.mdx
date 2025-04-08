@@ -1,21 +1,21 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 title: AJAX Forms
 ---
 
 # AJAX Forms with Freeform
 
-Freeform includes its own built-in AJAX support for single and multi-page forms. To enable it, simply check the **Enable AJAX** checkbox in the _Form Settings_ tab inside the form builder for any forms you wish to have it apply to. Freeform will then handle the rest. You may, however, override part of this and/or implement your own AJAX solution. If you need to use a manual approach for the AJAX call, usually because some sort of framework is used to generate the form such as [Vue.js](https://vuejs.org/), please see the [Manual Implementations](#manual-implementations) guide further below.
+Freeform includes its own built-in AJAX support for single and multi-page forms. To enable it, simply enable the **Use AJAX** toggle in the **Processing** section of the _Settings_ tab inside the form builder for any forms you wish to have it apply to. Freeform will then handle the rest. You may, however, override part of this and/or implement your own AJAX solution. If you need to use a manual approach for the AJAX call, usually because some sort of framework is used to generate the form such as [Vue.js](https://vuejs.org/), please see the [Manual Implementations](#manual-implementations) guide further below.
 
-The Freeform [javascript plugin](../../developer/js-plugin.mdx) handles AJAX functionality and all other JS needed (such as Date fields, conditional rules, Stripe payments and more). Much of the default functionality (formatting, language, etc) can be overridden if necessary. See the [customization](#customization) reference guide below.
+The Freeform [javascript plugin](../developer/js-plugin.mdx) handles AJAX functionality and all other JS needed (such as Date fields, conditional rules, Stripe payments and more). Much of the default functionality (formatting, language, etc) can be overridden if necessary. See the [customization](#customization) reference guide below.
 
 :::tip
-[Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../guide/troubleshooting-form-issues.mdx)
+[Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../guides/guide/troubleshooting-form-issues.mdx)
 :::
 
 ## Caveats
 
-- **Payments**: When using Freeform's [Stripe Payments](../../integrations/stripe-payments.mdx) feature, Freeform will automatically force AJAX mode on the form in order to work with Stripe's validation.
+- **Payments**: When using Freeform's [Stripe Payments](../integrations/stripe-payments.mdx) feature, Freeform will automatically force AJAX mode on the form in order to work with Stripe's validation.
 - **Manual Formatting**: When not using a formatting template, this can cause issues with some of Freeform's AJAX autoload features. Whenever possible, you should use a formatting template. However, you can work around it if using your own AJAX, however. [See the guide below](#not-using-a-formatting-template).
 - **Editing**: Editing existing submissions via the front end in multi-page AJAX forms will currently not work correctly.
 - **Multiple Forms**: If loading the same form more than once in the same template, be sure to specify the `id` parameter for each instance so that AJAX submit can account for this.
@@ -25,7 +25,7 @@ The Freeform [javascript plugin](../../developer/js-plugin.mdx) handles AJAX fun
 The built-in AJAX functionality lets you completely customize the way your forms work if you're not satisfied with anything in the provided defaults.
 
 :::info
-Be sure to check out the [Freeform Javascript plugin](../../developer/js-plugin.mdx) documentation, to learn how to further extend Freeform's functionality.
+Be sure to check out the [Freeform Javascript plugin](../developer/js-plugin.mdx) documentation, to learn how to further extend Freeform's functionality.
 :::
 
 ### Customize Success & Error Messages
@@ -213,11 +213,11 @@ When not using a formatting template, this can cause issues with some of Freefor
    - Save the form.
 2. Inside your regular template:
    - Open the regular template that contains the form.
-   - Add the `formAttributes: { "data-skip-html-reload": true },` parameter to your [Form query](../../templates/queries/form.mdx).
+   - Add the `formAttributes: { "data-skip-html-reload": true },` parameter to your [Form query](./queries/form.mdx).
 
 ## Advanced
 
-To attach your own functionality when the AJAX form successfully submits or fails, you have to listen to the respective events dispatched by the [Freeform JS plugin](../../developer/js-plugin.mdx). For instance, redirecting after an AJAX submit is finished:
+To attach your own functionality when the AJAX form successfully submits or fails, you have to listen to the respective events dispatched by the [Freeform JS plugin](../developer/js-plugin.mdx). For instance, redirecting after an AJAX submit is finished:
 
 ```js showLineNumbers
 // Find the form element
@@ -259,7 +259,7 @@ form.addEventListener('freeform-ajax-after-submit', function (event) {
 There are cases when an AJAX call has to be made manually. Usually it is because some sort of framework is used to generate the form, such as [Vue.js](https://vuejs.org/).
 
 :::warning
-In order for this approach to work, you will need to disable the [Script Insertion Location](../../configuration/settings.mdx#general-settings) setting and handle everything manually. If you're just needing to adjust the behavior of the built-in AJAX, you should strongly consider using one of the event listeners in the [Advanced example](#advanced) above.
+In order for this approach to work, you will need to disable the [Script Insertion Location](../configuration/settings.mdx#general-settings) setting and handle everything manually. If you're just needing to adjust the behavior of the built-in AJAX, you should strongly consider using one of the event listeners in the [Advanced example](#advanced) above.
 :::
 
 All you need to do when making a manual AJAX request is pass the AJAX specific headers within the request:

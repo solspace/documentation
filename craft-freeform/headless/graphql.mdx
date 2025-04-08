@@ -778,16 +778,17 @@ fields {
 
 ### Checkbox
 
-| Field     | Type      | Description                               |
-|-----------|-----------|-------------------------------------------|
-| `value`   | `String`  | The default value                         |
-| `checked` | `Boolean` | Should the checkbox be checked by default |
+| Field                                                             | Type      | Description                                                          |
+| ----------------------------------------------------------------- | --------- | -------------------------------------------------------------------- |
+| `value`                                                           | `String`  | The default value                                                    |
+| `checkedByDefault`<Badge type="feature" text="New in 5.10.7+" />  | `Boolean` | Should the checkbox be checked by default                            |
+| `checked`<Badge type="deprecated" text="Deprecated in 5.10.7+" /> | `Boolean` | This attribute does not work. Please use `checkedByDefault` instead. |
 
 ```graphql
 fields {
   ... on FreeformField_Checkbox {
     value
-    checked
+    checkedByDefault
   }
 }
 ```
