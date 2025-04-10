@@ -1,0 +1,124 @@
+---
+title: 'Integration Queries'
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Integration Queries<Badge type="feature" text="New in 5.10.8+" />
+
+The `Integration` query allows you to access some of the properties of [integrations](../../integrations/index.mdx) on the frontend via Twig.
+
+## Overview
+
+The `Integration` query is consistently constructed in the same manner. The first parameter must include the form handle or ID, while the second parameter must contain the integration handle.
+
+A basic implementation of the `Integration` query would look like this:
+
+```twig
+{{ freeform.integration("myFormHandle", "post-forwarding").url }}
+```
+
+## Accessing integrations
+
+To access integrations, you need to specify the handle of the integration that you configured in its settings. Please note that not all features of regular integrations such as [Salesforce](../../integrations/salesforce.mdx) and [Mailchimp](../../integrations/mailchimp.mdx) are available. Generally, this feature is intended for use with _Single_ integrations.
+
+In the case of _Single_ integrations, those handles remain hidden but are always the same:
+
+- [Google Tag Manager](#google-tag-manager)
+- [Honeypot](#honeypot)
+- [Javascript Test](#javascript-test)
+- [Post Forwarding](#post-forwarding)
+
+### Google Tag Manager
+
+The following properties are available via `google-tag-manager`:
+
+- `enabled`
+- `containerId`
+- `eventName`
+
+### Honeypot
+
+The following properties are available via `honeypot`:
+
+- `enabled`
+- `inputName`
+- `errorMessage`
+
+### Javascript Test
+
+The following properties are available via `javascript-test`:
+
+- `enabled`
+- `inputName`
+- `errorMessage`
+
+### Post Forwarding
+
+The following properties are available via `post-forwarding`:
+
+- `enabled`
+- `url`
+- `errorTrigger`
+- `sendFiles`
+
+## Examples
+
+### Single Property
+One of the most basic examples might look something like this:
+
+```twig
+{% set form = freeform.form("myFormHandle") %}
+
+{{ freeform.integration(form, "post-forwarding").url }}
+```
+
+### Multiple Properties
+If you need to access multiple properties from a specific integration, your code might look like this:
+
+```twig
+{% set form = freeform.form("myFormHandle") %}
+
+{% set postForwarding = freeform.integration(form, 'post-forwarding') %}
+<ul>
+{% if postForwarding %}
+    <li>{{ postForwarding.url|default('') }}</li>
+    <li>{{ postForwarding.errorTrigger|default('') }}</li>
+    <li>{{ postForwarding.sendFiles|default('') }}</li>
+{% endif %}
+</ul>
+```
+
+### Multiple Integrations
+If you need to access multiple properties from multiple integrations, you can streamline your code like this:
+
+```twig
+{% set form = freeform.form("myFormHandle") %}
+
+{% set integrations = [
+    { handle: 'post-forwarding', fields: ['enabled', 'url', 'errorTrigger', 'sendFiles'] },
+    { handle: 'honeypot', fields: ['enabled', 'inputName', 'errorMessage'] },
+    { handle: 'javascript-test', fields: ['enabled', 'inputName', 'errorMessage'] },
+    { handle: 'google-tag-manager', fields: ['enabled', 'containerId', 'eventName'] },
+] %}
+
+<ul>
+{% for integration in integrations %}
+    {% set instance = freeform.integration(form, integration.handle) %}
+    {% if instance %}
+        <li>
+            <strong>{{ integration.handle }}</strong>:
+            {{ integration.fields
+                |map(field => attribute(instance, field)|default(''))
+                |filter(v => v is not empty)
+                |join(', ')
+            }}
+        </li>
+    {% endif %}
+{% endfor %}
+</ul>
+```

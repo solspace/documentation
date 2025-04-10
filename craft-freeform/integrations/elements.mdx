@@ -150,6 +150,8 @@ This feature requires a **Craft Pro** license in order to work, as Users are a C
           :::danger
           When using a manual Admin approving approach, it's still possible for a **Pending** user to circumvent this process if a [Forgot Password](https://craftcms.com/knowledge-base/front-end-user-accounts#reset-password-forms) form is available to them, as Craft currently does not have a concept of Admin approval only, and allows users to verify their account either through an email notification or using a _Forgot Password_ form.
           :::
+        - Toggle whether the new user account should **Take Over Inactive Accounts** or not.<Badge type="feature" text="New in 5.9.14+" />
+          - If this feature is enabled and the submitted email belongs to an "Inactive" user on this site, the new registration will take over that account. We strongly recommend disabling the "Activate Users" setting when using this feature.
         - The **Attribute Mapping** table allows you to map standard Craft User fields.
           - You will need to use the special [Password](../forms/fields.mdx#password) field for mapping passwords to User passwords. The Freeform **Password** field will NOT save any password data in the Freeform database tables. It is designed specifically for this purpose.
         - The **Field Mapping** table is where you map Freeform fields to the Craft User fields as needed.
