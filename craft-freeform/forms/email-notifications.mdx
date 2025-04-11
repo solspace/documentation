@@ -245,6 +245,7 @@ When editing templates directly inside the control panel, Freeform will automati
 {# bcc: #}
 {# includeAttachments: true #}
 {# presetAssets: 42,67 #}
+{# pdfTemplates: 3 #}
 {# templateName: My Template Name #}
 {# description: A description of what this template does. #}
 ```
@@ -405,9 +406,54 @@ Select any Assets you wish to include as attachments on all email notifications 
 - Useful if you wish to include a PDF ticket or instructions document to submitter email notifictions, etc.
 - Can also preparse Twig, allowing you to dynamically attach an asset to the email notification based on a user's selection, etc.
 
+If you're creating/editing template files directly, you will need to add a line for `presetAssets` with the ID(s) of the Asset(s) in the heading comment block of code:
+
+```twig
+{# presetAssets: 42,67 #}
+```
+
+Your complete heading comment code block may look something like this:
+
+```twig {9}
+{# subject: New submission from your {{ form.name }} form #}
+{# fromEmail: {{ craft.app.projectConfig.get('email.fromEmail') }} #}
+{# fromName: {{ craft.app.projectConfig.get('email.fromName') }} #}
+{# replyToEmail: {{ email }} #}
+{# replyToName: {{ firstName }} {{ lastName }} #}
+{# cc: ring@my-precio.us #}
+{# bcc: #}
+{# includeAttachments: true #}
+{# presetAssets: 42,67 #}
+{# templateName: My Template Name #}
+{# description: A description of what this template does. #}
+```
+
 #### PDF Templates<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.7+" />
 
-Select any PDF Templates you wish to generate and include as attachments on all email notifications using this template.
+Select any [PDF Templates](../configuration/settings.mdx#pdf-templates) you wish to generate and include as attachments on all email notifications using this template.
+
+If you're creating/editing template files directly, you will need to add a line for `pdfTemplates` with the ID(s) of the PDF Template(s) in the heading comment block of code:
+
+```twig
+{# pdfTemplates: 123 #}
+```
+
+Your complete heading comment code block may look something like this:
+
+```twig {10}
+{# subject: New submission from your {{ form.name }} form #}
+{# fromEmail: {{ craft.app.projectConfig.get('email.fromEmail') }} #}
+{# fromName: {{ craft.app.projectConfig.get('email.fromName') }} #}
+{# replyToEmail: {{ email }} #}
+{# replyToName: {{ firstName }} {{ lastName }} #}
+{# cc: ring@my-precio.us #}
+{# bcc: #}
+{# includeAttachments: true #}
+{# presetAssets: 42,67 #}
+{# pdfTemplates: 3 #}
+{# templateName: My Template Name #}
+{# description: A description of what this template does. #}
+```
 
 ## Examples
 
