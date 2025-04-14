@@ -54,6 +54,7 @@ query {
             label
             handle
             required
+            requiredMessage
           }
         }
       }
@@ -85,13 +86,15 @@ Example response data:
                       "type": "text",
                       "label": "First Name",
                       "handle": "firstName",
-                      "required": false
+                      "required": false,
+                      "requiredMessage": null,
                     },
                     {
                       "type": "text",
                       "label": "Last Name",
                       "handle": "lastName",
-                      "required": true
+                      "required": true,
+                      "requiredMessage": "Last Name is required."
                     }
                   ]
                 }
@@ -433,6 +436,7 @@ The base `FreeformFieldInterface` implemented by all field types. You can see sp
 | `handle`                                                | `String`                                                 | Handle                                   |
 | `instruction`                                           | `String`                                                 | Instructions                             |
 | `required`                                              | `Boolean`                                                | Is the field required                    |
+| `requiredMessage`                                       | `String`                                                 | Is the fields custom required message    |
 | `pageIndex`                                             | `Int`                                                    | The page index this field is assigned to |
 | `attributes`<Badge type="feature" text="New in 5.0+" /> | [`[FreeformAttributesInterface]`](#attributes-interface) | Field's attributes                       |
 
