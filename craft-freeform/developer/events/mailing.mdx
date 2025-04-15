@@ -2,6 +2,8 @@
 sidebar_position: 5
 ---
 
+import { Badge } from '@site/src/components/utils';
+
 # Mailing Events
 
 You can extend the Mailer service functionality to manipulate emails that are sent out to users after form submissions:
@@ -30,6 +32,49 @@ Event::on(
     $event->setFieldValues($fieldValues);
   }
 )
+```
+
+## Prepare Notification Before Sending<Badge type="feature" text="New in 5.10.8+" />
+This event allows you to to modify a notification email just before it's sent. Here is an example of how to modify a specific template, in this case a [User Select](../../forms/email-notifications.mdx#user-select) notification template, based on a posted value:
+
+```php showLineNumbers
+use Solspace\Freeform\Events\Notifications\PrepareNotificationEvent;
+use Solspace\Freeform\Notifications\Components\Recipients\RecipientCollection;
+use Solspace\Freeform\Notifications\Types\Dynamic\Dynamic;
+use yii\base\Event;
+
+Event::on(
+  Dynamic::class,
+  Dynamic::PREPARE_NOTIFICATION,
+  function (PrepareNotificationEvent $event) {
+    $form = $event->getForm();
+    $notification = $event->getNotification();
+
+    // Check if the notification is the one we want to modify
+    if ($notification->getName() !== 'My User Select Notification') {
+      return;
+    }
+
+    // Get the posted value for the associated field
+    $value = $form->get('dropdown')->getValue();
+
+    // Determine what actual recipients we want to use based on the posted value
+    $recipients = [];
+    switch ($value) {
+      case 'one':
+        $recipients[] = 'first@recipient.com';
+        break;
+
+      case 'two':
+        $recipients[] = 'second@recipient.com';
+        break;
+    }
+
+    // Create a new RecipientCollection and set it on the event
+    $collection = RecipientCollection::fromArray($recipients);
+    $event->setRecipients($collection);
+  }
+);
 ```
 
 ## Before an email is sent
