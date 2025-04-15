@@ -14,7 +14,7 @@ Freeform includes several console commands to allow you to run cleanup tasks and
 If you need to resave all Freeform submissions, you can do so with the following CLI command: `./craft freeform/submissions/resave`. Most of the arguments available to Craft's `resave/entries` command are available here too, so if you need to also update the Craft Search Index, be sure to add `--update-search-index`.
 
 ```sh
-php craft freeform/submissions/resave --update-search-index
+./craft freeform/submissions/resave --update-search-index
 ```
 
 ## Purge Commands
@@ -44,6 +44,14 @@ Allows you to purge all unfinalized assets older than a specific number of minut
 ```
 
 ## Field Commands
+
+### Find Unused Fields<Badge type="feature" text="4.1.26+" />
+
+This command will find all Freeform fields that are not used by any forms on your site. This may be helpful when preparing your site to upgrade to Freeform 5+.
+
+```sh
+./craft freeform/find-unused-fields
+```
 
 ### Create Fields
 
