@@ -27,7 +27,7 @@ import Icons from '@site/static/card-icons';
 />
 
 :::tip
-[Check out our guide for creating a Donation form with Stripe.](../guides/speciality-forms/stripe-donation-payment.mdx)
+[Check out our guide for creating a Donation form with Stripe.](../guides/guide/stripe-donation-payment.mdx)
 :::
 
 <FlexCards
@@ -85,7 +85,7 @@ import Icons from '@site/static/card-icons';
 
 ## Key Features
 
-Freeform Payments uses the [Payment Element](https://stripe.com/docs/payments/payment-element) approach from [Stripe](https://stripe.com). The Payment Element is a UI component that accepts 40+ payment methods, validates input, and handles errors. This means that in addition to accepting **credit cards**, it will allow you to enable support for **Stripe Link**, **Apple Pay**, **Google Pay**, **PayPal** (within Europe), **bank payments**, **deferred payments** and many other options. Within minutes you can have anything from a form accepting donations to a [membership registration form](../guides/speciality-forms/user-registration.mdx) that has users pay for a subscription at any interval. The possibilities are endless!
+Freeform Payments uses the [Payment Element](https://stripe.com/docs/payments/payment-element) approach from [Stripe](https://stripe.com). The Payment Element is a UI component that accepts 40+ payment methods, validates input, and handles errors. This means that in addition to accepting **credit cards**, it will allow you to enable support for **Stripe Link**, **Apple Pay**, **Google Pay**, **PayPal** (within Europe), **bank payments**, **deferred payments** and many other options. Within minutes you can have anything from a form accepting donations to a [membership registration form](../guides/guide/user-registration.mdx) that has users pay for a subscription at any interval. The possibilities are endless!
 
 <FlexCards
   items={[
@@ -293,7 +293,7 @@ Consider using an **Environment Variable** for these settings instead. Then, sto
 ### Setting up the Form
 
 :::tip
-[Check out our guide for creating a Donation form with Stripe.](../guides/speciality-forms/stripe-donation-payment.mdx)
+[Check out our guide for creating a Donation form with Stripe.](../guides/guide/stripe-donation-payment.mdx)
 :::
 
 Setting up your form to collect payments will generally consist of the following:
@@ -377,7 +377,8 @@ Example template code might look something like this:
     <ul>
         <li>Amount: ${{ payments.amount }} {{ payments.currency }}</li>
         <li>
-            Card ending in: •••• {{ payments.card }}
+            Method: {{ payments.method.type }}
+            {% if payments.method.type == "card" %}ending in: •••• {{ payments.card }}{% endif %}
             ({{ payments.status }}{% if payments.errorMessage|length %} - {{ payments.errorMessage }}{% endif %})
         </li>
     {% if payments.type == "subscription" %}
@@ -429,6 +430,8 @@ The following properties are available for use inside email notification templat
   - Outputs the currency used for the submission, e.g. `usd`.
 - `payments.type`
   - Outputs the payment type for the submission, e.g. `single` or `subscription`.
+- `payments.method.type`<Badge type="feature" text="New in 5.10.4+" />
+  - Outputs the payment method for the submission, e.g. `card` or `cashapp`.
 - `payments.status`
   - Outputs the payment status to for the submission, e.g. `paid`, `active`, `failed`.
 - `payments.errorMessage`
@@ -458,7 +461,8 @@ For displaying the **submission data**, your code may look something like this:
     <ul>
         <li>Amount: ${{ payments.amount }} {{ payments.currency }}</li>
         <li>
-            Card ending in: •••• {{ payments.card }}
+            Method: {{ payments.method.type }}
+            {% if payments.method.type == "card" %}ending in: •••• {{ payments.card }}{% endif %}
             ({{ payments.status }}{% if payments.errorMessage|length %} - {{ payments.errorMessage }}{% endif %})
         </li>
     {% if payments.type == "subscription" %}
@@ -626,7 +630,8 @@ Full documentation can be found here: [Stripe Elements Appearance API](https://s
     <ul>
         <li>Amount: ${{ payments.amount }} {{ payments.currency }}</li>
         <li>
-            Card ending in: •••• {{ payments.card }}
+            Method: {{ payments.method.type }}
+            {% if payments.method.type == "card" %}ending in: •••• {{ payments.card }}{% endif %}
             ({{ payments.status }}{% if payments.errorMessage|length %} - {{ payments.errorMessage }}{% endif %})
         </li>
     {% if payments.type == "subscription" %}

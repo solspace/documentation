@@ -16,7 +16,7 @@ There are a variety of approaches that can be taken to translate various aspects
 
 It is now possible to manage translations for form settings, field labels and more directly inside the control panel form builder.
 
-### Site-Aware Forms<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.7+" />
+### Site-Aware Forms
 
 You can optionally enable [Site](https://craftcms.com/docs/5.x/system/sites.html) awareness in Freeform to show/hide them for specific Sites and enable translations per site for forms to have unique labels and messages on the front end.
 
@@ -28,13 +28,22 @@ To enable translations on forms per Site, go to the form builder and enable the 
 
 See the [Site-Aware Forms](../configuration/sites.mdx) documentation for more information.
 
+### Transliteration<Badge type="feature" text="New in 5.10.8+" />
+
+Transliteration will automatically happen to form handles and field handles inside the form builder. For example, the German word `straße` (_street_) will be converted to `strasse` for the handle.
+
 ## Static Translations
 
 To make a translation, follow Craft's instructions for [Translating Static Text](https://craftcms.com/docs/5.x/system/sites.html#static-message-translations). Then continue with this Freeform-specific guide.
 
 ### Control Panel
 
-To translate the Freeform control panel, you can simply duplicate the _freeform.php_ file inside the Freeform plugin located at the **./vendor/solspace/craft-freeform/packages/plugin/src/translations/en** folder. Then move it into the language ID folder (e.g. `de`) of your Craft **./translations/** directory. If the _translations_ directory does not yet exist, you'll need to create it (e.g. `./translations/de/freeform.php`). You can then update those language keys inside your Freeform translation file.
+To translate the Freeform control panel, you can simply:
+
+1. Duplicate the `freeform.php` file inside the Freeform plugin located at the `./vendor/solspace/craft-freeform/packages/plugin/src/translations/en` folder.
+2. Then move it into the language ID folder (e.g. `de`) of your Craft `./translations/` directory.
+    - If the `translations` directory does not yet exist, you'll need to create it (e.g. `./translations/de/freeform.php`).
+3. Then update those language keys inside your new Freeform translation file.
 
 :::info
 #### Did you know that Freeform offers complete translations for the control panel in multiple languages?
@@ -80,14 +89,14 @@ To see how all parts of form formatting templates are translated, [have a look a
 
 ## AJAX Handling
 
-Some parts are handled with JS and therefore need to be translated differently. Specifically, if you're using the [built-in AJAX feature](../guides/templating/ajax-forms.mdx) and need to translate the success/error banner, you'll need to override the [Freeform JS Plugin](../developer/js-plugin.mdx) and translate those with:
+Some parts are handled with JS and therefore need to be translated differently. Specifically, if you're using the [built-in AJAX feature](../templates/ajax.mdx) and need to translate the success/error banner, you'll need to override the [Freeform JS Plugin](../developer/js-plugin.mdx) and translate those with:
 
 ```js
 freeform.setOption('successBannerMessage', 'My custom success message');
 freeform.setOption('errorBannerMessage', 'My custom error message');
 ```
 
-That _might_ look something like the below example, but **depending on several factors**, _please_ see the [AJAX Forms documentation guide](../guides/templating/ajax-forms.mdx) for more information about how to use this and where to place it, etc:
+That _might_ look something like the below example, but **depending on several factors**, _please_ see the [AJAX Forms documentation guide](../templates/ajax.mdx) for more information about how to use this and where to place it, etc:
 
 ```js
 const form = document.getElementById('my-form');
@@ -105,4 +114,4 @@ form.addEventListener('freeform-ready', function (event) {
 
 ## Share a Translation
 
-If you'd like to share your translation with others, [send us an email](https://support.solspace.com/) with a link to the translation file, and we'll consider including it in the main Solspace Freeform plugin package.
+If you'd like to share your translation with others, [send us an email](/support/) with a link to the translation file, and we'll consider including it in the main Solspace Freeform plugin package.

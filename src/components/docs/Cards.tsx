@@ -118,7 +118,7 @@ const AnswerChecklist: React.FC<ChecklistSection> = ({ items }) => {
 
 const AnswerCard: React.FC<ChildrenProps> = ({ children }) => {
   return (
-    <div className="border border-solid border-lime-800 p-5 mt-5 rounded-lg bg-gray-100 dark:bg-[#15231d] answer-card">
+    <div className="border border-solid border-green-500 dark:border-green-600 p-5 mt-5 rounded-lg bg-green-100 dark:bg-[#09230c] answer-card">
       <div className="flex">
         <div className="circle">
           <div className="checkmark"></div>

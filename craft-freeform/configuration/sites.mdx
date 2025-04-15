@@ -14,14 +14,8 @@ import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 Allows you to optionally enable [Site](https://craftcms.com/docs/5.x/system/sites.html) awareness in Freeform to show/hide them for specific Sites and enable translations per site for forms to have unique labels and messages on the front end.
 
 <Player
-  url={
-    require('@site/static/videos/craft/freeform/v5/builder-translations.mp4').default
-  }
-  muted
-  loop
-  playing
-  width="100%"
-  height="100%"
+  url={require('@site/static/videos/craft/freeform/v5/builder-translations.mp4').default}
+  muted loop playing width="100%" height="100%"
 />
 
 ## Overview
@@ -92,7 +86,17 @@ If a field contains options such as Dropdowns or Checkboxes, the option labels c
 
 ### Translatable Email Notifications
 
-Currently, there is no option to select different [email notifications](../forms/email-notifications.mdx) for each Site. However, it is possible to translate these notifications on a per-site basis. This can be done within the email notification template itself by using a conditional statement to check the current language.
+Currently, there is no option to select different [email notifications](../forms/email-notifications.mdx) and recipients for each Site. However, there are a number of workarounds you can use to get this working.
+
+- [Unique Message Content per Site](#unique-message-content-per-site)
+- [Unique Admin Recipients per Site](#unique-admin-recipients-per-site)
+- [Unique _From Email_ per Site](#unique-from-email-per-site)
+
+#### Unique Message Content per Site
+
+Any translations you have set up in the form builder for each field will automatically display when loading the fields with `allFields`. For example, if you have a field labeled `First Name` that is translated to `Vorname` on your _German_ site, when the form is submitted on the _German_ site, the email notification will show the field label as `Vorname` instead of `First Name`.
+
+However, if you have other content in the notification template such as greetings and sign offs, these require a workaround. This can be done within the email notification template itself by using a conditional statement to check the current language.
 
 For instance, in the message body of the email template, you can utilize the [`currentSite` variable](https://craftcms.com/docs/5.x/system/sites.html#site-groups) that Craft provides as a conditional.
 
@@ -108,7 +112,92 @@ For instance, in the message body of the email template, you can utilize the [`c
 {% endif %}
 ```
 
-Any translations you have set up in the form builder for each field will automatically display when loading the fields with `allFields`. For example, if you have a field labeled `First Name` that is translated to `Vorname` on your _German_ site, when the form is submitted on the _German_ site, the email notification will show the field label as `Vorname` instead of `First Name`.
+#### Unique Admin Recipients per Site
+
+If you wish to have a different admin recipient for each site, there isn't any built in functionality for this specifically. However, can work around it this way:
+
+<VerticalStepWrapper>
+  <StepMarkdown>
+    Using the [Conditional](../forms/email-notifications.mdx#conditional) notification feature, you can set a different admin recipient for each site.
+  </StepMarkdown>
+  <StepMarkdown>
+    Add an [Invisible field](../forms/fields.mdx#invisible) to your form that gets populated with the Site name or code.
+  </StepMarkdown>
+  <StepMarkdown>
+    Update your template code to include an override like this:
+    ```twig
+    {{ freeform.form("myFormHandle", {
+      fields: {
+        "myInvisibleSiteField": {
+          value: currentSite.language,
+        },
+      },
+    }).render() }}
+    ```
+  </StepMarkdown>
+  <StepMarkdown>
+    Use a conditional rule in the _Conditional_ notification that checks on the site language code to send notifications to specific admins.
+
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/configuration/site-conditional-notifications.png')}
+      alt="Conditional Notifications in Form Builder"
+    />
+  </StepMarkdown>
+</VerticalStepWrapper>
+
+#### Unique _From Email_ per Site<Badge type="feature" text="New in 5.10.5+" />
+
+In Craft 5.6+, a new feature called [Site Overrides](https://craftcms.com/docs/5.x/system/mail.html#site-overrides) was added to the Email Settings area. All you need to do is the following:
+
+<VerticalStepWrapper>
+  <StepMarkdown>
+    Set the following settings in your Freeform notification template:
+    - **From Email** to `{{ craft.app.projectConfig.get('email.fromEmail') }}`
+    - **From Name** to `{{ craft.app.projectConfig.get('email.fromName') }}`
+    - **Reply-to Email** to `{{ craft.app.projectConfig.get('email.replyToEmail') }}`
+
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/configuration/site-email-notification-template.png')}
+      alt="Configure the Freeform email notification template"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    Configure the **Site Overrides** feature in Craft's **Email Settings** area and Freeform will respect those settings.
+
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/configuration/site-email-overrides.png')}
+      alt="Site Overrides in Craft Email settings"
+    />
+  </StepMarkdown>
+</VerticalStepWrapper>
+
+<details className="hidden-heading">
+  <summary>Workaround for older versions of Craft 4.x or 5.x</summary>
+
+  If you're using an older version of Craft 4.x or 5.x, you can work around this similarly to the [Unique Admin Recipients per Site](#unique-admin-recipients-per-site)
+  workaround above by taking the following steps:
+
+  <VerticalStepWrapper>
+    <StepMarkdown>
+      Add an [Invisible field](../forms/fields.mdx#invisible) to your form that gets populated with a site-specific email address.
+    </StepMarkdown>
+    <StepMarkdown>
+      Update your template code to include an override like this:
+      ```twig
+      {{ freeform.form("myFormHandle", {
+        fields: {
+          "myInvisibleEmailField": {
+            value: "deutsch@mysite.net",
+          },
+        },
+      }).render() }}
+      ```
+    </StepMarkdown>
+    <StepMarkdown>
+      Update your [Email Notification template](../forms/email-notifications.mdx) to have the **From Email** set to `{{ myInvisibleEmailField }}`.
+    </StepMarkdown>
+  </VerticalStepWrapper>
+</details>
 
 ### Translatable Items
 
@@ -175,6 +264,10 @@ The chart below shows the translatable options for each field type.
 | [Text](../forms/fields.mdx#text)                                                          | <span className="green">✓</span> |             <span className="green">✓</span>             |             <span className="green">✓</span>             |             <span className="green">✓</span>             |             <span className="green">✓</span>             | <span className="compare-none"><small>N/A</small></span> |                                                                    <span className="compare-none"><small>N/A</small></span>                                                                    |
 | [Textarea](../forms/fields.mdx#textarea)                                                  | <span className="green">✓</span> |             <span className="green">✓</span>             |             <span className="green">✓</span>             |             <span className="green">✓</span>             |             <span className="green">✓</span>             | <span className="compare-none"><small>N/A</small></span> |                                                                    <span className="compare-none"><small>N/A</small></span>                                                                    |
 | [Website](../forms/fields.mdx#website)                                                    | <span className="green">✓</span> |             <span className="green">✓</span>             |             <span className="green">✓</span>             |             <span className="green">✓</span>             |             <span className="green">✓</span>             | <span className="compare-none"><small>N/A</small></span> |                                                                    <span className="compare-none"><small>N/A</small></span>                                                                    |
+
+### Transliteration<Badge type="feature" text="New in 5.10.8+" />
+
+Transliteration will automatically happen to form handles and field handles inside the form builder. For example, the German word `straße` (_street_) will be converted to `strasse` for the handle.
 
 ## Site Switcher
 

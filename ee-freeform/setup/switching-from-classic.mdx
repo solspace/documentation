@@ -3,57 +3,262 @@ sidebar_position: 3
 title: 'Switching from Freeform Classic'
 ---
 
-# Switching from Freeform Classic to Freeform ("Next")
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-:::info
-For the purpose of clarity in this documentation resource, any prior version of _Freeform (free)_ and _Freeform Pro 4.x_, _5.x_ and _6.x_ are referred to as _Freeform Classic_. The **new** version of _Freeform_ is referred to as _Freeform Next_.
+import { PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Switching from Freeform Classic
+
+:::warning
+#### IMPORTANT
+For the purpose of clarity in this documentation resource, any prior version of _Freeform (free)_ and _Freeform Pro _2.x_, _3.x_ 4.x_, _5.x_ and _6.x_ are referred to as <span className="text-amber-600 font-bold italic">Freeform Classic</span>. The **new** version of _Freeform_ is referred to as <span className="text-emerald-700 font-bold italic">Freeform Next</span>.
 :::
 
-Freeform has been completely rewritten from ground up. Whether you're considering switching from Freeform Classic to Freeform Next, or interesting in using Freeform Next on your next site build, this page is a resource to help you understand the differences and changes made with Freeform Next.
+Freeform has been completely rewritten from ground up. Whether you're considering switching from <span className="text-amber-600 font-bold italic">Freeform Classic</span>
+to <span className="text-emerald-600 font-bold italic">Freeform Next</span>, or interesting in using Freeform <span className="text-emerald-600 font-semibold italic">Next</span> on your next site build, this page is a resource to
+help you understand the differences and changes made with Freeform <span className="text-emerald-600 font-semibold italic">Next</span>.
 
 ## How to Upgrade
 
-You must have the appropriate EE-compatible version of Freeform Classic installed and upgraded for the new Freeform "Next" to properly detect and migrate it. For example, if you moved from EE2 to EE4, but only have the EE2 version of Freeform Classic (4.x) installed, the migration won't work correctly. You'll need to update to the 5.x (EE3) or 6.x (EE4/EE5) version of Freeform Classic first. If you're switching from Classic to the new Freeform, we don't expect you to pay an upgrade fee to access the EE3 or EE4 compatible versions of Classic to only use it for 15 mins to run the migration utility, so feel free to temporarily "borrow and reuse" a newer Classic license from another site if you have, or [contact us for a temporary copy](https://support.solspace.com/).
+You must have the appropriate EE-compatible version of Freeform <span className="text-amber-600 font-semibold italic">Classic</span> installed and upgraded for the new
+Freeform <span className="text-emerald-600 font-semibold italic">Next</span> to properly detect and migrate it. For example, if you moved from EE2 to EE4, but only have
+the EE2 version of Freeform <span className="text-amber-600 font-semibold italic">Classic</span> (4.x) installed, the migration won't work correctly. You'll need to
+update to the 5.x (EE3) or 6.x (EE4/EE5) version of Freeform <span className="text-amber-600 font-semibold italic">Classic</span> first. If you're switching from
+<span className="text-amber-600 font-semibold italic">Classic</span> to the new Freeform <span className="text-emerald-600 font-semibold italic">Next</span>, we don't expect
+you to pay an upgrade fee to access the EE3 or EE4 compatible versions of <span className="text-amber-600 font-semibold italic">Classic</span> to only use it for 15 mins
+to run the migration utility, so feel free to temporarily "borrow and reuse" a newer <span className="text-amber-600 font-semibold italic">Classic</span> license from
+another site if you have, or [contact us for a temporary copy](/support/).
 
-### Quick Overview
+### Versions & Compatibility
 
-If you want to retain any of your Freeform data, you'll need to appease Freeform Next and its [Migration Utility](./classic-migration.mdx) (if you don't care about this data, then feel free to uninstall Freeform Classic and fresh install Freeform Next):
+If you want to retain any of your Freeform data, you'll need to appease Freeform <span className="text-emerald-600 font-semibold italic">Next</span> and its [Migration Utility](./classic-migration.mdx) (if you don't care about this data, then feel free to uninstall Freeform <span className="text-amber-600 font-semibold italic">Classic</span> and fresh install Freeform <span className="text-emerald-600 font-semibold italic">Next</span>):
 
-#### Version & Compatibility
+| Freeform version                                                                                            | Compatible EE version(s) |
+| :---------------------------------------------------------------------------------------------------------- | :----------------------- |
+| <span className="text-amber-600 font-semibold italic">Classic</span> 2.x <small>_(old 2.x)_</small>             | EE 1.x                   |
+| <span className="text-amber-600 font-semibold italic">Classic</span> 3.x <small>_(old 3.x)_</small>             | EE 1.x, 2.x              |
+| <span className="text-amber-600 font-semibold italic">Classic</span> 4.x <small>_(old 4.x Free or Pro)_</small> | EE 2.x                   |
+| <span className="text-amber-600 font-semibold italic">Classic</span> 5.x                                        | EE 3.x                   |
+| <span className="text-amber-600 font-semibold italic">Classic</span> 6.x                                        | EE 4.x, 5.x              |
+| <span className="text-emerald-600 font-semibold italic">Next</span> 1.x <small>_(new)_</small>                  | EE 3.x, 4.x, 5.x         |
+| <span className="text-emerald-600 font-semibold italic">Next</span> 2.x <small>_(new)_</small>                  | EE 6.x                   |
+| <span className="text-emerald-600 font-semibold italic">Next</span> 3.x <small>_(new)_</small>                  | EE 7.x                   |
 
-| Freeform version                                              | Compatible EE version(s) |
-| :------------------------------------------------------------ | :----------------------- |
-| Freeform Classic 3.x / Freeform 3.x _free_                    | EE 1.x, 2.x              |
-| Freeform Classic 4.x / Freeform 4.x _free_ / Freeform Pro 4.x | EE 2.x                   |
-| Freeform Classic 5.x / Freeform 5.x _free_ / Freeform Pro 5.x | EE 3.x                   |
-| Freeform Classic 6.x                                          | EE 4.x, 5.x              |
-| Freeform _Next_ 1.x / _new_ Freeform 1.x                      | EE 3.x, 4.x, 5.x         |
-| Freeform _Next_ 2.x / _new_ Freeform 2.x                      | EE 6.x                   |
-| Freeform _Next_ 3.x / _new_ Freeform 3.x                      | EE 7.x                   |
+## Migration Steps
 
-#### Steps Needed to Migrate
+The instructions below will all assume you are ultimately updating to Freeform <span className="text-emerald-600 font-semibold italic">Next</span> 3.x for ExpressionEngine 7.x.
 
-| Current Setup                                                 | Upgrade Plans                                                                                                   | Steps Needed To Take                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| :------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <ul><li>**Freeform Classic 4.x**</li><li>**EE 2.x**</li></ul> | <ul><li>Switching to Freeform Next 1.x</li><li>Upgrading to EE 3.x or greater</li></ul>                         | <ol><li>[Request temporary copy of latest Freeform Classic](https://support.solspace.com/)</li><li>Upgrade to EE 3.x</li><li>Upgrade to Freeform Classic 5.x</li><li>Purchase Freeform Next and upload files to site</li><li>Install Freeform Next</li><li>Run [Migration Utility](./classic-migration.mdx) inside Freeform Next</li><li>Verify all data in Freeform Next</li><li>Correctly uninstall Freeform Classic</li><li>Delete Freeform Classic files (`freeform` folders)</li></ol>                        |
-| <ul><li>**Freeform Classic 5.x**</li><li>**EE 3.x**</li></ul> | <ul><li>Switching to Freeform Next 1.x</li><li>Staying on EE 3.x</li></ul>                                      | <ol><li>Purchase Freeform Next and upload files to site</li><li>[Download latest Freeform Classic from account](https://accounts.solspace.com/)</li><li>Update to latest Freeform Classic 5.x</li><li>Install Freeform Next</li><li>Run [Migration Utility](./classic-migration.mdx) inside Freeform Next</li><li>Verify all data in Freeform Next</li><li>Correctly uninstall Freeform Classic</li><li>Delete Freeform Classic files (`freeform` folders)</li></ol>                           |
-| <ul><li>**Freeform Classic 5.x**</li><li>**EE 3.x**</li></ul> | <ul><li>Switching to Freeform Next 1.x</li><li>Upgrading to EE 4.x or greater</li></ul>                         | <ol><li>Purchase Freeform Next and upload files to site</li><li>[Download latest Freeform Classic from account](https://accounts.solspace.com/)</li><li>Update to latest Freeform Classic 6.x</li><li>Upgrade to EE 4.x</li><li>Install Freeform Next</li><li>Run [Migration Utility](./classic-migration.mdx) inside Freeform Next</li><li>Verify all data in Freeform Next</li><li>Correctly uninstall Freeform Classic</li><li>Delete Freeform Classic files (`freeform` folders)</li></ol> |
-| <ul><li>**Freeform Classic 6.x**</li><li>**EE 4.x**</li></ul> | <ul><li>Switching to Freeform Next 1.x</li><li>Staying on EE 4.x **_or_**</li><li>Upgrading to EE 5.x</li></ul> | <ol><li>Purchase Freeform Next and upload files to site</li><li>Install Freeform Next</li><li>Run [Migration Utility](./classic-migration.mdx) inside Freeform Next</li><li>Verify all data in Freeform Next</li><li>Correctly uninstall Freeform Classic</li><li>Delete Freeform Classic files (`freeform` folders)</li><li>Upgrade to EE 5.x if applicable</li></ol>                                                                                                                         |
-| <ul><li>**Freeform Classic 6.x**</li><li>**EE 5.x**</li></ul> | <ul><li>Switching to Freeform Next 1.x</li><li>Staying on EE 5.x</li></ul>                                      | <ol><li>Purchase Freeform Next and upload files to site</li><li>Install Freeform Next</li><li>Run [Migration Utility](./classic-migration.mdx) inside Freeform Next</li><li>Verify all data in Freeform Next</li><li>Correctly uninstall Freeform Classic</li><li>Delete Freeform Classic files (`freeform` folders)</li></ol>                                                                                                                                                                 |
+Ultimately, if you're on ExpressionEngine 1.x or 2.x, you'll need to get your site to a minimum of ExpressionEngine 3+ and Freeform
+<span className="text-amber-600 font-semibold italic">Classic</span> 5+ in order to make the crossover from
+<span className="text-amber-600 font-semibold italic">Classic</span> to <span className="text-emerald-600 font-semibold italic">Next</span>.
 
-## Changes to Composer
+#### Which version are you upgrading from?
 
-Freeform Next centers itself around the idea of letting admins and/or clients enjoy the experience of building and managing simple or complex forms in an intuitive interface that lets you see a live preview of the forms you're building. We call this [Composer](../forms/forms-composer.mdx), where almost everything is at your fingertips as it aims to stay out of your way and let you do as much as possible without having to move around to other areas in the control panel. At the same time, Freeform Next is very powerful and flexible, so there is also a wide variety of other features, settings and options.
+<details className="hidden-heading">
+  <summary>Classic 2.x</summary>
 
-For Freeform Next, we now only include a single method for building forms. Freeform Classic used to allow **EE Template** and **Composer** methods. The very manual EE Template-based approach is no longer a choice. We strongly believe you will be so impressed with the power and flexibility of the new Composer, that you won't want to go back to EE Template approach. And even if you do, [you still can build out your forms completely manually](../templating/form.mdx#manual-example) if you desire (but you'll still need to quickly assemble a form layout inside Composer).
+  If you haven't already, you will need to contact [Solspace Support](/support/) and request copies of Freeform <span className="text-amber-600 font-semibold italic">Classic</span> 2.x, 3.x, 4.x and 5.x.
+  
+  <br />
+  <VerticalStepWrapper>
+    <StepMarkdown>
+      Back up the database and site.
+    </StepMarkdown>
+    <StepMarkdown>
+      Ensure you're on the latest version of <span className="text-amber-600 font-semibold italic">Classic</span> 2.x (`2.7.2`) and ExpressionEngine 1.x.
+
+      If not, please update to the latest versions before proceeding.
+    </StepMarkdown>
+    <StepMarkdown>
+      Upgrade to the latest version of EE 2.x and Freeform <span className="text-amber-600 font-semibold italic">Classic</span> 3.x (`3.1.5`).
+    </StepMarkdown>
+    <StepMarkdown>
+      Review your forms inside the Freeform control panel and front end to ensure everything is working as expected.
+    </StepMarkdown>
+    <StepMarkdown>
+      Proceed to <span className="text-amber-600 font-semibold italic">Classic</span> **3.x** instructions below...
+    </StepMarkdown>
+  </VerticalStepWrapper>
+</details>
+
+<details className="hidden-heading">
+  <summary>Classic 3.x</summary>
+
+  If you haven't already, you will need to contact [Solspace Support](/support/) and request copies of Freeform <span className="text-amber-600 font-semibold italic">Classic</span> 3.x, 4.x and 5.x.
+  
+  <br />
+  <VerticalStepWrapper>
+    <StepMarkdown>
+      Back up the database and site.
+    </StepMarkdown>
+    <StepMarkdown>
+      Ensure you're on the latest version of <span className="text-amber-600 font-semibold italic">Classic</span> 3.x (`3.1.5`) and ExpressionEngine 1.x or 2.x.
+
+      If not, please update to the latest versions before proceeding.
+    </StepMarkdown>
+    <StepMarkdown>
+      Please review the [upgrade notes for switching from Classic 3.x to Classic 4.x](../../../classic/setup/upgrade-3/).
+    </StepMarkdown>
+    <StepMarkdown>
+      Upgrade to the latest version of EE 2.x and Freeform <span className="text-amber-600 font-semibold italic">Classic</span> 4.x (`4.2.5`).
+    </StepMarkdown>
+    <StepMarkdown>
+      Review your forms inside the Freeform control panel and front end to ensure everything is working as expected.
+    </StepMarkdown>
+    <StepMarkdown>
+      Proceed to <span className="text-amber-600 font-semibold italic">Classic</span> **4.x** instructions below...
+    </StepMarkdown>
+  </VerticalStepWrapper>
+</details>
+
+<details className="hidden-heading">
+  <summary>Classic 4.x</summary>
+
+  If you haven't already, you will need to contact [Solspace Support](/support/) and request copies of Freeform <span className="text-amber-600 font-semibold italic">Classic</span> 5.x.
+  
+  <br />
+  <VerticalStepWrapper>
+    <StepMarkdown>
+      Back up the database and site.
+    </StepMarkdown>
+    <StepMarkdown>
+      Ensure you're on the latest version of <span className="text-amber-600 font-semibold italic">Classic</span> 4.x (`4.2.5`) and ExpressionEngine 2.x.
+
+      If not, please update to the latest versions before proceeding.
+    </StepMarkdown>
+    <StepMarkdown>
+      Upgrade to the latest version of EE 3.x and Freeform <span className="text-amber-600 font-semibold italic">Classic</span> 5.x (`5.2.2`).
+    </StepMarkdown>
+    <StepMarkdown>
+      Review your forms inside the Freeform control panel and front end to ensure everything is working as expected.
+    </StepMarkdown>
+    <StepMarkdown>
+      Proceed to <span className="text-amber-600 font-semibold italic">Classic</span> **5.x** instructions below...
+    </StepMarkdown>
+  </VerticalStepWrapper>
+</details>
+
+<details className="hidden-heading">
+  <summary>Classic 5.x</summary>
+
+  You are on a version of <span className="text-amber-600 font-semibold italic">Classic</span> that is ready to crossover to
+  <span className="text-emerald-600 font-semibold italic">Next</span>.
+  
+  <br />
+  <VerticalStepWrapper>
+    <StepMarkdown>
+      Back up the database and site.
+    </StepMarkdown>
+    <StepMarkdown>
+      Ensure you're on the latest version of <span className="text-amber-600 font-semibold italic">Classic</span> 5.x (`5.2.2`) and ExpressionEngine 3.x.
+
+      If not, please update to the latest versions before proceeding.
+    </StepMarkdown>
+    <StepMarkdown>
+      This is a very large update and may require many hours of cleanup afterward. Please review this entire page as well as review the
+      [Classic to Next migration overview](./classic-migration.mdx).
+    </StepMarkdown>
+    <StepMarkdown>
+      [Purchase a license](https://expressionengine.com/add-ons/freeform) for Freeform <span className="text-emerald-600 font-semibold italic">Next</span> if you haven't already.
+    </StepMarkdown>
+    <StepMarkdown>
+      Upload the Freeform <span className="text-emerald-600 font-semibold italic">Next</span> 1.x files and
+      [install the add-on](./installing-updating.mdx#installing-instructions) like normal.
+      :::info
+      Please note that Freeform <span className="text-amber-600 font-semibold italic">Classic</span> and <span className="text-emerald-600 font-semibold italic">Next</span> can and should
+      coexist together in ExpressionEngine, as they are technically two different add-ons.
+      :::
+      :::warning
+      Do NOT create any forms, fields or notification templates in <span className="text-emerald-600 font-semibold italic">Next</span> yet, and do NOT uninstall
+      Freeform <span className="text-amber-600 font-semibold italic">Classic</span> yet.
+      :::
+    </StepMarkdown>
+    <StepMarkdown>
+      Open up the Freeform <span className="text-emerald-600 font-semibold italic">Next</span> add-on and run the [Migration Utility](./classic-migration.mdx).
+    </StepMarkdown>
+    <StepMarkdown>
+      Verify all data in Freeform <span className="text-emerald-600 font-semibold italic">Next</span>. Review your forms inside the Freeform
+      <span className="text-emerald-600 font-semibold italic">Next</span> control panel and front end to ensure everything is working as expected.
+    </StepMarkdown>
+    <StepMarkdown>
+      Uninstall Freeform <span className="text-amber-600 font-semibold italic">Classic</span>. This includes deleting the `freeform` folders inside of the
+      `system/user/addons` and `themes/user/addons` directories.
+    </StepMarkdown>
+    <StepMarkdown>
+      Proceed to upgrading to ExpressionEngine 7.x and Freeform <span className="text-emerald-600 font-semibold italic">Next</span> 3.x.
+    </StepMarkdown>
+  </VerticalStepWrapper>
+</details>
+
+<details className="hidden-heading">
+  <summary>Classic 6.x</summary>
+
+  You are on a version of <span className="text-amber-600 font-semibold italic">Classic</span> that is ready to crossover to
+  <span className="text-emerald-600 font-semibold italic">Next</span>.
+  
+  <br />
+  <VerticalStepWrapper>
+    <StepMarkdown>
+      Back up the database and site.
+    </StepMarkdown>
+    <StepMarkdown>
+      Ensure you're on the latest version of <span className="text-amber-600 font-semibold italic">Classic</span> 6.x (`6.0.4`) and ExpressionEngine 4.x or 5.x.
+
+      If not, please update to the latest versions before proceeding.
+    </StepMarkdown>
+    <StepMarkdown>
+      This is a very large update and may require many hours of cleanup afterward. Please review this entire page as well as review the
+      [Classic to Next migration overview](./classic-migration.mdx).
+    </StepMarkdown>
+    <StepMarkdown>
+      [Purchase a license](https://expressionengine.com/add-ons/freeform) for Freeform <span className="text-emerald-600 font-semibold italic">Next</span> if you haven't already.
+    </StepMarkdown>
+    <StepMarkdown>
+      Upload the Freeform <span className="text-emerald-600 font-semibold italic">Next</span> 1.x files and
+      [install the add-on](./installing-updating.mdx#installing-instructions) like normal.
+      :::info
+      Please note that Freeform <span className="text-amber-600 font-semibold italic">Classic</span> and <span className="text-emerald-600 font-semibold italic">Next</span> can and should
+      coexist together in ExpressionEngine, as they are technically two different add-ons.
+      :::
+      :::warning
+      Do NOT create any forms, fields or notification templates in <span className="text-emerald-600 font-semibold italic">Next</span> yet, and do NOT uninstall
+      Freeform <span className="text-amber-600 font-semibold italic">Classic</span> yet.
+      :::
+    </StepMarkdown>
+    <StepMarkdown>
+      Open up the Freeform <span className="text-emerald-600 font-semibold italic">Next</span> add-on and run the [Migration Utility](./classic-migration.mdx).
+    </StepMarkdown>
+    <StepMarkdown>
+      Verify all data in Freeform <span className="text-emerald-600 font-semibold italic">Next</span>. Review your forms inside the Freeform
+      <span className="text-emerald-600 font-semibold italic">Next</span> control panel and front end to ensure everything is working as expected.
+    </StepMarkdown>
+    <StepMarkdown>
+      Uninstall Freeform <span className="text-amber-600 font-semibold italic">Classic</span>. This includes deleting the `freeform` folders inside of the
+      `system/user/addons` and `themes/user/addons` directories.
+    </StepMarkdown>
+    <StepMarkdown>
+      Proceed to upgrading to ExpressionEngine 7.x and Freeform <span className="text-emerald-600 font-semibold italic">Next</span> 3.x.
+    </StepMarkdown>
+  </VerticalStepWrapper>
+</details>
+
+## Overview of Key Changes
+
+### Changes to Composer
+
+Freeform <span className="text-emerald-600 font-semibold italic">Next</span> centers itself around the idea of letting admins and/or clients enjoy the experience of building and managing simple or complex forms in an intuitive interface that lets you see a live preview of the forms you're building. We call this [Composer](../forms/forms-composer.mdx), where almost everything is at your fingertips as it aims to stay out of your way and let you do as much as possible without having to move around to other areas in the control panel. At the same time, Freeform <span className="text-emerald-600 font-semibold italic">Next</span> is very powerful and flexible, so there is also a wide variety of other features, settings and options.
+
+For Freeform Next, we now only include a single method for building forms. Freeform <span className="text-amber-600 font-semibold italic">Classic</span> used to allow **EE Template** and **Composer** methods. The very manual EE Template-based approach is no longer a choice. We strongly believe you will be so impressed with the power and flexibility of the new form builder interface, that you won't want to go back to EE Template approach. And even if you do, [you still can build out your forms completely manually](../templating/form.mdx#manual-example) if you desire (but you'll still need to quickly assemble a form layout inside Composer).
 
 [Formatting options inside templates](../templating/form.mdx) or [Formatting Templates](../guides/templating/formatting-templates.mdx) are so flexible, powerful, and easy to use. We carefully came up with a new, intuitive and consistent syntax for templating.
 
-## Changes to Composer Templates
+### Changes to Composer Templates
 
-Composer Templates are now referred to as **Formatting Templates** in Freeform Next.
+Composer Templates are now referred to as **Formatting Templates** in Freeform <span className="text-emerald-600 font-semibold italic">Next</span>.
 
-While Freeform Next offers a very intuitive Composer interface to give you a live preview of the form you're building, there of course isn't exactly a magic way to do this on the front end for your templates. However, we have created an automated way for Freeform to figure out as much of this as possible for you.
+While Freeform <span className="text-emerald-600 font-semibold italic">Next</span> offers a very intuitive Composer interface to give you a live preview of the form you're building, there of course isn't exactly a magic way to do this on the front end for your templates. However, we have created an automated way for Freeform to figure out as much of this as possible for you.
 
 As mentioned above, [Formatting options inside templates](../templating/form.mdx) or [Formatting Templates](../guides/templating/formatting-templates.mdx) are so flexible, powerful, and easy to use. We carefully came up with a new, intuitive and consistent syntax for templating.
 
@@ -74,34 +279,34 @@ Formatting templates are optional, and only necessary if using the [Freeform_Nex
 
 The code and formatting in these templates looks exactly like the code in a [Freeform_Next:Form](../templating/form.mdx) tag, but excludes the opening and closing `{exp:freeform_next:form}` tags, as the _Render_ tag does this for you.
 
-## Changes to Freeform Entries
+### Changes to Freeform Entries
 
-Freeform Entries are now referred to as [**Submissions**](../templating/submissions.mdx) in Freeform Next. You'll now use the `{exp:freeform_next:submissions}` template tag to display an individual submission or list of submissions based on some or no criteria.
+Freeform Entries are now referred to as [**Submissions**](../templating/submissions.mdx) in Freeform <span className="text-emerald-600 font-semibold italic">Next</span>. You'll now use the `{exp:freeform_next:submissions}` template tag to display an individual submission or list of submissions based on some or no criteria.
 
-Freeform Next also now includes an option to NOT store submissions in the database, per form.
+Freeform <span className="text-emerald-600 font-semibold italic">Next</span> also now includes an option to NOT store submissions in the database, per form.
 
-Freeform Next currently only supports basic CSV exporting. In the future, more exporting options will be added.
+Freeform <span className="text-emerald-600 font-semibold italic">Next</span> currently only supports basic CSV exporting. In the future, more exporting options will be added.
 
-## Changes to Email Notifications
+### Changes to Email Notifications
 
 [Email Notification templates](../forms/email-notifications.mdx) work generally the same way, but now include the option of storing them as HTML files. The benefit here is that they can work nicely with version control and/or staging environments, etc, rather than being stored in the database.
 
-## Changes to Multi-Page Forms
+### Changes to Multi-Page Forms
 
 Multi-page forms still work similar to how they did with Freeform Classic, with the exception that there is no unique URI segment per page at this time, and users cannot jump ahead to different pages, only forward and backward 1 page.
 
-## Changes to Spam Protection
+### Changes to Spam Protection
 
-One of the greatest shortcomings in Freeform Classic was spam control. It used to be that you had to either live with out of control spam submissions, or purchase and install another add-on to combat the issue. This is why Freeform Next no longer has _Ban Keywords_ feature and does NOT use [EE's native CAPTCHA feature](https://docs.expressionengine.com/latest/security/captchas.html) as it has always proven ineffective. Instead, it includes its own [Javascript-based honeypot spam protection](../forms/spam-protection.mdx), which is immeasurably more effective (and we've had excellent success with it in Freeform for Craft CMS). This is enabled by default, but can be disabled in the [Freeform Settings](../configuration/settings.mdx#spam-protection).
+One of the greatest shortcomings in Freeform <span className="text-amber-600 font-semibold italic">Classic</span> was spam control. It used to be that you had to either live with out of control spam submissions, or purchase and install another add-on to combat the issue. This is why Freeform <span className="text-emerald-600 font-semibold italic">Next</span> no longer has _Ban Keywords_ feature and does NOT use [EE's native CAPTCHA feature](https://docs.expressionengine.com/latest/security/captchas.html) as it has always proven ineffective. Instead, it includes its own [Javascript-based honeypot spam protection](../forms/spam-protection.mdx), which is immeasurably more effective (and we've had excellent success with it in Freeform for Craft CMS). This is enabled by default, but can be disabled in the [Freeform Settings](../configuration/settings.mdx#spam-protection).
 
-## Changes to Permissions
+### Changes to Permissions
 
-Freeform Next currently does not have any module-level permissions like Freeform Classic. However, this is a feature that will likely be added back in a future version.
+Freeform <span className="text-emerald-600 font-semibold italic">Next</span> currently does not have any module-level permissions like Freeform <span className="text-amber-600 font-semibold italic">Next</span>. However, this is a feature that will likely be added back in a future version.
 
-## Addition of API Integrations
+### Addition of API Integrations
 
-Freeform Next includes integrations with several popular [Mailing List](../integrations/mailing/index.mdx) and [CRM (Customer Relationship Management)](../integrations/crm/index.mdx) API's, including [MailChimp](../integrations/mailing/mailchimp.mdx), [Constant Contact](../integrations/mailing/campaign-monitor.mdx), [Campaign Monitor](../integrations/mailing/constant-contact.mdx), [Salesforce](../integrations/crm/salesforce-lead.mdx) and [HubSpot](../integrations/crm/hubspot.mdx). We plan to add support for other API's in the future as well.
+Freeform <span className="text-emerald-600 font-semibold italic">Next</span> includes integrations with several popular [Mailing List](../integrations/mailing/index.mdx) and [CRM (Customer Relationship Management)](../integrations/crm/index.mdx) API's, including [MailChimp](../integrations/mailing/mailchimp.mdx), [Constant Contact](../integrations/mailing/campaign-monitor.mdx), [Campaign Monitor](../integrations/mailing/constant-contact.mdx), [Salesforce](../integrations/crm/salesforce-lead.mdx) and [HubSpot](../integrations/crm/hubspot.mdx). We plan to add support for other API's in the future as well.
 
 ## Migrating from Freeform Classic
 
-Migration from Freeform Classic to the new Freeform is now available. Once you have installed the new Freeform, don't make any modifications to it, and then review the [Migration utility documentation](./classic-migration.mdx) before running the migration utility. Freeform Next can be used alongside classic Freeform/Freeform Pro installations if you're wanting to try out and/or switch to Freeform Next.
+Once you have installed Freeform <span className="text-emerald-600 font-semibold italic">Next</span>, don't make any modifications to it, and then review the [Migration utility documentation](./classic-migration.mdx) before running the migration utility. Freeform <span className="text-emerald-600 font-semibold italic">Next</span> can be used alongside Freeform <span className="text-amber-600 font-semibold italic">Classic</span> installations if you're wanting to try out and/or switch to Freeform <span className="text-emerald-600 font-semibold italic">Next</span>.

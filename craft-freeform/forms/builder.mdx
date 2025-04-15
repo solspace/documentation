@@ -169,7 +169,7 @@ In the **Recipient Mapping** area, add email address(es) for each corresponding 
 
 You can also choose to specify a different email notification template for any or all options.
 
-:::warning
+:::info
 Be sure to set up your option fields as usual, and do not set email addresses as their options. That part is done inside the **Notifications** tab.
 :::
 
@@ -264,8 +264,9 @@ This allows you to enable [Google Tag Manager](../integrations/google-tag-manage
 
 This allows your forms to automatically submit an extra POST to pass off submission data to an external API URL upon successful submit and validation of a form. This option is available for simpler and/or limited integrations as an alternative to our traditional [Email Marketing](../integrations/index.mdx) and [CRM](../integrations/index.mdx) integrations.
 
-- **POST Forwarding** - if you need to have the POST data of this form submitted to an external API, provide that custom URL here.
-- **POST Forwarding Error Trigger** - provide a keyword or phrase Freeform should check for in the output of the external POST URL to know if and when there's an error to log, e.g. `error` or `an error occurred`.
+- **URL** - if you need to have the POST data of this form submitted to an external API, provide that custom URL here.
+- **Error Trigger** - provide a keyword or phrase Freeform should check for in the output of the external POST URL to know if and when there's an error to log, e.g. `error` or `an error occurred`.
+- **Include Uploaded Files** - if files are present in the form submission, they will be attached to the payload and sent as multipart form data.
 
 Please see the [POST Forwarding](../integrations/post-forwarding.mdx) documentation for more information about this feature.
 
@@ -318,7 +319,7 @@ This is where you configure all settings and behaviors for the form.
 <details className="hidden-heading">
 <summary>Processing</summary>
 
-- **Use AJAX** - enables Freeform's [built-in automated AJAX submit support](../guides/templating/ajax-forms.mdx). Once enabled, Freeform will handle the rest (as long as you're using standard template formatting - very custom formatting templates may not work properly).
+- **Use AJAX** - enables Freeform's [built-in automated AJAX submit support](../templates/ajax.mdx). Once enabled, Freeform will handle the rest (as long as you're using standard template formatting - very custom formatting templates may not work properly).
 - **Show Processing Indicator on Submit** - show a processing indicator on the submit button upon submittal of the form.
 - **Show Processing Text on Submit**
   - Enabling this will change the submit button's label to the text of your choice.
@@ -328,7 +329,11 @@ This is where you configure all settings and behaviors for the form.
 <details className="hidden-heading">
 <summary>Success & Errors</summary>
 
-- **Success Behavior** - set how you'd like the success return of this form to be handled. Some of these may also conflict with template-level approaches to controlling the form behavior, most typically [JS Overrides](../guides/templating/ajax-forms.mdx).
+:::tip
+[Check out the guide for setting up different Success return options](../guides/guide/success-return-on-forms.mdx)
+:::
+
+- **Success Behavior** - set how you'd like the success return of this form to be handled. Some of these may also conflict with template-level approaches to controlling the form behavior, most typically [JS Overrides](../templates/ajax.mdx).
   - Options are:
     - **Reload form with a Success banner above** - upon successful submit of the form, Freeform will reload the form again and display a success banner above the form.
       - **Success Message** - the text to be shown at the top of the form if the submit is successful (AJAX), or load in your template with `form.settings.successMessage`.
@@ -384,8 +389,8 @@ Freeform allows for _multi-page_ forms (a POST submit per page). When editing fo
 
 #### User Guides
 
-- [Need to display submission data from previous pages as a confirmation screen, etc?](../guides/dynamic-data/displaying-submission-data-from-previous-pages.mdx)
-- [Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../guides/testing/troubleshooting-form-issues.mdx)
+- [Need to display submission data from previous pages as a confirmation screen, etc?](../guides/guide/displaying-submission-data-from-previous-pages.mdx)
+- [Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../guides/guide/troubleshooting-form-issues.mdx)
 :::
 
 <details>
@@ -394,7 +399,7 @@ Freeform allows for _multi-page_ forms (a POST submit per page). When editing fo
 - Each page is submitted through `POST`.
 - There is no unique URI segment per page at this time.
 - Users cannot jump ahead to different pages, only forward and backward (if enabled) 1 page.
-- Multi-page forms work with the [built-in AJAX](../guides/templating/ajax-forms.mdx) feature.
+- Multi-page forms work with the [built-in AJAX](../templates/ajax.mdx) feature.
   - **Editing** existing submissions via the front end in multi-page AJAX forms will currently not work correctly.
 - To allow users to stop and return at a later time to complete the form, it will require use of the [Save & Continue Later](../forms/save-continue-later.mdx) feature. Otherwise, the process has to be a continuous one, but the user has 3 hours before the form will timeout the submission.
 - If an earlier page contains file upload field(s), files will actually be uploaded before the form is officially submitted. - After 3 hours (by default), Freeform will automatically remove any uploaded files if the form isn't finished being submitted. - If you require a longer period of time, we recommend using the [File Upload Drag & Drop](./fields.mdx#file-upload-drag--drop) field and the [Save & Continue Later](../forms/save-continue-later.mdx) feature.

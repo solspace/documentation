@@ -8,62 +8,52 @@ import { TitleDate } from '@site/src/components/docs';
 
 ## 2.4.4<TitleDate date="2018-03-01" />
 
-### Changes
-
+### Changed
 - Updated 'First Day of Week' setting in Preferences to include all days of the week.
 
 ## 2.4.3<TitleDate date="2017-12-12" />
 
-### Fixes
-
+### Fixed
 - Fixed a bug where the Update Service for EE3 was not compatible with PHP 5.3.
 
 ## 2.4.2<TitleDate date="2017-11-17" />
 
-### Fixes
-
+### Fixed
 - Fixed a bug where a SQL error was showing in the Calendar control panel for some customers.
 
 ## 2.4.1<TitleDate date="2017-10-17" />
 
-### Fixes
-
+### Fixed
 - Fixed a bug where multi-day events were excluded from event lists when the start date passed but end date didn't.
 
 ## 2.4.0<TitleDate date="2017-09-05" />
 
-### Additions
-
+### Added
 - Added Update Service to Calendar that automatically checks for updates and notifies you in the control panel.
 - Added `calendar:event_first_date_timestamp`, `calendar:event_last_date_timestamp`, `calendar:event_first_date_timestamp_utc`, and `calendar:event_last_date_timestamp_utc` variables to Calendar:Events tag and custom field display in Channel:Entries. The former of the two versions are a localized adjustment to the timestamp for comparison with EE's `current_time` variable, etc.
 
-### Fixes
-
+### Fixed
 - Fixed a bug where the Calendar:Date template tag was not localizing properly to other languages.
 - Fixed a bug where Weekly event repeating was offset by 1 week when using 2+ week intervals.
 
 ## 2.3.2<TitleDate date="2017-06-16" />
 
-### Fixes
-
+### Fixed
 - Fixed a bug where Calendar was not fully compatible with PHP 5.3 and MySQL 5.7 `only_full_group_by` SQL mode.
 
 ## 2.3.1<TitleDate date="2017-05-02" />
 
-### Fixes
-
+### Fixed
 - Fixed a bug where Calendar would error on fresh installs.
 
 ## 2.3.0<TitleDate date="2017-04-28" />
 
-### Additions
-
+### Added
 - Added [ICS Subscription](../templating/ics-subscription.mdx) functionality.
 - Added category filtering for ICS Exporting.
 - Added batch processing to Calendar 1.x to 2.x migration to help with sites that have a larger number of events.
 
-### Fixes
-
+### Fixed
 - Fixed a bug where the category parameter in Calendar:Events would not work with inclusive (&) rules.
 - Fixed a bug where the Calendar fieldtype (in templates) would not display event data from other MSM sites.
 - Fixed a bug where events that recurred weekly over multiple days might not display correctly in Month/Week/Day template tags.
@@ -71,8 +61,7 @@ import { TitleDate } from '@site/src/components/docs';
 
 ## 2.2.3<TitleDate date="2017-03-02" />
 
-### Fixes
-
+### Fixed
 - Fixed a bug where `February` would sometimes be missing from Calendar:Month_List template tag and the Prev/Next month buttons in Calendar CP Month view.
 - Fixed a bug where specifying multiple MSM sites to show both sites' event entries, it only showed results for the currently viewed site.
 - Fixed a bug where viewing the Month/Week/Day views in CP would show events from all MSM sites instead of just the current site.
@@ -80,87 +69,72 @@ import { TitleDate } from '@site/src/components/docs';
 
 ## 2.2.2<TitleDate date="2017-01-20" />
 
-### Changes
-
+### Changed
 - Updated for compatibility with PHP 7.1.
 
 ## 2.2.1<TitleDate date="2016-11-03" />
 
-### Additions
-
+### Added
 - Added AJAX mini calendar example to demo templates.
 
-### Fixes
-
+### Fixed
 - Fixed a bug where recurring events would sometimes display unreliably in the distant future.
 - Fixed a bug where the `{calendar:recurrences}` variable pair for Calendar fieldtype in Channel:Entries tag would omit the first occurrence from results.
 
 ## 2.2.0<TitleDate date="2016-08-24" />
 
-### Additions
-
+### Added
 - Added `calendar:event_is_past`, `calendar:event_is_current`, and `calendar:event_is_future` conditionals for Calendar:Events tag.
 - Added `calendar:event_start_date_timestamp`, `calendar:event_end_date_timestamp`, `calendar:event_start_date_timestamp_utc`, and `calendar:event_end_date_timestamp_utc` variables to Calendar:Events tag and custom field display in Channel:Entries. The former of the two versions are a localized adjustment to the timestamp for comparison with EE's `current_time` variable, etc.
 
-### Fixes
-
+### Fixed
 - Fixed a bug where ICS exporting recurring events would result in an error.
 
 ## 2.1.1<TitleDate date="2016-06-22" />
 
-### Changes
-
+### Changed
 - Updated for compatibility with ExpressionEngine 3.4.
 
-### Fixes
-
+### Fixed
 - Fixed a bug where Calendar would not display a custom field if there was another MSM site with a custom field with the same short name.
 
 ## 2.1.0<TitleDate date="2016-05-27" />
 
-### Additions
-
+### Added
 - Added single variable support for uploaded file parsing in Calendar:Events tag.
 
-### Changes
-
+### Changed
 - Updated fieldtype interface for a cleaner look and feel. Requires EE 3.2+.
 - Greatly improved control panel performance for loading a large number of events.
 
-### Fixes
-
+### Fixed
 - Fixed a bug where unknown timezones could cause errors in the Calendar control panel and template tags. Now defaults to UTC.
 - Fixed a bug where filtering by `not` category ID and using `uncategorized_entries` parameter would kill all other parameter filtering for the template tag.
 
 ## 2.0.5<TitleDate date="2016-04-29" />
 
-### Additions
-
+### Added
 - Added support for PHP7.
 
-### Fixes
-
+### Fixed
 - Fixed a bug in Migration where events that used the Select Dates option only would migrate incorrectly, causing errors.
 
 ## 2.0.4<TitleDate date="2016-04-18" />
 
-### Changes
-
+### Changed
 - Updated Calendar for compatibility with ExpressionEngine 3.3's new icon set in the control panel.
 - Updated demo templates to handle multi-day event times better.
 
 ## 2.0.3<TitleDate date="2016-03-18" />
 
-### Fixes
-
+### Fixed
 - Fixed a bug where the Calendar:Date template tag would not always be accurate for output date.
 - Fixed a bug where Calendar could error when custom channel fields were named with MySQL reserved names.
 - Fixed a bug where Calendar would not install on Windows-based machines.
 
 ## 2.0.2<TitleDate date="2016-03-03" />
 
-### Fixes
-
+### Fixed
 - Fixed a bug where `CURRENT_USER` option did not work in the `author_id=""` parameter of Calendar tags.
 - Fixed a bug where `date_range_start="today"` and `date_range_end="today"` parameters in Calendar:Events tag would not correctly show all events for that given day.
 - Fixed a bug where the `{if current_day/week/month/year}` conditionals were not correctly localized to the user's preferences.
@@ -169,28 +143,24 @@ import { TitleDate } from '@site/src/components/docs';
 
 ## 2.0.1<TitleDate date="2016-02-25" />
 
-### Fixes
-
+### Fixed
 - Fixed a bug where Calendar could error on install in some cases.
 - Fixed a bug where the Calendar fieldtype was triggering a deprecation notice.
 
 ## 2.0.0<TitleDate date="2016-02-15" />
 
-### Additions
-
+### Added
 - Added support for [EE Multiple Site Manager](https://docs.expressionengine.com/v3/msm/index.html) (MSM).
 - Added [Low Events 1.5+ migration](../migrations/low-events-migration.mdx) path.
 
-### Changes
-
+### Changed
 - Updated Calendar to be compatible with ExpressionEngine 3+ (only). Calendar 1.x is required for ExpressionEngine 2.x.
 - Completely rewrote Calendar from the ground up. Added [migration utility for Calendar 1.x](../migrations/calendar-1-migration.mdx) users to upgrade.
 - [Calendar field is now a full fieldtype](../guides/fieldtype.mdx) that can be used in any channel and as many times as you wish.
 - Updated [Calendar:Events](../templating/events.mdx) template tag to show a chronological list of all recurrences (like Calendar:Cal in Calendar 1.x used to behave). To achieve old Calendar:Events tag (in Calendar 1.x) behavior, simply use the [Calendar fieldtype variable pair and variables inside of a Channel:Entries tag](../templating/channel-entries.mdx), or for lists specify the [show_recurrences="no" parameter in Calendar:Events](../templating/events.mdx#show_recurrences) tag.
 - Renamed Calendar:iCalendar template tag to [Calendar:ICS_Export](../templating/ics-export.mdx).
 
-### Removals
-
+### Removed
 - Removed ability to create additional occurrence rules.
 - Removed ability to make one-off occurrence manipulations (sometimes referred to as Custom Edited Occurrences in Calendar 1.x).
 - Removed ability to import Calendar data with ICS. -05 should be added back in a future release.

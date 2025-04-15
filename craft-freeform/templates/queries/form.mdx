@@ -19,7 +19,8 @@ Freeform will automatically insert javascript in the footer of the page for feat
 :::tip
 #### User Guides
 - [Using headless website architecture with JavaScript-based front-end frameworks such as Vue.js, Next.js, React JS and more.](../../headless/graphql.mdx)
-- [Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../../guides/testing/troubleshooting-form-issues.mdx)
+- [Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../../guides/guide/troubleshooting-form-issues.mdx)
+- [Using a form more than once in the same template? Check out the additional steps necessary to prevent potential issues.](../../guides/guide/multiple-instances-of-same-form.mdx)
 :::
 
 <Photo
@@ -102,62 +103,53 @@ Once [Template Overrides](../../templates/formatting/index.mdx#template-override
 
 ### `returnUrl`
 
-Overrides the return URL for the form. You can override the return URL manually with a hidden field or checkbox, etc named `formReturnUrl`, allowing for a more dynamic return URL dependent on the user's choice or action, as long as you hash the value:
+Overrides the return URL for the form. You can also override the return URL manually with a field input named `formReturnUrl`, allowing for a more dynamic return URL dependent on the user's choice or action, as long as you hash the value.
 
 <Tabs>
-  <TabItem value="checkbox" label="Checkbox" default>
+  <TabItem value="return-url-parameter" label="Parameter" default>
+    ```twig {2}
+    {{ freeform.form("myFormHandle", {
+      returnUrl: "/contact/success"
+    }).render() }}
+    ```
+
+    You can add most variables such as `form.handle`, `submission.id`, `submission.token` as well as perform conditional checks, etc:
+
+    ```twig {2}
+    {{ freeform.form("myFormHandle", {
+      returnUrl: "/{{ form.handle }}/{% if submission %}submissions/{{ submission.id }}/{% endif %}success"
+    }).render() }}
+    ```
+  </TabItem>
+  <TabItem value="return-url-dropdown" label="Dropdown">
     ```twig
-    <label>
-      <input
-        type="checkbox"
-        name="formReturnUrl"
-        value="{{ 'whatever/my-url'|hash }}"
-      />
-      <span>My Label</span>
+    <label for="return-select">
+      Please choose...
+    </label>
+    <select name="formReturnUrl" id="return-select">
+      <option value="{{ 'whatever/my-url'|hash }}">Option One</option>
+      <option value="{{ 'whatever/my-other-url'|hash }}">Option Two</option>
+      <option value="{{ 'whatever/something-else'|hash }}">Option Three</option>
+    </select>
+    ```
+  </TabItem>
+  <TabItem value="return-url-checkbox" label="Checkbox">
+    ```twig
+    <label for="return-checkbox">
+      <input type="checkbox" name="formReturnUrl" id="return-checkbox" value="{{ 'whatever/my-url'|hash }}" />
+      Some descriptive text about this checkbox
     </label>
     ```
   </TabItem>
-  <TabItem value="radios" label="Radios">
+  <TabItem value="return-url-hidden" label="Hidden">
     ```twig
-    <label>
-      <input
-        type="radio"
-        name="formReturnUrl"
-        value="{{ 'whatever/my-url/one'|hash }}"
-      />
-      <span>Option One</span>
-    </label>
-    <label>
-      <input
-        type="radio"
-        name="formReturnUrl"
-        value="{{ 'whatever/my-url/two'|hash }}"
-      />
-      <span>Option Two</span>
-    </label>
-    <label>
-      <input
-        type="radio"
-        name="formReturnUrl"
-        value="{{ 'whatever/my-url/three'|hash }}"
-      />
-      <span>Option Three</span>
-    </label>
-    ```
-  </TabItem>
-  <TabItem value="hidden" label="Hidden">
-    ```twig
-    <input
-      type="hidden"
-      name="formReturnUrl"
-      value="{{ 'whatever/my-url'|hash }}"
-    />
+    <input type="hidden" name="formReturnUrl" value="{{ 'whatever/my-url'|hash }}" />
     ```
   </TabItem>
 </Tabs>
 
 :::tip
-[Options for handling the Success Return URL on forms.](../../guides/templating/success-return-on-forms.mdx)
+[Options for handling the Success return on forms.](../../guides/guide/success-return-on-forms.mdx)
 :::
 
 ### `status`
@@ -245,11 +237,15 @@ The above would map the posted submission to the Elements with ID's `55`, `106` 
 
 ### `fieldIdPrefix`
 
-Adds a prefix value on field outputs. Helpful if you have more than 1 form on the same template and are sharing fields.
+Adds a prefix value to the `id` attribute on field labels and inputs. This is helpful when you have multiple forms on the same template that share the same field handles.
 
 ```php
 fieldIdPrefix: 'myform-'
 ```
+
+:::tip
+[Using a form more than once in the same template? Check out the additional steps necessary to prevent potential issues.](../../guides/guide/multiple-instances-of-same-form.mdx)
+:::
 
 ### `dynamicNotification`
 
@@ -267,7 +263,7 @@ dynamicNotification: {
 - For Twig file based templates, specify the full file name including **.html** for `template`.
 
 :::warning
-When using **PHP Sessions** for form context, this feature may not work properly if the page is cached with something like Varnish, etc. In order for it to work correctly, you would have to [refresh the tokens similar to what is described in this guide](../../guides/templating/caching-forms.mdx).
+When using **PHP Sessions** for form context, this feature may not work properly if the page is cached with something like Varnish, etc. In order for it to work correctly, you would have to [refresh the tokens similar to what is described in this guide](../../templates/caching.mdx).
 :::
 
 ### `postForwarding`<Badge type="pro" text="Pro" />
@@ -293,6 +289,7 @@ You can control the **attributes**, **values** and more at the template level fo
 - `buttons` - controls the output of the [Submit button(s)](../../forms/fields.mdx#submit-buttons).
 - `fields` - controls the output of all [Fields](../../forms/fields.mdx).
 - `captchas` - add attributes to the main Captcha wrapper automatically inserted by Freeform when using [reCAPTCHA](../../integrations/recaptcha.mdx) or [hCaptcha](../../integrations/hcaptcha.mdx).
+- `tag` - a special attribute that allows you to change the default HTML tag for fields and form markup. [Learn more...](../formatting/index.mdx#overriding-html-tags)<Badge type="feature" text="New in 5.10+" />
 
 :::info
 Please see the [Template Overrides](../../templates/formatting/index.mdx#template-overrides) documentation for detailed instructions.
@@ -315,7 +312,7 @@ Then in your formatting template, use:
 ```
 
 :::tip
-[Need to pass a custom property to a formatting template, e.g. toggle display of the form title, etc?](../../guides/dynamic-data/passing-custom-property-to-formatting-template.mdx)
+[Need to pass a custom property to a formatting template, e.g. toggle display of the form title, etc?](../../guides/guide/passing-custom-property-to-formatting-template.mdx)
 :::
 
 :::info

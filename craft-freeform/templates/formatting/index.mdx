@@ -41,7 +41,7 @@ Freeform offers the most flexible and customizable options for handling the form
 />
 
 :::tip
-[Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../../guides/testing/troubleshooting-form-issues.mdx)
+[Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../../guides/guide/troubleshooting-form-issues.mdx)
 :::
 
 <Photo
@@ -72,44 +72,44 @@ The most common and hastle-free approach is to use the **formatting template** a
 - You can have as many formatting templates as you wish. Just specify in the form builder which formatting template the form should use. You won't need to even adjust the page template the form is placed into. If you wish to override the formatting template for the form at template level, you can also specify the `formattingTemplate` parameter:
   ```twig {2}
   {{ freeform.form("myFormHandle", {
-      formattingTemplate: 'template-name.html'
+    formattingTemplate: 'template-name.twig'
   }).render() }}
   ```
 - You can override most of the template attributes and values with the available [template overrides](#template-overrides):
   ```twig showLineNumbers
   {{ freeform.form("myFormHandle", {
-      attributes: {
-          novalidate: true,
-          row: {
-              class: "row",
-          },
+    attributes: {
+      novalidate: true,
+      row: {
+        class: "row",
       },
-      fields: {
-          "@global": {
-              attributes: {
-                  input: { class: "input-class" },
-                  label: { class: "label-class" },
-              },
-          },
-          "@dropdown": {
-              attributes: {
-                  input: { "+class": "select fullwidth" },
-              },
-          },
-          "@checkboxes, @multiple-select": {
-              instructions: "Select all that apply.",
-          },
-          ":required": {
-              attributes: {
-                  label: { "+class": "form-required" },
-              },
-          },
+    },
+    fields: {
+      "@global": {
+        attributes: {
+          input: { class: "input-class" },
+          label: { class: "label-class" },
+        },
       },
+      "@dropdown": {
+        attributes: {
+          input: { "+class": "select fullwidth" },
+        },
+      },
+      "@checkboxes, @multiple-select": {
+        instructions: "Select all that apply.",
+      },
+      ":required": {
+        attributes: {
+          label: { "+class": "form-required" },
+        },
+      },
+    },
   }).render() }}
   ```
 
 :::tip
-[Need to pass a custom property to a formatting template, e.g. toggle display of the form title, etc?](../../guides/dynamic-data/passing-custom-property-to-formatting-template.mdx)
+[Need to pass a custom property to a formatting template, e.g. toggle display of the form title, etc?](../../guides/guide/passing-custom-property-to-formatting-template.mdx)
 :::
 
 ### Code Your Form Directly in the Template
@@ -118,47 +118,55 @@ If you absolutely prefer to do so, you can use a [Form query](../queries/form.md
 
 - Your form formatting code is contained directly within the template that you want the form to appear in.
 - No matter what formatting template your form may have assigned to it in the form builder, the form always conforms to the template formatting used in this template.
+- For ultimate control, forms can be manually built and even include a mix of render helpers as well.
 
-  ```twig showLineNumbers
-  {% set form = freeform.form("myFormHandle", {
+<Tabs>
+  <TabItem value="code-form-template-helpers" label="With Helpers" default>
+
+    Below is a basic example of how to automate the rendering of your form directly inside a template:
+
+    ```twig showLineNumbers
+    {% set form = freeform.form("myFormHandle", {
       attributes: { class: "my-form-class" }
-  }) %}
+    }) %}
 
-  {{ form.renderTag }}
+    {{ form.renderTag }}
 
-  {% if form.hasErrors %}
+    {% if form.hasErrors %}
       <div class="freeform-form-errors">
-          {{ "Error! Please review the form and try submitting again."|t('freeform') }}
+        {{ "Error! Please review the form and try submitting again."|t('freeform') }}
       </div>
-  {% endif %}
+    {% endif %}
 
-  {% for row in form %}
+    {% for row in form %}
       <div class="field-row">
-          {% for field in row %}
-              <div class="field-container">
-                  {{ field.render() }}
-              </div>
-          {% endfor %}
+        {% for field in row %}
+          <div class="field-container">
+            {{ field.render() }}
+          </div>
+        {% endfor %}
       </div>
-  {% endfor %}
+    {% endfor %}
 
-  {{ form.renderClosingTag }}
-  ```
+    {{ form.renderClosingTag }}
+    ```
+  </TabItem>
+  <TabItem value="code-form-template-manual" label="Manual with Helpers">
 
-- For ultimate control, forms can be manually built and even include a mix of render helpers as well:
+    For ultimate control, forms can be manually built and even include a mix of render helpers:
 
-  ```twig showLineNumbers
-  {% set form = freeform.form("myFormHandle") %}
+    ```twig showLineNumbers
+    {% set form = freeform.form("myFormHandle") %}
 
-  {{ form.renderTag({
+    {{ form.renderTag({
       returnUrl: "contact/success",
       disable: ["submitButtons"]
-  }) }}
+    }) }}
 
       {% if form.hasErrors %}
-          <div class="freeform-form-errors">
-              {{ "There was an error submitting this form"|t }}
-          </div>
+        <div class="freeform-form-errors">
+          {{ "There was an error submitting this form"|t }}
+        </div>
       {% endif %}
 
       {% set fullName = form.get("fullName") %}
@@ -180,7 +188,7 @@ If you absolutely prefer to do so, you can use a [Form query](../queries/form.md
       <label>My Dropdown Field</label>
       <select name="{{ myDropdown.handle }}">
       {% for option in myDropdown.options %}
-          <option value="{{ option.value }}" {{ option.value == field.value ? "selected" }}>{{ option.label }}</option>
+        <option value="{{ option.value }}" {{ option.value == field.value ? "selected" }}>{{ option.label }}</option>
       {% endfor %}
       </select>
 
@@ -188,21 +196,23 @@ If you absolutely prefer to do so, you can use a [Form query](../queries/form.md
       {% set button = form.currentPage.buttons %}
 
       <button {{ button.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
-          Submit
+        Submit
       </button>
       {% if button.back %}
-          <button {{ button.backRenderProps }}>
-              Back
-          </button>
+        <button {{ button.backRenderProps }}>
+          Back
+        </button>
       {% endif %}
       {% if button.save %}
-          <button {{ button.saveRenderProps }}>
-              Save
-          </button>
+        <button {{ button.saveRenderProps }}>
+          Save
+        </button>
       {% endif %}
 
-  {{ form.renderClosingTag }}
-  ```
+    {{ form.renderClosingTag }}
+    ```
+  </TabItem>
+</Tabs>
 
 ### Headless using GraphQL and/or a Javascript framework
 
@@ -245,19 +255,21 @@ If you wish to create your own modified version, you can copy from the code exam
 
 | Template Name                                                                                                                                                                                                   | Type                    | Description                                                                                                                                                                                                                |
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/api/solspace.png')} alt="Solspace"/> [Basic Light](./basic-light.mdx) </div>                                                     | Framework&nbsp;Agnostic | A neatly styled basic formatting template.                                                                                                                                                                                 |
-| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/api/solspace.png')} alt="Solspace"/> [Basic Dark](./basic-dark.mdx) </div>                                                       | Framework Agnostic      | A neatly styled basic _dark mode_ formatting template.                                                                                                                                                                     |
-| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/api/solspace.png')} alt="Solspace"/> [Basic Floating Labels](./basic-floating-labels.mdx) </div>                                 | Framework Agnostic      | A neatly styled basic formatting template that displays labels in the center of the inputs and shrinks them to the top-left when clicked and/or contains a value.                                                          |
-| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/api/solspace.png')} alt="Solspace"/> [Conversational](./conversational.mdx) </div>                                               | Framework Agnostic      | A neatly styled basic formatting template that displays one field at a time and smoothly scrolls down to the next question until complete. Similar to how _Typeform_ displays forms. Also a great choice for survey forms. |
-| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/api/solspace.png')} alt="Solspace"/> [Multipage All Fields](./multipage-all-fields.mdx) </div>                                   | Framework Agnostic      | A neatly styled basic formatting template that displays ALL fields for a multipage form for the purpose of reviewing/previewing fields on other pages.                                                                     |
-| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/api/grid.png')} alt="Grid"/> [Grid](./grid.mdx) </div>                                                                           | Barebones               | A very basic starter template that requires additional CSS to style it.                                                                                                                                                    |
-| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/api/grid.png')} alt="Flexbox"/> [Flexbox](./flexbox.mdx) </div>                                                                  | Barebones               | A very basic starter template that requires additional CSS to style it.                                                                                                                                                    |
-| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/api/bootstrap-5.png')} alt="Bootstrap 5"/> [Bootstrap 5](./bootstrap-5.mdx) </div>                                               | Popular Framework       | An implementation of Bootstrap 5.                                                                                                                                                                                          |
-| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/api/bootstrap-5.png')} alt="Bootstrap 5"/> [Bootstrap 5 Dark Mode](./bootstrap-5-dark.mdx) </div>                                | Popular Framework       | An implementation of Bootstrap 5 that uses the dark theme.                                                                                                                                                                 |
-| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/api/bootstrap-5.png')} alt="Bootstrap 5"/> [Bootstrap&nbsp;5&nbsp;Floating&nbsp;Labels](./bootstrap-5-floating-labels.mdx)</div> | Popular Framework       | An implementation of Bootstrap 5 that uses the floating labels feature.                                                                                                                                                    |
-| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/api/tailwind.png')} alt="Tailwind 3"/> [Tailwind 3](./tailwind-3.mdx) </div>                                                     | Popular Framework       | An implementation of the Tailwind CSS 3 framework.                                                                                                                                                                         |
-| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/api/tailwind.png')} alt="Tailwind 3"/> [Tailwind 3 Dark](./tailwind-3-dark.mdx) </div>                                           | Popular Framework       | An implementation of the Tailwind CSS 3 framework that uses a dark theme.                                                                                                                                                  |
-| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/api/foundation-6.png')} alt="Foundation 6"/> [Foundation 6](./foundation-6.mdx) </div>                                           | Popular Framework       | An implementation of the Foundation 6 framework.                                                                                                                                                                           |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/solspace.png')} alt="Solspace"/> [Basic Light](./basic-light.mdx) </div>                                                     | Framework&nbsp;Agnostic | A neatly styled basic formatting template.                                                                                                                                                                                 |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/solspace.png')} alt="Solspace"/> [Basic Dark](./basic-dark.mdx) </div>                                                       | Framework Agnostic      | A neatly styled basic _dark mode_ formatting template.                                                                                                                                                                     |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/solspace.png')} alt="Solspace"/> [Basic Floating Labels](./basic-floating-labels.mdx) </div>                                 | Framework Agnostic      | A neatly styled basic formatting template that displays labels in the center of the inputs and shrinks them to the top-left when clicked and/or contains a value.                                                          |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/solspace.png')} alt="Solspace"/> [Conversational](./conversational.mdx) </div>                                               | Framework Agnostic      | A neatly styled basic formatting template that displays one field at a time and smoothly scrolls down to the next question until complete. Similar to how _Typeform_ displays forms. Also a great choice for survey forms. |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/solspace.png')} alt="Solspace"/> [Multipage All Fields](./multipage-all-fields.mdx) </div>                                   | Framework Agnostic      | A neatly styled basic formatting template that displays ALL fields for a multipage form for the purpose of reviewing/previewing fields on other pages.                                                                     |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/grid.png')} alt="Grid"/> [Grid](./grid.mdx) </div>                                                                           | Barebones               | A very basic starter template that requires additional CSS to style it.                                                                                                                                                    |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/grid.png')} alt="Flexbox"/> [Flexbox](./flexbox.mdx) </div>                                                                  | Barebones               | A very basic starter template that requires additional CSS to style it.                                                                                                                                                    |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/bootstrap-5.png')} alt="Bootstrap 5"/> [Bootstrap 5](./bootstrap-5.mdx) </div>                                               | Popular Framework       | An implementation of Bootstrap 5.                                                                                                                                                                                          |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/bootstrap-5.png')} alt="Bootstrap 5"/> [Bootstrap 5 Dark Mode](./bootstrap-5-dark.mdx) </div>                                | Popular Framework       | An implementation of Bootstrap 5 that uses the dark theme.                                                                                                                                                                 |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/bootstrap-5.png')} alt="Bootstrap 5"/> [Bootstrap&nbsp;5&nbsp;Floating&nbsp;Labels](./bootstrap-5-floating-labels.mdx)</div> | Popular Framework       | An implementation of Bootstrap 5 that uses the floating labels feature.                                                                                                                                                    |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/tailwind.png')} alt="Tailwind 3"/> [Tailwind 3](./tailwind-3.mdx) </div>                                                     | Popular Framework       | An implementation of the Tailwind CSS 3 framework.                                                                                                                                                                         |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/tailwind.png')} alt="Tailwind 3"/> [Tailwind 3 Dark](./tailwind-3-dark.mdx) </div>                                           | Popular Framework       | An implementation of the Tailwind CSS 3 framework that uses a dark theme.                                                                                                                                                  |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/tailwind.png')} alt="Tailwind 4"/> Tailwind 4 Light </div>                                                     | Popular Framework       | An implementation of the Tailwind CSS 4 framework.                                                                                                                                                                         |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/tailwind.png')} alt="Tailwind 4"/> Tailwind 4 Dark </div>                                           | Popular Framework       | An implementation of the Tailwind CSS 4 framework that uses a dark theme.                                                                                                                                                  |
+| <div className="sample-templates-icon"><Photo img={require('@site/static/icons/integrations/foundation-6.png')} alt="Foundation 6"/> [Foundation 6](./foundation-6.mdx) </div>                                           | Popular Framework       | An implementation of the Foundation 6 framework.                                                                                                                                                                           |
 
 :::info
 
@@ -267,7 +279,7 @@ If you wish to create your own modified version, you can copy from the code exam
 
 :::
 
-## Template Overrides<Badge type="feature" text="New in 5.0+" />
+## Template Overrides<Badge type="feature" text="New in 5.0+, Improved in 5.10+" />
 
 The form and each field have the ability to control **attributes**, **values** and more at the template level. Each one of them is entirely optional. There are several namespaces:
 
@@ -275,63 +287,86 @@ The form and each field have the ability to control **attributes**, **values** a
 - `buttons` - controls the output of the [Submit button(s)](../../forms/fields.mdx#submit-buttons).
 - `fields` - controls the output of all [Fields](../../forms/fields.mdx).
 - `captchas` - add attributes to the main Captcha wrapper automatically inserted by Freeform when using [reCAPTCHA](../../integrations/recaptcha.mdx) or [hCaptcha](../../integrations/hcaptcha.mdx).
+- `tag` - a special attribute that allows you to change the default HTML tag for fields and form markup. [See examples](#overriding-html-tags)<Badge type="feature" text="New in 5.10+" />
 
 Here's a breakdown:
 
-- `attributes` - control attributes for the form tag, field rows and success/error banners.
-  - `"foo": "bar"`- unknown attributes - applied directly to the `<form>` tag.
-  - `class: "my-form-class"` - known attributes - applied directly to the corresponding attribute on the `<form>` tag.
-  - `row` - applied directly to form `<div>` rows.
-  - `success` - applied directly to Success banner wrapper `div`.
-  - `error` - applied directly to Error banner wrapper `div`.
-- `buttons` - control overrides for submit buttons
-  - `attributes` - applied to submit button container.
-    - `container`
-    - `column`
-    - `buttonWrapper`
-    - `submit` - applied to the Submit button.
-    - `back` - applied to the Back button.
-    - `save` - applied to the Save button.
-  - `submitLabel` - override the label of the Submit button.
-  - `backLabel` - override the label of the Back button.
-  - `saveLabel` - override the label of the Save button.
-- `fields` - control overrides for fields.
-  - `"@global"` - apply to all fields.
-    - `attributes` - applied to all fields.
-      - `container` - applied to field wrapper `<div>` for all fields.
-      - `input` - applied to `<input>` (and `<select>`, etc) for all fields.
-      - `label` - applied to `<label>` for all fields.
-      - `instructions` - applied to instructions `<div>` for all fields.
-      - `errors` - applied to errors `<div>` for all fields.
-  - `":required"` - applied to all fields that are set to be required.
-  - `":errors"` - applied to all fields that trigger an error upon submit of the form (non-AJAX only).
-  - `"@fieldtypename"` - applied to all fields of this type. Use the field type name prefixed with an `@` symbol. Specify multiples with a comma, e.g. `"@checkboxes, @radios"`.
-    - `attributes`
-      - `container` - applied to field wrapper `<div>` for all fields of this type.
-      - `input` - applied to `<input>` (and `<select>`, etc) for all fields of this type.
-      - `label` - applied to `<label>` for all fields of this type.
-      - `instructions` - applied to instructions `<div>` for all fields of this type.
-      - `errors` - applied to errors `<div>` for all fields of this type.
-    - `value` - override the default value for the specified field type(s).
-    - `label` - override the field label for the specified field type(s).
-    - `instructions` - override the field instructions for the specified field type(s).
-  - `"myFieldHandle"` applied to a specific field. Use the field handle name.
-    - `attributes`
-      - `container` - applied to field wrapper `<div>` for this specific field handle.
-      - `input` - applied to `<input>` (and `<select>`, etc) for this specific field handle.
-      - `label` - applied to `<label>` for this specific field handle.
-      - `instructions` - applied to instructions `<div>` for this specific field handle.
-      - `errors` - applied to errors `<div>` for this specific field handle.
-    - `value` - override the default value for the specified field.
-    - `label` - override the field label for the specified field.
-    - `instructions` - override the field instructions for the specified field type.
-- `captchas` - add attributes to the main Captcha wrapper automatically inserted by Freeform when using [reCAPTCHA](../../integrations/recaptcha.mdx) or [hCaptcha](../../integrations/hcaptcha.mdx).<Badge type="feature" text="New in 5.1+" />
-  - `"foo": "bar"`- unknown attributes - applied directly to the `<div data-freeform-recaptcha-container>` tag.
-  - `class: "my-form-class"` - known attributes - applied directly to the corresponding attribute on the `<div data-freeform-recaptcha-container>` tag.
+<Tabs>
+  <TabItem value="overrides-attributes" label="Form Attributes" default>
 
-:::info
-Field types and field handles can be mixed together to receive shared attributes. Just specify them like: `"@fieldtypename, @anotherfieldtypename, myFieldHandle"`.
-:::
+    - `attributes` - control attributes for the form tag, field rows and success/error banners.
+      - `"foo": "bar"`- unknown attributes - applied directly to the `<form>` tag.
+      - `class: "my-form-class"` - known attributes - applied directly to the corresponding attribute on the `<form>` tag.
+      - `row` - applied directly to form `<div>` rows.
+      - `column` - applied directly to form `<div>` columns.
+      - `success` - applied directly to Success banner wrapper `div`.
+      - `error` - applied directly to Error banner wrapper `div`.
+
+  </TabItem>
+  <TabItem value="overrides-buttons" label="Buttons">
+
+    - `buttons` - control overrides for submit buttons
+      - `attributes` - applied to submit button container.
+        - `container`
+        - `column`
+        - `buttonWrapper`
+        - `submit` - applied to the Submit button.
+        - `back` - applied to the Back button.
+        - `save` - applied to the Save button.
+      - `submitLabel` - override the label of the Submit button.
+      - `backLabel` - override the label of the Back button.
+      - `saveLabel` - override the label of the Save button.
+
+  </TabItem>
+  <TabItem value="overrides-fields" label="Fields">
+
+    - `fields` - control overrides for fields.
+      - `"@global"` - apply to all fields.
+        - `attributes` - applied to all fields.
+          - `container` - applied to field wrapper `<div>` for all fields.
+          - `input` - applied to `<input>` (and `<select>`, etc) for all fields.
+          - `label` - applied to `<label>` for all fields.
+          - `instructions` - applied to instructions `<div>` for all fields.
+          - `errors` - applied to errors `<div>` for all fields.
+      - `":required"` - applied to all fields that are set to be required.
+      - `":errors"` - applied to all fields that trigger an error upon submit of the form (non-AJAX only).
+      - `"@fieldtypename"` - applied to all fields of this type. Use the field type name prefixed with an `@` symbol. Specify multiples with a comma, e.g. `"@checkboxes, @radios"`.
+        - `attributes`
+          - `container` - applied to field wrapper `<div>` for all fields of this type.
+          - `input` - applied to `<input>` (and `<select>`, etc) for all fields of this type.
+          - `label` - applied to the field's `<label>` for all fields of this type.
+          - `optionLabel` - applied to `<label>` for all options in _Checkboxes_, _Radios_, _Rating_ and _Opinion Scale_ fields.<Badge type="feature" text="New in 5.10+" />
+          - `option` - applied to `<option>` for all options in _Dropdown_ and _Multi-Select_ fields.<Badge type="feature" text="New in 5.10+" />
+          - `instructions` - applied to instructions `<div>` for all fields of this type.
+          - `errors` - applied to errors `<div>` for all fields of this type.
+        - `value` - override the default value for the specified field type(s).
+        - `label` - override the field label for the specified field type(s).
+        - `instructions` - override the field instructions for the specified field type(s).
+      - `"myFieldHandle"` applied to a specific field. Use the field handle name.
+        :::info
+        Field types and field handles can be mixed together to receive shared attributes. Just specify them like: `"@fieldtypename, @anotherfieldtypename, myFieldHandle"`.
+        :::
+        - `attributes`
+          - `container` - applied to field wrapper `<div>` for this specific field handle.
+          - `input` - applied to `<input>` (and `<select>`, etc) for this specific field handle.
+          - `label` - applied to `<label>` for this specific field handle.
+          - `optionLabel` - applied to `<label>` for this specific field's options (applies to _Checkboxes_, _Radios_, _Rating_ and _Opinion Scale_ fields).<Badge type="feature" text="New in 5.10+" />
+          - `option` - applied to `<option>` for this specific field's options (applies to _Dropdown_ and _Multi-Select_ fields).<Badge type="feature" text="New in 5.10+" />
+          - `instructions` - applied to instructions `<div>` for this specific field handle.
+          - `errors` - applied to errors `<div>` for this specific field handle.
+        - `value` - override the default value for the specified field.
+        - `label` - override the field label for the specified field.
+        - `instructions` - override the field instructions for the specified field type.
+
+  </TabItem>
+  <TabItem value="overrides-captchas" label="Captchas">
+
+    - `captchas` - add attributes to the main Captcha wrapper automatically inserted by Freeform when using [reCAPTCHA](../../integrations/recaptcha.mdx) or [hCaptcha](../../integrations/hcaptcha.mdx).<Badge type="feature" text="New in 5.1+" />
+      - `"foo": "bar"`- unknown attributes - applied directly to the `<div data-freeform-recaptcha-container>` tag.
+      - `class: "my-form-class"` - known attributes - applied directly to the corresponding attribute on the `<div data-freeform-recaptcha-container>` tag.
+
+  </TabItem>
+</Tabs>
 
 ### Behavior Syntax
 
@@ -343,222 +378,246 @@ This works for unknown attributes as well, e.g. `"my-attribute": "whatever"` can
 - The `-` prefix will **remove** the specified values from any existing values for the same attribute set elsewhere.
 - The `=` prefix will **replace** all existing values of the same attribute set elsewhere with the ones set here.
 
-For example:
+<Tabs>
+  <TabItem value="behavior-syntax-example" label="Example" default>
 
-```twig showLineNumbers {11,17-18,25}
-{{ form.render({
-    fields: {
+    In the below example:
+
+    - All field inputs will be given the classes: `form-input form-text`.
+    - **Dropdown** input fields will remove the `form-text` class and add `form-select`, resulting in it having the classes: `form-input form-select`.
+    - The **Checkbox** input fields will replace the classes: `form-input form-text` entirely with just `form-check`.
+    - All fields that are set to be required inside the form builder will have the additional class of `form-required` as well as `form-label`.
+
+    ```twig showLineNumbers {11,17-18,25}
+    {{ form.render({
+      fields: {
         "@global": {
-            attributes: {
-                input: { class: "form-input form-text" },
-                label: { class: "form-label" },
-            },
+          attributes: {
+            input: { class: "form-input form-text" },
+            label: { class: "form-label" },
+          },
         },
         ":required": {
-            attributes: {
-                label: { "+class": "form-required" },
-            },
+          attributes: {
+            label: { "+class": "form-required" },
+          },
         },
         "@dropdown": {
-            attributes: {
-                input: {
-                    "-class": "form-text",
-                    "+class": "form-select",
-                },
+          attributes: {
+            input: {
+              "-class": "form-text",
+              "+class": "form-select",
             },
+          },
         },
         "@checkbox" : {
-            attributes: {
-                input: {
-                    "=class": "form-check",
-                },
+          attributes: {
+            input: {
+              "=class": "form-check",
             },
+          },
         },
-    }
-}) }}
-```
+      }
+    }) }}
+    ```
+  </TabItem>
+  <TabItem value="behavior-syntax-output" label="Output">
 
-In the above example:
+    The resulting code might look something like this:
 
-- All field inputs will be given the classes: `form-input form-text`.
-- **Dropdown** input fields will remove the `form-text` class and add `form-select`, resulting in it having the classes: `form-input form-select`.
-- The **Checkbox** input fields will replace the classes: `form-input form-text` entirely with just `form-check`.
-- All fields that are set to be required inside the form builder will have the additional class of `form-required` as well as `form-label`.
+    ```html showLineNumbers
+    // Each field input would render as:
+    <label class="form-label" ...>
+      <input class="form-input form-text" ... />
+    </label>
 
-The resulting code might look something like this:
+    // Required fields would render with the additional "form-required" class:
+    <label class="form-label form-required" ... >
+      <input class="form-input form-text" ... />
+    </label>
 
-```html showLineNumbers
-// Each field input would render as:
-<label class="form-label" ...>
-  <input class="form-input form-text" ... />
-</label>
+    // Dropdown fields would render with the "form-text" class removed and the
+    "form-select" class added:
+    <label class="form-label" ...>
+      <select class="form-input form-select" ... >
+    </label>
 
-// Required fields would render with the additional "form-required" class:
-<label class="form-label form-required" ... >
-  <input class="form-input form-text" ... />
-</label>
-
-// Dropdown fields would render with the "form-text" class removed and the
-"form-select" class added:
-<label class="form-label" ...>
-  <select class="form-input form-select" ... >
-</label>
-
-// Checkbox fields would render with both "form-text" and "form-select"
-classes replaced with "form-check":
-<label class="form-label" ... >
-  <input class="form-check" ... />
-</label>
-```
+    // Checkbox fields would render with both "form-text" and "form-select"
+    classes replaced with "form-check":
+    <label class="form-label" ... >
+      <input class="form-check" ... />
+    </label>
+    ```
+  </TabItem>
+</Tabs>
 
 ### Full Example
 
 The example below shows the hierarchy and behavior of each option.
 
-<div className="flex overflow-scroll">
+<div className="flex overflow-scroll side-by-side-code-blocks">
 <div>
 
-```twig showLineNumbers {2,18,31,122}
+```twig showLineNumbers
 {{ form.render({
+// highlight-start
+  attributes: {
+// highlight-end
+    novalidate: true,
+    "data-form": true,
+    id: "my-form-id",
+    class: "my-form-class",
+    row: {
+      tag: 'ul',
+      "data-row": true,
+      class: "form-row",
+    },
+    success: {
+      class: "form-success",
+    },
+    error: {
+      class: "form-error",
+    },
+  },
+// highlight-start
+  buttons: {
+// highlight-end
     attributes: {
-        novalidate: true,
-        "data-form": true,
-        id: "my-form-id",
-        class: "my-form-class",
-        row: {
-            "data-row": true,
-            class: "form-row",
-        },
-        success: {
-            class: "form-success",
-        },
-        error: {
-            class: "form-error",
-        },
+      container: { ... },
+      column: { ... },
+      buttonWrapper: { ... },
+      submit: { class: "form-field-button blue" },
+      back: { class: "form-field-button gray" },
+      save: { class: "form-field-button blue" },
     },
-    buttons: {
-        attributes: {
-            container: { ... },
-            column: { ... },
-            buttonWrapper: { ... },
-            submit: { class: "form-field-button blue" },
-            back: { class: "form-field-button gray" },
-            save: { class: "form-field-button blue" },
+    submitLabel: "Send",
+    backLabel: "Previous",
+    saveLabel: "Save",
+  },
+// highlight-start
+  fields: {
+// highlight-end
+    "@global": {
+      attributes: {
+        container: {
+          "data-container": true,
+          class: "form-field-wrapper",
         },
-        submitLabel: "Send",
-        backLabel: "Previous",
-        saveLabel: "Save",
+        input: {
+          "data-field": true,
+          class: "form-field-input",
+        },
+        label: {
+          class: "form-field-label",
+        },
+        instructions: {
+          class: "form-field-instructions",
+        },
+      },
     },
-    fields: {
-        "@global": {
-            attributes: {
-                container: {
-                    "data-container": true,
-                    class: "form-field-wrapper",
-                },
-                input: {
-                    "data-field": true,
-                    class: "form-field-input",
-                },
-                label: {
-                    class: "form-field-label",
-                },
-                instructions: {
-                    class: "form-field-instructions",
-                },
-            },
-        },
-        ":required": {
-            attributes: {
-                label: { "+class": "form-field-required" },
-            },
-        },
-        ":errors": {
-            attributes: {
-                input: { "+class": "form-field-is-invalid" },
-            },
-        },
-        ":options": { ... },
-        ":fileUpload": { ... },
-        ":multiValue": { ... },
-        ":noStorage": { ... },
-        ":placeholder": { ... },
-        "@dropdown": {
-            attributes: {
-                container: {
-                    "data-select-container": true,
-                },
-                input: {
-                    "+class": "form-field-select fullwidth",
-                },
-            },
-        },
-        "@checkbox" : {
-            attributes: {
-                input: {
-                    "=class": "form-field-check-input",
-                },
-                label: {
-                    "=class": "form-field-check-label",
-                },
-            },
-        },
-        "@signature": {
-            attributes: {
-                input: {
-                    "-class": "form-field-input",
-                    "+class": "form-field-button",
-                },
-            },
-        }
-        "@checkboxes, @radios" : {
-            attributes: {
-                input: {
-                    "+class": "form-field-options",
-                },
-            },
-        },
-        "myFieldHandle": {
-            value: "John Doe",
-            label: "First Name",
-            instructions: "This is a test",
-            attributes: {
-                container: {
-                    "data-my-input-container": true,
-                },
-                input: {
-                    id: "my-special-id",
-                    "+class": "my-special-class",
-                },
-            },
-        },
-        "@website, @regex, myFieldHandle" : {
-            attributes: {
-                input: {
-                    "+class": "my-special-class",
-                },
-            },
-        },
+    ":required": {
+      attributes: {
+        label: { "+class": "form-field-required" },
+      },
     },
-    captchas: {
-        class: ["custom-class", "another-class"],
-        "data-test": true,
+    ":errors": {
+      attributes: {
+        input: { "+class": "form-field-is-invalid" },
+      },
+    },
+    ":options": { ... },
+    ":fileUpload": { ... },
+    ":multiValue": { ... },
+    ":noStorage": { ... },
+    ":placeholder": { ... },
+    "@dropdown": {
+      attributes: {
+        container: {
+          "data-select-container": true,
+        },
+        input: {
+          "+class": "form-field-select fullwidth",
+        },
+        option: {
+          "data-option": true,
+        },
+      },
+    },
+    "@checkbox" : {
+      attributes: {
+        input: {
+          "=class": "form-field-check-input",
+        },
+        label: {
+          "=class": "form-field-check-label",
+        },
+      },
+    },
+    "@signature": {
+      attributes: {
+        input: {
+          "-class": "form-field-input",
+          "+class": "form-field-button",
+        },
+      },
     }
+    "@checkboxes, @radios" : {
+      attributes: {
+        input: {
+          "+class": "form-field-options",
+        },
+        optionLabel: {
+          tag: "div",
+          class: "checkbox-option-label",
+        },
+      },
+    },
+    "myFieldHandle": {
+      value: "John Doe",
+      label: "First Name",
+      instructions: "This is a test",
+      attributes: {
+        container: {
+          "data-my-input-container": true,
+        },
+        input: {
+          id: "my-special-id",
+          "+class": "my-special-class",
+        },
+      },
+    },
+    "@website, @regex, myFieldHandle" : {
+      attributes: {
+        input: {
+          "+class": "my-special-class",
+        },
+      },
+    },
+  },
+// highlight-start
+  captchas: {
+// highlight-end
+    class: ["custom-class", "another-class"],
+    "data-test": true,
+  }
 }) }}
 ```
 
 </div>
 <div className="no-copy">
 
-```_ {2,18,31,122}
+```_
 
+// highlight-start
 ← Applied directly to the <form> tag.
+// highlight-end
 
 
 
 
-← Applied directly to various structure of
-  the form render.
+← Applied directly to each row in the form render.
+← Changes the default `div` tag to something else.
+
 
 
 ← Apply attributes to the success and error
@@ -568,7 +627,9 @@ The example below shows the hierarchy and behavior of each option.
 
 
 
+// highlight-start
 ← Overrides for submit buttons.
+// highlight-end
 
 
 
@@ -581,7 +642,9 @@ The example below shows the hierarchy and behavior of each option.
 
 
 
+// highlight-start
 ← Overrides for fields.
+// highlight-end
 ← Overrides applied globally to all fields.
 
 
@@ -623,6 +686,9 @@ The example below shows the hierarchy and behavior of each option.
 
 ← The "+" prefix adds the specified values to
   existing values for same attribute set elsewhere.
+← Apply attributes to the `<option>` tags for the field options.
+
+
 
 
 
@@ -646,6 +712,10 @@ The example below shows the hierarchy and behavior of each option.
 ← Apply overrides to multiple field types by
   separating with a comma.
 
+
+
+← Apply attributes to the `<label>` tags for the field options.
+← Changes the default `label` tag to something else.
 
 
 
@@ -672,7 +742,9 @@ The example below shows the hierarchy and behavior of each option.
 
 
 
+// highlight-start
 ← Applied directly to the Captcha <div> wrapper.
+// highlight-end
 
 
 
@@ -685,89 +757,103 @@ The example below shows the hierarchy and behavior of each option.
 
 ### Submit Button Customization
 
-Submit buttons are automatically inserted at the end of the form by default. However, you can control their appearance by using the following overrides:
+Submit buttons are automatically inserted at the end of the form by default. However, you can control their appearance in one of the following ways:
 
-```twig showLineNumbers
-{{ form.render({
-    buttons: {
+<Tabs>
+  <TabItem value="submit-buttons-template-overrides" label="Template Overrides" default>
+    ```twig showLineNumbers
+    {{ form.render({
+      buttons: {
         attributes: {
-            container: { ... },
-            column: { ... },
-            buttonWrapper: { ... },
-            submit: { class: "form-field-button blue" },
-            back: { class: "form-field-button gray" },
-            save: { class: "form-field-button blue" },
+          container: { ... },
+          column: { ... },
+          buttonWrapper: { ... },
+          submit: { class: "form-field-button blue" },
+          back: { class: "form-field-button gray" },
+          save: { class: "form-field-button blue" },
         },
         submitLabel: "Send",
         backLabel: "Previous",
         saveLabel: "Save",
-    },
-}) }}
-```
+      }
+    }) }}
+    ```
+  </TabItem>
+  <TabItem value="submit-buttons-render" label="Render Helper">
 
-#### Further Customization
+    If the override approach is not enough for your needs, you can use a more manual approach. First, you need to disable the automatic insertion of Submit buttons by applying the `disable: ["submitButtons"]` parameter to your form. Then, you can use the button render approach.
 
-If the override approach above is not enough for your needs, you can use a more manual approach. First, you need to disable the automatic insertion of Submit buttons by applying the `disable: ["submitButtons"]` parameter to your form. Then, you can use the button render approach.
+    The following are available:
 
-The following are available:
+    - `renderSubmit` - render a complete **Submit** button
+    - `renderBack` - render a complete **Back** button
+    - `renderSave` - render a complete **Save** button
 
-- `renderSubmit` - render a complete **Submit** button
-- `renderBack` - render a complete **Back** button
-- `renderSave` - render a complete **Save** button
+    ```twig showLineNumbers
+    {{ form.renderTag({
+      returnUrl: "contact/success",
+      disable: ["submitButtons"]
+    }) }}
 
-```twig showLineNumbers
-{{ form.renderTag({
-    returnUrl: "contact/success",
-    disable: ["submitButtons"]
-}) }}
+      {# Your fields #}
 
-    {# Your fields #}
+      {% set button = form.currentPage.buttons %}
 
-    {% set button = form.currentPage.buttons %}
-
-    {{ button.renderSubmit({ 'data-optional': 'attributes here' }) }}
-    {% if button.back %}
+      {{ button.renderSubmit({ 'data-optional': 'attributes here' }) }}
+      {% if button.back %}
         {{ button.renderBack }}
-    {% endif %}
-    {% if button.save %}
+      {% endif %}
+      {% if button.save %}
         {{ button.renderSave }}
-    {% endif %}
+      {% endif %}
 
-{{ form.renderClosingTag }}
-```
+    {{ form.renderClosingTag }}
+    ```
+  </TabItem>
+  <TabItem value="submit-buttons-renderprops" label="Render Properties Helper">
 
-And finally, for maximum control, you can use a property attributes render instead. The following are available:
+    For maximum control, you can use a property attributes render instead. The following are available:
 
-- `renderSubmitProps` - render the property attributes to attach to your **Submit** button
-- `renderBackProps` - render the property attributes to attach to your **Back** button
-- `renderSaveProps` - render the property attributes to attach to your **Save** button
+    - `renderSubmitProps` - render the property attributes to attach to your **Submit** button.
+        - `submitLabel` - render the label defined for the **Submit** button inside the builder.
+    - `renderBackProps` - render the property attributes to attach to your **Back** button.
+        - `backLabel` - render the label defined for the **Back** button inside the builder.
+    - `renderSaveProps` - render the property attributes to attach to your **Save** button.
+        - `saveLabel` - render the label defined for the **Save** button inside the builder.
 
-```twig showLineNumbers
-{{ form.renderTag({
-    returnUrl: "contact/success",
-    disable: ["submitButtons"]
-}) }}
+    ```twig showLineNumbers
+    {{ form.renderTag({
+      returnUrl: "contact/success",
+      disable: ["submitButtons"]
+    }) }}
 
-    {# Your fields #}
+      {# Your fields #}
 
-    {% set button = form.currentPage.buttons %}
+      {% set button = form.currentPage.buttons %}
 
-    <button {{ button.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
-        Submit
-    </button>
-    {% if button.back %}
+      <button {{ button.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
+        {{ button.submitLabel }}
+      </button>
+      {% if button.back %}
         <button {{ button.backRenderProps }}>
-            Back
+          {{ button.backLabel }}
         </button>
-    {% endif %}
-    {% if button.save %}
+      {% endif %}
+      {% if button.save %}
         <button {{ button.saveRenderProps }}>
-            Save
+          {{ button.saveLabel }}
         </button>
-    {% endif %}
+      {% endif %}
 
-{{ form.renderClosingTag }}
-```
+    {{ form.renderClosingTag }}
+    ```
+
+    :::info
+    If you need to parse HTML on your button labels, add the `|raw` filter to `submitLabel`, etc. E.g. `{{ button.submitLabel|raw }}`.
+    :::
+
+  </TabItem>
+</Tabs>
 
 ### Captcha Placement<Badge type="feature" text="New in 5.7+" />
 
@@ -797,30 +883,217 @@ Your template code might look something like this:
 {{ form.renderClosingTag }}
 ```
 
+### Overriding HTML Tags<Badge type="feature" text="New in 5.10+" />
+
+If you need to override any of Freeform's default HTML tags, you can use the reserved `tag` attribute.
+
+The `tag` attribute override is available within:
+
+- `attributes`
+  - `row`
+- `fields`
+  - `"@global"`, `"@fieldtypename"`, `"myFieldHandle"`
+    - `attributes`
+      - `container`, `label`, `optionLabel`, `instructions`
+
+You can also override the default HTML tags from inside of the [Field Attribute Editor](#field-attributes-editor) for the field inside the form builder:
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-field-attributes.png')}
+  alt="Form Builder Field Attributes"
+/>
+
+:::info
+It is not possible to override the `input` tag at this time.
+:::
+
+<Tabs>
+  <TabItem value="overriding-html-tags-example" label="General Example" default>
+
+    In the below example:
+
+    - All fields of the [Checkboxes](../../forms/fields.mdx#checkboxes) and [Radios](../../forms/fields.mdx#radios) type will have their:
+      - Field wrapper switched from the default tag of `div` to `fieldset` and a class of `container`.
+      - Field label switched from the default tag of `label` to `legend` and a class of `label`.
+      - Field options' labels given a tag of `label` and a class of `option-label`.
+    - All fields of the [HTML](../../forms/fields.mdx#html) type will have their:
+      - Field wrapper switched from the default tag of `div` to `p`.
+
+    ```twig showLineNumbers
+    {{ form.render({
+      fields: {
+        "@checkboxes, @radios": {
+          attributes: {
+            container: {
+              tag: "fieldset",
+              class: "container",
+            },
+            label: {
+              tag: "legend",
+              class: "label",
+            },
+            optionLabel: {
+              tag: "label",
+              class: "option-label",
+            },
+          }
+        },
+        "@html": {
+          attributes: {
+            container: {
+              tag: "p",
+            },
+          }
+        },
+      },
+    }) }}
+    ```
+  </TabItem>
+  <TabItem value="overriding-html-tags-checkboxes-radios" label="Accessible Checkboxes & Radios">
+
+    If you want your [Checkboxes](../../forms/fields.mdx#checkboxes) and [Radios](../../forms/fields.mdx#radios) fields to follow best practices for accessibility, you can implement the following overrides:
+    
+    The result will be that their:
+      - Field wrapper switched from the default tag of `div` to `fieldset`.
+      - Field label switched from the default tag of `label` to `legend`.
+      - Field options' labels given a tag of `label` and a class of `option-label`.
+
+    ```twig showLineNumbers
+    {{ form.render({
+      fields: {
+        "@checkboxes, @radios": {
+          attributes: {
+            container: {
+              tag: "fieldset",
+            },
+            label: {
+              tag: "legend",
+            },
+            optionLabel: {
+              tag: "label",
+              class: "option-label",
+            },
+          }
+        },
+      },
+    }) }}
+    ```
+
+    <Tabs>
+      <TabItem value="overriding-html-tags-checkboxes-radios-after" label="After Overrides" default>
+        ```html
+        <fieldset>
+          <legend>Favorite Food</legend>
+          <label for="form-input-favoriteFood-0">
+            <input type="checkbox" id="form-input-favoriteFood-0" name="favoriteFood[]" value="Peanuts" />
+            Peanuts
+          </label>
+          <label for="form-input-favoriteFood-1">
+            <input type="checkbox" id="form-input-favoriteFood-1" name="favoriteFood[]" value="Crackers" />
+            Crackers
+          </label>
+          <label for="form-input-favoriteFood-2">
+            <input type="checkbox" id="form-input-favoriteFood-2" name="favoriteFood[]" value="Cheese" />
+            Cheese
+          </label>
+        </fieldset>
+        ```
+      </TabItem>
+      <TabItem value="overriding-html-tags-checkboxes-radios-before" label="Default (Before)">
+        ```html
+        <div>
+          <label>Favorite Food</label>
+          <label for="form-input-favoriteFood-0">
+            <input type="checkbox" id="form-input-favoriteFood-0" name="favoriteFood[]" value="Peanuts" />
+            Peanuts
+          </label>
+          <label for="form-input-favoriteFood-1">
+            <input type="checkbox" id="form-input-favoriteFood-1" name="favoriteFood[]" value="Crackers" />
+            Crackers
+          </label>
+          <label for="form-input-favoriteFood-2">
+            <input type="checkbox" id="form-input-favoriteFood-2" name="favoriteFood[]" value="Cheese" />
+            Cheese
+          </label>
+        </div>
+        ```
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem value="overriding-html-tags-fields-as-list" label="Fields as a List">
+
+    If you'd like to display your form and its fields as a list (`ul`/`li`), you can do that with the following example:
+
+    - All rows in the form will be switched from the default tag of `div` to `ul`.
+    - All field columns (wrappers) will be switched from the default tag of `div` to `li`.
+
+    ```twig showLineNumbers
+    {{ form.render({
+      attributes: {
+        row: {
+          tag: 'ul',
+        },
+      },
+      fields: {
+        "@global": {
+          attributes: {
+            container: {
+              tag: "li",
+            },
+          },
+        },
+      },
+    }) }}
+    ```
+  </TabItem>
+</Tabs>
+
 ### How to Set Attributes
 
 These parameters can be passed to any of the render functions, or done separately before.
 
-```twig showLineNumbers
-{# Set the parameters like this at any time #}
-{% do field.setParameters({
-    attributes: { ... }
-}) %}
+<Tabs>
+  <TabItem value="set-attributes-form" label="At Form Level" default>
 
-{# Set parameters during rendering of the form #}
-{{ form.render({
-    attributes: { ... }
-}) }}
+    Set parameters during rendering of the form:
 
-{# Set parameters during rendering of specific elements #}
-{{ field.renderInput({
-    attributes: { ... }
-}) }}
-```
+    ```twig
+    {{ form.render({
+      attributes: { ... }
+    }) }}
+    ```
+  </TabItem>
+  <TabItem value="set-attributes-field" label="At Field Level">
+
+    Set parameters during rendering of specific elements:
+
+    ```twig
+    {{ field.renderInput({
+      attributes: { ... }
+    }) }}
+    ```
+  </TabItem>
+  <TabItem value="set-attributes-anywhere" label="Anywhere">
+
+    Set the parameters like this at any time:
+
+    ```twig
+    {% do field.setParameters({
+      attributes: { ... }
+    }) %}
+    ```
+  </TabItem>
+</Tabs>
+
 
 ### Field Attributes Editor
 
 Freeform allows you to also specify attributes for each field inside the form builder. These can be mixed in with the `attributes` parameter in your form or field render.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-field-attributes.png')}
+  alt="Form Builder Field Attributes"
+/>
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/formatting/builder-attributes.png')}
@@ -831,13 +1104,13 @@ If you were to set up your formatting template to include the following:
 
 ```twig
 {{ form.render({
-    fields: {
-        attributes: {
-            input: {
-                class: "field",
-            }
-        }
+  fields: {
+    attributes: {
+      input: {
+        class: "field",
+      }
     }
+  }
 }) }}
 ```
 
@@ -876,81 +1149,77 @@ Imagine you have this in your regular template where you're loading the form:
 
 ```twig {4}
 {{ form.renderTag({
-    attributes: {
-        row: { class: "freeform-row" },
-        success: { class: "freeform-form-success" },
-    }
+  attributes: {
+    row: { class: "freeform-row" },
+    success: { class: "freeform-form-success" },
+  }
 }) }}
 ```
 
 <Tabs>
   <TabItem value="further-reading-1" label="Example 1" default>
 
-Placing the following in your formatting template:
+    Placing the following in your formatting template:
 
-```twig
-{{ form.attributes.success|raw }}
-```
+    ```twig
+    {{ form.attributes.success|raw }}
+    ```
 
-Will render as:
+    Will render as:
 
-```html
-class="freeform-form-success"
-```
-
+    ```html
+    class="freeform-form-success"
+    ```
   </TabItem>
   <TabItem value="further-reading-2" label="Example 2">
 
-A more complete example might be:
+    A more complete example might be:
 
-```twig {1}
-<div{{ form.attributes.success|raw }}>
-    <p>{{ form.settings.successMessage | t('freeform') }}</p>
-</div>
-```
+    ```twig {1}
+    <div{{ form.attributes.success|raw }}>
+      <p>{{ form.settings.successMessage | t('freeform') }}</p>
+    </div>
+    ```
 
-Which renders as:
+    Which renders as:
 
-```html {1}
-<div class="freeform-form-success">
-  <p>Thank you!</p>
-</div>
-```
-
+    ```html {1}
+    <div class="freeform-form-success">
+      <p>Thank you!</p>
+    </div>
+    ```
   </TabItem>
   <TabItem value="further-reading-3" label="Example 3">
 
-You could also approach it differently by accessing the `class` attribute value directly:
+    You could also approach it differently by accessing the `class` attribute value directly:
 
-```twig
-{{ form.attributes.success.get("class") }}
-```
+    ```twig
+    {{ form.attributes.success.get("class") }}
+    ```
 
-Which will render only as:
+    Which will render only as:
 
-```html
-freeform-form-success
-```
-
+    ```html
+    freeform-form-success
+    ```
   </TabItem>
   <TabItem value="further-reading-4" label="Example 4">
 
-A more complete example might be:
+    A more complete example might be:
 
-```twig {1}
-<div class="form-banner {{ form.attributes.success.get("class") }}">
-    <p>{{ form.settings.successMessage | t('freeform') }}</p>
-</div>
-```
+    ```twig {1}
+    <div class="form-banner {{ form.attributes.success.get("class") }}">
+      <p>{{ form.settings.successMessage | t('freeform') }}</p>
+    </div>
+    ```
 
-Which renders as:
+    Which renders as:
 
-```html {1}
-<div class="form-banner freeform-form-success">
-  <p>Thank you!</p>
-</div>
-```
-
+    ```html {1}
+    <div class="form-banner freeform-form-success">
+      <p>Thank you!</p>
+    </div>
+    ```
   </TabItem>
 </Tabs>
 
@@ -962,39 +1231,36 @@ Check out the examples below to see how the template code will render in your pa
 
 <Tabs>
   <TabItem value="template-code" label="Template Code" default>
-```twig
-{{ form.render({
-    attributes: {
+    ```twig
+    {{ form.render({
+      attributes: {
         novalidate: true,
         "data-my-form": true,
         class: "my-form-class",
 
         // You can set default attributes for all rows here
         row: {
-            class: "row",
-            "data-row": true,
+          class: "row",
+          "data-row": true,
         },
-    }
-
-}) }}
-
-````
+      }
+    }) }}
+    ```
   </TabItem>
   <TabItem value="output" label="Output">
-```html
-<form novalidate data-my-form class="my-form-class">
-    <div class="row" data-row>
+    ```html
+    <form novalidate data-my-form class="my-form-class">
+      <div class="row" data-row>
         // ... Fields render here
-    </div>
-    <div class="row" data-row>
+      </div>
+      <div class="row" data-row>
         // ... Fields render here
-    </div>
-    <div class="row" data-row>
+      </div>
+      <div class="row" data-row>
         // ... Fields render here
-    </div>
-</form>
-````
-
+      </div>
+    </form>
+    ```
   </TabItem>
 </Tabs>
 
@@ -1004,100 +1270,98 @@ You can also pass down attributes to all fields, or specific field types or fiel
 
 <Tabs>
   <TabItem value="template-code" label="Template Code" default>
-```twig
-{{ form.render({
-    attributes: {
+    ```twig
+    {{ form.render({
+      attributes: {
         novalidate: true,
         row: {
-            class: "row",
+          class: "row",
         },
-    },
-    fields: {
+      },
+      fields: {
         "@global": {
-            attributes: {
-                input: {
-                    class: "input-class",
-                },
-                container: {
-                    "data-container": true,
-                },
-                label: {
-                    class: "label-class",
-                },
+          attributes: {
+            input: {
+              class: "input-class",
             },
+            container: {
+              "data-container": true,
+            },
+            label: {
+              class: "label-class",
+            },
+          },
         },
         "@dropdown": {
-            attributes: {
-                input: {
-                    class: "select fullwidth",
-                },
-                container: {
-                    "data-select-container": true,
-                },
+          attributes: {
+            input: {
+              class: "select fullwidth",
             },
+            container: {
+              "data-select-container": true,
+            },
+          },
         },
         "@text": { ... },
         "@checkboxes, @multiple-select": {
-            instructions: "Select all that apply.",
+          instructions: "Select all that apply.",
         },
         "myFieldHandle": {
-            label: "My Field Label Override",
-            instructions: "My field instructions override.",
-            value: "my field value override",
-            attributes: {
-                container: {
-                    "data-my-input-container": true,
-                },
-                input: {
-                    id: "my-field",
-                    class: "big-text",
-                },
+          label: "My Field Label Override",
+          instructions: "My field instructions override.",
+          value: "my field value override",
+          attributes: {
+            container: {
+              "data-my-input-container": true,
             },
+            input: {
+              id: "my-field",
+              class: "big-text",
+            },
+          },
         },
         ":options": { ... },
         ":required": { ... },
         ":errors": { ... },
         ":required, @dropdown, @text, myFieldHandle2": { ... }
-    },
-}) }}
-```
+      },
+    }) }}
+    ```
   </TabItem>
   <TabItem value="output" label="Output">
-```html
-// Output (assuming we have a form with two text fields and a dropdown field).
-<form novalidate>
-    // all rows have the class "row" set
-    <div class="row">
+    ```html
+    // Output (assuming we have a form with two text fields and a dropdown field).
+    <form novalidate>
+      // all rows have the class "row" set
+      <div class="row">
         // This particular container gets the default "data-container" attribute set for all containers as well as the "data-my-input-container" set only for this particular field.
         <div data-container data-my-input-container>
-            <label class="label-class">My Field</label>
-            <input name="myField" class="input-class big-text" id="my-field" value="" />
+          <label class="label-class">My Field</label>
+          <input name="myField" class="input-class big-text" id="my-field" value="" />
         </div>
-    </div>
+      </div>
 
-    <div class="row">
+      <div class="row">
         <div data-container>
-            <label class="label-class">Second Text Field</label>
-            <input name="secondTextField" class="input-class" value="" />
+          <label class="label-class">Second Text Field</label>
+          <input name="secondTextField" class="input-class" value="" />
         </div>
-    </div>
+      </div>
 
-    <div class="row">
+      <div class="row">
         // This container receives the "data-select-container" class becuse it is of type "dropdown".
         <div data-container data-select-container>
-            <label class="label-class">My Select Box</label>
+          <label class="label-class">My Select Box</label>
 
-            // Since the attributes are appended by default, this <select> element also receives the default "input-class" as well as the specific attributes for this field type.
-            <select class="input-class select fullwidth">
-                <option _ _ _>
-                <option _ _ _>
-            </select>
+          // Since the attributes are appended by default, this <select> element also receives the default "input-class" as well as the specific attributes for this field type.
+          <select class="input-class select fullwidth">
+            <option ...>
+            <option ...>
+          </select>
         </div>
-    </div>
-
-</form>
-```
-
+      </div>
+    </form>
+    ```
   </TabItem>
 </Tabs>
 
@@ -1107,27 +1371,26 @@ If you would like to add a certain class and a `data-container` attribute to the
 
 <Tabs>
   <TabItem value="template-code" label="Template Code" default>
-
-```twig
-{{ field.render({
-    attributes: {
+    ```twig
+    {{ field.render({
+      attributes: {
         container: {
-            class: "certain-class",
-            "data-container": true,
+          tag: "fieldset",
+          class: "certain-class",
+          "data-container": true,
         },
-    },
-}) }}
-```
-
+      },
+    }) }}
+    ```
   </TabItem>
   <TabItem value="output" label="Output">
-```html
-// Output would generate that class on the container element
-<div class="certain-class" data-container>
-    <label />
-    <input />
-</div>
-```
+    ```html
+    // Output would generate that class on the container element
+    <fieldset class="certain-class" data-container>
+      <label>
+      <input />
+    </fieldset>
+    ```
   </TabItem>
 </Tabs>
 
@@ -1137,48 +1400,45 @@ You can pass any amount of attributes to the specific element this way:
 
 <Tabs>
   <TabItem value="template-code" label="Template Code" default>
-
-```twig
-{{ field.render({
-    label: "My Field Label Override",
-    instructions: "My field instructions override.",
-    value: "my field value override",
-    attributes: {
+    ```twig
+    {{ field.render({
+      label: "My Field Label Override",
+      instructions: "My field instructions override.",
+      value: "my field value override",
+      attributes: {
         container: {
-            class: "container",
+          class: "container",
         },
         input: {
-            "data-field": true,
-            class: "input-element",
+          "data-field": true,
+          class: "input-element",
         },
         label: {
-            class: "label",
+          class: "label",
         },
         instructions: {
-            class: "instructions",
+          class: "instructions",
         },
         error: {
-            class: "error-block",
+          class: "error-block",
         },
-    }
-}) }}
-```
-
+      }
+    }) }}
+    ```
   </TabItem>
   <TabItem value="output" label="Output">
-```html
-// Output (assuming it has an error)
-<div class="container">
-    <label class="label">My Field Label Override</label>
-    <div class="instructions">My field instructions override.</div>
-    <input type="text" name="myField" class="input-element" value="my field value override" />
+    ```html
+    // Output (assuming it has an error)
+    <div class="container">
+      <label class="label">My Field Label Override</label>
+      <div class="instructions">My field instructions override.</div>
+      <input type="text" name="myField" class="input-element" value="my field value override" />
 
-    <ul class="error-block">
+      <ul class="error-block">
         <li>This field is required</li>
-    </ul>
-
-</div>
-```
+      </ul>
+    </div>
+    ```
   </TabItem>
 </Tabs>
 
@@ -1192,56 +1452,54 @@ For further customization of the submit buttons, please see the [options and ins
 
 <Tabs>
   <TabItem value="template-code" label="Template Code" default>
-
-```twig
-{{ form.render({
-    buttons: {
+    ```twig
+    {{ form.render({
+      buttons: {
         attributes: {
-            container: {
-                style: "border: 1px solid red;",
-            },
-            column: {
-                style: "background: #ccc;",
-            },
-            buttonWrapper: {
-                style: "padding: 0 5px;",
-            },
-            submit: {
-                class: "btn btn-primary",
-            },
-            back: {
-                class: "btn btn-secondary",
-            },
-            save: {
-                class: "btn btn-secondary",
-            }
+          container: {
+            style: "border: 1px solid red;",
+          },
+          column: {
+            style: "background: #ccc;",
+          },
+          buttonWrapper: {
+            style: "padding: 0 5px;",
+          },
+          submit: {
+            class: "btn btn-primary",
+          },
+          back: {
+            class: "btn btn-secondary",
+          },
+          save: {
+            class: "btn btn-secondary",
+          }
         },
         submitLabel: "Send",
         backLabel: "Previous",
         saveLabel: "Save",
-    },
-}) }}
-```
-
+      },
+    }) }}
+    ```
   </TabItem>
   <TabItem value="output" label="Output">
-```html
-// Output (assuming you are on page 2 of a multipage form with the Back button enabled)
-<form>
-    <div data-freeform-controls style="border: 1px solid red;">
+    ```html
+    // Output (assuming you are on page 2 of a multipage form with the Back button enabled)
+    <form>
+      <div data-freeform-controls style="border: 1px solid red;">
         <div style="background: #ccc;">
-            <div style="padding: 0 5px;">
-                <button data-freeform-action="back" name="form_previous_page_button" type="submit" class="btn btn-secondary">Previous</button>
-            </div>
+          <div style="padding: 0 5px;">
+            <button data-freeform-action="back" name="form_previous_page_button" type="submit" class="btn btn-secondary">Previous</button>
+          </div>
         </div>
         <div style="background: #ccc;">
-            <div style="padding: 0 5px;">
-                <button data-freeform-action="submit" name="form_page_submit" type="submit" class="btn btn-primary">Send</button>
-            </div>
+          <div style="padding: 0 5px;">
+            <button data-freeform-action="submit" name="form_page_submit" type="submit" class="btn btn-primary">Send</button>
+          </div>
         </div>
-    </div>
-</form>
-```
+      </div>
+    </form>
+    ```
   </TabItem>
 </Tabs>
 
@@ -1251,30 +1509,26 @@ You can add attributes to the main Captcha wrapper automatically inserted by Fre
 
 <Tabs>
   <TabItem value="template-code" label="Template Code" default>
-
-```twig
-{{ form.render({
-    captchas: {
+    ```twig
+    {{ form.render({
+      captchas: {
         class: ["custom-class", "another-class"],
         "data-test": true,
-    }
-}) }}
-```
-
+      }
+    }) }}
+    ```
   </TabItem>
   <TabItem value="output" label="Output">
-
-```html
-// Output (truncated for example) ...
-<div
-  class="custom-class another-class"
-  data-test
-  data-freeform-recaptcha-container
->
-  <div class="g-recaptcha">...</div>
-</div>
-```
-
+    ```html
+    // Output (truncated for example) ...
+    <div
+      class="custom-class another-class"
+      data-test
+      data-freeform-recaptcha-container
+    >
+      <div class="g-recaptcha">...</div>
+    </div>
+    ```
   </TabItem>
 </Tabs>
 
@@ -1292,25 +1546,25 @@ You can override the value inside text fields, or pre-select a default option fo
 {% set entry = craft.entries.slug(craft.app.request.getSegment(2)).one() %}
 
 {{ form.renderTag({
-    fields: {
-        "entryTitle": {
-            value: entry.title
-        },
-        "stateSelect": {
-            value: "AZ"
-        },
-        "availability": {
-            value: ["tue", "thu"]
-        },
-        "firstName": {
-            value: currentUser.name
-        },
-    }
+  fields: {
+    "entryTitle": {
+      value: entry.title
+    },
+    "stateSelect": {
+      value: "AZ"
+    },
+    "availability": {
+      value: ["tue", "thu"]
+    },
+    "firstName": {
+      value: currentUser.name
+    },
+  }
 }) }}
 ```
 
 :::tip
-[Need to pass dynamic data such as the current URL, logged in user data, or data from another element to your form fields?](../../guides/dynamic-data/passing-dynamic-data-to-forms.mdx)
+[Need to pass dynamic data such as the current URL, logged in user data, or data from another element to your form fields?](../../guides/guide/passing-dynamic-data-to-forms.mdx)
 :::
 
 ### Array Values & Conditionals
@@ -1319,35 +1573,31 @@ You can supply an array of strings to the attribute as well, which can make the 
 
 <Tabs>
   <TabItem value="template-code" label="Template Code" default>
-
-```twig
-{{ field.render({
-    attributes: {
+    ```twig
+    {{ field.render({
+      attributes: {
         label: {
-            id: "label-for-" ~ field.handle,
-            class: [
-                "form-control-label",
-                field.hasErrors ? "is-invalid has-validation",
-                field.required ? "required",
-                field.type == "checkbox" ? "checkbox" : "non-checkbox",
-            ],
+          id: "label-for-" ~ field.handle,
+          class: [
+            "form-control-label",
+            field.hasErrors ? "is-invalid has-validation",
+            field.required ? "required",
+            field.type == "checkbox" ? "checkbox" : "non-checkbox",
+          ],
         },
-    },
-}) }}
-```
-
+      },
+    }) }}
+    ```
   </TabItem>
   <TabItem value="output" label="Output">
-
-```html
-// Assuming the field (handle "myField") is a checkbox, doesn't have errors, //
-but is required, the rendered label tag would look like this:
-<label
-  id="label-for-myField"
-  class="form-control-label required checkbox"
-></label>
-```
-
+    ```html
+    // Assuming the field (handle "myField") is a checkbox, doesn't have errors, //
+    but is required, the rendered label tag would look like this:
+    <label
+      id="label-for-myField"
+      class="form-control-label required checkbox"
+    ></label>
+    ```
   </TabItem>
 </Tabs>
 
@@ -1357,26 +1607,22 @@ You can pass boolean values to attributes and it will render the standalone attr
 
 <Tabs>
   <TabItem value="template-code" label="Template Code" default>
-
-```twig
-{{ field.render({
-    attributes: {
+    ```twig
+    {{ field.render({
+      attributes: {
         label: {
-            "data-required": false,
-            "data-is-blue": true,
-            "data-is-some-data": null,
+          "data-required": false,
+          "data-is-blue": true,
+          "data-is-some-data": null,
         }
-    }
-}) }}
-```
-
+      }
+    }) }}
+    ```
   </TabItem>
   <TabItem value="output" label="Output">
-
-```html
-<label data-is-blue data-is-some-data></label>
-```
-
+    ```html
+    <label data-is-blue data-is-some-data></label>
+    ```
   </TabItem>
 </Tabs>
 
@@ -1387,123 +1633,123 @@ The following is a basic example of what your formatting template can look like 
 ```twig showLineNumbers
 {# Render the opening form tag #}
 {{ form.renderTag({
+  attributes: {
+    row: { class: "freeform-row" },
+    success: { class: "freeform-form-success" },
+    errors: { class: "freeform-form-errors" },
+    novalidate: true,
+  },
+  buttons: {
     attributes: {
-        row: { class: "freeform-row" },
-        success: { class: "freeform-form-success" },
-        errors: { class: "freeform-form-errors" },
-        novalidate: true,
+      container: { class: "freeform-button-container" },
+      column: { class: "freeform-button-column" },
+      buttonWrapper: { class: "freeform-button-wrapper" },
+      submit: { class: "freeform-button-submit" },
+      back: { class: "freeform-button-back" },
+      save: { class: "freeform-button-save" },
     },
-    buttons: {
-        attributes: {
-            container: { class: "freeform-button-container" },
-            column: { class: "freeform-button-column" },
-            buttonWrapper: { class: "freeform-button-wrapper" },
-            submit: { class: "freeform-button-submit" },
-            back: { class: "freeform-button-back" },
-            save: { class: "freeform-button-save" },
+  },
+  fields: {
+    "@global": {
+      attributes: {
+        container: { class: "freeform-column" },
+        input: {
+          class: "freeform-input",
         },
+        label: { class: "freeform-label" },
+        instructions: { class: "freeform-instructions" },
+        error: { class: "freeform-errors" },
+      },
     },
-    fields: {
-        "@global": {
-            attributes: {
-                container: { class: "freeform-column" },
-                input: {
-                    class: "freeform-input",
-                },
-                label: { class: "freeform-label" },
-                instructions: { class: "freeform-instructions" },
-                error: { class: "freeform-errors" },
-            },
-        },
-        ":required": {
-            attributes: {
-                label: { "+class": "freeform-required" },
-            },
-        },
-        ":errors": {
-            attributes: {
-                input: { "+class": "is-invalid has-validation" },
-            },
-        },
-        "@group": {
-            attributes: {
-                label: { "+class": "group-label" },
-            },
-        },
-        "@signature": {
-            attributes: {
-                input: { "-class": "freeform-input" },
-            },
-        }
+    ":required": {
+      attributes: {
+        label: { "+class": "freeform-required" },
+      },
     },
+    ":errors": {
+      attributes: {
+        input: { "+class": "is-invalid has-validation" },
+      },
+    },
+    "@group": {
+      attributes: {
+        label: { "+class": "group-label" },
+      },
+    },
+    "@signature": {
+      attributes: {
+        input: { "-class": "freeform-input" },
+      },
+    }
+  },
 }) }}
 
 {# Success and error message handling for non-AJAX forms #}
 {% if not form.settings.ajax %}
-    {% if form.submittedSuccessfully %}
-        <div{{ form.attributes.success|raw }}>
-            <p>{{ form.settings.successMessage | t('freeform') }}</p>
-        </div>
-    {% endif %}
-    {% if form.hasErrors %}
-        <div{{ form.attributes.errors|raw }}>
-            <p>{{ form.settings.errorMessage | t('freeform') }}</p>
+  {% if form.submittedSuccessfully %}
+    <div{{ form.attributes.success|raw }}>
+      <p>{{ form.settings.successMessage | t('freeform') }}</p>
+    </div>
+  {% endif %}
+  {% if form.hasErrors %}
+    <div{{ form.attributes.errors|raw }}>
+      <p>{{ form.settings.errorMessage | t('freeform') }}</p>
 
-            {% if form.errors|length %}
-                <ul>
-                    {% for error in form.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-    {% endif %}
+      {% if form.errors|length %}
+        <ul>
+          {% for error in form.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  {% endif %}
 {% endif %}
 
 {# Render page tabs if multi-page #}
 {% if form.pages|length > 1 %}
-    <ul class="freeform-pages">
-        {% for page in form.pages %}
-            <li {% if form.currentPage.index == page.index %}class="active"{% endif %}>
-                {% if form.currentPage.index == page.index %}
-                    <b>{{ page.label }}</b>
-                {% else %}
-                    {{ page.label }}
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+  <ul class="freeform-pages">
+    {% for page in form.pages %}
+      <li {% if form.currentPage.index == page.index %}class="active"{% endif %}>
+        {% if form.currentPage.index == page.index %}
+          <b>{{ page.label }}</b>
+        {% else %}
+          {{ page.label }}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
 {% endif %}
 
 {# Build form rows and fields #}
 {% macro renderRows(form, rows) %}
-    {% for row in rows %}
-        {% set width = (12 / (row|length)) %}
-        <div{{ form.attributes.row|raw }}>
-            {% for field in row %}
-                {% do field.setParameters({
-                    attributes: {
-                        container: { class: [
-                            "freeform-column-" ~ width,
-                            "freeform-fieldtype-" ~ field.type,
-                        ]},
-                    },
-                }) %}
-                {% if field.type == "group" %}
-                    <div class="freeform-group">
-                        <label{{ field.attributes.label }}>
-                            {{ field.label }}
-                        </label>
-                        <div>
-                            {{ _self.renderRows(form, field.layout) }}
-                        </div>
-                    </div>
-                {% else %}
-                    {{ field.render }}
-                {% endif %}
-            {% endfor %}
-        </div>
-    {% endfor %}
+  {% for row in rows %}
+    {% set width = (12 / (row|length)) %}
+    <div{{ form.attributes.row|raw }}>
+      {% for field in row %}
+        {% do field.setParameters({
+          attributes: {
+            container: { class: [
+              "freeform-column-" ~ width,
+              "freeform-fieldtype-" ~ field.type,
+            ]},
+          },
+        }) %}
+        {% if field.type == "group" %}
+          <div class="freeform-group">
+            <label{{ field.attributes.label }}>
+              {{ field.label }}
+            </label>
+            <div>
+              {{ _self.renderRows(form, field.layout) }}
+            </div>
+          </div>
+        {% else %}
+          {{ field.render }}
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endfor %}
 {% endmacro %}
 
 {# Display form field rows and columns #}
@@ -1521,67 +1767,67 @@ Form formatting can also be extremely manual, if that is something you prefer. H
 {% set form = freeform.form("myForm") %}
 
 {{ form.renderTag({
-    returnUrl: "contact/success",
-    disable: ["submitButtons"]
+  returnUrl: "contact/success",
+  disable: ["submitButtons"]
 }) }}
 
-    {% if form.hasErrors %}
-        <div class="freeform-form-has-errors">
-            {{ "Error! Please review the form and try submitting again."|t('freeform') }}
-        </div>
-    {% endif %}
+  {% if form.hasErrors %}
+    <div class="freeform-form-has-errors">
+      {{ "Error! Please review the form and try submitting again."|t('freeform') }}
+    </div>
+  {% endif %}
 
-    {% set firstName = form.get("firstName") %}
-    {% set lastName = form.get("lastName") %}
-    {% set company = form.get("company") %}
-    {% set state = form.get("state") %}
+  {% set firstName = form.get("firstName") %}
+  {% set lastName = form.get("lastName") %}
+  {% set company = form.get("company") %}
+  {% set state = form.get("state") %}
 
-    <label>{{ firstName.label }}</label>
-    <input name="{{ firstName.handle }}" value="{{ firstName.value }}" />
-    {{ firstName.renderErrors() }}
+  <label>{{ firstName.label }}</label>
+  <input name="{{ firstName.handle }}" value="{{ firstName.value }}" />
+  {{ firstName.renderErrors() }}
 
-    <label>{{ lastName.label }}</label>
-    <input name="{{ lastName.handle }}" value="{{ lastName.value }}" />
-    {{ lastName.renderErrors() }}
+  <label>{{ lastName.label }}</label>
+  <input name="{{ lastName.handle }}" value="{{ lastName.value }}" />
+  {{ lastName.renderErrors() }}
 
-    {{ company.renderLabel() }}
-    {{ company.renderInput() }}
-    {{ company.renderErrors() }}
+  {{ company.renderLabel() }}
+  {{ company.renderInput() }}
+  {{ company.renderErrors() }}
 
-    <label>Email Address</label>
-    <input name="email" />
-    {{ form.get("email").renderErrors() }}
+  <label>Email Address</label>
+  <input name="email" />
+  {{ form.get("email").renderErrors() }}
 
-    <label>Phone</label>
-    <input name="phone" />
-    {% if form.get("phone").hasErrors %}
-        This field is required!
-    {% endif %}
+  <label>Phone</label>
+  <input name="phone" />
+  {% if form.get("phone").hasErrors %}
+    This field is required!
+  {% endif %}
 
-    <label>State</label>
-    <select name="state">
-        {# You may also manually hardcode each option as well, as long as these options exist inside the form builder #}
-        {% for option in state.options %}
-            <option value="{{ option.value }}" {{ option.value in state.value ? "selected" }}>{{ option.label }}</option>
-        {% endfor %}
-    </select>
+  <label>State</label>
+  <select name="state">
+    {# You may also manually hardcode each option as well, as long as these options exist inside the form builder #}
+    {% for option in state.options %}
+      <option value="{{ option.value }}" {{ option.value in state.value ? "selected" }}>{{ option.label }}</option>
+    {% endfor %}
+  </select>
 
-    {# Manual submit buttons #}
-    {% set button = form.currentPage.buttons %}
+  {# Manual submit buttons #}
+  {% set button = form.currentPage.buttons %}
 
-    <button {{ button.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
-        Submit
+  <button {{ button.submitRenderProps({ 'data-optional': 'attributes here' }) }}>
+    Submit
+  </button>
+  {% if button.back %}
+    <button {{ button.backRenderProps }}>
+      Back
     </button>
-    {% if button.back %}
-        <button {{ button.backRenderProps }}>
-            Back
-        </button>
-    {% endif %}
-    {% if button.save %}
-        <button {{ button.saveRenderProps }}>
-            Save
-        </button>
-    {% endif %}
+  {% endif %}
+  {% if button.save %}
+    <button {{ button.saveRenderProps }}>
+      Save
+    </button>
+  {% endif %}
 
 {{ form.renderClosingTag }}
 ```
@@ -1597,17 +1843,17 @@ Freeform explicitly requires that all options exist for the field in the form bu
 ```twig
 {% elseif field.handle == "myFieldHandle") %}
 
-    <select name="{{ field.handle }}">
-    {% for entry in craft.entries.section('news').limit(10) %}
-        <option value="{{ entry.handle }}"{% if field.value == entry.handle %} selected{% endif %}>
-            {{ entry.title }}
-        </option>
-    {% endfor %}
-    </select>
+  <select name="{{ field.handle }}">
+  {% for entry in craft.entries.section('news').limit(10) %}
+    <option value="{{ entry.handle }}"{% if field.value == entry.handle %} selected{% endif %}>
+      {{ entry.title }}
+    </option>
+  {% endfor %}
+  </select>
 
 {% else %}
 ```
 
 :::tip
-[Need to populate field options at template level for automated formatting templates? Check out the guide for workaround options.](../../guides/dynamic-data/populate-field-options-at-template-level.mdx)
+[Need to populate field options at template level for automated formatting templates? Check out the guide for workaround options.](../../guides/guide/populate-field-options-at-template-level.mdx)
 :::

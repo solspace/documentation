@@ -27,7 +27,7 @@ Maps data to the following endpoints:
 - **Account**
 - **Contact**
 
-Does your project require something else? &nbsp; <PrimaryButtonWithLink to='https://support.solspace.com/' label='Contact Us' />
+Does your project require something else? &nbsp; <PrimaryButtonWithLink to='/support/' label='Contact Us' />
 
 ### Fields
 
@@ -127,30 +127,6 @@ An alternate duplicate check on records is also available. When the **Check Cont
 </StepMarkdown>
 <StepMarkdown>
 
-### Additional Configuration
-
-#### Leads
-
-If you plan to use the _Leads_ endpoint, the following settings are available:
-
-- **Assign Lead Owner?** - Enabling this will make Salesforce assign a lead owner based on lead owner assignment rules in Salesforce.
-- **Sandbox Mode** - Enable this if your Salesforce account is in Sandbox mode.
-- **Using custom URL?** - Enable this if you connect to your Salesforce account with a custom company URL such as `mycompany.my.salesforce.com`.
-
-#### Opportunity
-
-If you plan to use the _Opportunity_ endpoint, the following settings are available:
-
-- **Close Date** - Enter a relative textual date string for the Close Date of the newly created Opportunity (e.g. `7 days`).
-- **Stage Name** - Enter the Stage Name the newly created Opportunity should be assigned to (e.g. `Prospecting`).
-- **Sandbox Mode** - Enable this if your Salesforce account is in Sandbox mode.
-- **Append checkboxes field values on Contact update?** - If a Contact already exists in Salesforce, enabling this will append additional checkboxes field values to the Contact inside Salesforce, instead of overwriting the options.
-- **Append checkboxes field values on Account update?** - If an Account already exists in Salesforce, enabling this will append additional checkboxes field values to the Account inside Salesforce, instead of overwriting the options.
-- **Check Contact email address and Account website when checking for duplicates?** - By default, Freeform will check against Contact first name, last name and email address, as well as and Account name. If enabled, Freeform will instead check against Contact email address only and Account website. If no website is mapped, Freeform will gather the website domain from the Contact email address mapped.
-
-</StepMarkdown>
-<StepMarkdown>
-
 ### Finish the Integration
 
 - Click the **Save** button.
@@ -182,6 +158,28 @@ To use this integration on your form(s), you'll need to configure each form indi
 
 </StepMarkdown>
 </VerticalStepWrapper>
+
+### Additional Configuration
+
+#### Leads
+
+If you plan to use the _Leads_ endpoint, the following settings are available:
+
+- **Assign Lead Owner?** - Enabling this will make Salesforce assign a lead owner based on lead owner assignment rules in Salesforce.
+- **Sandbox Mode** - Enable this if your Salesforce account is in Sandbox mode.
+- **Using custom URL?** - Enable this if you connect to your Salesforce account with a custom company URL such as `mycompany.my.salesforce.com`.
+
+#### Opportunity
+
+If you plan to use the _Opportunity_ endpoint, the following settings are available:
+
+- **Close Date** - Enter a relative textual date string for the Close Date of the newly created Opportunity (e.g. `7 days`).
+- **Stage Name** - Enter the Stage Name the newly created Opportunity should be assigned to (e.g. `Prospecting`).
+- **Sandbox Mode** - Enable this if your Salesforce account is in Sandbox mode.
+- **Append checkboxes field values on Contact update?** - If a Contact already exists in Salesforce, enabling this will append additional checkboxes field values to the Contact inside Salesforce, instead of overwriting the options.
+- **Append checkboxes field values on Account update?** - If an Account already exists in Salesforce, enabling this will append additional checkboxes field values to the Account inside Salesforce, instead of overwriting the options.
+- **Check Contact email address and Account website when checking for duplicates?** - By default, Freeform will check against Contact first name, last name and email address, as well as and Account name. If enabled, Freeform will instead check against Contact email address only and Account website. If no website is mapped, Freeform will gather the website domain from the Contact email address mapped.
+
 
 :::warning
 Please note that if you set this up initially on a development environment, you will need to update your callback URL and reauthorize the connection on your production environment. However, your settings and field mappings will remain intact.

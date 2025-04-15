@@ -90,7 +90,7 @@ export function EECalendarPageHeader() {
           <small>
             <SimpleTextLink
               to="https://expressionengine.com/add-ons/calendar"
-              label="RISK-FREE 30 DAY SATISFACTION GUARANTEE!"
+              label="Risk-free 30 day satisfaction guarantee!"
             />
           </small>
         </div>
@@ -137,7 +137,7 @@ export function EEFreeformPageHeader() {
           <small>
             <SimpleTextLink
               to="https://expressionengine.com/add-ons/freeform"
-              label="RISK-FREE 30 DAY SATISFACTION GUARANTEE!"
+              label="Risk-free 30 day satisfaction guarantee!"
             />
           </small>
         </div>

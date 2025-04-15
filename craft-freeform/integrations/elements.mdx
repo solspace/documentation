@@ -17,22 +17,22 @@ Freeform allows you to connect and map Freeform submission data to other Craft E
 <IconCards
   items={[
     {
-      iconSrc: require('@site/static/icons/api/craft-entries.png'),
+      iconSrc: require('@site/static/icons/integrations/craft-entries.png'),
       iconTitle: 'Craft Entries',
       link: '#craft-entries',
     },
     {
-      iconSrc: require('@site/static/icons/api/craft-users.png'),
+      iconSrc: require('@site/static/icons/integrations/craft-users.png'),
       iconTitle: 'Craft Users',
       link: '#craft-users',
     },
     {
-      iconSrc: require('@site/static/icons/api/solspace-calendar.png'),
+      iconSrc: require('@site/static/icons/integrations/solspace-calendar.png'),
       iconTitle: 'Calendar Events',
       link: '#calendar-events',
     },
     {
-      iconSrc: require('@site/static/icons/api/edit-elements.png'),
+      iconSrc: require('@site/static/icons/integrations/edit-elements.png'),
       iconTitle: 'Edit Elements',
       link: '#editing-elements',
     },
@@ -110,14 +110,14 @@ This integration allows you to map Freeform submission data to [Craft Entries](h
 
 ## Craft Users
 
-This integration allows you to map Freeform submission data to [Craft User](https://craftcms.com/docs/5.x/reference/element-types/users.html), essentially creating a powerful [User Registration form](../guides/speciality-forms/user-registration.mdx).
+This integration allows you to map Freeform submission data to [Craft User](https://craftcms.com/docs/5.x/reference/element-types/users.html), essentially creating a powerful [User Registration form](../guides/guide/user-registration.mdx).
 
 :::warning
 This feature requires a **Craft Pro** license in order to work, as Users are a Craft Pro feature.
 :::
 
 :::tip
-[Check out our guide for creating User registration forms.](../guides/speciality-forms/user-registration.mdx)
+[Check out our guide for creating User registration forms.](../guides/guide/user-registration.mdx)
 :::
 
 <details className="hidden-heading">
@@ -150,6 +150,8 @@ This feature requires a **Craft Pro** license in order to work, as Users are a C
           :::danger
           When using a manual Admin approving approach, it's still possible for a **Pending** user to circumvent this process if a [Forgot Password](https://craftcms.com/knowledge-base/front-end-user-accounts#reset-password-forms) form is available to them, as Craft currently does not have a concept of Admin approval only, and allows users to verify their account either through an email notification or using a _Forgot Password_ form.
           :::
+        - Toggle whether the new user account should **Take Over Inactive Accounts** or not.<Badge type="feature" text="New in 5.9.14+" />
+          - If this feature is enabled and the submitted email belongs to an "Inactive" user on this site, the new registration will take over that account. We strongly recommend disabling the "Activate Users" setting when using this feature.
         - The **Attribute Mapping** table allows you to map standard Craft User fields.
           - You will need to use the special [Password](../forms/fields.mdx#password) field for mapping passwords to User passwords. The Freeform **Password** field will NOT save any password data in the Freeform database tables. It is designed specifically for this purpose.
         - The **Field Mapping** table is where you map Freeform fields to the Craft User fields as needed.
@@ -294,7 +296,7 @@ If you already have a Freeform form to handle creating Craft elements (e.g. User
   - Logged in users / groups with the **Edit users** Craft permission may modify other user accounts.
 - There are currently some **limitations with User account editing**:
   - Users cannot be asked to enter their current password to update their profile.
-  - Users currently can update their email address, but there will currently be no additional validation from Craft (such as having the user verify their email address, etc). A future version may address this.
+  - Users currently can update their email address, but there will currently be no additional validation from Craft (such as having the user verify their email address, etc). <secret>A future version may address this.</secret>
   - Users may see redundant error messages for fields like _Email Address_, as some of Craft's validation will be show up in addition to Freeform validation.
   - If you have users / groups with the **Edit users** Craft permission but do not want them editing users on the front end, you'll need to use template conditionals to prevent it (in the event you provide a dynamic way of doing so for Admins, e.g. URI segments).
   - For self-serve "profile update" forms, you should be using something like `elementId: currentUser.id` (see docs example below).

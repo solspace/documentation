@@ -15,7 +15,7 @@ Freeform Pro edition includes Conditional Rules logic that can be added to forms
 To begin adding rules to your form, click on the **Rules** tab in the form builder and follow the options.
 
 :::tip
-[Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../guides/testing/troubleshooting-form-issues.mdx)
+[Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../guides/guide/troubleshooting-form-issues.mdx)
 :::
 
 <Player
@@ -166,13 +166,13 @@ There are 3 different approaches you can take:
 {% set company = form.get("company") %}
 {% set email = form.get("email") %}
 
-<div class="form-field" {{ company.attributes.container }}>
+<div class="form-field" {{ company.attributes.container|raw }}>
     {{ company.renderLabel() }}
     {{ company.renderInput() }}
     {{ company.renderErrors() }}
 </div>
 
-<div class="form-field" {{ email.attributes.container }}>
+<div class="form-field" {{ email.attributes.container|raw }}>
     <label>Email Address</label>
     <input name="email" value="{{ email.value }}" />
     {{ email.renderErrors() }}

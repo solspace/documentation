@@ -13,35 +13,49 @@ If you wish to manage the configuration of Freeform settings via Craft's [Projec
 <div className="flex overflow-scroll">
 <div>
 
-```yaml {2,8,14,17,22,28,36,40,48,52,62,79,88}
+```yaml
 freeform:
+// highlight-start
   # GENERAL INFO
+// highlight-end
   edition: pro
   enabled: true
   licenseKey: EXAMPLETEST12EXAMPLETEST
   schemaVersion: 5.0.0
   settings:
+// highlight-start
     # GENERAL SETTINGS
+// highlight-end
     pluginName: ''
     defaultView: dashboard
     badgeType: all
     sitesEnabled: true
+    queuePriority: ''
+    loggingLevel: 'debug'
 
+// highlight-start
     # ELEMENT FIELD TYPE
+// highlight-end
     formFieldShowOnlyAllowedForms: false
 
+// highlight-start
     # EXPORTING
+// highlight-end
     removeNewlines: true
     exportLabels: true
     exportHandlesAsNames: false
 
+// highlight-start
     # SUBMISSION DATA
+// highlight-end
     fillWithGet: true
     updateSearchIndexes: true
     purgableSubmissionAgeInDays: '365'
     purgableUnfinalizedAssetAgeInMinutes: 180
 
+// highlight-start
     # FORM SUBMIT BEHAVIOR
+// highlight-end
     formSubmitDisable: true
     autoScrollToErrors: true
     autoScroll: true
@@ -49,11 +63,15 @@ freeform:
     useQueueForEmailNotifications: true
     useQueueForIntegrations: true
 
+// highlight-start
     # FREEFORM SCRIPTS
+// highlight-end
     scriptInsertLocation: footer
     scriptInsertType: files
 
+// highlight-start
     # FORM SESSIONS
+// highlight-end
     sessionContext: payload
     sessionContextSecret: ''
     sessionContextTimeToLiveMinutes: '180'
@@ -61,38 +79,40 @@ freeform:
     sessionEntryMaxCount: 50
     sessionEntryTTL: 10800
 
+// highlight-start
     # SAVE & CONTINUE LATER
+// highlight-end
     saveFormTtl: '14'
     saveFormSessionLimit: '5'
 
+// highlight-start
     # TEMPLATE MANAGER
+// highlight-end
     formTemplateDirectory: _freeform/formatting/
     emailTemplateDirectory: _freeform/emails/
     emailTemplateStorageType: files_database
+    allowBuilderTemplateCreation: true
     emailTemplateDefault: files
     allowFileTemplateEdit: true
     defaultFromEmail: '{{ craft.app.projectConfig.get("email.fromEmail") }}'
     defaultFromName: '{{ craft.app.projectConfig.get("email.fromName") }}'
     successTemplateDirectory: _freeform/success/
 
-    # SPAM BLOCKING
+// highlight-start
+    # SPAM PROTECTION
+// highlight-end
     spamProtectionBehavior: simulate_success
     bypassSpamCheckOnLoggedInUsers: false
     spamFolderEnabled: true
     purgableSpamAgeInDays: '60'
-    blockedEmails: '*@yahoo.com\n*.ru'
-    showErrorsForBlockedEmails: false
-    blockedEmailsError: 'Invalid Email Address'
-    blockedKeywords: "viagra\ncheesies\ntuna\r\n*Д*"
-    showErrorsForBlockedKeywords: false
-    blockedKeywordsError: 'Invalid Entry Data'
-    blockedIpAddresses: ''
     submissionThrottlingCount: ''
     submissionThrottlingTimeFrame: m
     minimumSubmitTime: '5'
     formSubmitExpiration: ''
 
+// highlight-start
     # NOTICES & ALERTS
+// highlight-end
     displayFeed: true
     alertNotificationRecipients: bob@acmewidgets.net
     digestFrequency: 2
@@ -101,7 +121,9 @@ freeform:
     clientDigestRecipients: bob@acmewidgets.net
     digestOnlyOnProduction: false
 
+// highlight-start
     ## FORM BUILDER DEFAULTS
+// highlight-end
     defaults:
       previewHtml: true
       twigInHtml: true
@@ -183,35 +205,49 @@ freeform:
 </div>
 <div className="no-copy">
 
-```_ {2,8,14,17,22,28,36,40,48,52,62,79,88}
+```_
 
+// highlight-start
 GENERAL INFO
+// highlight-end
 ← Options are `express`, `lite` and `pro`.
 
 
 
 
+// highlight-start
 GENERAL SETTINGS
+// highlight-end
 ← Custom Plugin Name (Pro).
 ← Default CP View. Options are 'forms' or 'submissions'.
 ← Plugin Badge. Options are: '', 'all', 'notices', 'errors', 'submissions', or 'spam'.
-← Site Filtering for Forms and Submissions
+← Site-Aware Forms
+← Queue Job Priority. Leave empty to use the Craft default of '1024' (new in 5.5.6+)
+← Logging Level. Options are: 'error', 'info' or 'debug' (New in 5.9.7+)
 
+// highlight-start
 ELEMENT FIELD TYPE
+// highlight-end
 ← Restrict form options in the Form field type to the user's permissions.
 
+// highlight-start
 EXPORTING
+// highlight-end
 ← Remove Newlines from Textareas for Exporting
 ← Use Option Labels when Exporting
 ← Use Field Handles for Headings when Exporting
 
+// highlight-start
 SUBMISSION DATA
+// highlight-end
 ← Fill Form Values from the GET Query String
 ← Enable Search Index Updating on New Submissions
 ← Automatically Purge Submission Data
 ← Purge Unfinalized Asset Files (in minutes)
 
+// highlight-start
 FORM SUBMIT BEHAVIOR
+// highlight-end
 ← Disable Submit Button on Form Submit
 ← Automatically Scroll to Form on Errors and Multipage forms
 ← Automatically Scroll to top of the Form on AJAX submit
@@ -219,11 +255,15 @@ FORM SUBMIT BEHAVIOR
 ← Use Queue for Email Notifications
 ← Use Queue for Integrations
 
+// highlight-start
 FREEFORM SCRIPTS
+// highlight-end
 ← Script Insert Location. Options are 'footer' (recommended), 'header', 'form', or 'manual'.
 ← Script Insert Type. Options are: 'files' (recommended) or 'inline'.
 
+// highlight-start
 FORM SESSIONS
+// highlight-end
 ← Freeform Session Context. Options are: 'payload' (recommended), 'session' (PHP) or 'database' (DB Table).
   ← Secret key (Encrypted Payload only). Will use server key if left empty.
   ← Session length in minutes (PHP Sessions & DB Table) - the amount of active forms a user can have.
@@ -231,38 +271,40 @@ FORM SESSIONS
   ← PHP Session entry limit
   ← PHP Session timeout (in seconds) - default 3hrs.
 
+// highlight-start
 SAVE & CONTINUE LATER
+// highlight-end
 ← Number of Days to Keep Saved Form Data
 ← Maximum Number of Saved Forms Per Session
 
+// highlight-start
 TEMPLATE MANAGER
+// highlight-end
 ← Formatting Templates Directory Path
 ← Email Notification Templates Directory Path
   ← Template Storage Type
-  ← Default Email Template Creation Method
-  ← Allow File-based Email Templates to be created inside the Control Panel
+  ← Allow New Templates to be created inside the Form Builder (New in 5.10.8+)
+  ← New Template Type for Form Builder (Renamed in 5.10.8+)
+  ← Allow File-based Email Templates to be managed inside the Notifications area
   ← Default 'From Email' for new Email Notification templates
-← Default 'From Name' for new Email Notification templates
+  ← Default 'From Name' for new Email Notification templates
 ← Success Templates Directory Path
 
+// highlight-start
 SPAM PROTECTION
+// highlight-end
 ← Spam Protection Behavior. Options are 'simulate_success' (recommended) or 'display_errors'.
 ← Bypass All Spam Checks for Logged in Users
 ← Use Spam Folder
   ← Days After Submission Date to Purge
-← Block Email addresses. Separate multiples with '\n'.
-  ← Show errors under affected fields.
-    ← Error message to be shown when a blocked email address is used.
-← Block Keywords. Separate multiples with '\n'.
-  ← Show errors under affected fields.
-    ← Error message to be shown when a blocked keyword is used.
-← Block IP addresses. Separate multiples with '\n'.
 ← Form Submission Throttling (numeric value in minutes or seconds)
   ← Time Measurement for Form Submission Throttling. Options are 'm' (minutes) or 's' (seconds).
 ← Minimum Submit Time (in seconds)
 ← Form Submit Expiration (in minutes)
 
+// highlight-start
 NOTICES & ALERTS
+// highlight-end
 ← Display Update Warnings & Notices
 ← Send Email Alerts for Failed Notifications
 ← Developer Digest Email Frequency. Options are '-1' (Daily), '0' (Weekly - Sundays), '1' (Weekly - Mondays), etc.
@@ -271,7 +313,9 @@ NOTICES & ALERTS
   ← Stats Digest Email Addresses
 ← Send Digest Notifications on Live Environment only
 
+// highlight-start
 FORM BUILDER DEFAULTS
+// highlight-end
 ← NEW IN 5.0+  Set defaults and locks for form builder settings.
   ← Live Render HTML Markup
   ← Allow Twig to be enabled in HTML blocks
