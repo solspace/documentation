@@ -47,20 +47,20 @@ const StepMarkdown: React.FC<StepMarkdownProps> = ({
       {stepNumber && (
         <div className="absolute h-full">
           <div className="flex flex-col items-center mr-6 step-number-wrapper h-full">
-            <div className="flex w-8 p-1.5 items-center justify-center text-sm font-bold border rounded-lg bg-[#ff6624] text-white dark:text-black step-number">
+            <div className="flex w-[25px] h-[25px] px-0.5 py-0 items-center justify-center text-md font-bold border rounded-lg bg-[#ff6624] text-white dark:text-black step-number">
               {stepNumber}
             </div>
           </div>
         </div>
       )}
       <div
-        className="flex flex-col mt-1 max-w-[1045px] step-content"
+        className="flex flex-col max-w-[1045px] step-content"
         ref={contentRef}
       >
-        <div className="ml-12">
+        <div className="ml-10">
           {stepTitle && (
             <h3
-              className="text-[#ff6624] ml-12"
+              className="text-black dark:text-white ml-10"
             >
               {stepTitle}
             </h3>
