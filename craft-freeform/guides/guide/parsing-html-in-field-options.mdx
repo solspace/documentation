@@ -10,19 +10,20 @@ If you like, you can enter basic HTML (`<b>`, `<i>`, `<a>`, etc) into Freeform f
 
 The demo and sample templates will likely handle the HTML in the form rendering automatically, but in cases where it doesn't, you may need to apply the `raw` Twig filter:
 
-```twig {11} showLineNumbers
+```twig {12}
 {{ field.renderLabel() }}
 
 {% for option in field.options %}
-    <div class="checkbox">
-        <label>
-            <input type="checkbox"
-                name="{{ field.handle }}[]"
-                value="{{ option.value }}"
-                {{ option.value in field.value ? "checked" : "" }}
-            />
-            {{ option.label|raw }}
-        </label>
-    </div>
+  <div class="checkbox">
+    <label>
+      <input
+        type="checkbox"
+        name="{{ field.handle }}[]"
+        value="{{ option.value }}"
+        {{ option.value in field.value ? "checked" : "" }}
+      />
+      {{ option.label|raw }}
+    </label>
+  </div>
 {% endfor %}
 ```

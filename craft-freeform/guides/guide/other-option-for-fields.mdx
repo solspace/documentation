@@ -2,53 +2,65 @@
 sidebar_position: 5
 ---
 
+import Player from 'react-player';
 import { Photo } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-# Include an "Other" Option for Fields
+# Include an "Other" option for fields
 
-It's possible to have an extra option inside your [Dropdown](../../forms/fields.mdx#dropdown) or [Radios](../../forms/fields.mdx#radios) field containing an "Other" choice, and when chosen, display an input field for them to fill in their other option.
+You can add an additional option labeled "Other" to your [Dropdown](../../forms/fields.mdx#dropdown) or [Radios](../../forms/fields.mdx#radios) field. When users select this option, you can display an input field for them to specify their response.
 
-While Freeform fields don't have this built-in, you can simulate this with the [Conditional Rules](../../forms/conditional-rules.mdx) feature. You can set it so that when a user selects the "Other" option in a Dropdown/Radios field, an extra field (its own field, not related to that Dropdown/Radios field) appears for the user to fill it in.
+While Freeform fields do not have this functionality built-in, you can achieve a similar effect using the [Conditional Rules](../../forms/conditional-rules.mdx) feature. You can configure it so that when a user selects the "Other" option in the Dropdown/Radios field, an additional field (which is independent of the Dropdown/Radios field) appears for the user to complete.
 
 ## Instructions
 
 Here's how to do it:
 
 <VerticalStepWrapper>
-<StepMarkdown>
-Add an option named `Other` to one of your existing _Dropdown_ or _Radios_ fields (this can also apply to other field types as well).
+  <StepMarkdown>
+    Add an option named `Other` to one of your existing _Dropdown_ or _Radios_ fields (this can also apply to other field types as well).
 
-For this example, we'll make it a Radio field and call it `Favorite Pie` with a handle of `favoritePie`.
+    For this example, we'll make it a [Radios](../../forms/fields.mdx#radios) field and call it `Favorite Pie` with a handle of `favoritePie`.
 
-</StepMarkdown>
-<StepMarkdown>
-Create a new field of the _Text_ type and place it in the field layout close to your _Dropdown_ or _Radios_ field (wherever you'd like it to show up).
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/guides/other-option-builder-1.png')}
+      alt="Add an 'Other' option to your field"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    Create a new [Text](../../forms/fields.mdx#text) field and place it in the field layout close to your `Favorite Pie` _Radios_ field (wherever you'd like it to show up).
 
-For this example, we'll call it `Provide your own flavor...` with a handle of `favoritePieOther`.
+    For this example, we'll call it `Provide your own flavor...` with a handle of `favoritePieOther`.
 
-You might notice in the screenshot below that a blank [HTML block](../../forms/fields.mdx#html) was added at the right as a workaround to have the **Other** field not take the full width of the form.
+    :::info
+    You might notice in the screenshot below that a blank [HTML](../../forms/fields.mdx#html) field was added at the right as a workaround to have the **Other** field not take the full width of the form.
+    :::
 
-</StepMarkdown>
-<StepMarkdown>
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/guides/other-option-builder-2.png')}
+      alt="Create your 'Other' field"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    In the Conditional [Rules](../../forms/conditional-rules.mdx) tab, follow these steps:
 
-In the [Conditional Rules](../../forms/conditional-rules.mdx) tab, follow these steps:
+    - Click on the `Provide your own flavor...` field on the left column.
+    - Click the **Add rules** button.
+    - In the criteria section below, select your `Favorite Pie` field.
+    - For the logic, choose `is equal to`.
+    - Select `Other` for the field option.
 
-- Add rules to Page 1 (or whatever your page name is).
-- For _Field Rules_, select _Add..._ and choose the `Provide your own flavor...` field.
-- In the _Add criteria_ dropdown, choose the `Favorite Pie` field.
-- Set the other dropdown to be your new `Other` option.
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/guides/other-option-builder-3.png')}
+      alt="Configure conditional rules for your 'Other' field"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    Save the form and check it out on the front end:
 
-</StepMarkdown>
+    <Player
+      url={require('@site/static/videos/craft/freeform/v5/guide-other-field.mp4').default}
+      muted loop playing width="100%" height="100%"
+    />
+  </StepMarkdown>
 </VerticalStepWrapper>
-
-### Screenshots
-
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/guides/other-option-field-cp.png')}
-  alt="Configuration inside CP"
-/>
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/guides/other-option-field-fe.png')}
-  alt="Visual of Front End"
-/>
