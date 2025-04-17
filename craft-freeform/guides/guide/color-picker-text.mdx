@@ -14,100 +14,94 @@ import {
 It's possible to easily implement `color` field type styling/handling on a regular [Text](../../forms/fields.mdx#text) field.
 
 <VerticalStepWrapper>
-<StepMarkdown>
-To familiarize yourself with the Color field type, a basic code example looks something like this:
+  <StepMarkdown>
+    To familiarize yourself with the Color field type, a basic code example looks something like this:
 
-```html showLineNumbers
-<label for="myFieldHandle">Choose a Color</label>
-<input type="color" name="myFieldHandle" id="myFieldHandle" value="#058ffe" />
-```
+    ```html
+    <label for="myFieldHandle">Choose a Color</label>
+    <input type="color" name="myFieldHandle" id="myFieldHandle" value="#058ffe" />
+    ```
 
-This will output the following (go ahead and play with it!):
+    This will output the following (go ahead and play with it!):
 
-<blockquote className="text-sm font-italic rounded-md p-4 mb-7 form-styling">
-  <p className="text-blue-500 mb-2">Choose a Color</p>
-  <ColorPicker />
-</blockquote>
+    <blockquote className="text-sm font-italic rounded-md p-4 mb-7 form-styling">
+      <p className="text-blue-500 mb-2">Choose a Color</p>
+      <ColorPicker />
+    </blockquote>
+  </StepMarkdown>
+  <StepMarkdown>
+    What you might like to do is replace a [Text](../../forms/fields.mdx#text) field with a color picker. That could look something like this:
 
-</StepMarkdown>
-<StepMarkdown>
+    ```twig
+    {{ field.renderLabel() }}
+    <input type="color" id="form-input-{{ field.handle }}" name="{{ field.handle }}" value="#058ffe">
+    ```
+  </StepMarkdown>
+  <StepMarkdown>
+    To add a bit of your own styling to the Color field, you can begin with the following CSS:
 
-What you might like to do is replace a [Text](../../forms/fields.mdx#text) field with a color picker. That could look something like this:
+    ```css
+    input[type='color'] {
+      -webkit-appearance: none;
+      border: 1px solid #cbced0 !important;
+      border-radius: 50% !important;
+      width: 35px !important;
+      height: 35px !important;
+      padding: 1px !important;
+      cursor: pointer;
+    }
+    input[type='color']::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+    input[type='color']::-webkit-color-swatch {
+      border: none;
+      border-radius: 50%;
+    }
+    input[type='color']::-moz-color-swatch {
+      border: none;
+      border-radius: 50%;
+    }
+    ```
 
-```twig showLineNumbers
-{{ field.renderLabel() }}
-<input type="color" id="form-input-{{ field.handle }}" name="{{ field.handle }}" value="#058ffe">
-```
+    There is no javascript necessary for this to work.
 
-</StepMarkdown>
-<StepMarkdown>
+    The result should look something like this:
 
-To add a bit of your own styling to the Color field, you can begin with the following CSS:
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/guides/color-picker-1.png')}
+      alt="Choose Color" scale={30}
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    In order for this to automatically happen inside a [formatting template](../../templates/formatting/index.mdx), you'll want to create a new one if you haven't already. If you using the [Basic Light](../../templates/formatting/basic-light.mdx) formatting template as a starting point, your code might look something like this:
 
-```css showLineNumbers
-input[type='color'] {
-  -webkit-appearance: none;
-  border: 1px solid #cbced0 !important;
-  border-radius: 50% !important;
-  width: 35px !important;
-  height: 35px !important;
-  padding: 1px !important;
-  cursor: pointer;
-}
-input[type='color']::-webkit-color-swatch-wrapper {
-  padding: 0;
-}
-input[type='color']::-webkit-color-swatch {
-  border: none;
-  border-radius: 50%;
-}
-input[type='color']::-moz-color-swatch {
-  border: none;
-  border-radius: 50%;
-}
-```
-
-There is no javascript necessary for this to work.
-
-The result should look something like this:
-
-<Photo
-  scale={40}
-  img={require('@site/static/img/craft/freeform/v5/guides/color-picker-1.png')}
-  alt="Choose Color"
-/>
-
-</StepMarkdown>
-<StepMarkdown>
-In order for this to automatically happen inside a [formatting template](../../templates/formatting/index.mdx), you'll want to create a new one if you haven't already. If you using the [Basic Light](../../templates/formatting/basic-light.mdx) formatting template as a starting point, your code might look something like this:
-
-```twig {4-8} showLineNumbers
-{# Shortened for Example #}
-...
+    ```twig {4-8}
+    {# Shortened for Example #}
+    ...
     <div class="freeform-fieldtype-{{ field.type }}">
-        {% if field.handle == "selectColor" %}
-            {{ field.renderLabel() }}
-            {{ field.renderInstructions() }}
-            <input type="color" id="form-input-{{ field.handle }}" name="{{ field.handle }}" value="#058ffe">
-            {{ field.renderErrors() }}
-        {% else %}
-            {{ field.render() }}
-...
-{# Shortened for Example #}
-```
+      {% if field.handle == "selectColor" %}
+        {{ field.renderLabel() }}
+        {{ field.renderInstructions() }}
+        <input type="color" id="form-input-{{ field.handle }}" name="{{ field.handle }}" value="#058ffe">
+        {{ field.renderErrors() }}
+      {% else %}
+        {{ field.render() }}
+    ...
+    {# Shortened for Example #}
+    ```
 
-:::info
-Don't forget to include the custom CSS mentioned in [Step 3](#step-3).
-:::
+    :::info
+    Don't forget to include the custom CSS mentioned in [Step 3](#step-3).
+    :::
 
-The result might look something like this:
+    The result might look something like this:
 
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/guides/color-picker-2.png')}
-  alt="Choose Color"
-/>
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/guides/color-picker-2.png')}
+      alt="Choose Color"
+    />
 
-</StepMarkdown>
+  </StepMarkdown>
 </VerticalStepWrapper>
 
 :::info

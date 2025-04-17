@@ -9,101 +9,105 @@ import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
 A rich text editor such as [TinyMCE](https://www.tiny.cloud/tinymce/) can easily be added to your form. You simply target a specific [Textarea](../../forms/fields.mdx#textarea) field and the editor's JS will take over that field and handle the rest.
 
+:::info
+The process is likely similar if there's a different editor you'd like to add support for.
+:::
+
 ## Instructions
 
 Here's a list of the steps needed to do this:
 
 <VerticalStepWrapper>
-<StepMarkdown>
-- [Create or log into an account](https://www.tiny.cloud/auth/signup/) on the TinyMCE website.
-- Add any domains (including test ones) you plan on using to the [Approved Domains](https://www.tiny.cloud/my-account/domains/) area.
+  <StepMarkdown>
+    [Create or log into an account](https://www.tiny.cloud/auth/signup/) on the TinyMCE website. Then add any domains (including test ones) you plan on using to the [Approved Domains](https://www.tiny.cloud/my-account/domains/) area.
+  </StepMarkdown>
+  <StepMarkdown>
+    Download a copy of the [TinyMCE SDK](https://www.tiny.cloud/get-tiny/).
 
-</StepMarkdown>
-<StepMarkdown>
-- Download a copy of the [TinyMCE SDK](https://www.tiny.cloud/get-tiny/).
-- Click on the **Download TinyMCE SDK Now** button specifically.
-- Unzip the package and upload the contents to a publicly accessible folder on your site, e.g. `/assets/js/tinymce/`.
+    Click on the **Download TinyMCE SDK Now** button specifically. Unzip the package and upload the contents to a publicly accessible folder on your site, e.g. `/assets/js/tinymce/`.
+  </StepMarkdown>
+  <StepMarkdown>
+    In the form builder for your form, select the *textarea* field you'd like this editor to apply to.
 
-</StepMarkdown>
-<StepMarkdown>
-- In the form builder for your form, select the *textarea* field you'd like this editor to apply to.
-- In the *Input* area of the **Attribute Editor** section for the field's settings, add a new row and give the field an ID, e.g. `id` and `tinymce-example`.
-<Photo  img={require('@site/static/img/craft/freeform/v5/guides/tinymce-formbuilder.png')} alt="Tiny MCE Builder" />
-- Save the form.
+    In the *Input* area of the **Attribute Editor** section for the field's settings, add a new row and give the field an ID, e.g. `id` and `tinymce-example`.
+    <Photo img={require('@site/static/img/craft/freeform/v5/guides/tinymce-formbuilder.png')} alt="Tiny MCE Builder" />
 
-</StepMarkdown>
-<StepMarkdown>
-- Open up the template you wish to load this form and TinyMCE.
-- [Include the TinyMCE script in the page](https://www.tiny.cloud/docs/tinymce/6/zip-install/), e.g. `<script src="/assets/js/tinymce/tinymce.min.js"></script>`
-- [Initialize TinyMCE](https://www.tiny.cloud/docs/tinymce/6/zip-install/) for the textarea in your form. For the `selector` parameter, be sure to target the ID we assigned the textarea in the form builder. The absolute bare minimum would be:
-    ```js showLineNumbers
+    Save the form.
+  </StepMarkdown>
+  <StepMarkdown>
+    Open up the template you wish to load this form and TinyMCE.
+
+    [Include the TinyMCE script in the page](https://www.tiny.cloud/docs/tinymce/6/zip-install/), e.g. `<script src="/assets/js/tinymce/tinymce.min.js"></script>`
+
+    [Initialize TinyMCE](https://www.tiny.cloud/docs/tinymce/6/zip-install/) for the textarea in your form. For the `selector` parameter, be sure to target the ID we assigned the textarea in the form builder. The absolute bare minimum would be:
+
+    ```js
     <script>
-        tinymce.init({
-            selector: 'textarea#tinymce-example'
-        });
+      tinymce.init({
+        selector: 'textarea#tinymce-example'
+      });
     </script>
     ```
+  </StepMarkdown>
+  <StepMarkdown>
+    Load the template with the form and TinyMCE scripts, and it should have applied itself. Your complete [basic template](https://www.tiny.cloud/docs/tinymce/6/basic-example/) should look something like this:
 
-</StepMarkdown>
-<StepMarkdown>
-- Load the template with the form and TinyMCE scripts, and it should have applied itself. Your complete [basic template](https://www.tiny.cloud/docs/tinymce/6/basic-example/) should look something like this:
-
-```twig showLineNumbers
+    ```twig
     <html>
     <head></head>
     <body>
-        {{ freeform.form("yourFormHandle").render() }}
+      {{ freeform.form("yourFormHandle").render() }}
 
-        <script src="/assets/js/tinymce/tinymce.min.js"></script>
-        <script>
-            tinymce.init({
-                selector: 'textarea#tinymce-example'
-            });
-        </script>
+      <script src="/assets/js/tinymce/tinymce.min.js"></script>
+      <script>
+        tinymce.init({
+          selector: 'textarea#tinymce-example'
+        });
+      </script>
     </body>
     </html>
-```
+    ```
+  </StepMarkdown>
+  <StepMarkdown>
+    TinyMCE offers a wide range of settings to [customize the editor options and layout](https://www.tiny.cloud/docs/tinymce/6/customize-ui/). The below example offers a good selection of editing options and controls:
 
-</StepMarkdown>
-<StepMarkdown>
-- TinyMCE offers a wide range of settings to [customize the editor options and layout](https://www.tiny.cloud/docs/tinymce/6/customize-ui/). The below example offers a good selection of editing options and controls:
-    ```js showLineNumbers
+    ```js
     <script>
-        tinymce.init({
-            toolbar_location: 'top',
-            menubar: false,
-            statusbar: false,
-            selector: 'textarea#tinymce-example',
-            height: 500,
-            plugins: [
-                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                'insertdatetime', 'media', 'table', 'help', 'wordcount'
-            ],
-            toolbar: 'undo redo | blocks | ' +
-                'bold italic forecolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist | ' +
-                'link image | ' +
-                'removeformat code | help',
-            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
-        });
+      tinymce.init({
+        toolbar_location: 'top',
+        menubar: false,
+        statusbar: false,
+        selector: 'textarea#tinymce-example',
+        height: 500,
+        plugins: [
+          'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+          'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+          'insertdatetime', 'media', 'table', 'help', 'wordcount'
+        ],
+        toolbar: 'undo redo | blocks | ' +
+          'bold italic forecolor | alignleft aligncenter ' +
+          'alignright alignjustify | bullist numlist | ' +
+          'link image | ' +
+          'removeformat code | help',
+        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
+      });
     </script>
     ```
-- The above code will render in your form like this:
 
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/guides/tinymce-preview.png')}
-  alt="Tiny MCE Preview"
-/>
+    The above code will render in your form like this:
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/guides/tinymce-preview.png')}
+      alt="Tiny MCE Preview"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    Anything submitted through the editor will store the data as HTML. By default, Freeform will not parse the HTML in [Submissions queries](../../templates/queries/submissions.mdx) or [Email Notification](../../forms/email-notifications.mdx) templates. To parse the HTML, be sure to apply the `|raw` filter to the textarea.
 
-</StepMarkdown>
-<StepMarkdown>
-- Anything submitted through the editor will store the data as HTML. By default, Freeform will not parse the HTML in [Submissions queries](../../templates/queries/submissions.mdx) or [Email Notification](../../forms/email-notifications.mdx) templates. To parse the HTML, be sure to apply the `|raw` filter to the textarea.
-- In the Submissions query in front end, this could be done by applying `|raw` to `submission[field.handle]`, like this:
-    ```twig {11-12} showLineNumbers
+    In the Submissions query in front end, this could be done by applying `|raw` to `submission[field.handle]`, like this:
+    ```twig {11-12}
     {% set submission = freeform.submissions({
-        form: craft.app.request.segment(3),
-        id: craft.app.request.segment(4),
+      form: craft.app.request.segment(3),
+      id: craft.app.request.segment(4),
     }).one %}
 
     <h3>{{ submission.title }}</h3>
@@ -111,33 +115,28 @@ Here's a list of the steps needed to do this:
 
     <div class="field-data">
     {% for field in submission %}
-        {% if field.type == "textarea" %}
-            {{ submission[field.handle]|raw }}
-        {% else %}
-            {{ submission[field.handle] }}
-        {% endif %}
+      {% if field.type == "textarea" %}
+        {{ submission[field.handle]|raw }}
+      {% else %}
+        {{ submission[field.handle] }}
+      {% endif %}
     {% endfor %}
     </div>
     ```
 
-- In an email notification template, it might look like this:
-  ```twig {5-6} showLineNumbers
-  <h2>New submission on your {{ form.name }} form</h2>
-  <p>Submitted on: {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}</p>
-  <ul>
+    In an email notification template, it might look like this:
+    ```twig {5-6}
+    <h2>New submission on your {{ form.name }} form</h2>
+    <p>Submitted on: {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}</p>
+    <ul>
       {% for field in allFields %}
-          {% if field.handle == "message" %}
-              <li>{{ field.label }}:<br />{{ field.value|raw }}</li>
-          {% else %}
-              <li>{{ field.label }}: {{ field.valueAsString }}</li>
-          {% endif %}
+        {% if field.handle == "message" %}
+          <li>{{ field.label }}:<br />{{ field.value|raw }}</li>
+        {% else %}
+          <li>{{ field.label }}: {{ field.valueAsString }}</li>
+        {% endif %}
       {% endfor %}
-  </ul>
-  ```
-
-</StepMarkdown>
+    </ul>
+    ```
+  </StepMarkdown>
 </VerticalStepWrapper>
-
-:::info
-The process is likely similar if there's a different editor you'd like to add support for.
-:::
