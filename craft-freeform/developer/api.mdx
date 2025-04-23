@@ -2,13 +2,17 @@
 sidebar_position: 8
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { Badge, BadgeGroup } from '@site/src/components/utils';
+
 # Freeform API
 
 ## Getting Freeform Forms and Submissions inside your Controller
 
 To get any Freeform object, all you have to do is access the right service and use the methods provided within. You can access Freeform services by getting the Freeform plugin instance and then accessing the services directly:
 
-```php showLineNumbers
+```php
 $plugin = Freeform::getInstance();
 
 // Most commonly used services
@@ -27,7 +31,7 @@ $plugin->honeypot;
 
 To get a specific form, one would access the `FormsService` and ask for the form providing an ID or a handle:
 
-```php showLineNumbers
+```php
 // Access a form by ID
 $form = Freeform::getInstance()->forms->getFormById($myFormId);
 if ($form) {
@@ -45,14 +49,14 @@ $forms = Freeform::getInstance()->forms->getAllForms();
 
 There are many ways to fetch a submission. You might use the `SubmissionsService` and fetch a submissions by ID or a token:
 
-```php showLineNumbers
+```php
 $submission = Freeform::getInstance()->submissions->getSubmissionById($myId);
 $submission = Freeform::getInstance()->submissions->getSubmissionByToken($myToken);
 ```
 
 Or you might use the `SubmissionQuery` to find more than just one submission that matches your criteria:
 
-```php showLineNumbers
+```php
 use Solspace\Freeform\Elements\Submission;
 
 $submissions = Submission::find()
@@ -61,13 +65,87 @@ $submissions = Submission::find()
   ->all();
 ```
 
+
+## Creating Submissions Programmatically<Badge type="feature" text="5.10.10+" />
+Freeform includes a method for directly submitting data to a form. If you need to generate a submission programmatically for your form, here's a preview of how you might do that:
+
+:::danger
+Only use this method when you need to create a submission by bypassing important security features such as CSRF tokens and honeypots via an API call. This method should not replace the standard submission process that front-end users normally follow.
+:::
+
+:::info
+Email notifications and integrations will be triggered/attempted through this process.
+
+Your form must also have the **Store Submitted Data for this Form** setting enabled for the form in order for this to work.
+:::
+
+<Tabs>
+<TabItem value="form-submission-service-method" label="Service Method" default>
+
+```php
+$form = Freeform::getInstance()->forms->getFormByHandle('myFormHandle');
+
+Freeform::getInstance()->submit->submit($form, [
+  'firstName' => 'Happy',
+  'lastName' => 'Gilmore',
+  'emailAddress' => 'some@email.com',
+  'phone' => '+1 (555) 555-5555',
+  'favoritePie' => 'Blueberry',
+  'testField' => 'New Submit Test',
+  'testDropdown' => 98,
+]);
+```
+
+</TabItem>
+<TabItem value="form-submission-service-php" label="PHP">
+
+```php
+$form = Freeform::getInstance()->forms->getFormByHandle('myFormHandle');
+$form->submit([
+  'firstName' => 'Happy',
+  'lastName' => 'Gilmore',
+  'emailAddress' => 'some@email.com',
+  'phone' => '+1 (555) 555-5555',
+  'favoritePie' => 'Blueberry',
+  'testField' => 'New Submit Test',
+  'testDropdown' => 98,
+]);
+```
+
+</TabItem>
+<TabItem value="form-submission-service-twig" label="Twig">
+
+:::danger
+This approach is not recommended!
+:::
+
+```twig
+<h1>Auto Submit Test</h1>
+
+{% set form = freeform.form("myFormHandle") %}
+{% do form.submit({
+  "firstName": "Happy",
+  "lastName": "Gilmore",
+  "emailAddress": "some@email.com",
+  "phone": "+1 (555) 555-5555",
+  "favoritePie": "Blueberry",
+  "site": currentSite.id,
+  "testField": "New Submit Test",
+  "testDropdown": 98,
+}) %}
+```
+
+</TabItem>
+</Tabs>
+
+
 ## Refreshing Honeypot with Javascript Test for Cached pages
 
 When using Freeform's [built-in Honeypot spam protection](../forms/spam-protection.mdx) paired with the [Javascript Test](../forms/spam-protection.mdx#freeform-javascript-test) for the Honeypot, there may be times when you need to load a fresh Honeypot instance for your form. Usually this is the case when using cached templates or using _Vue.js_ or _React.js_ to render forms.
 
 In such cases, one should ask for a fresh honeypot using the `HoneypotService`.
 
-```php showLineNumbers
+```php
 // Get the form model
 $formModel = Freeform::getInstance()->forms->getFormById($myFormId);
 if (!$formModel) {
@@ -89,7 +167,7 @@ return $this->render(
 
 Then in your view file, you can either add a script that handles refreshing the honeypot, or if you're using _Vue.js_ or _React.js_, you could pass those new values to the form somewhere in your flow.
 
-```html showLineNumbers
+```html
 <script>
   // Locate the form
   var form = document.getElementById('my-form');
