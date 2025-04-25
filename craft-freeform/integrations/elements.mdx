@@ -223,11 +223,78 @@ For example (but not limited to):
 - `element.id` will return the ID of the newly created Element
 - `element.title` will return the title of the newly created Craft Entry
 - `element.username` will return the username of the newly created Craft User
+- `element.cpEditUrl` will return the edit URL in the control panel for the newly created Element.
 
-If you have more than 1 element integration for the form, you can use either:
+If you have more than one element integration for the form, you can use either:
 
 - `{% for item in element %}`
 - `{{ element[0].id }}`, `{{ element[1].id }}`, etc
+
+### Examples
+
+- [Basic example](#basic-example)
+- [More than one Element integration](#more-than-one-element-integration)
+- [Iterating over multiple Element integrations](#iterating-over-multiple-element-integrations)
+
+#### Basic Example
+A basic example of when just one element integration exists for the form:
+
+```twig
+{% if element is defined %}
+  <ul>
+    <li>{{ element.id }}</li>
+    <li>{{ element.title }}</li>
+    <li>{{ element.cpEditUrl }}</li>
+  </ul>
+{% else %}
+  No element data
+{% endif %}
+```
+
+#### More than one Element integration
+An example of when two element integrations are configured for the form. In this case, the first element connection is a **User** element (`[0]`) and the second is an **Entry** element (`[1]`):
+
+```twig
+{% if element is defined %}
+  <ul>
+    <li>User ID: {{ element[0].id }}</li>
+    <li>Username: {{ element[0].username }}</li>
+    <li>Entry ID: {{ element[1].id }}</li>
+    <li>Entry Title: {{ element[1].title }}</li>
+  </ul>
+{% else %}
+  No element data
+{% endif %}
+```
+
+#### Iterating over multiple Element integrations
+A better, more reliable approach to handle multiple element integrations configured for the form would be to iterate over `element`.
+
+If you are working with multiple types of elements, you may need to access certain properties differently:
+
+- `{% if item.title|length %}` will work with a safe property like `title`.
+- `{% if item['username'] is defined and item['username'] %}` is necessary when trying to access a **User** element-specific property like `username`.
+- `{{ item.className }}` will display the element type. This will generate a value like `craft\elements\Entry`.
+  - If you wish to further clean that up and just get base name like `User` or `Entry`, you can use Twig's string filters: `{{ item.className|split('\\')|last }}`.
+
+```twig
+{% if element is defined %}
+  <ul>
+  {% for item in element %}
+    <li>{{ item.id }}</li>
+    <li>{{ item.className|split('\\')|last }}</li>
+    {% if item.title|length %}
+      <li>{{ item.title }}</li>
+    {% endif %}
+    {% if item['username'] is defined and item['username'] %}
+      <li>{{ item['username'] }}</li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+{% else %}
+  No element data
+{% endif %}
+```
 
 ## Editing Elements
 
