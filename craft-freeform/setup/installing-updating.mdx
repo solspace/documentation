@@ -40,16 +40,16 @@ import Icons from '@site/static/card-icons';
       fullCardLink: '#updating',
     },
     {
-      title: 'Purchasing',
-      description: 'Trialing, purchasing and troubleshooting license issues.',
-      icon: Icons.BagIcon,
-      fullCardLink: '#purchasing',
-    },
-    {
       title: 'Changing Editions',
       description: 'How to switch your edition from Lite to Pro.',
       icon: Icons.SwapIcon,
       fullCardLink: '#changing-editions',
+    },
+    {
+      title: 'Purchasing',
+      description: 'Trialing, purchasing and troubleshooting license issues.',
+      icon: Icons.BagIcon,
+      fullCardLink: '#purchasing',
     },
     {
       title: 'Troubleshooting',
@@ -69,33 +69,31 @@ Freeform 5.x support both [Craft 5.x](https://craftcms.com/docs/5.x/requirements
   <Tabs>
     <TabItem value="requirements-craft-5" label="Craft 5.x" default>
 
-    - **Craft 5.0.0+**
-    - PHP 8.2.0+
-    - MySQL 8.0.17+ using InnoDB, MariaDB 10.4.6+, or PostgreSQL 13+
-    - 256MB+ of memory allocated to PHP
-    - [BC Math](http://php.net/manual/en/book.bc.php) and [GD](http://php.net/manual/en/book.image.php) PHP extensions
-    - Windows and macOS browsers:
-      - Chrome 63+
-      - Firefox 67+
-      - Safari 11.1+
-      - Edge 79+
-
+      - **Craft 5.0.0+**
+      - PHP 8.2.0+
+      - MySQL 8.0.17+ using InnoDB, MariaDB 10.4.6+, or PostgreSQL 13+
+      - 256MB+ of memory allocated to PHP
+      - [BC Math](http://php.net/manual/en/book.bc.php) and [GD](http://php.net/manual/en/book.image.php) PHP extensions
+      - Windows and macOS browsers:
+        - Chrome 63+
+        - Firefox 67+
+        - Safari 11.1+
+        - Edge 79+
     </TabItem>
     <TabItem value="requirements-craft-4" label="Craft 4.x">
 
-    - **Craft 4.0.0+**
-    - PHP 8.0.2+
-    - MySQL 5.7.8+ using InnoDB, MariaDB 10.2.7+, or PostgreSQL 10+
-    - 256MB+ of memory allocated to PHP
-    - [BC Math](http://php.net/manual/en/book.bc.php) and [GD](http://php.net/manual/en/book.image.php) PHP extensions
-    - Windows and macOS browsers:
-      - Chrome 63+
-      - Firefox 67+
-      - Safari 11.1+
-      - Edge 79+
-
+      - **Craft 4.0.0+**
+      - PHP 8.0.2+
+      - MySQL 5.7.8+ using InnoDB, MariaDB 10.2.7+, or PostgreSQL 10+
+      - 256MB+ of memory allocated to PHP
+      - [BC Math](http://php.net/manual/en/book.bc.php) and [GD](http://php.net/manual/en/book.image.php) PHP extensions
+      - Windows and macOS browsers:
+        - Chrome 63+
+        - Firefox 67+
+        - Safari 11.1+
+        - Edge 79+
     </TabItem>
-    </Tabs>
+  </Tabs>
 </details>
 
 ## Installation
@@ -103,112 +101,107 @@ Freeform 5.x support both [Craft 5.x](https://craftcms.com/docs/5.x/requirements
 Freeform can be installed one of two ways:
 
 <Tabs>
-<TabItem value="install-cli" label="Composer (CLI)" default>
+  <TabItem value="install-cli" label="Composer (CLI)" default>
+    Freeform can be installed by running the following set of commands in your favorite CLI app: <Badge type="recommended" text="Recommended" />
 
-Freeform can be installed by running the following set of commands in your favorite CLI app: <Badge type="recommended" text="Recommended" />
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Open your Craft project">
+        ```nix
+        cd /path/to/project
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Get Freeform">
+        <Tabs>
+          <TabItem value="install-cli-latest-version" label="Latest Version" default>
+            ```nix
+            composer require solspace/craft-freeform -w
+            ```
+          </TabItem>
+          <TabItem value="install-cli-specific-version" label="Specific Version">
+            ```nix
+            composer require solspace/craft-freeform:5.10.15 -w
+            ```
+          </TabItem>
+        </Tabs>
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Install Freeform">
+        <Tabs>
+          <TabItem value="install-cli-install-plugin-cli-57" label="CLI (Craft 5.7+ / 4.15+)" default>
+            Enter the following command along with an edition value of `pro`, `lite`, or `express`. You can always change the edition later.
+            ```nix
+            ./craft plugin/install freeform pro
+            ```
+          </TabItem>
+          <TabItem value="install-cli-install-plugin-cli" label="CLI (Craft 5.6- / 4.14-)">
+            ```nix
+            ./craft plugin/install freeform
+            ```
+            Craft will automatically install the _Express_ edition of Freeform. If you'd like the _Lite_ or _Pro_ edition, you can switch the edition one of two ways:
 
-<VerticalStepWrapper>
-<StepMarkdown stepTitle="Open your Craft project">
-```nix
-cd /path/to/project
-```
-</StepMarkdown>
-<StepMarkdown stepTitle="Get Freeform">
-<Tabs>
-<TabItem value="install-cli-latest-version" label="Latest Version" default>
-```nix
-composer require solspace/craft-freeform -w
-```
-</TabItem>
-<TabItem value="install-cli-specific-version" label="Specific Version">
-```nix
-composer require solspace/craft-freeform:5.9.15 -w
-```
-</TabItem>
-</Tabs>
-</StepMarkdown>
-<StepMarkdown stepTitle="Install Freeform">
-<Tabs>
-<TabItem value="install-cli-install-plugin-cli" label="CLI" default>
-```nix
-./craft plugin/install freeform
-```
-</TabItem>
-<TabItem value="install-cli-install-plugin-cp" label="Control Panel">
-  To install Freeform via the Craft control panel instead:
-  
-  1. Go to _Settings → Plugins_.
-  2. Click the **Cog button** for Freeform
-  3. Select **Install**.
+          <Tabs>
+            <TabItem value="install-switch-project-config" label="Project Config" default>
+              1. Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file (`/config/project/project.yaml`).
+              2. Search for `freeform`.
+              3. Where it says `edition: express`, switch that to `edition: pro`.
+                  ```diff
+                  freeform:
+                  -   edition: express
+                  +   edition: pro
+                      enabled: true
+                  ```
+              4. Approve the update inside the CP.
+            </TabItem>
+            <TabItem value="install-switch-cp" label="Control Panel">
+              1. Go to the _Settings_ → _Plugins_ page in the Craft control panel.
+              2. Click on the _**EXPRESS** / trial_ button beside Freeform's name.
+              3. On the Plugin Store page it takes you to, scroll down to the bottom and click on the **Try** button for the _Pro_ edition (see video below).
 
-</TabItem>
-</Tabs>
-</StepMarkdown>
-<StepMarkdown stepTitle="Choose Edition">
-Craft will automatically install the _Express_ edition of Freeform. If you'd like the _Lite_ or _Pro_ edition, you can switch the edition one of two ways:
+              <Player
+                url={require('@site/static/videos/craft/freeform/v5/switch-edition.mp4').default}
+                muted loop playing width="100%" height="100%"
+              />
+            </TabItem>
+          </Tabs>
+        </TabItem>
+        <TabItem value="install-cli-install-plugin-cp" label="Control Panel">
+          To install Freeform via the Craft control panel instead:
+          
+          1. Go to _Settings → Plugins_.
+          2. Click the **Cog button** for Freeform
+          3. Select **Install**.
 
-<Tabs>
-<TabItem value="install-switch-project-config" label="Project Config" default>
+        </TabItem>
+        </Tabs>
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Purchase">
+      If Freeform is right for your site, [purchase a copy](#purchasing) of it through the Plugin Store when you're ready!
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="install-cp" label="Control Panel">
+    Freeform can be installed via the control panel by following these instructions:
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Get Freeform">
+        Go to the **Plugin Store** area inside your Craft control panel and click on *Freeform*.
 
-1. Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file (`/config/project/project.yaml`).
-2. Search for `freeform`.
-3. Where it says `edition: express`, switch that to `edition: pro`.
-    ```diff
-    freeform:
-    -   edition: express
-    +   edition: pro
-        enabled: true
-    ```
-4. Approve the update inside the CP.
+        <Photo
+          img={require('@site/static/img/craft/freeform/v5/cp/plugin-store.png')}
+          alt="Plugin Store"
+        />
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Choose Edition">
+        Once the product page opens, choose whether you want to install it by clicking the **Try** button under the *Lite* or *Pro* edition.
 
-</TabItem>
-<TabItem value="install-switch-cp" label="Control Panel">
-
-1. Go to the _Settings_ → _Plugins_ page in the Craft control panel.
-2. Click on the _**EXPRESS** / trial_ button beside Freeform's name.
-3. On the Plugin Store page it takes you to, scroll down to the bottom and click on the **Try** button for the _Pro_ edition (see video below).
-
-<Player
-  url={require('@site/static/videos/craft/freeform/v5/switch-edition.mp4').default}
-  muted loop playing width="100%" height="100%"
-/>
-</TabItem>
-</Tabs>
-</StepMarkdown>
-<StepMarkdown stepTitle="Purchase">
-If Freeform is right for your site, [purchase a copy](#purchasing) of it through the Plugin Store when you're ready!
-
-</StepMarkdown>
-</VerticalStepWrapper>
-
-</TabItem>
-<TabItem value="install-cp" label="Control Panel">
-
-Freeform can be installed via the control panel by following these instructions:
-
-<VerticalStepWrapper>
-<StepMarkdown stepTitle="Get Freeform">
-Go to the **Plugin Store** area inside your Craft control panel and click on *Freeform*.
-
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/cp/plugin-store.png')}
-  alt="Plugin Store"
-/>
-</StepMarkdown>
-<StepMarkdown stepTitle="Choose Edition">
-Once the product page opens, choose whether you want to install it by clicking the **Try** button under the *Lite* or *Pro* edition.
-
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/cp/plugin-store-install.png')}
-  alt="Plugin Store - Install Freeform"
-/>
-</StepMarkdown>
-<StepMarkdown stepTitle="Purchase">
-If Freeform is right for your site, [purchase a copy](#purchasing) of it through the Plugin Store when you're ready!
-
-</StepMarkdown>
-</VerticalStepWrapper>
-</TabItem>
+        <Photo
+          img={require('@site/static/img/craft/freeform/v5/cp/plugin-store-install.png')}
+          alt="Plugin Store - Install Freeform"
+        />
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Purchase">
+        If Freeform is right for your site, [purchase a copy](#purchasing) of it through the Plugin Store when you're ready!
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
 </Tabs>
 
 
@@ -229,173 +222,228 @@ If the upgrade migration fails at any point, you must be prepared to fully resto
 Freeform can be updated one of three ways:
 
 <Tabs>
-<TabItem value="update-cli" label="Craft Update (CLI)" default>
+  <TabItem value="update-cli" label="Craft Update (CLI)" default>
+    You can use the Craft [_update_ command](https://craftcms.com/docs/5.x/update.html#updating-from-the-terminal) to update Freeform. <Badge type="recommended" text="Recommended" />
 
-You can use the Craft [_update_ command](https://craftcms.com/docs/5.x/update.html#updating-from-the-terminal) to update Freeform. <Badge type="recommended" text="Recommended" />
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Open your Craft project">
+        ```nix
+        cd /path/to/project
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Check for Updates">
+        ```nix
+        ./craft update
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Perform the Updates">
+        <Tabs>
+          <TabItem value="updating-cli-latest-version" label="Latest Version" default>
+            ```nix
+            ./craft update freeform
+            ```
+          </TabItem>
+          <TabItem value="updating-cli-specific-version" label="Specific Version">
+            ```nix
+            ./craft update freeform:5.9.15
+            ```
+          </TabItem>
+        </Tabs>
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="update-cli-composer" label="Composer (CLI)">
+    You can also update Freeform more manually if you like, using Composer (`composer update`). This may also be helpful in certain scenarios where you need to workaround an issue while updating.
 
-<VerticalStepWrapper>
-<StepMarkdown stepTitle="Open your Craft project">
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Update composer.json">
+        <Tabs>
+          <TabItem value="updating-cli-composer-latest-versions" label="Latest Versions" default>
+            Specifying the caret (`^`) before the version number will always grab the latest available version:
 
-```nix
-cd /path/to/project
-```
-</StepMarkdown>
-<StepMarkdown stepTitle="Check for Updates">
+            ```json {4}
+            "require": {
+                "craftcms/cms": "^5.0.0",
+                "vlucas/phpdotenv": "^5.4.0",
+                "solspace/craft-freeform": "^5.0.0",
+                "solspace/craft-calendar": "^5.0.0"
+            },
+            ```
+          </TabItem>
+          <TabItem value="updating-cli-composer-locked-versions" label="Locked Versions">
+            If you are locking your versions, you will need to open your Craft site's main `composer.json` file and adjust the version number for Freeform ([see guide below](#understanding-versions-and-composer-update)).
 
-```nix
-./craft update
-```
-</StepMarkdown>
-<StepMarkdown stepTitle="Perform the Updates">
-<Tabs>
-<TabItem value="updating-cli-latest-version" label="Latest Version" default>
+            ```diff
+            "require": {
+                "craftcms/cms": "5.6.1",
+                "vlucas/phpdotenv": "5.4.0",
+            -   "solspace/craft-freeform": "5.7.2",
+            +   "solspace/craft-freeform": "5.9.15",
+                "solspace/craft-calendar": "5.0.14"
+            },
+            ```
+          </TabItem>
+        </Tabs>
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Open your Craft project">
+        ```nix
+        cd /path/to/project
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Get Updates">
+        ```nix
+        composer update
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Run Migrations">
+        <Tabs>
+          <TabItem value="updating-cli-composer-all" label="Craft and All Plugins" default>
+            ```nix
+            ./craft migrate/all
+            ```
+          </TabItem>
+          <TabItem value="updating-cli-composer-freeform" label="Freeform only">
+            ```nix
+            ./craft migrate --plugin=freeform
+            ```
+          </TabItem>
+          <TabItem value="updating-cli-control-panel" label="Control Panel">
+            Proceed to the Craft control panel and click the **Finish Updates** button if it shows.
 
-```nix
-./craft update freeform
-```
-</TabItem>
-<TabItem value="updating-cli-specific-version" label="Specific Version">
+            :::warning
+            We strongly advise against using the Control Panel for updates and migrations.
+            :::
+          </TabItem>
+        </Tabs>
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="update-cp" label="Control Panel">
+    :::warning
+    We strongly advise against using the Control Panel for updates and migrations.
+    :::
 
-```nix
-./craft update freeform:5.9.15
-```
-</TabItem>
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Check for Updates">
+        Go to the Craft Updates area inside the control panel (**Utilities** → **Updates**) and review the changelog for Freeform.
+
+        <Photo
+          img={require('@site/static/img/craft/freeform/v5/cp/updates.png')}
+          alt="Craft Updates Service"
+        />
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Run Updates">
+        Simply click the **Update** button and Craft will do the rest.
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
 </Tabs>
-</StepMarkdown>
-</VerticalStepWrapper>
 
-</TabItem>
-<TabItem value="update-cli-composer" label="Composer (CLI)">
+## Changing Editions
 
-You can also update Freeform more manually if you like, using Composer (`composer update`). This may also be helpful in certain scenarios where you need to workaround an issue while updating.
+If you wish to change the edition of Freeform, choose from one of the three options below:
 
-<VerticalStepWrapper>
-<StepMarkdown stepTitle="Update composer.json">
-<Tabs>
-<TabItem value="updating-cli-composer-latest-versions" label="Latest Versions" default>
-
-Specifying the caret (`^`) before the version number will always grab the latest available version:
-
-```json {4}
-"require": {
-    "craftcms/cms": "^5.0.0",
-    "vlucas/phpdotenv": "^5.4.0",
-    "solspace/craft-freeform": "^5.0.0",
-    "solspace/craft-calendar": "^5.0.0"
-},
-```
-</TabItem>
-<TabItem value="updating-cli-composer-locked-versions" label="Locked Versions">
-
-If you are locking your versions, you will need to open your Craft site's main `composer.json` file and adjust the version number for Freeform ([see guide below](#understanding-versions-and-composer-update)).
-
-```diff
-"require": {
-    "craftcms/cms": "5.6.1",
-    "vlucas/phpdotenv": "5.4.0",
--   "solspace/craft-freeform": "5.7.2",
-+   "solspace/craft-freeform": "5.9.15",
-    "solspace/craft-calendar": "5.0.14"
-},
-```
-</TabItem>
-</Tabs>
-</StepMarkdown>
-<StepMarkdown stepTitle="Open your Craft project">
-
-```nix
-cd /path/to/project
-```
-</StepMarkdown>
-<StepMarkdown stepTitle="Get Updates">
-
-```nix
-composer update
-```
-</StepMarkdown>
-<StepMarkdown stepTitle="Run Migrations">
-<Tabs>
-<TabItem value="updating-cli-composer-all" label="Craft and All Plugins" default>
-
-```nix
-./craft migrate/all
-```
-</TabItem>
-<TabItem value="updating-cli-composer-freeform" label="Freeform only">
-
-```nix
-./craft migrate --plugin=freeform
-```
-</TabItem>
-<TabItem value="updating-cli-control-panel" label="Control Panel">
-
-  Proceed to the Craft control panel and click the **Finish Updates** button if it shows.
-
-  :::warning
-  We strongly advise against using the Control Panel for updates and migrations.
-  :::
-
-</TabItem>
-</Tabs>
-</StepMarkdown>
-</VerticalStepWrapper>
-
-</TabItem>
-<TabItem value="update-cp" label="Control Panel">
-
-:::warning
-We strongly advise against using the Control Panel for updates and migrations.
+:::info
+If you've already purchased a copy of Freeform _Lite_ but wish to upgrade to the _Pro_ edition, you can do so for the price difference only ($50).
 :::
 
-<VerticalStepWrapper>
-<StepMarkdown stepTitle="Check for Updates">
-Go to the Craft Updates area inside the control panel (**Utilities** → **Updates**) and review the changelog for Freeform.
+<Tabs>
+  <TabItem value="change-edition-cli" label="CLI (Craft 5.7+ / 4.15+)" default>
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Open your Craft project">
+        ```nix
+        cd /path/to/project
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Choose Edition">
+        Enter the following command along with the edition you'd like to switch to. Options are `pro`, `lite`, or `express`.
+        ```nix
+        ./craft plugin/install freeform pro
+        ```
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="change-edition-project-config" label="Project Config">
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file (`/config/project/project.yaml`).
+      </StepMarkdown>
+      <StepMarkdown>
+        Search for `freeform`.
+      </StepMarkdown>
+      <StepMarkdown>
+        Switch the edition name to the one you'd like. For example, where it says `edition: express`, switch that to `edition: pro`.
 
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/cp/updates.png')}
-  alt="Craft Updates Service"
-/>
+        ```diff
+        freeform:
+        -   edition: express
+        +   edition: pro
+            enabled: true
+        ```
+      </StepMarkdown>
+      <StepMarkdown>
+        Approve the update inside the CP.
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="change-edition-cp" label="Control Panel">
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Go to the _Settings_ → _Plugins_ page in the Craft control panel.
+      </StepMarkdown>
+      <StepMarkdown>
+        Click on the edition name button beside Freeform's name.
+      </StepMarkdown>
+      <StepMarkdown>
+        On the Plugin Store page it takes you to, scroll down to the bottom and click on the **Try** button for the edition you'd like to switch to (see video below).
 
-</StepMarkdown>
-<StepMarkdown stepTitle="Run Updates">
-Simply click the **Update** button and Craft will do the rest.
-
-</StepMarkdown>
-</VerticalStepWrapper>
-
-</TabItem>
+        <Player
+          url={require('@site/static/videos/craft/freeform/v5/switch-edition.mp4').default}
+          muted loop playing width="100%" height="100%"
+        />
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
 </Tabs>
+
+:::info
+If using Craft's [allowAdminChanges](https://craftcms.com/docs/5.x/reference/config/general.html#allowadminchanges) config setting, be sure to temporarily set it to `true` in order to make changes to the edition (which can be switched back to `false` afterward).
+:::
 
 
 ## Disable Freeform
 
 Freeform can be temporarily disabled from the CLI or control panel. The benefit of this is to troubleshoot potential issues and conflicts while preserving your data until a proper fix or change to the site is made.
 
-<VerticalStepWrapper>
-<StepMarkdown stepTitle="Open your Craft Project">
-
-```nix
-cd /path/to/project
-```
-</StepMarkdown>
-<StepMarkdown stepTitle="Disable Freeform">
 <Tabs>
-<TabItem value="disable-plugin-cli" label="CLI" default>
-```nix
-./craft plugin/disable freeform
-```
-</TabItem>
-<TabItem value="disable-plugin-cp" label="Control Panel">
-  To disable Freeform via the Craft control panel instead:
-  
-  1. Go to _Settings → Plugins_.
-  2. Click the **Cog button** for Freeform
-  3. Select **Disable**.
-
-</TabItem>
+  <TabItem value="disable-plugin-cli" label="CLI" default>
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Open your Craft Project">
+        ```nix
+        cd /path/to/project
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Disable Freeform">
+        ```nix
+        ./craft plugin/disable freeform
+        ```
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="disable-plugin-cp" label="Control Panel">
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Go to _Settings → Plugins_.
+      </StepMarkdown>
+      <StepMarkdown>
+        Click the **Cog button** for Freeform
+      </StepMarkdown>
+      <StepMarkdown>
+        Select **Disable**.
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
 </Tabs>
-</StepMarkdown>
-</VerticalStepWrapper>
 
 ## Uninstall Freeform
 
@@ -405,42 +453,80 @@ Follow the steps below to uninstall Freeform from your site.
 This action cannot be undone. All of your Freeform data be will lost forever, unless you have made a backup.
 :::
 
-<VerticalStepWrapper>
-<StepMarkdown stepTitle="Open your Craft Project">
-
-```nix
-cd /path/to/project
-```
-</StepMarkdown>
-<StepMarkdown stepTitle="Uninstall Freeform">
 <Tabs>
-<TabItem value="uninstall-plugin-cli" label="CLI" default>
+  <TabItem value="uninstall-plugin-cli" label="CLI" default>
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Open your Craft Project">
+        ```nix
+        cd /path/to/project
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Uninstall Freeform">
+        ```nix
+        ./craft plugin/uninstall freeform
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Remove Dependencies">
+        :::danger
+        Do not remove a plugin package with Composer before uninstalling it from the control panel or with Craft's CLI.
+        :::
 
-```nix
-./craft plugin/uninstall freeform
-```
-</TabItem>
-<TabItem value="uninstall-plugin-cp" label="Control Panel">
-  To uninstall Freeform via the Craft control panel instead:
-  
-  1. Go to _Settings → Plugins_.
-  2. Click the **Cog button** for Freeform
-  3. Select **Uninstall**.
-
-</TabItem>
+        ```nix
+        composer remove solspace/craft-freeform
+        ```
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="uninstall-plugin-cp" label="Control Panel">
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Go to _Settings → Plugins_.
+      </StepMarkdown>
+      <StepMarkdown>
+        Click the **Cog button** for Freeform
+      </StepMarkdown>
+      <StepMarkdown>
+        Select **Uninstall**.
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
 </Tabs>
-</StepMarkdown>
-<StepMarkdown stepTitle="Remove Dependencies">
 
-:::danger
-Do not remove a plugin package with Composer before uninstalling it from the control panel or with Craft's CLI.
-:::
+## Purchasing
 
-```nix
-composer remove solspace/craft-freeform
-```
-</StepMarkdown>
-</VerticalStepWrapper>
+<Tabs>
+  <TabItem value="purchasing-trialing" label="Trialing" default>
+    Craft allows you to trial third-party plugins to see if they're right for your needs. We recommend **trying** any commercial plugin first before buying it. You can trial any plugin or Craft CMS itself by running your site from any domain [that Craft does not consider to be a public domain](https://craftcms.com/knowledge-base/how-craft-license-enforcement-works).
+  </TabItem>
+  <TabItem value="purchasing-purchasing" label="Purchasing">
+    If this is your first time purchasing a third-party plugin, here's an overview of the purchasing process of plugins. You may purchase licenses for plugins either via the [Craft Plugin Store website](https://plugins.craftcms.com) or directly through the Craft Control Panel. For the latter, here is the process:
+
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Go to the _Plugins_ section of your Craft control panel (**Craft CP** → **Settings** → **Plugins**).
+      </StepMarkdown>
+      <StepMarkdown>
+        For the plugin(s) that need to be purchased, click the **Buy Now** button to add them to your cart.
+      </StepMarkdown>
+      <StepMarkdown>
+        Proceed to purchase the plugin directly inside your Craft control panel. If you think you'll need updates and product support beyond the first year, you can optionally pre-purchase renewal years. You can also purchase renewals later after expiry.
+      </StepMarkdown>
+      <StepMarkdown>
+        Once purchased, the current trial license key for the Freeform will become valid. These product keys can also be accessed and managed later on in your [Craft Console account](https://console.craftcms.com) by visiting the **Plugins** area.
+      </StepMarkdown>
+    </VerticalStepWrapper>
+
+    If you encounter any issues with licensing your plugin, please refer to the [Troubleshooting guide](#troubleshooting) below.
+
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/cp/switch-editions-purchase-3.png')}
+      alt="Switch edition after Purchase"
+    />
+  </TabItem>
+  <TabItem value="purchasing-renewals" label="Renewals">
+    Renewals are not required to continue using Freeform past the one-year term, but they are required if you wish to update to newer versions of Freeform and receive official support from Solspace. Renewals can be set to automatic, or you may also purchase a renewal directly through the Craft Control Panel or via the [Craft Console website](https://console.craftcms.com/).
+  </TabItem>
+</Tabs>
 
 ## Understanding versions and `composer update`
 
@@ -465,108 +551,38 @@ Your final `composer.json` file might have something like this:
 <details className="hidden-heading">
   <summary>Getting Latest Unreleased Version...</summary>
 
-Sometimes you need to update your site to use the latest _unreleased_ changes in the Calendar repository. This could be in the main branch or a temporary fix/feat branch, e.g. `v5` or `feat/SFT-123`.
+  Sometimes you need to update your site to use the latest _unreleased_ changes in the Calendar repository. This could be in the main branch or a temporary fix/feat branch, e.g. `v5` or `feat/SFT-123`.
+  <br />
+  To access the latest unreleased version of Calendar (`v5`), you would set the version in your `composer.json` file to just `v5.x-dev` and run `composer update` after. Your final `composer.json` file might have something like this:
+  <br />
 
-To access the latest unreleased version of Calendar (`v5`), you would set the version in your `composer.json` file to just `v5.x-dev` and run `composer update` after. Your final `composer.json` file might have something like this:
-<br />
+  ```json {4}
+  "require": {
+      "craftcms/cms": "^5.0.0",
+      "vlucas/phpdotenv": "^5.4.0",
+      "solspace/craft-freeform": "v5.x-dev",
+      "solspace/craft-calendar": "^5.0.0",
+  },
+  ```
 
-```json {4}
-"require": {
-    "craftcms/cms": "^5.0.0",
-    "vlucas/phpdotenv": "^5.4.0",
-    "solspace/craft-freeform": "v5.x-dev",
-    "solspace/craft-calendar": "^5.0.0",
-},
-```
+  To access an unreleased version from a different branch (e.g. `feat/SFT-123`), you would prefix the branch with `dev-` + the exact branch path/name. We also recommend that you run those changes as a "dummy" next version number and append a beta version. For example, if the current released version of Freeform is `5.3.4` and there are new unreleased changes in the `feat/SFT-123` branch you want to grab, go up 1 patch version number + `-beta.1`. In this case, we would assume `5.3.5` was the next version, so we'd create the version number: `5.3.5-beta.1`. Altogether, we'd be specifying: `dev-feat/SFT-123 as 5.3.5-beta.1`.
+  <br />
+  Your final `composer.json` file might have something like this:
+  <br />
 
-To access an unreleased version from a different branch (e.g. `feat/SFT-123`), you would prefix the branch with `dev-` + the exact branch path/name. We also recommend that you run those changes as a "dummy" next version number and append a beta version. For example, if the current released version of Freeform is `5.3.4` and there are new unreleased changes in the `feat/SFT-123` branch you want to grab, go up 1 patch version number + `-beta.1`. In this case, we would assume `5.3.5` was the next version, so we'd create the version number: `5.3.5-beta.1`. Altogether, we'd be specifying: `dev-feat/SFT-123 as 5.3.5-beta.1`.
-Your final `composer.json` file might have something like this:
-<br />
+  ```json {4}
+  "require": {
+      "craftcms/cms": "^5.0.0",
+      "vlucas/phpdotenv": "^5.4.0",
+      "solspace/craft-freeform": "dev-feat/SFT-123 as 5.3.5-beta.1",
+      "solspace/craft-calendar": "^5.0.0",
+  },
+  ```
 
-```json {4}
-"require": {
-    "craftcms/cms": "^5.0.0",
-    "vlucas/phpdotenv": "^5.4.0",
-    "solspace/craft-freeform": "dev-feat/SFT-123 as 5.3.5-beta.1",
-    "solspace/craft-calendar": "^5.0.0",
-},
-```
-
-:::info
-If there are more unreleased changes to the repo in the future, you could change `-beta.1` to `-beta.2` and so on. For example, `dev-feat/SFT-123 as 5.3.5-beta.2`.
-:::
-
+  :::info
+  If there are more unreleased changes to the repo in the future, you could change `-beta.1` to `-beta.2` and so on. For example, `dev-feat/SFT-123 as 5.3.5-beta.2`.
+  :::
 </details>
-
-## Purchasing
-
-<Tabs>
-<TabItem value="purchasing-trialing" label="Trialing" default>
-
-Craft allows you to trial third-party plugins to see if they're right for your needs. We recommend **trying** any commercial plugin first before buying it. You can trial any plugin or Craft CMS itself by running your site from any domain [that Craft does not consider to be a public domain](https://craftcms.com/knowledge-base/how-craft-license-enforcement-works).
-
-</TabItem>
-<TabItem value="purchasing-purchasing" label="Purchasing">
-
-If this is your first time purchasing a third-party plugin, here's an overview of the purchasing process of plugins. You may purchase licenses for plugins either via the [Craft Plugin Store website](https://plugins.craftcms.com) or directly through the Craft Control Panel. For the latter, here is the process:
-
-1. Go to the _Plugins_ section of your Craft control panel (**Craft CP** → **Settings** → **Plugins**).
-2. For the plugin(s) that need to be purchased, click the **Buy Now** button to add them to your cart.
-3. Proceed to purchase the plugin directly inside your Craft control panel. If you think you'll need updates and product support beyond the first year, you can optionally pre-purchase renewal years. You can also purchase renewals later after expiry.
-4. Once purchased, the current trial license key for the Freeform will become valid. These product keys can also be accessed and managed later on in your [Craft Console account](https://console.craftcms.com) by visiting the **Plugins** area.
-
-If you encounter any issues with licensing your plugin, please refer to the [Troubleshooting guide](#troubleshooting) below.
-
-</TabItem>
-<TabItem value="purchasing-renewals" label="Renewals">
-
-Renewals are not required to continue using Freeform past the one-year term, but they are required if you wish to update to newer versions of Freeform and receive official support from Solspace. Renewals can be set to automatic, or you may also purchase a renewal directly through the Craft Control Panel or via the [Craft Console website](https://console.craftcms.com/).
-
-</TabItem>
-</Tabs>
-
-## Changing Editions
-
-If you wish to change the edition of Freeform from _Lite_ to _Pro_ (or _Pro_ to _Lite_ while trialing), simply visit the Plugin Store area in the Craft control panel and click on the **Try** button for the edition you wish to change to. If you've already purchased a copy of Freeform _Lite_ but wish to upgrade to the _Pro_ edition, you can do so for the price difference only ($50).
-
-<Tabs>
-<TabItem value="purchasing-trialing" label="Switch During Trial" default>
-
-If you'd like to switch during the trial from _Express_ or _Lite_ to the _Pro_ edition, you can switch the edition 1 of 2 ways:
-
-- **From Project Config**: Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file (`/config/project/project.yaml`) and search for `freeform`. Where it says `edition: express` (or `lite`), switch that to `edition: pro` and then approve the update inside the CP.
-- **From CP**: Click on the _**EXPRESS** / trial_ (or LITE) button beside Freeform's name and when it takes you to the Plugin Store page and click on the **Try** button for the _Pro_ edition.
-
-:::info
-If using Craft's [allowAdminChanges](https://craftcms.com/docs/5.x/reference/config/general.html#allowadminchanges) config setting, be sure to temporarily set it to `true` in order to make changes to the edition (which can be switched back to `false` afterward).
-:::
-
-<Player
-  url={require('@site/static/videos/craft/freeform/v5/switch-edition.mp4').default}
-  muted loop playing width="100%" height="100%"
-/>
-
-</TabItem>
-<TabItem value="purchasing-purchasing" label="Switch After Purchase">
-
-If, sometime after purchasing Freeform _Lite_ (or using Freeform _Express_), you decide that you need more features that are available in the _Lite_ or _Pro_ edition, you can switch at any time for the price difference (e.g. from Lite to Pro would be $50) rather than needing to purchase the _Pro_ edition at full price. We suggest you start by switching to a trial of the _Pro_ edition and then purchase it if it meets your needs. You can switch the edition 1 of 2 ways:
-
-- **From Project Config**: Open up your [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file (`/config/project/project.yaml`) and search for `freeform`. Where it says `edition: express` (or `lite`), switch that to `edition: pro` and then approve the update inside the CP.
-- **From CP**: Click on the _**EXPRESS** / trial_ (or LITE) button beside Freeform's name and when it takes you to the Plugin Store page and click on the **Try** button for the _Pro_ edition.
-
-:::info
-If using Craft's [allowAdminChanges](https://craftcms.com/docs/5.x/reference/config/general.html#allowadminchanges) config setting, be sure to temporarily set it to `true` in order to make changes to the edition (which can be switched back to `false` afterward).
-:::
-
-Once you're ready to complete the purchase, you can visit the Cart inside your site's control panel:
-
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/cp/switch-editions-purchase-3.png')}
-  alt="Switch edition after Purchase"
-/>
-
-</TabItem>
-</Tabs>
 
 ## Troubleshooting
 
