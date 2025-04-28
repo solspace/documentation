@@ -3,7 +3,7 @@ title: 'User Guides'
 sidebar_position: 4
 ---
 
-import { FlexCards } from '@site/src/components/docs';
+import { FlexCards, GuideCards } from '@site/src/components/docs';
 
 import Icons from '@site/static/card-icons';
 
@@ -37,8 +37,7 @@ Check out the user guides below to see solutions to common problems and question
     },
     {
       title: 'Fields',
-      description:
-        'Implement custom validation or styles on regular field types.',
+      description: 'Implement custom validation or styles on regular field types.',
       icon: Icons.PaletteIcon,
       fullCardLink: '#fields',
     },
@@ -50,8 +49,7 @@ Check out the user guides below to see solutions to common problems and question
     },
     {
       title: 'Specialty Forms',
-      description:
-        'Guides for building specialty forms like user registration.',
+      description: 'Guides for building specialty forms like user registration.',
       icon: Icons.ClipboardIcon,
       fullCardLink: '#specialty-forms',
     },
@@ -84,83 +82,320 @@ Check out the user guides below to see solutions to common problems and question
 
 ## Form Validation
 
-- [Browser Validation with Required Attribute](./required-attribute.mdx)
-- [Form Validation with Parsley](./form-validation-with-parsley.mdx)
-- [Form Validation with Foundation Abide](./form-validation-with-foundation-abide.mdx)
-- [Form Validation with Bootstrap](./form-validation-with-bootstrap.mdx)
-- [Preventing Certain Email Addresses](./preventing-email-addresses.mdx)
+<GuideCards
+  items={[
+    {
+      link: './required-attribute/',
+      title: 'Browser Validation with Required Attribute',
+      description: 'Explains how to control Freeform\'s `required` field attributes for better accessibility, validation, and customization options.',
+    },
+    {
+      link: './custom-form-validation/',
+      title: 'Custom Form Validation',
+      description: 'Shows how to integrate common client-side form validation frameworks such as Bootstrap, Parsley.js and Foundation Abide.',
+    },
+    {
+      link: './preventing-email-addresses/',
+      title: 'Preventing Certain Email Addresses',
+      description: 'Shows how to prevent specific email addresses from being submitted in Freeform forms using the Blocked Emails integration.',
+    }
+  ]}
+/>
 
 ## Dynamic Data
 
-- [Passing Dynamic Data to Forms](./passing-dynamic-data-to-forms.mdx)
-- [Passing a Custom Property to a Formatting Template](./passing-custom-property-to-formatting-template.mdx)
-- [Fill Field Values from Query String](./fill-field-values-from-query-string.mdx)
-- [Send Email Notifications only in Certain Scenarios](./email-notifications-certain-scenarios.mdx)
-- [Populate Field Options at Template Level](./populate-field-options-at-template-level.mdx)
-- [Displaying Submission Data from Previous Pages](./displaying-submission-data-from-previous-pages.mdx)
+<GuideCards
+  items={[
+    {
+      link: './passing-dynamic-data-to-forms/',
+      title: 'Passing Dynamic Data to Forms',
+      description: 'Explains how to pass dynamic data to Freeform forms using Twig variables, custom fields, and context-based data.',
+      popular: true,
+    },
+    {
+      link: './passing-custom-property-to-formatting-template/',
+      title: 'Passing a Custom Property to a Formatting Template',
+      description: 'Explains how to pass custom properties to Freeform form formatting templates using Twig for flexible form rendering.',
+    },
+    {
+      link: './fill-field-values-from-query-string/',
+      title: 'Fill Field Values from Query String',
+      description: 'Describes how to populate Freeform form fields dynamically from URL query strings using Twig for pre-filling data.',
+    },
+    {
+      link: './email-notifications-certain-scenarios/',
+      title: 'Send Email Notifications only in Certain Scenarios',
+      description: 'Explains how to configure email notifications in Freeform for specific scenarios, like conditional recipients and custom templates.',
+    },
+    {
+      link: './populate-field-options-at-template-level/',
+      title: 'Populate Field Options at Template Level',
+      description: 'Covers how to populate field options in Freeform forms dynamically at the template level using Twig variables.',
+    },
+    {
+      link: './displaying-submission-data-from-previous-pages/',
+      title: 'Displaying Submission Data from Previous Pages',
+      description: 'Explains how to display submission data from previous pages using Freeform\'s multi-page form functionality',
+    }
+  ]}
+/>
 
 ## Templating
 
-- [AJAX Forms](../../templates/ajax.mdx)
-- [Caching Forms](../../templates/caching.mdx)
-- [Rendering Form Data as JSON](./rendering-form-data-as-json.mdx)
-- [Line Breaks in Textarea Fields](./line-breaks-in-textarea-fields.mdx)
-- [Multiple Instances of the Same Form](./multiple-instances-of-same-form.mdx)
-- [Returning Submit to Same Page](./return-same-page.mdx)
-- [Success Return on Forms](./success-return-on-forms.mdx)
+<GuideCards
+  items={[
+    {
+      link: '../../templates/ajax/',
+      title: 'AJAX Forms',
+      description: 'Explains how to enable AJAX form submissions, customize success/error handling, and improve user experience without page reloads.',
+      popular: true,
+    },
+    {
+      link: '../../templates/caching',
+      title: 'Caching Forms',
+      description: 'Details how to cache forms properly to prevent issues with CSRF tokens, captchas, CDN\'s, and Stripe forms.',
+      popular: true,
+    },
+    {
+      link: './rendering-form-data-as-json/',
+      title: 'Rendering Form Data as JSON',
+      description: 'Shows how to output form field data as JSON for use in JavaScript, APIs, or dynamic front-end behaviors.',
+    },
+    {
+      link: './line-breaks-in-textarea-fields/',
+      title: 'Line Breaks in Textarea Fields',
+      description: 'Covers preserving or converting line breaks in textarea fields for correct display in emails and templates.',
+    },
+    {
+      link: './multiple-instances-of-same-form/',
+      title: 'Multiple Instances of the Same Form',
+      description: 'Explains how to render the same form multiple times on a page without conflicts, using unique IDs and methods.',
+    },
+    {
+      link: './return-same-page/',
+      title: 'Returning Submit to Same Page',
+      description: 'Shows how to make form submissions reload the same page, maintaining query strings and anchor tags if needed.',
+    },
+    {
+      link: './success-return-on-forms/',
+      title: 'Success Return on Forms',
+      description: 'Outlines how to redirect users to another page, section, or custom URL after successful form submission.',
+    }
+  ]}
+/>
 
 ## Fields
 
-- [Allow Additional File Extensions](./allow-additional-file-extensions.mdx)
-- [Range Slider on Number field](./range-slider-number.mdx)
-- [Toggle Switch on Checkbox field](./toggle-switch-checkbox.mdx)
-- [Color Picker on Text field](./color-picker-text.mdx)
-- [TinyMCE Rich Text Editor on Textarea field](./tinymce-editor-textarea.mdx)
-- [Include an "Other" Option for Fields](./other-option-for-fields.mdx)
-- [Parsing HTML in Field Options](./parsing-html-in-field-options.mdx)
+<GuideCards
+  items={[
+    {
+      link: './allow-additional-file-extensions/',
+      title: 'Allow Additional File Extensions',
+      description: 'Describes how to allow custom file types for file upload fields beyond the default permitted extensions.',
+      popular: true,
+    },
+    {
+      link: './range-slider-number/',
+      title: 'Range Slider on Number field',
+      description: 'Explains how to render number fields as HTML range sliders for better user input control.',
+    },
+    {
+      link: './toggle-switch-checkbox/',
+      title: 'Toggle Switch on Checkbox field',
+      description: 'Shows how to style checkbox fields as modern toggle switches for enhanced user interface design.',
+    },
+    {
+      link: './color-picker-text/',
+      title: 'Color Picker on Text field',
+      description: 'Demonstrates turning text fields into HTML color pickers to allow users to select colors visually.',
+    },
+    {
+      link: './tinymce-editor-textarea/',
+      title: 'TinyMCE Rich Text Editor on Textarea field',
+      description: 'Covers how to embed a TinyMCE rich text editor inside textarea fields for better content formatting.',
+    },
+    {
+      link: './other-option-for-fields/',
+      title: 'Include an "Other" Option for Fields',
+      description: 'Explains how to add an "Other" option to dropdowns, radios, or checkboxes with a custom text input.',
+    },
+    {
+      link: './parsing-html-in-field-options/',
+      title: 'Parsing HTML in Field Options',
+      description: 'Covers enabling HTML parsing inside field options, allowing advanced customization like icons or inline styling.',
+    }
+  ]}
+/>
 
 ## Submission Data
 
-- [Customizing Submission Columns View in Control Panel](./customizing-submissions-in-control-panel.mdx)
-- [Submission Data on Success Page](./submission-data-success.mdx)
-- [Display Total Number of Submissions for a Form](./total-number-of-submissions-for-form.mdx)
-- [Storing URL Tracking Parameters](./storing-url-tracking-parameters.mdx)
+<GuideCards
+  items={[
+    {
+      link: './customizing-submissions-in-control-panel/',
+      title: 'Customizing Submission Columns View in Control Panel',
+      description: 'Details how to adjust visible field columns for submissions inside the Freeform control panel.',
+    },
+    {
+      link: './submission-data-success/',
+      title: 'Submission Data on Success Page',
+      description: 'Explains how to access newly created submission data after successful form submissions, especially for redirects or AJAX.',
+    },
+    {
+      link: './total-number-of-submissions-for-form/',
+      title: 'Display Total Number of Submissions for a Form',
+      description: 'Shows how to display the total count of submissions a form has received using a simple template snippet.',
+    },
+    {
+      link: './storing-url-tracking-parameters/',
+      title: 'Storing URL Tracking Parameters',
+      description: 'Shows how to capture and save marketing or referral URL query parameters into form submissions automatically.',
+    }
+  ]}
+/>
 
 ## Specialty Forms
 
-- [Stripe Donation Payment Forms](./stripe-donation-payment.mdx)
-- [User Registration Forms](./user-registration.mdx)
+<GuideCards
+  items={[
+    {
+      link: './stripe-donation-payment/',
+      title: 'Stripe Donation Payment Forms',
+      description: 'Guide to setting up Stripe payments for donation-based forms, allowing dynamic, user-defined payment amounts.',
+      popular: true,
+    },
+    {
+      link: './user-registration/',
+      title: 'User Registration Forms',
+      description: 'Explains creating a front-end user registration form that saves new users directly into the Craft CMS user system.',
+      popular: true,
+    }
+  ]}
+/>
 
 ## Best Practices
 
-- [How to Stay Informed about Freeform](./stay-informed.mdx)
-- [Form Submitter's Email Address as the Reply-to Email](./admin-notifications-replyto-submitter.mdx)
-- [Spam Protection](./spam-protection.mdx)
+<GuideCards
+  items={[
+    {
+      link: './stay-informed/',
+      title: 'How to Stay Informed about Freeform',
+      description: 'Outlines options for staying updated on Freeform news, releases, tips, and important plugin announcements.',
+    },
+    {
+      link: './admin-notifications-replyto-submitter/',
+      title: 'Form Submitter\'s Email Address as the Reply-to Email',
+      description: 'Shows how to set up admin email notifications so replies go directly to the original form submitter.',
+    },
+    {
+      link: './spam-protection/',
+      title: 'Spam Protection',
+      description: 'Covers built-in spam protection methods like honeypots, reCAPTCHA, hCaptcha, and Turnstile, and best practices to reduce spam.',
+      popular: true,
+    }
+  ]}
+/>
 
 ## Testing
 
-- [Troubleshooting Form Issues](./troubleshooting-form-issues.mdx)
-- [Email Testing with Mailtrap](./email-testing-mailtrap.mdx)
-- [How to Remove Demo Templates](./remove-demo-templates.mdx)
+<GuideCards
+  items={[
+    {
+      link: './troubleshooting-form-issues/',
+      title: 'Troubleshooting Form Issues',
+      description: 'Guide for diagnosing common Freeform issues like AJAX errors, template conflicts, and server misconfigurations.',
+      popular: true,
+    },
+    {
+      link: './email-testing-mailtrap/',
+      title: 'Email Testing with Mailtrap',
+      description: 'Instructions for setting up Mailtrap to safely capture and test outgoing form email notifications without sending real emails.',
+    },
+    {
+      link: './remove-demo-templates/',
+      title: 'How to Remove Demo Templates',
+      description: 'Quick guide on how to delete Freeform\'s demo templates to keep your project clean and organized.',
+    }
+  ]}
+/>
 
 ## Headless
 
-- [How to Render a Form](../../headless/graphql/#how-to-render-a-form)
-- [Submitting a File using NextJS + AJAX](./submitting-a-file-with-nextjs.mdx)
-- [Vue.js + GraphQL demo](../../headless/vuejs.mdx)
-- [Vue.js + AJAX demo](../../headless/vuejs.mdx)
-- [React JS + GraphQL demo](../../headless/reactjs.mdx)
-- [React JS + AJAX demo](../../headless/reactjs.mdx)
-- [Next.js + GraphQL demo](../../headless/nextjs.mdx)
-- [Next.js + AJAX demo](../../headless/nextjs.mdx)
+<GuideCards
+  items={[
+    {
+      link: '../../headless/graphql/#how-to-render-a-form',
+      title: 'How to Render a Form',
+      description: 'Guide to fetching and displaying Freeform forms using GraphQL queries in headless CMS setups.',
+      popular: true,
+    },
+    {
+      link: './submitting-a-file-with-nextjs/',
+      title: 'Submitting a File using NextJS + AJAX',
+      description: 'Instructions for handling file uploads to Freeform forms using a custom API route in a Next.js app.',
+    },
+    {
+      link: '../../headless/vuejs/',
+      title: 'Vue.js demo',
+      description: 'Guides for fetching and submitting Freeform forms through GraphQL and AJAX in Vue.js apps.',
+    },
+    {
+      link: '../../headless/reactjs/',
+      title: 'React JS demo',
+      description: 'Guides for fetching and submitting Freeform forms through GraphQL and AJAX in React JS projects.',
+    },
+    {
+      link: '../../headless/nextjs/',
+      title: 'Next.js demo',
+      description: 'Guides for fetching and submitting Freeform forms through GraphQL and AJAX in Next.js apps.',
+    }
+  ]}
+/>
 
 ## Developer
 
-- [Can I make my own integrations or fields?](./custom-integrations.mdx)
-- [Building a custom Module](./building-a-custom-module.mdx)
-- [Building a custom Field Type](../../developer/field-types.mdx)
-- [Building a custom CRM integration](../../developer/crm.mdx)
-- [Building a custom Email Marketing integration](../../developer/email-marketing.mdx)
-- [Building a custom Webhook integration](../../developer/webhooks.mdx)
-- [Building a custom Predefined Option](../../developer/predefined-options.mdx)
-- [Building a custom Export Type](../../developer/export-types.mdx)
+<GuideCards
+  items={[
+    {
+      link: './custom-integrations/',
+      title: 'Can I make my own integrations or fields?',
+      description: 'Introduction to building custom integrations that connect Freeform forms to third-party APIs and services.',
+      popular: true,
+    },
+    {
+      link: './building-a-custom-module/',
+      title: 'Building a custom Module',
+      description: 'Step-by-step guide for creating a custom Freeform module with its own integration logic.',
+    },
+    {
+      link: '../../developer/field-types/',
+      title: 'Building a custom Field Type',
+      description: 'Instructions for building custom field types to expand Freeform\'s form field capabilities.',
+    },
+    {
+      link: '../../developer/crm/',
+      title: 'Building a custom CRM integration',
+      description: 'How to create custom CRM integrations that push form submission data into customer management platforms.',
+    },
+    {
+      link: '../../developer/email-marketing/',
+      title: 'Building a custom Email Marketing integration',
+      description: 'Guide for creating email marketing integrations that push form submission data into email campaign tools.',
+    },
+    {
+      link: '../../developer/webhooks/',
+      title: 'Building a custom Webhook integration',
+      description: 'How to set up custom webhook integrations that send form data to external URLs automatically.',
+    },
+    {
+      link: '../../developer/predefined-options/',
+      title: 'Building a custom Predefined Option',
+      description: 'Manage reusable field options globally and apply them across different forms.',
+    },
+    {
+      link: '../../developer/export-types/',
+      title: 'Building a custom Export Type',
+      description: 'Instructions for creating custom data export types for Freeform submission data.',
+    }
+  ]}
+/>

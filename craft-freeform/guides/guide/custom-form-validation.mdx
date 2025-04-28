@@ -1,0 +1,345 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Custom Form Validation
+
+This guide shows how to integrate common client-side form validation frameworks such as Bootstrap, Parsley.js and Foundation Abide.
+
+- [Parsley.js](#parsleyjs)
+- [Bootstrap](#bootstrap)
+- [Foundation Abide](#foundation-abide)
+
+## Parsley.js
+
+[Parsley](https://parsleyjs.org) is a very well documented and capable form validation Javascript library. This guide will show you how to implement form validation for your Freeform forms with Parsley.
+
+This guide assumes you are running [Parsley](https://parsleyjs.org) on your web pages. Usually this just means including the `parsley.js` or `parsley.min.js` file in your source code. Parsley relies on [jQuery](https://jquery.com) as well, so be sure that is included in your site as well before you follow the next steps.
+
+You can implement Parsley validation for your form 1 of 2 ways...
+
+<Tabs>
+  <TabItem value="parsley-builder" label="Form Builder" default>
+    You can add the necessary attributes to your forms with the form builder. Follow the instructions below to see how.
+
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Inside the form builder for the applicable form, go to the **Settings** tab.
+
+        At the bottom of the **General** section in the **Settings** tab, there's an area called **Attributes**. In the **Form** tab, add `data-parsley-validate` in the _Attribute_ column and leave the _Value_ column empty (or specify `true`). This will trigger the Parsley validation.
+
+        | Attribute             | Value |
+        | :-------------------- | :---- |
+        | data-parsley-validate |       |
+      </StepMarkdown>
+      <StepMarkdown>
+        To add Parsley attributes to fields, go to the **Layout** tab of the form builder, click on any field, and in the property editor on the left, you'll see an **Attributes** settings area. You will likely be appling these attributes to the **Input** tab.
+        
+        For example:
+        
+        1. In the **Input** tab, add `required` to the _Attribute_ column and leave the _Value_ column empty (or specify `true`) to make the field required.
+            - Merely toggling on the _Require this field_ setting is not sufficient to trigger Parsley, as it's intended just for Freeform's own validation.
+        2. You can also add extra validations like `data-parsley-maxlength="20"` (`data-parsley-maxlength` in *Attribute* column and `20` in *Value* column) or `data-parsley-type="number"` to trigger more complex [built-in validations as seen here](https://parsleyjs.org/doc/index.html#validators).
+            | Attribute | Value |
+            | :--- | :--- |
+            | required | |
+            | data-parsley-type | number |
+            | data-parsley-maxlength | 20 |
+      </StepMarkdown>
+      <StepMarkdown>
+        Render your form builder-based form in a Twig template as usual.
+
+        ```twig
+        {{ freeform.form("myForm").render() }}
+        ```
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="parsley-templates" label="Template Level">
+    You can add the necessary attributes and changes to your forms directly inside your Twig templates with the Freeform `form.renderTag()`. Follow the instructions below to see how.
+
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Add the `data-parsley-validate` attribute to your form using the `renderTag()` method like this:
+
+        ```twig {2}
+        {% set form = freeform.form("parsleyForm", {
+          formAttributes: { "data-parsley-validate": true }
+        }) %}
+        {{ form.renderTag() }}
+          ...
+        {{ form.renderClosingTag }}
+        ```
+      </StepMarkdown>
+      <StepMarkdown>
+        To set field level attributes, you can apply them directly to your form field inputs or `field.render`. Usually it's more convenient to set these inside the Freeform control panel form builder area, but you can still control these at the template level if you want. Your template code might look something like this:
+
+        ```twig {2,9-18}
+        {% set form = freeform.form("parsleyForm", {
+          formAttributes: { "data-parsley-validate": true }
+        }) %}
+        {{ form.renderTag() }}
+          {% for row in form %}
+          <div>
+            {% for field in row %}
+            <div>
+              {% set attr = {} %}
+              {% if field.required %}
+                {% set attr = attr|merge({'required':true}) %}
+              {% endif %}
+              {% if field.type == 'number' %}
+                {% set attr = attr|merge({'data-parsley-type':'number'}) %}
+              {% endif %}
+              {{ field.render({
+                inputAttributes: attr
+              }) }}
+            </div>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        {{ form.renderClosingTag }}
+        ```
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+</Tabs>
+
+
+## Bootstrap
+
+[Bootstrap](https://getbootstrap.com) is the most widely used HTML framework. It includes a low level of form validation which you can trigger for your forms. This guide will show you how to implement form validation for your Freeform forms with [Bootstrap validation](https://getbootstrap.com/docs/4.1/components./builder/#validation).
+
+This guide assumes that you have a [Bootstrap 4](https://getbootstrap.com/docs/4.1/getting-started/introduction/) based website which includes Bootstrap CSS and JS files.
+
+You can implement Bootstrap validation for your form 1 of 2 ways...
+
+<Tabs>
+  <TabItem value="bootstrap-builder" label="Form Builder" default>
+    You can add the necessary attributes to your forms with the form builder. Follow the instructions below to see how.
+
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Inside the form builder for the applicable form, go to the **Settings** tab.
+
+        At the bottom of the **General** section in the **Settings** tab, there's an area called **Attributes**. In the **Form** tab, add `novalidate` in the _Attribute_ column and leave the _Value_ column empty (or specify `true`). This will disable HTML form validation in your web pages and allow Bootstrap to take over. Also add a form class like `needs-validation` so you can then trigger validation on your form by targeting this class as below.
+
+        | Attribute | Value |
+        | :--- | :--- |
+        | novalidate | |
+        | class | needs-validation |
+      </StepMarkdown>
+      <StepMarkdown>
+        Render your form builder-based form in a Twig template as usual.
+
+        ```twig
+        {{ freeform.form("myForm").render() }}
+        ```
+      </StepMarkdown>
+      <StepMarkdown>
+        At the bottom of your page, add javascript to attach validation to your form(s). Note the example class `needs-validation`. This needs to match the class name you set on your form inside the form builder in the steps above.
+
+        ```twig
+        <script>
+          // Example starter Javascript for disabling form submissions if there are invalid fields
+          (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+              // Fetch all the forms we want to apply custom Bootstrap validation styles to
+              var forms = document.getElementsByClassName('needs-validation');
+              // Loop over them and prevent submission
+              var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                  if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                  }
+                  form.classList.add('was-validated');
+                }, false);
+              });
+            }, false);
+          })();
+        </script>
+        ```
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="bootstrap-templates" label="Template Level">
+    You can add the necessary attributes and changes to your forms directly inside your Twig templates with the Freeform `form.renderTag()`. Follow the instructions below to see how.
+
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Add the `novalidate` attribute to your form using the `renderTag()` method. This disables HTML validation.
+        
+        Add a class like `needs-validation` to your form using the `renderTag()` method. You'll target this with JS later. Your code now should look something like this:
+
+        ```twig {2}
+        {% set form = freeform.form("myForm", {
+          formAttributes: { "novalidate": true, 'class': 'needs-validation' }
+        }) %}
+        {{ form.renderTag({}) }}
+          ...
+        {{ form.renderClosingTag }}
+        ```
+        :::info
+        You can also set the class for the form with the `class` parameter.
+        :::
+      </StepMarkdown>
+      <StepMarkdown>
+        To set field level attributes, you can apply them directly to your form field inputs or `field.render`. Usually it's more convenient to set these inside the Freeform control panel form builder area, but you can still control these at the template level if you want. Your template code might look something like this:
+
+        ```twig {2,9-15}
+        {% set form = freeform.form("myForm", {
+          formAttributes: { "novalidate": true, 'class': 'needs-validation' }
+        }) %}
+        {{ form.renderTag({}) }}
+          {% for row in form %}
+          <div>
+            {% for field in row %}
+            <div>
+              {% set attr = {} %}
+              {% if field.required %}
+                {% set attr = attr|merge({'required':true}) %}
+              {% endif %}
+              {{ field.render({
+                inputAttributes: attr
+              }) }}
+            </div>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        {{ form.renderClosingTag }}
+        ```
+      </StepMarkdown>
+      <StepMarkdown>
+        At the bottom of your page, add javascript to attach validation to your form(s). Note the example class `needs-validation`. This needs to match the class name you set on your form inside the form builder in the steps above.
+
+        ```twig
+        <script>
+          // Example starter Javascript for disabling form submissions if there are invalid fields
+          (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+              // Fetch all the forms we want to apply custom Bootstrap validation styles to
+              var forms = document.getElementsByClassName('needs-validation');
+              // Loop over them and prevent submission
+              var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                  if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                  }
+                  form.classList.add('was-validated');
+                }, false);
+              });
+            }, false);
+          })();
+        </script>
+        ```
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+</Tabs>
+
+
+## Foundation Abide
+
+The [Abide plugin](https://foundation.zurb.com/sites/docs/abide.html) for Zurb [Foundation](https://foundation.zurb.com/) extends native HTML form validation. This guide will show you how to implement form validation for your Freeform forms with Abide.
+
+This guide assumes you are running [Foundation 6](https://foundation.zurb.com/) and have the [Abide plugin](https://foundation.zurb.com/sites/docs/abide.html) correctly installed on your web page.
+
+You can implement Foundation Abide validation for your form 1 of 2 ways...
+
+<Tabs>
+  <TabItem value="foundation-abide-builder" label="Form Builder" default>
+    You can add the necessary attributes to your forms with the form builder. Follow the instructions below to see how.
+
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Inside the form builder for the applicable form, go to the **Settings** tab.
+
+        At the bottom of the **General** section in the **Settings** tab, there's an area called **Attributes**. In the **Form** tab, add `novalidate` in the _Attribute_ column and leave the _Value_ column empty (or specify `true`). This will disable HTML form validation in your web pages and allow Foundation Abide to take over. Also add `data-abide` in the _Attribute_ column and leave the _Value_ column empty (or specify `true`). This triggers Abide level validation.
+
+        | Attribute | Value |
+        | :--- | :--- |
+        | novalidate | |
+        | data-abide | |
+      </StepMarkdown>
+      <StepMarkdown>
+        To add Parsley attributes to fields, go to the **Layout** tab of the form builder, click on any field, and in the property editor on the left, you'll see an **Attributes** settings area. You will likely be appling these attributes to the **Input** tab.
+        
+        For example:
+        
+        1. In the **Input** tab, add `required` to the _Attribute_ column and leave the _Value_ column empty (or specify `true`) to make the field required.
+            - Merely toggling on the _Require this field_ setting is not sufficient to trigger Abide, as it's intended just for Freeform's own validation.
+        2. You can also add extra validations like `number` or `email` to trigger more complex [predefined patterns as seen here](https://foundation.zurb.com/sites/docs/abide.html#builtin-patterns-and-validators). Note that some attributes may have blank values, and that's okay.
+            | Attribute | Value |
+            | :--- | :--- |
+            | required | |
+            | pattern | email |
+      </StepMarkdown>
+      <StepMarkdown>
+        Render your form builder-based form in a Twig template as usual.
+
+        ```twig
+        {{ freeform.form("myForm").render() }}
+        ```
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="foundation-abide-templates" label="Template Level">
+    You can add the necessary attributes and changes to your forms directly inside your Twig templates with the Freeform `form.renderTag()`. Follow the instructions below to see how.
+
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Add the `novalidate` and `data-abide` attributes to your form using the `renderTag()` method like this:
+
+        ```twig {2}
+        {% set form = freeform.form("myForm", {
+          formAttributes: { "novalidate": true, "data-abide": true }
+        }) %}
+        {{ form.renderTag({}) }}
+          ...
+        {{ form.renderClosingTag }}
+        ```
+      </StepMarkdown>
+      <StepMarkdown>
+        To set field level attributes, you can apply them directly to your form field inputs or `field.render`. Usually it's more convenient to set these inside the Freeform control panel form builder area, but you can still control these at the template level if you want. Your template code might look something like this:
+
+        ```twig {2,9-23}
+        {% set form = freeform.form("foundationForm", {
+          formAttributes: { "novalidate": true, "data-abide": true }
+        }) %}
+        {{ form.renderTag({}) }}
+          {% for row in form %}
+          <div>
+            {% for field in row %}
+            <div>
+              {% set attr = {} %}
+              {% if field.required %}
+                {% set attr = attr|merge({'required':true}) %}
+              {% endif %}
+              {% if field.type == 'number' %}
+                {% set attr = attr|merge({'pattern':'number'}) %}
+              {% endif %}
+              {{ field.render({
+                inputAttributes: attr
+              }) }}
+              {% if field.required and field.type == 'number' %}
+                <span class="form-error">
+                  This field is required and must be numeric.
+                </span>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        {{ form.renderClosingTag }}
+        ```
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+</Tabs>

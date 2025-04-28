@@ -83,13 +83,13 @@ For **Singles**, the handles are:
 ```twig
 <ul>
 {% if form.isIntegrationEnabled("mailchimp") %}
-    <li>Mailchimp is enabled</li>
+  <li>Mailchimp is enabled</li>
 {% endif %}
 {% if form.isIntegrationEnabled("honeypot") %}
-    <li>Honeypot is enabled</li>
+  <li>Honeypot is enabled</li>
 {% endif %}
 {% if form.isIntegrationEnabled("recaptchaV3") %}
-    <li>reCAPTCHA v3 is enabled</li>
+  <li>reCAPTCHA v3 is enabled</li>
 {% endif %}
 </ul>
 ```
@@ -118,7 +118,7 @@ Please see the [Template Overrides](../../templates/formatting/index.mdx#templat
 
 A basic implementation might look like this:
 
-```twig showLineNumbers
+```twig
 {% set form = freeform.form("myFormHandle") %}
 
 {{ form.render() }}
@@ -132,58 +132,58 @@ Once [Template Overrides](../../templates/formatting/index.mdx#template-override
 {% set form = freeform.form("myFormHandle") %}
 
 {{ form.render({
+  attributes: {
+    novalidate: true,
+    class: "my-form-class",
+  },
+  buttons: {
     attributes: {
-        novalidate: true,
-        class: "my-form-class",
+      submit: { class: "form-field-button blue" },
+      back: { class: "form-field-button gray" },
     },
-    buttons: {
-        attributes: {
-            submit: { class: "form-field-button blue" },
-            back: { class: "form-field-button gray" },
+  },
+  fields: {
+    "@global": {
+      attributes: {
+        input: {
+          class: "form-field-input",
         },
+        label: {
+          class: "form-field-label",
+        },
+      },
     },
-    fields: {
-        "@global": {
-            attributes: {
-                input: {
-                    class: "form-field-input",
-                },
-                label: {
-                    class: "form-field-label",
-                },
-            },
-        },
-        ":required": {
-            attributes: {
-                label: { "+class": "form-field-required" },
-            },
-        },
-        ":errors": {
-            attributes: {
-                input: { "+class": "form-field-is-invalid" },
-            },
-        },
-        "@dropdown": {
-            attributes: {
-                container: {
-                    "data-select-container": true,
-                },
-                input: {
-                    "+class": "form-field-select fullwidth",
-                },
-            },
-        },
-        "@checkboxes, @radios" : {
-            attributes: {
-                input: {
-                    "+class": "form-field-options",
-                },
-            },
-        },
-        "myFieldHandle": {
-            value: entry.id,
-        },
+    ":required": {
+      attributes: {
+        label: { "+class": "form-field-required" },
+      },
     },
+    ":errors": {
+      attributes: {
+        input: { "+class": "form-field-is-invalid" },
+      },
+    },
+    "@dropdown": {
+      attributes: {
+        container: {
+          "data-select-container": true,
+        },
+        input: {
+          "+class": "form-field-select fullwidth",
+        },
+      },
+    },
+    "@checkboxes, @radios" : {
+      attributes: {
+        input: {
+          "+class": "form-field-options",
+        },
+      },
+    },
+    "myFieldHandle": {
+      value: entry.id,
+    },
+  },
 }) }}
 ```
 
@@ -197,124 +197,124 @@ Manually iterate through form fields inside your regular template:
 
 {# Render the opening form tag #}
 {{ form.renderTag({
+  attributes: {
+    row: { class: "freeform-row" },
+    success: { class: "freeform-form-success" },
+    errors: { class: "freeform-form-errors" },
+    novalidate: true,
+  },
+  buttons: {
     attributes: {
-        row: { class: "freeform-row" },
-        success: { class: "freeform-form-success" },
-        errors: { class: "freeform-form-errors" },
-        novalidate: true,
+      container: { class: "freeform-button-container" },
+      column: { class: "freeform-button-column" },
+      buttonWrapper: { class: "freeform-button-wrapper" },
+      submit: { class: "freeform-button-submit" },
+      back: { class: "freeform-button-back" },
+      save: { class: "freeform-button-save" },
     },
-    buttons: {
-        attributes: {
-            container: { class: "freeform-button-container" },
-            column: { class: "freeform-button-column" },
-            buttonWrapper: { class: "freeform-button-wrapper" },
-            submit: { class: "freeform-button-submit" },
-            back: { class: "freeform-button-back" },
-            save: { class: "freeform-button-save" },
+  },
+  fields: {
+    "@global": {
+      attributes: {
+        container: { class: "freeform-column" },
+        input: {
+          "data-field": true,
+          class: "freeform-input",
         },
+        label: { class: "freeform-label" },
+        instructions: { class: "freeform-instructions" },
+        error: { class: "freeform-errors" },
+      },
     },
-    fields: {
-        "@global": {
-            attributes: {
-                container: { class: "freeform-column" },
-                input: {
-                    "data-field": true,
-                    class: "freeform-input",
-                },
-                label: { class: "freeform-label" },
-                instructions: { class: "freeform-instructions" },
-                error: { class: "freeform-errors" },
-            },
-        },
-        ":required": {
-            attributes: {
-                label: { "+class": "freeform-required" },
-            },
-        },
-        ":errors": {
-            attributes: {
-                input: { "+class": "is-invalid has-validation" },
-            },
-        },
-        "@group": {
-            attributes: {
-                label: { "+class": "group-label" },
-            },
-        },
-        "@signature": {
-            attributes: {
-                input: { "-class": "freeform-input" },
-            },
-        }
+    ":required": {
+      attributes: {
+        label: { "+class": "freeform-required" },
+      },
     },
+    ":errors": {
+      attributes: {
+        input: { "+class": "is-invalid has-validation" },
+      },
+    },
+    "@group": {
+      attributes: {
+        label: { "+class": "group-label" },
+      },
+    },
+    "@signature": {
+      attributes: {
+        input: { "-class": "freeform-input" },
+      },
+    }
+  },
 }) }}
 
 {# Success and error message handling for non-AJAX forms #}
 {% if not form.settings.ajax %}
-    {% if form.submittedSuccessfully %}
-        <div{{ form.attributes.success|raw }}>
-            <p>{{ form.settings.successMessage | t('freeform') }}</p>
-        </div>
-    {% endif %}
-    {% if form.hasErrors %}
-        <div{{ form.attributes.errors|raw }}>
-            <p>{{ form.settings.errorMessage | t('freeform') }}</p>
+  {% if form.submittedSuccessfully %}
+    <div{{ form.attributes.success|raw }}>
+      <p>{{ form.settings.successMessage | t('freeform') }}</p>
+    </div>
+  {% endif %}
+  {% if form.hasErrors %}
+    <div{{ form.attributes.errors|raw }}>
+      <p>{{ form.settings.errorMessage | t('freeform') }}</p>
 
-            {% if form.errors|length %}
-                <ul>
-                    {% for error in form.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-    {% endif %}
+      {% if form.errors|length %}
+        <ul>
+          {% for error in form.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  {% endif %}
 {% endif %}
 
 {# Render page tabs if multi-page #}
 {% if form.pages|length > 1 %}
-    <ul class="freeform-pages">
-        {% for page in form.pages %}
-            <li {% if form.currentPage.index == page.index %}class="active"{% endif %}>
-                {% if form.currentPage.index == page.index %}
-                    <b>{{ page.label }}</b>
-                {% else %}
-                    {{ page.label }}
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+  <ul class="freeform-pages">
+    {% for page in form.pages %}
+      <li {% if form.currentPage.index == page.index %}class="active"{% endif %}>
+        {% if form.currentPage.index == page.index %}
+          <b>{{ page.label }}</b>
+        {% else %}
+          {{ page.label }}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
 {% endif %}
 
 {# Build form rows and fields #}
 {% macro renderRows(form, rows) %}
-    {% for row in rows %}
-        {% set width = (12 / (row|length)) %}
-        <div{{ form.attributes.row|raw }}>
-            {% for field in row %}
-                {% do field.setParameters({
-                    attributes: {
-                        container: { class: [
-                            "freeform-column-" ~ width,
-                            "freeform-fieldtype-" ~ field.type,
-                        ]},
-                    },
-                }) %}
-                {% if field.type == "group" %}
-                    <div class="freeform-group">
-                        <label{{ field.attributes.label }}>
-                            {{ field.label }}
-                        </label>
-                        <div>
-                            {{ _self.renderRows(form, field.layout) }}
-                        </div>
-                    </div>
-                {% else %}
-                    {{ field.render }}
-                {% endif %}
-            {% endfor %}
-        </div>
-    {% endfor %}
+  {% for row in rows %}
+    {% set width = (12 / (row|length)) %}
+    <div{{ form.attributes.row|raw }}>
+      {% for field in row %}
+        {% do field.setParameters({
+          attributes: {
+            container: { class: [
+              "freeform-column-" ~ width,
+              "freeform-fieldtype-" ~ field.type,
+            ]},
+          },
+        }) %}
+        {% if field.type == "group" %}
+          <div class="freeform-group">
+            <label{{ field.attributes.label }}>
+              {{ field.label }}
+            </label>
+            <div>
+              {{ _self.renderRows(form, field.layout) }}
+            </div>
+          </div>
+        {% else %}
+          {{ field.render }}
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endfor %}
 {% endmacro %}
 
 {# Display form field rows and columns #}
@@ -328,11 +328,11 @@ Manually iterate through form fields inside your regular template:
 
 When not using AJAX, the session success flash message (displays only once) when the form is successfully submitted:
 
-```twig showLineNumbers {3-5}
+```twig {3-5}
 {% set form = freeform.form("myForm") %}
 
 {% if form.submittedSuccessfully %}
-    <div>You've successfully submitted this form!</div>
+  <div>You've successfully submitted this form!</div>
 {% endif %}
 
 {{ form.render }}
@@ -342,14 +342,14 @@ When not using AJAX, the session success flash message (displays only once) when
 
 Display a message when the submission is a [duplicate](../../submissions/overview.mdx#submission-limits):
 
-```twig showLineNumbers {3-6}
+```twig {3-6}
 {% set form = freeform.form("myForm") %}
 
 {% if form.duplicate %}
-    <div class="alert alert-warning duplicate">
-        You've already submitted this form!
-    </div>
+  <div class="alert alert-warning duplicate">
+    You've already submitted this form!
+  </div>
 {% else %}
-    {{ form.render }}
+  {{ form.render }}
 {% endif %}
 ```

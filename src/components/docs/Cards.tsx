@@ -20,6 +20,7 @@ interface FieldProps {
   link: string;
   title: string;
   titleBadge?: string;
+  popular?: string;
   description: string;
   icon?: string;
 }
@@ -40,6 +41,10 @@ interface CardSectionProps {
 }
 
 interface FieldCardsProps {
+  items: FieldProps[];
+}
+
+interface GuideCardsProps {
   items: FieldProps[];
 }
 
@@ -330,6 +335,30 @@ const FieldCards: React.FC<FieldCardsProps> = ({ items }) => {
   );
 };
 
+const GuideCards: React.FC<GuideCardsProps> = ({ items }) => {
+  return (
+    <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
+      {items.map((item, index) => (
+        <Link
+          key={`guide-cards-${index}`}
+          to={item.link}
+          className="relative flex flex-col rounded-lg p-4 m-1 hover:m-0 hover:p-5 transition-all duration-500 bg-[rgba(0,127,230,0.2)] dark:bg-[rgba(0,105,190,0.25)] hover:bg-[#87c9ff] hover:dark:bg-[#0069be]"
+        >
+          <h4 className="!text-[1.1rem] font-bold text-black dark:text-white !mt-0 !pt-0 !mb-2">
+            {item.title}{' '}
+            {item.popular && (
+              <Badge type="feature" text="Popular!" />
+            )}
+          </h4>
+          <p className="text-[0.8rem] text-black/80 dark:text-white/80 mb-0">
+            {item.description}
+          </p>
+        </Link>
+      ))}
+    </div>
+  );
+};
+
 const PhotoCards: React.FC<IntegrationPhotoCardsProps> = ({ items }) => {
   return (
     <>
@@ -377,6 +406,7 @@ export {
   Card,
   FlexCards,
   FieldCards,
+  GuideCards,
   IntegrationPhotoCards,
   AnswerCard,
   AnswerChecklist,
