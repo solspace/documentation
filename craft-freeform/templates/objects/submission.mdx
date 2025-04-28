@@ -42,7 +42,7 @@ The ID of the form the submission belongs to.
 
 ### `form`
 
-The Freeform_FormModel.
+The Freeform FormModel.
 
 ### `ip`
 
@@ -58,11 +58,11 @@ Also required if you wish to allow [editing of submissions on front end](../../s
 
 A way to access all submitted field values, excluding HTML fields, submit fields, email-marketing fields. You can automate accessing all field data by using markup like this:
 
-```twig showLineNumbers
+```twig
 <ul>
-	{% for field in submission %}
-		<li>{{ field.label }}: {{ submission[field.handle] }}</li>
-	{% endfor %}
+  {% for field in submission %}
+    <li>{{ field.label }}: {{ submission[field.handle] }}</li>
+  {% endfor %}
 </ul>
 ```
 
@@ -83,58 +83,58 @@ Below is a basic example of how to display a list of submissions for a given for
 ```twig showLineNumbers
 {% set formHandle = 'yourFormHandle' %}
 {% set submissions = freeform.submissions({
-	form: formHandle,
+  form: formHandle,
 }) %}
 
 <h3>Submissions for {{ form.name }}</h3>
 
 {% if submissions is empty %}
-	<div>There are no submissions</div>
+  <div>There are no submissions</div>
 {% else %}
-	<table class="table">
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>Title</th>
-				{% for field in (submissions|first) %}
-					<th>{{ field.label }}</th>
-				{% endfor %}
-			</tr>
-		</thead>
-		<tbody>
-		{% for submission in submissions %}
-			<tr>
-				<td>{{ submission.id }}</td>
-				<td>
-					<a href="{{ siteUrl }}freeform-demo/bootstrap/{{ form.handle }}/submissions/{{ submission.id }}">
-						{{ submission.title }}
-					</a>
-				</td>
-				{% for field in submission %}
-					<td>
-					{% if field.type == "file" %}
-						{% set assetIds = submission[field.handle].value %}
-						{% if assetIds %}
-							{% for assetId in assetIds %}
-								{% set asset = craft.assets.id(assetId).one() %}
-								{% if asset %}
-									{% if asset.kind == "image" %}
-										<img src="{{ asset.url }}" class="img-responsive" />
-									{% else %}
-										<a href="{{ asset.url }}">{{ asset.filename }}</a>
-									{% endif %}
-								{% endif %}
-							{% endfor %}
-						{% endif %}
-					{% else %}
-						{{ submission[field.handle] }}
-					{% endif %}
-					</td>
-				{% endfor %}
-			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        {% for field in (submissions|first) %}
+          <th>{{ field.label }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+    {% for submission in submissions %}
+      <tr>
+        <td>{{ submission.id }}</td>
+        <td>
+          <a href="{{ siteUrl }}freeform-demo/bootstrap/{{ form.handle }}/submissions/{{ submission.id }}">
+            {{ submission.title }}
+          </a>
+        </td>
+        {% for field in submission %}
+          <td>
+          {% if field.type == "file" %}
+            {% set assetIds = submission[field.handle].value %}
+            {% if assetIds %}
+              {% for assetId in assetIds %}
+                {% set asset = craft.assets.id(assetId).one() %}
+                {% if asset %}
+                  {% if asset.kind == "image" %}
+                    <img src="{{ asset.url }}" class="img-responsive" />
+                  {% else %}
+                    <a href="{{ asset.url }}">{{ asset.filename }}</a>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% else %}
+            {{ submission[field.handle] }}
+          {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
 {% endif %}
 ```
 
@@ -144,33 +144,33 @@ Below is a basic example of how to display a single view submission, assuming th
 
 ```twig showLineNumbers
 {% set submission = freeform.submissions({
-	form: 'yourFormHandle',
-	id: craft.app.request.segment(3),
+  form: 'yourFormHandle',
+  id: craft.app.request.segment(3),
 }).one() %}
 
 <h3>
-	{{ form.name }} - {{ submission.title }}
-	({{ submission.statusModel.name }})
+  {{ form.name }} - {{ submission.title }}
+  ({{ submission.statusModel.name }})
 </h3>
 
 <table class="table table-striped">
-{% for field in submission %}
-	<tr>
-		<th style="width: 20%;">{{ field.label }}</th>
-		<td>
-		{% if field.type == "file" %}
-			{% set assetId = submission[field.handle] %}
-			{% set asset = craft.assets.id(assetId).one() %}
-			{% if asset %}
-				<img src="{{ asset.url }}" />
-			{% endif %}
-		{% elseif field.type == "dynamic_recipients" %}
-			{{ field.value }}
-		{% else %}
-			{{ submission[field.handle] }}
-		{% endif %}
-		</td>
-	</tr>
-{% endfor %}
+  {% for field in submission %}
+    <tr>
+      <th style="width: 20%;">{{ field.label }}</th>
+      <td>
+      {% if field.type == "file" %}
+        {% set assetId = submission[field.handle] %}
+        {% set asset = craft.assets.id(assetId).one() %}
+        {% if asset %}
+          <img src="{{ asset.url }}" />
+        {% endif %}
+      {% elseif field.type == "dynamic_recipients" %}
+        {{ field.value }}
+      {% else %}
+        {{ submission[field.handle] }}
+      {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
 </table>
 ```

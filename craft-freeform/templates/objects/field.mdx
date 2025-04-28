@@ -29,35 +29,35 @@ The advantage of this approach is that you can set overrides that apply to all f
 Please see the [Template Overrides](../formatting/index.mdx#template-overrides) documentation for detailed instructions.
 :::
 
-```twig showLineNumbers
+```twig
 {{ freeform.form("myFormHandle", {
-    attributes: {
-        novalidate: true,
-        row: {
-            class: "row",
-        },
+  attributes: {
+    novalidate: true,
+    row: {
+      class: "row",
     },
-    fields: {
-        "@global": {
-            attributes: {
-                input: { class: "input-class" },
-                label: { class: "label-class" },
-            },
-        },
-        "@dropdown": {
-            attributes: {
-                input: { "+class": "select fullwidth" },
-            },
-        },
-        "@checkboxes, @multiple-select": {
-            instructions: "Select all that apply.",
-        },
-        ":required": {
-            attributes: {
-                label: { "+class": "form-required" },
-            },
-        },
+  },
+  fields: {
+    "@global": {
+      attributes: {
+        input: { class: "input-class" },
+        label: { class: "label-class" },
+      },
     },
+    "@dropdown": {
+      attributes: {
+        input: { "+class": "select fullwidth" },
+      },
+    },
+    "@checkboxes, @multiple-select": {
+      instructions: "Select all that apply.",
+    },
+    ":required": {
+      attributes: {
+        label: { "+class": "form-required" },
+      },
+    },
+  },
 }).render() }}
 ```
 
@@ -69,29 +69,29 @@ The advantage of this approach is that you can fine-tune overrides that apply to
 Please see the [Template Overrides](../formatting/index.mdx#template-overrides) documentation for detailed instructions.
 :::
 
-```twig showLineNumbers
+```twig
 {{ field.render({
-    label: "My Field Label Override",
-    instructions: "My field instructions override.",
-    value: "my field value override",
-    attributes: {
-        container: {
-            class: "container",
-        },
-        input: {
-            "data-field": true,
-            class: "input-element",
-        },
-        label: {
-            class: "label",
-        },
-        instructions: {
-            class: "instructions",
-        },
-        error: {
-            class: "error-block",
-        },
-    }
+  label: "My Field Label Override",
+  instructions: "My field instructions override.",
+  value: "my field value override",
+  attributes: {
+    container: {
+      class: "container",
+    },
+    input: {
+      "data-field": true,
+      class: "input-element",
+    },
+    label: {
+      class: "label",
+    },
+    instructions: {
+      class: "instructions",
+    },
+    error: {
+      class: "error-block",
+    },
+  }
 }) }}
 ```
 
@@ -208,13 +208,42 @@ If errors are present for the field, this renders only the field's error message
 
 Returns a boolean value of `true` if the form has been posted and this field doesn't contain any errors.
 
+### `translateOptionLabel()`<Badge type="feature" text="New in 5.10.11+" />
+
+While `render()` and `renderInput()` will automatically display the [translated](../../configuration/sites.mdx#translations) option labels when using Freeform's [form builder translation feature](../../configuration/sites.mdx#translations), in cases where you are manually accessing the field's `option.label` you will need to use the `translateOptionLabel` function instead.
+
+```twig {16}
+{{ field.renderContainerOpeningTag }}
+
+  {{ field.renderLabel }}
+  {{ field.renderInstructions }}
+  <div class="mt-1 space-y-1{% if field.oneLine %} sm:flex sm:items-center sm:space-y-0 sm:space-x-5{% endif %}">
+  {% for index, option in field.options %}
+    <div class="flex items-center">
+      <input type="radio"
+        name="{{ field.handle }}"
+        value="{{ option.value }}"
+        id="{{ field.idAttribute }}-{{ index }}"
+        class="{{ field.attributes.input.get("class") }}{{ field.hasErrors ? ' outline-1 -outline-offset-1 outline-red-600' }}"
+        {{ option.value == field.value ? "checked" }}
+      />
+      <label for="{{ field.idAttribute }}-{{ index }}" class="{{ field.attributes.optionLabel.get("class") }}{{ field.hasErrors ? ' text-red-600' }}">
+        {{ field.translateOptionLabel(option) }}
+      </label>
+    </div>
+  {% endfor %}
+  {{ field.renderErrors }}
+
+{{ field.renderContainerClosingTag }}
+```
+
 ## Usage in Templates
 
 ### Simple Render
 
 Render the whole field (container, label, input field, instructions and errors) with a single line:
 
-```twig showLineNumbers
+```twig
 {{ field.render() }}
 ```
 
@@ -222,7 +251,7 @@ Render the whole field (container, label, input field, instructions and errors) 
 
 Render each part of the field separately:
 
-```twig showLineNumbers
+```twig
 {{ field.renderLabel() }}
 {{ field.renderInstructions() }}
 {{ field.renderInput() }}
@@ -233,18 +262,20 @@ Render each part of the field separately:
 
 Fully customize the output of your field:
 
-```twig showLineNumbers
+```twig
 <label data-label class="label">
-	{{ field.label }}
-	{% if field.instructions %}
-		<span class="instructions">{{ field.instructions }}</span>
-	{% endif %}
+  {{ field.label }}
+  {% if field.instructions %}
+    <span class="instructions">{{ field.instructions }}</span>
+  {% endif %}
 </label>
+
 <input type="text" name="{{ field.handle }}" value="{{ field.valueAsString }}" data-some-value="my_custom_value_here" />
+
 {% if field.errors %}
-	{% for errorString in field.errors %}
-		<div class="error">{{ errorString }}</div>
-	{% endfor %}
+  {% for errorString in field.errors %}
+    <div class="error">{{ errorString }}</div>
+  {% endfor %}
 {% endif %}
 ```
 
@@ -252,28 +283,28 @@ Fully customize the output of your field:
 
 Render the whole field but override any part of it:
 
-```twig showLineNumbers
+```twig
 {{ field.render({
-    label: "My Field Label Override",
-    instructions: "My field instructions override.",
-    value: "my field value override",
-    attributes: {
-        container: {
-            class: "container",
-        },
-        input: {
-            "data-field": true,
-            class: "input-element",
-        },
-        label: {
-            class: "label",
-        },
-        instructions: {
-            class: "instructions",
-        },
-        error: {
-            class: "error-block",
-        },
-    }
+  label: "My Field Label Override",
+  instructions: "My field instructions override.",
+  value: "my field value override",
+  attributes: {
+    container: {
+      class: "container",
+    },
+    input: {
+      "data-field": true,
+      class: "input-element",
+    },
+    label: {
+      class: "label",
+    },
+    instructions: {
+      class: "instructions",
+    },
+    error: {
+      class: "error-block",
+    },
+  }
 }) }}
 ```
