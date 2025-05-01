@@ -347,7 +347,7 @@ const GuideCards: React.FC<GuideCardsProps> = ({ items }) => {
           <h4 className="!text-[1.1rem] font-bold text-black dark:text-white !mt-0 !pt-0 !mb-2">
             {item.title}{' '}
             {item.popular && (
-              <Badge type="feature" text="Popular!" />
+              <Badge type="recommended" text="Popular!" />
             )}
           </h4>
           <p className="text-[0.8rem] text-black/80 dark:text-white/80 mb-0">
