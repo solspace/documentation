@@ -26,11 +26,11 @@ const PrimaryButtonWithLink: React.FC<PrimaryButtonWithLink> = ({
   return (
     <Link
       to={to}
-      className={`primary-btn ${classes} ${
-        size === 'sm' ? 'text-sm py-2 px-2' : 'text-md py-2 px-4 '
+      className={`primary-btn ${classes || ''} ${
+        size === 'sm' ? 'text-sm py-2 px-2' : 'text-md py-2 px-4'
       } ${outline ? 'outline-btn' : ''} ${mobileHidden ? 'mobile-hidden' : ''}`}
     >
-      <span className={`${arrowDown ? 'arrow-down' : ''}`}>
+      <span className={arrowDown ? 'arrow-down' : ''}>
         {label || 'Learn more'}
       </span>
     </Link>

@@ -55,9 +55,6 @@
   padding-right: 15px;
 }
 
-.theme-doc-sidebar-menu li {
-
-}
 .theme-doc-sidebar-menu li a {
   padding-left: 10px;
 }
@@ -330,6 +327,24 @@ html[data-theme='dark'] blockquote p {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.review-card p.stars {
+  font-size: 1.25rem;
+  color: #ffc824;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+.review-card blockquote {
+  background: transparent !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0;
+}
+.review-card cite::before {
+  content: '—';
+  margin-right: 5px;
+}
+
 /* A tag */
 .docs-doc-page .theme-doc-markdown a:not([class]),
 .external-link {
@@ -497,6 +512,7 @@ html {
 /* Button */
 .primary-btn {
   @apply relative w-fit mb-2 inline-block font-medium rounded-full transition-all duration-500 bg-[#ff6624] text-white hover:text-white;
+  border: 2px solid #ff6624;
 }
 .primary-btn:hover {
   background-color: rgba(255, 102, 36, 0.8);
@@ -515,6 +531,7 @@ html {
 .primary-btn > span::after {
   @apply transition-all duration-500 absolute opacity-0 -top-0.5 -right-2;
   content: '';
+  margin-top: -2px;
 }
 .docs-doc-id-landing-page .plugin-store-link {
   margin-right: 90px;
@@ -580,6 +597,19 @@ video {
 }
 [data-theme='dark'] video {
   border: 1px solid rgb(55 65 81);
+}
+
+.intro-section video {
+  width: 100%;
+  height: auto !important;
+  border: none;
+  border-radius: 10px;
+  margin: 0;
+  opacity: 1;
+  transition: all 0.5s;
+}
+.intro-section [data-theme='dark'] video {
+  border: none;
 }
 
 /* Badge */
@@ -1917,7 +1947,7 @@ html[data-theme='light'].docs-doc-id-intro .landing-cms-for {
 
 @media (min-width: 1440px) {
   .docs-doc-id-landing-page .container {
-    max-width: 1240px;
+    max-width: 1440px;
   }
 }
 
@@ -1943,7 +1973,7 @@ html[data-theme='light'].docs-doc-id-intro .landing-cms-for {
   padding: 20px;
 }
 .quote-grid blockquote span.stars {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   color: #ffc824;
   line-height: 1;
 }
@@ -1962,6 +1992,16 @@ html[data-theme='dark'] .quote-grid blockquote cite {
 .quote-grid blockquote cite::before {
   content: '—';
   margin-right: 5px;
+}
+
+.faq-card > div {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.faq-card > div:first-of-type {
+  border-top: 0 !important;
+}
+html[data-theme='dark'] .faq-card > div {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .faq-list {
@@ -2528,6 +2568,11 @@ h2.section-title {
   border: none;
   margin: 0 -10px !important;
 }
+.intro-section h2 {
+  border: none;
+  margin: 0 !important;
+  padding: 0 !important;
+}
 
 h3 {
   border-top: 1px solid rgba(5, 143, 254, 0.1);
@@ -2554,6 +2599,12 @@ h4:first-of-type {
 h4 span {
   font-size: 1.1rem;
   font-weight: normal;
+}
+
+.field-cards h4 {
+  border: none;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .search-page-wrapper h2 {
