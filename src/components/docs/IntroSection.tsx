@@ -128,12 +128,12 @@ const IntroSection: React.FC<IntroSectionProps> = ({
             </div>
           )}
           {introcards && (
-          <div className="mx-auto mt-10 px-2 xl:px-10">
+          <div className="mx-auto mt-10 px-0 xl:px-10">
             {introcards}
           </div>
           )}
           {extracards && (
-            <div className="mx-auto mt-10 px-2 xl:px-10">
+            <div className="mx-auto mt-10 px-0 xl:px-10">
               {extracards}
             </div>
           )}
