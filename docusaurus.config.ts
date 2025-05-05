@@ -316,7 +316,7 @@ const config: Config = {
       title: 'Solspace',
       logo: {
         alt: 'Solspace',
-        src: 'img/icons/solspace.png',
+        src: 'logos/icons/solspace.png',
       },
       items: [
         {

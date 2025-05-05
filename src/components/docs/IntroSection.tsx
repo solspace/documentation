@@ -55,7 +55,7 @@ const IntroSection: React.FC<IntroSectionProps> = ({
                   <div className="max-w-20">
                     <img
                       className="min-w-20 filter-icons"
-                      src={useBaseUrl(`/card-icons/${iconSrc}.svg`)}
+                      src={useBaseUrl(`/icons/cards/${iconSrc}.svg`)}
                       alt={title}
                     />
                   </div>
@@ -92,7 +92,7 @@ const IntroSection: React.FC<IntroSectionProps> = ({
               <div className="mx-auto max-w-20 mb-3">
                 <img
                   className="mx-auto min-w-20 filter-icons"
-                  src={useBaseUrl(`/card-icons/${iconSrc}.svg`)}
+                  src={useBaseUrl(`/icons/cards/${iconSrc}.svg`)}
                   alt={title}
                 />
               </div>

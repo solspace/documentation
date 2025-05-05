@@ -1,7 +1,7 @@
 import Layout from '@theme/Layout';
 import { LeftNav, Footer } from '@site/src/components/layout';
 import { FlexCards } from '@site/src/components/docs';
-import Icons from '@site/static/card-icons';
+import Icons from '@site/static/icons/cards';
 
 export default function ExpressionEngine(): JSX.Element {
   return (
