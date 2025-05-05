@@ -524,7 +524,7 @@ const ReviewCards: React.FC<GuideCardsProps> = ({ items }) => {
     <div className="relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] w-screen mt-20 flow-root">
       <div className="review-card -mt-10 sm:columns-2 sm:text-[0] lg:columns-3 xl:columns-4">
         {items.map((item, index) => (
-          <div className="pt-10 inline-block w-full" key={`review-cards-${index}`}>
+          <div className="pt-0 sm:pt-10 inline-block w-full" key={`review-cards-${index}`}>
             <figure className="rounded-2xl bg-gradient-to-tr from-[#64a3f1]/5 to-[#c3dff8]/5 p-6 text-sm/6">
               <p className="stars">★★★★★</p>
               <blockquote>
