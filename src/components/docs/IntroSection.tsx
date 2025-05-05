@@ -46,7 +46,7 @@ const IntroSection: React.FC<IntroSectionProps> = ({
 
   if (mediaPosition === 'left' || mediaPosition === 'right') {
     return (
-      <section className={`intro-section overflow-hidden bg-gradient-to-tr from-[#64a3f1]/5 to-[#c3dff8]/5 py-10 my-10 ${mediaPosition === 'left' ? 'pr-16' : 'pl-16'} rounded-3xl`} id={anchor}>
+      <section className={`intro-section overflow-hidden bg-gradient-to-tr from-[#64a3f1]/5 to-[#c3dff8]/5 py-10 my-10 px-8 ${mediaPosition === 'left' ? 'lg:pr-16' : 'lg:pl-16'} rounded-3xl`} id={anchor}>
         <div className="mx-auto px-0">
           <div className="mx-auto flex flex-col lg:flex-row max-w-2xl gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none">
             <div className={`lg:w-2/5 flex-1 ${mediaPosition === 'left' ? 'lg:ml-auto lg:pt-4 lg:pl-4' : 'lg:pt-4 lg:pr-8'}`}>
@@ -60,10 +60,10 @@ const IntroSection: React.FC<IntroSectionProps> = ({
                     />
                   </div>
                 )}
-                <h2 className="mt-2 text-5xl font-semibold text-pretty text-black dark:text-white">
+                <h2 className="mt-2 text-4xl lg:text-5xl font-semibold text-pretty text-black dark:text-white">
                   {title}
                 </h2>
-                <p className="mt-6 text-lg/7 text-gray-700 dark:text-gray-300">
+                <p className="mt-6 text-base md:text-lg/7 text-gray-700 dark:text-gray-300">
                   {description}
                 </p>
                 {introcards}
@@ -85,7 +85,7 @@ const IntroSection: React.FC<IntroSectionProps> = ({
 
   if (mediaPosition === 'top') {
     return (
-      <section className="intro-section py-20" id={anchor}>
+      <section className="intro-section py-10 md:py-20" id={anchor}>
         <div className="mx-auto px-6">
           <div className="mx-auto max-w-2xl text-center">
             {iconSrc && (
@@ -97,11 +97,11 @@ const IntroSection: React.FC<IntroSectionProps> = ({
                 />
               </div>
             )}
-            <h2 className="mt-2 text-5xl font-semibold text-pretty text-black dark:text-white">{title}</h2>
-            <p className="mt-6 text-lg/8 text-gray-700 dark:text-gray-300">{description}</p>
+            <h2 className="mt-2 text-4xl lg:text-5xl font-semibold text-pretty text-black dark:text-white">{title}</h2>
+            <p className="mt-6 text-base md:text-lg/8 text-gray-700 dark:text-gray-300">{description}</p>
           </div>
           {video && (
-            <div className="relative overflow-hidden pt-10">
+            <div className="relative overflow-hidden pt-5 md:pt-10">
               <div className="mx-auto px-0">
                 <div className="overflow-hidden rounded-xl shadow-2xl ring-1 ring-black/10 dark:ring-white/10">
                   {video}
@@ -113,7 +113,7 @@ const IntroSection: React.FC<IntroSectionProps> = ({
             </div>
           )}
           {imgSrc && (
-            <div className="relative overflow-hidden pt-10">
+            <div className="relative overflow-hidden pt-5 md:pt-10">
               <div className="mx-auto px-0">
                 <div className="mx-auto w-full overflow-hidden rounded-xl shadow-2xl ring-1 ring-black/10 dark:ring-white/10">
                   <img
@@ -128,12 +128,12 @@ const IntroSection: React.FC<IntroSectionProps> = ({
             </div>
           )}
           {introcards && (
-          <div className="mx-auto mt-10 px-10">
+          <div className="mx-auto mt-10 px-2 xl:px-10">
             {introcards}
           </div>
           )}
           {extracards && (
-            <div className="mx-auto mt-10 px-10">
+            <div className="mx-auto mt-10 px-2 xl:px-10">
               {extracards}
             </div>
           )}
