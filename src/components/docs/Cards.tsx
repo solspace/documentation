@@ -467,7 +467,7 @@ const IntegrationCards: React.FC<IntegrationCardsProps> = ({ items, layout }) =>
   }
 
   return (
-    <div className="flex flex-wrap justify-center rounded-lg">
+    <div className="flex flex-wrap justify-center rounded-lg mb-20">
       {items.map((item, index) => (
         <Link
           key={`integration-cards-${index}`}
