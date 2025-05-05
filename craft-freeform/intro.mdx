@@ -11,7 +11,7 @@ import Link from '@docusaurus/Link';
 import SearchBar from '@theme/SearchBar';
 import NavbarSearch from '@theme/Navbar/Search';
 import { PrimaryButtonWithLink, SimpleTextLink, FlexButton, Photo, BrowserMockupWithPhoto, Badge, ThemedIdealImage } from '@site/src/components/utils';
-import { FlexCards, FieldCards, IntegrationPhotoCards, Section } from '@site/src/components/docs';
+import { FlexCards, IntroCards, ReviewCards, FieldCards, IntegrationCards, FaqCards, IntroSection } from '@site/src/components/docs';
 import Icons from '@site/static/card-icons';
 
 # Overview
@@ -34,7 +34,7 @@ import Icons from '@site/static/card-icons';
       <div className='flex gap-3 landing-header-buttons'>
         <FlexButton
           items={[
-            { to: '#reliability', label: 'Feature Tour', outline: true, arrowDown: true },
+            { to: '#tour', label: 'Feature Tour', outline: true, arrowDown: true },
             { to: '#pricing', label: 'Pricing', outline: true, arrowDown: true, mobileHidden: true },
           ]}
         />
@@ -43,6 +43,9 @@ import Icons from '@site/static/card-icons';
         </NavbarSearch>
         <FlexButton
           items={[{ to: 'setup/installing-updating', label: 'Explore Docs' }]}
+        />
+        <FlexButton
+          items={[{ to: 'guides', label: 'User Guides', mobileHidden: true, icon: Icons.GraduationCapIcon }]}
         />
       </div>
       <small>
@@ -112,145 +115,87 @@ import Icons from '@site/static/card-icons';
 </div>
 
 <div className="intro-main-content container py-8">
-  <Player
-    url={require('@site/static/videos/craft/freeform/v5/builder-feature.mp4').default}
-    muted loop playing width="100%" height="100%"
-  />
-  <FlexCards
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/builder-feature.mp4').default}
+  muted loop playing width="100%" height="100%"
+/>
+
+<IntroSection
+  title="Everything you need"
+  anchor="tour"
+  description="The Freeform form builder gives you a simple all-in-one interface where everything you need is at your fingertips.."
+  mediaPosition="top"
+>
+  <IntroCards
+    layout="inline"
     items={[
       {
-        title: 'Getting Started',
-        description: 'Learn the basics about Freeform and setting up forms.',
-        icon: Icons.TapIcon,
-        fullCardLink: 'guides/getting-started/',
+        title: 'Convenience',
+        description: 'Tons of plug-and-play features that make creating forms and templates a total breeze!',
+        icon: Icons.TrolleyIcon,
+        linkWithDescription: '#convenience',
       },
       {
-        title: 'User Guides',
-        description: 'See solutions to common problems and questions.',
-        icon: Icons.GraduationCapIcon,
-        fullCardLink: 'guides',
+        title: 'Powerful Fields',
+        description: 'Freeform offers a wide range of different field types and cool features to help you manage them easily.',
+        icon: Icons.FieldTextIcon,
+        linkWithDescription: '#powerful-fields',
       },
       {
-        title: 'Support',
-        description: 'Questions or issues? We want to help your project go smoothly!',
-        icon: Icons.DiscussionIcon,
-        fullCardLink: '/support/',
+        title: 'Email Notifications',
+        description: 'Several ways to send email notifications that you can totally customize.',
+        icon: Icons.OpenLetterIcon,
+        linkWithDescription: '#email-notifications',
+      },
+      {
+        title: 'Spam Protection',
+        description: 'Freeform packs a bunch of handy spam control features that make protecting forms from spam a breeze.',
+        icon: Icons.CarrotIcon,
+        linkWithDescription: '#spam-protection',
+      },
+      {
+        title: 'Flexible Templating',
+        description: 'Templating is easy and even the trickiest of forms can be customized. Our ready-to-go templates will have you ready in minutes!',
+        icon: Icons.CodeIcon,
+        linkWithDescription: '#flexible-templating',
+      },
+      {
+        title: 'Integrations',
+        description: 'Connect your forms with any application or service.',
+        icon: Icons.CloudApiIcon,
+        linkWithDescription: '#integrations',
+      },
+      {
+        title: 'Translatable Forms',
+        description: 'Enable forms for different Craft Sites, and set up unique labels, options, messages, and more for each!',
+        icon: Icons.TranslationIcon,
+        linkWithDescription: '#translatable-forms',
+      },
+      {
+        title: 'Submission Data',
+        description: 'Collect submission data and do whatever you want with it. Freeform also includes various options for importing and exporting data.',
+        icon: Icons.ArchiveIcon,
+        linkWithDescription: '#submission-data',
+      },
+      {
+        title: 'Headless',
+        description: 'Freeform makes it easy to use modern JS frameworks and GraphQL in headless setups.',
+        icon: Icons.HeadlessIcon,
+        linkWithDescription: '#headless',
       },
     ]}
   />
+</IntroSection>
 
-<Section
-  title="Reliability"
-  anchor="reliability"
-  subtitle="Forms that work are super important."
-  description="Missing out on customer leads can really hurt our revenue and leave a bad impression on potential clients. That's why we focus on being reliable more than anything else."
-  imgSrc={Icons.ShieldIcon}
->
-  <FlexCards
-    items={[
-      {
-        title: 'Email Failure Alerts',
-        description: 'Freeform will email you if there is a template or setup issue with your site.',
-        icon: Icons.AlertIcon,
-        linkWithDescription: 'configuration/notices-alerts/',
-      },
-      {
-        title: 'Automatic Update Notices',
-        description: 'Freeform alerts you to potential website issues, catching errors before you notice.',
-        icon: Icons.UpdateNotificationIcon,
-        linkWithDescription: 'configuration/notices-alerts/',
-      },
-      {
-        title: 'Weekly / Daily Digest Email',
-        description: "Get email updates about what's happening on your site with weekly or daily digests.",
-        icon: Icons.EmailReportIcon,
-        linkWithDescription: 'configuration/notices-alerts/',
-      },
-      {
-        title: 'Error Logging',
-        description: 'The error logging system tells you quickly about any problems on your website.',
-        icon: Icons.GuaranteeCertificateIcon,
-      },
-      {
-        title: 'Satisfaction Guaranteed',
-        description: 'Try Freeform risk-free with our 90-day full refund guarantee.',
-        icon: Icons.GuaranteeCertificateIcon,
-      },
-      {
-        title: 'Private Support Tickets',
-        description: "If you need help with Freeform, send us a private support ticket and we'll be happy to assist you.",
-        icon: Icons.GuaranteeCertificateIcon,
-        linkWithDescription: '/support/',
-        linkWithDescriptionLabel: 'Private support',
-      },
-    ]}
-  />
-</Section>
-
-<div className="quote-grid">
-  <blockquote>
-    <span className="stars">★★★★★</span>
-    <div>
-      Remarkably comprehensive form system with top-notch user interface, developer
-      documentation, and support! I've used this product since its early versions;
-      It started strong and continues to evolve and improve on all fronts. I'm
-      specifically pleased with its Stripe integration, though it offers plenty of
-      other features. Plus, support has been attentive and helpful when I've run
-      into any hitches.
-    </div>
-    <cite>Marcus Trapp</cite>
-  </blockquote>
-  <blockquote>
-    <span className="stars">★★★★★</span>
-    <div>
-      Great plugin over all. I use it on my own website and client website. I
-      recently started to use the Stripe integration as well, and it is very
-      smooth and comfortable. Besides that, the support is awesome, quick and
-      personal!
-    </div>
-    <cite>Matan Levkowich</cite>
-  </blockquote>
-</div>
-
-<Section
-  title="Form Builder"
-  anchor="form-builder"
-  subtitle="Our user-friendly form builder has everything you need at your fingertips."
-  description="The Freeform form builder gives you a simple all-in-one interface that lets you tweak just about everything about your forms."
-  imgSrc={Icons.MagicWandIcon}
->
-  <Player
-    url={require('@site/static/videos/craft/freeform/v5/builder-feature.mp4').default}
-    muted loop playing width="100%" height="100%"
-  />
-</Section>
-
-<div className="quote-grid">
-  <blockquote>
-    <span className="stars">★★★★★</span>
-    <div>
-      Freeform is a very powerful form builder with options based on your needs.
-      I've used it on a number of projects over the past few years because it
-      just works, and our clients love it. Support is top-notch too!
-    </div>
-    <cite>Todd Richards</cite>
-  </blockquote>
-  <blockquote>
-    <span className="stars">★★★★★</span>
-    <div>
-      My go-to form builder for years now. A lot of features and great support.
-    </div>
-    <cite>Erika G</cite>
-  </blockquote>
-</div>
-
-<Section
+<IntroSection
   title="Convenience"
   anchor="convenience"
-  subtitle="There are tons of plug-and-play features that make creating forms and templates a total breeze!"
-  imgSrc={Icons.TrolleyIcon}
+  description="Tons of plug-and-play features that make creating forms and templates a total breeze!"
+  mediaPosition="top"
 >
-  <FlexCards
+  <IntroCards
+    layout="inline"
     items={[
       {
         title: 'Forms Dashboard',
@@ -306,41 +251,18 @@ import Icons from '@site/static/card-icons';
       },
     ]}
   />
-</Section>
+</IntroSection>
 
-<div className="quote-grid">
-  <blockquote>
-    <span className="stars">★★★★★</span>
-    <div>
-      Extremely rich feature set, and a long history of being well-maintained
-      and supported.
-    </div>
-    <cite>Brandon Kelly</cite>
-  </blockquote>
-  <blockquote>
-    <span className="stars">★★★★★</span>
-    <div>Flexible, client friendly, well documented.</div>
-    <cite>Peter Mitchell</cite>
-  </blockquote>
-</div>
-
-<Section
+<IntroSection
   title="Spam Protection"
   anchor="spam-protection"
-  subtitle="Fight spam effectively."
   description="Freeform packs a bunch of handy spam control features that make protecting forms from spam a breeze."
-  imgSrc={Icons.CarrotIcon}
+  imgSrc="craft/freeform/v5/forms/spam-folder.png"
+  imgAlt="Freeform's built-in Spam Folder"
+  mediaPosition="left"
 >
-  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/forms/spam-folder.png')} alt="Spam Folder" />
-  <BrowserMockupWithPhoto src={require('@site/static/img/craft/freeform/v5/forms/spam-detail.png')} alt="Spammy submission inside the Spam Folder" />
-  <FlexCards
+  <IntroCards
     items={[
-      {
-        title: 'Freeform Honeypot',
-        description: 'The Honeypot feature included in the system effectively deals with simple bot spam.',
-        icon: Icons.CarrotIcon,
-        linkWithDescription: 'forms/spam-protection/#freeform-honeypot',
-      },
       {
         title: 'Built-in Spam Folder',
         description: 'Use the Spam Folder to catch any potential spam without risking missing legitimate submissions.',
@@ -359,46 +281,127 @@ import Icons from '@site/static/card-icons';
         icon: Icons.BlockedIcon,
         linkWithDescription: 'forms/spam-protection/#spam-blocking',
       },
+    ]}
+  />
+</IntroSection>
+
+<IntroSection
+  title="Why Freeform?"
+  anchor="reviews"
+  description="Thousands of sites trust Freeform and our team to deliver the quality and support they need."
+  mediaPosition="top"
+>
+  <IntroCards
+    layout="inline"
+    items={[
       {
-        title: 'Throttling / Submit Time',
-        description: 'Limit form submissions by settƒing restrictions such as submission frequency, waiting period, or time limit for completion.',
-        icon: Icons.ThrottlingIcon,
+        title: 'Top Notch Support',
+        description: 'We’re trusted in the Craft CMS community for reliable, high-quality support.',
+        icon: Icons.SupportIcon,
+        linkWithDescription: '/support/',
       },
       {
-        title: 'Automatic Purging',
-        description: 'Freeform can automatically delete submissions marked as spam after a set number of days.',
-        icon: Icons.TimeDeleteIcon,
+        title: '25+ Years Experience',
+        description: 'For more than 25 years, Solspace has been busy creating and supporting software for over tens of thousands of sites.',
+        icon: Icons.HourglassIcon,
+        linkWithDescription: 'https://solspace.com',
+      },
+      {
+        title: 'Active Development',
+        description: 'Freeform is continuously updated with a ton of new features, improvements, and bug fixes over time.',
+        icon: Icons.DevelopmentIcon,
+        linkWithDescription: 'setup/changelog',
       },
     ]}
   />
-</Section>
+  <ReviewCards
+    items={[
+      {
+        title: 'Clinton',
+        description: `
+          Freeform is an invaluable tool for our web company! It offers all the fields
+          we need, from step forms to custom error messages. The flexibility and ease
+          of use have made it a key component in our projects. Highly recommended!
+        `.trim(),
+      },
+      {
+        title: 'Peter Mitchell',
+        description: `
+          Flexible, client friendly, well documented.
+        `.trim(),
+      },
+      {
+        title: 'Matan Levkowich',
+        description: `
+          Great plugin over all. I use it on my own website and client website. I
+          recently started to use the Stripe integration as well, and it is very
+          smooth and comfortable. Besides that, the support is awesome, quick and
+          personal!
+        `.trim(),
+      },
+      {
+        title: 'Marcus Trapp',
+        description: `
+          Remarkably comprehensive form system with top-notch user interface, developer
+          documentation, and support! I've used this product since its early versions;
+          It started strong and continues to evolve and improve on all fronts. I'm
+          specifically pleased with its Stripe integration, though it offers plenty of
+          other features. Plus, support has been attentive and helpful when I've run
+          into any hitches.
+        `.trim(),
+      },
+      {
+        title: 'Brandon Kelly',
+        description: `
+          Extremely rich feature set, and a long history of being well-maintained
+          and supported.
+        `.trim(),
+      },
+      {
+        title: 'Todd Richards',
+        description: `
+          Freeform is a very powerful form builder with options based on your needs.
+          I've used it on a number of projects over the past few years because it
+          just works, and our clients love it. Support is top-notch too!
+        `.trim(),
+      },
+      {
+        title: 'Erika G',
+        description: `
+          My go-to form builder for years now. A lot of features and great support.
+        `.trim(),
+      },
+      {
+        title: 'sunscreem',
+        description: `
+          Very happy with the Freeform plugin, used it on several client sites now and,
+          despite some customisation, never had an issue. Worth every penny.
+        `.trim(),
+      },
+      {
+        title: 'Steven Grant',
+        description: `
+          If you need forms with a bunch of different integrations and great support
+          to boot, Solspace Freeform is it. Built on decades of experience with CMS
+          forms, Freeform does everything you need.
+        `.trim(),
+      },
+    ]}
+  />
+</IntroSection>
 
-<div className="quote-grid">
-  <blockquote>
-    <span className="stars">★★★★★</span>
-    <div>
-      Freeform is an invaluable tool for our web company! It offers all the fields we need, from step forms to custom error messages. The flexibility and ease of use have made it a key component in our projects. Highly recommended!
-    </div>
-    <cite>Clinton</cite>
-  </blockquote>
-  <blockquote>
-    <span className="stars">★★★★★</span>
-    <div>Very happy with the Freeform plugin, used it on several client sites now and, despite some customisation, never had an issue. Worth every penny.</div>
-    <cite>sunscreem</cite>
-  </blockquote>
-</div>
-
-<Section
+<IntroSection
   title="Powerful Fields"
   anchor="powerful-fields"
-  subtitle="Freeform offers a wide range of different field types and cool features to help you manage them easily."
-  imgSrc={Icons.FieldTextIcon}
+  description="Freeform offers a wide range of different field types and cool features to help you manage them easily."
+  mediaPosition="top"
 >
   <Player
     url={require('@site/static/videos/craft/freeform/v5/builder-rules.mp4').default}
     muted loop playing width="100%" height="100%"
   />
-  <FlexCards
+  <IntroCards
+    layout="inline"
     items={[
       {
         title: 'Conditional Rules',
@@ -440,198 +443,198 @@ import Icons from '@site/static/card-icons';
       },
     ]}
   />
-  <FieldCards
-    items={[
-      {
-        link: 'forms/fields#text',
-        title: 'Text',
-        description: 'Regular text inputs',
-        icon: Icons.FieldTextIcon,
-      },
-      {
-        link: 'forms/fields#textarea',
-        title: 'Textarea',
-        description: 'Multi-line text inputs',
-        icon: Icons.TextareaIcon,
-      },
-      {
-        link: 'forms/fields#email',
-        title: 'Email',
-        description: 'Email validation and notifications',
-        icon: Icons.EmailIcon,
-      },
-      {
-        link: 'forms/fields#number',
-        title: 'Number',
-        description: 'Numeric validation and options',
-        icon: Icons.NumbersIcon,
-      },
-      {
-        link: 'forms/fields#hidden',
-        title: 'Hidden',
-        description: 'Hide field data',
-        icon: Icons.HiddenIcon,
-      },
-      {
-        link: 'forms/fields#dropdown',
-        title: 'Dropdown',
-        description: 'Dropdown field with powerful options to populate data',
-        icon: Icons.SelectIcon,
-      },
-      {
-        link: 'forms/fields#multiple-select',
-        title: 'Multiple Select',
-        description: 'Multi-select field with powerful options to populate data',
-        icon: Icons.ListIcon,
-      },
-      {
-        link: 'forms/fields#checkbox',
-        title: 'Checkbox',
-        description: "Single checkbox, e.g. 'Accept Terms'",
-        icon: Icons.CheckboxIcon,
-      },
-      {
-        link: 'forms/fields#checkboxes',
-        title: 'Checkboxes',
-        description: 'Multi-checkboxes field with powerful options to populate data',
-        icon: Icons.CheckListIcon,
-      },
-      {
-        link: 'forms/fields#radios',
-        title: 'Radios',
-        description: 'Radio options field with powerful options to populate data',
-        icon: Icons.RadioListIcon,
-      },
-      {
-        link: 'forms/fields#file-upload',
-        title: 'File Upload',
-        description: 'Upload and validate one or multiple files to be attached to the submission',
-        icon: Icons.AttachedIcon,
-      },
-      {
-        link: 'forms/fields#file-upload-drag--drop',
-        title: 'File Drag & Drop',
-        description: 'Smart file uploader shows progress, thumbnails and memory when editing',
-        icon: Icons.UploadIcon,
-      },
-      {
-        link: 'forms/fields#date--time',
-        title: 'Date & Time',
-        description: 'Date and time picker with JS validation',
-        icon: Icons.DateTimeIcon,
-      },
-      {
-        link: 'forms/fields#phone',
-        title: 'Phone',
-        description: 'Set a phone pattern with JS validation',
-        icon: Icons.PhoneIcon,
-      },
-      {
-        link: 'forms/fields#table',
-        title: 'Table',
-        description: 'Collect tabular or repeating data, allow users to add/remove rows',
-        icon: Icons.TableIcon,
-      },
-      {
-        link: 'forms/fields#group',
-        titleBadge: 'New!',
-        title: 'Group',
-        description: 'Contains other fields within it',
-        icon: Icons.TableIcon,
-      },
-      {
-        link: 'forms/fields#rating',
-        title: 'Rating',
-        description: 'Plug and play rating stars',
-        icon: Icons.RatingIcon,
-      },
-      {
-        link: 'forms/fields#opinion-scale',
-        title: 'Opinion Scale',
-        description: 'Users can select ranges for surveys',
-        icon: Icons.OpinionScaleIcon,
-      },
-      {
-        link: 'forms/fields#calculation',
-        titleBadge: 'New!',
-        title: 'Calculation',
-        description: 'Perform dynamic calculations based on user-input values within forms',
-        icon: Icons.CalculationIcon,
-      },
-      {
-        link: 'forms/fields#signature',
-        title: 'Signature',
-        description: 'Users can digitally sign submissions',
-        icon: Icons.SignatureIcon,
-      },
-      {
-        link: 'forms/fields#invisible',
-        title: 'Invisible',
-        description: 'Include hidden data that is not visible in rendered source code',
-        icon: Icons.InvisibleIcon,
-      },
-      {
-        link: 'forms/fields#regex',
-        title: 'Regex',
-        description: 'Come up with your own validation for data syntax',
-        icon: Icons.RegexIcon,
-      },
-      {
-        link: 'forms/fields#website',
-        title: 'Website',
-        description: "Validate inputted data includes 'http://', etc",
-        icon: Icons.GlobeIcon,
-      },
-      {
-        link: 'forms/fields#html',
-        title: 'Html Block',
-        description: 'Include HTML/Twig inside form layouts',
-        icon: Icons.CodeIcon,
-      },
-      {
-        link: 'forms/fields#rich-text',
-        title: 'Rich Text Block',
-        description: 'Include Rich Text inside form layouts',
-        icon: Icons.RichTextIcon,
-      },
-      {
-        link: 'forms/fields#confirm',
-        title: 'Confirm',
-        description: 'Target another field that should be retyped (e.g. email)',
-        icon: Icons.FieldTextIcon,
-      },
-      {
-        link: 'forms/fields#password',
-        title: 'Password',
-        description: 'Process a password value but do not store it (for user registation forms)',
-        icon: Icons.LockIcon,
-      },
-      {
-        link: 'forms/fields#stripe-payment',
-        title: 'Stripe Payments',
-        description: 'Allow users to securely enter payment data for Payment-enabled forms',
-        icon: Icons.CreditCardIcon,
-      },
-    ]}
-  />
-</Section>
+</IntroSection>
 
-<Section
+<h3 className="text-3xl text-center font-semibold text-pretty text-black dark:text-white pb-4 -mt-10 border-0">Available Fieldtypes</h3>
+<p className="text-base text-center text-pretty text-black dark:text-white pb-6">Freeform includes a powerful set of field types to handle any needs your project may have.</p>
+
+<FieldCards
+  items={[
+    {
+      link: 'forms/fields#text',
+      title: 'Text',
+      description: 'Regular text inputs',
+      icon: Icons.FieldTextIcon,
+    },
+    {
+      link: 'forms/fields#textarea',
+      title: 'Textarea',
+      description: 'Multi-line text inputs',
+      icon: Icons.TextareaIcon,
+    },
+    {
+      link: 'forms/fields#email',
+      title: 'Email',
+      description: 'Email validation and notifications',
+      icon: Icons.EmailIcon,
+    },
+    {
+      link: 'forms/fields#number',
+      title: 'Number',
+      description: 'Numeric validation and options',
+      icon: Icons.NumbersIcon,
+    },
+    {
+      link: 'forms/fields#hidden',
+      title: 'Hidden',
+      description: 'Hide field data',
+      icon: Icons.HiddenIcon,
+    },
+    {
+      link: 'forms/fields#dropdown',
+      title: 'Dropdown',
+      description: 'Dropdown field with powerful options to populate data',
+      icon: Icons.SelectIcon,
+    },
+    {
+      link: 'forms/fields#multiple-select',
+      title: 'Multiple Select',
+      description: 'Multi-select field with powerful options to populate data',
+      icon: Icons.ListIcon,
+    },
+    {
+      link: 'forms/fields#checkbox',
+      title: 'Checkbox',
+      description: "Single checkbox, e.g. 'Accept Terms'",
+      icon: Icons.CheckboxIcon,
+    },
+    {
+      link: 'forms/fields#checkboxes',
+      title: 'Checkboxes',
+      description: 'Multi-checkboxes field with powerful options to populate data',
+      icon: Icons.CheckListIcon,
+    },
+    {
+      link: 'forms/fields#radios',
+      title: 'Radios',
+      description: 'Radio options field with powerful options to populate data',
+      icon: Icons.RadioListIcon,
+    },
+    {
+      link: 'forms/fields#file-upload',
+      title: 'File Upload',
+      description: 'Upload and validate one or multiple files to be attached to the submission',
+      icon: Icons.AttachedIcon,
+    },
+    {
+      link: 'forms/fields#file-upload-drag--drop',
+      title: 'File Drag & Drop',
+      description: 'Smart file uploader shows progress, thumbnails and memory when editing',
+      icon: Icons.UploadIcon,
+    },
+    {
+      link: 'forms/fields#date--time',
+      title: 'Date & Time',
+      description: 'Date and time picker with JS validation',
+      icon: Icons.DateTimeIcon,
+    },
+    {
+      link: 'forms/fields#phone',
+      title: 'Phone',
+      description: 'Set a phone pattern with JS validation',
+      icon: Icons.PhoneIcon,
+    },
+    {
+      link: 'forms/fields#table',
+      title: 'Table',
+      description: 'Collect tabular or repeating data, allow users to add/remove rows',
+      icon: Icons.TableIcon,
+    },
+    {
+      link: 'forms/fields#group',
+      titleBadge: 'New!',
+      title: 'Group',
+      description: 'Contains other fields within it',
+      icon: Icons.TableIcon,
+    },
+    {
+      link: 'forms/fields#rating',
+      title: 'Rating',
+      description: 'Plug and play rating stars',
+      icon: Icons.RatingIcon,
+    },
+    {
+      link: 'forms/fields#opinion-scale',
+      title: 'Opinion Scale',
+      description: 'Users can select ranges for surveys',
+      icon: Icons.OpinionScaleIcon,
+    },
+    {
+      link: 'forms/fields#calculation',
+      titleBadge: 'New!',
+      title: 'Calculation',
+      description: 'Perform dynamic calculations based on user-input values within forms',
+      icon: Icons.CalculationIcon,
+    },
+    {
+      link: 'forms/fields#signature',
+      title: 'Signature',
+      description: 'Users can digitally sign submissions',
+      icon: Icons.SignatureIcon,
+    },
+    {
+      link: 'forms/fields#invisible',
+      title: 'Invisible',
+      description: 'Include hidden data that is not visible in rendered source code',
+      icon: Icons.InvisibleIcon,
+    },
+    {
+      link: 'forms/fields#regex',
+      title: 'Regex',
+      description: 'Come up with your own validation for data syntax',
+      icon: Icons.RegexIcon,
+    },
+    {
+      link: 'forms/fields#website',
+      title: 'Website',
+      description: "Validate inputted data includes 'http://', etc",
+      icon: Icons.GlobeIcon,
+    },
+    {
+      link: 'forms/fields#html',
+      title: 'HTML Block',
+      description: 'Include HTML/Twig inside form layouts',
+      icon: Icons.CodeIcon,
+    },
+    {
+      link: 'forms/fields#rich-text',
+      title: 'Rich Text Block',
+      description: 'Include Rich Text inside form layouts',
+      icon: Icons.RichTextIcon,
+    },
+    {
+      link: 'forms/fields#confirm',
+      title: 'Confirm',
+      description: 'Target another field that should be retyped (e.g. email)',
+      icon: Icons.FieldTextIcon,
+    },
+    {
+      link: 'forms/fields#password',
+      title: 'Password',
+      description: 'Process a password value but do not store it (for user registation forms)',
+      icon: Icons.LockIcon,
+    },
+    {
+      link: 'forms/fields#stripe-payment',
+      title: 'Stripe Payments',
+      description: 'Allow users to securely enter payment data for Payment-enabled forms',
+      icon: Icons.CreditCardIcon,
+    },
+  ]}
+/>
+
+<IntroSection
   title="Email Notifications"
   anchor="email-notifications"
-  subtitle="Tons of ways to send email notifications that you can totally customize."
-  description="You can create as many templates as you want and pick a different one for each type of email notification."
-  imgSrc={Icons.OpenLetterIcon}
+  description="Tons of ways to send email notifications that you can totally customize."
+  mediaPosition="top"
 >
   <Player
-    url={require('@site/static/videos/craft/freeform/v5/builder-integrations.mp4').default}
+    url={require('@site/static/videos/craft/freeform/v5/builder-notifications.mp4').default}
     muted loop playing width="100%" height="100%"
   />
-  <Player
-    url={require('@site/static/videos/craft/freeform/v5/email-notifications.mp4').default}
-    muted loop playing width="100%" height="100%"
-  />
-  <FlexCards
+  <IntroCards
+    layout="inline"
     items={[
       {
         title: 'Notify Admins',
@@ -640,13 +643,13 @@ import Icons from '@site/static/card-icons';
         linkWithDescription: 'forms/email-notifications',
       },
       {
-        title: 'Notify Submitter',
+        title: 'Notify Submitters',
         description: 'Upon success, send an email notification to the submitter of the form.',
         icon: Icons.EmailUserIcon,
         linkWithDescription: 'forms/email-notifications/#email-fields',
       },
       {
-        title: "User Select's Recipient",
+        title: "Recipient Selected by User",
         description: 'Let users select the email recipient of the form submission from a list of predefined options.',
         icon: Icons.EmailListIcon,
         linkWithDescription: 'forms/email-notifications/#user-select',
@@ -663,28 +666,6 @@ import Icons from '@site/static/card-icons';
         description: 'Set email address(es) at template-level to be notified, allowing you to pass a value from another element dynamically.',
         icon: Icons.CodingIcon,
         linkWithDescription: 'forms/email-notifications/#template-based',
-      },
-      {
-        title: 'Tell-a-Friend',
-        description: "Include additional Email fields inside your form to allow users to type out a friend's email address to receive a separate notification.",
-        icon: Icons.EmailPlaneIcon,
-        linkWithDescription: 'forms/email-notifications/#user-defined',
-      },
-      {
-        title: 'Multiple Notifications',
-        description: "There's no limit to the number of email notifications you can send, each with different templates/messages, etc.",
-        icon: Icons.EmailGroupIcon,
-        linkWithDescription: 'forms/email-notifications',
-      },
-      {
-        title: 'Export Notifications',
-        description: 'You can set up customized export reports and receive them via email on a daily or weekly basis automatically.',
-        icon: Icons.ExportIcon,
-      },
-      {
-        title: 'Auto Plain Text',
-        description: 'Personalize the plain text version of email notifications or let Freeform convert it automatically.',
-        icon: Icons.OpenLetterIcon,
       },
       {
         title: 'Attach Files',
@@ -709,31 +690,28 @@ import Icons from '@site/static/card-icons';
       },
     ]}
   />
-</Section>
+</IntroSection>
 
-<Section
+<IntroSection
   title="Flexible Templating"
   anchor="flexible-templating"
-  subtitle="Quick and simple templating that is also highly customizable."
-  description="Templates are super customizable, even for the trickiest forms. With our demo templates and features ready to go, you can jump in and get everything set up in just a few minutes!"
-  imgSrc={Icons.CodeIcon}
+  description="Templating is easy and even the trickiest of forms can be customized. Our ready-to-go templates will have you ready in minutes!"
+  imgSrc="craft/freeform/v5/formatting/basic-light.png"
+  imgAlt="Basic Light formatting template"
+  mediaPosition="right"
 >
-  <BrowserMockupWithPhoto
-    src={require('@site/static/img/craft/freeform/v5/formatting/basic-light.png')}
-    alt="Basic Light formatting template"
-  />
-  <FlexCards
+  <IntroCards
     items={[
       {
         title: 'Sample Templates',
-        description: 'Includes a diverse selection of examples that can be used as a starting poinnt for building your own.',
+        description: 'Includes a diverse selection of examples that can be used as a starting point for building your own.',
         icon: Icons.StarterTemplatesIcon,
         linkWithDescription: 'templates/formatting',
       },
       {
         title: 'Demo Templates',
         description: 'By simply clicking a few buttons, the demo templates offer a complete and operational section for your website.',
-        icon: Icons.StarterTemplatesIcon,
+        icon: Icons.MagicWandIcon,
         linkWithDescription: 'configuration/demo-templates/',
       },
       {
@@ -744,189 +722,20 @@ import Icons from '@site/static/card-icons';
       },
     ]}
   />
-</Section>
+</IntroSection>
 
-<Section
+<IntroSection
   title="Integrations"
   anchor="integrations"
-  subtitle="Connect your forms with any application or service."
-  imgSrc={Icons.CloudApiIcon}
+  description="Connect your forms with any application or service."
+  mediaPosition="top"
 >
-  <IntegrationPhotoCards
-    items={[
-      {
-        title: 'Mailchimp',
-        link: 'integrations/mailchimp/',
-        iconSrc: require('@site/static/icons/integrations/mailchimp.png'),
-      },
-      {
-        title: 'HubSpot',
-        link: 'integrations/hubspot/',
-        iconSrc: require('@site/static/icons/integrations/hubspot.png'),
-      },
-      {
-        title: 'Salesforce',
-        link: 'integrations/salesforce/',
-        iconSrc: require('@site/static/icons/integrations/salesforce.png'),
-      },
-      {
-        title: 'Zapier',
-        link: 'integrations/zapier/',
-        iconSrc: require('@site/static/icons/integrations/zapier.png'),
-      },
-      {
-        title: 'Stripe',
-        link: 'integrations/stripe-payments/',
-        iconSrc: require('@site/static/icons/integrations/stripe.png'),
-      },
-      {
-        title: 'Constant Contact',
-        link: 'integrations/constant-contact/',
-        iconSrc: require('@site/static/icons/integrations/constant-contact.png'),
-      },
-      {
-        title: 'Slack',
-        link: 'integrations/slack/',
-        iconSrc: require('@site/static/icons/integrations/slack.png'),
-      },
-      {
-        title: 'Active Campaign',
-        link: 'integrations/activecampaign/',
-        iconSrc: require('@site/static/icons/integrations/active-campaign.png'),
-      },
-      {
-        title: 'Dotdigital',
-        link: 'integrations/dotdigital/',
-        iconSrc: require('@site/static/icons/integrations/dotdigital.png'),
-      },
-      {
-        title: 'Campaign Monitor',
-        link: 'integrations/campaign-monitor/',
-        iconSrc: require('@site/static/icons/integrations/campaign-monitor.png'),
-      },
-      {
-        title: 'Pardot',
-        link: 'integrations/pardot/',
-        iconSrc: require('@site/static/icons/integrations/pardot.png'),
-      },
-      {
-        title: 'Freshdesk',
-        link: 'integrations/freshdesk/',
-        iconSrc: require('@site/static/icons/integrations/freshdesk.png'),
-      },
-      {
-        title: 'Keap',
-        link: 'integrations/keap/',
-        iconSrc: require('@site/static/icons/integrations/keap.png'),
-      },
-      {
-        title: 'Insightly',
-        link: 'integrations/insightly/',
-        iconSrc: require('@site/static/icons/integrations/insightly.png'),
-      },
-      {
-        title: 'Google Sheets',
-        link: 'integrations/google-sheets/',
-        iconSrc: require('@site/static/icons/integrations/google-sheets.png'),
-      },
-      {
-        title: 'Jira',
-        link: 'integrations/jira/',
-        iconSrc: require('@site/static/icons/integrations/jira.png'),
-      },
-      {
-        title: 'Zoho',
-        link: 'integrations/zoho/',
-        iconSrc: require('@site/static/icons/integrations/zoho.png'),
-      },
-      {
-        title: 'Campaign',
-        link: 'integrations/campaign/',
-        iconSrc: require('@site/static/icons/integrations/campaign.png'),
-      },
-      {
-        title: 'Pipedrive',
-        link: 'integrations/pipedrive/',
-        iconSrc: require('@site/static/icons/integrations/pipedrive.png'),
-      },
-      {
-        title: 'Sharpspring',
-        link: 'integrations/sharpspring/',
-        iconSrc: require('@site/static/icons/integrations/sharpspring.png'),
-      },
-      {
-        title: 'ClickDimensions',
-        link: 'integrations/clickdimensions/',
-        iconSrc: require('@site/static/icons/integrations/click-dimensions.png'),
-      },
-      {
-        title: 'reCAPTCHA',
-        link: 'integrations/recaptcha/',
-        iconSrc: require('@site/static/icons/integrations/recaptcha.png'),
-      },
-      {
-        title: 'hCaptcha',
-        link: 'integrations/hcaptcha/',
-        iconSrc: require('@site/static/icons/integrations/hcaptcha.png'),
-      },
-      {
-        title: 'Cloudflare Turnstile',
-        link: 'integrations/turnstile/',
-        iconSrc: require('@site/static/icons/integrations/turnstile.png'),
-      },
-      {
-        title: 'Generic Webhooks',
-        link: 'integrations/generic-webhooks/',
-        iconSrc: require('@site/static/icons/integrations/generic-webhook.png'),
-      },
-      {
-        title: 'Google Tag Manager',
-        link: 'integrations/google-tag-manager/',
-        iconSrc: require('@site/static/icons/integrations/google-tag-manager.png'),
-      },
-      {
-        title: 'Tailwind CSS',
-        link: 'templates/formatting/#sample-templates',
-        iconSrc: require('@site/static/icons/integrations/tailwindcss.png'),
-      },
-      {
-        title: 'Bootstrap',
-        link: 'templates/formatting/#sample-templates',
-        iconSrc: require('@site/static/icons/integrations/bootstrap.png'),
-      },
-      {
-        title: 'Craft Entries',
-        link: 'integrations/elements/#craft-entries',
-        iconSrc: require('@site/static/icons/integrations/craft-entries.png'),
-      },
-      {
-        title: 'Craft Users',
-        link: 'integrations/elements/#craft-users',
-        iconSrc: require('@site/static/icons/integrations/craft-users.png'),
-      },
-      {
-        title: 'Calendar Events',
-        link: 'integrations/elements/#solspace-calendar-events',
-        iconSrc: require('@site/static/icons/integrations/solspace-calendar.png'),
-      },
-      {
-        title: 'Edit Elements',
-        link: 'integrations/elements/#editing-elements',
-        iconSrc: require('@site/static/icons/integrations/edit-elements.png'),
-      },
-    ]}
-  />
-  <br />
-  <br />
   <Player
     url={require('@site/static/videos/craft/freeform/v5/builder-integrations.mp4').default}
     muted loop playing width="100%" height="100%"
   />
-  <Player
-    url={require('@site/static/videos/craft/freeform/v5/builder-user-register.mp4').default}
-    muted loop playing width="100%" height="100%"
-  />
-  <FlexCards
+  <IntroCards
+    layout="inline"
     items={[
       {
         title: 'CRMs',
@@ -959,59 +768,203 @@ import Icons from '@site/static/card-icons';
         linkWithDescription: 'integrations/stripe-payments/',
       },
       {
-        title: 'POST Forwarding',
-        description: 'Automatically submit form data to an external API URL after successful submission of the form.',
-        icon: Icons.DocumentCloudIcon,
-        linkWithDescription: 'integrations/post-forwarding/',
-      },
-      {
         title: 'Custom',
         description: 'Create your own integration by developing a custom module that utilizes any of the numerous developer events available.',
         icon: Icons.ApiGearIcon,
-        linkWithDescription: 'developer/events/form',
+        linkWithDescription: 'guides/guide/custom-integrations/',
       },
     ]}
   />
-</Section>
+</IntroSection>
 
-<div className="quote-grid">
-  <blockquote>
-    <span className="stars">★★★★★</span>
-    <div>
-      If you need forms with a bunch of different integrations and great support
-      to boot, Solspace Freeform is it. Built on decades of experience with CMS
-      forms, Freeform does everything you need.
-    </div>
-    <cite>Steven Grant</cite>
-  </blockquote>
-  <blockquote>
-    <span className="stars">★★★★★</span>
-    <div>
-      Extremely rich feature set, and a long history of being well-maintained
-      and supported.
-    </div>
-    <cite>Brandon Kelly</cite>
-  </blockquote>
-</div>
+<IntegrationCards
+  items={[
+    {
+      title: 'Active Campaign',
+      link: 'integrations/activecampaign/',
+      icon: 'active-campaign',
+    },
+    {
+      title: 'Campaign',
+      link: 'integrations/campaign/',
+      icon: 'campaign',
+    },
+    {
+      title: 'Campaign Monitor',
+      link: 'integrations/campaign-monitor/',
+      icon: 'campaign-monitor',
+    },
+    {
+      title: 'Click',
+      link: 'integrations/click/',
+      icon: 'click',
+    },
+    {
+      title: 'Cloudflare Turnstile',
+      link: 'integrations/turnstile/',
+      icon: 'turnstile',
+    },
+    {
+      title: 'Constant Contact',
+      link: 'integrations/constant-contact/',
+      icon: 'constant-contact',
+    },
+    {
+      title: 'Dotdigital',
+      link: 'integrations/dotdigital/',
+      icon: 'dotdigital',
+    },
+    {
+      title: 'Freshdesk',
+      link: 'integrations/freshdesk/',
+      icon: 'freshdesk',
+    },
+    {
+      title: 'Generic Webhooks',
+      link: 'integrations/generic-webhooks/',
+      icon: 'generic-webhook',
+      filterIcon: true,
+    },
+    {
+      title: 'Google Sheets',
+      link: 'integrations/google-sheets/',
+      icon: 'google-sheets',
+    },
+    {
+      title: 'Google Tag Manager',
+      link: 'integrations/google-tag-manager/',
+      icon: 'google-tag-manager',
+    },
+    {
+      title: 'hCaptcha',
+      link: 'integrations/hcaptcha/',
+      icon: 'hcaptcha',
+    },
+    {
+      title: 'HubSpot',
+      link: 'integrations/hubspot/',
+      icon: 'hubspot',
+    },
+    {
+      title: 'Insightly',
+      link: 'integrations/insightly/',
+      icon: 'insightly',
+    },
+    {
+      title: 'Jira',
+      link: 'integrations/jira/',
+      icon: 'jira',
+    },
+    {
+      title: 'Keap',
+      link: 'integrations/keap/',
+      icon: 'keap',
+    },
+    {
+      title: 'Mailchimp',
+      link: 'integrations/mailchimp/',
+      icon: 'mailchimp',
+    },
+    {
+      title: 'Pardot',
+      link: 'integrations/pardot/',
+      icon: 'pardot',
+    },
+    {
+      title: 'Pipedrive',
+      link: 'integrations/pipedrive/',
+      icon: 'pipedrive',
+    },
+    {
+      title: 'reCAPTCHA',
+      link: 'integrations/recaptcha/',
+      icon: 'recaptcha',
+    },
+    {
+      title: 'Salesforce',
+      link: 'integrations/salesforce/',
+      icon: 'salesforce',
+    },
+    {
+      title: 'Sharpspring',
+      link: 'integrations/sharpspring/',
+      icon: 'sharpspring',
+    },
+    {
+      title: 'Slack',
+      link: 'integrations/slack/',
+      icon: 'slack',
+    },
+    {
+      title: 'Stripe',
+      link: 'integrations/stripe-payments/',
+      icon: 'stripe',
+    },
+    {
+      title: 'Zapier',
+      link: 'integrations/zapier/',
+      icon: 'zapier',
+    },
+    {
+      title: 'Zoho',
+      link: 'integrations/zoho/',
+      icon: 'zoho',
+    },
+    {
+      title: 'Tailwind CSS',
+      link: 'templates/formatting/#sample-templates',
+      icon: 'tailwind',
+    },
+    {
+      title: 'Bootstrap',
+      link: 'templates/formatting/#sample-templates',
+      icon: 'bootstrap',
+    },
+    {
+      title: 'Craft Entries',
+      link: 'integrations/elements/#craft-entries',
+      icon: 'craft-entries',
+      filterIcon: true,
+    },
+    {
+      title: 'Craft Users',
+      link: 'integrations/elements/#craft-users',
+      icon: 'craft-users',
+      filterIcon: true,
+    },
+    {
+      title: 'Calendar Events',
+      link: 'integrations/elements/#solspace-calendar-events',
+      icon: 'solspace-calendar',
+    },
+    {
+      title: 'Edit Elements',
+      link: 'integrations/elements/#editing-elements',
+      icon: 'edit-elements',
+      filterIcon: true,
+    },
+  ]}
+/>
 
-<Section
+<IntroSection
   title="Translatable Forms"
   anchor="translatable-forms"
-  subtitle="Set up different labels, options, messages, and more for each form on every Craft Site!"
-  description="Optionally turn on multi-site awareness in Freeform if you want to show or hide forms for certain sites. Plus, you can set up translations for forms so they can have different labels and messages that fit each Site."
-  imgSrc={Icons.TranslationIcon}
+  description="Enable forms for different Craft Sites, and set up unique labels, options, messages, and more for each!"
+  vidSrc="craft/freeform/v5/builder-translations.mp4"
+  mediaPosition="top"
 >
   <Player
     url={require('@site/static/videos/craft/freeform/v5/builder-translations.mp4').default}
     muted loop playing width="100%" height="100%"
   />
-  <FlexCards
+  <IntroCards
+    layout="inline"
     items={[
       {
         title: 'Translate Fields',
         titleBadge: 'New!',
         description: 'Customize the label, instructions, placeholder, default value, error message, and option labels per Site.',
-        icon: Icons.FieldTextIcon,
+        icon: Icons.TranslationIcon,
         linkWithDescription: 'configuration/sites/#translatable-fields',
       },
       {
@@ -1044,32 +997,24 @@ import Icons from '@site/static/card-icons';
       },
     ]}
   />
-</Section>
+</IntroSection>
 
-<Section
+<IntroSection
   title="Submission Data"
   anchor="submission-data"
-  subtitle="Collect submission data and do whatever you want with it."
-  imgSrc={Icons.ArchiveIcon}
+  description="Collect submission data and do whatever you want with it. Freeform also includes various options for importing and exporting data."
+  imgSrc="craft/freeform/v5/forms/submissions/quick-export.png"
+  imgAlt="Submissions Quick Export"
+  mediaPosition="top"
 >
-  <BrowserMockupWithPhoto
-    src={require('@site/static/img/craft/freeform/v5/cp/submissions-list.png')}
-    alt="Submissions List"
-  />
-  <BrowserMockupWithPhoto
-    src={require('@site/static/img/craft/freeform/v5/cp/submissions-detail.png')}
-    alt="Submissions Detail"
-  />
-  <BrowserMockupWithPhoto
-    src={require('@site/static/img/craft/freeform/v5/cp/submissions-quick-export.png')}
-    alt="Submissions Quick Export"
-  />
-  <FlexCards
+  <IntroCards
+    layout="inline"
     items={[
       {
         title: 'Store Submission Data',
         description: "Save submission data or don't store it at all, but only send it through email notifications or an API integration, etc.",
         icon: Icons.ArchiveIcon,
+        linkWithDescription: 'submissions/overview',
       },
       {
         title: 'GDPR Compliant',
@@ -1094,16 +1039,18 @@ import Icons from '@site/static/card-icons';
         title: 'Exporting',
         description: 'Quickly export submission data or generate Export Profile reports in Excel, CSV, Text, XML, or JSON formats.',
         icon: Icons.ExportIcon,
+        linkWithDescription: 'submissions/exporting/',
       },
       {
-        title: 'Reviews & Comments',
-        description: 'Freeform can be customized to effectively manage discussion comments, product reviews, and more.',
+        title: 'Export Notifications',
+        description: 'You can set up customized export reports and receive them via email on a daily or weekly basis automatically.',
+        icon: Icons.ExportIcon,
+        linkWithDescription: 'submissions/exporting/#export-email-notifications',
+      },
+      {
+        title: 'Reviews, Comments & Surveys',
+        description: 'Create visually appealing survey forms or use Freeform to manage discussion comments, product ratings & reviews, and more.',
         icon: Icons.CommentReviewIcon,
-      },
-      {
-        title: 'Surveys',
-        description: 'Freeform offers a vast selection of field types to effortlessly create visually appealing survey forms.',
-        icon: Icons.SurveyIcon,
       },
       {
         title: 'Front End Editing',
@@ -1127,6 +1074,7 @@ import Icons from '@site/static/card-icons';
         title: 'Relate to other Elements',
         description: 'Easily relate Freeform submissions with other element types, such as Craft Entries, allowing endless use cases.',
         icon: Icons.RelationIcon,
+        linkWithDescription: 'submissions/fieldtype/',
       },
       {
         title: 'Custom Statuses',
@@ -1136,16 +1084,17 @@ import Icons from '@site/static/card-icons';
       },
     ]}
   />
-</Section>
+</IntroSection>
 
-<Section
+<IntroSection
   title="Headless"
   anchor="headless"
-  subtitle="We've got your back when it comes to your headless setup!"
   description="Freeform makes it super easy to work with headless website setups, so you can use popular JavaScript front-end frameworks like Vue.js, Next.js, React.js, and others! It also lets you grab form layouts and use mutations to create submissions with GraphQL."
-  imgSrc={Icons.HeadlessIcon}
+  imgSrc="craft/freeform/v5/developer/headless.png"
+  imgAlt="Headless support"
+  mediaPosition="right"
 >
-  <FlexCards
+  <IntroCards
     items={[
       {
         title: 'Vue.js',
@@ -1163,6 +1112,7 @@ import Icons from '@site/static/card-icons';
         title: 'Next.js',
         description: 'Full support for implementation Freeform with Next.js.',
         icon: Icons.NextjsIcon,
+        filterIcon: true,
         linkWithDescription: 'headless/nextjs',
       },
       {
@@ -1173,20 +1123,70 @@ import Icons from '@site/static/card-icons';
       },
     ]}
   />
-</Section>
+</IntroSection>
 
-<Section
+<IntroSection
+  title="Reliability"
+  anchor="reliability"
+  description="Missing out on customer leads can really hurt our revenue and leave a bad impression on potential clients."
+  mediaPosition="top"
+>
+  <IntroCards
+    layout="inline"
+    items={[
+      {
+        title: 'Email Failure Alerts',
+        description: 'Freeform will email you if there is a template or setup issue with your site.',
+        icon: Icons.AlertIcon,
+        linkWithDescription: 'configuration/notices-alerts/',
+      },
+      {
+        title: 'Automatic Update Notices',
+        description: 'Freeform alerts you to potential website issues, catching errors before you notice.',
+        icon: Icons.UpdateNotificationIcon,
+        linkWithDescription: 'configuration/notices-alerts/',
+      },
+      {
+        title: 'Weekly / Daily Digest Email',
+        description: "Get email updates about what's happening on your site with weekly or daily digests.",
+        icon: Icons.EmailReportIcon,
+        linkWithDescription: 'configuration/notices-alerts/',
+      },
+      {
+        title: 'Error Logging',
+        description: 'The error logging system tells you quickly about any problems on your website.',
+        icon: Icons.ListIcon,
+      },
+      {
+        title: 'Satisfaction Guaranteed',
+        description: 'Try Freeform risk-free with our 90-day full refund guarantee.',
+        icon: Icons.GuaranteeCertificateIcon,
+      },
+      {
+        title: 'Private Support Tickets',
+        description: "If you need help with Freeform, send us a private support ticket and we'll be happy to assist you.",
+        icon: Icons.SupportIcon,
+        linkWithDescription: '/support/',
+        linkWithDescriptionLabel: 'Private support',
+      },
+    ]}
+  />
+</IntroSection>
+
+<IntroSection
   title="And more..."
   anchor="and-more"
-  subtitle="The possibilities are endless."
-  imgSrc={Icons.BoxIcon}
+  description="The possibilities are endless."
+  iconSrc={Icons.BoxIcon}
+  mediaPosition="top"
 >
-  <FlexCards
+  <IntroCards
+    layout="inline"
     items={[
       {
         title: 'User Group Permissions',
         description: 'Finely control user groups and permissions to restrict access to certain forms, sections, and submissions.',
-        icon: Icons.PadlockIcon,
+        icon: Icons.LockIcon,
         linkWithDescription: 'configuration/permissions/',
       },
       {
@@ -1219,241 +1219,223 @@ import Icons from '@site/static/card-icons';
       },
     ]}
   />
-</Section>
+</IntroSection>
 
-<Section
+<IntroSection
   title="Pricing"
   anchor="pricing"
-  subtitle="Which edition is the best fit for what you need?"
-  imgSrc={Icons.ScaleIcon}
+  description="Which edition is the best fit for what you need?"
+  mediaPosition="top"
 >
-
-<div class="pricing-feature-chart mx-auto mt-5 max-w-7xl">
-  <div class="mx-auto max-w-4xl text-center">
-    <p class="text-sm italic text-gray-500">The same 5.x version for all editions work on Craft 5.x, Craft 4.x and [Craft Cloud](https://craftcms.com/cloud).</p>
-    <p class="text-sm italic text-gray-500">[Try out a free unlimited trial today!](https://plugins.craftcms.com/freeform)</p>
-    
-  </div>
-  <div class="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-    <div class="rounded-3xl bg-gray-100/25 dark:bg-black/5 p-8 ring-1 ring-[#173154]/25 dark:ring-[#173154]/50">
-      <div class="flex items-center justify-between gap-x-4">
-        <h3 id="edition-express" class="text-4xl font-semibold text-black dark:text-white">Express</h3>
-      </div>
-      <p class="mb-3 text-sm/6 text-gray-600 dark:text-gray-300">For simple sites.</p>
-      <p class="my-1 flex items-baseline gap-x-1">
-        <span class="text-2xl font-semibold tracking-tight text-gray-600 dark:text-gray-300">FREE</span>
-        <span class="text-base/6 font-normal text-gray-500">/forever</span>
-      </p>
-      <p class="flex items-baseline gap-x-1">
-        <span class="text-xs/6 font-normal italic text-gray-400 dark:text-gray-600">Switch to Lite or Pro anytime.</span>
-      </p>
-      <a href="https://plugins.craftcms.com/freeform" aria-describedby="edition-express" class="mt-6 block rounded-md bg-gray-500 dark:bg-gray-700 px-3 py-2 text-center text-sm/6 font-semibold text-white hover:text-white hover:bg-[#ff6624]/90 hover:dark:bg-[#ff6624]/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Get it now</a>
-      <ul role="list" class="mt-6 space-y-3 text-sm/6 text-gray-800 dark:text-gray-300">
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> 1 form</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Up to 20 fields</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Basic field types</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Drag & drop form builder</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Email Notifications</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Store, view and edit submissions</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Export submission data</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> GDPR compliant</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Spam protection</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Spam folder</li>
-      </ul>
+  <div className="pricing-feature-chart mx-auto max-w-7xl">
+    <div className="mx-auto max-w-4xl text-center">
+      <p className="text-sm italic text-gray-500">The same 5.x version for all editions work on Craft 5.x, Craft 4.x and [Craft Cloud](https://craftcms.com/cloud).</p>
     </div>
-    <div class="rounded-3xl bg-gray-100/25 dark:bg-black/5 p-8 ring-1 ring-[#173154]/25 dark:ring-[#173154]/50">
-      <div class="flex items-center justify-between gap-x-4">
-        <h3 id="edition-lite" class="text-4xl font-semibold text-black dark:text-white">Lite</h3>
+    <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+      <div className="rounded-3xl bg-gray-100/25 dark:bg-black/5 p-8 ring-1 ring-[#173154]/25 dark:ring-[#173154]/50">
+        <div className="flex items-center justify-between gap-x-4">
+          <p id="edition-express" className="text-4xl font-semibold text-black dark:text-white">Express</p>
+        </div>
+        <p className="mb-3 text-sm/6 text-gray-600 dark:text-gray-300">For simple sites.</p>
+        <p className="my-1 flex items-baseline gap-x-1">
+          <span className="text-2xl font-semibold text-gray-600 dark:text-gray-300">FREE</span>
+          <span className="text-base/6 font-normal text-gray-500">/forever</span>
+        </p>
+        <p className="flex items-baseline gap-x-1">
+          <span className="text-xs/6 font-normal italic text-gray-400 dark:text-gray-600">Switch to Lite or Pro anytime.</span>
+        </p>
+        <a href="https://plugins.craftcms.com/freeform" aria-describedby="edition-express" className="mt-6 block rounded-md bg-gray-500 dark:bg-gray-700 px-3 py-2 text-center text-sm/6 font-semibold text-white hover:text-white hover:bg-[#ff6624]/90 hover:dark:bg-[#ff6624]/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Get it now</a>
+        <ul role="list" className="mt-6 space-y-3 text-sm/6 text-gray-800 dark:text-gray-300">
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> 1 form</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Up to 20 fields</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Basic field types</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Drag & drop form builder</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Email Notifications</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Store, view and edit submissions</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Export submission data</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> GDPR compliant</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Spam protection</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Spam folder</li>
+        </ul>
       </div>
-      <p class="mb-3 text-sm/6 text-gray-600 dark:text-gray-300">The essentials</p>
-      <p class="my-1 flex items-baseline gap-x-1">
-        <span class="text-2xl font-semibold tracking-tight text-gray-600 dark:text-gray-300">$99</span>
-        <span class="text-base/6 font-normal text-gray-500">/one time</span>
-      </p>
-      <p class="flex items-baseline gap-x-1">
-        <span class="text-xs/6 font-normal italic text-gray-400 dark:text-gray-600">$49</span>
-        <span class="text-xs/6 font-normal italic text-gray-400 dark:text-gray-600">/year after one year (optional)</span>
-      </p>
-      <a href="https://plugins.craftcms.com/freeform" aria-describedby="edition-lite" class="mt-6 block rounded-md bg-gray-500 dark:bg-gray-700 px-3 py-2 text-center text-sm/6 font-semibold text-white hover:text-white hover:bg-[#ff6624]/90 hover:dark:bg-[#ff6624]/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Buy now</a>
-      <ul role="list" class="mt-6 space-y-3 text-sm/6 text-gray-800 dark:text-gray-300">
-        <li class="flex gap-x-3 text-sm/5 italic">Everything in Express plus...</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Unlimited forms</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Unlimited fields</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Multi-page forms</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Export profiles</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Attach forms to entries</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Attach submissions to entries</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> GraphQL support</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Email failure alerts</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5">✓</span> Weekly/daily digest</li>
-      </ul>
-    </div>
-    <div class="rounded-3xl bg-gray-100/25 dark:bg-black/10 p-8 ring-2 ring-[#ff6624]">
-      <div class="flex items-center justify-between gap-x-4">
-        <h3 id="edition-pro" class="text-4xl font-semibold text-[#ff6624]">Pro</h3>
-        <p class="rounded-full bg-[#ff6624] px-2.5 py-1.5 my-2 text-xs/3 font-semibold text-white">Most popular</p>
+      <div className="rounded-3xl bg-gray-100/25 dark:bg-black/5 p-8 ring-1 ring-[#173154]/25 dark:ring-[#173154]/50">
+        <div className="flex items-center justify-between gap-x-4">
+          <p id="edition-lite" className="text-4xl font-semibold text-black dark:text-white">Lite</p>
+        </div>
+        <p className="mb-3 text-sm/6 text-gray-600 dark:text-gray-300">The essentials</p>
+        <p className="my-1 flex items-baseline gap-x-1">
+          <span className="text-2xl font-semibold text-gray-600 dark:text-gray-300">$99</span>
+          <span className="text-base/6 font-normal text-gray-500">/one time</span>
+        </p>
+        <p className="flex items-baseline gap-x-1">
+          <span className="text-xs/6 font-normal italic text-gray-400 dark:text-gray-600">$49</span>
+          <span className="text-xs/6 font-normal italic text-gray-400 dark:text-gray-600">/year after one year (optional)</span>
+        </p>
+        <a href="https://plugins.craftcms.com/freeform" aria-describedby="edition-lite" className="mt-6 block rounded-md bg-gray-500 dark:bg-gray-700 px-3 py-2 text-center text-sm/6 font-semibold text-white hover:text-white hover:bg-[#ff6624]/90 hover:dark:bg-[#ff6624]/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Buy now</a>
+        <ul role="list" className="mt-6 space-y-3 text-sm/6 text-gray-800 dark:text-gray-300">
+          <li className="flex gap-x-3 text-sm/5 italic">Everything in Express plus...</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Unlimited forms</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Unlimited fields</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Multi-page forms</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Export profiles</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Attach forms to entries</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Attach submissions to entries</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> GraphQL support</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Email failure alerts</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5">✓</span> Weekly/daily digest</li>
+        </ul>
       </div>
-      <p class="mb-3 text-sm/6 text-gray-600 dark:text-gray-300">For complex setups.</p>
-      <p class="my-1 flex items-baseline gap-x-1">
-        <span class="text-2xl font-semibold tracking-tight text-gray-600 dark:text-gray-300">$149</span>
-        <span class="text-base/6 font-normal text-gray-500">/one time</span>
-      </p>
-      <p class="flex items-baseline gap-x-1">
-        <span class="text-xs/6 font-normal italic text-gray-400 dark:text-gray-600">$79</span>
-        <span class="text-xs/6 font-normal italic text-gray-400 dark:text-gray-600">/year after one year (optional)</span>
-      </p>
-      <a href="https://plugins.craftcms.com/freeform" aria-describedby="edition-pro" class="mt-6 block rounded-md bg-[#ff6624] px-3 py-2 text-center text-sm/6 font-semibold text-white hover:text-white hover:bg-[#ff6624]/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff6624]">Buy now</a>
-      <ul role="list" class="mt-6 space-y-3 text-sm/6 text-gray-800 dark:text-gray-300">
-        <li class="flex gap-x-3 text-sm/5 italic">Everything in Lite plus...</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Advanced field types</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Conditional rules</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Save & continue later</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Field encryption</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Dynamic PDF templates</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Edit submissions on front end</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Automatically purge submission data</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Export email notifications</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Dashboard widgets</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Site-aware forms</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Translations per site inside builder</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Surveys & Polls reporting</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Craft element integrations</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Over 25 integrations</li>
-        <li class="flex gap-x-3 text-base/5"><span class="text-xl/5 text-[#ff6624]">✓</span> Accept payments through Stripe</li>
-      </ul>
+      <div className="rounded-3xl bg-gray-100/25 dark:bg-black/10 p-8 ring-2 ring-[#ff6624]">
+        <div className="flex items-center justify-between gap-x-4">
+          <p id="edition-pro" className="text-4xl font-semibold text-[#ff6624]">Pro</p>
+          <p className="rounded-full bg-[#ff6624] px-2.5 py-1.5 my-2 text-xs/3 font-semibold text-white">Most popular</p>
+        </div>
+        <p className="mb-3 text-sm/6 text-gray-600 dark:text-gray-300">For complex setups.</p>
+        <p className="my-1 flex items-baseline gap-x-1">
+          <span className="text-2xl font-semibold text-gray-600 dark:text-gray-300">$149</span>
+          <span className="text-base/6 font-normal text-gray-500">/one time</span>
+        </p>
+        <p className="flex items-baseline gap-x-1">
+          <span className="text-xs/6 font-normal italic text-gray-400 dark:text-gray-600">$79</span>
+          <span className="text-xs/6 font-normal italic text-gray-400 dark:text-gray-600">/year after one year (optional)</span>
+        </p>
+        <a href="https://plugins.craftcms.com/freeform" aria-describedby="edition-pro" className="mt-6 block rounded-md bg-[#ff6624] px-3 py-2 text-center text-sm/6 font-semibold text-white hover:text-white hover:bg-[#ff6624]/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff6624]">Buy now</a>
+        <ul role="list" className="mt-6 space-y-3 text-sm/6 text-gray-800 dark:text-gray-300">
+          <li className="flex gap-x-3 text-sm/5 italic">Everything in Lite plus...</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Advanced field types</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Conditional rules</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Save & continue later</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Field encryption</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Dynamic PDF templates</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Edit submissions on front end</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Automatically purge submission data</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Export email notifications</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Dashboard widgets</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Site-aware forms</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Translations per site inside builder</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Surveys & Polls reporting</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Craft element integrations</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Over 25 integrations</li>
+          <li className="flex gap-x-3 text-base/5"><span className="text-xl/5 text-[#ff6624]">✓</span> Accept payments through Stripe</li>
+        </ul>
+      </div>
     </div>
   </div>
-</div>
+</IntroSection>
 
 <div className="mt-10 text-center">
-  <PrimaryButtonWithLink
-    to="./guides/compare-editions/"
-    label="View the full feature comparison table..."
+  <FlexButton
+    items={[
+      { to: './guides/compare-editions/', label: 'Full Comparison Table'},
+      { to: 'https://plugins.craftcms.com/freeform/', label: 'Plugin Store', outline: true },
+      { to: 'https://plugins.craftcms.com/freeform/', label: 'Try a Free Unlimited Trial', outline: true, mobileHidden: true },
+      { to: '/support/', label: 'Support', outline: true, mobileHidden: true }
+    ]}
   />
 </div>
 
-</Section>
-
-<Section
-  title="Why Freeform?"
-  anchor="why-freeform"
-  subtitle="You can count on Freeform and the team behind it to give you the quality and support you really deserve."
-  imgSrc={Icons.CheckboxIcon}
+<IntroSection
+  title="Frequently Asked Questions"
+  anchor="faq"
+  description="Frequently asked questions about buying Freeform."
+  mediaPosition="top"
 >
-  <FlexCards
+  <FaqCards
     items={[
       {
-        title: 'Top Notch Support',
-        description: 'Our reputation in the Craft CMS community speaks for itself when it comes to customer support. We strive to offer the best and most reliable help to all our customers.',
-        icon: Icons.SupportIcon,
-        linkWithDescription: '/support/',
+        title: 'Can I test Freeform before I buy?',
+        description: `
+          Yes! You can use Freeform on any private domain name for as long as you need, just like with Craft.
+          Whether it's on your local dev server or a staging site, you're good to go. You only have to buy a
+          license when you're ready to launch your site live, just like with Craft.
+        `,
       },
       {
-        title: '25+ Years Experience',
-        description: 'For more than 25 years, Solspace has been busy creating and supporting software for over 30,000 customers. Over 500,000 plugins have been sold or downloaded for free!',
-        icon: Icons.HourglassIcon,
-        linkWithDescription: 'https://solspace.com',
+        title: 'How many sites does a license cover?',
+        description: `
+          You only need to buy a Freeform license for each Craft license you have. So, if you're running a
+          Craft multi-site on one install, you just need one license. It's just like Craft! There's no need to
+          get separate licenses for other environments of the same site, like development or staging.
+        `,
       },
       {
-        title: 'Active Development',
-        description: 'Craft CMS users really like Freeform, a plugin that’s been continuously updated with a ton of new features, improvements, and bug fixes over time.',
-        icon: Icons.DevelopmentIcon,
-        linkWithDescription: 'setup/changelog',
+        title: 'Can I switch to a different edition later?',
+        description: `
+          Yes! You can switch to the <i>Lite</i> or <i>Pro</i> editions at any time! You just pay the difference in
+          price. For example, if you're using the <i>Lite</i> edition and wish to switch to <i>Pro</i>, you will just pay
+          $50. You don't need to reinstall anything and you won't lose any of your data.
+          <br /><br />
+          Check out the <a href="./setup/installing-updating/#changing-editions">Changing Editions</a> guide for more
+          information!
+        `,
+      },
+      {
+        title: 'Do you offer discounts to non-profits?',
+        description: `
+          Yes! We offer a discount to non-profits for 20% off the regular price upon proof of non-profit status.
+          Please <a href="/support/">contact us</a> for more information about this.
+        `,
+      },
+      {
+        title: 'Does the Trial version limit features?',
+        description: `
+          The trial versions of Solspace software are fully functional and not limited in any way. However, if
+          you try to use a trial version on a production site, Craft will display a red banner at the top of your
+          control panel, prompting you to purchase a license.
+          <br /><br />
+          More information about
+          <a href="https://craftcms.com/knowledge-base/how-craft-license-enforcement-works">Craft's license enforcement</a>.
+        `,
+      },
+      {
+        title: 'How long does a license last for?',
+        description: `
+          A single license provides one year of updates and support. After this period, you can continue using
+          the plugin but will no longer receive updates or support. To maintain access to updates and support,
+          you will need to renew your license each year at a discounted rate.
+        `,
+      },
+      {
+        title: 'Do I have to renew my license each year?',
+        description: `
+          You can renew your license after the initial one-year support period has ended. Your plugin will
+          continue to work properly in the meantime. If you prefer, you can wait until the following year to
+          renew and receive the latest updates.
+          <br /><br />
+          However, we don't recommend avoiding updates altogether, as you would miss out on new features and
+          important fixes.
+        `,
+      },
+      {
+        title: 'What are renewals and how do they work?',
+        description: `
+          Renewals help you keep your plugin updated and access technical support. However, they are entirely
+          optional.
+          <br /><br />
+          For example, if you purchase the <i>Lite</i> edition of Freeform for $99, the renewal price after one year
+          is $49. Your initial purchase of $99 includes support and updates for one year. When it's time to
+          renew, you can extend your updates and support for another year at the renewal price of just $49,
+          rather than paying the full amount of $99 again.
+        `,
+      },
+      {
+        title: 'How do I install Freeform?',
+        description: `
+          Installing Freeform is done just like any other plugin for Craft, similar to how you would install
+          Craft itself. Please refer to the <a href="./setup/installing-updating/">Installation guide</a> in the
+          documentation.
+        `,
+      },
+      {
+        title: 'How do I get support for Freeform?',
+        description: `
+          We provide free support for Freeform. If you have any questions or encounter issues, you can
+          <a href="https://github.com/solspace/craft-freeform/issues/new/choose">create an issue on GitHub</a> or
+          <a href="/support/">send us a private support ticket</a>. We're here to help!
+        `,
       },
     ]}
   />
-</Section>
-
-<Section
-  title="FAQ"
-  anchor="faq"
-  subtitle="Frequently asked questions about buying Freeform."
-  imgSrc={Icons.QuestionSignIcon}
->
-  <div className="faq-list">
-  <details>
-    <summary>Can I test Freeform before I buy?</summary>
-
-    Yes! You can use Freeform on any private domain name for as long as you need, just like with Craft. Whether it's on your local dev server or a staging site, you're good to go. You only have to buy a license when you're ready to launch your site live, just like with Craft.
-
-  </details>
-  <details>
-    <summary>How many sites does a license cover?</summary>
-
-    You only need to buy a Freeform license for each Craft license you have. So, if you're running a Craft multi-site on one install, you just need one license. It's just like Craft! There's no need to get separate licenses for other environments of the same site, like development or staging.
-
-  </details>
-  <details>
-    <summary>Can I switch to a different edition later?</summary>
-
-    Yes! You can switch to the _Lite_ or _Pro_ editions at any time! You just pay the difference in price. For example, if you're using the _Lite_ edition and wish to switch to _Pro_, you will just pay $50. You don't need to reinstall anything and you won't lose any of your data.
-
-    Check out the [Changing Editions](./setup/installing-updating/#changing-editions) guide for more information!
-
-  </details>
-  <details>
-    <summary>Do you offer discounts to non-profits?</summary>
-
-    Yes! We offer a discount to non-profits for 20% off the regular price upon proof of non-profit status. Please [contact us](/support/) for more information about this.
-
-  </details>
-  <details>
-    <summary>Does the Trial version limit features?</summary>
-
-    The trial versions of Solspace software are fully functional and not limited in any way. However, if you try to use a trial version on a production site, Craft will display a red banner at the top of your control panel, prompting you to purchase a license.
-
-    More information about [Craft's license enforcement](https://craftcms.com/knowledge-base/how-craft-license-enforcement-works).
-
-  </details>
-  <details>
-    <summary>How long does a license last for?</summary>
-
-    A single license provides one year of updates and support. After this period, you can continue using the plugin but will no longer receive updates or support. To maintain access to updates and support, you will need to renew your license each year at a discounted rate.
-
-  </details>
-  <details>
-    <summary>Do I have to renew my license each year?</summary>
-
-    You can renew your license after the initial one-year support period has ended. Your plugin will continue to work properly in the meantime. If you prefer, you can wait until the following year to renew and receive the latest updates.
-
-    However, we don't recommend avoiding updates altogether, as you would miss out on new features and important fixes.
-
-  </details>
-  <details>
-    <summary>What are renewals and how do they work?</summary>
-
-    Renewals help you keep your plugin updated and access technical support. However, they are entirely optional.
-
-    For example, if you purchase the _Lite_ edition of Freeform for $99, the renewal price after one year is $49. Your initial purchase of $99 includes support and updates for one year. When it's time to renew, you can extend your updates and support for another year at the renewal price of just $49, rather than paying the full amount of $99 again.
-
-  </details>
-  <details>
-    <summary>How do I install Freeform?</summary>
-
-    Installing Freeform is done just like any other plugin for Craft, similar to how you would install Craft itself. Please refer to the [Installation guide](./setup/installing-updating.mdx) in the documentation.
-
-  </details>
-  <details>
-    <summary>How do I get support for Freeform?</summary>
-
-    We provide free support for Freeform. If you have any questions or encounter issues, you can [create an issue on GitHub](https://github.com/solspace/craft-freeform/issues/new/choose) or [send us a private support ticket](/support/). We're here to help!
-
-  </details>
-  </div>
-  <div className="intro-cta flex flex-wrap gap-3 justify-center">
-    <div className="intro-cta-text flex flex-col">
-      <h4>Start exploring Freeform...</h4>
-      <p>Check out these helpful links.</p>
-    </div>
-    <FlexButton
-      items={[
-        { to: 'https://plugins.craftcms.com/freeform/', label: 'Plugin Store', outline: true },
-        { to: '/support/', label: 'Support', outline: true },
-        { to: 'setup/installing-updating/', label: 'How to Install', outline: true },
-        { to: 'guides/', label: 'User Guides', outline: true },
-      ]}
-    />
-  </div>
-</Section>
+</IntroSection>
 
 </div>

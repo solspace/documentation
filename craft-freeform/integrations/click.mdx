@@ -1,16 +1,16 @@
 ---
-title: 'ClickDimensions'
+title: 'Click'
 sidebar_position: 4
 ---
 
 import { Badge } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-# ClickDimensions<Badge type="pro" text="Pro" />
+# Click<Badge type="pro" text="Pro" />
 
-Freeform's [POST Forwarding](../integrations/post-forwarding.mdx) feature allows you to integrate your forms with [ClickDimensions](https://clickdimensions.com/) for Microsoft Dynamics.
+Freeform's [POST Forwarding](../integrations/post-forwarding.mdx) feature allows you to integrate your forms with [Click](https://clickdimensions.com/) for Microsoft Dynamics.
 
-This guide assumes you are familiar with [ClickDimensions](https://clickdimensions.com/). We cannot provide any assistance with setting this up, aside from the basics.
+This guide assumes you are familiar with [Click](https://clickdimensions.com/). We cannot provide any assistance with setting this up, aside from the basics.
 
 ## Setup Instructions
 
@@ -20,13 +20,13 @@ This guide assumes you are familiar with [ClickDimensions](https://clickdimensio
 
 - Go into your form inside the Freeform form builder interface, and under the **Form Settings** tab, scroll to the very bottom.
 - In the **URL** setting, add your custom action URL there. Freeform will make an extra POST submit to that URL once it has successfully validated the form submission, etc.
-- In the **Error Trigger** setting, enter a value like `error` (assuming the error page contains that word, and success wouldn't). When Freeform detects that word (or phrase) in the success/error page from the custom ClickDimensions POST URL, it'll assume it's an error and then log the error(s) to the Freeform error log.
+- In the **Error Trigger** setting, enter a value like `error` (assuming the error page contains that word, and success wouldn't). When Freeform detects that word (or phrase) in the success/error page from the custom Click POST URL, it'll assume it's an error and then log the error(s) to the Freeform error log.
 
 </StepMarkdown>
 <StepMarkdown>
 
 
-Add the _ClickDimensions_ script, and then add this AFTER it:
+Add the _Click_ script, and then add this AFTER it:
 
 ```javascript
 var match = document.cookie.match(new RegExp('(^| )cuvid=([^;]+)'));
@@ -45,7 +45,7 @@ Include any additional fields as hidden fields inside Freeform, such as:
 <StepMarkdown>
 
 
-Be sure to name/rename all Freeform field handles to match the ClickDimensions field names, e.g. `txtFirstName`, etc.
+Be sure to name/rename all Freeform field handles to match the Click field names, e.g. `txtFirstName`, etc.
 
 </StepMarkdown>
 </VerticalStepWrapper>
