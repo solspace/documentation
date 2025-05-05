@@ -30,7 +30,7 @@ interface IntegrationLogoProps {
   link: string;
 }
 
-interface IntegrationLogoCardsProps {
+interface OldIntegrationCardsProps {
   items: IntegrationLogoProps[];
 }
 
@@ -43,6 +43,7 @@ interface IntegrationProps {
 
 interface IntegrationCardsProps {
   items: IntegrationProps[];
+  layout?: string;
 }
 
 interface CardSectionProps {
@@ -433,9 +434,38 @@ const FieldCards: React.FC<FieldCardsProps> = ({ items }) => {
   );
 };
 
-const IntegrationCards: React.FC<IntegrationCardsProps> = ({
-  items,
-}) => {
+const IntegrationCards: React.FC<IntegrationCardsProps> = ({ items, layout }) => {
+
+  if (layout === 'large') {
+    return (
+      <div className="flex flex-wrap rounded-lg">
+        {items.map((item, index) => (
+          <Link
+            key={`integration-cards-${index}`}
+            to={item.link}
+            className="w-1 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 2xl:w-1/8 p-4 flex flex-col items-center text-center text-black dark:text-white"
+          >
+            <div>
+              {item.icon && (
+                <span className={`inline-flex rounded-lg p-3 items-center justify-center`}>
+                  <img
+                    src={useBaseUrl(`/icons/integrations/${item.icon}.svg`)} alt={item.title}
+                    className={`w-20 h-auto opacity-100 duration-500 transition-all ${item.filterIcon ? 'filter-icons' : ''}`}
+                  />
+                </span>
+              )}
+            </div>
+            <div className="mt-2">
+              <p className="mb-0 text-base font-semibold">
+                {item.title}
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-wrap justify-center rounded-lg">
       {items.map((item, index) => (
@@ -449,7 +479,7 @@ const IntegrationCards: React.FC<IntegrationCardsProps> = ({
               <span className={`inline-flex rounded-lg p-3 items-center justify-center`}>
                 <img
                   src={useBaseUrl(`/icons/integrations/${item.icon}.svg`)} alt={item.title}
-                  className={`w-12 h-auto opacity-100 duration-500 transition-all ${item.filterIcon ? 'filter-icons' : 'newp'}`}
+                  className={`w-12 h-auto opacity-100 duration-500 transition-all ${item.filterIcon ? 'filter-icons' : ''}`}
                 />
               </span>
             )}
@@ -534,7 +564,7 @@ const FaqCards: React.FC<GuideCardsProps> = ({ items }) => {
   );
 };
 
-const PhotoCards: React.FC<IntegrationLogoCardsProps> = ({ items }) => {
+const PhotoCards: React.FC<OldIntegrationCardsProps> = ({ items }) => {
   return (
     <>
       {items.map((item, index) => (
@@ -550,7 +580,7 @@ const PhotoCards: React.FC<IntegrationLogoCardsProps> = ({ items }) => {
   );
 };
 
-const IntegrationLogoCards: React.FC<IntegrationLogoCardsProps> = ({
+const OldIntegrationCards: React.FC<OldIntegrationCardsProps> = ({
   items,
 }) => {
   return (
@@ -586,7 +616,7 @@ export {
   FaqCards,
   GuideCards,
   IntegrationCards,
-  IntegrationLogoCards,
+  OldIntegrationCards,
   AnswerCard,
   AnswerChecklist,
   TwoColumnCards,
