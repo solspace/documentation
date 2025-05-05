@@ -25,7 +25,7 @@ const Section: React.FC<SectionProps> = ({
             <div className="max-w-24">
               <img
                 className="min-w-20 filter-icons"
-                src={useBaseUrl(`/card-icons/${imgSrc}.svg`)}
+                src={useBaseUrl(`/icons/cards/${imgSrc}.svg`)}
                 alt={title}
               />
             </div>

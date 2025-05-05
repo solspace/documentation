@@ -23,7 +23,7 @@ const logos: LogoItem[] = [
     title: 'Freeform',
     logoLine: 'for Craft',
     logoLineShort: null,
-    src: 'img/icons/freeform.png',
+    src: 'logos/icons/freeform.png',
   },
   {
     pathname: '/craft/calendar',
@@ -31,14 +31,14 @@ const logos: LogoItem[] = [
     title: 'Calendar',
     logoLine: 'for Craft',
     logoLineShort: null,
-    src: 'img/icons/calendar.png',
+    src: 'logos/icons/calendar.png',
   },
   {
     pathname: 'https://discontinued-docs.solspace.com/express-forms/',
     title: 'Express Forms',
     logoLine: 'for Craft',
     logoLineShort: null,
-    src: 'img/icons/express-forms.png',
+    src: 'logos/icons/express-forms.png',
   },
   {
     pathname: '/expressionengine/freeform',
@@ -46,7 +46,7 @@ const logos: LogoItem[] = [
     title: 'Freeform',
     logoLine: 'for ExpressionEngine',
     logoLineShort: 'for EE',
-    src: 'img/icons/freeform.png',
+    src: 'logos/icons/freeform.png',
   },
   {
     pathname: '/expressionengine/calendar',
@@ -54,7 +54,7 @@ const logos: LogoItem[] = [
     title: 'Calendar',
     logoLine: 'for ExpressionEngine',
     logoLineShort: 'for EE',
-    src: 'img/icons/calendar.png',
+    src: 'logos/icons/calendar.png',
   },
 ];
 
@@ -108,7 +108,7 @@ export default function Logo(props: Props): JSX.Element {
     pathname: '/',
     title: navbarTitle || 'Solspace',
     logoLine: '',
-    src: logo?.src || 'img/icons/solspace.png',
+    src: logo?.src || 'logos/icons/solspace.png',
   };
 
   const currentLogo: LogoItem & NavbarLogo = matchedLogo

@@ -3,11 +3,11 @@ import Link from '@docusaurus/Link';
 
 import { Photo } from '@site/src/components/utils';
 
-import JSIcon from '@site/static/icons/js.png';
-import HtmlIcon from '@site/static/icons/html.png';
-import CSSIcon from '@site/static/icons/css.png';
-import TwigIcon from '@site/static/icons/twig.png';
-import FolderIcon from '@site/static/icons/folder.png';
+import JSIcon from '@site/static/icons/docs/js.png';
+import HtmlIcon from '@site/static/icons/docs/html.png';
+import CSSIcon from '@site/static/icons/docs/css.png';
+import TwigIcon from '@site/static/icons/docs/twig.png';
+import FolderIcon from '@site/static/icons/docs/folder.png';
 
 const TabPanel = ({ children, value, index }) => {
   return (

@@ -5,7 +5,7 @@ import Link from '@docusaurus/Link';
 import { FlexCards } from '@site/src/components/docs';
 import { Footer, LeftNav } from '@site/src/components/layout';
 
-import Icons from '@site/static/card-icons';
+import Icons from '@site/static/icons/cards';
 
 const Support: React.FC = () => {
   return (

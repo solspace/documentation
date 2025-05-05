@@ -156,7 +156,7 @@ const Card: React.FC<CardProps> = ({
   description,
   icon,
 }) => {
-  const iconSrc = icon && useBaseUrl(`/card-icons/${icon}.svg`);
+  const iconSrc = icon && useBaseUrl(`/icons/cards/${icon}.svg`);
 
   if (fullCardLink) {
     return (
@@ -245,7 +245,7 @@ const PromoCard: React.FC<CardProps> = ({
         <div className="flex-shrink-0">
           <Image
             alt={title || 'Promo Image'}
-            img={require(`@site/static/promo/${icon}.png`)}
+            img={require(`@site/static/icons/old/${icon}.png`)}
             className="w-10 h-10"
           />
         </div>
@@ -319,7 +319,7 @@ const IntroCard: React.FC<CardProps> = ({
   linkWithDescription,
   linkWithDescriptionLabel,
 }) => {
-  const iconSrc = icon && useBaseUrl(`/card-icons/${icon}.svg`);
+  const iconSrc = icon && useBaseUrl(`/icons/cards/${icon}.svg`);
 
   return (
     <div className="relative pl-9">
@@ -416,7 +416,7 @@ const FieldCards: React.FC<FieldCardsProps> = ({ items }) => {
             {item.icon && (
               <span className={`inline-flex rounded-lg ${getRandomColor()} p-3 items-center justify-center`}>
                 <img
-                  src={useBaseUrl(`/card-icons/${item.icon}.svg`)} alt={item.title}
+                  src={useBaseUrl(`/icons/cards/${item.icon}.svg`)} alt={item.title}
                   className="w-5 h-auto opacity-100 duration-500 transition-all filter-icons"
                 />
               </span>
