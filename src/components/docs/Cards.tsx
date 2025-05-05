@@ -443,7 +443,7 @@ const IntegrationCards: React.FC<IntegrationCardsProps> = ({ items, layout }) =>
           <Link
             key={`integration-cards-${index}`}
             to={item.link}
-            className="w-1 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 2xl:w-1/8 p-4 flex flex-col items-center text-center text-black dark:text-white"
+            className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/4 xl:w-1/5 xl:w-1/7 2xl:w-1/8 p-4 flex flex-col items-center text-center text-black dark:text-white"
           >
             <div>
               {item.icon && (
