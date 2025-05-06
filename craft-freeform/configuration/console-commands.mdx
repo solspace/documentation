@@ -67,7 +67,7 @@ The following arguments are available:
 
 Generate 10 spam submissions in French to the `contactForm` form:
 
-```sh
+```nix
 php craft freeform/submissions/generate --form=contactForm --spam --count=10 --locale=fr
 ```
 
@@ -76,7 +76,7 @@ php craft freeform/submissions/generate --form=contactForm --spam --count=10 --l
 
 Generate 100 submissions in English to the `survey2024` form between 3 weeks ago and tomorrow:
 
-```sh
+```nix
 php craft freeform/submissions/generate --form=survey2024 --count=100 --locale=en --range-start="3 weeks ago" --range-end="tomorrow"
 ```
 
@@ -85,7 +85,7 @@ php craft freeform/submissions/generate --form=survey2024 --count=100 --locale=e
 
 Generate 50 submissions in English to the `quoteRequest` form with a mix of the statuses `open`, `pending`, and `closed`:
 
-```sh
+```nix
 php craft freeform/submissions/generate -f=quoteRequest -c=50 -l=en -s="open,pending,closed"
 ```
 
@@ -94,7 +94,7 @@ php craft freeform/submissions/generate -f=quoteRequest -c=50 -l=en -s="open,pen
 
 Generate 50 submissions in English to the `quoteRequest` form with a mix of the statuses `open` and `closed`, with a much higher proportion of them being `open`:
 
-```sh
+```nix
 php craft freeform/submissions/generate -f=quoteRequest -c=50 -l=en -s="open,open,open,open,closed"
 ```
 
@@ -105,7 +105,14 @@ php craft freeform/submissions/generate -f=quoteRequest -c=50 -l=en -s="open,ope
 
 If you need to resave all Freeform submissions, you can do so with the `freeform/submissions/resave` CLI command. Most of the arguments available to Craft's `resave/entries` command are available here too, so if you need to also update the Craft Search Index, be sure to add `--update-search-index`.
 
-```sh
+- `--siteId` <Badge type="feature" text="5.10.13+" />
+  - Specify a Site ID. When not used, defaults to _all sites_.
+  - E.g. `--siteId=3`, `--siteId=2 --siteId=3`.
+- `--updateSearchIndex`
+  - Specifying this will also update the _Craft Search Index_. Defaults to off.
+
+
+```nix
 php craft freeform/submissions/resave --update-search-index
 ```
 
@@ -119,7 +126,7 @@ While most plugins could include a separate migration script to handle this, Fre
 This CLI command is only applicable to sites that have migrated from Craft 4 to Craft 5 while Freeform was installed.
 :::
 
-```sh
+```nix
 php craft freeform/submissions/fix-titles
 ```
 
@@ -154,7 +161,7 @@ The following arguments are available:
 
 Convert all forms and field handles with dashes to _camelCase_, e.g. `my-field` becomes `myField`, `My_other_field` becomes `myOtherField`.
 
-```sh
+```nix
 php craft freeform/freeform/convert-handles
 ```
 
@@ -163,7 +170,7 @@ php craft freeform/freeform/convert-handles
 
 Convert all forms and field handles with dashes to _underscores_, e.g. `my-field` becomes `my_field`.
 
-```sh
+```nix
 php craft freeform/freeform/convert-handles --case underscores
 ```
 
@@ -172,7 +179,7 @@ php craft freeform/freeform/convert-handles --case underscores
 
 Perform a dry run of the command to see which form and field handles will be converted without actually making the changes.
 
-```sh
+```nix
 php craft freeform/freeform/convert-handles --dryRun
 ```
 
@@ -187,7 +194,7 @@ Freeform automatically attempts to routinely execute all of the below commands a
 
 Allows you to purge all submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Submission Data** setting.
 
-```sh
+```nix
 php craft freeform/purge/submissions --age-in-days=30
 ```
 
@@ -195,7 +202,7 @@ php craft freeform/purge/submissions --age-in-days=30
 
 Allows you to purge all spam submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Spam Submissions** setting.
 
-```sh
+```nix
 php craft freeform/purge/spam --age-in-days=30
 ```
 
@@ -203,6 +210,6 @@ php craft freeform/purge/spam --age-in-days=30
 
 Allows you to purge all unfinalized assets older than a specific number of minutes. Freeform automatically attempts to execute this service every 3 hours.
 
-```sh
+```nix
 php craft freeform/purge/unfinalized-assets --age-in-minutes=180
 ```

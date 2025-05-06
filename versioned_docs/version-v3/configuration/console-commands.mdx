@@ -1,6 +1,6 @@
 ---
 title: 'Console Commands'
-sidebar_position: 6
+sidebar_position: 11
 ---
 
 import { Badge } from '@site/src/components/utils';
@@ -9,17 +9,9 @@ import { Badge } from '@site/src/components/utils';
 
 Freeform includes several console commands to allow you to run cleanup tasks and other tasks.
 
-## Resave Submissions<Badge type="feature" text="4.1.16+" />
-
-If you need to resave all Freeform submissions, you can do so with the following CLI command: `./craft freeform/submissions/resave`. Most of the arguments available to Craft's `resave/entries` command are available here too, so if you need to also update the Craft Search Index, be sure to add `--update-search-index`.
-
-```sh
-./craft freeform/submissions/resave --update-search-index
-```
-
 ## Purge Commands
 
-### Purge Submissions<Badge type="pro" text="Pro" />
+### Purge Submissions<Badge type="feature" text="3.8+" />
 
 Allows you to purge all submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Submission Data** setting.
 
@@ -27,7 +19,7 @@ Allows you to purge all submissions older than a specific number of days. Freefo
 ./craft freeform/purge/submissions --age-in-days=30
 ```
 
-### Purge Spam
+### Purge Spam<Badge type="feature" text="3.8+" />
 
 Allows you to purge all spam submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Spam Submissions** setting.
 
@@ -35,9 +27,9 @@ Allows you to purge all spam submissions older than a specific number of days. F
 ./craft freeform/purge/spam --age-in-days=30
 ```
 
-### Purge Unfinalized Assets
+### Purge Unfinalized Assets<Badge type="feature" text="3.8+" />
 
-Allows you to purge all unfinalized assets older than a specific number of minutes. Freeform automatically attempts to execute this service every 3 hours by default.
+Allows you to purge all unfinalized assets older than a specific number of minutes. Freeform automatically attempts to execute this service every 3 hours.
 
 ```sh
 ./craft freeform/purge/unfinalized-assets --age-in-minutes=180
@@ -45,15 +37,7 @@ Allows you to purge all unfinalized assets older than a specific number of minut
 
 ## Field Commands
 
-### Find Unused Fields<Badge type="feature" text="4.1.26+" />
-
-This command will find all Freeform fields that are not used by any forms on your site. This may be helpful when preparing your site to upgrade to Freeform 5+.
-
-```sh
-./craft freeform/find-unused-fields
-```
-
-### Create Fields
+### Create Fields<Badge type="feature" text="3.12+" />
 
 Allows you to create new fields from the command line.
 

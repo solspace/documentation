@@ -336,7 +336,7 @@ This is where you configure all settings and behaviors for the form.
 - **Success Behavior** - set how you'd like the success return of this form to be handled. Some of these may also conflict with template-level approaches to controlling the form behavior, most typically [JS Overrides](../templates/ajax.mdx).
   - Options are:
     - **Reload form with a Success banner above** - upon successful submit of the form, Freeform will reload the form again and display a success banner above the form.
-      - **Success Message** - the text to be shown at the top of the form if the submit is successful (AJAX), or load in your template with `form.settings.successMessage`.
+      - **Success Message** - the text to be shown at the top of the form if the submit is successful (AJAX), or load in your template with `form.successMessage`.
     - **Replace form with a Success message** - upon successful submit of the form, Freeform will stay on the same page but replace the form contents with the contents of the _Success Template_ that you specify. Please note that this will not work when manually rendering form formatting directly inside a regular template (not using a [Formatting Template](../templates/formatting/index.mdx)).
       - **Success Template** - specify which [Success Template](../configuration/settings.mdx#template-manager) you'd like to be used for this form.
     - **Return the Submitter to the following URL** - upon successful submit of the form, Freeform will redirect the user to the URL specified in the _Return URL_ setting.
@@ -345,7 +345,7 @@ This is where you configure all settings and behaviors for the form.
           - `form.handle` - handle of form.
           - `submission.token` - secure token created for the submission.
           - `submission.id` - newly created unique submission ID in the URL. This would allow you to use the [Submissions query](../templates/queries/submissions.mdx) to display some or all of the users' submission on the success page.
-- **Error Message** - the text to be shown at the top of the form if there are any errors upon submit (AJAX), or load in your template with `form.settings.errorMessage`.
+- **Error Message** - the text to be shown at the top of the form if there are any errors upon submit (AJAX), or load in your template with `form.errorMessage`.
 
 </details>
 <details className="hidden-heading">
