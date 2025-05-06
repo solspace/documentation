@@ -1177,7 +1177,7 @@ Imagine you have this in your regular template where you're loading the form:
 
     ```twig {1}
     <div{{ form.attributes.success|raw }}>
-      <p>{{ form.settings.successMessage | t('freeform') }}</p>
+      <p>{{ form.successMessage | t('freeform') }}</p>
     </div>
     ```
 
@@ -1209,7 +1209,7 @@ Imagine you have this in your regular template where you're loading the form:
 
     ```twig {1}
     <div class="form-banner {{ form.attributes.success.get("class") }}">
-      <p>{{ form.settings.successMessage | t('freeform') }}</p>
+      <p>{{ form.successMessage | t('freeform') }}</p>
     </div>
     ```
 
@@ -1688,12 +1688,12 @@ The following is a basic example of what your formatting template can look like 
 {% if not form.settings.ajax %}
   {% if form.submittedSuccessfully %}
     <div{{ form.attributes.success|raw }}>
-      <p>{{ form.settings.successMessage | t('freeform') }}</p>
+      <p>{{ form.successMessage | t('freeform') }}</p>
     </div>
   {% endif %}
   {% if form.hasErrors %}
     <div{{ form.attributes.errors|raw }}>
-      <p>{{ form.settings.errorMessage | t('freeform') }}</p>
+      <p>{{ form.errorMessage | t('freeform') }}</p>
 
       {% if form.errors|length %}
         <ul>
