@@ -97,6 +97,7 @@ const config: Config = {
               title: 'Changelog',
               sidebar_label: 'Changelog',
               sidebar_position: 5,
+              toc_max_heading_level: 2,
             },
           },
           {
@@ -108,6 +109,7 @@ const config: Config = {
               title: 'Changelog',
               sidebar_label: 'Changelog',
               sidebar_position: 5,
+              toc_max_heading_level: 2,
             },
           },
           {
@@ -119,6 +121,7 @@ const config: Config = {
               title: 'Changelog',
               sidebar_label: 'Changelog',
               sidebar_position: 5,
+              toc_max_heading_level: 2,
             },
           },
           {
@@ -130,6 +133,7 @@ const config: Config = {
               title: 'Changelog',
               sidebar_label: 'Changelog',
               sidebar_position: 5,
+              toc_max_heading_level: 2,
             },
           },
           {
@@ -141,6 +145,7 @@ const config: Config = {
               title: 'Changelog',
               sidebar_label: 'Changelog',
               sidebar_position: 2,
+              toc_max_heading_level: 2,
             },
           },
           {
@@ -152,6 +157,7 @@ const config: Config = {
               title: 'Changelog',
               sidebar_label: 'Changelog',
               sidebar_position: 2,
+              toc_max_heading_level: 2,
             },
           },
           {
@@ -163,6 +169,7 @@ const config: Config = {
               title: 'Changelog',
               sidebar_label: 'Changelog',
               sidebar_position: 3,
+              toc_max_heading_level: 2,
             },
           },
         ],
