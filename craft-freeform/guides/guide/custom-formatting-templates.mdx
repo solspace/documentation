@@ -1,0 +1,136 @@
+---
+sidebar_position: 2
+---
+
+import Player from 'react-player';
+import { Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Creating a Custom Formatting Template
+
+Freeform offers the most flexible and customizable options for handling the formatting of forms on the front end.
+This is done with [formatting templates](../../templates/formatting/index.mdx), where you can assign them to forms
+so Freeform knows how you'd like them to appear on the front end. You can simply choose from one of our popular
+framework examples and add your own CSS to style them further, or you can create your very own formatting templates.
+
+Sometimes are you want to do is change some accent colors or other minor details. This guide shows how you can
+quickly get started with customizing your own formatting templates.
+
+## Instructions
+
+We strongly recommend [using an existing sample formatting template as a starting point](../../templates/formatting/index.mdx#sample-templates).
+Freeform includes numerous examples and frameworks that show best practices, so we're certain you'll find one to use
+as a starting point.
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/custom-formatting-template.mp4').default}
+  muted loop playing width="100%" height="100%"
+/>
+
+To do this, follow the steps below:
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Inside your Craft `templates` directory, create a folder on your server to store your custom formatting templates. For example,
+a folder named `formatting` under a `_freeform` directory:
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/guides/custom-formatting-template-1.png')}
+  alt="Create a new folder to store the custom formatting templates"
+  scale="70"
+/>
+
+</StepMarkdown>
+<StepMarkdown>
+
+In the Craft control panel, go to the [Template Manager](../../configuration/settings.mdx#template-manager) in the Settings area of Freeform.
+
+Enter the relative path to your newly created `_freeform/formatting` directory. Freeform will automatically suggest existing paths:
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/guides/custom-formatting-template-2.png')}
+  alt="Enter the relative path to your newly created '_freeform/formatting' directory"
+/>
+
+</StepMarkdown>
+<StepMarkdown>
+
+Click the **Save** button at the top right.
+
+Upon reload of the page, you'll see the following:
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/guides/custom-formatting-template-3.png')}
+  alt="Clone an existing sample formatting template to use as a starting point"
+/>
+
+Click on the **Clone a Sample Template** button and choose an existing sample formatting template to use as a starting point.
+
+</StepMarkdown>
+<StepMarkdown>
+
+After successfully cloning a sample template, you'll see it appear on the page:
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/guides/custom-formatting-template-5.png')}
+  alt="New custom formatting template in CP"
+/>
+
+And in your `_freeform/formatting` directory:
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/guides/custom-formatting-template-4.png')}
+  alt="New custom formatting template on server"
+  scale="70"
+/>
+
+</StepMarkdown>
+<StepMarkdown>
+
+You can rename your new custom formatting template by changing the name of the folder (in this case `tailwind-4-dark-1`) to whatever you like.
+
+However, please note that you'll need to perform a _search and replace_ on your new `tailwind-4-dark-1` folder to replace any references of
+`tailwind-4-dark-1` in the templates. This will be different depending on which sample template you cloned, but usually 3-5 places.
+
+In the case of the Tailwind 4 templates, you'll need to change them in the following locations:
+
+In `index.twig`:
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/guides/custom-formatting-template-7a.png')}
+  alt="Change file path references in 'index.twig'"
+/>
+
+In `_row.twig`:
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/guides/custom-formatting-template-7b.png')}
+  alt="Change file path references in '_row.twig'"
+/>
+
+In `/fields/group.twig`:
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/guides/custom-formatting-template-7c.png')}
+  alt="Change file path references in '/fields/group.twig'"
+/>
+
+</StepMarkdown>
+<StepMarkdown>
+
+Apply your new formatting template to one or more of your forms:
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/guides/custom-formatting-template-8.png')}
+  alt="Apply new custom formatting template inside the form builder"
+/>
+
+</StepMarkdown>
+<StepMarkdown>
+
+Make any changes you like to your new formatting template. We strongly suggest starting out small
+and slowly make additional changes, checking them numerous times along the way.
+
+</StepMarkdown>
+</VerticalStepWrapper>
