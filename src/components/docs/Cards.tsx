@@ -411,7 +411,7 @@ const FieldCards: React.FC<FieldCardsProps> = ({ items }) => {
         <Link
           key={`field-cards-${index}`}
           to={item.link}
-          className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/7 xl:w-1/8 2xl:w-1/10 p-4 flex flex-col items-center text-center text-black dark:text-white"
+          className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/7 xl:w-1/8 2xl:w-1/10 p-4 flex flex-col items-center text-center text-black dark:text-white rounded-2xl hover:bg-slate-500/10"
         >
           <div>
             {item.icon && (
@@ -443,7 +443,7 @@ const IntegrationCards: React.FC<IntegrationCardsProps> = ({ items, layout }) =>
           <Link
             key={`integration-cards-${index}`}
             to={item.link}
-            className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/4 xl:w-1/5 xl:w-1/7 2xl:w-1/8 p-4 flex flex-col items-center text-center text-black dark:text-white"
+            className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/4 xl:w-1/7 2xl:w-1/8 p-4 flex flex-col items-center text-center text-black dark:text-white rounded-2xl hover:bg-slate-500/10"
           >
             <div>
               {item.icon && (
@@ -472,7 +472,7 @@ const IntegrationCards: React.FC<IntegrationCardsProps> = ({ items, layout }) =>
         <Link
           key={`integration-cards-${index}`}
           to={item.link}
-          className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/7 xl:w-1/8 2xl:w-1/10 p-4 flex flex-col items-center text-center text-black dark:text-white"
+          className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/7 xl:w-1/8 2xl:w-1/10 p-4 flex flex-col items-center text-center text-black dark:text-white rounded-2xl hover:bg-slate-500/10"
         >
           <div>
             {item.icon && (
