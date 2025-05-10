@@ -1,0 +1,123 @@
+---
+title: 'Generate Fake Data'
+sidebar_position: 10
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Generate Fake Data<Badge type="feature" text="New in 5.2+" />
+
+If you ever wish to preload form fields with automatically generated fake submission data for testing purposes or other reasons, you can do so with Freeform's implementation of the [Faker](https://fakerphp.org/) library. It's already included, so you don't need to install or enable anything extra.
+
+:::warning
+Please note that any _Faker_ variables you add to forms will be visible to anyone when the form is displayed on the front end. This is intended for testing purposes only.
+:::
+
+:::tip
+[Need to mass generate fake submission data for testing purposes? You can do so with the `freeform/submissions/generate` CLI command.](../../configuration/console-commands/#generate-fake-submissions)
+:::
+
+## Common Formatters
+Below is a list of common formatters for using with Freeform forms. For the complete list of formatters, please see the [Faker documentation](https://fakerphp.org/formatters/).
+
+:::info
+Please note that not all _Faker_ formatters and syntax noted on the [Faker documentation](https://fakerphp.org/formatters/) will work inside Freeform.
+:::
+
+| Freeform Field | _Faker_ Formatter | Example Output | Notes/Recommendations |
+| --- | --- | --- | --- |
+| Full Name | `{{ faker.name\|raw }}` | _Blanca Hane_, _Dr. Zane Stroman_, _Alexandria Cronin Jr._, etc | Names may randomly include prefixes and suffixes. Use `\|raw` filter. |
+| First Name | `{{ faker.firstName\|raw }}` | _John_ | Use `\|raw` filter. |
+| Last Name | `{{ faker.lastName\|raw }}` | _Smith_ | Use `\|raw` filter. |
+| Title | `{{ faker.title }}` | _Mrs._, _Dr._, etc | |
+| Suffix | `{{ faker.suffix }}` | _Jr._ | |
+| Company Name | `{{ faker.company\|raw }}` | _Smith & Sons Ltd_ | Use `\|raw` filter. |
+| Job Title | `{{ faker.jobTitle }}` | _Cashier_ | |
+| Email Address | `{{ faker.email }}` | `hickle.lavern@erdman.com` | |
+| Safe Email Address | `{{ faker.safeEmail }}` | `spencer.ricardo@example.com`, `wolf.sabryna@example.org`, etc | |
+| Company Email Address | `{{ faker.companyEmail }}` | `john@smithandsons.net` | |
+| Domain Name | `{{ faker.domainName }}` | _toy.com_, _schamberger.biz_ | |
+| URL | `{{ faker.url }}` | `http://cormier.info/eligendi-rem-omnis-quia.html`, `http://pagac.com/` | |
+| Username | `{{ faker.userName }}` | _ipaucek_, _homenick.alexandre_, etc | |
+| Password | `{{ faker.password(10, 20) }}` | _dE1U2G$n4g%-EiehJrn_, _YCc1tNShgU&j6Z_, etc | The arguments define the minimum and maximum number of characters, respectively. By default, the values `6` and `20` are used for the minimum and maximum, respectively. |
+| Phone&nbsp;Number | `{{ faker.phoneNumber }}` | _827-986-5852_ | |
+| Street Address | `{{ faker.streetAddress }}` | _439 Karley Loaf Suite 897_ | |
+| City | `{{ faker.city }}` | _Winnipeg_ | |
+| US State | `{{ faker.state }}` | _California_ | |
+| US State 2-letter code | `{{ faker.stateAbbr }}` | _CA_ | |
+| US Zip Code | `{{ faker.postcode }}` | _90210_ | |
+| Complete Address | `{{ faker.address }}` | _8888 Cummings Vista Apt. 101, Susanbury, NY 95473_ | |
+| Country | `{{ faker.country }}` | _Canada_ | |
+| Country Code | `{{ faker.countryCode }}` | _LK_, _UM_, _CZ_, etc | |
+| Sentence (single) | `{{ faker.sentence(6) }}` | _Sit vitae voluptas sint non voluptates._ | Argument is for number of words. |
+| Sentences (multiple) | `{{ faker.sentences(2, true) }}` | _Optio quos qui illo error. Laborum vero a officia id corporis. Saepe provident esse hic eligendi._ | First argument is for number of sentences. `true` is required for the second argument so it returns a string instead of an array. |
+| Paragraph (single) | `{{ faker.paragraph(4) }}` | _Sequi incidunt et voluptas consequatur sed. Incidunt minima est omnis. Placeat assumenda similique inventore quos. Nemo ex et nam tempore nihil._ | Argument is for number of sentences. |
+| Paragraphs (multiple) | `{{ faker.paragraphs(2, true) }}` | _Quia odit et quia ab. Eos officia dolor aut quia et sed. Quis sint amet aut. Eius enim sint praesentium error quo sed eligendi. Quo id sint et amet dolorem rem maiores._<br /><br />_Fuga atque velit consectetur id fugit eum. Cupiditate aut itaque dolores praesentium. Eius sunt ut ut ipsam._ | First argument is for number of paragraphs. `true` is required for the second argument so it returns a string instead of an array. |
+| Real Text | `{{ faker.realTextBetween(200, 300, 5)\|raw }}` | _Pigeon. 'I'm NOT a serpent!' said Alice indignantly. 'Let me alone!' 'Serpent, I say again!' repeated the Pigeon, but in a more subdued tone, and added with a kind of sob, 'I've tried every way, and._ | The first and second arguments define the minimum and maximum number of characters per sentence, respectively. The third argument is for the index size (between `1` and `5`). The higher the size, the more natural sounding sentences. The lower the size, the more random and less coherent text. |
+| Text | `{{ faker.text(100) }}` | _Quaerat eveniet magni a optio. Officia facilis cupiditate fugiat earum ipsam nemo nulla._ |  Argument is for the maximum number of characters. |
+| Word (single) | `{{ faker.word }}` | _occaecati_ | |
+| Words (multiple) | `{{ faker.words(5, true) }}` | _molestias repellendus qui temporibus ut_ | First argument is for number of words. `true` is required for the second argument so it returns a string instead of an array. |
+| Random Integer (0-9) | `{{ faker.randomDigit }}` | _ _ | |
+| Random Number | `{{ faker.randomNumber(5, false) }}` | _123_, _19238_, _5_, etc | First argument is for the maximum number of digits. When the second argument contains `false`, it will be a range between `0` and `99999` (if max digits is set to `5`). When using `true`, it will ensure the value is always 5 digits, so it will be a range between `10000` and `99999` (if max digits is set to `5`). |
+| Random Float | `{{ faker.randomFloat(2) }}` | _43.23_, _1203.49_, etc | Argument is for the number of decimals. |
+| Number Between | `{{ faker.numberBetween(0, 100) }}` | _32_, _4_, _91_, etc | Arguments are to specify the range of numbers that can be generated. |
+| Random Letter | `{{ faker.randomLetter }}` | _b_, _t_, etc | |
+| Regex | `{{ faker.regexify('[A-Z]{5}[0-4]{3}') }}` | _DRSQX201_, _FUDPA404_, etc | Use this field to populate [Regex](../forms/fields.mdx#regex) fields. Match the regex pattern configured in Freeform. By default, an empty string is used as input. |
+| Language Code | `{{ faker.languageCode }}` | _av_, _sc_, _as_, etc | |
+| Currency Code | `{{ faker.currencyCode }}` | _USD_, _SAR_, _KZT_, etc | |
+| Date | `{{ faker.date('Y-m-d') }}` | _2010-05-22_ | Currently not compatible with the [Date & Time](../forms/fields.mdx#date--time) field type. |
+| Time | `{{ faker.time('h:i A') }}` | _11:26 AM_ | Currently not compatible with the [Date & Time](../forms/fields.mdx#date--time) field type. |
+| Emoji | `{{ faker.emoji }}` | 😆, 😡, 😘, etc | |
+
+## Setup Guide
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Inside the form builder, click on any field you wish to set a fake value for.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Inside the **Default Value** setting for the field, enter a _Faker_ variable. This is constructed as follows:
+
+> `{{ faker` + `.` + _formatterName_ + ` }}`
+
+Refer to the [list of common formatters](#common-formatters) above for assistance with this.
+
+For example, you will likely add `{{ faker.email }}` to an **Email** field, and `{{ faker.firstName }}` to a **First Name** field.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/faker-form-builder-field.png')}
+  alt="Add Faker to your form fields inside the form builder"
+  scale="75"
+/>
+
+</StepMarkdown>
+<StepMarkdown>
+
+_Faker_ currently can only be applied to fields that are text/textarea input types. It's also recommended that you apply the `|raw` filter in cases where you may get values with apostrophes, such as names (e.g. `O'Conner`).
+
+Once done, your form might look something like this:
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/faker-form-builder-overview.png')}
+  alt="An overview of Faker set into default values of fields for the form"
+/>
+
+On the front end, it will render like this:
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/faker-front-end-form.png')}
+  alt="A form on the front end with automatically generated test data from Faker"
+/>
+
+</StepMarkdown>
+<StepMarkdown>
+
+If you see any errors when attempting to load your form on the front end, you may need to make adjustments to your _Faker_ variables or use a different approach.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+

@@ -58,6 +58,7 @@ export default {
   EventManagementIcon: 'event-management',
   ExportIcon: 'export',
   ExpressFormsIcon: 'express-forms-icon',
+  FakerIcon: 'faker',
   FreeformIcon: 'freeform',
   FreeformSurveyIcon: 'freeform-survey',
   FieldTextIcon: 'field-text',
