@@ -22,6 +22,8 @@ interface FieldProps {
   popular?: string;
   description: string;
   icon?: string;
+  color?: string;
+  filterIcon?: boolean;
 }
 
 interface IntegrationLogoProps {
@@ -369,36 +371,8 @@ const IntroCards: React.FC<CardSectionProps> = ({ items, layout }) => {
   );
 };
 
-const bgColors = [
-  'bg-sky-400/25',
-  'bg-blue-400/25',
-  'bg-indigo-400/25',
-  'bg-purple-400/25',
-  'bg-pink-400/25',
-  'bg-red-400/25',
-  'bg-orange-400/25',
-  'bg-yellow-400/25',
-  'bg-green-400/25',
-  'bg-emerald-400/25',
-  'bg-teal-400/25',
-  'bg-cyan-400/25',
-  'bg-sky-500/25',
-  'bg-blue-500/25',
-  'bg-indigo-500/25',
-  'bg-purple-500/25',
-  'bg-pink-500/25',
-  'bg-red-500/25',
-  'bg-orange-500/25',
-  'bg-yellow-500/25',
-  'bg-green-500/25',
-  'bg-emerald-500/25',
-  'bg-teal-500/25',
-  'bg-cyan-500/25',
-];
-
-const getRandomColor = () => bgColors[Math.floor(Math.random() * bgColors.length)];
-
 const FieldCards: React.FC<FieldCardsProps> = ({ items }) => {
+
   return (
     <div className="flex flex-wrap justify-center rounded-lg">
       {items.map((item, index) => (
@@ -409,10 +383,10 @@ const FieldCards: React.FC<FieldCardsProps> = ({ items }) => {
         >
           <div>
             {item.icon && (
-              <span className={`inline-flex rounded-lg ${getRandomColor()} p-3 items-center justify-center`}>
+              <span className={`inline-flex rounded-lg ${item.color} p-3 items-center justify-center`}>
                 <img
-                  src={useBaseUrl(`/icons/cards/${item.icon}.svg`)} alt={item.title}
-                  className="w-5 h-auto opacity-100 duration-500 transition-all filter-icons"
+                  src={useBaseUrl(`/icons/fields/${item.icon}.svg`)} alt={item.title}
+                  className={`w-5 h-auto opacity-100 duration-500 transition-all ${item.filterIcon ? 'filter-icons' : ''}`}
                 />
               </span>
             )}
