@@ -8,7 +8,7 @@ import Player from 'react-player';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-import { FlexCards } from '@site/src/components/docs';
+import { FlexCards, FieldCards } from '@site/src/components/docs';
 import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 
 import Icons from '@site/static/icons/cards';
@@ -20,12 +20,6 @@ Freeform features its own set of robust field types. The form builder displays a
 <FlexCards
   navCards
   items={[
-    {
-      title: 'Overview',
-      description: 'Overview of fields and important notes.',
-      icon: Icons.ClipboardIcon,
-      fullCardLink: '#overview',
-    },
     {
       title: 'Field Types',
       description: 'The field types available in Freeform.',
@@ -77,13 +71,290 @@ Freeform features its own set of robust field types. The form builder displays a
   height="100%"
 />
 
-## Overview
+## Field Types
 
-- [Standard Settings](#standard-settings)
-- [Field Encryption](#field-encryption)
-- [Populating Field Options](#populating-field-options)
-- [Field Types Overview](#field-types)
-- [Favorite Fields](#favorite-fields)
+Freeform contains a rich set of field types to handle just about every possible scenario you might get yourself into.
+
+<FieldCards
+  items={[
+    {
+      link: '#text',
+      title: 'Text',
+      description: 'Regular text inputs',
+      icon: 'text',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#textarea',
+      title: 'Textarea',
+      description: 'Multi-line text inputs',
+      icon: 'textarea',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#email',
+      title: 'Email',
+      description: 'Email validation and notifications',
+      icon: 'email',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#number',
+      title: 'Number',
+      description: 'Numeric validation and options',
+      icon: 'number',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#phone',
+      title: 'Phone',
+      description: 'Set a phone pattern with JS validation',
+      icon: 'phone',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#date--time',
+      title: 'Date & Time',
+      description: 'Date and time picker with JS validation',
+      icon: 'date-time',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#website',
+      title: 'Website',
+      description: "Validate inputted data includes 'http://', etc",
+      icon: 'website',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#regex',
+      title: 'Regex',
+      description: 'Come up with your own validation for data syntax',
+      icon: 'regex',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#dropdown',
+      title: 'Dropdown',
+      description: 'Dropdown field with powerful options to populate data',
+      icon: 'dropdown',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#checkbox',
+      title: 'Checkbox',
+      description: "Single checkbox, e.g. 'Accept Terms'",
+      icon: 'checkbox',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#checkboxes',
+      title: 'Checkboxes',
+      description: 'Multi-checkboxes field with powerful options to populate data',
+      icon: 'checkboxes',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#radios',
+      title: 'Radios',
+      description: 'Radio options field with powerful options to populate data',
+      icon: 'radios',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#multiple-select',
+      title: 'Multiple Select',
+      description: 'Multi-select field with powerful options to populate data',
+      icon: 'multi-select',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#opinion-scale',
+      title: 'Opinion Scale',
+      description: 'Users can select ranges for surveys',
+      icon: 'opinion-scale',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#rating',
+      title: 'Rating',
+      description: 'Plug and play rating stars',
+      icon: 'rating',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#file-upload',
+      title: 'File Upload',
+      description: 'Upload and validate one or multiple files to be attached to the submission',
+      icon: 'file-upload',
+      color: 'bg-yellow-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#file-upload-drag--drop',
+      title: 'File Drag & Drop',
+      description: 'Smart file uploader shows progress, thumbnails and memory when editing',
+      icon: 'file-upload-drag-drop',
+      color: 'bg-yellow-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#group',
+      titleBadge: 'New!',
+      title: 'Group',
+      description: 'Contains other fields within it',
+      icon: 'group',
+      color: 'bg-green-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#table',
+      title: 'Table',
+      description: 'Collect tabular or repeating data, allow users to add/remove rows',
+      icon: 'table',
+      color: 'bg-green-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#confirm',
+      title: 'Confirm',
+      description: 'Target another field that should be retyped (e.g. email)',
+      icon: 'confirm',
+      color: 'bg-green-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#password',
+      title: 'Password',
+      description: 'Process a password value but do not store it (for user registation forms)',
+      icon: 'password',
+      color: 'bg-green-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#calculation',
+      titleBadge: 'New!',
+      title: 'Calculation',
+      description: 'Perform dynamic calculations based on user-input values within forms',
+      icon: 'calculation',
+      color: 'bg-green-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#signature',
+      title: 'Signature',
+      description: 'Users can digitally sign submissions',
+      icon: 'signature',
+      color: 'bg-green-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#html',
+      title: 'HTML Block',
+      description: 'Include HTML/Twig inside form layouts',
+      icon: 'html',
+      color: 'bg-pink-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#rich-text',
+      title: 'Rich Text Block',
+      description: 'Include Rich Text inside form layouts',
+      icon: 'rich-text',
+      color: 'bg-pink-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#hidden',
+      title: 'Hidden',
+      description: 'Hide field data',
+      icon: 'hidden',
+      color: 'bg-slate-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#invisible',
+      title: 'Invisible',
+      description: 'Include hidden data that is not visible in rendered source code',
+      icon: 'invisible',
+      color: 'bg-slate-500/50',
+      filterIcon: true,
+    },
+    {
+      link: '#stripe-payment',
+      title: 'Stripe Payments',
+      description: 'Allow users to securely enter payment data for Payment-enabled forms',
+      icon: 'stripe',
+      color: 'bg-black/5 dark:bg-white/5',
+    },
+  ]}
+/>
+
+:::info
+Fields can be changed to other field types at any point, but be aware that data loss could occur when switching incompatible field types.
+:::
+
+| Name                                                                              | `field.type`                          | Description                                                                                                                                                        | <span className="edition-express no-margin">Express</span> | <span className="edition-lite no-margin">Lite</span> | <span className="edition-pro no-margin">Pro</span> |
+| --------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------: | :----------------------------------------------: | :--------------------------------------------: |
+| [Calculation](#calculation)<Badge type="feature" text="New in 5.1+" />            | `calculation`                         | Perform dynamic calculations based on user-input values within forms.                                                                                              |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Checkbox](#checkbox)<Badge type="feature" text="Improved in 5.10+" />            | `checkbox`                            | A single checkbox field.                                                                                                                                           |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Checkboxes](#checkboxes)<Badge type="feature" text="Improved in 5.10+" />        | `checkboxes`                          | A group of checkboxes.                                                                                                                                             |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Confirm](#confirm)                                                               | `confirm`                             | A text input field that targets another similar field and ensures the values match.                                                                                |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Date & Time](#date--time)                                                        | `datetime`                            | A complex date and/or time field.                                                                                                                                  |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Dropdown](#dropdown)                                                             | `dropdown`                            | A select dropdown menu field.                                                                                                                                      |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Email](#email)                                                                   | `email`                               | A text input field that includes additional email validation and possibility for attaching an email notification to it.                                            |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [File Upload](#file-upload)                                                       | `file`                                | A regular file upload field.                                                                                                                                       |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [File Upload Drag & Drop](#file-upload-drag--drop)                                | `file-dnd`                            | An advanced javascript-based file uploading field.                                                                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Group](#group)<Badge type="feature" text="New in 5.0+" />                        | `group`                               | A field that contains other fields within it.                                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Hidden](#hidden)                                                                 | <span className="compare-none">N/A</span> | A hidden input field.                                                                                                                                              |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [HTML](#html)                                                                     | `html`                                | A block that allows you to insert HTML into areas of your form.                                                                                                    |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Invisible](#invisible)                                                           | <span className="compare-none">N/A</span> | A field that allows you to collect hidden data in form submissions without a hidden field being present in the template source code.                               |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Multiple Select](#multiple-select)                                               | `multiple-select`                     | A multiple-select field.                                                                                                                                           |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Number](#number)                                                                 | `number`                              | A `number` type input field that is validated to contain certain numbers only.                                                                                     |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Opinion Scale](#opinion-scale)                                                   | `opinion-scale`                       | A special field that allows for flexible opinion scoring.                                                                                                          |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Password](#password)                                                             | `password`                            | A text input field that collects sensitive passwords but does not store them.                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Phone](#phone)                                                                   | `phone`                               | A `tel` type input field that is validated to contain phone numbers only, based on a configured pattern.                                                           |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Radios](#radios)                                                                 | `radios`                              | A group of radio options.                                                                                                                                          |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Rating](#rating)                                                                 | `rating`                              | A special field that allows for star ratings.                                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Regex](#regex)                                                                   | `regex`                               | An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`).                                                                   |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Rich Text](#rich-text)<Badge type="feature" text="Improved in 5.10+" />          | `rich-text`                           | A block that allows you to insert rich text into areas of your form (headings, descriptions, etc).                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Signature](#signature)                                                           | `signature`                           | A field that allows users to handwrite signatures inside your form.                                                                                                |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Stripe Payment](#stripe-payment)<Badge type="feature" text="Improved in 5.0+" /> | `stripe`                              | A set of input fields to allow the validation of credit cards and other payment options for [Stripe Payment](../integrations/stripe-payments.mdx) implementations. |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Submit buttons](#submit-buttons)                                                 | <span className="compare-none">N/A</span> | Handles the submit button(s), including **Save** option for the form.                                                                                              |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Table](#table)<Badge type="feature" text="Improved in 5.8+" />                   | `table`                               | A field that allows you to collect and handle repeating data.                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Text](#text)                                                                     | `text`                                | A single-line text input field.                                                                                                                                    |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Textarea](#textarea)                                                             | `textarea`                            | A multi-line text input field.                                                                                                                                     |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Website](#website)                                                               | `website`                             | A `url` type input field that checks to see if the URL specified has valid syntax.                                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+
+### Favorite Fields
+
+Any field can be a favorite field! If you have a number of fields that are commonly used across more than one form, such as **Name**, **Email**, etc, you can easily save them to your Favorite Fields list. If you need to edit or remove that field, you can always do that later in the manager area.
+
+:::info
+
+- Favorite fields are a snapshot of that field at the time it was saved.
+- Any customizations of a Favorite field or using a field from another form are specific only to the form they're adjusted in.
+  :::
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/builder-favorites.mp4').default}
+  muted loop playing width="100%" height="100%"
+/>
 
 ### Standard Settings
 
@@ -305,61 +576,6 @@ There are potentially negative implications with using this feature:
 - Be very careful if you attempt to redo this process (e.g. changing back to _Element_ source and grabbing a fresh list of Craft Entries, then converting back to _Custom_). If any existing submissions are relying on old or modified option values, they can become orphaned in the process.
 
 :::
-
-## Field Types
-
-Freeform contains a rich set of field types to handle just about every possible scenario you might get yourself into.
-
-:::info
-Fields can be changed to other field types at any point, but be aware that data loss could occur when switching incompatible field types.
-:::
-
-| Name                                                                              | `field.type`                          | Description                                                                                                                                                        | <span className="edition-express no-margin">Express</span> | <span className="edition-lite no-margin">Lite</span> | <span className="edition-pro no-margin">Pro</span> |
-| --------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------: | :----------------------------------------------: | :--------------------------------------------: |
-| [Calculation](#calculation)<Badge type="feature" text="New in 5.1+" />            | `calculation`                         | Perform dynamic calculations based on user-input values within forms.                                                                                              |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Checkbox](#checkbox)<Badge type="feature" text="Improved in 5.10+" />            | `checkbox`                            | A single checkbox field.                                                                                                                                           |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [Checkboxes](#checkboxes)<Badge type="feature" text="Improved in 5.10+" />        | `checkboxes`                          | A group of checkboxes.                                                                                                                                             |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [Confirm](#confirm)                                                               | `confirm`                             | A text input field that targets another similar field and ensures the values match.                                                                                |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Date & Time](#date--time)                                                        | `datetime`                            | A complex date and/or time field.                                                                                                                                  |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Dropdown](#dropdown)                                                             | `dropdown`                            | A select dropdown menu field.                                                                                                                                      |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [Email](#email)                                                                   | `email`                               | A text input field that includes additional email validation and possibility for attaching an email notification to it.                                            |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [File Upload](#file-upload)                                                       | `file`                                | A regular file upload field.                                                                                                                                       |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [File Upload Drag & Drop](#file-upload-drag--drop)                                | `file-dnd`                            | An advanced javascript-based file uploading field.                                                                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Group](#group)<Badge type="feature" text="New in 5.0+" />                        | `group`                               | A field that contains other fields within it.                                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Hidden](#hidden)                                                                 | <span className="compare-none">N/A</span> | A hidden input field.                                                                                                                                              |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [HTML](#html)                                                                     | `html`                                | A block that allows you to insert HTML into areas of your form.                                                                                                    |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [Invisible](#invisible)                                                           | <span className="compare-none">N/A</span> | A field that allows you to collect hidden data in form submissions without a hidden field being present in the template source code.                               |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Multiple Select](#multiple-select)                                               | `multiple-select`                     | A multiple-select field.                                                                                                                                           |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [Number](#number)                                                                 | `number`                              | A `number` type input field that is validated to contain certain numbers only.                                                                                     |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [Opinion Scale](#opinion-scale)                                                   | `opinion-scale`                       | A special field that allows for flexible opinion scoring.                                                                                                          |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Password](#password)                                                             | `password`                            | A text input field that collects sensitive passwords but does not store them.                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Phone](#phone)                                                                   | `phone`                               | A `tel` type input field that is validated to contain phone numbers only, based on a configured pattern.                                                           |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Radios](#radios)                                                                 | `radios`                              | A group of radio options.                                                                                                                                          |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [Rating](#rating)                                                                 | `rating`                              | A special field that allows for star ratings.                                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Regex](#regex)                                                                   | `regex`                               | An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`).                                                                   |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Rich Text](#rich-text)<Badge type="feature" text="Improved in 5.10+" />          | `rich-text`                           | A block that allows you to insert rich text into areas of your form (headings, descriptions, etc).                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Signature](#signature)                                                           | `signature`                           | A field that allows users to handwrite signatures inside your form.                                                                                                |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Stripe Payment](#stripe-payment)<Badge type="feature" text="Improved in 5.0+" /> | `stripe`                              | A set of input fields to allow the validation of credit cards and other payment options for [Stripe Payment](../integrations/stripe-payments.mdx) implementations. |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Submit buttons](#submit-buttons)                                                 | <span className="compare-none">N/A</span> | Handles the submit button(s), including **Save** option for the form.                                                                                              |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [Table](#table)<Badge type="feature" text="Improved in 5.8+" />                   | `table`                               | A field that allows you to collect and handle repeating data.                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Text](#text)                                                                     | `text`                                | A single-line text input field.                                                                                                                                    |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [Textarea](#textarea)                                                             | `textarea`                            | A multi-line text input field.                                                                                                                                     |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [Website](#website)                                                               | `website`                             | A `url` type input field that checks to see if the URL specified has valid syntax.                                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-
-### Favorite Fields
-
-Any field can be a favorite field! If you have a number of fields that are commonly used across more than one form, such as **Name**, **Email**, etc, you can easily save them to your Favorite Fields list. If you need to edit or remove that field, you can always do that later in the manager area.
-
-:::info
-
-- Favorite fields are a snapshot of that field at the time it was saved.
-- Any customizations of a Favorite field or using a field from another form are specific only to the form they're adjusted in.
-  :::
-
-<Player
-  url={require('@site/static/videos/craft/freeform/v5/builder-favorites.mp4').default}
-  muted loop playing width="100%" height="100%"
-/>
 
 ## Calculation<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.1+" />
 
