@@ -69,6 +69,7 @@ export default {
   GlobeIcon: 'globe',
   GraduationCapIcon: 'graduation-cap',
   GraphqlIcon: 'graphql',
+  GroupsIcon: 'groups',
   GuaranteeCertificateIcon: 'guarantee-certificate',
   GuaranteeIcon: 'guarantee',
   HeadlessIcon: 'headless',

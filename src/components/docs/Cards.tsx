@@ -50,6 +50,7 @@ interface CardSectionProps {
   items: CardProps[];
   promo?: boolean;
   layout?: string;
+  navCards?: boolean;
 }
 
 interface FieldCardsProps {
@@ -156,6 +157,7 @@ const Card: React.FC<CardProps> = ({
   titleBadge,
   description,
   icon,
+  filterIcon
 }) => {
   const iconSrc = icon && useBaseUrl(`/icons/cards/${icon}.svg`);
 
@@ -163,58 +165,49 @@ const Card: React.FC<CardProps> = ({
     return (
       <Link
         to={fullCardLink}
-        className="group flex flex-row gap-3 border rounded-lg p-3 m-1 2xl:max-w-full transition-all duration-500 dark:text-white bg-[rgba(0,127,230,0.2)] dark:bg-[rgba(0,105,190,0.25)] hover:bg-[#87c9ff] hover:dark:bg-[#0069be] hover:m-0 hover:p-4"
+        className="relative p-3 rounded-2xl bg-slate-500/5 hover:bg-slate-500/10"
       >
-        {iconSrc && (
-          <div className="flex justify-center">
-            <img
-              className="min-w-10 max-w-full !max-h-[50px] opacity-70	duration-500 transition-all filter-icons"
-              src={iconSrc}
-              alt={title || 'Freeform'}
-            />
-          </div>
-        )}
-
-        <div
-          className={`pl-1 flex flex-col ${!description && 'justify-center'}`}
-        >
-          <h3
-            className={`font-semibold mb-0 text-black dark:text-white ${
-              description ? 'text-lg' : 'text-2xl'
-            }`}
-          >
-            {title}
-            {titleBadge &&<Badge type="feature" text={titleBadge} />}
-          </h3>
-          {description && (
-            <p className="text-sm text-gray-700 mb-1 dark:text-gray-300 transition-all duration-500 dark:group-hover:text-gray-50 ">
-              {description}
-            </p>
-          )}
+        <div className="relative pl-9">
+          <dt className="font-semibold text-lg text-black dark:text-white">
+            {icon && (
+              <img
+                src={iconSrc}
+                className={`absolute top-1 left-1 size-5 mb-2 ${filterIcon ? 'filter-icons' : ''}`}
+                alt={title || 'Freeform'}
+              />
+            )}
+            {title}{' '}
+            {titleBadge && (
+              <Badge type="feature" text={titleBadge} />
+            )}
+          </dt>
+          <dd className="ml-0 text-black/60 dark:text-white/60">
+            {description}
+          </dd>
         </div>
       </Link>
     );
   }
 
   return (
-    <div className="group flex flex-row gap-3 border rounded-lg py-2 px-3 max-w-fit transition-all duration-500 dark:text-white">
-      {iconSrc && (
-        <div className="flex justify-center">
+    <div className="relative pl-9">
+      <dt className="font-semibold text-lg text-black dark:text-white">
+        {icon && (
           <img
-            className="min-w-10 max-w-full !max-h-[50px] opacity-70	duration-500 transition-all filter-icons"
             src={iconSrc}
+            className={`absolute top-1 left-1 size-5 mb-2 ${filterIcon ? 'filter-icons' : ''}`}
             alt={title || 'Freeform'}
           />
-        </div>
-      )}
-      <div className="pl-2">
-        <h3 className="text-lg font-semibold mb-0 text-black dark:text-white">
-          {title}
-          {titleBadge &&<Badge type="feature" text={titleBadge} />}
-        </h3>
-        <p className="text-gray-700 mb-1 dark:text-gray-300 leading-6">
-          {description}{' '}
-          {linkWithDescription && (
+        )}
+        {title}{' '}
+        {titleBadge && (
+          <Badge type="feature" text={titleBadge} />
+        )}
+      </dt>
+      <dd className="ml-0">
+        {description}{' '}
+        {linkWithDescription && (
+          <span className="whitespace-nowrap">
             <SimpleTextLink
               to={linkWithDescription}
               label={
@@ -223,9 +216,9 @@ const Card: React.FC<CardProps> = ({
                   : 'Learn more'
               }
             />
-          )}
-        </p>
-      </div>
+          </span>
+        )}
+      </dd>
     </div>
   );
 };
@@ -275,7 +268,7 @@ const PromoCard: React.FC<CardProps> = ({
   );
 };
 
-const FlexCards: React.FC<CardSectionProps> = ({ items, promo }) => {
+const FlexCards: React.FC<CardSectionProps> = ({ items, promo, navCards }) => {
   if (promo) {
     return (
       <div className="menu-grid">
@@ -294,7 +287,7 @@ const FlexCards: React.FC<CardSectionProps> = ({ items, promo }) => {
   }
 
   return (
-    <div className="menu-grid">
+    <div className={`max-w-none text-sm/5 text-gray-700 dark:text-gray-300 mx-auto my-10 grid max-w-2xl grid-cols-1 ${navCards ? 'gap-3' : 'gap-6'} sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3`}>
       {items.map((item, index) => (
         <Card
           key={`flex-cards-${index}`}
@@ -305,6 +298,7 @@ const FlexCards: React.FC<CardSectionProps> = ({ items, promo }) => {
           titleBadge={item?.titleBadge}
           description={item.description}
           icon={item.icon}
+          filterIcon={item.filterIcon}
         />
       ))}
     </div>
