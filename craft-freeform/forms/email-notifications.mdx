@@ -592,16 +592,16 @@ To only parse fields that include data submitted with them, you would add the fo
 </ul>
 ```
 
-### Include HTML and Rich Text Blocks
+### Include HTML and Rich Text Blocks<Badge type="feature" text="Updated in 5.0+" />
 
-If you wish to include HTML and Rich Text blocks in the output, use the `allFieldsAndBlocks` variable instead of `allFields`. You'll need to perform the additional step of using a conditional to sniff out these fields and apply the `|raw` filter:
+If you wish to include HTML and Rich Text blocks in the output, use the `allFieldsAndBlocks` variable instead of `allFields`. You'll need to perform the additional steps of using a conditional to sniff out these fields, use `content`, and apply the `|raw` filter:
 
-```twig
+```twig {3-5}
 <p>The following submission came in on {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}.</p>
 <p>Here are the details:</p>
 {% for field in allFieldsAndBlocks %}
    {% if field.type == "html" or field.type == "rich-text" %}
-      {{ field.value|raw }}
+      {{ field.content|raw }}
    {% else %}
        <p>{{ field.label }}: {{ field.valueAsString }}</p>
    {% endif %}
