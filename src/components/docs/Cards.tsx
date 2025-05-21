@@ -489,7 +489,7 @@ const GuideCards: React.FC<GuideCardsProps> = ({ items }) => {
 
 const ReviewCards: React.FC<GuideCardsProps> = ({ items }) => {
   return (
-    <div className="relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] w-screen mt-20 flow-root">
+    <div className="relative left-1/2 right-1/2 ml-[-49.5vw] mr-[-49.5vw] w-[99vw] mt-20 flow-root">
       <div className="review-card -mt-10 sm:columns-2 sm:text-[0] lg:columns-3 xl:columns-4">
         {items.map((item, index) => (
           <div className="pt-0 sm:pt-10 inline-block w-full" key={`review-cards-${index}`}>
