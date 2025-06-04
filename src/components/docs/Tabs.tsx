@@ -63,7 +63,7 @@ const TabItems = ({ children }) => {
                     key={child.props.value}
                     className={`flex gap-1 p-2 border-transparent border-solid border-b-2 text-sm font-medium cursor-pointer  ${
                       activeTab === index
-                        ? 'border-b-indigo-500'
+                        ? 'border-b-[#058ffe]'
                         : 'text-gray-400 dark:text-gray-400 hover:text-gray-500 dark:hover:text-gray-200'
                     }`}
                     onClick={() => setActiveTab(index)}
