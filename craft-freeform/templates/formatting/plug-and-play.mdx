@@ -1,0 +1,135 @@
+---
+title: 'Plug-and-play'
+sidebar_position: 1
+---
+
+import Player from 'react-player';
+import { Photo, Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Plug-and-play<Badge type="feature" text="Improved in 5.0+" />
+
+Freeform includes sample formatting templates that are designed to be plug-and-play and not require any additional
+frameworks or CSS/JS added to the site or project. These templates are ready to go and require no extra styling unless
+you want to customize it. You can include the CSS and JavaScript in the template or add them to your site's files.
+While the templates may not work for all sites out of the box, they provide a solid starting point for building your own.
+
+The following are available:
+
+<ul className="sample-templates-list">
+  <li><img src="/icons/integrations/solspace-freeform.svg" alt="Plug-and-play" />[Basic Light](#basic-light)</li>
+  <li><img src="/icons/integrations/solspace-freeform.svg" alt="Plug-and-play" />[Basic Dark](#basic-dark)</li>
+  <li><img src="/icons/integrations/solspace-freeform.svg" alt="Plug-and-play" />[Basic Floating Labels](#basic-floating-labels)</li>
+  <li><img src="/icons/integrations/solspace-freeform.svg" alt="Plug-and-play" />[Multipage All Fields](#multipage-all-fields)</li>
+  <li><img src="/icons/integrations/solspace-freeform.svg" alt="Plug-and-play" />[Conversational](#conversational)</li>
+</ul>
+
+## Previews
+
+### Basic Light
+The _Basic Light_ template is a simple, pre-styled formatting template that works without any frameworks or toolkits.
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/formatting/basic-light.mp4').default}
+  muted loop playing width="100%" height="100%"
+/>
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/formatting/basic-light.png')}
+  alt="Basic Light Example"
+/>
+
+<PrimaryButtonWithLink
+  to="https://demo.solspace.com/freeform-demo/templates/basic-light/jobApplication"
+  label="View Live Demo"
+/>
+
+### Basic Dark
+The _Basic Dark_ template is a simple, pre-styled formatting template that works without any frameworks or toolkits.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/formatting/basic-dark.png')}
+  alt="Basic Dark Example"
+/>
+
+<PrimaryButtonWithLink
+  to="https://demo.solspace.com/freeform-demo/templates/basic-dark/jobApplication"
+  label="View Live Demo"
+/>
+
+### Basic Floating Labels
+The _Basic Floating Labels_ template is a simple, pre-styled formatting template that works without any frameworks or toolkits.
+It displays labels in the center of the inputs and shrinks them to the top-left when clicked and/or contains a value.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/formatting/basic-floating-labels.png')}
+  alt="Basic Floating Labels Example"
+/>
+
+<PrimaryButtonWithLink
+  to="https://demo.solspace.com/freeform-demo/templates/basic-floating-labels/jobApplication"
+  label="View Live Demo"
+/>
+
+### Conversational
+The _Conversational_ template is a simple, pre-styled formatting template that works without any frameworks or toolkits.
+It will display one field at a time, and smoothly scroll down to the next question until complete, similarly to how
+[Typeform](https://www.typeform.com/) displays forms. This is a great choice for survey forms.
+
+:::warning
+**Please note that this formatting template example has some expectations and limitations:**
+
+- You should typically only place 1 field per row. Multiple fields in the same row will otherwise appear stacked on the same page (which may be okay in some cases).
+- Groups, Credit Card/Payments, and Save & Continue Later fields/buttons currently are not accounted for in this example. They can of course be added if you put in the work to support it.
+- Multipage forms are not recommended to be used with this formatting template example.
+:::
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/formatting/conversational-1.png')}
+  alt="Conversational Example 1"
+/>
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/formatting/conversational-2.png')}
+  alt="Conversational Example 2"
+/>
+
+<PrimaryButtonWithLink
+  to="https://demo.solspace.com/freeform-demo/templates/conversational/contact"
+  label="View Live Demo"
+/>
+
+### Multipage All Fields
+The _Multipage All Fields_ template is a simple, pre-styled formatting template that works without any frameworks or toolkits.
+If you'd like to display ALL fields for a multipage form for the purpose of reviewing/previewing fields on other pages, it is
+possible by additionally iterating over `{% for page in form.pages %}` and then `{% for row in page %}` instead of
+`{% for row in form %}`.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/formatting/multipage-all-fields-1.png')}
+  alt="Multipage All Fields Example 1"
+/>
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/formatting/multipage-all-fields-2.png')}
+  alt="Multipage All Fields Example 2"
+/>
+
+<PrimaryButtonWithLink
+  to="https://demo.solspace.com/freeform-demo/templates/multipage-all-fields/jobApplication"
+  label="View Live Demo"
+/>
+
+## Customization Guide
+
+You can easily customize any sample formatting template by using it as a starting point and adjusting it to fit your needs.
+For step-by-step instructions, check out the [_Custom Formatting Template_ guide](../../../guides/guide/custom-formatting-templates).
+
+<PrimaryButtonWithLink
+  to="../../../guides/guide/custom-formatting-templates"
+  label="View Complete Guide"
+/>
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/custom-formatting-template.mp4').default}
+  muted loop playing width="100%" height="100%"
+/>

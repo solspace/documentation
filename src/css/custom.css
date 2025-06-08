@@ -1324,6 +1324,10 @@ table th h3 {
   background: transparent !important;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 .button {
   border-bottom: none !important;
 }
@@ -1703,22 +1707,35 @@ html[data-theme='dark']
 .sample-templates-icon {
   font-size: 15px;
   color: #d8eeff !important;
-  white-space: wrap;
+  white-space: nowrap;
   vertical-align: top;
   text-align: left;
   display: flex;
   gap: 10px;
 }
 
-.sample-templates-icon .photo {
+.sample-templates-icon img {
+  height: 18px;
+  width: 18px;
+  margin-top: 5px !important;
   margin-bottom: 0 !important;
 }
 
-@media (min-width: 768px) {
-  .sample-templates-icon {
-    min-width: 200px;
-  }
+.sample-templates-list {
+  list-style: none;
+  padding-left: 20px;
 }
+.sample-templates-list li {
+  position: relative;
+  padding-left: 0;
+}
+.sample-templates-list li img {
+  height: 15px;
+  width: 15px;
+  margin-right: 8px;
+  margin-bottom: -2px;
+}
+
 
 /* Navbar Style */
 .navbar__title {
@@ -2599,6 +2616,18 @@ h4:first-of-type {
 h4 span {
   font-size: 1.1rem;
   font-weight: normal;
+}
+
+h3 + h4 {
+  border: none;
+  margin-top: -15px !important;
+  padding-top: 15px;
+}
+
+h2 + h4 {
+  border: none;
+  margin-top: -25px !important;
+  padding-top: 15px;
 }
 
 .field-cards h4 {
