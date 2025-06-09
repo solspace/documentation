@@ -3,11 +3,10 @@ sidebar_position: 3
 title: Common Issues
 ---
 
-import TOCInline from '@theme/TOCInline';
 import Admonition from '@theme/Admonition';
-
 import { Badge, Photo } from '@site/src/components/utils';
-import { AnswerCard, AnswerChecklist } from '@site/src/components/docs';
+import { FlexCards, AnswerCard, AnswerChecklist } from '@site/src/components/docs';
+import Icons from '@site/static/icons/cards';
 
 # Common Issues & Questions
 
@@ -17,7 +16,348 @@ Check out this documentation resource to troubleshoot common problems or find an
 [Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](./guide/troubleshooting-form-issues.mdx)
 :::
 
+<FlexCards
+  navCards
+  items={[
+    {
+      title: 'Installing & Upgrading',
+      description: 'Issues with installing and upgrading Freeform.',
+      icon: Icons.BoxIcon,
+      fullCardLink: '#installing--upgrading',
+    },
+    {
+      title: 'Forms',
+      description: 'Issues with loading and submitting forms.',
+      icon: Icons.ClipboardIcon,
+      fullCardLink: '#forms',
+    },
+    {
+      title: 'Submissions',
+      description: 'Issues with submission data.',
+      icon: Icons.ArchiveIcon,
+      fullCardLink: '#submissions',
+    },
+    {
+      title: 'Emails',
+      description: 'Issues with sending and recieving email notifications.',
+      icon: Icons.OpenLetterIcon,
+      fullCardLink: '#emails',
+    },
+    {
+      title: 'Integrations',
+      description: 'Issues connecting to or sending data to integrations.',
+      icon: Icons.CloudApiIcon,
+      fullCardLink: '#integrations',
+    },
+    {
+      title: 'Control Panel',
+      description: 'Issues in the control panel including form builder.',
+      icon: Icons.ConfigPageIcon,
+      fullCardLink: '#control-panel',
+    },
+    {
+      title: 'Licenses & Renewals',
+      description: 'Common questions regarding licenses and renewals.',
+      icon: Icons.BagIcon,
+      fullCardLink: '#licenses--renewals',
+    }
+  ]}
+/>
+
 <div className="common-issues">
+
+## Installing & Upgrading
+
+<details>
+  <summary>How do I install Freeform?</summary>
+  <AnswerCard>
+    Installing Freeform is done just like any other plugin for Craft, similar to how you would install Craft itself. Please refer to the [Installation guide](../setup/installing-updating.mdx) in the documentation.
+  </AnswerCard>
+</details>
+<details>
+  <summary>'Table already exists' during upgrade/migration</summary>
+
+  When attempting to run migrations during an upgrade of Freeform, I get an error like `Table already exists...`
+
+  <AnswerCard>
+    Getting an error like `Table already exists...` while running migrations during an upgrade is almost always caused by a previously failed migration that is trying to be run again.
+    In cases like this, it's likely that an upgrade was attempted, a migration error occurred, and then a downgrade to the original version was attempted.
+
+    If an upgrade migration fails at any point, you must be prepared to **fully restore your database using the backup you created before initiating the update again**.
+    A failed migration may leave the database partially changed or other migrations may have occurred. Downgrading to an earlier version could corrupt the database and
+    make it unrecoverable.
+
+    :::warning
+    Always backup your site and database before upgrading your Craft site and/or plugins.
+    :::
+  </AnswerCard>
+</details>
+<details>
+  <summary>How do I transfer local 'dev' changes to 'production'?</summary>
+
+  I have a made a number of updates and changes to my Freeform setup on my local dev environment. I'd like to move that over to the staging/production environments. Is this possible?
+
+  <AnswerCard>
+    The best way to go about this is using Freeform 5's new [Import / Export](../forms/import-export.mdx) feature. It allows you to granularly import and export partial or entire Freeform setups from one site or environment to another. This could be used for performing site updates across environments and syncing changes in Freeform, or as a boilerplate for new sites.
+    
+    <details>
+      <summary>Further reading...</summary>
+      
+      If you're wondering if you can manually carry over changes/additions in the database to forms, fields, submissions, etc from one environment to another, this is not currently possible. The issue is that Freeform submissions are technically Craft elements and therefore, things are intertwined within the Craft `elements` and `elements_sites` database tables. Freeform forms are stored as JSON in the `freeform_forms` and various other `freeform_forms_*` database tables, but the fields within are also attached to the `freeform_submissions_*` database tables, complicating it further.
+      
+      Additionally, if form data and layouts were stored inside Craft's _project config_, it would mean that forms could not be created and edited on sites that use the `allowAdminChanges` setting in Craft. This might work for some customers, but definitely not everyone. This is why we built the new [Import / Export](../forms/import-export.mdx) feature as mentioned above.
+    </details>
+  </AnswerCard>
+</details>
+
+## Forms
+
+<details>
+  <summary>Form not submitting</summary>
+
+  When I submit my form, it errors unexpectedly or doesn't do anything.
+
+  <AnswerCard>
+    A common issue customers run into is their forms not submitting
+    successfully. There's a variety of reasons this might be. Here's a checklist
+    to go through and see if any of them might be at play:
+    <AnswerChecklist
+      items={[
+        {
+          text: (
+            <span>
+              Are you sure the form is not being successfully submitted? You can verify this by checking for submissions in the Freeform control panel. If you have the <b>Store Submitted Data</b> setting disabled for the form, consider enabling it temporarily to confirm this.
+            </span>
+          ),
+        },
+        {
+          text: (
+            <span>
+              Have you checked the Freeform <a href="../../configuration/settings/#error-log">Error Log</a> page (<i>Freeform</i> → <i>Settings</i> → <i>Error Log</i>)? The Freeform error log is physically located in the same place as the Craft logs (<code>/storage/logs/freeform.log</code>). If there are no logged errors, the Error Log page will not show any errors, and you will likely not see the Freeform error log file.
+            </span>
+          ),
+        },
+        {
+          text: (
+            <span>
+              Have you tried testing this inside the demo templates that come included with Freeform? This will at least help narrow things down to possibly an error in your template code if applicable. If your form doesn't work inside the demo templates, try creating an additional form that is simple (e.g. Name, Email, and Message fields), and try submitting again.
+            </span>
+          ),
+        },
+        {
+          text: (
+            <span>
+              Do you have caching on your template and/or site? Heavy caching will prevent the Craft CSRF token and Freeform hash from reloading and stop the form from working. If you need to cache your page/site, you'll need to find a way to manually refresh these for each page load.
+            </span>
+          ),
+        },
+        {
+          text: (
+            <span>
+              Do you have a rewrite rule for trailing slashes to be removed for <i>.htaccess</i> or <i>Nginx</i>? Try temporarily removing or disabling that and see if it resolves the issue. If using Nginx, you may want to <a href="https://craftcms.stackexchange.com/a/23872/4496">check out this article</a>.
+            </span>
+          ),
+        },
+        {
+          text: (
+            <span>
+              Do you have Javascript enabled for your browser? If you don't, and you're using Freeform's built-in <a href="../../forms/spam-protection/#freeform-javascript-test">Javascript Test</a> feature, it won't submit the form successfully.
+            </span>
+          ),
+        },
+        {
+          text: (
+            <span>
+              Is the form part of an entry and/or page that is generated by a <b>disabled</b> Craft entry (URL includes token like <code>?token=ay2ZFhCPSSvNLLjWxV1QnxO823JjHB-z</code>)? Freeform forms will be blocked from working on pages that are disabled this way.
+            </span>
+          ),
+        },
+        {
+          text: (
+            <span>
+              Have a look at the <b>Blocked Spam</b> count for your form in the <i>CP</i> → <i>Freeform</i> → <b>Forms</b> list. If the count is increasing each time you attempt to submit the form, Freeform's <a href="../../forms/spam-protection/">Spam Protection</a> feature is blocking your submissions.
+            </span>
+          ),
+        },
+        {
+          text: (
+            <span>
+              Try disabling the <a href="../../forms/spam-protection/">Spam Honeypot</a> feature ( <i>CP</i> → <i>Freeform</i> → <i>Settings</i> → <i>Spam Settings</i> and set <b>Spam Protection</b> setting to disabled) and test again.
+            </span>
+          ),
+        },
+        {
+          text: (
+            <span>
+              Are you getting redirected correctly after form submission? Be sure that you don't have any routes or .htaccess rewrites that conflict with the form submission.
+            </span>
+          ),
+        },
+        {
+          text: (
+            <span>
+              To be extra thorough, you can also try submitting Craft's simple <a href="https://github.com/craftcms/contact-form">Contact Form</a> plugin.
+            </span>
+          ),
+        },
+      ]}
+    />
+  </AnswerCard>
+</details>
+<details>
+  <summary>Unable to verify your data submission</summary>
+
+  When submitting my forms, I am getting an `Unable to verify your data submission` error.
+
+  <AnswerCard>
+    This is almost always because Craft's CSRF token is invalid or expired. The most common causes of this are:
+
+    - **Form/template/website is cached** - if using cache, please see the [Caching Forms](../templates/caching.mdx) documentation guide to see how you will need to manually refresh the Craft CSRF token.
+    - **Browser left open too long** - if the user leaves the page open for a while and revisits later, or spends too much time to complete the form (2-3 hours), the Craft CSRF token will expire. This is a limitation of the current PHP Session limit setting for your server. You may be able to extend it for a greater length of time if you contact your webhost/web admin, however.
+    - **Loading Freeform onto a different website/domain** - this should work by default, but if you have the `sameSiteCookieValue` [Craft config](https://craftcms.com/docs/5.x/reference/config/general.html#samesitecookievalue) setting set to `strict` or `lax`, it may cause an issue. You'll need to remove the setting line or set it to `null` in order for it to work correctly.
+  </AnswerCard>
+</details>
+<details>
+  <summary>Error when loading form in templates</summary>
+
+  I am getting an error when trying to load a form in my template. It looks like this:
+
+  > Solspace\Freeform\Library\Exceptions\FreeformException: Form template 'some-template.html' not found in /PATH/freeform/src/Services/FormsService.php:343
+
+  <AnswerCard>
+    This is very likely because you assigned a custom **Formatting Template** to your form, and then at some point did one of the following:
+
+    - Renamed the formatting template file.
+    - Deleted the formatting template file.
+    - Specified an incorrect Formatting Template directory path in your settings.
+    - Switched environments and the Formatting Template directory path setting is incorrect.
+
+    To correct this issue, ensure that:
+
+    <AnswerChecklist
+      items={[
+        {
+          text: 'The path to your Formatting Templates directory path is correct.',
+        },
+        {
+          text: 'The formatting template the form was assigned (at some point) exists.',
+        },
+      ]}
+    />
+    <Admonition type="info">
+      If you want to change the name of the formatting template file while it is already in use for form(s), you should:
+
+      1. Assign the form(s) a different formatting template
+      2. Rename the original formatting template file (when no forms are using it)
+      3. Reassign the newly renamed formatting template to the form(s) it should belong to.
+    </Admonition>
+  </AnswerCard>
+</details>
+<details>
+  <summary>Can I parse basic HTML in field labels?</summary>
+  <AnswerCard>
+    If you like, you can enter basic HTML into field labels and option labels while inside the form builder. This is especially handy if you want to add emphasis to an option or add a link to an option (e.g. link a checkbox label for Terms & Conditions page).
+
+    The demo and sample templates will likely handle the HTML in the form rendering automatically, but in cases where it doesn't, you may need to apply the `raw` Twig filter:
+
+    Getting HTML (`b`, `i`, etc) to parse for field option labels:
+
+    ```twig {7}
+    {{ field.renderLabel() }}
+
+    {% for option in field.options %}
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="{{ field.handle }}[]" value="{{ option.value }}" {{ option.value in field.value ? "checked" : "" }} />
+          {{ option.label|raw }}
+        </label>
+      </div>
+    {% endfor %}
+    ```
+  </AnswerCard>
+</details>
+<details>
+  <summary>Javascript errors in Safari when using reCAPTCHA</summary>
+
+  I'm seeing JS errors that say `"The source list for Content Security Policy directive 'script-src' contains an invalid source: "strict-dynamic". It will be ignored.` on forms using reCAPTCHA in Safari.
+
+  <AnswerCard>
+    This is out of our control as it is a [known issue with Google and Safari](https://github.com/google/google-api-javascript-client/issues/397). It technically does not interfere with the form functioning correctly, but they are choosing not to address the issue for some reason.
+  </AnswerCard>
+</details>
+<details>
+  <summary>404 Errors for 'freeform/plugin.js'</summary>
+
+  Some fields and other JS in my form are not working correctly. I'm also seeing this error in the browser console: `freeform/plugin.js net::ERR_ABORTED 404 (Not Found)`.
+
+  <details>
+    <summary>Freeform 5.3+</summary>
+      <AnswerCard>
+        It's possible this could be a caching issue. First try clearing your Craft cache and see if that helps.
+
+        :::info
+        If you're using Freeform 5.3+, this issue is very unlikely to occur. The _Freeform Script Insert Type_ setting was improved and no longer offers the **Static URLs** option, which was likely to cause this issue in some environments.
+        :::
+    </AnswerCard>
+  </details>
+  <details>
+    <summary>Freeform 5.0.x to 5.2.x</summary>
+    <AnswerCard>
+      It's possible this could be a caching issue. First try clearing your Craft cache and see if that helps.
+
+      If the JS in your form is not working and you're seeing an error like `freeform/plugin.js net::ERR_ABORTED 404 (Not Found)` in the browser console, it's almost certainly due to your site having server rules you have applied to JS and CSS files to see if they are actual files. The default for Freeform is to load its scripts as **Static URLs**, which becomes a problem in this case. To resolve this issue, you can switch the _Freeform Script Insert Type_ setting (_Craft CP → Freeform → Settings → Form Behavior_) to **As Files** instead.
+
+      - **As Static URLs**<Badge type="recommended" text="Recommended" /> offers built-in browser caching and a static endpoint that delivers the latest Freeform scripts, but are not physical files and therefore cannot have server rules applied.
+      - **As Files** (recommended if having issues with _Static URLs_) are actual physical files generated inside of the `cpresources` folder by Craft's asset manager with no caching.
+      - **Inline** will add the scripts as inline scripts and may be useful as a workaround if the other 2 options are not working. This doesn't allow for caching, and pollutes the source code.
+
+      :::info
+      If you're experiencing this issue only in one environment (like production), it's perfectly safe to just set all environments to use **As Files** without issue.
+      :::
+
+      <Photo
+        img={require('@site/static/img/craft/freeform/v5/guides/common-issues_plugin-js-400.png')}
+        alt="404 Errors for freeform/plugin.js"
+      />
+    </AnswerCard>
+  </details>
+</details>
+
+## Submissions
+
+<details>
+  <summary>All submissions are being flagged as spam</summary>
+
+  All of my submissions are being flagged or blocked as spam.
+
+  <AnswerCard>
+    If all of your form submissions are being blocked as spam or appearing in your Freeform control panel [Spam Folder](../forms/spam-protection.mdx#spam-folder), try going through the following checklist:
+
+    <AnswerChecklist items={[{
+        text: (
+          <span>
+            Have you tried testing this inside the demo templates that come included with Freeform? This will at least help narrow things down to possibly an error in your template code if applicable. If your form doesn't work inside the demo templates, try creating an additional form that is simple (e.g. Name, Email, and Message fields), and try submitting again.
+          </span>
+        )
+      },
+      {
+        text: (
+          <span>
+            Do you have caching on your template and/or site? Heavy caching will prevent the Craft CSRF token and Freeform hash from reloading and stop the form from working. If you need to cache your page/site, you'll need to find a way to manually refresh these for each page load.
+          </span>
+        )
+      },
+      {
+        text: (
+          <span>
+            Do you have a rewrite rule for trailing slashes to be removed for <i>.htaccess</i> or <i>Nginx</i>? Try temporarily removing or disabling that and see if it resolves the issue. If using Nginx, you may want to <a href="https://craftcms.stackexchange.com/a/23872/4496">check out this article</a>.
+          </span>
+        )
+      }]} />
+  </AnswerCard>
+</details>
+
+## Emails
 
 <details>
   <summary>Emails not sending</summary>
@@ -147,200 +487,130 @@ Check out this documentation resource to troubleshoot common problems or find an
   </AnswerCard>
 </details>
 <details>
-  <summary>Form not submitting</summary>
-
-  When I submit my form, it errors unexpectedly or doesn't do anything.
+  <summary>How do I show textarea line breaks in email notifications or submissions?</summary>
 
   <AnswerCard>
-    A common issue customers run into is their forms not submitting
-    successfully. There's a variety of reasons this might be. Here's a checklist
-    to go through and see if any of them might be at play:
-    <AnswerChecklist
-      items={[
-        {
-          text: (
-            <span>
-              Are you sure the form is not being successfully submitted? You can verify this by checking for submissions in the Freeform control panel. If you have the <b>Store Submitted Data</b> setting disabled for the form, consider enabling it temporarily to confirm this.
-            </span>
-          ),
-        },
-        {
-          text: (
-            <span>
-              Have you checked the Freeform <a href="../../configuration/settings/#error-log">Error Log</a> page (<i>Freeform</i> → <i>Settings</i> → <i>Error Log</i>)? The Freeform error log is physically located in the same place as the Craft logs (<code>/storage/logs/freeform.log</code>). If there are no logged errors, the Error Log page will not show any errors, and you will likely not see the Freeform error log file.
-            </span>
-          ),
-        },
-        {
-          text: (
-            <span>
-              Have you tried testing this inside the demo templates that come included with Freeform? This will at least help narrow things down to possibly an error in your template code if applicable. If your form doesn't work inside the demo templates, try creating an additional form that is simple (e.g. Name, Email, and Message fields), and try submitting again.
-            </span>
-          ),
-        },
-        {
-          text: (
-            <span>
-              Do you have caching on your template and/or site? Heavy caching will prevent the Craft CSRF token and Freeform hash from reloading and stop the form from working. If you need to cache your page/site, you'll need to find a way to manually refresh these for each page load.
-            </span>
-          ),
-        },
-        {
-          text: (
-            <span>
-              Do you have a rewrite rule for trailing slashes to be removed for <i>.htaccess</i> or <i>Nginx</i>? Try temporarily removing or disabling that and see if it resolves the issue. If using Nginx, you may want to <a href="https://craftcms.stackexchange.com/a/23872/4496">check out this article</a>.
-            </span>
-          ),
-        },
-        {
-          text: (
-            <span>
-              Do you have Javascript enabled for your browser? If you don't, and you're using Freeform's built-in <a href="../../forms/spam-protection/#freeform-javascript-test">Javascript Test</a> feature, it won't submit the form successfully.
-            </span>
-          ),
-        },
-        {
-          text: (
-            <span>
-              Is the form part of an entry and/or page that is generated by a <b>disabled</b> Craft entry (URL includes token like <code>?token=ay2ZFhCPSSvNLLjWxV1QnxO823JjHB-z</code>)? Freeform forms will be blocked from working on pages that are disabled this way.
-            </span>
-          ),
-        },
-        {
-          text: (
-            <span>
-              Have a look at the <b>Blocked Spam</b> count for your form in the <i>CP</i> → <i>Freeform</i> → **Forms** list. If the count is increasing each time you attempt to submit the form, Freeform's <a href="../../forms/spam-protection/">Spam Protection</a> feature is blocking your submissions.
-            </span>
-          ),
-        },
-        {
-          text: (
-            <span>
-              Try disabling the <a href="../../forms/spam-protection/">Spam Honeypot</a> feature ( <i>CP</i> → <i>Freeform</i> → <i>Settings</i> → <i>Spam Settings</i> and set <b>Spam Protection</b> setting to disabled) and test again.
-            </span>
-          ),
-        },
-        {
-          text: (
-            <span>
-              Are you getting redirected correctly after form submission? Be sure that you don't have any routes or .htaccess rewrites that conflict with the form submission.
-            </span>
-          ),
-        },
-        {
-          text: (
-            <span>
-              To be extra thorough, you can also try submitting Craft's simple <a href="https://github.com/craftcms/contact-form">Contact Form</a> plugin.
-            </span>
-          ),
-        },
-      ]}
-    />
+    Textarea data is stored in the database as newlines, which obviously don't parse as line breaks when trying to display in email notifications or on front end with Submissions object. To make this happen, use the `nl2br` Twig filter:
+
+    ```twig
+    {{ myFieldHandle|nl2br }}
+    ```
   </AnswerCard>
 </details>
 <details>
-  <summary>All submissions are being flagged as spam</summary>
+  <summary>Submission data in fields showing HTML entities</summary>
 
-  All of my submissions are being flagged or blocked as spam.
+  When rendering submission data in email notifications or the front end, several characters such as `'` are parsing as `&#39;`, e.g. `You&#39;re a wizard Harry!`.
 
   <AnswerCard>
-    If all of your form submissions are being blocked as spam or appearing in your Freeform control panel [Spam Folder](../forms/spam-protection.mdx#spam-folder), try going through the following checklist:
+    In rare circumstances, some customers have reported this issue happening. A solution for this would be adding the `|raw` filter to the field property, or wrapping `{% autoescape false %}` around it:
 
-    <AnswerChecklist items={[{
-        text: (
-          <span>
-            Have you tried testing this inside the demo templates that come included with Freeform? This will at least help narrow things down to possibly an error in your template code if applicable. If your form doesn't work inside the demo templates, try creating an additional form that is simple (e.g. Name, Email, and Message fields), and try submitting again.
-          </span>
-        )
-      },
-      {
-        text: (
-          <span>
-            Do you have caching on your template and/or site? Heavy caching will prevent the Craft CSRF token and Freeform hash from reloading and stop the form from working. If you need to cache your page/site, you'll need to find a way to manually refresh these for each page load.
-          </span>
-        )
-      },
-      {
-        text: (
-          <span>
-            Do you have a rewrite rule for trailing slashes to be removed for <i>.htaccess</i> or <i>Nginx</i>? Try temporarily removing or disabling that and see if it resolves the issue. If using Nginx, you may want to <a href="https://craftcms.stackexchange.com/a/23872/4496">check out this article</a>.
-          </span>
-        )
-      }]} />
+    ```twig
+    {{ message.value|raw }}
+    ```
+
+    OR
+
+    ```twig
+    {% autoescape false %}
+      {{ message.value }}​
+    {% endautoescape %}
+    ```
+  </AnswerCard>
+</details>
+
+## Integrations
+
+<details>
+  <summary>Data not sending to API integrations</summary>
+
+  My submission data is not being sent to the API integration I have selected and mapped out.
+
+  <AnswerCard>
+    The most common reason why data doesn't get sent to an API integration is because of a field mapping error, whether it's a required field on the API integration side that isn't being fulfilled on the Freeform submission, or the data formatting not matching expectations, etc. Try going through the following checklist:
+
+    <AnswerChecklist items={[  {
+      text: (
+        <span>
+          Have you checked the Freeform <a href="../../configuration/settings/#error-log">Error Log</a> page (<i>Freeform</i> → <i>Settings</i> → <i>Error Log</i>)? The Freeform error log is physically located in the same place as the Craft logs (<code>/storage/logs/freeform.log</code>). If there are no logged errors, the Error Log page will not show any errors, and you will likely not see the Freeform error log file.
+        </span>
+      )
+    },
+    {
+      text: (
+        <span>
+          Have you tried testing this inside the demo templates that come included with Freeform? This will at least help narrow things down to possibly an error in your template code if applicable. If your form doesn't work inside the demo templates, try creating an additional form that is simple (e.g. Name, Email, and Message fields), and try submitting again.
+        </span>
+      )
+    },
+    {
+      text: (
+        <span>
+          Is the field type / data formatting supported in the API integration? Not all field types are supported for each integration. This is usually noted near the top of the page of each API integration setup documentation page.
+        </span>
+      )
+    }]} />
   </AnswerCard>
 </details>
 <details>
-  <summary>'Table already exists' during upgrade/migration</summary>
+  <summary>Can't authorize an integration</summary>
 
-  When attempting to run migrations during an upgrade of Freeform, I get an error like `Table already exists...`
+  When trying to create and authorize a new integration, or re-authorize an existing integration, I get an error or it fails to do anything.
+  
+  <Photo
+    img={require('@site/static/img/craft/freeform/v5/guides/common-issues_authorize-integration.png')}
+    alt="Integration authorization error"
+  />
 
   <AnswerCard>
-    Getting an error like `Table already exists...` while running migrations during an upgrade is almost always caused by a previously failed migration that is trying to be run again.
-    In cases like this, it's likely that an upgrade was attempted, a migration error occurred, and then a downgrade to the original version was attempted.
+    There are various reasons this could be happening. The most common issues are:
 
-    If an upgrade migration fails at any point, you must be prepared to **fully restore your database using the backup you created before initiating the update again**.
-    A failed migration may leave the database partially changed or other migrations may have occurred. Downgrading to an earlier version could corrupt the database and
-    make it unrecoverable.
-
-    :::warning
-    Always backup your site and database before upgrading your Craft site and/or plugins.
-    :::
+    <AnswerChecklist items={[  {
+      text: (
+        <span>
+          Invalid credentials (client ID, client token, etc). Ensure these are correct and have not changed.
+        </span>
+      )
+    },
+    {
+      text: (
+        <span>
+          Conflicting rewrite rules in your <i>.htaccess</i> or <i>Nginx</i> configuration. Try temporarily removing or minimizing rewrites to see if it helps.
+        </span>
+      )
+    },
+    {
+      text: (
+        <span>
+          Agressive security settings on your server such as <b>ModSecurity</b> / <b>SQL injection detection</b>. Try temporarily removing or minimizing rewrites to see if it helps.
+        </span>
+      )
+    }]} />
   </AnswerCard>
 </details>
 <details>
-  <summary>404 Errors for 'freeform/plugin.js'</summary>
+  <summary>Issues with Salesforce API connection</summary>
 
-  Some fields and other JS in my form are not working correctly. I'm also seeing this error in the browser console: `freeform/plugin.js net::ERR_ABORTED 404 (Not Found)`.
-
-  <details>
-    <summary>Freeform 5.3+</summary>
-      <AnswerCard>
-        It's possible this could be a caching issue. First try clearing your Craft cache and see if that helps.
-
-        :::info
-        If you're using Freeform 5.3+, this issue is very unlikely to occur. The _Freeform Script Insert Type_ setting was improved and no longer offers the **Static URLs** option, which was likely to cause this issue in some environments.
-        :::
-    </AnswerCard>
-  </details>
-  <details>
-    <summary>Freeform 5.0.x to 5.2.x</summary>
-    <AnswerCard>
-      It's possible this could be a caching issue. First try clearing your Craft cache and see if that helps.
-
-      If the JS in your form is not working and you're seeing an error like `freeform/plugin.js net::ERR_ABORTED 404 (Not Found)` in the browser console, it's almost certainly due to your site having server rules you have applied to JS and CSS files to see if they are actual files. The default for Freeform is to load its scripts as **Static URLs**, which becomes a problem in this case. To resolve this issue, you can switch the _Freeform Script Insert Type_ setting (_Craft CP → Freeform → Settings → Form Behavior_) to **As Files** instead.
-
-      - **As Static URLs**<Badge type="recommended" text="Recommended" /> offers built-in browser caching and a static endpoint that delivers the latest Freeform scripts, but are not physical files and therefore cannot have server rules applied.
-      - **As Files** (recommended if having issues with _Static URLs_) are actual physical files generated inside of the `cpresources` folder by Craft's asset manager with no caching.
-      - **Inline** will add the scripts as inline scripts and may be useful as a workaround if the other 2 options are not working. This doesn't allow for caching, and pollutes the source code.
-
-      :::info
-      If you're experiencing this issue only in one environment (like production), it's perfectly safe to just set all environments to use **As Files** without issue.
-      :::
-
-      <Photo
-        img={require('@site/static/img/craft/freeform/v5/guides/common-issues_plugin-js-400.png')}
-        alt="404 Errors for freeform/plugin.js"
-      />
-    </AnswerCard>
-  </details>
-</details>
-<details>
-  <summary>How do I transfer local 'dev' changes to 'production'?</summary>
-
-  I have a made a number of updates and changes to my Freeform setup on my local dev environment. I'd like to move that over to the staging/production environments. Is this possible?
+  I am seeing errors displayed or logged in the Freeform error log for my Salesforce integration.
 
   <AnswerCard>
-    The best way to go about this is using Freeform 5's new [Import / Export](../forms/import-export.mdx) feature. It allows you to granularly import and export partial or entire Freeform setups from one site or environment to another. This could be used for performing site updates across environments and syncing changes in Freeform, or as a boilerplate for new sites.
-    
-    <details>
-      <summary>Further reading...</summary>
-      
-      If you're wondering if you can manually carry over changes/additions in the database to forms, fields, submissions, etc from one environment to another, this is not currently possible. The issue is that Freeform submissions are technically Craft elements and therefore, things are intertwined within the Craft `elements` and `elements_sites` database tables. Freeform forms are stored as JSON in the `freeform_forms` and various other `freeform_forms_*` database tables, but the fields within are also attached to the `freeform_submissions_*` database tables, complicating it further.
-      
-      Additionally, if form data and layouts were stored inside Craft's _project config_, it would mean that forms could not be created and edited on sites that use the `allowAdminChanges` setting in Craft. This might work for some customers, but definitely not everyone. This is why we built the new [Import / Export](../forms/import-export.mdx) feature as mentioned above.
-    </details>
+    One reason is that Salesforce usually disables the API access entirely with their Trial version. If you're using the Trial version, you will need to contact Salesforce support to manually enable it for you.
+
+    If you're seeing any errors as follows:
+
+    > Client error response [status code] 400 [reason phrase] Bad Request [url] https://login.salesforce.com/services/oauth2/token'
+
+    - This is because Salesforce runs differently when in Sandbox mode, so be sure to enable the **Sandbox Mode** option inside the CRM integration setting in the Freeform control panel.
+
+    > No 'refresh_token' present in auth response for SalesforceLead. Enable offline-access for your app.
+
+    - Make sure that the **Perform requests on your behalf at any time (refresh_token, offline_access)** setting is added to the **Selected OAuth Scopes** field for your app in Salesforce.
+
   </AnswerCard>
 </details>
+
+## Control Panel
+
 <details>
   <summary>500 Error - No form ID specified OR The request response is empty</summary>
 
@@ -374,61 +644,12 @@ Check out this documentation resource to troubleshoot common problems or find an
   </AnswerCard>
 </details>
 <details>
-  <summary>Unable to verify your data submission</summary>
-
-  When submitting my forms, I am getting an `Unable to verify your data submission` error.
-
-  <AnswerCard>
-    This is almost always because Craft's CSRF token is invalid or expired. The most common causes of this are:
-
-    - **Form/template/website is cached** - if using cache, please see the [Caching Forms](../templates/caching.mdx) documentation guide to see how you will need to manually refresh the Craft CSRF token.
-    - **Browser left open too long** - if the user leaves the page open for a while and revisits later, or spends too much time to complete the form (2-3 hours), the Craft CSRF token will expire. This is a limitation of the current PHP Session limit setting for your server. You may be able to extend it for a greater length of time if you contact your webhost/web admin, however.
-    - **Loading Freeform onto a different website/domain** - this should work by default, but if you have the `sameSiteCookieValue` [Craft config](https://craftcms.com/docs/5.x/reference/config/general.html#samesitecookievalue) setting set to `strict` or `lax`, it may cause an issue. You'll need to remove the setting line or set it to `null` in order for it to work correctly.
-  </AnswerCard>
-</details>
-<details>
-  <summary>Error when loading form in templates</summary>
-
-  I am getting an error when trying to load a form in my template. It looks like this:
-
-  > Solspace\Freeform\Library\Exceptions\FreeformException: Form template 'some-template.html' not found in /PATH/freeform/src/Services/FormsService.php:343
-
-  <AnswerCard>
-    This is very likely because you assigned a custom **Formatting Template** to your form, and then at some point did one of the following:
-
-    - Renamed the formatting template file.
-    - Deleted the formatting template file.
-    - Specified an incorrect Formatting Template directory path in your settings.
-    - Switched environments and the Formatting Template directory path setting is incorrect.
-
-    To correct this issue, ensure that:
-
-    <AnswerChecklist
-      items={[
-        {
-          text: 'The path to your Formatting Templates directory path is correct.',
-        },
-        {
-          text: 'The formatting template the form was assigned (at some point) exists.',
-        },
-      ]}
-    />
-    <Admonition type="info">
-      If you want to change the name of the formatting template file while it is already in use for form(s), you should:
-
-      1. Assign the form(s) a different formatting template
-      2. Rename the original formatting template file (when no forms are using it)
-      3. Reassign the newly renamed formatting template to the form(s) it should belong to.
-    </Admonition>
-  </AnswerCard>
-</details>
-<details>
   <summary>Error when deleting submissions</summary>
 
   I am getting an error like `Class 'Freeform_Submission' not found` while trying to delete submissions in the control panel.
 
   <AnswerCard>
-  This is very likely due to a migration from Freeform for _Craft 2_ missing this part on old submissions. This will need to be resolved manually by updating all instances of `Freeform_Submission` (Craft 2 style) in the **type** column of your Craft **elements** database to `Solspace\Freeform\Elements\Submission` (Craft 3+ style). Be sure to back up your database first.
+    This is very likely due to a migration from Freeform for _Craft 2_ missing this part on old submissions. This will need to be resolved manually by updating all instances of `Freeform_Submission` (Craft 2 style) in the **type** column of your Craft **elements** database to `Solspace\Freeform\Elements\Submission` (Craft 3+ style). Be sure to back up your database first.
   </AnswerCard>
 </details>
 <details>
@@ -440,7 +661,6 @@ Check out this documentation resource to troubleshoot common problems or find an
     This is usually a result of the file actually being missing on the site, or being blocked for some reason. Make sure that your server, site, or FTP client is not ignoring or excluding certain files and/or directories for any reason (e.g. an **.htaccess** rewrite rule that manipulates URL's can interfere with Freeform's POST to `/save` by redirecting it to `/save/`, etc). In all known cases of this, the aforementioned solutions always resolved the issue. Also be sure that you don't have any agressive security settings enabled on your server such as **ModSecurity** / **SQL injection detection**.
   </AnswerCard>
 </details>
-
 <details>
   <summary>SQLSTATE[42S22]: Column NOT found: 1054 Unknown column 'my_table_prefix.column_name_1' IN 'field list'</summary>
 
@@ -454,122 +674,8 @@ Check out this documentation resource to troubleshoot common problems or find an
   </AnswerCard>
 </details>
 
+## Licenses & Renewals
 
-<details>
-  <summary>Javascript errors in Safari when using reCAPTCHA</summary>
-
-  I'm seeing JS errors that say `"The source list for Content Security Policy directive 'script-src' contains an invalid source: "strict-dynamic". It will be ignored.` on forms using reCAPTCHA in Safari.
-
-  <AnswerCard>
-    This is out of our control as it is a [known issue with Google and Safari](https://github.com/google/google-api-javascript-client/issues/397). It technically does not interfere with the form functioning correctly, but they are choosing not to address the issue for some reason.
-  </AnswerCard>
-</details>
-<details>
-  <summary>Data not sending to API integrations</summary>
-
-  My submission data is not being sent to the API integration I have selected and mapped out.
-
-  <AnswerCard>
-    The most common reason why data doesn't get sent to an API integration is because of a field mapping error, whether it's a required field on the API integration side that isn't being fulfilled on the Freeform submission, or the data formatting not matching expectations, etc. Try going through the following checklist:
-
-    <AnswerChecklist items={[  {
-      text: (
-        <span>
-          Have you checked the Freeform <a href="../../configuration/settings/#error-log">Error Log</a> page (<i>Freeform</i> → <i>Settings</i> → <i>Error Log</i>)? The Freeform error log is physically located in the same place as the Craft logs (<code>/storage/logs/freeform.log</code>). If there are no logged errors, the Error Log page will not show any errors, and you will likely not see the Freeform error log file.
-        </span>
-      )
-    },
-    {
-      text: (
-        <span>
-          Have you tried testing this inside the demo templates that come included with Freeform? This will at least help narrow things down to possibly an error in your template code if applicable. If your form doesn't work inside the demo templates, try creating an additional form that is simple (e.g. Name, Email, and Message fields), and try submitting again.
-        </span>
-      )
-    },
-    {
-      text: (
-        <span>
-          Is the field type / data formatting supported in the API integration? Not all field types are supported for each integration. This is usually noted near the top of the page of each API integration setup documentation page.
-        </span>
-      )
-    }]} />
-  </AnswerCard>
-</details>
-<details>
-  <summary>Issues with Salesforce API connection</summary>
-
-  I am seeing errors displayed or logged in the Freeform error log for my Salesforce integration.
-
-  <AnswerCard>
-    One reason is that Salesforce usually disables the API access entirely with their Trial version. If you're using the Trial version, you will need to contact Salesforce support to manually enable it for you.
-
-    If you're seeing any errors as follows:
-
-    > Client error response [status code] 400 [reason phrase] Bad Request [url] https://login.salesforce.com/services/oauth2/token'
-
-    - This is because Salesforce runs differently when in Sandbox mode, so be sure to enable the **Sandbox Mode** option inside the CRM integration setting in the Freeform control panel.
-
-    > No 'refresh_token' present in auth response for SalesforceLead. Enable offline-access for your app.
-
-    - Make sure that the **Perform requests on your behalf at any time (refresh_token, offline_access)** setting is added to the **Selected OAuth Scopes** field for your app in Salesforce.
-
-  </AnswerCard>
-</details>
-<details>
-  <summary>How do I show textarea line breaks in email notifications or submissions?</summary>
-
-  <AnswerCard>
-    Textarea data is stored in the database as newlines, which obviously don't parse as line breaks when trying to display in email notifications or on front end with Submissions object. To make this happen, use the `nl2br` Twig filter:
-
-    ```twig
-    {{ myFieldHandle|nl2br }}
-    ```
-  </AnswerCard>
-</details>
-<details>
-  <summary>Submission data in fields showing HTML entities</summary>
-
-  When rendering submission data in email notifications or the front end, several characters such as `'` are parsing as `&#39;`, e.g. `You&#39;re a wizard Harry!`.
-
-  <AnswerCard>
-    In rare circumstances, some customers have reported this issue happening. A solution for this would be adding the `|raw` filter to the field property, or wrapping `{% autoescape false %}` around it:
-
-    ```twig
-    {{ message.value|raw }}
-    ```
-
-    OR
-
-    ```twig
-    {% autoescape false %}
-      {{ message.value }}​
-    {% endautoescape %}
-    ```
-  </AnswerCard>
-</details>
-<details>
-  <summary>Can I parse basic HTML in field labels?</summary>
-  <AnswerCard>
-    If you like, you can enter basic HTML into field labels and option labels while inside the form builder. This is especially handy if you want to add emphasis to an option or add a link to an option (e.g. link a checkbox label for Terms & Conditions page).
-
-    The demo and sample templates will likely handle the HTML in the form rendering automatically, but in cases where it doesn't, you may need to apply the `raw` Twig filter:
-
-    Getting HTML (`b`, `i`, etc) to parse for field option labels:
-
-    ```twig {7}
-    {{ field.renderLabel() }}
-
-    {% for option in field.options %}
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" name="{{ field.handle }}[]" value="{{ option.value }}" {{ option.value in field.value ? "checked" : "" }} />
-          {{ option.label|raw }}
-        </label>
-      </div>
-    {% endfor %}
-    ```
-  </AnswerCard>
-</details>
 <details>
   <summary>Can I test Freeform before I buy?</summary>
   <AnswerCard>
@@ -624,12 +730,6 @@ Check out this documentation resource to troubleshoot common problems or find an
     Renewals help you keep your plugin updated and access technical support. However, they are entirely optional.
     
     For example, if you purchase the _Lite_ edition of Freeform for $99, the renewal price after one year is $49. Your initial purchase of $99 includes support and updates for one year. When it's time to renew, you can extend your updates and support for another year at the renewal price of just $49, rather than paying the full amount of $99 again.
-  </AnswerCard>
-</details>
-<details>
-  <summary>How do I install Freeform?</summary>
-  <AnswerCard>
-    Installing Freeform is done just like any other plugin for Craft, similar to how you would install Craft itself. Please refer to the [Installation guide](../setup/installing-updating.mdx) in the documentation.
   </AnswerCard>
 </details>
 <details>
