@@ -1,0 +1,199 @@
+---
+title: 'Form Monitoring'
+sidebar_position: 1
+---
+
+import { FlexCards, VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+import Icons from '@site/static/icons/cards';
+
+# Form Monitoring Service<Badge type="addon" text="Beta" /><Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.11+" />
+
+#### _Catch form issues before they cost you!_
+
+Freeform's new **Form Monitor** service automatically tests and validates your Freeform Pro forms and email notifications to ensure they're working.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/form-monitor/form-monitor.png')}
+  alt="Form Monitoring tab in form builder"
+/>
+
+<FlexCards
+  navCards
+  items={[
+    {
+      title: 'Overview',
+      description: 'An overview of what Form Monitor does.',
+      icon: Icons.FormMonitorIcon,
+      fullCardLink: '#overview',
+    },
+    {
+      title: 'Requirements',
+      description: 'Requirements to use the monitoring service.',
+      icon: Icons.ClipboardIcon,
+      fullCardLink: '#requirements',
+    },
+    {
+      title: 'Limitations',
+      description: 'Imposed and technical limitations of the service.',
+      icon: Icons.StopIcon,
+      fullCardLink: '#limitations',
+    },
+    {
+      title: 'Recommendations',
+      description: 'Best practices to ensure monitoring service works correctly.',
+      icon: Icons.CheckboxIcon,
+      fullCardLink: '#recommendations',
+    },
+    {
+      title: 'Privacy',
+      description: 'What the Form Monitor service has access to.',
+      icon: Icons.UserShieldIcon,
+      fullCardLink: '#privacy',
+    },
+    {
+      title: 'Setup Guide',
+      description: 'How to install and configure the service on your site.',
+      icon: Icons.BoxIcon,
+      fullCardLink: '#setup-guide',
+    },
+  ]}
+/>
+
+## Overview
+
+Form Monitor automatically tests, monitors, and validates your Freeform forms, providing real-time notifications to help maintain form functionality across your website.
+
+#### Automated Form Testing
+
+- Test up to 3 forms per site, 3 times a day.
+- Tests and fills your forms with sample data, validating their functionality on a regular schedule<sup className="!text-gray-500">1</sup>.
+- Tests and records how long it takes to submit the form.
+- Tests to see that your form is sending email notifications (when configured).
+- Visual verification with screenshots captured at the moment of submission for troubleshooting.
+
+#### Real-time Notifications
+
+- Receive instant alerts<sup className="!text-gray-500">2</sup> when your forms stop working, with detailed information about what went wrong.
+
+#### Comprehensive Analytics
+
+- Track your form's performance with detailed insights into success and fail status, submit time, and other testing results.
+
+<small className="!text-gray-500"><sup>1</sup> Tests are attempted roughly every 8 hours.<br /><sup>2</sup> Failed tests will retry within 10 minutes, and if they fail again, will notify you within 15 minutes of the initial fail.</small>
+
+## Requirements
+
+- Freeform Pro 5.11+
+- Craft 4.x or 5.x
+
+For Form Monitor to work, your site must:
+
+- Have a **valid Freeform Pro edition license**. You must renew the license to continue using Form Monitor if it has expired.
+- Be **publicly accessible**. Form Monitor cannot access local dev sites or sites using HTTP Authentication.
+
+## Limitations
+
+### Imposed Limitations
+
+The following limitations have been set for sites during the beta testing period. These limitations may change in the future.
+
+- Form Monitor can be enabled for up to 3 forms per Craft site.
+- Form Monitor will test each form 3 times per day (every 8 hours).
+- **Timeout Constraints**:
+    - Form processing: 3 minute maximum
+    - Page loading: 90 second limit
+    - Submission response: 5 second timeout
+
+### Technical Limitations
+
+Form Monitor will not work for every form and site setup. Please be aware that Form Monitor may not work for, but not limited to, the following:
+
+- Setups that use complex site layouts, structures, or CSS/JS that may make it harder for Form Monitor to locate and interact with the form correctly.
+- Forms placed inside of iframes, modals, or popups.
+- Forms using Conditional Rules. Form Monitor is currently unable to work with conditional rules. Depending on the form setup, it may cause Form Monitor's tests to fail.
+- If multiple instances of the same form exist on the same page, the first instance will be tested.
+- Captcha and other Spam Protection measures will be bypassed. This means that if there are any configuration issues with those, Form Monitor will be unable to catch them.
+- Integration services, including CRMs, email marketing, webhooks, POST forwarding, and payment forms, will be bypassed. Form Monitor cannot verify the successful submission of data to an integration (e.g., Salesforce, Mailchimp, etc.).
+- Custom module behavior may impact Form Monitor's testing capabilities. This includes modules, extensions, custom javascript behaviors and client-side validations.
+- Private or restricted sites. Any site that uses HTTP authentication, password-protected pages, IP-restricted access, or VPN-required access cannot be tested.
+
+## Recommendations
+
+- To ensure that you receive essential alerts from Form Monitor, we strongly recommend safelisting the email address that Form Monitor will use: `noreply@formmonitor.com`.
+
+## Privacy
+
+We take your privacy very seriously! Form Monitor collects the least amount of information possible. Form Monitor has absolutely no access to your Craft site control panel, Craft data, and Freeform submission data. Form Monitor does not have, and will never have, access to previous, current, or future submission history. It only has access to the fake testing data it uses to test the form if it's contained inside an email notification when testing that as well.
+
+### What Form Monitor Has Access To
+
+Form Monitor cannot work on your site or collect any of your data until you expressly enable the feature and opt-in to authorize it. Once this happens, Form Monitor collects the following information:
+
+- The email address(es) you provide in the integration settings.
+- Your Freeform plugin license key to validate your active license.
+- Any website URL(s) you provide to Form Monitor so it can locate and test your form(s).
+- The form name of the form(s) you opt into testing. This enables technical support to more easily assist if any issues arise.
+- Your current Craft and Freeform versions to ensure compatibility with Form Monitor and alert you if you need to upgrade Freeform or Craft in the future.
+- Your site's Timezone to provide weekly and monthly digest email notifications at the proper day and time.
+- Screenshots of the page that contains each form. This is to show that the test was successful or where it may have failed.
+    - Screenshots are stored on the server for up to 30 days.
+- If testing email notifications, Form Monitor will receive an email notification of the form test (with its fake test data) from any notification(s) you have configured from your form. Form Monitor will see the types of notifications (e.g. Admin, Conditional, etc.) and any hard-coded elements in the email notification template(s) (e.g. "Thank you for your submission!", a PDF attachment, etc.).
+
+### You Are In Control Of Your Data
+
+You also have complete control over your data. From within the Freeform control panel, you can deactivate and/or remove any or all of Form Monitor's data for your site.
+
+- You can remove all or any single test and screenshot from inside the Freeform form builder.
+- You can deactivate or remove data from any form(s) being monitored.
+- You can deactivate your entire site or entirely delete your site's data from Form Monitor's site via the Freeform control panel. 
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/form-monitor/disable-form.png')}
+  alt="Disable Form Monitor for forms"
+  scale={40}
+/>
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/form-monitor/disable-all.png')}
+  alt="Disable Form Monitor for entire site"
+  scale={50}
+/>
+
+## Setup Guide
+
+<VerticalStepWrapper>
+  <StepMarkdown>
+    ### Enable The Form Monitor Integration
+    
+    - Go to the **Single** integration page in the Freeform Settings area.
+    - Click on **Form Monitor**.
+    - Enable **Form Monitor** by toggling on the **Enabled** setting.
+    - Confirm or enter a different:
+      - Default email address in the **Notification Email** setting.
+      - Site/System Name in the **Site Name** setting.
+    - Save the page.
+    - **Form Monitor** will validate its connection.
+
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/form-monitor/settings.png')}
+      alt="Form Monitoring integration settings"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Configure Your Forms
+
+    - Visit the form inside the form builder.
+    - Click on the **Integrations** tab.
+    - Click on **Form Monitor** in the list of available integrations.
+    - On the right side of the page:
+      - Enable the integration.
+      - Adjust any settings as needed.
+    - Save the form.
+
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/form-monitor/builder-settings.png')}
+      alt="Form Monitoring form builder settings"
+    />
+  </StepMarkdown>
+</VerticalStepWrapper>
