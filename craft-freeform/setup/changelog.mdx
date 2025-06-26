@@ -7,6 +7,25 @@ toc_max_heading_level: 2
 
 import { TitleDate } from '@site/src/components/docs'
 
+## 5.11.3<TitleDate date="2025-06-25" />
+
+### Changed
+- Updated the form-specific email notification template settings to include the ability to add tokens.
+
+### Fixed
+- Fixed a bug that could cause the migration from Freeform 4.x to 5.x to fail under rare circumstances due to non-unique form handles.
+- Fixed a race condition issue that caused Digest email notifications to sometimes send multiple duplicates. Added debug and info logging as well.
+- Fixed an encoding issue where the `&` character was converting to `&amp;` for the _From Name_ in notification emails.
+- Fixed a bug where the _Save & Continue Later_ feature was not listing form-specific email notification templates.
+- Fixed a bug where integration icons in the form builder Integrations tab were not showing on Craft Cloud.
+
+## 5.11.2<TitleDate date="2025-06-20" />
+
+### Fixed
+- Fixed a bug that caused a migration to fail when using PostgreSQL.
+- Fixed a bug that could occur when creating a form-specific email template that has a duplicate handle.
+- Fixed an issue that caused incorrect email notification errors to appear in the Freeform error log in some cases.
+
 ## 5.11.1<TitleDate date="2025-06-19" />
 
 ### Changed
