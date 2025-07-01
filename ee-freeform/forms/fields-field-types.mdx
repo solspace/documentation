@@ -3,7 +3,7 @@ sidebar_position: 2
 title: 'Fields & Field Types'
 ---
 
-import { Photo } from '@site/src/components/utils';
+import { Badge, Photo } from '@site/src/components/utils';
 
 # Fields & Field Types
 
@@ -140,6 +140,12 @@ Can allow a single file or multiple files (applies `multiple` attribute to the s
 - In [multi-page forms](../forms/multi-page-forms.mdx), if an earlier page contains file upload field(s), files will actually be uploaded before the form is officially submitted.
   - If the form is never completed, incomplete submissions are stored for 3hrs, and then are removed (along with the file(s)) after that.
 - Can be marked as required.
+
+#### Field Specific Properties<Badge type="feature" text="New in 3.2+" />
+
+- `{field:max_files}` - the maximum number of files allowed to be uploaded for this field.
+- `{field:max_filesize:kb}` - the maximum file upload size allowed, in KB.
+- `{field:max_filesize:mb}` - the maximum file upload size allowed, in MB.
 
 ### Dynamic Recipients
 
