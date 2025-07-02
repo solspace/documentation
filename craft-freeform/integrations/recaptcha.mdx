@@ -3,15 +3,10 @@ title: 'reCAPTCHA'
 sidebar_position: 19
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
-import {
-  VerticalStepWrapper,
-  StepMarkdown,
-  CodeTabs,
-  CodeTabItem,
-  FolderTitle,
-  TabItems,
-} from '@site/src/components/docs';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
 # reCAPTCHA<Badge type="feature" text="Improved in 5.0+" />
 
@@ -129,37 +124,33 @@ If you need full control over the placement of the visible _reCAPTCHA v2 Checkbo
 
 You can add attributes to the main Captcha wrapper that is automatically inserted by Freeform.
 
-<CodeTabs>
-<TabItems>
-<CodeTabItem filetype="twig" value="index" label="index.twig" default>
-```twig showLineNumbers
-{{ form.render({
-    captchas: {
+<Tabs>
+  <TabItem value="wrapper" label="Template Code" default>
+    ```twig
+    {{ form.render({
+      captchas: {
         class: ["custom-class", "another-class"],
         "data-test": true,
-    }
-}) }}
-```
-</CodeTabItem>
-
-<CodeTabItem filetype="html" value="index" label="output" default>
-```twig showLineNumbers
-// Output (truncated for example)
-...
-<div class="custom-class another-class" data-test data-freeform-recaptcha-container>
-    <div class="g-recaptcha">
-...
-```
-</CodeTabItem>
-
-</TabItems>
-</CodeTabs>
+      }
+    }) }}
+    ```
+  </TabItem>
+  <TabItem value="output" label="Output">
+    ```twig
+    // truncated for example
+    ...
+    <div class="custom-class another-class" data-test data-freeform-recaptcha-container>
+      <div class="g-recaptcha">
+    ...
+    ```
+    </TabItem>
+</Tabs>
 
 ### Load reCAPTCHA JS Manually
 
 If you're loading an entire form via AJAX, you'll need to load the reCAPTCHA JS yourself, since it's considered insecure otherwise and the browser blocks it. You should add this script tag anywhere on your page, preferably the footer:
 
-```html showLineNumbers
+```html
 <script
   type="text/javascript"
   src="https://www.google.com/recaptcha/api.js?render=explicit"
@@ -170,7 +161,7 @@ If you're loading an entire form via AJAX, you'll need to load the reCAPTCHA JS 
 
 To set the action of Score Based (v3), add `recaptchaAction: "myaction"` to your `form.renderTag`, like this:
 
-```twig showLineNumbers
+```twig
 {{ form.renderTag({ recaptchaAction: "myaction" }) }}
 ```
 
@@ -182,7 +173,7 @@ If you'd like to hide the reCAPTCHA floating badge (bottom right for _v2 Invisib
 
 > You are allowed to hide the badge as long as you include the reCAPTCHA branding visibly in the user flow. Please include the following text:
 >
-> ```twig showLineNumbers
+> ```twig
 > This site is protected by reCAPTCHA and the Google
 > <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.
 > ```
