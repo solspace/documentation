@@ -304,9 +304,28 @@ Notification template wrappers can be used to help with setting common template 
     />
   </TabItem>
   <TabItem value="template-wrappers-template" label="Global Template">
-    :::info
-    There is no template file equivalent at this time.
-    :::
+    If you're creating/editing template files directly, you will need to add a line for `wrapperId` with the ID of the template wrapper in the heading comment block of code:
+
+    ```twig
+    {# wrapperId: 1 #}
+    ```
+
+    Your complete heading comment code block may look something like this:
+
+    ```twig {9}
+    {# subject: New submission from your {{ form.name }} form #}
+    {# fromEmail: {{ craft.app.projectConfig.get('email.fromEmail') }} #}
+    {# fromName: {{ craft.app.projectConfig.get('email.fromName') }} #}
+    {# replyToEmail: {{ email }} #}
+    {# replyToName: {{ firstName }} {{ lastName }} #}
+    {# cc: ring@my-precio.us #}
+    {# bcc: #}
+    {# includeAttachments: true #}
+    {# presetAssets: 42,67 #}
+    {# wrapperId: 1 #}
+    {# templateName: My Template Name #}
+    {# description: A description of what this template does. #}
+    ```
   </TabItem>
 </Tabs>
 
