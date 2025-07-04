@@ -3,13 +3,15 @@ title: 'Email Notifications'
 sidebar_position: 3
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import Player from 'react-player';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 
-# Email Notifications
+# Email Notifications<Badge type="feature" text="Improved in 5.0+, 5.11+" />
 
-Freeform allows you to send email notifications upon submittal of a form. They are global and can be reused for multiple forms, saving you time when you are managing many forms.
+Freeform allows you to send email notifications upon submittal of a form. You can choose between form-specific notification templates or use global templates that can be reused for multiple forms, saving you time when you are managing many forms.
 
 :::info
 Be sure to configure the [Email Alert](../configuration/settings.mdx#notices--alerts) feature. It allows you to automatically send an email notification alerting the email address(es) specified when an email notification cannot be delivered.
@@ -43,6 +45,11 @@ Freeform allows you to send email notifications 6 different ways (all of them ea
 
 Email notifications can be sent upon successful submit of the form to one or more admin email addresses.
 
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-notification-admin.png')}
+  alt="Admin Notifications"
+/>
+
 <details className="hidden-heading">
   <summary>Setup Guide</summary>
   <VerticalStepWrapper>
@@ -51,8 +58,7 @@ Email notifications can be sent upon successful submit of the form to one or mor
       _New_ button beside the **Admin** menu.
     </StepMarkdown>
     <StepMarkdown>
-      Choose an email notification template from the **Notification Template**
-      setting. If you haven't created any yet, be sure to do so.
+      Create a new notification template or choose an existing one from the **Notification Template** setting.
     </StepMarkdown>
     <StepMarkdown>
       In the **Recipients** area, add any email address(es) you'd like to receive
@@ -69,6 +75,11 @@ Email notifications can be sent upon successful submit of the form to one or mor
 
 Email notifications can be conditionally sent to one or more admin email addresses based on the contents and/or option selection of any Freeform field(s).
 
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-notification-conditional.png')}
+  alt="Conditional Notifications"
+/>
+
 <details className="hidden-heading">
   <summary>Setup Guide</summary>
   <VerticalStepWrapper>
@@ -76,7 +87,7 @@ Email notifications can be conditionally sent to one or more admin email address
       In the form builder, click on the **Notifications** tab. Then click the _New_ button beside the **Conditional** menu.
     </StepMarkdown>
     <StepMarkdown>
-      Choose an email notification template from the **Notification Template** setting. If you haven't created any yet, be sure to do so.
+      Create a new notification template or choose an existing one from the **Notification Template** setting.
     </StepMarkdown>
     <StepMarkdown>
       In the **Recipients** area, add any email address(es) you'd like to receive an email notification each time the form is submitted
@@ -103,6 +114,11 @@ Email notifications can be sent to one or more pre-defined admin email addresses
 Be sure to set up your option fields as usual, and do not set email addresses as their options. That part is done inside the **Notifications** tab.
 :::
 
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-notification-user-select.png')}
+  alt="User Select Notifications"
+/>
+
 <details className="hidden-heading">
   <summary>Setup Guide</summary>
   <VerticalStepWrapper>
@@ -117,8 +133,7 @@ Be sure to set up your option fields as usual, and do not set email addresses as
       setting.
     </StepMarkdown>
     <StepMarkdown>
-      Choose an email notification template from the **Default Notification
-      Template** setting. If you haven't created any yet, be sure to do so.
+      Create a new notification template or choose an existing one from the **Default Notification Template** setting.
     </StepMarkdown>
     <StepMarkdown>
       If you wish to have an email address notified if _NO_ options are chosen,
@@ -144,6 +159,11 @@ Be sure to set up your option fields as usual, and do not set email addresses as
 
 Email notifications can be sent to the user submitting the form as long as you're using the [Email](./fields.mdx#email) field type. This is often used to send an email confirmation for the user.
 
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-notification-email-field.png')}
+  alt="Admin Notifications"
+/>
+
 <details className="hidden-heading">
   <summary>Setup Guide</summary>
   <VerticalStepWrapper>
@@ -156,7 +176,7 @@ Email notifications can be sent to the user submitting the form as long as you'r
       When the form submitter enters their email address in this field, Freeform will use that email address to send the email notification.
     </StepMarkdown>
     <StepMarkdown>
-      Choose an email notification template from the **Notification Template** setting. If you haven't created any yet, be sure to do so.
+      Create a new notification template or choose an existing one from the **Notification Template** setting.
     </StepMarkdown>
   </VerticalStepWrapper>
 </details>
@@ -179,7 +199,7 @@ This feature could potentially be abused by spammers.
       Choose any [Email](./fields.mdx#email) field in the **Target field** setting. If you currently don't have one, please add one to your form layout. If you are using a regular [Text](./fields.mdx#text) field to hold the email address, please switch it to an [Email](./fields.mdx#email) field type first.
     </StepMarkdown>
     <StepMarkdown>
-      Choose an email notification template from the **Notification Template** setting. If you haven't created any yet, be sure to do so.
+      Create a new notification template or choose an existing one from the **Notification Template** setting.
     </StepMarkdown>
   </VerticalStepWrapper>
 </details>
@@ -219,34 +239,6 @@ Email notifications can be set up dynamically at template level using the [dynam
   </VerticalStepWrapper>
 </details>
 
-
-
-
-
-
-
-#### Email Notification Template Wrappers<Badge type="feature" text="New in 5.11+" />
-
-
-
-Template Method
-Choose whether you want to use form-specific templates, global templates, or both.
-
-Added a **Template Method** setting to manage your approach for email notification templates. Existing upgrades will default to _Global only_, while new installations will default to _Form-specific only_.
-
-- **Form-Specific Email Templates**
-    - Added Form-specific email template options inside the form builder, complete with Rich Text and tokens for ease of use.
-    - Added Notification Template Wrappers to help with setting common template code in notification templates.
-    - 
-    - Removed the `allowBuilderTemplateCreation` and `emailTemplateDefault` settings in favor of the new Form-specific templates approach.
-
-
-
-
-
-
-
-
 ## Templates<Badge type="feature" text="Improved in 5.11+" />
 
 ### Template Options
@@ -257,9 +249,9 @@ Email notification templates allow you to control the following:
 - **Handle** - the unique identifier for the notification template.
 - **Description** - a description for the notification template to help identify what it's used for, etc.
 - **Subject** - the subject line for the email notification.
-  - May include any Freeform field variables (`{{ fieldName }}`) as well as `form.name`.
+  - May include any token variables or Freeform field Twig variables (`{{ fieldName }}`) as well as `form.name`.
 - **From Email** - the email address the email notification will appear from.
-  - May include any Freeform field variable (`{{ fieldName }}`).
+  - May include any token variables or Freeform field Twig variables (`{{ fieldName }}`).
   :::warning
   Using a dynamic approach with variables like above could have your emails marked as spam. It would be better to use something general here and set these in the _Reply-to Email_ and _Reply-to Name_ settings instead.
   :::
@@ -270,22 +262,22 @@ Email notification templates allow you to control the following:
   [Need to use the submitter of the form as Reply-to email address in admin email notifications?](../guides/guide/admin-notifications-replyto-submitter.mdx)
   :::
 - **From Name** - the email address the email notification will appear from.
-  - May include any Freeform field variables (`{{ fieldName }}`), e.g. `{{ firstName }} {{ lastName }}`
+  - May include any token variables or Freeform field Twig variables (`{{ fieldName }}`), e.g. `{{ firstName }} {{ lastName }}`
   :::warning
   Using a dynamic approach with variables like above could have your emails marked as spam. It would be better to use something general here and set these in the _Reply-to Email_ and _Reply-to Name_ settings instead.
   :::
 - **Reply-To Email** - the email address the email notification will have set for Reply-To.
-  - May include any Freeform field variable (`{{ fieldName }}`).
+  - May include any token variables or Freeform field Twig variables (`{{ fieldName }}`).
   - Leave blank to use the _From Email_ value.
 - **Reply-To Name** - the name of the email/sender the email notification will have set for Reply-To.
-  - May include any Freeform field variable (`{{ fieldName }}`).
+  - May include any token variables or Freeform field Twig variables (`{{ fieldName }}`).
   - Leave blank to use the _From Name_ value.
 - **CC** - the email address the email notification will also send to as CC.
-  - May include any Freeform field variable (`{{ fieldName }}`).
+  - May include any token variables or Freeform field Twig variables (`{{ fieldName }}`).
   - Separate multiples with a comma.
   - Leave blank to not use CC.
 - **BCC** - the email address the email notification will also send to as BCC.
-  - May include any Freeform field variable (`{{ fieldName }}`).
+  - May include any token variables or Freeform field Twig variables (`{{ fieldName }}`).
   - Separate multiples with a comma.
   - Leave blank to not use BCC.
 - **Include Attachments** - include uploaded files as attachments in email notification.
@@ -299,6 +291,25 @@ Email notification templates allow you to control the following:
 - **Template Wrapper**<Badge type="feature" text="New in 5.11+" /> - apply a template wrapper with common template code used in notification templates (CSS, footers, etc).
 
 
+#### Template Wrappers<Badge type="feature" text="New in 5.11+" />
+
+Notification template wrappers can be used to help with setting common template code in notification templates. For example, you might include header and footer HTML code in a template wrapper, and then keep form-specific content inside the regular notification templates. You can then specify a template wrapper in each notification template.
+
+<Tabs>
+  <TabItem value="template-wrappers-form" label="Form Builder" default>
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/cp/notification-template-wrapper.png')}
+      alt="Template Wrapper setting inside form builder"
+      scale="80"
+    />
+  </TabItem>
+  <TabItem value="template-wrappers-template" label="Global Template">
+    :::info
+    There is no template file equivalent at this time.
+    :::
+  </TabItem>
+</Tabs>
+
 #### Predefined Assets<Badge type="pro" text="Pro" />
 
 Select any Assets you wish to include as attachments on all email notifications using this template.
@@ -306,55 +317,76 @@ Select any Assets you wish to include as attachments on all email notifications 
 - Useful if you wish to include a PDF ticket or instructions document to submitter email notifictions, etc.
 - Can also preparse Twig, allowing you to dynamically attach an asset to the email notification based on a user's selection, etc.
 
-If you're creating/editing template files directly, you will need to add a line for `presetAssets` with the ID(s) of the Asset(s) in the heading comment block of code:
+<Tabs>
+  <TabItem value="predefined-assets-form" label="Form Builder" default>
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/cp/notification-template-assets.png')}
+      alt="Predefined Assets setting inside form builder"
+      scale="80"
+    />
+  </TabItem>
+  <TabItem value="predefined-assets-template" label="Global Template">
+    If you're creating/editing template files directly, you will need to add a line for `presetAssets` with the ID(s) of the Asset(s) in the heading comment block of code:
 
-```twig
-{# presetAssets: 42,67 #}
-```
+    ```twig
+    {# presetAssets: 42,67 #}
+    ```
 
-Your complete heading comment code block may look something like this:
+    Your complete heading comment code block may look something like this:
 
-```twig {9}
-{# subject: New submission from your {{ form.name }} form #}
-{# fromEmail: {{ craft.app.projectConfig.get('email.fromEmail') }} #}
-{# fromName: {{ craft.app.projectConfig.get('email.fromName') }} #}
-{# replyToEmail: {{ email }} #}
-{# replyToName: {{ firstName }} {{ lastName }} #}
-{# cc: ring@my-precio.us #}
-{# bcc: #}
-{# includeAttachments: true #}
-{# presetAssets: 42,67 #}
-{# templateName: My Template Name #}
-{# description: A description of what this template does. #}
-```
+    ```twig {9}
+    {# subject: New submission from your {{ form.name }} form #}
+    {# fromEmail: {{ craft.app.projectConfig.get('email.fromEmail') }} #}
+    {# fromName: {{ craft.app.projectConfig.get('email.fromName') }} #}
+    {# replyToEmail: {{ email }} #}
+    {# replyToName: {{ firstName }} {{ lastName }} #}
+    {# cc: ring@my-precio.us #}
+    {# bcc: #}
+    {# includeAttachments: true #}
+    {# presetAssets: 42,67 #}
+    {# templateName: My Template Name #}
+    {# description: A description of what this template does. #}
+    ```
+  </TabItem>
+</Tabs>
 
 #### PDF Templates<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.7+" />
 
 Select any [PDF Templates](../configuration/settings.mdx#pdf-templates) you wish to generate and include as attachments on all email notifications using this template.
 
-If you're creating/editing template files directly, you will need to add a line for `pdfTemplates` with the ID(s) of the PDF Template(s) in the heading comment block of code:
+<Tabs>
+  <TabItem value="pdf-templates-form" label="Form Builder" default>
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/cp/notification-template-pdf.png')}
+      alt="PDF Template setting inside form builder"
+      scale="80"
+    />
+  </TabItem>
+  <TabItem value="pdf-templates-template" label="Global Template">
+    If you're creating/editing template files directly, you will need to add a line for `pdfTemplates` with the ID(s) of the PDF Template(s) in the heading comment block of code:
 
-```twig
-{# pdfTemplates: 123 #}
-```
+    ```twig
+    {# pdfTemplates: 123 #}
+    ```
 
-Your complete heading comment code block may look something like this:
+    Your complete heading comment code block may look something like this:
 
-```twig {10}
-{# subject: New submission from your {{ form.name }} form #}
-{# fromEmail: {{ craft.app.projectConfig.get('email.fromEmail') }} #}
-{# fromName: {{ craft.app.projectConfig.get('email.fromName') }} #}
-{# replyToEmail: {{ email }} #}
-{# replyToName: {{ firstName }} {{ lastName }} #}
-{# cc: ring@my-precio.us #}
-{# bcc: #}
-{# includeAttachments: true #}
-{# presetAssets: 42,67 #}
-{# pdfTemplates: 3 #}
-{# templateName: My Template Name #}
-{# description: A description of what this template does. #}
-```
-
+    ```twig {10}
+    {# subject: New submission from your {{ form.name }} form #}
+    {# fromEmail: {{ craft.app.projectConfig.get('email.fromEmail') }} #}
+    {# fromName: {{ craft.app.projectConfig.get('email.fromName') }} #}
+    {# replyToEmail: {{ email }} #}
+    {# replyToName: {{ firstName }} {{ lastName }} #}
+    {# cc: ring@my-precio.us #}
+    {# bcc: #}
+    {# includeAttachments: true #}
+    {# presetAssets: 42,67 #}
+    {# pdfTemplates: 3 #}
+    {# templateName: My Template Name #}
+    {# description: A description of what this template does. #}
+    ```
+  </TabItem>
+</Tabs>
 
 ### Template Methods<Badge type="feature" text="Improved in 5.11+" />
 
