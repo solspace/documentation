@@ -818,3 +818,54 @@ You can attach your own logic to the Freeform [Save & Continue Later](../forms/f
 You can attach your own logic to the Freeform [Conditional Rules](../forms/conditional-rules.mdx) feature by listening on the following events:
 
 - Rules Applied: `freeform-rules-applied`
+
+## External Script Loaders
+
+Freeform loads external scripts such as IMask, Flatpickr, reCAPTCHA, etc.
+If you are in need of altering something for the script tags, that can be done via the `freeform-script-before-load` event.
+
+```js showLineNumbers
+document.addEventListener('freeform-script-before-load', function (event) {
+  const src = event.detail.src;
+  const scriptTag = event.detail.script;
+
+  if (src === 'https://www.google.com/recaptcha/api.js') {
+    // Do something with the reCAPTCHA script tag
+    scriptTag.setAttribute('data-custom-attribute', 'value');
+  }
+});
+```
+
+To do something after the script has been loaded, you can use the `freeform-script-after-load` event.
+
+```js showLineNumbers
+document.addEventListener('freeform-script-after-load', function (event) {
+  const src = event.detail.src;
+  const scriptTag = event.detail.script;
+
+  if (src === 'https://www.google.com/recaptcha/api.js') {
+    // Do something after the reCAPTCHA script has been loaded
+    console.log('reCAPTCHA script loaded');
+  }
+});
+```
+
+The same events are available for stylesheets as well, the event names are `freeform-style-before-load` and `freeform-style-after-load`.
+
+```js showLineNumbers
+document.addEventListener('freeform-style-before-load', function (event) {
+  const href = event.detail.href;
+  const linkTag = event.detail.link;
+
+  // your code here
+});
+```
+
+```js showLineNumbers
+document.addEventListener('freeform-style-after-load', function (event) {
+  const href = event.detail.href;
+  const linkTag = event.detail.link;
+
+  // your code here
+});
+```
