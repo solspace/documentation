@@ -819,12 +819,11 @@ You can attach your own logic to the Freeform [Conditional Rules](../forms/condi
 
 - Rules Applied: `freeform-rules-applied`
 
-## External Script Loaders
+## External Script Loaders<Badge type='feature' text='New in 5.11.5+' />
 
-Freeform loads external scripts such as IMask, Flatpickr, reCAPTCHA, etc.
-If you are in need of altering something for the script tags, that can be done via the `freeform-script-before-load` event.
+Freeform loads external scripts such as _IMask_, _Flatpickr_, _reCAPTCHA_, etc. If you need to alter something for the `script` tags, that can be done via the `freeform-script-before-load` event:
 
-```js showLineNumbers
+```js
 document.addEventListener('freeform-script-before-load', function (event) {
   const src = event.detail.src;
   const scriptTag = event.detail.script;
@@ -836,9 +835,9 @@ document.addEventListener('freeform-script-before-load', function (event) {
 });
 ```
 
-To do something after the script has been loaded, you can use the `freeform-script-after-load` event.
+To do something after the `script` has been loaded, you can use the `freeform-script-after-load` event:
 
-```js showLineNumbers
+```js
 document.addEventListener('freeform-script-after-load', function (event) {
   const src = event.detail.src;
   const scriptTag = event.detail.script;
@@ -850,9 +849,9 @@ document.addEventListener('freeform-script-after-load', function (event) {
 });
 ```
 
-The same events are available for stylesheets as well, the event names are `freeform-style-before-load` and `freeform-style-after-load`.
+The same events are available for stylesheets as well. The event names are `freeform-style-before-load` and `freeform-style-after-load`:
 
-```js showLineNumbers
+```js
 document.addEventListener('freeform-style-before-load', function (event) {
   const href = event.detail.href;
   const linkTag = event.detail.link;
@@ -861,7 +860,7 @@ document.addEventListener('freeform-style-before-load', function (event) {
 });
 ```
 
-```js showLineNumbers
+```js
 document.addEventListener('freeform-style-after-load', function (event) {
   const href = event.detail.href;
   const linkTag = event.detail.link;
