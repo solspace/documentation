@@ -69,6 +69,16 @@ Returns the current [Page object](./page.mdx) containing its label and index.
 
 A bool variable, which will be `true` if the form has the **Duplicate Check** setting enabled ([duplicate submission check](../../submissions/overview.mdx#submission-limits)) and the user has already submitted the form.
 
+### `stopSubmissionsAfter`<Badge type="feature" text="New in 5.11.8+" />
+
+Returns the date specified in the **Stop Submissions After Date** setting for the form. Can be used as a conditional to hide the form and/or show a message to the user if the form has passed its close date.
+
+```twig
+{% if form.stopSubmissionsAfter|date >= now|date %}
+  <p>The deadline to submit this form was {{ form.stopSubmissionsAfter|date }}.</p>
+{% endif %}
+```
+
 ### `isIntegrationEnabled`<Badge type="feature" text="New in 5.6+" />
 
 Allows you to check if an integration is enabled for a form. Use the integration handle you created for each integration.
