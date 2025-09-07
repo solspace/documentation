@@ -1,0 +1,64 @@
+---
+title: 'URL Parameter Tracking'
+sidebar_position: 24
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# URL Parameter Tracking<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.12+" />
+
+Freeform can automatically capture UTM and other URL tracking parameters (e.g., `utm_campaign`, `utm_source`, `utm_medium`) for every submission. Configure the expected parameter names just once globally, with the option to configure form-specific parameters in the builder, and Freeform handles the rest.
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+  <StepMarkdown>
+    ### Configure Global Tracking Parameters
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/url-parameter-tracking-integration.png')}
+      alt="URL Parameter Tracking settings in Freeform"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Enable per Form inside the Builder
+    Any additional form-specific parameters can be added here.
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/url-parameter-tracking-builder.png')}
+      alt="URL Parameter Tracking settings in the form builder"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Configure Integrations & Notifications
+    If you wish you include any URL parameters in email notifications or pass off to an integration, you can do so using `{{ url_parameters.param_name }}`.
+
+    For example:
+
+    ```twig
+    {{ url_parameters.utm_source }}
+    {{ url_parameters.utm_medium }}
+    {{ url_parameters.utm_campaign }}
+    {{ url_parameters.my_custom_param }}
+    {{ url_parameters.some_test == "test" ? "this is a test" : "this is NOT a test" }}
+    ```
+
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/url-parameter-tracking-notifications.jpg')}
+      alt="URL Parameter Tracking in Notifications and Integrations form builder"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Example URL
+    `https://mysite.net/contact?utm_source=facebook&utm_medium=social&utm_campaign=summer_sale&my_custom_param=test`
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Results inside CP Submission details
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/url-parameter-tracking-submission-detail.png')}
+      alt="URL Parameter Tracking results in CP Submission details"
+    />
+  </StepMarkdown>
+</VerticalStepWrapper>
+
+
+

@@ -2,6 +2,8 @@
 sidebar_position: 1
 ---
 
+import { Badge } from '@site/src/components/utils';
+
 # Passing Dynamic Data to Forms
 
 A common request is how to get dynamic template-level data passed to a Freeform form. Freeform is very capable of handling this thanks to the [Template Overrides](../../templates/formatting/index.mdx#template-overrides) feature available to automatic rendering methods such as `form.render()`, `form.renderTag()` or `field.render()`, depending on how you're loading your Freeform form.
@@ -149,6 +151,10 @@ Include data from a given Craft Entry in your Freeform fields:
 ```
 
 ### URL Tracking Parameters
+
+:::info
+The new [URL Parameter Tracking](../../integrations/url-parameter-tracking.mdx) integration can handle this automatically for you!<Badge type="feature" text="New in 5.12+" />
+:::
 
 Store UTM URL tracking parameters in your form submissions, where `utm_campaign`, `utm_source`, and `utm_medium` are the handle names of [Hidden](../../forms/fields.mdx#hidden) fields added to your form layout, and assuming your URL looks something like: `https://mysite.net/contact?utm_campaign=my_campaign&utm_source=google_jobs_apply&utm_medium=organic`
 

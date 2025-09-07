@@ -198,6 +198,14 @@ Freeform contains a rich set of field types to handle just about every possible 
       filterIcon: true,
     },
     {
+      link: '#cards',
+      title: 'Cards',
+      description: 'Option field with images, descriptions and other metadata',
+      icon: 'cards',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
       link: '#file-upload',
       title: 'File Upload',
       description: 'Upload and validate one or multiple files to be attached to the submission',
@@ -302,6 +310,13 @@ Freeform contains a rich set of field types to handle just about every possible 
       icon: 'stripe',
       color: 'bg-black/5 dark:bg-white/5',
     },
+    {
+      link: '#ai',
+      title: 'AI',
+      description: 'Have AI analyze the submission data and output a response',
+      icon: 'ai',
+      color: 'bg-black/5 dark:bg-white/5',
+    },
   ]}
 />
 
@@ -310,8 +325,10 @@ Fields can be changed to other field types at any point, but be aware that data 
 :::
 
 | Name                                                                              | `field.type`                          | Description                                                                                                                                                        | <span className="edition-express no-margin">Express</span> | <span className="edition-lite no-margin">Lite</span> | <span className="edition-pro no-margin">Pro</span> |
-| --------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------: | :----------------------------------------------: | :--------------------------------------------: |
+| --------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------: | :--------------------------------------------------: | :------------------------------------------------: |
+| [AI](#ai)<Badge type="feature" text="New in 5.12+" />                             | `ai`                                  | Have AI analyze the submission data and output a response using an [AI integration](../integrations/index.mdx#ai).                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Calculation](#calculation)<Badge type="feature" text="New in 5.1+" />            | `calculation`                         | Perform dynamic calculations based on user-input values within forms.                                                                                              |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Cards](#cards)<Badge type="feature" text="New in 5.12+" />                       | `cards`                               | Option field with images, descriptions and other metadata.                                                                                                         |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Checkbox](#checkbox)<Badge type="feature" text="Improved in 5.10+" />            | `checkbox`                            | A single checkbox field.                                                                                                                                           |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Checkboxes](#checkboxes)<Badge type="feature" text="Improved in 5.10+" />        | `checkboxes`                          | A group of checkboxes.                                                                                                                                             |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Confirm](#confirm)                                                               | `confirm`                             | A text input field that targets another similar field and ensures the values match.                                                                                |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
@@ -321,9 +338,9 @@ Fields can be changed to other field types at any point, but be aware that data 
 | [File Upload](#file-upload)                                                       | `file`                                | A regular file upload field.                                                                                                                                       |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [File Upload Drag & Drop](#file-upload-drag--drop)                                | `file-dnd`                            | An advanced javascript-based file uploading field.                                                                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Group](#group)<Badge type="feature" text="New in 5.0+" />                        | `group`                               | A field that contains other fields within it.                                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Hidden](#hidden)                                                                 | <span className="compare-none">N/A</span> | A hidden input field.                                                                                                                                              |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Hidden](#hidden)                                                                 | <span className="compare-none">N/A</span> | A hidden input field.                                                                                                                                          |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [HTML](#html)                                                                     | `html`                                | A block that allows you to insert HTML into areas of your form.                                                                                                    |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
-| [Invisible](#invisible)                                                           | <span className="compare-none">N/A</span> | A field that allows you to collect hidden data in form submissions without a hidden field being present in the template source code.                               |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Invisible](#invisible)                                                           | <span className="compare-none">N/A</span> | A field that allows you to collect hidden data in form submissions without a hidden field being present in the template source code.                           |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Multiple Select](#multiple-select)                                               | `multiple-select`                     | A multiple-select field.                                                                                                                                           |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Number](#number)                                                                 | `number`                              | A `number` type input field that is validated to contain certain numbers only.                                                                                     |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Opinion Scale](#opinion-scale)                                                   | `opinion-scale`                       | A special field that allows for flexible opinion scoring.                                                                                                          |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
@@ -335,7 +352,7 @@ Fields can be changed to other field types at any point, but be aware that data 
 | [Rich Text](#rich-text)<Badge type="feature" text="Improved in 5.10+" />          | `rich-text`                           | A block that allows you to insert rich text into areas of your form (headings, descriptions, etc).                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Signature](#signature)                                                           | `signature`                           | A field that allows users to handwrite signatures inside your form.                                                                                                |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Stripe Payment](#stripe-payment)<Badge type="feature" text="Improved in 5.0+" /> | `stripe`                              | A set of input fields to allow the validation of credit cards and other payment options for [Stripe Payment](../integrations/stripe-payments.mdx) implementations. |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Submit buttons](#submit-buttons)                                                 | <span className="compare-none">N/A</span> | Handles the submit button(s), including **Save** option for the form.                                                                                              |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Submit buttons](#submit-buttons)                                                 | <span className="compare-none">N/A</span> | Handles the submit button(s), including **Save** option for the form.                                                                                          |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Table](#table)<Badge type="feature" text="Improved in 5.8+" />                   | `table`                               | A field that allows you to collect and handle repeating data.                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Text](#text)                                                                     | `text`                                | A single-line text input field.                                                                                                                                    |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Textarea](#textarea)                                                             | `textarea`                            | A multi-line text input field.                                                                                                                                     |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
@@ -527,37 +544,52 @@ The following Freeform _Predefined Options_ and _Craft Elements_ can be fed to t
 
 #### [Craft Entries](https://craftcms.com/docs/5.x/reference/element-types/entries.html)
 
-- **Target** sections or all sections.
+- Filter down by:
+  - **Site ID**
+  - **Section**
+  - **Status**<Badge type="feature" text="New in 5.12+" />
 - **Option Label** and **Option Value** choices:
   - ID, Title, Slug, URI, Fields (simple values)
 
 #### [Craft Users](https://craftcms.com/docs/5.x/reference/element-types/users.html)
 
-- **Target** user groups or all groups.
+- Filter down by:
+  - **Group**
+  - **Status**<Badge type="feature" text="New in 5.12+" />
 - **Option Label** and **Option Value** choices:
   - ID, Username, Email, First Name, Last Name, Full Name, Fields (simple values)
 
 #### [Craft Categories](https://craftcms.com/docs/5.x/reference/element-types/categories.html)
 
-- **Target** category groups or all groups.
+- Filter down by:
+  - **Site ID**
+  - **Group**
+  - **Status**<Badge type="feature" text="New in 5.12+" />
 - **Option Label** and **Option Value** choices:
   - ID, Title, Slug, URI, Fields (simple values)
 
 #### [Craft Tags](https://craftcms.com/docs/5.x/reference/element-types/tags.html)
 
-- **Target** tag groups or all groups.
+- Filter down by:
+  - **Site ID**
+  - **Group**
+  - **Status**<Badge type="feature" text="New in 5.12+" />
 - **Option Label** and **Option Value** choices:
   - ID, Title, Slug, URI, Fields (simple values)
 
 #### [Craft Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html)
 
-- **Target** asset groups or all groups.
+- Filter down by:
+  - **Asset Source**
 - **Option Label** and **Option Value** choices:
   - Filename, ID, Fields (simple values)
 
 #### [Craft Commerce Products](https://craftcms.com/docs/commerce/5.x/system/products-variants.html)
 
-- **Target** product type or all product types.
+- Filter down by:
+  - **Site ID**
+  - **Product Type**
+  - **Status**<Badge type="feature" text="New in 5.12+" />
 - **Option Label** and **Option Value** choices:
   - ID, Title, Slug, URI, SKU, Price, Fields (simple values)
 
@@ -576,6 +608,56 @@ There are potentially negative implications with using this feature:
 - Be very careful if you attempt to redo this process (e.g. changing back to _Element_ source and grabbing a fresh list of Craft Entries, then converting back to _Custom_). If any existing submissions are relying on old or modified option values, they can become orphaned in the process.
 
 :::
+
+## AI<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.12+" />
+
+Once you enable and configure an [AI integration](../integrations/index.mdx#ai), the **AI** field becomes available in your forms. Use it to provide a system prompt with instructions for how the model should process submission data (e.g., categorization, summarization, sentiment analysis, content generation). Specify the exact output format you need.
+
+:::info
+This field is invisible to the user on the front end.
+:::
+
+Some examples of how to use this field:
+
+<Tabs>
+  <TabItem value="ai-field-prompt-categorize" label="Categorize" default>
+
+    If you'd like to have AI categorize the submission, which you can then set conditional notifications on, etc, you might specify something like this:
+
+    > Analyze the specified fields and categorize this submission into one of these categories: Pre-sales Questions, Support Issue, Account Help. Respond with only the category name.
+
+    If the submission seemed like it was an issue about getting help with their account, it would label it as `Account Help`. You might then want to use [Conditional Notifications](../forms/email-notifications.mdx#conditional) to send these requests to a different email address.
+
+  </TabItem>
+
+  <TabItem value="ai-field-prompt-summarize" label="Summarize">
+
+    If you'd like to have AI provide a summary of the overall submission data, you might specify something like this:
+
+    > Analyze the specified fields and provide a 2-3 sentence summary of the submission data.
+
+    This will generate a summary of the submission that gives you the gist of what is being requested or said. This can be helpful if you have long forms or fields that may contain long messages. You could then have this field's summary placed at the top of an email notification so the recipient can get the gist of the submission contents.
+
+  </TabItem>
+</Tabs>
+
+<details className="hidden-heading">
+<summary>Settings</summary>
+
+The following additional settings are available to this field type:
+
+- **System Prompt**
+  - Instructions for the AI on how to process the form data. You can use this for categorization, summarization, sentiment analysis, content generation, or any other AI task. Be specific about the desired output format.
+- **Fields to Process**
+  - Select which form fields to send to the AI for processing. Use the dropdown or type `@` to search for fields.
+- **Include Field Labels**
+  - When enabled, field labels will be included in the content sent to AI (e.g., `Name: John Doe` instead of just `John Doe`).
+- **Max Tokens Override**
+  - Leave empty to use integration settings. Override only if you need different max tokens for this field.
+- **Temperature Override**
+  - Leave empty to use integration settings. Override only if you need different temperature for this field. Enter a value between `0.0` and `1.0`.
+
+</details>
 
 ## Calculation<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.1+" />
 
@@ -916,6 +998,399 @@ yes
 
 </TabItem>
 </Tabs>
+</details>
+
+## Cards<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.12+" />
+
+The Cards field type works like a radios or checkboxes field, but allows you to create a more complex visual display where you can include images or icons, descriptions and unlimited custom metadata.
+
+<Photo
+  scale={80}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/cards.jpg')}
+  alt="Cards field"
+/>
+
+<details className="hidden-heading">
+<summary>Settings</summary>
+
+The following additional settings are available to this field type:
+
+- **Max Selected Values**
+  - Limit how many values a user can select. Leave blank or set to `0` for no limit.
+- **Cards Per Row**
+  - Set how many cards should display in each row.
+- **Image Transform**
+  - Choose an Asset image transform to apply to any images added to the cards.
+
+### Cards Layout
+
+Configure the content and layout of your cards. This opens up into an editor that allows you to add and configure each card.
+<br />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/cards-config.png')}
+  alt="Cards field configuration"
+/>
+
+### Cards Metadata
+
+If you want to include additional custom data for each option, you can enter this metadata in JSON format. In your formatting template, you can access it with `card.metadata.yourProperty`.
+<br />
+<Photo
+  scale={70}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/cards-metadata.png')}
+  alt="Cards Metadata configuration"
+/>
+
+</details>
+
+<details className="hidden-heading">
+<summary>Templating</summary>
+
+The following additional properties and [Template Overrides](../templates/formatting/index.mdx#template-overrides) parameters are available for use in your formatting templates:
+
+### Properties
+
+<br />
+
+- `field.cardAttributes`
+  - `card`
+  - `image`
+  - `content`
+  - `cardLabel`
+  - `cardDescription`
+  - `cardMetadata`
+- `field.layout`
+  - `value`
+  - `label`
+  - `assetId`
+  - `description`
+  - `metadata`
+    - `yourProperty`
+- `field.transform`
+
+### Parameters
+
+<br />
+
+- `cardAttributes`
+  - `card`
+  - `card`
+  - `image`
+  - `content`
+  - `cardLabel`
+  - `cardDescription`
+  - `cardMetadata`
+
+<br />
+
+<Tabs>
+  <TabItem value="cards-templating-params-form" label="At Form-level" default>
+
+    ```twig
+    {{ form.renderTag({
+      attributes: {
+        form: { class: "freeform-form", "data-freeform-tailwind": true },
+        row: { class: "flex gap-x-2 -mx-2 mb-4" },
+        novalidate: true,
+      },
+      fields: {
+        "@cards": {
+          attributes: {
+            optionLabel: { "=class": "relative flex flex-col gap-1 h-full items-left justify-start cursor-pointer bg-white/10 pb-3 rounded-md text-base text-white text-sm outline-1 -outline-offset-1 outline-white/10 rounded-md peer-checked:outline-2 peer-checked:outline-indigo-500 hover:bg-white/5" },
+            input: { "-class": "appearance-none block w-full" },
+          },
+          cardAttributes: {
+            card: { class: "group min-w-0 mb-2 sm:mb-0" },
+            image: { class: "mb-1 rounded-t-md" },
+            content: { class: "flex items-center justify-between px-3" },
+            cardLabel: { "=class": "text-lg font-bold" },
+            cardDescription: { class: "text-xs px-3" },
+            cardMetadata: { class: "list-disc list-outside text-xs pl-6 pr-3" },
+          }
+        },
+      },
+    }) }}
+    ```
+
+  </TabItem>
+  <TabItem value="cards-templating-params-field" label="At Field-level">
+
+    ```twig
+    {{ field.render({
+      cardAttributes: {
+        card: { class: "group min-w-0 mb-2 sm:mb-0" },
+        image: { class: "mb-1 rounded-t-md" },
+        content: { class: "flex items-center justify-between px-3" },
+        cardLabel: { "=class": "text-lg font-bold" },
+        cardDescription: { class: "text-xs px-3" },
+        cardMetadata: { class: "list-disc list-outside text-xs pl-6 pr-3" },
+      }
+    }) }}
+    ```
+
+  </TabItem>
+</Tabs>
+
+</details>
+<details className="hidden-heading">
+<summary>Customizing the Appearance</summary>
+
+Below are some examples of how you can customize the appearance of **Cards** fields in your formatting template:
+
+<Tabs>
+<TabItem value="cards-basic-example" label="Basic" default>
+
+Below is an example using [Tailwind CSS](../templates/formatting/tailwind.mdx) and _without_ controlling cards per row or including any custom metadata:
+
+```twig
+{{ field.renderContainerOpeningTag }}
+
+  {{ field.renderLabel }}
+  {{ field.renderInstructions }}
+
+  <div class="grid gap-3 grid-cols-1">
+    {% for card in field.layout %}
+      <div {{ field.cardAttributes.card }}>
+        <input type="checkbox" name="{{ field.handle }}[]" value="{{ card.value }}" id="{{ field.idAttribute }}-{{ loop.index }}" {{ field.value == card.value ? "checked" }} class="hidden peer" />
+        <label for="{{ field.idAttribute }}-{{ loop.index }}" class="{{ field.attributes.optionLabel.get("class") }}">
+          {% set asset = craft.assets.id(card.assetId).one %}
+          {% if asset %}
+            <img src="{{ asset.getUrl(field.transform) }}" alt="{{ card.label }}" {{ field.cardAttributes.image }} />
+          {% endif %}
+          <div {{ field.cardAttributes.content }}>
+            <h5 {{ field.cardAttributes.cardLabel }}>{{ card.label }}</h5>
+            <svg class="size-5 text-indigo-500 opacity-0 group-has-checked:opacity-100" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <span {{ field.cardAttributes.cardDescription }}>{{ card.description }}</span>
+        </label>
+      </div>
+    {% endfor %}
+  </div>
+
+  {{ field.renderErrors }}
+
+{{ field.renderContainerClosingTag }}
+```
+
+</TabItem>
+<TabItem value="cards-cards-per-row-example" label="Controlling Cards Per Row">
+
+Below is an example using [Tailwind CSS](../templates/formatting/tailwind.mdx) with control on the number of cards per row, _without_ including any custom metadata:
+
+```twig {1-14,21}
+{% set perRow = 4 %}
+{% if field.cardsPerRow is defined and field.cardsPerRow is not null and field.cardsPerRow is numeric %}
+  {% set perRow = field.cardsPerRow + 0 %}
+{% endif %}
+{% if perRow < 1 %}{% set perRow = 1 %}{% endif %}
+{% if perRow > 6 %}{% set perRow = 6 %}{% endif %}
+
+{% set colsClass =
+  perRow == 1 ? 'sm:grid-cols-1' :
+  perRow == 2 ? 'sm:grid-cols-2' :
+  perRow == 3 ? 'sm:grid-cols-3' :
+  perRow == 4 ? 'sm:grid-cols-4' :
+  perRow == 5 ? 'sm:grid-cols-5' : 'sm:grid-cols-6'
+%}
+
+{{ field.renderContainerOpeningTag }}
+
+  {{ field.renderLabel }}
+  {{ field.renderInstructions }}
+
+  <div class="grid gap-3 grid-cols-1 {{ colsClass }}">
+    {% for card in field.layout %}
+      <div {{ field.cardAttributes.card }}>
+        <input type="checkbox" name="{{ field.handle }}[]" value="{{ card.value }}" id="{{ field.idAttribute }}-{{ loop.index }}" {{ field.value == card.value ? "checked" }} class="hidden peer" />
+        <label for="{{ field.idAttribute }}-{{ loop.index }}" class="{{ field.attributes.optionLabel.get("class") }}">
+          {% set asset = craft.assets.id(card.assetId).one %}
+          {% if asset %}
+            <img src="{{ asset.getUrl(field.transform) }}" alt="{{ card.label }}" {{ field.cardAttributes.image }} />
+          {% endif %}
+          <div {{ field.cardAttributes.content }}>
+            <h5 {{ field.cardAttributes.cardLabel }}>{{ card.label }}</h5>
+            <svg class="size-5 text-indigo-500 opacity-0 group-has-checked:opacity-100" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <span {{ field.cardAttributes.cardDescription }}>{{ card.description }}</span>
+        </label>
+      </div>
+    {% endfor %}
+  </div>
+
+  {{ field.renderErrors }}
+
+{{ field.renderContainerClosingTag }}
+```
+
+</TabItem>
+<TabItem value="cards-metadata-example" label="Metadata">
+
+Below is an example using [Tailwind CSS](../templates/formatting/tailwind.mdx) with custom metadata.
+
+For the purpose of this example, we're going to assume that you have custom meta data that looks like this:
+
+```json
+{
+  "price": "8.99",
+  "ingredients": [
+    "fries"
+    "gravy"
+    "cheese"
+  ]
+}
+```
+
+These properties are accessible in your template with `card.metadata.yourProperty`:
+
+- `card.metadata.price`
+- `card.metadata.ingredients`
+
+```twig {22-30}
+{{ field.renderContainerOpeningTag }}
+
+  {{ field.renderLabel }}
+  {{ field.renderInstructions }}
+
+  <div class="grid gap-3 grid-cols-1">
+    {% for card in field.layout %}
+      <div {{ field.cardAttributes.card }}>
+        <input type="checkbox" name="{{ field.handle }}[]" value="{{ card.value }}" id="{{ field.idAttribute }}-{{ loop.index }}" {{ field.value == card.value ? "checked" }} class="hidden peer" />
+        <label for="{{ field.idAttribute }}-{{ loop.index }}" class="{{ field.attributes.optionLabel.get("class") }}">
+          {% set asset = craft.assets.id(card.assetId).one %}
+          {% if asset %}
+            <img src="{{ asset.getUrl(field.transform) }}" alt="{{ card.label }}" {{ field.cardAttributes.image }} />
+          {% endif %}
+          <div {{ field.cardAttributes.content }}>
+            <h5 {{ field.cardAttributes.cardLabel }}>{{ card.label }}</h5>
+            <svg class="size-5 text-indigo-500 opacity-0 group-has-checked:opacity-100" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <span {{ field.cardAttributes.cardDescription }}>{{ card.description }}</span>
+          <span>${{ card.metadata.price }}</span>
+          <span>
+            Ingredients:
+            <ul>
+            {% for ingredient in card.metadata.ingredients %}
+              <li>{{ ingredient }}</li>
+            {% endfor %}
+            </ul>
+          </span>
+        </label>
+      </div>
+    {% endfor %}
+  </div>
+
+  {{ field.renderErrors }}
+
+{{ field.renderContainerClosingTag }}
+```
+
+</TabItem>
+
+<TabItem value="cards-metadata-macro-example" label="Metadata Macro">
+
+Below is an example using [Tailwind CSS](../templates/formatting/tailwind.mdx) and including a macro to handle any custom metadata:
+
+```twig {1-33,71-81}
+{# Automated handling of metadata if present #}
+{% macro renderMeta(value, key = null) %}
+  {# Nothing to output #}
+  {% if value is empty %}
+  {% elseif value is iterable %}
+    {# Decide if it's a list (0..n-1) or a map #}
+    {% set keys   = value|keys %}
+    {% set isList = (keys|length > 0) and (keys|first == 0) and (keys|last == value|length - 1) %}
+
+    {% if isList %}
+      {% set cleaned = value|filter(v => v is not empty) %}
+      {% if cleaned|length %}
+        {# If every item is scalar, join; otherwise recurse per item #}
+        {% set hasNested = cleaned|filter(v => v is iterable)|length > 0 %}
+        {% if not hasNested %}
+          <li>{% if key is not null %}{{ key }}: {% endif %}{{ cleaned|join(', ') }}</li>
+        {% else %}
+          {% for v in cleaned %}
+            {{ _self.renderMeta(v, key) }}
+          {% endfor %}
+        {% endif %}
+      {% endif %}
+    {% else %}
+      {% for k, v in value %}
+        {{ _self.renderMeta(v, k) }}
+      {% endfor %}
+    {% endif %}
+  {% else %}
+    <li>{% if key is not null %}{{ key }}: {% endif %}{{ value }}</li>
+  {% endif %}
+{% endmacro %}
+
+{% import _self as meta %}
+
+{% set perRow = 4 %}
+{% if field.cardsPerRow is defined and field.cardsPerRow is not null and field.cardsPerRow is numeric %}
+  {% set perRow = field.cardsPerRow + 0 %}
+{% endif %}
+{% if perRow < 1 %}{% set perRow = 1 %}{% endif %}
+{% if perRow > 6 %}{% set perRow = 6 %}{% endif %}
+
+{% set colsClass =
+  perRow == 1 ? 'sm:grid-cols-1' :
+  perRow == 2 ? 'sm:grid-cols-2' :
+  perRow == 3 ? 'sm:grid-cols-3' :
+  perRow == 4 ? 'sm:grid-cols-4' :
+  perRow == 5 ? 'sm:grid-cols-5' : 'sm:grid-cols-6'
+%}
+
+{{ field.renderContainerOpeningTag }}
+
+  {{ field.renderLabel }}
+  {{ field.renderInstructions }}
+
+  <div class="grid gap-3 grid-cols-1 {{ colsClass }}">
+    {% for card in field.layout %}
+      <div {{ field.cardAttributes.card }}>
+        <input type="checkbox" name="{{ field.handle }}[]" value="{{ card.value }}" id="{{ field.idAttribute }}-{{ loop.index }}" {{ field.value == card.value ? "checked" }} class="hidden peer" />
+        <label for="{{ field.idAttribute }}-{{ loop.index }}" class="{{ field.attributes.optionLabel.get("class") }}">
+          {% set asset = craft.assets.id(card.assetId).one %}
+          {% if asset %}
+            <img src="{{ asset.getUrl(field.transform) }}" alt="{{ card.label }}" {{ field.cardAttributes.image }} />
+          {% endif %}
+          <div {{ field.cardAttributes.content }}>
+            <h5 {{ field.cardAttributes.cardLabel }}>{{ card.label }}</h5>
+            <svg class="size-5 text-indigo-500 opacity-0 group-has-checked:opacity-100" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <span {{ field.cardAttributes.cardDescription }}>{{ card.description }}</span>
+          {# Metadata if present #}
+          {% set metaValue = card.metadata is defined ? card.metadata : null %}
+          {# Capture output so we only render <ul> if there's actual <li> content #}
+          {% set rendered %}
+            {{ meta.renderMeta(metaValue) }}
+          {% endset %}
+          {% if rendered|trim %}
+            <ul {{ field.cardAttributes.cardMetadata }}>
+              {{ rendered|raw }}
+            </ul>
+          {% endif %}
+        </label>
+      </div>
+    {% endfor %}
+  </div>
+
+  {{ field.renderErrors }}
+
+{{ field.renderContainerClosingTag }}
+```
+
+</TabItem>
+</Tabs>
+
 </details>
 
 ## Checkbox<Badge type="feature" text="Improved in 5.10+" />
@@ -1739,10 +2214,35 @@ Submit buttons are handled automatically by Freeform. They are automatically ins
 <details className="hidden-heading">
 <summary>Settings</summary>
 
-The Submit button settings allow you to edit the button label(s) and adjust the positioning of the buttons.
+The Submit button settings let you edit button labels, adjust placement, and add icons.
 
 - When using with multi-page forms, Freeform will detect when you're on a page after first page, and provide you with the option to toggle a **Back** button.
 - When using with the **Pro** edition, Freeform will provide you with the option to toggle a **Save** button.
+
+<br />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-submit-buttons-settings.jpg')}
+  alt="Submit Buttons settings inside form builder"
+/>
+
+### Icons<Badge type="feature" text="New in 5.12+" />
+
+Optionally add icons to submit buttons. Choose an existing asset or upload a new one. Freeform will automatically handle placement and styling.
+
+<br />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-submit-buttons-icons.jpg')}
+  alt="Submit Buttons icons settings inside form builder"
+/>
+
+How it may look on the front end:
+
+<br />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/front-end/submit-buttons-icons.png')}
+  alt="Submit Buttons with icons on front end"
+  scale="80"
+/>
 
 </details>
 <details className="hidden-heading">
