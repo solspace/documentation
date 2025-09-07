@@ -18,19 +18,19 @@ If you want to get on your way as quickly as possible, please skip the info belo
 
 Freeform offers the following measures:
 
-- [Freeform Honeypot](../../forms/spam-protection.mdx#freeform-honeypot)
+- [Honeypot](../../forms/spam-protection.mdx#honeypot)
 - [Keyword Blocking](../../forms/spam-protection.mdx#spam-blocking)
 - [Captchas](../../forms/spam-protection.mdx#captchas)
 - [Throttling](../../forms/spam-protection.mdx#throttling)
 - [Min/Max Submit Time](../../configuration/settings.mdx#minimum-submit-time)
 
-You can use all or any combination of these. In many cases, using a combination of just the **Freeform Honeypot** and **Keyword Blocking** is sufficient. If you want a no-nonsense approach, you should go straight to using **reCAPTCHA** (specifically **v3**).
+You can use all or any combination of these. In many cases, using a combination of just the **Honeypot** and **Keyword Blocking** is sufficient. If you want a no-nonsense approach, you should go straight to using **reCAPTCHA** (specifically **v3**).
 
 Typically, the most effective spam controls (in order) are:
 
 1. [reCAPTCHA](../../integrations/recaptcha.mdx) or [hCaptcha](../../integrations/hcaptcha.mdx)
-2. [Freeform Honeypot](../../forms/spam-protection.mdx#freeform-honeypot) and [Freeform Javascript Test](../../forms/spam-protection.mdx#freeform-javascript-test)
-3. Freeform Honeypot only
+2. [Honeypot](../../forms/spam-protection.mdx#honeypot) and [Javascript Test](../../forms/spam-protection.mdx#javascript-test)
+3. Honeypot only
 4. Keyword Blocking / Email Blocking
    - When attempting to block individual characters (e.g. Russian letters) or partial words or strings, be sure to make good use of the wildcard `*` character! E.g.: `*й*`, `*Д*`, `*url=http*`, etc.
 
@@ -115,7 +115,7 @@ Please see the [Caching Forms documentation guide](../../templates/caching.mdx) 
 </StepMarkdown>
 <StepMarkdown stepTitle="Using JS Frameworks">
 
-When using Javascript Frameworks to handle your website and forms, such as [Vue.js](https://vuejs.org/), it's important that you manually populate the Craft CSRF Token, Freeform Form Hash, and clear the [Javascript Test](../../forms/spam-protection.mdx#freeform-javascript-test) input (if used), otherwise you form will fail and flag all submissions as spam.
+When using Javascript Frameworks to handle your website and forms, such as [Vue.js](https://vuejs.org/), it's important that you manually populate the Craft CSRF Token, Freeform Form Hash, and clear the [Javascript Test](../../forms/spam-protection.mdx#javascript-test) input (if used), otherwise you form will fail and flag all submissions as spam.
 
 Please see the [Using Vue.js documentation guide](../../headless/vuejs.mdx) for more information.
 
@@ -150,7 +150,7 @@ We strongly recommend using [reCAPTCHA](../../integrations/recaptcha.mdx) or [hC
 The absolute shortest and fastest way to some amount of spam protection that would work for most sites would be the following:
 
 1. Go to Freeform Spam Settings (_Freeform_ → _Settings_ → _Spam Settings_).
-2. Enable Freeform Honeypot and do not enable Javascript Test.
+2. Enable Honeypot and do not enable Javascript Test.
 3. Enable the Spam Folder built into Freeform.
 4. Set the [Spam Protection Behavior](../../configuration/settings.mdx#spam-protection-behavior) setting to **Simulate Success**.
 
