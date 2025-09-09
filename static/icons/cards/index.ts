@@ -59,6 +59,7 @@ export default {
   ExportIcon: 'export',
   ExpressFormsIcon: 'express-forms-icon',
   FakerIcon: 'faker',
+  FormieIcon: 'formie-icon',
   FreeformIcon: 'freeform',
   FreeformSurveyIcon: 'freeform-survey',
   FormMonitorIcon: 'form-monitor',
