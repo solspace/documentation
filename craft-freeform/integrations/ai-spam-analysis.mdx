@@ -1,0 +1,53 @@
+---
+title: 'AI Spam Analysis'
+sidebar_position: 1
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# AI Spam Analysis<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.12+" />
+
+**AI Spam Analysis** uses your configured [AI integration](../#ai) to evaluate each submission and decide whether it's spam. CAPTCHAs often miss human-entered spam. This feature lets you provide a customizable prompt with clear rules (what to flag, what to allow), and Freeform applies it to the submitted data.
+
+If a submission is flagged, the **Spam Reason** appears on the Submission detail page in the control panel, explaining why it was classified as spam.
+
+:::info
+This feature requires you to have your own **AI** service and API key that is configured and connected through a Freeform [AI integration](../#ai).
+:::
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+  <StepMarkdown>
+    ### Configure AI Spam Analysis integration
+    You just need to save the integration once here.
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/ai-spam-settings.jpg')}
+      alt="AI Spam Analysis settings in Freeform"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Enable per Form inside the Builder
+    
+    1. Choose an [AI integration](../#ai) to use.
+    2. Choose the fields to be analyzed.
+    3. Create your own customized instructions (System Prompt).
+
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/ai-spam-builder-settings.jpg')}
+      alt="AI Spam Analysis settings in the form builder"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Results inside CP Submission details
+    Any submissions flagged as spam by **AI Spam Analysis** will show how it came to that conclusion.
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/ai-spam-submission.jpg')}
+      alt="AI Spam Analysis in CP Submission details"
+    />
+  </StepMarkdown>
+</VerticalStepWrapper>
+
+
+

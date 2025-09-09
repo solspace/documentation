@@ -1,42 +1,20 @@
 ---
+title: 'Migration from Formie'
 sidebar_position: 3
 ---
 
 import { Badge, Photo } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-# Migration from Express Forms
+# Migration from Formie<Badge type="feature" text="New in 5.12+" />
 
-If you wish to migrate from [Express Forms](https://plugins.craftcms.com/express-forms) to Freeform 5, please follow the special instructions below.
-
-:::info
-
-#### Important Notice - May 16, 2024
-
-<hr />
-
-**The [Express Forms](https://discontinued-docs.solspace.com/express-forms/) plugin has been discontinued.**
-
-It was originally created as a free and reliable form-building plugin for Craft CMS when other options were limited. It allowed for experimentation and trying different approaches, which was challenging to do with Freeform due to legacy constraints.
-
-Over time, we incorporated new features and improved approaches from Express Forms into Freeform. With the significant rewrite of Freeform 5, we addressed many limitations related to extending and custom module development.
-
-Now, Freeform 5 includes three editions: _Express_, _Lite_, and _Pro_. The _Express_ edition of Freeform is free and suitable for most small sites that only require a simple contact form while offering many additional features and benefits.
-
-<hr />
-
-#### What does this mean?
-
-- Express Forms will not have a Craft 5-compatible version.
-- Freeform 5 works on both Craft 4 and 5 and includes a migration utility from Express Forms.
-- There will be no further updates for Express Forms 2.x, but support and critical bug fixes will continue.
-- Customers with a Pro license of Express Forms will receive a free license to Freeform Pro for the transition. If we were unable to reach you, please [get in touch with us](/support/).
-
-:::
+If you wish to migrate from [Formie](https://plugins.craftcms.com/formie) 3.x to Freeform 5, please follow the special instructions below.
 
 :::warning
-Due to the nature of this update we recommend anyone migrating from Express Forms 2.x to do so carefully in a development environment and follow the special instructions below.
+We strongly recommend anyone migrating from Formie 3.x to do so carefully in a development environment and follow the special instructions below.
 :::
+
+{/*
 
 ## Key Differences
 
@@ -119,6 +97,8 @@ Check out the feature comparison table below to help you determine which edition
 | Translatable                                                                              |                                             ✓                                             |                        <span className="edition-express">✓</span>                         |                                        <span className="edition-lite">✓</span>                                         |                                                     <span className="edition-pro">✓</span>                                                     |
 | Rename Plugin                                                                             |                                          ✓ (Pro)                                          |                          <span className="compare-none">✕</span>                          |                                        <span className="compare-none">✕</span>                                         |                                                     <span className="edition-pro">✓</span>                                                     |
 
+*/}
+
 ## Running the Migration
 
 :::danger
@@ -129,30 +109,26 @@ Be sure to back up your site files and database before proceeding.
 <StepMarkdown>
 ### Install Freeform 5
 
-[Install Freeform 5](./installing-updating.mdx) while on Craft 4 if you haven't already done so.
-
-:::info
-If you plan to upgrade from Craft 4 to Craft 5, we strongly recommend running this migration while still on Craft 4, as there is no Craft 5-compatible version of Express Forms. Freeform 5 is compatible with both Craft 4 and Craft 5.
-:::
+[Install Freeform 5](./installing-updating.mdx) on Craft 5 if you haven't already done so.
 
 </StepMarkdown>
 <StepMarkdown>
 ### Go to the Migration utility
 
 1. Go to the **Import / Export** section in the Freeform control panel.
-2. In the left column, click on **Migrate from Express Forms**. It will appear as long as Express Forms is currently installed.
+2. In the left column, click on **Formie (v3)** under _Import_. It will appear as long as Formie is currently installed.
 
 </StepMarkdown>
 <StepMarkdown>
 ### Run the Migration utility
 
-1. Select which forms, notification templates and submission sets you'd like to import.
-2. Choose the behavior the import should observe if it runs into forms and notification templates with the same name in Freeform.
+1. Select which forms and submission sets you'd like to import.
+2. Choose the behavior the import should observe if it runs into forms with the same name in Freeform.
    - There currently is no duplicate submission detection options at this point.
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/cp/import-express-forms.png')}
-  alt="Express Forms migration utility"
+  img={require('@site/static/img/craft/freeform/v5/cp/formie-migration.jpg')}
+  alt="Formie migration utility"
 />
 
 </StepMarkdown>
