@@ -7,6 +7,23 @@ toc_max_heading_level: 2
 
 import { TitleDate } from '@site/src/components/docs'
 
+## 5.12.0<TitleDate date="2025-09-09" />
+
+### Added
+- **OpenAI integration**: Use OpenAI models to process form submissions.
+- **Google Gemini integration**: Use Gemini models to process form submissions.
+- **AI Spam Analysis**: Evaluates each submission for spam using your configured AI provider. Supports a customizable prompt with explicit rules (what to flag/allow).
+- **AI field type**: Analyzes submission data and outputs an AI-generated response via your configured AI provider.
+- **Cards field type**: A radio/checkbox-style field that supports richer visual cards (images/icons, descriptions, and custom metadata).
+- **URL Parameter Tracking**: Automatically captures UTM and other URL parameters (e.g., `utm_campaign`, `utm_source`, `utm_medium`) for every submission. Configure parameter names once globally, with optional per-form overrides in the form builder.
+- **Submit Button icons**: Add and position icons on submit buttons in the form builder.
+- **Formie 3.x migration**: Migrate from Formie 3.x.
+- **Status filtering for Elements**: When populating fields with Elements data, you can now filter by status.
+
+### Changed
+- Refactored the Integrations settings into a single, unified page with improved layout and usability.
+- Field option values are now preserved when editing option labels later.
+
 ## 5.11.17<TitleDate date="2025-09-04" />
 
 ### Fixed
@@ -1640,7 +1657,7 @@ If you are experiencing visual issues with form layouts and styles on the front 
 ## 5.0.4<TitleDate date="2024-01-29" />
 
 ### Added
-- Added a _Page Header_ option for the **Honeypot Insertion Location** setting.
+- Added a _Page Header_ option for the **Freeform Javascript Insertion Location** setting.
 
 ### Fixed
 - Fixed a bug where sites using Postgres would fail during migration.
@@ -1762,7 +1779,7 @@ If upgrading from Freeform 4, please see the special [upgrade guide](https://doc
     - Reorganized and adjusted settings pages.
     - The **Limit Form Submission Rate** setting has been renamed to **Duplicate Check**. Available options have been revised and renamed for clarity as well.
 - **Spam Protection**
-    - The **Honeypot** and **Javascript Test** features have been decoupled, overhauled, and set up as integrations. They can now be enabled/disabled and configured per form. The Javascript Test is now a simpler approach that will streamline use with caching or headless implementations.
+    - The **Freeform Honeypot** and **Javascript Test** features have been decoupled, overhauled, and set up as integrations. They can now be enabled/disabled and configured per form. The Javascript Test is now a simpler approach that will streamline use with caching or headless implementations.
     - The **Javascript Enhancement** feature has been renamed to **Javascript Test**.
     - **Captchas** are now stored as integrations, can have multiple configured per site, and can be turned on/off and further configured at the form level inside the form builder, e.g. stricter settings, different behavior, etc.
     - The **reCAPTCHA v2 Checkbox** and **hCaptcha Checkbox** special fields are now inserted into the form automatically (before the Submit button).
