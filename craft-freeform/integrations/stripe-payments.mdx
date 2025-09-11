@@ -4,26 +4,17 @@ sidebar_position: 23
 ---
 
 import Player from 'react-player';
-
-import {
-  VerticalStepWrapper,
-  StepMarkdown,
-  FlexCards,
-} from '@site/src/components/docs';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { VerticalStepWrapper, StepMarkdown, FlexCards } from '@site/src/components/docs';
 import { Badge, Photo } from '@site/src/components/utils';
 import Icons from '@site/static/icons/cards';
 
 # Stripe Payments<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.0+" />
 
 <Player
-  url={
-    require('@site/static/videos/craft/freeform/v5/stripe-payments.mp4').default
-  }
-  muted
-  loop
-  playing
-  width="100%"
-  height="100%"
+  url={ require('@site/static/videos/craft/freeform/v5/stripe-payments.mp4').default }
+  muted loop playing width="100%" height="100%"
 />
 
 :::tip
@@ -213,6 +204,7 @@ The Payment Element displays every payment method that's activated and available
 <Photo
   img={require('@site/static/img/craft/freeform/v5/integrations/methods.png')}
   alt="Payment Methods"
+  scale="60"
 />
 
 #### Apple Pay & Google Pay
@@ -231,66 +223,54 @@ The Stripe Payment Element includes built-in support for Apple Pay and Google Pa
 The following instructions assume you already have a Stripe account. You can add the Stripe integration by doing the following:
 
 <VerticalStepWrapper>
+  <StepMarkdown stepTitle="Prepare Freeform">
+    - Go to the [Integrations](../configuration/settings.mdx#integrations) section in Freeform Settings (**Freeform** → **Integrations**).
+    - Find _Stripe_ in the list of **service providers**.
+  </StepMarkdown>
+  <StepMarkdown stepTitle="Prepare Stripe">
+    Open up another browser tab and go to your Stripe account:
 
-<StepMarkdown stepTitle="Prepare Freeform">
+    - On the top menu, click on the **Developers** button. On the next page click **API Keys**.
 
-- Go to the [Integrations](../configuration/settings.mdx#integrations) section in Freeform Settings (**Freeform** → **Integrations**).
-- Find _Stripe_ in the list of **service providers**.
+    :::info
+    Stripe can be run in **Live** mode or **Test** mode. To toggle between Live and Test mode, click the **Test mode** toggle at the top of the page. When doing this, the _Publishable key_ and _Secret key_ will switch between live and test as well. We strongly recommend switching Stripe to **Test** mode first, and testing your site with those keys instead.
 
-</StepMarkdown>
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/prepare-stripe.png')}
+      alt="Stripe Nav - Test Mode ON"
+      scale="50"
+    />
+    :::
 
-<StepMarkdown stepTitle="Prepare Stripe">
+    - Copy the token for **Publishable key** (e.g. `pk_test_fs7f6f8g8dfg68g68d76dgd8`) and paste into the **Public Key** field inside Freeform.
+    - Copy the token (click _Reveal test key_ button to reveal) for **Secret key** (e.g. `sk_test_af7fa7gfdo78g6ddfg6d8d87`) and paste into the **Secret Key** field inside Freeform.
 
-Open up another browser tab and go to your Stripe account:
-
-- On the top menu, click on the **Developers** button. On the next page click **API Keys**.
-
-:::info
-Stripe can be run in **Live** mode or **Test** mode. To toggle between Live and Test mode, click the **Test mode** toggle at the top of the page. When doing this, the _Publishable key_ and _Secret key_ will switch between live and test as well. We strongly recommend switching Stripe to **Test** mode first, and testing your site with those keys instead.
-
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/integrations/prepare-stripe.png')}
-  alt="Stripe Nav - Test Mode ON"
-/>
-
-:::
-
-- Copy the token for **Publishable key** (e.g. `pk_test_fs7f6f8g8dfg68g68d76dgd8`) and paste into the **Public Key** field inside Freeform.
-- Copy the token (click _Reveal test key_ button to reveal) for **Secret key** (e.g. `sk_test_af7fa7gfdo78g6ddfg6d8d87`) and paste into the **Secret Key** field inside Freeform.
-
-:::info
-Consider using an **Environment Variable** for these settings instead. Then, store _Live_ keys on production and _Test_ keys on local dev environments.
-:::
-
-</StepMarkdown>
-
-<StepMarkdown stepTitle="Configure the Stripe Webhook">
-
-- Click on the **Webhooks** tab inside the Stripe **Developers** page.
-- On the next page, click the **+ Add endpoint** button.
-- Configure the webhook:
-  - Copy the **Webhook URL** field value in Freeform (e.g. `http://my-precio.us/freeform/payment-webhooks/stripe?id=1`) and paste it into the **Endpoint URL** setting.
-  - For the **Listen to** setting, choose **Events on your account**.
-  - Click on the **Select events** button under the **Select events to listen to** setting. Add the following 3 events Freeform requires:
-    - `payment_intent.succeeded`
-    - `payment_intent.payment_failed`
-    - `payment_intent.canceled`
-  - Click the **Add endpoint** button to save it.
-- On the next page inside Stripe account, click on the newly created endpoint URL.
-- At the top of the next page, you'll see an item called **Signing secret**.
-- Click on the **Reveal** button below it, and then copy the token (e.g. `whsec_dsf87d876sdf7g876fd8fasd9f7dsasd`).
-
-</StepMarkdown>
-
-<StepMarkdown stepTitle="Complete the Connection">
-
-- Switch back to the Payment integration inside Freeform, and paste the Stripe **Signing secret** token into the **Webhook Secret** setting.
-- Click the **Save** button.
-- After the integration is saved, you will see an **Authorize** button appear.
-- Click the **Authorize** button.
-- If authorized successfully, you'll see a green _Authorized_ status at the top beside the integration name.
-
-</StepMarkdown>
+    :::info
+    Consider using an **Environment Variable** for these settings instead. Then, store _Live_ keys on production and _Test_ keys on local dev environments.
+    :::
+  </StepMarkdown>
+  <StepMarkdown stepTitle="Configure the Stripe Webhook">
+    - Click on the **Webhooks** tab inside the Stripe **Developers** page.
+    - On the next page, click the **+ Add endpoint** button.
+    - Configure the webhook:
+      - Copy the **Webhook URL** field value in Freeform (e.g. `http://my-precio.us/freeform/payment-webhooks/stripe?id=1`) and paste it into the **Endpoint URL** setting.
+      - For the **Listen to** setting, choose **Events on your account**.
+      - Click on the **Select events** button under the **Select events to listen to** setting. Add the following 3 events Freeform requires:
+        - `payment_intent.succeeded`
+        - `payment_intent.payment_failed`
+        - `payment_intent.canceled`
+      - Click the **Add endpoint** button to save it.
+    - On the next page inside Stripe account, click on the newly created endpoint URL.
+    - At the top of the next page, you'll see an item called **Signing secret**.
+    - Click on the **Reveal** button below it, and then copy the token (e.g. `whsec_dsf87d876sdf7g876fd8fasd9f7dsasd`).
+  </StepMarkdown>
+  <StepMarkdown stepTitle="Complete the Connection">
+    - Switch back to the Payment integration inside Freeform, and paste the Stripe **Signing secret** token into the **Webhook Secret** setting.
+    - Click the **Save** button.
+    - After the integration is saved, you will see an **Authorize** button appear.
+    - Click the **Authorize** button.
+    - If authorized successfully, you'll see a green _Authorized_ status at the top beside the integration name.
+  </StepMarkdown>
 </VerticalStepWrapper>
 
 ### Setting up the Form
@@ -302,96 +282,84 @@ Consider using an **Environment Variable** for these settings instead. Then, sto
 Setting up your form to collect payments will generally consist of the following:
 
 <VerticalStepWrapper>
+  <StepMarkdown stepTitle="Enable Integration">
+    - Create a new form or open an existing one that will handle payments.
+    - Inside the **Integrations** tab, select the **Stripe** payment gateway.
+    - Toggle the _Enable_ setting ON.
+    - Map your Freeform fields to Stripe's fields as necessary.
+    ---
+    #### Additional settings
+    - **Suppress Email Notifications & Integrations when Payments Fail**
+      - Failed payments will still be stored as submissions, but enabling this will suppress email notifications and API integrations from being sent.
+    - **Send Success Email from Stripe to Submitter**
+      - When enabled, Freeform will pass off the submitter's email address to Stripe's `receipt_email` field, automatically triggering Stripe to send a successful email notification.
+  </StepMarkdown>
+  <StepMarkdown stepTitle="Configure Stripe Payment Field">
+    - Inside the **Layout** tab, find **Stripe Payment** in the list of field types in the left column and drag it into the form layout.
+    - Click on the **Stripe Payment** field inside your field layout and configure it as necessary in the property editor left column.
+      - Label & Handle
+      - Required
+        :::info
+        The Stripe field does NOT have to be required. However, if you wish to go this route, it is better to have a field that allows the user to select paying in the form or "Paying offline", etc and then use Conditional Rules to show and hide the Stripe field.
+        :::
+      - Select the integration for the field.
+      - _Description_ - enter a description for the payment. You can use the `form` and `submission` object in Twig.
+      - _Payment Type_ - choose between **Single** (one-time) or **Subscription** (recurring).
+        - If **Single**:
+          - _Payment Amount_ - choose between **Fixed** or **Dynamic**.
+            - If Dynamic, choose the field that will contain the amount.
+            - Option values should contain an integer only, e.g. `49` or `89.95`.
+          - _Payment Currency_ - choose a currency for payments.
+        - If **Subscription**:
+          - _Subscription Interval_ - choose between **Static** or **Dynamic**.
+            - If Dynamic, choose the field that will contain the interval options.
+              - Options values should only be `year`, `month`, `week`, `day`.
+          - _Subscription Interval Count_ - choose between **Static** or **Dynamic**.
+            - If Dynamic, choose the field that will contain the interval count options, e.g. `1`, `2`, etc.
+          - _Payment Amount_ - choose between **Fixed** or **Dynamic**.
+            - If Dynamic, choose the field that will contain the amount.
+            - Option values should contain an integer only, e.g. `49` or `89.95`.
+          - _Payment Currency_ - choose a currency for payments.
+      - _Successful Payment Redirect_ - specify a URL to be redirected to upon successful payment.
+      - _Failed Payment Redirect_ - specify a URL to be redirected to upon failed payment.
+        :::info
+        The built-in [Success Behavior](../forms/builder.mdx#success-errors) setting will be ignored, as a **Success** and **Fail** Redirect URL path will need to be specified in these settings.
+        :::
+      - _Theme_ - choose from `Default`, `Dark`, or `Minimal`.
+        - This can be used as a starting point. Check out the style guide to make further adjustments to the styles.
+      - _Layout_ - choose between `Tabs`, `Accordian with radio buttons`, and `Accordian without radio buttons`.
+      - _Floating Labels_ - toggle whether or not the labels should be inside the field inputs.
+  </StepMarkdown>
+  <StepMarkdown stepTitle="Configure Email Notification">
+    To send a success or fail email notification to the site Admin or the customer from Freeform, configure an email notification inside the **Notifications** tab in the form builder.
 
-<StepMarkdown stepTitle="Enable Integration">
+    Example template code might look something like this:
 
-- Create a new form or open an existing one that will handle payments.
-- Inside the **Integrations** tab, select the **Stripe** payment gateway.
-- Toggle the _Enable_ setting ON.
-- Map your Freeform fields to Stripe's fields as necessary.
-
----
-
-#### Additional settings
-
-- **Suppress Email Notifications & Integrations when Payments Fail**
-  - Failed payments will still be stored as submissions, but enabling this will suppress email notifications and API integrations from being sent.
-- **Send Success Email from Stripe to Submitter**
-  - When enabled, Freeform will pass off the submitter's email address to Stripe's `receipt_email` field, automatically triggering Stripe to send a successful email notification.
-
-</StepMarkdown>
-
-<StepMarkdown stepTitle="Configure Stripe Payment Field">
-
-- Inside the **Layout** tab, find **Stripe Payment** in the list of field types in the left column and drag it into the form layout.
-- Click on the **Stripe Payment** field inside your field layout and configure it as necessary in the property editor left column.
-  - Label & Handle
-  - Required
-    :::info
-    The Stripe field does NOT have to be required. However, if you wish to go this route, it is better to have a field that allows the user to select paying in the form or "Paying offline", etc and then use Conditional Rules to show and hide the Stripe field.
-    :::
-  - Select the integration for the field.
-  - _Description_ - enter a description for the payment. You can use the `form` and `submission` object in Twig.
-  - _Payment Type_ - choose between **Single** (one-time) or **Subscription** (recurring).
-    - If **Single**:
-      - _Payment Amount_ - choose between **Fixed** or **Dynamic**.
-        - If Dynamic, choose the field that will contain the amount.
-        - Option values should contain an integer only, e.g. `49` or `89.95`.
-      - _Payment Currency_ - choose a currency for payments.
-    - If **Subscription**:
-      - _Subscription Interval_ - choose between **Static** or **Dynamic**.
-        - If Dynamic, choose the field that will contain the interval options.
-          - Options values should only be `year`, `month`, `week`, `day`.
-      - _Subscription Interval Count_ - choose between **Static** or **Dynamic**.
-        - If Dynamic, choose the field that will contain the interval count options, e.g. `1`, `2`, etc.
-      - _Payment Amount_ - choose between **Fixed** or **Dynamic**.
-        - If Dynamic, choose the field that will contain the amount.
-        - Option values should contain an integer only, e.g. `49` or `89.95`.
-      - _Payment Currency_ - choose a currency for payments.
-  - _Successful Payment Redirect_ - specify a URL to be redirected to upon successful payment.
-  - _Failed Payment Redirect_ - specify a URL to be redirected to upon failed payment.
-    :::info
-    The built-in [Success Behavior](../forms/builder.mdx#success-errors) setting will be ignored, as a **Success** and **Fail** Redirect URL path will need to be specified in these settings.
-    :::
-  - _Theme_ - choose from `Default`, `Dark`, or `Minimal`.
-    - This can be used as a starting point. Check out the style guide to make further adjustments to the styles.
-  - _Layout_ - choose between `Tabs`, `Accordian with radio buttons`, and `Accordian without radio buttons`.
-  - _Floating Labels_ - toggle whether or not the labels should be inside the field inputs.
-
-</StepMarkdown>
-
-<StepMarkdown stepTitle="Configure Email Notification">
-
-To send a success or fail email notification to the site Admin or the customer from Freeform, configure an email notification inside the **Notifications** tab in the form builder.
-
-Example template code might look something like this:
-
-```twig {9-21} showLineNumbers
-<p>The following submission came in on {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}.</p>
-<h2>Customer Information</h2>
-<ul>
-    {% for field in allFields %}
-        <li>{{ field.label }}: {{ field.labelAsString }}</li>
-    {% endfor %}
-</ul>
-<hr />
-{% if payments %}
-    <h2>Payment Information</h2>
+    ```twig {9-21} showLineNumbers
+    <p>The following submission came in on {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}.</p>
+    <h2>Customer Information</h2>
     <ul>
+      {% for field in allFields %}
+        <li>{{ field.label }}: {{ field.labelAsString }}</li>
+      {% endfor %}
+    </ul>
+    <hr />
+    {% if payments %}
+      <h2>Payment Information</h2>
+      <ul>
         <li>Amount: ${{ payments.amount }} {{ payments.currency }}</li>
         <li>
-            Method: {{ payments.method.type }}
-            {% if payments.method.type == "card" %}ending in: •••• {{ payments.card }}{% endif %}
-            ({{ payments.status }}{% if payments.errorMessage|length %} - {{ payments.errorMessage }}{% endif %})
+          Method: {{ payments.method.type }}
+          {% if payments.method.type == "card" %}ending in: •••• {{ payments.card }}{% endif %}
+          ({{ payments.status }}{% if payments.errorMessage|length %} - {{ payments.errorMessage }}{% endif %})
         </li>
-    {% if payments.type == "subscription" %}
+      {% if payments.type == "subscription" %}
         <li>{{ payments.planName }} ({{ payments.interval }})</li>
+      {% endif %}
+      </ul>
     {% endif %}
-    </ul>
-{% endif %}
-```
-
-</StepMarkdown>
+    ```
+  </StepMarkdown>
 </VerticalStepWrapper>
 
 ### Configuring Payment Methods
@@ -401,8 +369,6 @@ The Stripe Payment Element allows you to accept 40+ payment methods, including c
 To enable additional payment methods for your site, visit the Stripe [Payment Methods](https://dashboard.stripe.com/settings/payment_methods) settings area (**Stripe** → **Settings Cog icon** (top right nav) → **Settings** → **Payment Methods** (under Payments section)).
 
 Some payment methods such as _Apple Pay_ require domains to be registered. You can configure this by visiting the Stripe [Payment Method Domains](https://dashboard.stripe.com/settings/payment_method_domains) settings area (**Stripe** → **Settings Cog icon** (top right nav) → **Settings** → **Payment Method Domains** (under Payments section)).
-
-<br />
 
 - [Registering domains for payment methods](https://stripe.com/docs/payments/payment-methods/pmd-registration)
 - [Full list of available Payment methods](https://stripe.com/docs/payments/payment-methods/overview)
@@ -456,22 +422,22 @@ The following properties are available for use inside email notification templat
 
 For displaying the **submission data**, your code may look something like this:
 
-```twig showLineNumbers
+```twig
 {% set submissionId = craft.app.request.segment(3) %}
 {% set payments = freeform.payments(submissionId) %}
 {% if payments %}
-    <h2>Payment Information</h2>
-    <ul>
-        <li>Amount: ${{ payments.amount }} {{ payments.currency }}</li>
-        <li>
-            Method: {{ payments.method.type }}
-            {% if payments.method.type == "card" %}ending in: •••• {{ payments.card }}{% endif %}
-            ({{ payments.status }}{% if payments.errorMessage|length %} - {{ payments.errorMessage }}{% endif %})
-        </li>
-    {% if payments.type == "subscription" %}
-        <li>{{ payments.planName }} ({{ payments.interval }})</li>
-    {% endif %}
-    </ul>
+  <h2>Payment Information</h2>
+  <ul>
+    <li>Amount: ${{ payments.amount }} {{ payments.currency }}</li>
+    <li>
+      Method: {{ payments.method.type }}
+      {% if payments.method.type == "card" %}ending in: •••• {{ payments.card }}{% endif %}
+      ({{ payments.status }}{% if payments.errorMessage|length %} - {{ payments.errorMessage }}{% endif %})
+    </li>
+  {% if payments.type == "subscription" %}
+    <li>{{ payments.planName }} ({{ payments.interval }})</li>
+  {% endif %}
+  </ul>
 {% endif %}
 ```
 
@@ -479,41 +445,44 @@ For displaying the **submission data**, your code may look something like this:
 
 For rendering the _Stripe Payment Element_ field inside your form, it simply works like any other field:
 
-```twig showLineNumbers
+```twig
 {{ field.render() }}
 ```
 
-If you wish to make any customization to the handling of Stripe payment fields, you can use the [Template Overrides](../templates/formatting/index.mdx#template-overrides) feature and do this at form level:
+If you wish to make any customization to the handling of Stripe payment fields, you can use the [Template Overrides](../templates/formatting/index.mdx#template-overrides) feature:
 
-```twig showLineNumbers
-{{ form.renderTag({
-    fields: {
+<Tabs>
+  <TabItem value="render-element-params-form" label="At Form-level" default>
+    ```twig
+    {{ form.renderTag({
+      fields: {
         "@stripe": {
-            attributes: {
-                input: {
-                    "-class": "form-control bg-dark-subtle",
-                },
-            },
-        },
-    },
-}) }}
-```
-
-Or at the field level by using a conditional like this:
-
-```twig showLineNumbers {2}
-...
-{% elseif field.type == "stripe" %}`
-    {{ field.render({
-        attributes: {
+          attributes: {
             input: {
-                class: "my-stripe-class",
+              "-class": "form-control bg-dark-subtle",
             },
+          },
         },
+      },
     }) }}
-{% else %}
-...
-```
+    ```
+  </TabItem>
+  <TabItem value="render-element-params-field" label="At Field-level">
+    ```twig {2}
+    ...
+    {% elseif field.type == "stripe" %}`
+      {{ field.render({
+        attributes: {
+          input: {
+            class: "my-stripe-class",
+          },
+        },
+      }) }}
+    {% else %}
+    ...
+    ```
+  </TabItem>
+</Tabs>
 
 ### Styling the Stripe Element<Badge type="feature" text="Improved in 5.0+" />
 
@@ -619,28 +588,28 @@ Full documentation can be found here: [Stripe Elements Appearance API](https://s
 
 ### Example Usage
 
-```twig showLineNumbers {9-21}
+```twig showLineNumbers {9-22}
 <p>The following submission came in on {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}.</p>
 <h2>Customer Information</h2>
 <ul>
-    {% for field in allFields %}
-        <li>{{ field.label }}: {{ field.labelAsString }}</li>
-    {% endfor %}
+  {% for field in allFields %}
+    <li>{{ field.label }}: {{ field.labelAsString }}</li>
+  {% endfor %}
 </ul>
 <hr />
 {% if payments %}
-    <h2>Payment Information</h2>
-    <ul>
-        <li>Amount: ${{ payments.amount }} {{ payments.currency }}</li>
-        <li>
-            Method: {{ payments.method.type }}
-            {% if payments.method.type == "card" %}ending in: •••• {{ payments.card }}{% endif %}
-            ({{ payments.status }}{% if payments.errorMessage|length %} - {{ payments.errorMessage }}{% endif %})
-        </li>
-    {% if payments.type == "subscription" %}
-        <li>{{ payments.planName }} ({{ payments.interval }})</li>
-    {% endif %}
-    </ul>
+  <h2>Payment Information</h2>
+  <ul>
+    <li>Amount: ${{ payments.amount }} {{ payments.currency }}</li>
+    <li>
+      Method: {{ payments.method.type }}
+      {% if payments.method.type == "card" %}ending in: •••• {{ payments.card }}{% endif %}
+      ({{ payments.status }}{% if payments.errorMessage|length %} - {{ payments.errorMessage }}{% endif %})
+    </li>
+  {% if payments.type == "subscription" %}
+    <li>{{ payments.planName }} ({{ payments.interval }})</li>
+  {% endif %}
+  </ul>
 {% endif %}
 ```
 
