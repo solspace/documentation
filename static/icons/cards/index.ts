@@ -1,4 +1,6 @@
 export default {
+  AIIcon: 'ai',
+  AISpamIcon: 'ai-spam',
   AlarmIcon: 'alarm',
   AlertIcon: 'alert',
   AnalyticsIcon: 'analytics',
@@ -98,6 +100,7 @@ export default {
   NextjsIcon: 'nextjs',
   NumbersIcon: 'numbers',
   OpenLetterIcon: 'open-letter',
+  OpenAIIcon: 'openai',
   OpinionScaleIcon: 'opinion-scale',
   PadlockIcon: 'padlock',
   PageIcon: 'page',
