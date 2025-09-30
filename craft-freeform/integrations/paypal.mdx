@@ -7,9 +7,168 @@ import Player from 'react-player';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { VerticalStepWrapper, StepMarkdown, FlexCards } from '@site/src/components/docs';
-import { Badge, Photo } from '@site/src/components/utils';
+import { Badge, Photo, PrimaryButtonWithLink } from '@site/src/components/utils';
 import Icons from '@site/static/icons/cards';
 
 # PayPal<Badge type="pro" text="Pro" /><Badge type="addon" text="Coming Soon in 5.13!" />
 
-Coming soon!
+Accepting payments on your site with PayPal is now supported. Setup is simpler than [Stripe](./stripe-payments.mdx), though PayPal offers fewer configuration options.
+
+#### Payment Flow
+
+1. The customer fills out the form and selects either the **PayPal** or **Debit or Credit Card** button.
+2. If **PayPal** is selected, a popup appears where the customer can log into their PayPal account and pay using PayPal funds or linked accounts.
+3. Once payment is complete, the popup closes and the customer is returned to the Freeform form. They must then click the **Submit** button to finalize the form submission.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/paypal-flow.png')}
+  alt="PayPal Flow in Freeform"
+/>
+
+## Compatibility
+
+Uses a private app on `v1` of the REST API.
+
+### Endpoints
+
+Maps data to PayPal with the **Popup Payment Flow** via the **Orders** endpoint.
+
+Does your project require something else? &nbsp; <PrimaryButtonWithLink to='/support/' label='Contact Us' />
+
+## Setup Instructions
+
+This guide assumes you already have a [PayPal](https://paypal.com) account.
+
+<VerticalStepWrapper>
+  <StepMarkdown>
+    ### Prepare Freeform
+
+    - Click on the **PayPal** integration in your Freeform control panel.
+    - Leave this page open.
+
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Set Up PayPal
+
+    <ul>
+      <li>Open another browser tab and log into your PayPal account.</li>
+      <li>On the top menu, click **Developers**.<br /><Photo
+          img={require('@site/static/img/craft/freeform/v5/integrations/paypal-setup-1.png')}
+          alt="PayPal - click Developers"
+        /></li>
+      <li>On the next page, click **Apps & Credentials**.<br /><Photo
+          img={require('@site/static/img/craft/freeform/v5/integrations/paypal-setup-2.png')}
+          alt="PayPal - click Apps & Credentials"
+        /></li>
+      <li>Click the **Create App** button on the right.<ul>
+          <li>Provide a name for the app.</li>
+          <li>Choose _Merchant_ for the type.</li>
+          <li>Select a _Sandbox Account_.</li>
+          <li>Click the **Create App** button.</li></ul><Photo
+          img={require('@site/static/img/craft/freeform/v5/integrations/paypal-setup-3.png')}
+          alt="PayPal - click Create App"
+        /></li>
+      <li>Once you're taken to the app's page, copy the **Client ID** and **Secret Key 1** tokens.<br /><Photo
+          img={require('@site/static/img/craft/freeform/v5/integrations/paypal-setup-4.png')}
+          alt="PayPal - copy credentials"
+        /></li>
+      <li>Scroll down the page a little but and copy the Sandbox account **Email** and **Password**. You'll need these later for [Sandbox testing](#sandbox-testing).<br /><Photo
+          img={require('@site/static/img/craft/freeform/v5/integrations/paypal-setup-6.png')}
+          alt="PayPal - copy Sandbox credentials"
+        /></li>
+    </ul>
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Complete the Connection
+
+    - Switch back to the PayPal integration inside Freeform, and paste the PayPal tokens into the **Client ID** and **Client Secret** settings.
+    - If you plan on testing the integration in sandbox mode (recommended), enable the **Use Sandbox** setting.
+    - Click the **Save** button.
+    - After the integration is saved, you should see an **Authorize** button at the top of the page.
+    - Click **Authorize**.
+    - If successful, the flag at the top will turn green and display _Authorized_.
+    
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/paypal-config.png')}
+      alt="PayPal settings in Freeform"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Configure the Form
+
+    To use this integration on your form(s), configure each form individually:
+
+    - Open the form in the form builder.
+    - Click the **Integrations** tab.
+    - Click **PayPal** in the list of available integrations.
+    - Toggle the _Enable_ setting ON.
+    - Add a **PayPal** field to your form layout and configure as needed.
+    - Save the form.
+    
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/paypal-builder.png')}
+      alt="PayPal integration settings in Freeform form builder"
+    />
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/paypal-builder-field.png')}
+      alt="PayPal field settings in Freeform form builder"
+    />
+  </StepMarkdown>
+</VerticalStepWrapper>
+
+## Sandbox Testing
+
+### Testing PayPal button
+
+Testing the **PayPal** button will require that you have a test PayPal account configured so you can log into it.
+
+Go to the [PayPal Developer area](https://developer.paypal.com). Click on **Testing Tools** and then **Sandbox Accounts**.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/paypal-setup-7.png')}
+  alt="PayPal Sandbox - Accounts"
+/>
+
+A list of test accounts will be displayed to use for testing.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/paypal-setup-5.png')}
+  alt="PayPal Sandbox - Accounts List"
+/>
+
+Click on one of the **Personal** test account types to reveal/copy the email and password login.
+
+- Copy the email address and password.
+- This will be used for PayPal testing on your site.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/paypal-setup-8.png')}
+  alt="PayPal Sandbox - Account Detail"
+/>
+
+Switch back to your Craft site and open your form on the front end.
+
+- Click the **PayPal** button. A popup will load.
+- Log into PayPal with the **Personal** test account credentials you copied earlier.
+- Complete the transaction.
+
+### Testing Debit or Credit Card button
+
+Testing **Debit or Credit Card** button is a little more straight-forward.
+
+- Click the **Debit or Credit Card** button. A series of form fields will load directly on the page.
+- Use PayPal's [credit card generator](https://developer.paypal.com/tools/sandbox/card-testing/#link-testcardnumbers) to create test credit card details.
+- Complete the transaction.
+
+### Payment Info in Submissions
+
+To view PayPal payment information, you can click on any Freeform submission in the control panel:
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/paypal-submission.png')}
+  alt="PayPal payment details in Freeform Submission detail area"
+/>
+
+### Sandbox Area
+
+Visit the [PayPal Sandbox site](https://sandbox.paypal.com) and log in with the Sandbox **Email** and **Password** account credentials you saved earlier to view Sandbox transactions.
