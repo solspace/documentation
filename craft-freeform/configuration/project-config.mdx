@@ -1,12 +1,15 @@
 ---
 sidebar_position: 8
+title: Project Config
 ---
+
+import { Badge } from '@site/src/components/utils';
 
 # Project Config
 
 Freeform settings can all be controlled via Craft's [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file.
 
-## Available Config Settings
+## Available Config Settings<Badge type="feature" text="Improved in 5.13+" />
 
 If you wish to manage the configuration of Freeform settings via Craft's [Project Config](https://craftcms.com/docs/5.x/system/project-config.html), here's a list of every setting currently available:
 
@@ -27,7 +30,7 @@ freeform:
     # GENERAL SETTINGS
 // highlight-end
     pluginName: ''
-    defaultView: dashboard
+    defaultView: forms
     badgeType: all
     sitesEnabled: true
     queuePriority: ''
@@ -49,9 +52,11 @@ freeform:
     # SUBMISSION DATA
 // highlight-end
     fillWithGet: true
+    allowDashesInFieldHandles: false
     updateSearchIndexes: true
     purgableSubmissionAgeInDays: '365'
-    purgableUnfinalizedAssetAgeInMinutes: 180
+    purgeAssets: true
+    purgableUnfinalizedAssetAgeInMinutes: '180'
 
 // highlight-start
     # FORM SUBMIT BEHAVIOR
@@ -60,6 +65,7 @@ freeform:
     autoScrollToErrors: true
     autoScroll: true
     rememberPageSubmitOrder: true
+    csrfRefresh: once
     useQueueForEmailNotifications: true
     useQueueForIntegrations: true
 
@@ -90,12 +96,14 @@ freeform:
 // highlight-end
     formTemplateDirectory: _freeform/formatting/
     emailTemplateDirectory: _freeform/emails/
+    emailTemplateMethod: all
     emailTemplateStorageType: files_database
     allowBuilderTemplateCreation: true
     emailTemplateDefault: files
     allowFileTemplateEdit: true
-    defaultFromEmail: '{{ craft.app.projectConfig.get("email.fromEmail") }}'
-    defaultFromName: '{{ craft.app.projectConfig.get("email.fromName") }}'
+    emailNotificationToolbarConfiguration: 'blocks bold italic | link image'
+    defaultFromEmail: '{{ general.systemEmail }}'
+    defaultFromName: '{{ general.systemName }}'
     successTemplateDirectory: _freeform/success/
 
 // highlight-start
@@ -122,7 +130,7 @@ freeform:
     digestOnlyOnProduction: false
 
 // highlight-start
-    ## FORM BUILDER DEFAULTS
+    # FORM BUILDER DEFAULTS
 // highlight-end
     defaults:
       previewHtml: true
@@ -201,6 +209,192 @@ freeform:
           duplicateCheck:
             value: no_limit
             locked: false
+      props:
+        date:
+          type:
+            value: date
+            locked: false
+          initialValue:
+            value: today
+            locked: false
+          locale:
+            value: ''
+            locked: false
+          datepicker:
+            value: '1'
+            locked: false
+          nativeTypes:
+            value: ''
+            locked: false
+          formatAsPlaceholder:
+            value: '1'
+            locked: false
+          dateOrder:
+            value: ymd
+            locked: false
+          date4DigitYear:
+            value: '1'
+            locked: false
+          dateLeadingZero:
+            value: '1'
+            locked: false
+          dateSeparator:
+            value: '-'
+            locked: false
+          minDate:
+            value: ''
+            locked: false
+          maxDate:
+            value: ''
+            locked: false
+          clock24h:
+            value: ''
+            locked: false
+          clockSeparator:
+            value: ':'
+            locked: false
+          clockAMPMSeparate:
+            value: '1'
+            locked: false
+        phone:
+          pattern:
+            value: 000-000-0000
+            locked: false
+          javascript:
+            value: ''
+            locked: false
+        file:
+          count:
+            value: '5'
+            locked: false
+          initialValue:
+            value: '1'
+            locked: true
+          uploadLocation:
+            value: ''
+            locked: false
+          fileKinds:
+            value: [image, pdf]
+            locked: true
+          maxFileSizeKB:
+            value: '2048'
+            locked: false
+          accentColor:
+            value: 3a85ee
+            locked: false
+          theme:
+            value: light
+            locked: false
+          placeholder:
+            value: ''
+            locked: false
+          removeFileMessage:
+            value: ''
+            locked: false
+          dialogElement:
+            value: ''
+            locked: false
+          dialogSelector:
+            value: ''
+            locked: false
+        html:
+          twig:
+            value: '1'
+            locked: false
+        table:
+          javascript:
+            value: '1'
+            locked: false
+          maxRows:
+            value: ''
+            locked: false
+          addButtonLabel:
+            value: Add
+            locked: false
+          addButtonMarkup:
+            value: ''
+            locked: false
+          removeButtonLabel:
+            value: Remove
+            locked: false
+          removeButtonMarkup:
+            value: ''
+            locked: false
+          tableAttributes:
+            value: '1'
+            locked: false
+        rating:
+          max:
+            value: '5'
+            locked: false
+          idle:
+            value: DDDDDD
+            locked: false
+          hover:
+            value: FFD700
+            locked: false
+          selected:
+            value: FF7700
+            locked: false
+        signature:
+          width:
+            value: '400'
+            locked: false
+          height:
+            value: '100'
+            locked: false
+          clear:
+            value: '1'
+            locked: false
+          borderColor:
+            value: '999999'
+            locked: false
+          backgroundColor:
+            value: TRANSPARENT
+            locked: false
+          penColor:
+            value: '000000'
+            locked: false
+          penDotSize:
+            value: '4'
+            locked: false
+        calculation:
+          decimalCount:
+            value: '2'
+            locked: false
+          inputType:
+            value: hidden
+            locked: true
+        cards:
+          max:
+            value: ''
+            locked: false
+          perRow:
+            value: '5'
+            locked: false
+          transform:
+            value: ''
+            locked: false
+
+// highlight-start
+    # SURVEYS & POLLS FORM TYPE
+// highlight-end
+    surveys:
+      chartTypes:
+        Solspace\Freeform\Fields\Implementations\CheckboxesField: Horizontal
+        Solspace\Freeform\Fields\Implementations\RadiosField: Horizontal
+        Solspace\Freeform\Fields\Implementations\DropdownField: Horizontal
+        Solspace\Freeform\Fields\Implementations\MultipleSelectField: Horizontal
+        Solspace\Freeform\Fields\Implementations\Pro\OpinionScaleField: Vertical
+        Solspace\Freeform\Fields\Implementations\Pro\RatingField: Vertical
+        Solspace\Freeform\Fields\Implementations\TextField: Text
+        Solspace\Freeform\Fields\Implementations\TextareaField: Text
+        Solspace\Freeform\Fields\Implementations\EmailField: Text
+        Solspace\Freeform\Fields\Implementations\NumberField: Text
+        Solspace\Freeform\Fields\Implementations\Pro\PhoneField: Text
+        Solspace\Freeform\Fields\Implementations\Pro\RegexField: Text
+        Solspace\Freeform\Fields\Implementations\Pro\WebsiteField: Text
+      highlightHighest: true
 ```
 
 </div>
@@ -242,8 +436,10 @@ EXPORTING
 SUBMISSION DATA
 // highlight-end
 ← Fill Form Values from the GET Query String
+← Allow Dashes in Field Handles
 ← Enable Search Index Updating on New Submissions
 ← Automatically Purge Submission Data
+← Automatically Purge Unfinalized Asset Files
 ← Purge Unfinalized Asset Files (in minutes)
 
 // highlight-start
@@ -253,6 +449,7 @@ FORM SUBMIT BEHAVIOR
 ← Automatically Scroll to Form on Errors and Multipage forms
 ← Automatically Scroll to top of the Form on AJAX submit
 ← Remember the Page Order in Multi-page forms (Conditional Rules page skipping)
+← CSRF Token Refresh Method. Options are 'once' (recommended), 'always', or 'none'.
 ← Use Queue for Email Notifications
 ← Use Queue for Integrations
 
@@ -283,10 +480,12 @@ TEMPLATE MANAGER
 // highlight-end
 ← Formatting Templates Directory Path
 ← Email Notification Templates Directory Path
-  ← Template Storage Type
+  ← Template Method. Options are: 'form', 'global' or 'all'.
+  ← Template Storage Type. Options are: 'files', 'database' or 'files_database'.
   ← Allow New Templates to be created inside the Form Builder (New in 5.10.8+)
   ← New Template Type for Form Builder (Renamed in 5.10.8+)
   ← Allow File-based Email Templates to be managed inside the Notifications area
+  ← Email Notification Template Toolbar Configuration
   ← Default 'From Email' for new Email Notification templates
   ← Default 'From Name' for new Email Notification templates
 ← Success Templates Directory Path
@@ -394,8 +593,193 @@ FORM BUILDER DEFAULTS (NEW IN 5.0+)
     ← Duplicate Check
       ← Options are 'no_limit', 'no_limit_logged_in_users_only', 'limit_once_per_logged_in_user_only',
         'limit_once_per_email', 'limit_once_per_user_or_cookie', and 'limit_once_per_user_or_ip_or_cookie'.
+  ← FIELD SETTING DEFAULTS (NEW IN 5.13+)
+    ← Date & Time
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ← Phone
+
+
+
+
+
+
+    ← File Upload / File Upload Drag & Drop
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ← HTML
+
+
+
+    ← Table
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ← Rating
+
+
+
+
+
+
+
+
+
+
+
+
+    ← Signature
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ← Calculation
+
+
+
+
+
+
+    ← Cards
+
+
+
+
+
+
+
+
+
+
+// highlight-start
+SURVEYS & POLLS FORM TYPE
+// highlight-end
+
+← Default Display for each Chart Type
+
+
+
+
+
+
+
+
+
+
+
+
+
+← Highlight Highest Ranking Option
 ```
 
 </div>
-
 </div>
