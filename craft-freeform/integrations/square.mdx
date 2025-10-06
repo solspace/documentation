@@ -1,0 +1,103 @@
+---
+title: 'Square'
+sidebar_position: 23
+---
+
+import Player from 'react-player';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { VerticalStepWrapper, StepMarkdown, FlexCards } from '@site/src/components/docs';
+import { Badge, Photo, PrimaryButtonWithLink } from '@site/src/components/utils';
+import Icons from '@site/static/icons/cards';
+
+# Square<Badge type="pro" text="Pro" /><Badge type="addon" text="Coming Soon in 5.13!" />
+
+Accepting payments on your site with Square is now supported. Setup is simpler than [Stripe](./stripe-payments.mdx), though Square offers fewer configuration options.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/square-front-end.jpg')}
+  alt="Square Payment on front end in Freeform"
+/>
+
+## Compatibility
+
+- Supports one-time payments using Square's **Web Payments SDK** and REST API.
+- Amounts are in the smallest currency unit (e.g. USD cents, so `500` is `$5.00`).
+
+### How It Works
+
+- Frontend: the Square Web Payments SDK creates a nonce and posts to a Freeform endpoint to create the payment.
+- Backend: Freeform creates a Square payment and returns success/failure.
+- Submission: After the form is saved, Freeform links the payment to the submission so it appears in the control panel.
+
+Does your project require something else? &nbsp; <PrimaryButtonWithLink to='/support/' label='Contact Us' />
+
+## Setup Instructions
+
+This guide assumes you already have [Square](https://squareup.com/) and [Square Developer](https://developer.squareup.com/console/apps) accounts.
+
+<VerticalStepWrapper>
+  <StepMarkdown>
+    ### Prepare Freeform
+
+    - Click on the **Square** integration in your Freeform control panel.
+    - Leave this page open.
+
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Set Up Square
+
+    Open another browser tab and [log into your Square Developer account](https://developer.squareup.com/console/apps):
+
+    - In the **Applications** menu, click on the large **+** button to create a new app:
+      - Provide a name for the app and click _Next_.
+      - Select _Accept Payments_ checkbox and click _Next_.
+      - Choose an option for _Find your audience_ (likely **Myself**).
+      - Click on **Complete** button.
+    - Once you're taken to the app's page, copy the **Sandbox Application ID** and **Sandbox Access token** tokens.
+    - In the navigation menu, click on **Locations**.
+      - In the right side of the page, copy the value under the **Location ID** column.
+
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Complete the Connection
+
+    - Switch back to the Square integration inside Freeform, and paste the Square tokens into the **Application ID**, **Access Token** and **Location ID** settings.
+    - If you plan on testing the integration in sandbox mode (recommended), enable the **Use Sandbox** setting.
+    - Click the **Save** button.
+    - After the integration is saved, you should see an **Authorize** button at the top of the page.
+    - Click **Authorize**.
+    - If successful, the flag at the top will turn green and display _Authorized_.
+    
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/square-settings.jpg')}
+      alt="Square settings in Freeform"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Configure the Form
+
+    To use this integration on your form(s), configure each form individually:
+
+    - Open the form in the form builder.
+    - Click the **Integrations** tab.
+    - Click **PayPal** in the list of available integrations.
+    - Toggle the _Enable_ setting ON.
+    - Add a **PayPal** field to your form layout and configure as needed.
+    - Save the form.
+    
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/square-builder.jpg')}
+      alt="Square field settings in Freeform form builder"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Sandbox Testing
+
+    - Open your form on the front end.
+    - Fill out the form as usual.
+    - To test the credit card field, refer to [Square's Sandbox Payments](https://developer.squareup.com/docs/devtools/sandbox/payments) docs for test card numbers.
+    - Complete the transaction.
+
+  </StepMarkdown>
+</VerticalStepWrapper>
