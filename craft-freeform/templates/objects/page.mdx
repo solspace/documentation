@@ -2,45 +2,76 @@
 sidebar_position: 3
 ---
 
-# Page object
+# Page Object
 
-The Page object contains all of the [Rows](./row.mdx) assigned to it in the [form builder](../../forms/builder.mdx). It also contains the index of the page and its label.
+The **Page** object represents a single page within a [multi-page](../../forms/builder.mdx#multi-page-forms) Freeform form. Each page contains all of the [Rows](./row.mdx) and their corresponding [Fields](./field.mdx) assigned to it in the [Form Builder](../../forms/builder.mdx).
+
+If your form only has one page, there will still be one `Page` object available.
+
+You can iterate over the entire `form` or use `form.currentPage` for the active page — both are valid depending on context. When using multi-page forms, navigation and progress tracking typically use `form.pages` and `form.currentPage`.
+
+## Overview
+
+- Each **Page** contains one or more [Rows](./row.mdx).  
+- A Page has a `label` (its title) and an `index` (starting from `0`).  
+- You can iterate over the **Page** object directly or use the `getRows()` method to access its rows.
 
 ## Properties
 
 ### `index`
+Returns the zero-based index of the page. The first page returns `0`, the second page returns `1`, and so on. E.g. `{{ form.currentPage.index }}`.
 
-The index of the page (Starts from `0`).
+:::info
+You can display user-friendly page numbers by adding `+ '1'` in Twig.
+
+```twig
+{{ page.index + '1' }}
+```
+:::
 
 ### `label`
-
-Output the label of the page.
+Outputs the display label of the page, as defined in the form builder. E.g. `{{ form.currentPage.label }}`.
 
 ## Methods
 
 ### `getRows()`
 
-Use this to iterate over all [Rows](./row.mdx) in this page. You can also just iterate over the [Page](./page.mdx) object to yield the same results (examples provided below).
-
-## Usage in Templates
-
-### Page Label & Index
-
-Render the page label and its index:
+Returns all [Rows](./row.mdx) assigned to this page. You can use this method directly, or iterate over the page itself. Both yield the same result.
 
 ```twig
-{{ form.currentPage.label }}
-{{ form.currentPage.index }}
+{% for row in form.currentPage.getRows() %}
+  {% for field in row %}
+    {{ field.label }}
+  {% endfor %}
+{% endfor %}
 ```
 
-### All Form Pages
-
-Render all form pages and add a class to the currently shown page:
+This is equivalent to:
 
 ```twig
-<ul>
+{% for row in form.currentPage %}
+  {% for field in row %}
+    {{ field.label }}
+  {% endfor %}
+{% endfor %}
+```
+
+## Usage Examples
+
+### Page Label and Index
+
+```twig
+<p>Page {{ form.currentPage.index + 1 }}: {{ form.currentPage.label }}</p>
+```
+
+### Display All Form Pages
+
+Render a list of all pages in the form and visually indicate the active one. This example can be styled as a progress indicator or navigation header for multi-page forms.
+
+```twig
+<ul class="freeform-pages">
   {% for page in form.pages %}
-    <li>
+    <li class="{{ page.index == form.currentPage.index ? 'active' }}">
       {% if form.currentPage.index == page.index %}
         <a href="javascript:;">{{ page.label }}</a>
       {% else %}
@@ -51,9 +82,9 @@ Render all form pages and add a class to the currently shown page:
 </ul>
 ```
 
-### All Fields for Current Page
+### All Fields in the Current Page
 
-Iterate through all rows and its fields of the current page:
+Render all fields from all rows in the currently active page:
 
 ```twig
 {% for row in form.currentPage %}
@@ -61,13 +92,14 @@ Iterate through all rows and its fields of the current page:
     {% for field in row %}
       <div class="field">
         {{ field.label }}
+        {{ field.renderInput() }}
       </div>
     {% endfor %}
   </div>
 {% endfor %}
 ```
 
-Iterating over the form yields the same results:
+Or equivalently (since iterating over the form automatically renders the current page):
 
 ```twig
 {% for row in form %}
@@ -75,16 +107,15 @@ Iterating over the form yields the same results:
     {% for field in row %}
       <div class="field">
         {{ field.label }}
+        {{ field.renderInput() }}
       </div>
     {% endfor %}
   </div>
 {% endfor %}
 ```
 
-### Total Pages in Form
-
-How to display the total number of pages in a form:
+### Total Number of Pages
 
 ```twig
-{{ form.pages|length }}
+Total pages: {{ form.pages|length }}
 ```

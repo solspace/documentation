@@ -1,0 +1,89 @@
+---
+title: 'Forms Queries'
+sidebar_position: 2
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Forms Queries<Badge type="feature" text="Improved in 5.13+" />
+
+The `Forms` query allows you to retrieve a list of Freeform forms in your Twig templates. You can display all forms, filter by specific form groups, or use the results to build navigation menus, dashboards, or form selection lists.
+
+## Parameters
+
+### `group`<Badge type="feature" text="New in 5.13+" />
+
+Filters the results by one or more form groups. You can pass the **group ID**, the **group label**, or an **array** of either. If the `group` parameter isn't provided, **all forms** available on the current site will be returned.
+
+## Examples
+
+- [Get All Forms](#get-all-forms)
+- [Get Forms by Group ID](#get-forms-by-group-id)
+- [Get Forms by Multiple Groups](#get-forms-by-multiple-groups)
+- [Get Forms by Group Label](#get-forms-by-group-label)
+- [Display Forms Grouped by Form Group](#display-forms-grouped-by-form-group)
+
+### Get All Forms
+
+```twig
+{% set forms = freeform.forms() %}
+
+{% for form in forms %}
+  <p>{{ form.name }}</p>
+{% endfor %}
+```
+
+### Get Forms by Group ID<Badge type="feature" text="New in 5.13+" />
+
+```twig
+{% set formsInGroup = freeform.forms({ group: 3 }) %}
+
+{% for form in formsInGroup %}
+  <p>{{ form.name }}</p>
+{% endfor %}
+```
+
+### Get Forms by Multiple Groups<Badge type="feature" text="New in 5.13+" />
+
+```twig
+{% set forms = freeform.forms({ group: [1, 2, 3] }) %}
+
+{% for form in forms %}
+  <p>{{ form.name }}</p>
+{% endfor %}
+```
+
+### Get Forms by Group Label<Badge type="feature" text="New in 5.13+" />
+
+```twig
+{% set forms = freeform.forms({ group: 'Marketing Forms' }) %}
+
+{% for form in formsInGroup %}
+  <p>{{ form.name }}</p>
+{% endfor %}
+```
+
+### Display Forms Grouped by Form Group<Badge type="feature" text="New in 5.13+" />
+
+When combining with the [formGroups query](../queries/form-groups.mdx), you can display a list of all forms, grouped by form groups.
+
+```twig
+<ul class="freeform-form-groups">
+  {% for group in freeform.formGroups %}
+    <li>
+      <h3>{{ group.label }}</h3>
+
+      {% set formsInGroup = freeform.forms({ group: group.id }) %}
+      {% if formsInGroup|length %}
+        <ul>
+          {% for form in formsInGroup %}
+            <li>{{ form.name }} ({{ form.handle }})</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p><em>No forms in this group.</em></p>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+```
