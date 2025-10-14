@@ -2,13 +2,24 @@
 sidebar_position: 5
 ---
 
-# Row object
+# Row Object
 
-The Row object contains all of the [Fields](./field.mdx) assigned to it in the form builder. It can contain up to 4 fields/columns. The Row object doesn't contain any properties, methods or non render field types such as a [Hidden](../../forms/fields.mdx#hidden) fields. Instead, it's an iterable object where you have to iterate over it to get the [Fields](./field.mdx) contained within.
+The **Row** object represents a single row inside a Freeform form layout. Each row can usually contain up to **four fields/columns**, depending on how the form was configured in the form builder. This number could also be larger than `4` if configured that way, but it's not recommended.
+
+Rows do not include additional metadata or special methods. They are simple iterable objects that contain the [Field](./field.mdx) objects assigned to that row.
+
+## Overview
+
+- Each **Row** usually contains between `1` and `4` [Field](./field.mdx) objects.
+- Rows do **not** include non-renderable fields such as [Hidden fields](../../forms/fields.mdx#hidden).
+- The object itself does not expose properties or methods. It's meant to be **iterated** over in Twig templates.
+- Rows exist within a [Page](./page.mdx), which exists within a [Form](./form.mdx). The hierarchy is: `Form` → `Page` → `Row` → `Field`.
 
 ## Usage in Templates
 
-Render all rows and fields of the currently active page within a form:
+### Basic Example
+
+Render all rows and fields from the currently active page in a form:
 
 ```twig
 {% for row in form %}
@@ -16,6 +27,28 @@ Render all rows and fields of the currently active page within a form:
     {% for field in row %}
       <div class="field">
         {{ field.label }}
+        {{ field.renderInput() }}
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}
+```
+
+### Real-World Example
+
+Below is a more practical example with semantic HTML and classes for grid layouts (e.g. Tailwind, Bootstrap, etc.). This shows how you might dynamically set the number of grid columns based on the number of fields in each row.
+
+```twig
+{% for row in form %}
+  <div class="freeform-row grid grid-cols-{{ row|length }} gap-4">
+    {% for field in row %}
+      <div class="freeform-field">
+        <label for="{{ field.id }}">{{ field.label }}</label>
+        {{ field.renderInput() }}
+        {% if field.instructions %}
+          <small class="freeform-instructions">{{ field.instructions }}</small>
+        {% endif %}
+        {{ field.renderErrors() }}
       </div>
     {% endfor %}
   </div>

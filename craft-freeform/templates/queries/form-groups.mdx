@@ -1,0 +1,73 @@
+---
+title: 'Form Groups Queries'
+sidebar_position: 3
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Form Groups Queries<Badge type="feature" text="New in 5.13+" />
+
+The `formGroups` query returns all available form groups for the current site. Each group includes its **ID**, **label**, **order**, and a list of associated **form IDs** This is useful for displaying categorized lists of forms.
+
+Groups and form assignments can be managed in the Freeform control panel under [Forms → Groups](../../forms/builder.mdx#form-groups).
+
+## Properties
+
+### `id`
+
+The group's unique ID.
+
+### `label`
+
+The display label for the group.
+
+### `order`
+
+The display order (as set in the control panel).
+
+### `formIds`
+
+An array of form IDs assigned to the group.
+
+
+## Examples
+
+### List of Groups
+
+```twig
+{% set groups = freeform.formGroups %}
+
+<ul>
+  {% for group in groups %}
+    <li>
+      <strong>{{ group.label }}</strong>
+      <small>(ID: {{ group.id }})</small>
+    </li>
+  {% endfor %}
+</ul>
+```
+
+### Display Forms Grouped by Form Group
+
+When combining with the [forms query](../queries/forms.mdx), you can display a list of all forms, grouped by form groups.
+
+```twig
+<ul class="freeform-form-groups">
+  {% for group in freeform.formGroups %}
+    <li>
+      <h3>{{ group.label }}</h3>
+
+      {% set formsInGroup = freeform.forms({ group: group.id }) %}
+      {% if formsInGroup|length %}
+        <ul>
+          {% for form in formsInGroup %}
+            <li>{{ form.name }} ({{ form.handle }})</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p><em>No forms in this group.</em></p>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+```

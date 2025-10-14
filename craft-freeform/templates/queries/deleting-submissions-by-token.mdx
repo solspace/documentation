@@ -1,17 +1,54 @@
 ---
-sidebar_position: 3
+sidebar_position: 6
 ---
 
 # Deleting Submissions By Token
 
-Freeform includes a way for users to delete their own submissions. This can be done with the **token** feature. A typical setup might have you include a link inside an email notification sent to a user that filled out a form. You would include the `submission.token` in the URL you generate that is linked to a template with the below example code to allow the user to delete their own submission.
+Freeform allows users to delete their own submissions securely using a **unique token** associated with each submission. This is especially useful when you want to include a _Delete my submission_ or _Withdraw my entry_ link inside an email notification sent to the user after form submission.
 
-```twig showLineNumbers
-{% set token = craft.app.request.segment(4) %}
+## How It Works
+
+Every Freeform submission includes a unique token (`submission.token`) that can be used to identify it without requiring the user to log in. You can pass this token as part of a URL to a front-end template that handles the deletion logic.
+
+Tokens are automatically generated securely and unique per submission. There's no need for user authentication if the token is only shared privately (e.g., in an email sent to that user).
+
+Once deleted, the submission and its token are no longer valid.
+
+## Example
+
+For example, inside an **email notification**, you could include a link to a template that contains the logic to delete the submission when visited:
+
+```twig title="Email Notification Template"
+<p>If you wish to remove your submission, click the link below:</p>
+<p><a href="https://example.com/submission/delete/{{ submission.token }}">
+  Delete My Submission
+</a></p>
+```
+
+The template located at `/submissions/delete` would contain the following logic:
+
+```twig title="/submissions/delete.twig"
+{% set token = craft.app.request.segment(3) %}
 
 {% if freeform.deleteSubmissionByToken(token) %}
-	Removed successfully
+  <p>✅ Submission removed successfully.</p>
 {% else %}
-	Nothing to remove
+  <p>⚠️ Nothing to remove or invalid token.</p>
+{% endif %}
+```
+
+:::info
+Adjust the segment number for `craft.app.request.segment(3)` depending on your URL pattern.
+:::
+
+You can customize the success and failure messages, or redirect users instead of displaying text directly:
+
+```twig {4,6} title="/submissions/delete.twig"
+{% set token = craft.app.request.segment(3) %}
+
+{% if freeform.deleteSubmissionByToken(token) %}
+  {% redirect '/thank-you/deleted' %}
+{% else %}
+  {% redirect '/error/invalid-token' %}
 {% endif %}
 ```
