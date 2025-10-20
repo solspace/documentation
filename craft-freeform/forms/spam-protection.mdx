@@ -58,6 +58,11 @@ Freeform includes a variety of robust spam control features to make managing for
       title: 'Blocked IP Addresses',
       link: '#spam-blocking',
     },
+    {
+      icon: 'snaptcha',
+      title: 'Snaptcha',
+      link: '#snaptcha',
+    },
   ]}
 />
 
@@ -266,3 +271,29 @@ If you're interested in using any of the following captchas, please click on the
     },
   ]}
 />
+
+## Snaptcha
+
+Freeform is compatible with the [Snaptcha plugin](https://plugins.craftcms.com/snaptcha) if you wish to use it for spam protection.
+
+When using AJAX-based forms, you'll need to refresh Snaptcha after each submission to allow users to resubmit the form (for example, if validation fails or they submit multiple times). The Snaptcha docs provide a [guide for this in their AJAX Requests documentation](https://putyourlightson.com/plugins/snaptcha#ajax-requests).
+
+To handle this automatically, add the following JavaScript after your form or the `{{ form.renderClosingTag }}` tag in your template:
+
+```js
+{% js %}
+  document.addEventListener('freeform-ajax-after-submit', async () => {
+    const snaptchaInput = document.querySelector('input[name="snaptcha"]');
+
+    if (snaptchaInput) {
+      const nameResponse = await fetch('/actions/snaptcha/field/get-field-name');
+      const valueResponse = await fetch('/actions/snaptcha/field/get-field-value');
+
+      snaptchaInput.name = await nameResponse.text();
+      snaptchaInput.value = await valueResponse.text();
+    }
+  });
+{% endjs %}
+```
+
+This script listens for Freeform's `freeform-ajax-after-submit` event and refreshes the Snaptcha field's name and value, ensuring the form can be submitted again without requiring a full page reload.
