@@ -36,7 +36,7 @@ protected array $favoriteFoods = ['sushi', 'pizza'];
 The `#[Checkboxes]` attribute also takes additional optional parameters, such as:
 - `selectAll` - which adds a "Select All" checkbox at the top of the list, toggling all choices on or off.
 - `columns` - which lets you specify how many columns the checkboxes should be displayed in.
-- `options` - can be an associative array or an [Options Generator](#option-generators) class that handles generating options.
+- `options` - can be an associative array or an [Options Generator](./generators-and-transformers.mdx#option-generators) class that handles generating options.
 
 ```php showLineNumbers
 use MyModule\Options\FoodOptionsGenerator;
@@ -62,7 +62,7 @@ protected array $favoriteFoods = ['sushi', 'pizza'];
 />
 
 :::info
-You could also set up a [`#[ValueGenerator]`](#value-generators) attribute to pre-select certain options when the field is first created.
+You could also set up a [`#[ValueGenerator]`](./generators-and-transformers.mdx#value-generators) attribute to pre-select certain options when the field is first created.
 Instead of manually entering the selected values, we would read the values that the option generator would generate
 and select the first two options by default.
 :::
