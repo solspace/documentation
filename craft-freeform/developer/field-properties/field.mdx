@@ -1,0 +1,40 @@
+---
+title: 'Field'
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+The `#[Field]` property type will render a dropdown of all the currently available form fields, letting you pick one.
+This goes hand in hand in hand with the `FieldTransformer` [value transformer](./generators-and-transformers.mdx#value-transformers),
+which will convert the selected field uid into the actual Field object when accessed in code.
+
+To narrow down the possible list of fields shown in the dropdown, you can use the `implements` parameter to specify
+one or more interfaces that the target field must implement, to be listed.
+
+
+```php showLineNumbers
+use Solspace\Freeform\Attributes\Property\Implementations\Field\FieldTransformer;
+use Solspace\Freeform\Attributes\Property\Input\Field;
+use Solspace\Freeform\Attributes\Property\ValueTransformer;
+// ...
+
+#[ValueTransformer(FieldTransformer::class)]
+#[Input\Field(
+    label: 'Field Selector',
+    instructions: 'Select a text or email field.',
+    emptyOption: 'Select a field',
+    implements: [
+        TextInterface::class,
+        RecipientInterface::class,
+    ],
+)]
+protected ?FieldInterface $targetField = null;
+```
+
+#### Result
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/field.png')}
+  alt="Field Property Editor Preview"
+  unscaled
+/>

@@ -1,0 +1,59 @@
+---
+title: 'Dynamic Select'
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+The `#[DynamicSelect]` property type will render a dropdown that populates its options from an endpoint.
+You can also configure it to read other properties from the same field to pass as parameters to the endpoint.
+Each time a property that is used in this select changes, the options will be re-fetched from the endpoint.
+
+:::warning
+Currently, the endpoint will always start from the `/admin/freeform` base path if a relative URL is used.
+So if your endpoint is `/api/foods`, the full URL will be `/admin/freeform/api/foods`.
+Make sure your endpoint is accessible from that path, or use an absolute URL instead.
+
+Please contact us if this is a problem for your use case.
+:::
+
+```php showLineNumbers
+use Solspace\Freeform\Attributes\Property\Input\DynamicSelect;
+// ...
+
+#[DynamicSelect(
+    label: 'Select a food',
+    instructions: 'Choose your favorite food from the list.',
+    emptyOption: 'Please select your favorite food...',
+    source: 'http://localhost:3000/api/foods',
+    parameterFields: [
+        'properties.defaultValue' => 'defaultValue',
+        'properties.value' => 'currentValue',
+        'properties.label' => 'label',
+    ],
+)]
+protected string $favoriteFood = '';
+```
+
+The `parameterFields` option is an associative array where the keys are the property paths to read from the current field,
+and the values are the parameter names to send to the endpoint.
+
+The resulting url call would look like this for a Form with ID `123` if the field had the following properties:
+- `defaultValue = "sushi"`
+- `value = "pizza"`
+- `label = "Choose your favorite food"`
+
+```
+http://localhost:3000/api/foods?formId=123&defaultValue=sushi&currentValue=pizza&label=Choose+your+favorite+food
+```
+
+#### Result
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/dynamic-select.png')}
+  alt="Dynamic Select Property Editor Preview"
+  unscaled
+/>
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/dynamic-select-response.png')}
+  alt="Dynamic Select Response"
+  unscaled
+/>

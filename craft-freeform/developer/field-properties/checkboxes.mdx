@@ -1,0 +1,85 @@
+---
+title: 'Checkboxes'
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+
+The `#[Checkboxes]` property type will render a list of checkboxes in the field properties panel.
+
+```php showLineNumbers
+use Solspace\Freeform\Attributes\Property\Input\Checkboxes;
+// ...
+
+#[Input\Checkboxes(
+    label: 'Preferred Food',
+    instructions: 'Check as many values as apply to you here.',
+    options: [
+        'shrimp' => 'Shrimp foods',
+        'rice' => 'Enjoying some Rice',
+        'pizza' => 'Pizza is the best',
+        'salad' => 'Salad is healthy',
+        'burger' => 'Burger is a soul food',
+        'sushi' => 'Sushi is my favorite',
+        'noodles' => 'Noodles are king',
+    ],
+)]
+protected array $favoriteFoods = ['sushi', 'pizza'];
+```
+
+#### Result
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/checkboxes-editor-preview-basic.png')}
+  alt="Checkboxes Property Editor Preview"
+  unscaled
+/>
+
+The `#[Checkboxes]` attribute also takes additional optional parameters, such as:
+- `selectAll` - which adds a "Select All" checkbox at the top of the list, toggling all choices on or off.
+- `columns` - which lets you specify how many columns the checkboxes should be displayed in.
+- `options` - can be an associative array or an [Options Generator](#option-generators) class that handles generating options.
+
+```php showLineNumbers
+use MyModule\Options\FoodOptionsGenerator;
+// ...
+
+#[Input\Checkboxes(
+    label: 'Preferred Food',
+    instructions: 'Check as many values as apply to you here.',
+    // highlight-start
+    selectAll: true,
+    columns: 2,
+    options: FoodOptionsGenerator::class,
+    // highlight-end
+)]
+protected array $favoriteFoods = ['sushi', 'pizza'];
+```
+
+#### Result with Additional Parameters
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/checkboxes-editor-preview-advanced.png')}
+  alt="Checkboxes Property Editor Preview with Additional Parameters"
+  unscaled
+/>
+
+:::info
+You could also set up a [`#[ValueGenerator]`](#value-generators) attribute to pre-select certain options when the field is first created.
+Instead of manually entering the selected values, we would read the values that the option generator would generate
+and select the first two options by default.
+:::
+
+```php showLineNumbers
+use MyModule\Options\FoodOptionsGenerator;
+use MyModule\Values\FirstTwoFoodValuesGenerator;
+// ...
+
+// highlight-next-line
+#[ValueGenerator(FirstTwoFoodValuesGenerator::class)]
+#[Input\Checkboxes(
+    label: 'Preferred Food',
+    instructions: 'Check as many values as apply to you here.',
+    selectAll: true,
+    columns: 2,
+    options: FoodOptionsGenerator::class,
+)]
+protected array $favoriteFoods = [];
+```

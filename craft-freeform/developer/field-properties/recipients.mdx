@@ -1,0 +1,36 @@
+---
+title: 'Recipients'
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+The `#[Recipients]` property type will render a specialized input field, that validates emails and lets the user
+enter many emails by pressing `enter` and adding another recipient input.
+
+:::info
+It is recommended to use a [`#[ValueTransformer]`](#value-transformers) to convert the string input
+from this property into a `RecipientCollection` object for easier handling of the recipients in code.
+:::
+
+```php showLineNumbers
+use Solspace\Freeform\Attributes\Property\Implementations\Notifications\Recipients\RecipientTransformer;
+use Solspace\Freeform\Attributes\Property\Input\Recipients;
+use Solspace\Freeform\Attributes\Property\ValueTransformer;
+use Solspace\Freeform\Notifications\Components\Recipients\RecipientCollection;
+// ...
+
+#[ValueTransformer(RecipientTransformer::class)]
+#[Recipients(
+    label: 'Recipients',
+    instructions: 'List the recipients of this notification.',
+)]
+protected RecipientCollection $recipients;
+```
+
+#### Result
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/recipients.png')}
+  alt="Recipients Property Editor Preview"
+  unscaled
+/>

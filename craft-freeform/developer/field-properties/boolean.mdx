@@ -1,0 +1,27 @@
+---
+title: 'Boolean'
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+
+The `#[Boolean]` property type will render a lightswitch input in the field properties panel.
+
+```php showLineNumbers
+use Solspace\Freeform\Attributes\Property\Input\Boolean;
+// ...
+
+#[Boolean(
+    label: 'Is Required',
+    instructions: 'Enable this to make the field required.',
+)]
+protected bool $isRequired = false;
+```
+
+#### Result
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/boolean-editor-preview.png')}
+  alt="Boolean Property Editor Preview"
+  unscaled
+/>
+
+The default value will be inferred from the PHP's property value, in this case `false`.

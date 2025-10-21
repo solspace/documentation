@@ -1,0 +1,115 @@
+---
+title: 'Generators and Transformers'
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+When building more complex properties, you might want to create your own options generator or value
+transformer. These can be done by implementing the appropriate interfaces and passing them to the
+property attribute.
+
+### Option Generators
+
+An Options Generator is a class that implements the `OptionsGeneratorInterface` and is
+responsible for generating the options for properties such as `#[Select]`, `#[Checkboxes]`, etc.
+
+```php showLineNumbers title="MyModule\Options\FoodOptionsGenerator.php"
+<?php
+
+namespace MyModule\Options;
+
+use Solspace\Freeform\Attributes\Property\Implementations\Options\OptionCollection;
+use Solspace\Freeform\Attributes\Property\Implementations\Options\OptionsGeneratorInterface;
+use Solspace\Freeform\Attributes\Property\Property;
+
+class CurrencyOptionsGenerator implements OptionsGeneratorInterface
+{
+    public function fetchOptions(?Property $property): OptionCollection
+    {
+        static $favoriteFoods;
+        if (null === $favoriteFoods) {
+            // a json with key-value pairs of food options
+            // { "shrimp": "Shrimp foods", "rice": "Enjoying some Rice", ... }
+            $favoriteFoods = json_decode(file_get_contents(__DIR__.'/favorite_foods.json'), true);
+        }
+
+        $collection = new OptionCollection();
+        foreach ($favoriteFoods as $value => $label) {
+            $collection->add($value, $label);
+        }
+
+        return $collection;
+    }
+}
+```
+
+The method with which you generate these options is entirely up to you. It could be an external API call,
+a database query, or simply reading from a file as shown above.
+
+### Value Generators
+
+A Value Generator is a class that implements the `ValueGeneratorInterface` and is
+responsible for generating default values for properties when a field is first created.
+
+```php showLineNumbers title="MyModule\Values\FirstTwoFoodValuesGenerator.php"
+<?php
+
+namespace MyModule\Values;
+
+use Solspace\Freeform\Attributes\Property\ValueGeneratorInterface;
+
+class FirstTwoFoodValuesGenerator implements ValueGeneratorInterface
+{
+    public function generateValue(?object $referenceObject, ?object $context): ?array
+    {
+        // read the `favorite_foods.json` file and return the first two keys as default selected values
+        $favoriteFoods = json_decode(file_get_contents(__DIR__.'/favorite_foods.json'), true);
+
+        return array_slice(array_keys($favoriteFoods), 0, 2);
+    }
+}
+```
+
+### Value Transformers
+
+A Value Transformer is a class that implements the `ValueTransformerInterface` and is
+capable of transforming the raw builder JSON value into a PHP type of your choice and vice versa.
+
+```php showLineNumbers title="MyModule\Transformers\DateTimeTransformer.php"
+<?php
+
+namespace MyModule\Transformers;
+
+use DateTime;
+use DateTimeInterface;
+use Solspace\Freeform\Attributes\Property\TransformerInterface;
+
+class DateTimeTransformer implements TransformerInterface
+{
+    public function transform($value, ?Form $form = null): ?DateTime
+    {
+        if (!$value) {
+            return null;
+        }
+
+        try {
+            return new DateTime($value);
+        } catch (\Exception) {
+            return null;
+        }
+    }
+
+    public function reverseTransform($value): ?string
+    {
+        if ($value instanceof DateTime) {
+            return $value->format(DateTimeInterface::ATOM);
+        }
+
+        if (\is_string($value)) {
+            return $value;
+        }
+
+        return null;
+    }
+}
+```
