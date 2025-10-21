@@ -1,0 +1,62 @@
+---
+title: 'Tabular Data'
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+The `#[TabularData]` property type will render a specialized input field that allows users to input and manage
+data in a table format. This is particularly useful for fields that require structured data input.
+
+```php showLineNumbers
+use Solspace\Freeform\Attributes\Property\Input\TabularData;
+// ...
+
+#[TabularData(
+    label: 'Users',
+    instructions: 'Enter user records.',
+    value: [],
+    configuration: [
+        [
+            'key' => 'id',
+            'label' => 'ID',
+        ],
+        [
+            'key' => 'username',
+            'label' => 'Username',
+        ],
+        [
+            'key' => 'email',
+            'label' => 'Email',
+        ],
+    ],
+)]
+protected array $users = [];
+```
+
+The resulting data will be stored as an array of associative arrays, where each associative array represents a row in the table,
+with keys corresponding to the column keys defined in the configuration.
+
+```json
+{
+  "users": [
+    [
+      "1001",
+      "johnsmith",
+      "john@smith.com"
+    ],
+    [
+      "1010",
+      "janedoe",
+      "jane@doe.com"
+    ]
+  ]
+}
+```
+
+#### Result
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/table.png')}
+  alt="Tabular Data Property Editor Preview"
+  unscaled
+/>

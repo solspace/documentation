@@ -1,0 +1,38 @@
+---
+title: 'WYSIWYG'
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+The `#[Wysiwyg]` property type will render a rich text editor input field in the field properties panel,
+allowing you to define formatted text values. It is powered by TinyMCE, providing a user-friendly interface for content editing.
+
+There are several configuration options available for the WYSIWYG editor, such as enabling the menu bar,
+status bar, and customizing the toolbar using predefined configurations.
+
+- `menu` (`bool`): Enables or disables the menu bar at the top of the editor.
+- `statusbar` (`bool`): Enables or disables the status bar at the bottom of the editor.
+- `toolbar` (`string|array|ToolbarConfigurationInterface`): Specifies the toolbar configuration class to use for the editor.
+
+```php showLineNumbers
+use Solspace\Freeform\Attributes\Property\Input\Wysiwyg;
+use Solspace\Freeform\Form\Settings\Implementations\Toolbars\RichTextToolbarConfiguration;
+// ...
+
+#[Wysiwyg(
+    label: 'Content',
+    instructions: 'The HTML content to be rendered',
+    menu: true,
+    statusbar: true,
+    toolbar: RichTextToolbarConfiguration::class,
+)]
+protected ?string $content = '';
+```
+
+#### Result
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/wysiwyg.png')}
+  alt="WYSIWYG Property Editor Preview"
+  unscaled
+/>

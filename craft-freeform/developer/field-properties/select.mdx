@@ -1,0 +1,41 @@
+---
+title: 'Select'
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+The `#[Select]` property type will render a dropdown select input in the field properties panel.
+Very similar to the `#[Checkboxes]` property type, but only allowing a single selection.
+
+:::info
+You can use an [`#[OptionGenerator]`](./generators-and-transformers.mdx#option-generators) attribute to dynamically populate the options for the select input.
+:::
+
+:::info
+You can use a [`#[ValueGenerator]`](./generators-and-transformers.mdx#value-generators) attribute to pre-select a default option when the field is first created.
+:::
+
+```php showLineNumbers
+use Solspace\Freeform\Attributes\Property\Input\Select;
+// ...
+
+#[Select(
+    label: 'Color Scheme',
+    instructions: 'Select the color scheme for this field.',
+    emptyOption: 'Select a color scheme...',
+    options: [
+        'light' => 'Light',
+        'dark' => 'Dark',
+        'system' => 'System Default',
+    ],
+)]
+protected string $colorScheme = 'light';
+```
+
+#### Result
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/select.png')}
+  alt="Select Property Editor Preview"
+  unscaled
+/>

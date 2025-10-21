@@ -1,0 +1,29 @@
+---
+title: 'TextArea'
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+The `#[TextArea]` property type will render a multi-line text area input field in the field properties panel,
+allowing you to define longer text values.
+
+```php showLineNumbers
+use Solspace\Freeform\Attributes\Property\Input\TextArea;
+// ...
+
+#[TextArea(
+    label: 'Lorem Ipsum',
+    instructions: 'Enter Lorem Ipsum text here.',
+    placeholder: 'Lorem ipsum...',
+    rows: 5,
+)]
+protected ?string $loremIpsum = null;
+```
+
+#### Result
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/textarea.png')}
+  alt="Textarea Property Editor Preview"
+  unscaled
+/>

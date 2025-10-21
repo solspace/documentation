@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
-import Image from '@theme/IdealImage';
-import { ThemedComponent } from '@docusaurus/theme-common';
-import { Props as ThemedImageProps } from '@theme/ThemedImage';
+import React, { useState } from "react";
+import Image from "@theme/IdealImage";
+import { ThemedComponent } from "@docusaurus/theme-common";
+import { Props as ThemedImageProps } from "@theme/ThemedImage";
 
 const Photo = (props) => {
-  const { scale, ...otherProps } = props;
+  const { scale, unscaled, ...otherProps } = props;
 
   const style = scale
-    ? ({ '--scale': `${scale}%` } as React.CSSProperties)
+    ? ({ "--scale": `${scale}%` } as React.CSSProperties)
     : {};
 
+  if (unscaled) {
+    return (
+      <div className="photo-unscaled" style={{ marginBottom: "1rem" }}>
+        <Image {...props} />
+      </div>
+    );
+  }
+
   return (
-    <div className={`photo ${scale ? 'photo--scaled' : ''}`} style={style}>
+    <div className={`photo ${scale ? "photo--scaled" : ""}`} style={style}>
       <Image {...otherProps} />
     </div>
   );
@@ -26,7 +34,7 @@ const HoverPhotoChange = ({ children }) => {
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={{ cursor: 'pointer' }}
+      style={{ cursor: "pointer" }}
     >
       {isHovered ? hoverChild : normalChild}
     </div>

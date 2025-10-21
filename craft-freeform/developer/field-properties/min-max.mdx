@@ -1,0 +1,30 @@
+---
+title: 'Min/Max'
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+The `#[MinMax]` property type will render a pair of numeric input fields in the field properties panel,
+allowing you to define minimum and maximum values.
+
+```php showLineNumbers
+use Solspace\Freeform\Attributes\Property\Input\MinMax;
+// ...
+
+#[MinMax(
+    label: 'Age Range',
+    instructions: 'Select the age range.',
+)]
+protected array $ageRange = [null, null];
+```
+
+The resulting range will be stored as an array with two elements: the first being the minimum value,
+and the second being the maximum value.
+
+#### Result
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/min-max.png')}
+  alt="Min/Max Property Editor Preview"
+  unscaled
+/>

@@ -80,7 +80,13 @@ Here we have a barebones CRM integration type defined. There are 4 methods that 
 <StepMarkdown>
 ### Authorization
 
-We likely will need some sort of authorization mechanism to be able to push data to our endpoint. For this example, we will assume that a simple access token is enough. Let's add a property that will store our `accessToken` in the database in an encrypted format.
+We likely will need some sort of authorization mechanism to be able to push data to our endpoint.
+For this example, we will assume that a simple access token is enough. Let's add a property that will store
+our `accessToken` in the database in an encrypted format.
+
+:::info
+To learn more about adding properties to your integration types, check out the [Field Properties](./field-properties/index.mdx) documentation.
+:::
 
 ```php showLineNumbers
 // ...
@@ -566,9 +572,7 @@ The file structure used in this example:
   └── Module.php
 ```
 
-Contents of the `server.php` file:
-
-```php showLineNumbers
+```php showLineNumbers title="/modules/ApiMock/server.php"
 <?php
 
 header('Content-Type: application/json');
@@ -616,9 +620,7 @@ echo match ($url) {
 };
 ```
 
-Contents of the `CustomCrmIntegration.php` file:
-
-```php showLineNumbers
+```php showLineNumbers title="/modules/CRM/CustomCrmIntegration.php"
 <?php
 
 namespace modules\CRM;

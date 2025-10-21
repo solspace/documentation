@@ -1,0 +1,37 @@
+---
+title: 'Notifictation Template'
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+The `#[NotificationTemplate]` property type will render a dropdown in the field properties panel,
+allowing you to select from the available notification templates within Freeform.
+
+:::info
+To fully utilize this property type, it is recommended to also use the `NotificationTemplateTransformer`
+value transformer, which will convert the selected template ID into a `NotificationTemplate` object when accessed in code.
+:::
+
+```php showLineNumbers
+use Solspace\Freeform\Attributes\Property\Implementations\Notifications\NotificationTemplates\NotificationTemplateTransformer;
+use Solspace\Freeform\Attributes\Property\Input\NotificationTemplate;
+use Solspace\Freeform\Attributes\Property\ValueTransformer;
+use Solspace\Freeform\Library\DataObjects\NotificationTemplate;
+// ...
+
+#[ValueTransformer(NotificationTemplateTransformer::class)]
+#[NotificationTemplate(
+    label: 'Notification Template',
+    instructions: 'Select an email notification template to use for this notification.',
+    order: 3,
+)]
+protected ?NotificationTemplate $template;
+```
+
+#### Result
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/notification-template.png')}
+  alt="Notification Template Property Editor Preview"
+  unscaled
+/>

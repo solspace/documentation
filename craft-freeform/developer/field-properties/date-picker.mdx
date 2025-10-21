@@ -1,0 +1,36 @@
+---
+title: 'Date Picker'
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+The `#[DatePicker]` property type will render a date picker in the field properties panel.
+
+:::info
+This property is a great example for using [`#[ValueTransformer]`](./generators-and-transformers.mdx#value-transformers) to convert the string input
+from the date picker into a `\DateTime` object.
+:::
+
+```php showLineNumbers
+use Solspace\Freeform\Attributes\Property\Input\DatePicker;
+// ...
+
+#[ValueTransformer(DateTimeTransformer::class)]
+#[DatePicker(
+    label: 'Pick a date',
+    instructions: 'Select a date for the default value.',
+    placeholder: 'Select a date...',
+    dateFormat: 'Y-m-d',
+    minDate: 'today',
+    maxDate: '+1 week',
+)]
+protected ?\DateTime $eventDate = null;
+```
+
+#### Result
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/datepicker.png')}
+  alt="Date Picker Property Editor Preview"
+  unscaled
+/>
