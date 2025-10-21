@@ -1,0 +1,27 @@
+---
+title: 'Hidden'
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+The `#[Hidden]` property type allows you to define a property that will not be displayed in the Freeform form
+builder's field properties panel. This comes in handy when you need to have a property who's value will be used
+by other properties or logic, and be pre-defined in code.
+
+:::info
+Generating a value for this property via a [value generator](./generators-and-transformers.mdx#value-generators)
+is a common use case for hidden properties.
+:::
+
+```php showLineNumbers
+use Solspace\Freeform\Attributes\Property\Input\Hidden;
+// ...
+
+#[Hidden(
+    label: 'Internal Identifier',
+    defaultValue: 'default-identifier',
+)]
+protected string $internalIdentifier = 'my-secret-value';
+```
+
+The above example will create a property called "Internal Identifier" that will not be shown in the field properties panel.

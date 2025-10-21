@@ -1,0 +1,39 @@
+---
+title: 'Integer'
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+The `#[Integer]` property type will render a numeric input field in the field properties panel,
+allowing only integer values to be entered.
+
+Various attributes can be set to control the behavior of the input field.
+Such as:
+
+- `min` - the minimum allowed value
+- `max` - the maximum allowed value
+- `step` - the increment step (e.g. 0.1, 0.01, etc.)
+- `unsigned` - whether the value is unsigned (`true` for positive, `false` for negative)
+
+```php showLineNumbers
+use Solspace\Freeform\Attributes\Property\Input\Integer;
+// ...
+
+#[Integer(
+    label: 'Age',
+    instructions: 'Enter your age in years.',
+    min: 0,
+    max: 120,
+    step: 1,
+    unsigned: true,
+)]
+protected ?int $age = null;
+```
+
+#### Result
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/developer/field-properties/integer.png')}
+  alt="Integer Property Editor Preview"
+  unscaled
+/>
