@@ -2472,7 +2472,7 @@ html[data-theme='dark'] .top-notice .latest-version-link:hover {
   transform: scale(1.005);
 }
 
-/* EE-Calendar */
+/* EE Renewals Chart */
 .ee-renewals-chart {
   display: flex;
   flex-flow: row;
@@ -2481,19 +2481,31 @@ html[data-theme='dark'] .top-notice .latest-version-link:hover {
 }
 
 .ee-renewals-chart > div.ee-renewals-chart-1yr {
+  background: #d2ffeb;
+  flex: 1 1 0;
+}
+[data-theme='dark'] .ee-renewals-chart > div.ee-renewals-chart-1yr {
   background: #051b11;
   flex: 1 1 0;
 }
 
 .ee-renewals-chart > div.ee-renewals-chart-2yr {
+  background: #fff4d0;
+  flex: 1 1 0;
+}
+[data-theme='dark'] .ee-renewals-chart > div.ee-renewals-chart-2yr {
   background: #332701;
   flex: 1 1 0;
 }
 
 .ee-renewals-chart > div.ee-renewals-chart-3yr {
+  background: #d8e9fb;
+  background: linear-gradient(90deg, #d8e9fb 20%, transparent 95%) !important;
+  flex: 1.75 1 0;
+}
+[data-theme='dark'] .ee-renewals-chart > div.ee-renewals-chart-3yr {
   background: #212529;
   background: linear-gradient(90deg, #212529 20%, transparent 95%) !important;
-  flex: 1.75 1 0;
 }
 
 .ee-renewals-chart > div {
@@ -2502,14 +2514,28 @@ html[data-theme='dark'] .top-notice .latest-version-link:hover {
   margin: 0;
   border-left: 2px solid #fff;
 }
+[data-theme='dark'] .ee-renewals-chart > div {
+  border-left: 2px solid #0c1016;
+}
 
 .ee-renewals-chart > div > span {
   font-size: 12px;
-  color: #fff;
-  background: rgba(18, 24, 37, 0.95);
+  color: #000;
+  background: rgba(247, 250, 255, 0.9);
   display: block;
   padding: 10px 15px 10px 5px;
   margin: -10px -15px 10px -15px;
+}
+[data-theme='dark'] .ee-renewals-chart > div > span {
+  color: #fff;
+  background: rgba(18, 24, 37, 0.95);
+}
+
+.ee-renewals-chart > div.ee-renewals-chart-3yr > span {
+  background: linear-gradient(90deg, rgba(247, 250, 255, 0.9) 20%, transparent 95%) !important;
+}
+[data-theme='dark'] .ee-renewals-chart > div.ee-renewals-chart-3yr > span {
+  background: linear-gradient(90deg, rgba(18, 24, 37, 0.95) 20%, transparent 95%) !important;
 }
 
 .ee-renewals-chart > div ul {
@@ -2582,6 +2608,9 @@ html[data-theme='dark'] .top-notice .latest-version-link:hover {
 }
 
 .ee-renewals-chart > div.ee-renewals-chart-2yr ul li {
+  color: #9c7c1d !important;
+}
+[data-theme='dark'] .ee-renewals-chart > div.ee-renewals-chart-2yr ul li {
   color: #ffda6a !important;
 }
 
