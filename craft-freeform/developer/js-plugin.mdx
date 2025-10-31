@@ -85,6 +85,8 @@ You can add your custom form handler scripts anywhere in the page. The `freeform
 If you wish to manually load the Freeform JS elsewhere in your template (rather than having Freeform automatically insert it inside the Freeform form or in the page footer), be sure to select the `None` option for the [Script Insertion Location](../configuration/settings.mdx#general-settings) setting. Then, you'll need to add the `freeform.loadFreeformPlugin()` function to your template where you'd like it to insert the JS. You can pass two variables to the function to add custom attributes to the script and style tags that Freeform generates.
 
 - `freeform.loadFreeformPlugin()` - will load Freeform's global `freeform.js` and `freeform.css` files.
+- `freeform.loadFreeformPluginJs()` - will load Freeform's global `freeform.js` file.
+- `freeform.loadFreeformPluginCss()` - will load Freeform's global `freeform.css` file.
 - `freeform.loadFormSpecificScripts(form)`<Badge type="feature" text="New in 5.5.3+" /> - will load form-specific scripts such as **reCAPTCHA** and the **JS Test** scripts, where applicable. Be sure to pass the form to this function. If `form` is already defined, you can use that.
 - `freeform.loadScripts()`<Badge type="recommended" text="Recommended" /><Badge type="feature" text="New in 5.5.4+" /> - capable of generating any of Freeform's scripts when you specify them.
   - Options are:
@@ -144,7 +146,7 @@ If you wish to generate Freeform's main scripts, the JS Test, reCAPTCHA v3 and S
 </TabItem>
 </Tabs>
 
-### `loadFreeformPlugin()` and `loadFormSpecificScripts()` Example
+### `loadFreeformPlugin()`, `loadFreeformPluginJs()`, `loadFreeformPluginCss()` and `loadFormSpecificScripts()` Example
 
 <Tabs>
 <TabItem value="ff-manual-js-loadffplugin-example" label="Example Code" default>
@@ -153,7 +155,9 @@ If you wish to generate Freeform's main scripts, the JS Test, reCAPTCHA v3 and S
 <body>
     {# your template code #}
 
-    {{ freeform.loadFreeformPlugin }}
+    {{ freeform.loadFreeformPlugin }} // or
+    {{ freeform.loadFreeformPluginJs }} // and
+    {{ freeform.loadFreeformPluginCss }}
     {{ freeform.loadFormSpecificScripts(form) }}
 </body>
 ```
