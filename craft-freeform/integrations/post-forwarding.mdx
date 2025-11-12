@@ -4,7 +4,7 @@ sidebar_position: 18
 ---
 
 import { Badge, Photo } from '@site/src/components/utils';
-import { IntegrationCards } from '@site/src/components/docs';
+import { VerticalStepWrapper, StepMarkdown, IntegrationCards } from '@site/src/components/docs';
 
 # POST Forwarding<Badge type="pro" text="Pro" />
 
@@ -12,21 +12,11 @@ Freeform includes a POST Forwarding feature, which allows your forms to automati
 
 ## Overview
 
-To use this feature, you must be using the Freeform Pro edition and have a good understanding of the service or API to which you are sending data—whether it's a third-party service or your own custom solution—and how that data is processed on their end. Some services may require additional steps, such as including JavaScript or setting cookies within your site templates. Please note that we can only provide assistance with the basic setup; we cannot help with the more detailed configurations.
+To use this feature, you must be using the Freeform Pro edition and have a good understanding of the service or API to which you are sending data, whether it's a third-party service or your own custom solution, and how that data is processed on their end. Some services may require additional steps, such as including JavaScript or setting cookies within your site templates. Please note that we can only provide assistance with the basic setup. We cannot help with the more complex configurations.
 
 :::warning
 POST forwarding transmits data in the background. If it is crucial for your project and workflow that the third-party URL be able to access a user's cookies, this method will not work.
 :::
-
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/integrations/post-forwarding-1.png')}
-  alt="Post Forwarding settings in Freeform"
-/>
-
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/integrations/post-forwarding-2.png')}
-  alt="Post Forwarding settings in the form builder"
-/>
 
 ## Settings
 
@@ -35,9 +25,11 @@ The following settings are available to you for usage of this feature:
 - **URL**
   - Provide the custom URL here to have the POST data of this form submitted to an external API.
 - **Error Trigger**
-  - Provide a keyword or phrase Freeform should check for in the output of the external POST URL to know if and when there’s an error to log, e.g. ‘error’ or ‘an error occurred’.
-- **Include Uploaded Files**
+  - Provide a keyword or phrase Freeform should check for in the output of the external POST URL to know if and when there's an error to log, e.g. `error` or `an error occurred`.
+- **Include Uploaded Files**<Badge type="feature" text="New in 5.5+" />
   - If files are present in the form submission, they will be attached to the payload and sent as multipart form data.
+
+## Data
 
 In addition to the data available for all fields of the form, the POST Forwarding feature will also include:
 
@@ -47,16 +39,42 @@ In addition to the data available for all fields of the form, the POST Forwardin
 - Submission Title (`submission-title`)
 - Submission IP Address (`submission-ip`)
 
-## Override at Template Level
+## Setup Instructions
 
-If you need to override this feature at template level for the form, use the following parameter for the [Form query](../templates/queries/form.mdx).
+<VerticalStepWrapper>
+  <StepMarkdown>
+    ### Configure Post Forwarding integration
 
-```php
-postForwarding: {
-    url: "https://somesite.com/stuff",
-    triggerPhrase: "success"
-}
-```
+    - Go to the [Integrations](../configuration/settings.mdx#integrations) section in Freeform Settings (**Freeform** → **Integrations**).
+    - Find _Post Forwarding_ in the list of **service providers**.
+    - If you'd like POST Forwarding to be enabled for all forms by default, toggle on the **Enabled by default** setting.
+    - Enter the default URL where the POST request should be sent to in the **URL** field. This can be overwritten per form inside the form builder.
+    - Provide a default keyword or phrase Freeform should check for in the output of the external POST URL to know if and when there's an error to log, e.g. `error` or `an error occurred`, etc.
+    - Save the page. This can be overwritten per form inside the form builder.
+
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/post-forwarding-setup.jpg')}
+      alt="Post Forwarding settings in Freeform"
+    />
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Enable per Form inside the Builder
+    To use this integration on your form(s), you'll need to configure each form individually. If you toggled on the **Enabled by default** setting in the Freeform Settings, it will automatically be ON for all forms. You can disable them for each form as necessary.
+
+    - Visit the form inside the form builder.
+    - Click on the **Integrations** tab.
+    - Click on **POST Forwarding** in the list of available integrations.
+    - On the right side of the page:
+        - Enable (or disable) the integration.
+        - Adjust any of the settings as needed.
+    - Save the form.
+
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/integrations/post-forwarding-builder.jpg')}
+      alt="Post Forwarding settings in the form builder"
+    />
+  </StepMarkdown>
+</VerticalStepWrapper>
 
 ## Examples
 
