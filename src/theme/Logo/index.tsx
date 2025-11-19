@@ -34,6 +34,14 @@ const logos: LogoItem[] = [
     src: 'logos/icons/calendar.png',
   },
   {
+    pathname: '/craft/ai-assistant',
+    latestVersionSlug: '/craft/ai-assistant/v1',
+    title: 'AI Assistant',
+    logoLine: 'for Craft',
+    logoLineShort: null,
+    src: 'logos/icons/ai.png',
+  },
+  {
     pathname: 'https://discontinued-docs.solspace.com/express-forms/',
     title: 'Express Forms',
     logoLine: 'for Craft',
