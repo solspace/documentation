@@ -233,15 +233,17 @@ Example response data:
 
 The following arguments are available when querying single or multiple forms:
 
-| Argument  | Type       | Description                                          |
-|-----------|------------|------------------------------------------------------|
-| `id`      | `[Int]`    | Narrow the queried forms by one or more form ID's    |
-| `uid`     | `[String]` | Narrow the queried forms by one or more form UID's   |
-| `handle`  | `[String]` | Narrow the queried forms by one or more form handles |
-| `limit`   | `Int`      | Limit the amount of returned form results            |
-| `offset`  | `Int`      | Offset the returned form results                     |
-| `orderBy` | `String`   | Order the forms by a specific property               |
-| `sort`    | `String`   | Sort by `asc` or `desc` order                        |
+| Argument      | Type       | Description                                          |
+|---------------|------------|------------------------------------------------------|
+| `id`          | `[Int]`    | Narrow the queried forms by one or more form ID's    |
+| `uid`         | `[String]` | Narrow the queried forms by one or more form UID's   |
+| `handle`      | `[String]` | Narrow the queried forms by one or more form handles |
+| `limit`       | `Int`      | Limit the amount of returned form results            |
+| `offset`      | `Int`      | Offset the returned form results                     |
+| `orderBy`     | `String`   | Order the forms by a specific property               |
+| `sort`        | `String`   | Sort by `asc` or `desc` order                        |
+| `siteIds`     | `[Int]`    | Narrow the queried forms by one or more site IDs     |
+| `siteHandles` | `[String]` | Narrow the queried forms by one or more site handles |
 
 ```graphql showLineNumbers
 query {
@@ -425,6 +427,10 @@ These are the fields available for the `FreeformFormInterface`:
 | `postForwarding`<Badge type="feature" text="New in 5.9.5+" />       | [`FreeformPostForwardingInterface`](#post-forwarding-interface)          | The Post Forwarding integration for this form                          |
 | `gtm`<Badge type="feature" text="New in 5.9.5+" />                  | [`FreeformGoogleTagManagerInterface`](#google-tag-manager-gtm-interface) | The Google Tag Manager integration for this form                       |
 | `javascriptTest`<Badge type="feature" text="New in 5.9.6+" />       | [`FreeformJavascriptTestInterface`](#javascript-test-interface)          | The Javascript Test integration for this form                          |
+| `siteId`                                                            | `Int`                                                                    | The form's site ID                                                     |
+| `siteUid`                                                           | `String`                                                                 | The form's site UID                                                    |
+| `siteName`                                                          | `String`                                                                 | The form's site name                                                   |
+| `siteHandle`                                                        | `String`                                                                 | The form's site handle                                                 |
 
 ### Field Interface
 
