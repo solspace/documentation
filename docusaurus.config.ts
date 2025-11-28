@@ -228,6 +228,25 @@ const config: Config = {
     [
       '@docusaurus/plugin-content-docs',
       {
+        id: 'craft-ai-assistant',
+        path: 'craft-ai-assistant',
+        routeBasePath: '/craft/ai-assistant',
+        editUrl: 'https://github.com/solspace/documentation/edit/main',
+        sidebarPath: './sidebars.ts',
+        sidebarCollapsed: false,
+        lastVersion: 'current',
+        versions: {
+          current: {
+            label: '1.x',
+            path: 'v1',
+            badge: false,
+          },
+        },
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
         id: 'ee-freeform',
         path: 'ee-freeform',
         routeBasePath: '/expressionengine/freeform',
@@ -333,6 +352,11 @@ const config: Config = {
         {
           type: 'docsVersionDropdown',
           docsPluginId: 'craft-calendar',
+          position: 'left',
+        },
+        {
+          type: 'docsVersionDropdown',
+          docsPluginId: 'craft-ai-assistant',
           position: 'left',
         },
         {
