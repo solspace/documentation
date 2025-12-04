@@ -85,8 +85,8 @@ You can add your custom form handler scripts anywhere in the page. The `freeform
 If you wish to manually load the Freeform JS elsewhere in your template (rather than having Freeform automatically insert it inside the Freeform form or in the page footer), be sure to select the `None` option for the [Script Insertion Location](../configuration/settings.mdx#general-settings) setting. Then, you'll need to add the `freeform.loadFreeformPlugin()` function to your template where you'd like it to insert the JS. You can pass two variables to the function to add custom attributes to the script and style tags that Freeform generates.
 
 - `freeform.loadFreeformPlugin()` - will load Freeform's global `freeform.js` and `freeform.css` files.
-- `freeform.loadFreeformPluginJs()` - will load Freeform's global `freeform.js` file.
-- `freeform.loadFreeformPluginCss()` - will load Freeform's global `freeform.css` file.
+- `freeform.loadFreeformPluginJs()`<Badge type="feature" text="New in 5.14+" /> - will load Freeform's global `freeform.js` file.
+- `freeform.loadFreeformPluginCss()`<Badge type="feature" text="New in 5.14+" /> - will load Freeform's global `freeform.css` file.
 - `freeform.loadFormSpecificScripts(form)`<Badge type="feature" text="New in 5.5.3+" /> - will load form-specific scripts such as **reCAPTCHA** and the **JS Test** scripts, where applicable. Be sure to pass the form to this function. If `form` is already defined, you can use that.
 - `freeform.loadScripts()`<Badge type="recommended" text="Recommended" /><Badge type="feature" text="New in 5.5.4+" /> - capable of generating any of Freeform's scripts when you specify them.
   - Options are:
@@ -103,12 +103,12 @@ If you wish to manually load the Freeform JS elsewhere in your template (rather 
 
 If you wish to generate Freeform's main scripts, the JS Test, reCAPTCHA v3 and Stripe, your template might look something like this:
 
-```twig showLineNumbers
+```twig
 {{ freeform.loadScripts([
-    "freeform",
-    "freeform.js-test",
-    "recaptcha.v3",
-    "stripe"
+  "freeform",
+  "freeform.js-test",
+  "recaptcha.v3",
+  "stripe"
 ]) }}
 ```
 
@@ -117,63 +117,117 @@ If you wish to generate Freeform's main scripts, the JS Test, reCAPTCHA v3 and S
 <Tabs>
 <TabItem value="ff-manual-js-loadscripts-example" label="Example Code" default>
 
-```twig {4-8}
-<body>
+```twig {7-11}
+<html>
+  <head>
+  </head>
+  <body>
     {# your template code #}
 
     {{ freeform.loadScripts([
-        "freeform",
-        "freeform.js-test",
-        "recaptcha.v3",
+      "freeform",
+      "freeform.js-test",
+      "recaptcha.v3",
     ]) }}
-</body>
+  </body>
+</html>
 ```
 
 </TabItem>
 <TabItem value="ff-manual-js-loadscripts-output" label="Output">
 
-```twig {4-7}
-<body>
+```twig {7-10}
+<html>
+  <head>
+  </head>
+  <body>
     {# your template code #}
 
     <link rel="stylesheet" href="https://site.test/cpresources/ff3a9010/css/front-end/plugin/freeform.css?v=1719558790" />
     <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/plugin/freeform.js?v=1719558790"></script>
     <script type="text/javascript" src="https://site.test/cpresources/8c409078/js-test.js?v=1720148793"></script>
     <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/captchas/recaptcha/v3.js?v=1719558790"></script>
-</body>
+  </body>
+</html>
 ```
 
 </TabItem>
 </Tabs>
 
-### `loadFreeformPlugin()`, `loadFreeformPluginJs()`, `loadFreeformPluginCss()` and `loadFormSpecificScripts()` Example
+### `loadFreeformPlugin()` and `loadFormSpecificScripts()` Example
 
 <Tabs>
 <TabItem value="ff-manual-js-loadffplugin-example" label="Example Code" default>
 
-```twig {4-5}
-<body>
+```twig {7-8}
+<html>
+  <head>
+  </head>
+  <body>
     {# your template code #}
 
-    {{ freeform.loadFreeformPlugin }} // or
-    {{ freeform.loadFreeformPluginJs }} // and
-    {{ freeform.loadFreeformPluginCss }}
+    {{ freeform.loadFreeformPlugin }}
     {{ freeform.loadFormSpecificScripts(form) }}
-</body>
+  </body>
+</html>
 ```
 
 </TabItem>
 <TabItem value="ff-manual-js-loadffplugin-output" label="Output">
 
-```twig {4-7}
-<body>
+```twig {7-10}
+<html>
+  <head>
+  </head>
+  <body>
     {# your template code #}
 
     <link rel="stylesheet" href="https://site.test/cpresources/ff3a9010/css/front-end/plugin/freeform.css?v=1719558790" />
     <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/plugin/freeform.js?v=1719558790"></script>
     <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/captchas/recaptcha/v3.js?v=1719558790"></script>
     <script type="text/javascript" src="https://site.test/cpresources/8c409078/js-test.js?v=1720148793"></script>
-</body>
+  </body>
+</html>
+```
+
+</TabItem>
+</Tabs>
+
+### `loadFreeformPluginCss()`, `loadFreeformPluginJs()` and `loadFormSpecificScripts()` Example
+
+<Tabs>
+<TabItem value="ff-manual-cssjs-loadffplugin-example" label="Example Code" default>
+
+```twig {3,8-9}
+<html>
+  <head>
+    {{ freeform.loadFreeformPluginCss }}
+  </head>
+  <body>
+    {# your template code #}
+
+    {{ freeform.loadFreeformPluginJs }}
+    {{ freeform.loadFormSpecificScripts(form) }}
+  </body>
+</html>
+```
+
+</TabItem>
+<TabItem value="ff-manual-cssjs-loadffplugin-output" label="Output">
+
+```twig {3,8-10}
+<html>
+  <head>
+    <link rel="stylesheet" href="https://site.test/cpresources/ff3a9010/css/front-end/plugin/freeform.css?v=1719558790" />
+  </head>
+  <body>
+    {# your template code #}
+
+    <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/plugin/freeform.js?v=1719558790"></script>
+    <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/captchas/recaptcha/v3.js?v=1719558790"></script>
+    <script type="text/javascript" src="https://site.test/cpresources/8c409078/js-test.js?v=1720148793"></script>
+  </body>
+</html>
 ```
 
 </TabItem>
@@ -184,27 +238,35 @@ If you wish to generate Freeform's main scripts, the JS Test, reCAPTCHA v3 and S
 <Tabs>
 <TabItem value="ff-manual-js-loadffplugin-attr-example" label="Example Code" default>
 
-```twig {4-7}
-<body>
+```twig {7-10}
+<html>
+  <head>
+  </head>
+  <body>
     {# your template code #}
 
     {{ freeform.loadFreeformPlugin(
-        'data-custom="attribute" extra="something else"',
-        'css="stuff"'
+      'data-custom="attribute" extra="something else"',
+      'css="stuff"'
     ) }}
-</body>
+  </body>
+</html>
 ```
 
 </TabItem>
 <TabItem value="ff-manual-js-loadffplugin-attr-output" label="Output">
 
-```twig {4-5}
-<body>
+```twig {7-8}
+<html>
+  <head>
+  </head>
+  <body>
     {# your template code #}
 
     <link href="https://site.test/cpresources/87e67e90/css/front-end/plugin/freeform.css?v=1716400868" css="stuff" rel="stylesheet">
     <script src="https://site.test/cpresources/87e67e90/js/scripts/front-end/plugin/freeform.js?v=1716401083" data-custom="attribute" extra="something else"></script>
-</body>
+  </body>
+</html>
 ```
 
 </TabItem>
