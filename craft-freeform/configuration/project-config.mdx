@@ -9,7 +9,7 @@ import { Badge } from '@site/src/components/utils';
 
 Freeform settings can all be controlled via Craft's [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file.
 
-## Available Config Settings<Badge type="feature" text="Improved in 5.13+" />
+## Available Config Settings<Badge type="feature" text="Improved in 5.13+, 5.14+" />
 
 If you wish to manage the configuration of Freeform settings via Craft's [Project Config](https://craftcms.com/docs/5.x/system/project-config.html), here's a list of every setting currently available:
 
@@ -55,6 +55,10 @@ freeform:
     allowDashesInFieldHandles: false
     updateSearchIndexes: true
     purgableSubmissionAgeInDays: '365'
+    purgableFormIds:
+        - '89'
+        - '15'
+        - '78'
     purgeAssets: true
     purgableUnfinalizedAssetAgeInMinutes: '180'
 
@@ -65,7 +69,9 @@ freeform:
     autoScrollToErrors: true
     autoScroll: true
     rememberPageSubmitOrder: true
+    useIdempotencyKey: true
     csrfRefresh: once
+    useQueueForAiFields: true
     useQueueForEmailNotifications: true
     useQueueForIntegrations: true
 
@@ -123,6 +129,7 @@ freeform:
 // highlight-end
     displayFeed: true
     alertNotificationRecipients: bob@acmewidgets.net
+    errorNotificationRecipients: bob@acmewidgets.net
     digestFrequency: 2
     digestRecipients: harry@acmewidgets.net
     clientDigestFrequency: -1
@@ -417,8 +424,8 @@ GENERAL SETTINGS
 ← Default CP View. Options are 'forms' or 'submissions'.
 ← Plugin Badge. Options are: '', 'all', 'notices', 'errors', 'submissions', or 'spam'.
 ← Site-Aware Forms
-← Queue Job Priority. Leave empty to use the Craft default of '1024' (new in 5.5.6+)
-← Logging Level. Options are: 'error', 'info' or 'debug' (New in 5.9.7+)
+← Queue Job Priority. Leave empty to use the Craft default of '1024' (NEW IN 5.5.6+)
+← Logging Level. Options are: 'error', 'info' or 'debug' (NEW IN 5.9.7+)
 
 // highlight-start
 ELEMENT FIELD TYPE
@@ -438,7 +445,11 @@ SUBMISSION DATA
 ← Fill Form Values from the GET Query String
 ← Allow Dashes in Field Handles
 ← Enable Search Index Updating on New Submissions
-← Automatically Purge Submission Data
+← Automatically Purge Submission Data (in days)
+← Apply Purge to Forms ID(s) (NEW IN 5.14+)
+
+
+
 ← Automatically Purge Unfinalized Asset Files
 ← Purge Unfinalized Asset Files (in minutes)
 
@@ -449,7 +460,9 @@ FORM SUBMIT BEHAVIOR
 ← Automatically Scroll to Form on Errors and Multipage forms
 ← Automatically Scroll to top of the Form on AJAX submit
 ← Remember the Page Order in Multi-page forms (Conditional Rules page skipping)
+← Prevent Duplicate Submissions (Idempotency Keys) (NEW IN 5.13+)
 ← CSRF Token Refresh Method. Options are 'once' (recommended), 'always', or 'none'.
+← Use Queue for AI Processing (NEW IN 5.13+)
 ← Use Queue for Email Notifications
 ← Use Queue for Integrations
 
@@ -482,7 +495,7 @@ TEMPLATE MANAGER
 ← Email Notification Templates Directory Path
   ← Template Method. Options are: 'form', 'global' or 'all'.
   ← Template Storage Type. Options are: 'files', 'database' or 'files_database'.
-  ← Allow New Templates to be created inside the Form Builder (New in 5.10.8+)
+  ← Allow New Templates to be created inside the Form Builder (NEW IN 5.10.8+)
   ← New Template Type for Form Builder (Renamed in 5.10.8+)
   ← Allow File-based Email Templates to be managed inside the Notifications area
   ← Email Notification Template Toolbar Configuration
@@ -507,6 +520,7 @@ NOTICES & ALERTS
 // highlight-end
 ← Display Update Warnings & Notices
 ← Send Email Alerts for Failed Notifications
+← Send Critical System Error Report Immediately (NEW IN 5.13+)
 ← Developer Digest Email Frequency. Options are '-1' (Daily), '0' (Weekly - Sundays), '1' (Weekly - Mondays), etc.
   ← Developer Digest Email Addresses
 ← Stats Digest Email Frequency. Options are '-1' (Daily), '0' (Weekly - Sundays), '1' (Weekly - Mondays), etc.
