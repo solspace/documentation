@@ -288,6 +288,14 @@ Freeform contains a rich set of field types to handle just about every possible 
       filterIcon: true,
     },
     {
+      link: '#image',
+      title: 'Image',
+      description: 'Include an image inside form layouts',
+      icon: 'image',
+      color: 'bg-pink-500/50',
+      filterIcon: true,
+    },
+    {
       link: '#hidden',
       title: 'Hidden',
       description: 'Hide field data',
@@ -340,6 +348,7 @@ Fields can be changed to other field types at any point, but be aware that data 
 | [Group](#group)<Badge type="feature" text="New in 5.0+" />                        | `group`                               | A field that contains other fields within it.                                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Hidden](#hidden)                                                                 | <span className="compare-none">N/A</span> | A hidden input field.                                                                                                                                          |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [HTML](#html)                                                                     | `html`                                | A block that allows you to insert HTML into areas of your form.                                                                                                    |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Image](#image)<Badge type="feature" text="New in 5.13+" />                       | `image`                               | Allows you to add Asset images into your form layout.                                                                                                              |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Invisible](#invisible)                                                           | <span className="compare-none">N/A</span> | A field that allows you to collect hidden data in form submissions without a hidden field being present in the template source code.                           |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Multiple Select](#multiple-select)                                               | `multiple-select`                     | A multiple-select field.                                                                                                                                           |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Number](#number)                                                                 | `number`                              | A `number` type input field that is validated to contain certain numbers only.                                                                                     |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
@@ -1021,6 +1030,8 @@ The following additional settings are available to this field type:
   - Set how many cards should display in each row.
 - **Image Transform**
   - Choose an Asset image transform to apply to any images added to the cards.
+- **Srcset Sizes**
+  - Enter a comma separated list of image size numbers for `srcset` attribute generation, e.g. `480, 768, 1024`
 
 ### Cards Layout
 
@@ -1561,6 +1572,7 @@ A select dropdown menu field. The `field.type` property value is `dropdown` (for
 
 - Can specify labels (with values assumed) or labels and values (that differ).
   - To make the first option empty, use **labels and values** approach with the first option having something like **Please select...** for the label, and leave option blank.
+- Supports `<optgroup>`'s. To use this, enable the toggle under the **Optgroup** column for the applicable row.<Badge type="feature" text="New in 5.13+" />
 - Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-field-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 
@@ -1864,6 +1876,24 @@ If you'd like to display submission data from previous pages, you can do this by
 </ul>
 ```
 
+## Image<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.13+" />
+
+A field that allows you to select or upload image assets into form layouts.
+
+<details className="hidden-heading">
+<summary>Settings</summary>
+
+The following additional settings are available to this field type:
+
+- **Image Transform**
+  - Choose an Asset image transform to apply to any images added to the image.
+- **Srcset Sizes**
+  - Enter a comma separated list of image size numbers for `srcset` attribute generation, e.g. `480, 768, 1024`
+- **Image**
+  - Select an image asset for this field.
+
+</details>
+
 ## Invisible<Badge type="pro" text="Pro" />
 
 A field that allows you to collect hidden data in form submissions without a hidden field being present in the template source code.
@@ -1894,6 +1924,7 @@ A multiple-select field. The `field.type` property value is `multiple-select` (f
 <summary>Settings</summary>
 
 - Can specify labels (with values assumed) or labels and values (that differ).
+- Supports `<optgroup>`'s. To use this, enable the toggle under the **Optgroup** column for the applicable row.<Badge type="feature" text="New in 5.13+" />
 - Can be automatically populated with select [Craft Elements or Pre-defined list options](#populating-field-options).
 - Can be used as a [User Select](./email-notifications.mdx#user-select) email notification.
 

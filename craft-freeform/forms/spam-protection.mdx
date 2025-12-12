@@ -200,10 +200,10 @@ To configure spam blocking, visit the **Settings** > **Integrations** > **Spam B
 ### Available Options
 
 - [AI Spam Analysis](../../integrations/ai-spam-analysis)<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.12+" />
-- [Email Addresses](#block-email-addresses)<Badge type="feature" text="Improved in 5.13+" />
-- [Keywords](#block-keywords)
-- [IP addresses](#block-ip-addresses)<Badge type="feature" text="Improved in 5.13+" />
-- [Gibberish](#block-gibberish)<Badge type="feature" text="New in 5.13+" />
+- [Email Addresses](#email-address-blocking)<Badge type="feature" text="Improved in 5.13+" />
+- [Keywords](#keyword-blocking)
+- [IP Addresses](#ip-address-blocking)<Badge type="feature" text="Improved in 5.13+" />
+- [Gibberish](#gibberish-blocking)<Badge type="feature" text="New in 5.13+" />
 
 ### Syntax
 
@@ -219,6 +219,51 @@ To configure spam blocking, visit the **Settings** > **Integrations** > **Spam B
   - If you have the [Spam Folder](#spam-folder) feature enabled, spammy submissions will go through to the Spam Folder in the Freeform control panel.
   - You have the option to display errors for fields using a blocked email address or keyword, but we recommend only using this for troubleshooting purposes.
 </details>
+
+### Email Address Blocking<Badge type="feature" text="Improved in 5.13+" />
+
+This option allows you to block specific email addresses or domains used in [Email](../forms/fields.mdx#email) field types.
+
+- **Check MX Record**<Badge type="feature" text="New in 5.13+" />
+  - Email addresses will be validated against their domain's MX records to ensure the domain can receive mail.
+- **Display Errors about Blocked Emails under each Email Field**
+  - Enable this if you'd like field-based errors to display under the email field(s) that the user has entered blocked emails for. Not recommended for regular use, but helpful if trying to troubleshoot submission issues.
+- **Blocked Email Addresses**
+  - Enter email addresses you would like blocked from being used in Email fields. Use asterisks for wildcards (e.g. `*@hotmail.ru`), and separate multiples on new lines.
+  - The values entered here will apply to all forms that use this integration. Additionally, form-specific blocks can be set inside the form builder.
+
+### Keyword Blocking
+
+This option allows you to block specific words used in fields.
+
+- **Display Errors about Blocked Keywords under each Field**
+  - Enable this if you'd like field-based errors to display under the field(s) that the user has entered blocked keywords for. Not recommended for regular use, but helpful if trying to troubleshoot submission issues.
+- **Blocked Keywords**
+  - Enter keywords you would like blocked from being used in all text and textarea fields. Use quotes for phrases (e.g. `"generate new leads"`), asterisks for wildcards (e.g. `lead*`), and separate multiples on new lines. When attempting to block individual characters (e.g. Russian letters) or partial words or strings, be sure to make good use of the wildcard character by placing one before and after (e.g. `*й*` or `*Д*`).
+  - The values entered here will apply to all forms that use this integration. Additionally, form-specific blocks can be set inside the form builder.
+
+### IP Address Blocking<Badge type="feature" text="Improved in 5.13+" />
+
+This option allows you to block specific IP addresses or ranges, including DNS block lists.
+
+- **Blocked IP Addresses**
+  - Enter IP addresses you would like blocked. Separate multiples on new lines.
+  - The values entered here will apply to all forms that use this integration. Additionally, form-specific blocks can be set inside the form builder.
+- **Check DNS Block Lists**<Badge type="feature" text="New in 5.13+" />
+  - IP addresses will be checked against the DNS block lists provided below to help detect spam and abusive activity.
+  - **Default DNS Block Lists**
+    - Enter the DNS block lists you'd like to use. Add one per line.
+    - The values entered here will apply to all forms that use this integration. Additionally, form-specific blocks can be set inside the form builder.
+
+### Gibberish Blocking<Badge type="feature" text="New in 5.13+" />
+
+This option allows you to block [Gibberish](https://en.wikipedia.org/wiki/Gibberish) values when entered into fields, e.g. `dfsjghdfjkghdsdfg` or `sdfg5769d9gd`.
+
+- **Gibberish Word Minimum Length**
+  - Minimum word length used to detect gibberish. Lower values increase sensitivity but may flag valid words.
+- **Allowed Terms**
+  - Enter words or abbreviations that should be ignored by gibberish detection. Add one per line (e.g., `RFP`, `ABB`, `KUKA`, or other technical terms).
+  - The values entered here will apply to all forms that use this integration. Additionally, form-specific blocks can be set inside the form builder.
 
 ## Throttling
 
