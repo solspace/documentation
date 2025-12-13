@@ -79,8 +79,8 @@ Outputs the custom processing text configured for your form inside the form buil
 
 The chosen behavior to happen after handling the successful submit of the form. Options are:
 
-- `reload` - Reload form with a Success banner above
-- `load-success-template` - Replace form with a Success message
+- `reload` - Reload form with banner
+- `load-success-template` - Replace with success message
 - `redirect-return-url` - Redirect to another URL
 
 ### `returnUrl`
@@ -89,11 +89,11 @@ Outputs the return URL configured for the form when using the **Redirect to anot
 
 ### `successTemplate`
 
-Outputs the [success template](../../configuration/settings.mdx#success-templates) configured for the form when using the **Replace form with a Success message** success behavior, e.g. `my-success-template.twig`.
+Outputs the [success template](../../configuration/settings.mdx#success-templates) configured for the form when using the **Replace with success message** success behavior, e.g. `my-success-template.twig`.
 
 ### `successMessage`<Badge type="feature" text="Improved in 5.10.13+" />
 
-Outputs the custom success message configured for the form when using the **Reload form with a Success banner above** success behavior.
+Outputs the custom success message configured for the form when using the **Reload form with banner** success behavior.
 
 Can be accessed directly as `{{ form.successMessage }}` instead of `{{ form.settings.successMessage }}`.
 
@@ -107,12 +107,12 @@ Can be accessed directly as `{{ form.errorMessage }}` instead of `{{ form.settin
 
 Outputs the option chosen for the **Duplicate Check** setting. You can run a conditional check on this with the following:
 
-- `NULL` - Do not limit (default - no limits applied)
-- `no_limit_logged_in_users_only` - Logged in Users Only - No Limit
-- `once_per_logged_in_user_only` - Logged in Users Only - Once per Form
-- `once_per_email` - Anyone - Once per Email Address
-- `once_per_user_or_cookie` - Anyone - Once per Logged in User or Guest Cookie
-- `once_per_user_or_ip_cookie` - Anyone - Once per Logged in User or Guest IP or Cookie
+- `NULL`: _No restrictions_ (default)
+- `no_limit_logged_in_users_only`: _Logged-in users — unlimited_
+- `once_per_logged_in_user_only`: _Logged-in users — once per form_
+- `once_per_email`: _Anyone — once per email_
+- `once_per_user_or_cookie`: _Anyone — once per user or cookie_
+- `once_per_user_or_ip_cookie`: _Anyone — once per user, IP, or cookie_
 
 ### `stopSubmissionsAfter`
 
