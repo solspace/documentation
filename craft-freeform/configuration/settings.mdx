@@ -76,12 +76,6 @@ Freeform includes a wide variety of settings that allow you to customize your fo
       fullCardLink: '#spam-protection',
     },
     {
-      title: 'Captchas',
-      description: 'Enable and setup reCAPTCHA or hCaptcha for your site.',
-      icon: Icons.CaptchaIcon,
-      fullCardLink: '#captchas',
-    },
-    {
       title: 'Integrations',
       description: 'All integrations available to Freeform.',
       icon: Icons.CloudApiIcon,
@@ -296,7 +290,7 @@ This page and its settings all become readonly when the Craft `allowAdminChanges
 
 </details>
 
-## Limited Users<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.4+, Improved in 5.9+" />
+## Limited Users<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.4+, Improved in 5.9+ & 5.13+" />
 
 View the [Limited Users](../configuration/limited-users.mdx) documentation for more information about setting up and configuring.
 
@@ -305,7 +299,7 @@ This page and its settings all remain accessible when the Craft `allowAdminChang
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/limited-users/settings.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/limited-users/settings.jpg')}
   alt="Limited Users - Permission Settings"
 />
 
@@ -384,18 +378,116 @@ Things like `form.id`, `form.handle` and `form.name` are available for use here 
 
 You can create an unlimited number of custom PDF's to be generated for email notifications. You are in full control to build beautiful HTML-based templates and dynamically pull in form and submission data. In the [Email Notifications](../forms/email-notifications.mdx) area, when editing an email notification template, you can then assign which PDF template(s) should be included with it.
 
-The file name and PDF body may contain any of the [Twig variables](../forms/email-notifications.mdx#template-options) available in the body of email notification templates. Please [see documentation](../forms/email-notifications.mdx#template-options) for more information.
-
-Each PDF template contains the following:
-
-- Name
-- Description
-- File Name (the name of the PDF file when it's generated - can use Twig variables)
-- PDF Body (uses HTML and can include Twig variables)
-
 :::info
 This page and its settings all remain accessible when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/configuration/pdf-templates.jpg')}
+  alt="Create a new PDF Template"
+/>
+
+The file name and PDF body may contain any of the [Twig variables](../forms/email-notifications.mdx#template-options) available in the body of email notification templates. Please [see documentation](../forms/email-notifications.mdx#template-options) for more information.
+
+<details className="hidden-heading">
+  <summary>PDF Template Settings</summary>
+
+  Each PDF template contains the following:
+
+  - Name
+  - Description
+  - File Name (the name of the PDF file when it's generated - can use Twig variables)
+  - PDF Body (uses HTML and can include Twig variables)
+
+</details>
+<details className="hidden-heading">
+  <summary>Loading Images</summary>
+
+  When using images in your PDF template, it's important to use `dataUrl(asset)` to create an _inline Base64 image_ to avoid PDF image loading issues.
+
+  ```twig {4}
+  <div class="ticket-image">
+    {% set image = craft.assets.id(123).one() %}
+    {% if image %}
+      <img src="{{ dataUrl(image) }}" alt="{{ image.alt ?? image.title }}" />
+    {% endif %}
+  </div>
+  ```
+</details>
+<details className="hidden-heading">
+  <summary>Template Example</summary>
+
+  :::info
+  It's currently only possible to add the template code via the control panel. A future version may support file-based templates.
+  :::
+
+  The example below will generate an event ticket for the form submitter:
+
+  ```twig showLineNumbers
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Event Ticket</title>
+    <style>
+      body { font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #222; margin: 0; padding: 20px; }
+      .ticket { border: 2px dashed #444; padding: 20px; width: 100%; }
+      .ticket-header { text-align: center; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 15px; }
+      .ticket-header h1 { font-size: 20px; margin: 0; letter-spacing: 1px; }
+      .ticket-header h3 { font-size: 14px; margin: 5px 0 0; font-weight: normal; }
+      .event-details { text-align: center; margin-bottom: 15px; }
+      .event-details p { margin: 3px 0; }
+      .ticket-image { text-align: center; margin: 15px 0; }
+      .ticket-image img { max-width: 100%; height: auto; border: 1px solid #ccc; }
+      .ticket-holder { border-top: 1px solid #ccc; padding-top: 10px; margin-top: 15px; }
+      .ticket-holder h4 { font-size: 13px; margin: 0 0 5px; text-transform: uppercase; }
+      .ticket-holder ul { list-style: none; padding: 0; margin: 0; }
+      .ticket-holder li { margin-bottom: 3px; }
+      .ticket-footer { margin-top: 15px; text-align: center; font-size: 10px; color: #666; }
+    </style>
+  </head>
+  <body>
+    <div class="ticket">
+      <div class="ticket-header">
+        <h1>TICKET #{{ submission.id }}</h1>
+        <h3>Competitive Duck Watching Championship</h3>
+      </div>
+      <div class="event-details">
+        <p>Saturday, April 12, 2025 · 10:00 AM – 2:00 PM</p>
+        <p>Riverside Community Park</p>
+        <p>214 Waddle Way, Mapleton, BC</p>
+      </div>
+      <div class="ticket-image">
+        {% set image = craft.assets.id(123).one() %}
+        {% if image %}
+          <img src="{{ dataUrl(image) }}" alt="{{ image.alt ?? image.title }}" />
+        {% endif %}
+      </div>
+      <div class="ticket-holder">
+        <h4>Ticketholder</h4>
+        <ul>
+          <li>{{ firstName }} {{ lastName }}</li>
+          {% if companyName|length %}
+            <li>{{ companyName }}</li>
+          {% endif %}
+          <li>Purchased: {{ dateCreated|date('Y-m-d H:i') }}</li>
+        </ul>
+      </div>
+      <div class="ticket-footer">
+        Please bring this ticket (printed or digital) to the event.
+      </div>
+    </div>
+  </body>
+  </html>
+  ```
+
+  Which will generate a PDF that looks something like this:
+
+  <Photo
+    img={require('@site/static/img/craft/freeform/v5/configuration/pdf-templates-output.jpg')}
+    alt="PDF Template output - Event Ticket example"
+  />
+</details>
 
 ## Statuses
 
@@ -406,11 +498,11 @@ This page and its settings all remain accessible when the Craft `allowAdminChang
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/statuses-list.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/statuses-list.jpg')}
   alt="List of Statuses"
 />
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/statuses-edit.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/statuses-edit.jpg')}
   alt="Create or edit Statuses"
 />
 
@@ -423,7 +515,7 @@ This page and its settings all become readonly when the Craft `allowAdminChanges
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/demo-templates.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/demo-templates.jpg')}
   alt="Demo Templates settings"
 />
 
@@ -436,7 +528,7 @@ This page and its settings all become readonly when the Craft `allowAdminChanges
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/spam.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/spam.jpg')}
   alt="Spam Settings"
 />
 
@@ -493,12 +585,12 @@ Check out the options below to learn more about each:
 - [Weekly Digest](../configuration/notices-alerts.mdx)<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/notices-alerts.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/notices-alerts.jpg')}
   alt="Notices & Alerts"
 />
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/notices-alerts-dashboard.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/notices-alerts-dashboard.jpg')}
   alt="Update Notices preview"
 />
 
@@ -511,7 +603,7 @@ This page remains accessible when the Craft `allowAdminChanges` config setting i
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/error-log.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/error-log.jpg')}
   alt="Error Log"
 />
 
@@ -528,7 +620,7 @@ This page remains accessible when the Craft `allowAdminChanges` config setting i
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/integrations-log.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/integrations-log.jpg')}
   alt="Integrations Log"
 />
 
@@ -545,6 +637,6 @@ This page remains accessible when the Craft `allowAdminChanges` config setting i
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/email-log.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/email-log.jpg')}
   alt="Emails Log"
 />
