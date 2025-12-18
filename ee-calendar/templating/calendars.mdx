@@ -12,190 +12,150 @@ The _Calendar:Calendars_ tag displays a list of available calendars and outputs 
 <Photo
   img={require('@site/static/img/ee/calendar/v5/calendar-templates_calendars.png')}
   alt="Events by Month"
+  scale="30"
 />
 
-```html showLineNumbers
+```html
 {exp:calendar:calendars} content {/exp:calendar:calendars}
 ```
 
 ## Parameters
 
-### calendar_id=
+### `calendar_id`
+This parameter allows you to display specific calendars by specifying their ID(s). You can hardcode a calendar **ID**, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character. E.g. `calendar_id="1|3"`.
 
-`calendar_id="1|3"`
+### `calendar_short_name`
+This parameter allows you to display specific calendars by specifying their short name(s). You can hardcode a calendar **short name**, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character. E.g. `calendar_short_name="baseball"`.
 
-This parameter allows you to display specific calendars by specifying their ID(s). You can hardcode a calendar **ID**, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+### `limit`
+This parameter lets you limit the number of calendars to be displayed. E.g. `limit="5"`.
 
-### calendar_short_name=
+### `orderby`
+This parameter allows you to specify how you want a list of calendars ordered. Options are: `calendar_name`, `calendar_short_name` and `calendar_id`. Works in conjunction with the [sort](#sort) parameter. E.g. `orderby="calendar_name"`.
 
-`calendar_short_name="baseball"`
+### `paginate`
+This parameter allows you to control where the pagination will display. Options are `top`, `bottom`, or `both`. Used in conjunction with the [calendar:paginate](#calendarpaginate) variable pair and [limit](#limit) parameter. E.g. `paginate="both"`.
 
-This parameter allows you to display specific calendars by specifying their short name(s). You can hardcode a calendar **short name**, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+### `site`
+If using [EE Multiple Site Manager](https://docs.expressionengine.com/v7/msm/overview.html) (MSM), you can specify a site short name(s) in this parameter to filter event entries down to that site. E.g. `site="siteB"` or `site="siteA|siteB|siteC"`.
 
-### limit=
-
-`limit="5"`
-
-This parameter lets you limit the number of calendars to be displayed.
-
-### orderby=
-
-`orderby="calendar_name"`
-
-This parameter allows you to specify how you want a list of calendars ordered. Options are: **calendar_name**, **calendar_short_name** and **calendar_id**. Works in conjunction with the [sort](#sort) parameter.
-
-### paginate=
-
-`paginate="both"`
-
-This parameter allows you to control where the pagination will display. Options are **top**, **bottom**, or **both**. Used in conjunction with the [calendar:paginate](#calendar-paginate) variable pair and [limit](#limit) parameter.
-
-### site=
-
-`site="siteA|siteB|siteC"`
-
-If using [EE Multiple Site Manager](https://docs.expressionengine.com/v7/msm/overview.html) (MSM), you can specify a site short name(s) in this parameter to filter event entries down to that site.
-
-### sort=
-
-`sort="desc"`
-
-This parameter allows you to control whether the results should be **asc** (ascending) or **desc** (descending).
+### `sort`
+This parameter allows you to control whether the results should be `asc` (ascending) or `desc` (descending). E.g. `sort="desc"`.
 
 ## Variables
 
-### calendar:name
-
-`{calendar:name}`
-
+### `{calendar:name}`
 This variable outputs the label of the calendar.
 
-### calendar:short_name
-
-`{calendar:short_name}`
-
+### `{calendar:short_name}`
 This variable outputs the short name of the calendar.
 
-### calendar:id
-
-`{calendar:id}`
-
+### `{calendar:id}`
 This variable outputs the ID of the calendar.
 
-### calendar:description
-
-`{calendar:description}`
-
+### `{calendar:description}`
 This variable outputs the description for the calendar.
 
-### calendar:color
-
-`{calendar:color}`
-
+### `{calendar:color}`
 This variable outputs the associated colour for the calendar. The value will be the hex code (ex: **#FF0000**).
 
-### calendar:color_light
+### `{calendar:color_light}`
+This variable outputs a lightened version of the assigned color for the calendar. This would typically be used when setting a background color for calendar lists or flags. Can also be used in conjunction with the [calendar:text_color](#calendartext_color) variable.
 
-`{calendar:color_light}`
+### `{calendar:text_color}`
+This variable looks at the lightened version of the assigned calendar color, and outputs a value of `black` or `white`, whichever it believes to be better contrasting. This would typically be used when setting a background color for calendar lists or flags. Can also be used in conjunction with the [calendar:color_light](#calendarcolor_light) variable.
 
-This variable outputs a lightened version of the assigned color for the calendar. This would typically be used when setting a background color for calendar lists or flags. Can also be used in conjunction with the [calendar:text_color](#calendar-text-color) variable.
-
-### calendar:text_color
-
-`{calendar:text_color}`
-
-This variable looks at the lightened version of the assigned calendar color, and outputs a value of **black** or **white**, whichever it believes to be better contrasting. This would typically be used when setting a background color for calendar lists or flags. Can also be used in conjunction with the [calendar:color_light](#calendar-color-light) variable.
-
-### calendar:ics_hash
-
-`{calendar:ics_hash}`
-
+### `{calendar:ics_hash}`
 This variable parses as the unique hash value associated with calendar for [ICS Subscription](./ics-subscription.mdx) functionality. You use this hash value in a URL that matches the location of the template that contains the [Calendar:ICS_Subscription](./ics-subscription.mdx) template tag, allowing users to subscribe to the whole calendar. To use this feature, you must have ICS Sharing enabled in the control panel for the applicable calendar (click the green icon button in **Manage** column for the applicable calendar(s) on the list view of calendars in the Calendar control panel).
 
 ## Variable Pairs
 
-### calendar:member_groups
+### `{calendar:member_groups}`
+This variable pair controls the formatting and displays a list of all member groups that have publishing access for each calendar.
 
-```html showLineNumbers
+The following variables become available for use inside this variable pair:
+
+- `{calendar:member_group_title}`
+- `{calendar:member_group_name}`
+- `{calendar:member_group_id}`
+
+```html
 <ul>
   {calendar:member_groups}
-  <li>{calendar:member_group_title}</li>
+    <li>{calendar:member_group_title}</li>
   {/calendar:member_groups}
 </ul>
 ```
 
-This variable pair controls the formatting and displays a list of all member groups that have publishing access for each calendar. The following variables become available for use inside this variable pair: **\{calendar:member_group_title}**, **\{calendar:member_group_name}**, and **\{calendar:member_group_id}**.
+### `{calendar:paginate}`
+Pagination is available for this tag and works just like regular EE pagination, but each variable/variable pair is prepended with `calendar:`, except for any variables and variable pairs inside of the `{calendar:pagination_links}` variable pair. Used in conjunction with the [paginate](#paginate) parameter.
 
-### calendar:paginate
-
-```html showLineNumbers
+```html
+<ul>
 {calendar:paginate}
-<li>
-  Page {calendar:current_page} of {calendar:total_pages} pages &nbsp;
-  {calendar:pagination_links}
-</li>
+  <li>
+    Page {calendar:current_page} of {calendar:total_pages} pages &nbsp;
+    {calendar:pagination_links}
+  </li>
 {/calendar:paginate}
+</ul>
 ```
 
 OR
 
-```html showLineNumbers
+```html
 {calendar:paginate}
-<ul class="pagination">
+  <ul class="pagination">
     {calendar:pagination_links}
-        {first_page}
-            <li><a href="{pagination_url}">First</a></li>
-        {/first_page}
-        {previous_page}
-            <li><a href="{pagination_url}">&laquo; Previous</a></li>
-        {/previous_page}
-        {page}
-            <li{if current_page} class="active"{/if}><a href="{pagination_url}">{pagination_page_number}</a></li>
-        {/page}
-        {next_page}
-            <li><a href="{pagination_url}">Next &raquo;</a></li>
-        {/next_page}
-        {last_page}
-            <li><a href="{pagination_url}">Last</a></li>
-        {/last_page}
+      {first_page}
+        <li><a href="{pagination_url}">First</a></li>
+      {/first_page}
+      {previous_page}
+        <li><a href="{pagination_url}">&laquo; Previous</a></li>
+      {/previous_page}
+      {page}
+        <li{if current_page} class="active"{/if}><a href="{pagination_url}">{pagination_page_number}</a></li>
+      {/page}
+      {next_page}
+        <li><a href="{pagination_url}">Next &raquo;</a></li>
+      {/next_page}
+      {last_page}
+        <li><a href="{pagination_url}">Last</a></li>
+      {/last_page}
     {/calendar:pagination_links}
-</ul>
+  </ul>
 {/calendar:paginate}
 ```
 
-Pagination is available for this tag and works just like regular EE pagination, but each variable/variable pair is prepended with _calendar:_ (except for any variables and variable pairs inside of the _calendar:pagination_links_ variable pair). Used in conjunction with the [paginate](#paginate) parameter.
-
 ## Conditionals
 
-### calendar:no_results
+### `{calendar:no_results}`
+This conditional displays its contents when there is no calendar results for the given parameters.
 
-```html showLineNumbers
-{if calendar:no_results} Sorry, no calendars exist for the specified parameters.
+```html
+{if calendar:no_results}
+  Sorry, no calendars exist for the specified parameters.
 {/if}
 ```
-
-This conditional displays its contents when there is no calendar results for the given parameters.
 
 ## Examples
 
 The following code example will display a list of all available calendars, or information about a given calendar if there's a short name in the 3rd segment of the URI:
 
-```html showLineNumbers
+```html
 <ul>
-  {exp:calendar:calendars {if segment_3} calendar_short_name="{segment_3}" {/if}
-  limit="10" paginate="both" }
-  <li>
-    <a href="{path='calendar/calendars'}/{calendar:short_name}"
-      >{calendar:name}</a
-    >
-  </li>
-  {if calendar:no_results}
-  <li>No results found.</li>
-  {/if} {calendar:paginate}
-  <li>
-    Page {calendar:current_page} of {calendar:total_pages} pages.
-    {calendar:pagination_links}
-  </li>
-  {/calendar:paginate} {/exp:calendar:calendars}
+  {exp:calendar:calendars
+    {if segment_3} calendar_short_name="{segment_3}"{/if}
+    limit="10"
+    paginate="both"
+  }
+    <li><a href="{path='calendar/calendars'}/{calendar:short_name}">{calendar:name}</a></li>
+    {if calendar:no_results}
+      <li>No results found.</li>
+    {/if}
+    {calendar:paginate}
+      <li>Page {calendar:current_page} of {calendar:total_pages} pages. {calendar:pagination_links}</li>
+    {/calendar:paginate}
+  {/exp:calendar:calendars}
 </ul>
 ```
