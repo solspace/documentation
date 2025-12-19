@@ -5,37 +5,42 @@ title: 'ICS_Subscription'
 
 # Calendar:ICS_Subscription template tag
 
-The _Calendar:ICS_Subscription_ tag works similarly to the [Calendar:ICS_Export](./ics-export.mdx) tag, but allows your users to subscribe (one way sync) their calendaring app to your sites' calendar(s) with an ICS subscription URL. This is compatible with popular calendaring programs such as [Google Calendar](https://calendar.google.com), [Apple Calendar](https://support.apple.com/guide/calendar/welcome/mac), [Microsoft Outlook](https://www.microsoft.com/microsoft-365/outlook/email-and-calendar-software-microsoft-outlook), etc. This tag contains pre-formatted info, so you just need to specify the template tag and apply some parameters and link to it.
+The `Calendar:ICS_Subscription` tag works similarly to [`Calendar:ICS_Export`](./ics-export.mdx), but instead of downloading a one-time file, it allows users to **subscribe** to your calendar using an ICS URL. This provides a **one-way sync**, keeping events in the user's calendar app automatically up to date.
 
-To enable this feature, make sure to enable ICS Sharing, click the green icon button in **Manage** column for the applicable calendar(s) on the list view of calendars in the Calendar control panel. Once enabled, you can then use this feature, or just copy the ICS URL from the CP (doesn't need this template tag approach) and share it with whoever you wish (admins, show it publicly, etc).
+ICS subscriptions are supported by most major calendar applications, including [Google Calendar](https://calendar.google.com), [Apple Calendar](https://support.apple.com/guide/calendar/welcome/mac), and [Microsoft Outlook](https://www.microsoft.com/microsoft-365/outlook/email-and-calendar-software-microsoft-outlook).
+
+This tag outputs a **pre-formatted ICS feed**, so you only need to place it in a template, apply any desired parameters, and link to it. You can then share the resulting URL with users for subscription.
+
+To enable ICS subscriptions, make sure **ICS Sharing** is turned on for the applicable calendar(s). This can be done from the Calendar control panel by clicking the green icon in the **Manage** column on the calendar list page. Once enabled, you may either:
+
+- Use the `Calendar:ICS_Subscription` tag in a template, or
+- Copy the ICS URL directly from the control panel and share it (privately or publicly).
 
 :::info
-All event date data is stored as `UTC+0`, and retrieved as `UTC+0`. So, no matter where you are in the world, an event start date entered at **6pm** will be stored and displayed always as **6pm**. The _Calendar:ICS_Subscription_ template tag compensates for this by setting the timezone to be floating, which (in the current example) means the event will show up at **6pm** no matter what timezone the user is located in.
+All event dates in Calendar are stored and retrieved in `UTC+0`. This means an event entered at **6:00 PM** will always be stored as **6:00 PM**, regardless of location.
+
+To ensure subscribed events display correctly across timezones, the `Calendar:ICS_Subscription` tag uses **floating time**, so events appear at the intended local time (for example, **6:00 PM**) no matter where the subscriber is located.
 :::
 
-```html showLineNumbers
+```html
 {exp:calendar:ics_subscription}
 ```
 
 ## Parameters
 
-### hash=
+### `hash`
+This parameter is fed the unique hash value associated with the calendar to be subscribed to. It basically takes place of passing a calendar ID, with the added benefit of the site admin being able to revoke subscription access from users at any time. The hash value is available as a variable within the [Calendar:Calendars](../templating/calendars.mdx#calendarics_hash) tag. E.g. `hash="{segment_3}"`.
 
-`hash="{segment_3}"`
+### `category`
+This parameter allows you to export a specific set of events that belong to a category within a certain calendar by specifying a category ID. You can hardcode an category ID, pass it through an embed, or grab it from the URI. E.g. `category="{segment_4}"`.
 
-This parameter is fed the unique hash value associated with the calendar to be subscribed to. It basically takes place of passing a calendar ID, with the added benefit of the site admin being able to revoke subscription access from users at any time. The hash value is available as a variable within the [Calendar:Calendars](../templating/calendars.mdx#calendar_ics_hash) and [Calendar:Events](../templating/events.mdx#calendar-ics-hash) tags.
-
-### category=
-
-`category="{segment_4}"`
-
-This parameter allows you to export a specific set of events that belong to a category within a certain calendar by specifying a category ID. You can hardcode an category ID, pass it through an embed, or grab it from the URI.
 
 ## Examples
 
 The following code is a complete example for handling the subscription of If you wish to export a single event or calendar, your code would look something more like this:
 
-```html showLineNumbers
-{exp:calendar:ics_subscription hash="{segment_3}" {!-- Assuming you're linking
-to this template at something like site.com/calendar/ics-subscription/HASH --} }
+```html
+{exp:calendar:ics_subscription
+  hash="{segment_3}" {!-- Assuming linking like: site.com/calendar/ics-subscription/HASH --}
+}
 ```

@@ -16,195 +16,196 @@ For performance reasons, please be sure to update any Calendar template tags to 
 <Photo
   img={require('@site/static/img/ee/calendar/v5/calendar-templates_day.png')}
   alt="Day template tag"
+  scale="80"
 />
 
-```html showLineNumbers
+```html
 {exp:calendar:day} content {/exp:calendar:day}
 ```
 
 ## Parameters
 
-### author_id=
+### `author_id`
+This parameter allows you to filter down the event results by the author of the Calendar event entries. You can hardcode a member ID, pass it through an embed, or grab it from the URI. You can also use `CURRENT_USER` to display event entries for the currently logged in user. Separate multiples with the pipe character. E.g. `author_id="1"`, `author_id="1|5|9"` or `author_id="CURRENT_USER"`.
 
-`author_id="1"`
+### `calendar_id`
+This parameter allows you to display specific calendars by specifying their ID(s). You can hardcode a calendar ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character. E.g. `calendar_id="3"` or `calendar_id="1|3"`.
 
-This parameter allows you to filter down the event results by the author of the Calendar event entries. You can hardcode a member ID, pass it through an embed, or grab it from the URI. You can also use **CURRENT_USER** to display event entries for the currently logged in user. Separate multiples with the pipe character.
+### `calendar_short_name`
+This parameter allows you to display specific calendars by specifying their short names. You can hardcode a short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character. E.g. `calendar_short_name="dodgeball"` or `calendar_short_name="soccer|baseball|dodgeball"`.
 
-### calendar_id=
+### `category`
+This parameter allows you to filter down the event results by the category ID assigned to calendar event entries. You can hardcode a category ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character. E.g. `category="22"` or `category="22|25|32"`.
 
-`calendar_id="1|3"`
+### `channel`
+This parameter allows you to filter down the event results by the channel of the calendar event entries. You can hardcode a channel short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character. E.g. `channel="baseball"` or `channel="baseball|hockey|chess"`.
 
-This parameter allows you to display specific calendars by specifying their ID(s). You can hardcode a calendar ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+### `date_range_start`
+This parameter allows you to specify a particular day to display events for. If this parameter is NOT specified or an incorrect date value is passed to this parameter, the current day will be displayed. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter.
 
-### calendar_short_name=
-
-`calendar_short_name="soccer|baseball|dodgeball"`
-
-This parameter allows you to display specific calendars by specifying their short names. You can hardcode a short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
-
-### category=
-
-`category="22"`
-
-This parameter allows you to filter down the event results by the category ID assigned to calendar event entries. You can hardcode a category ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
-
-### channel=
-
-`channel="baseball"`
-
-This parameter allows you to filter down the event results by the channel of the calendar event entries. You can hardcode a channel short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
-
-### date_range_start=
-
-```html showLineNumbers
-{if segment_3} date_range_start="{segment_3}-{segment_4}-{segment_5} {if:else}
-date_range_start="today" {/if}
+```html
+{if segment_3}
+  date_range_start="{segment_3}-{segment_4}-{segment_5}"
+{if:else}
+  date_range_start="today"
+{/if}
 ```
 
-This parameter allows you to specify a particular day to display events for. If this parameter is NOT specified or an incorrect date value is passed to this parameter, the current day (today) will be displayed. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter.
+### `site`
+If using [EE Multiple Site Manager](https://docs.expressionengine.com/v7/msm/overview.html) (MSM), you can specify a site short name(s) in this parameter to filter event entries down to that site. E.g. `site="siteB"` or `site="siteA|siteB|siteC"`.
 
-### site=
+### `status`
+This parameter allows you to filter down the event results by the status of the calendar event entries. You can hardcode a channel short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character. E.g. `status="open"` or `status="open|extra"`.
 
-`site="siteA|siteB|siteC"`
-
-If using [EE Multiple Site Manager](https://docs.expressionengine.com/v7/msm/overview.html) (MSM), you can specify a site short name(s) in this parameter to filter event entries down to that site.
-
-### status=
-
-`status="open|extra"`
-
-This parameter allows you to filter down the event results by the status of the calendar event entries. You can hardcode a channel short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
 
 ## Variables
+Most of the [variables listed in Calendar:Events](../templating/events.mdx#variables) are available for use here (inside of the [calendar:events](#calendarevents) variable pair). Additionally, the following variables are available for use as well:
 
-Most of the [variables listed in Calendar:Events](../templating/events.mdx#variables) are available for use here (inside of the [calendar:events](#calendar-events) variable pair). Additionally, the following variables are available for use as well:
+### `{calendar:next_day}`
+This variable displays the day after the currently viewed day. Typically used for linking to next day. E.g. `{calendar:next_day format="%F %j, %Y"}`
 
-### calendar:next_day
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair. 
+:::
 
-`{calendar:next_day format="%F %j, %Y"}`
+### `{calendar:previous_week}`
+This variable displays the day before the currently viewed day. Typically used for linking to previous day. E.g. `{calendar:previous_day format="%F %j, %Y"}`
 
-This variable displays the day after the currently viewed day. Typically used for linking to the next day. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair. 
+:::
 
-### calendar:previous_day
+### `{calendar:day_date}`
+This variable displays the date of the currently specified day. E.g. `{calendar:day_date format="%j"}`.
 
-`{calendar:previous_day format="%F %j, %Y"}`
+:::info
+Can be used within the [`calendar:days`](#calendardays) variable pair and OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
-This variable displays the day prior to the currently viewed day. Typically used for linking to previous day. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+### `{calendar:day_total_events}`
+This variable displays the total number of events that are happening for a given day.
 
-### calendar:day_date
+:::info
+Can be used within the [`calendar:days`](#calendardays) variable pair and OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
-`{calendar:day_date format="%F %j, %Y"}`
+### `{calendar:hour_date}`
+This variable displays the date of the currently specified hour. E.g. `{calendar:hour_date format="%g %a"}`.
 
-This variable displays the date of the currently specified day. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+:::info
+Can be used within the [`calendar:hours`](#calendarhours) variable pair and OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
-### calendar:day_total_events
+### `{calendar:hour_total_events}`
+This variable displays the total number of events that are happening for a given hour.
 
-`{calendar:day_total_events}`
+:::info
+Can be used within the [`calendar:hours`](#calendarhours) variable pair and OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
-This variable displays the total number of events that are happening for a given day. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+### `{calendar:all_day_total_events}`
+This variable displays the total number of _all day_ events (all day or multi-day events).
 
-### calendar:hour_date
+:::info
+Can be used within the [`calendar:all_day_events`](#calendarall_day_events) variable pair and OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
-`{calendar:hour_date format="%g %a"}`
-
-This variable displays the date of the currently specified hour. Can only be used INSIDE of the [calendar:hours](#calendar_hours) variable pair, and OUTSIDE of the [calendar:events](#calendar-events) variable pair.
-
-### calendar:hour_total_events
-
-`{calendar:hour_total_events}`
-
-This variable displays the total number of events that are happening for a given hour. Can only be used INSIDE of the [calendar:hours](#calendar_hours) variable pair, and OUTSIDE of the [calendar:events](#calendar-events) variable pair.
-
-### calendar:all_day_total_events
-
-`{calendar:all_day_total_events}`
-
-This variable displays the total number of 'all day' events (all day or multi-day events). Can only be used INSIDE of the [calendar:all_day_events](#calendar-all-day-events) variable pair, and OUTSIDE of the [calendar:events](#calendar-events) variable pair.
 
 ## Variable Pairs
 
-### calendar:hours
+### `{calendar:hours}`
+This variable pair handles the formatting for each hour of the day. It is available to use in the event you want to break down the list of results by sections of hours.
 
-`{calendar:hours}{/calendar:hours}`
+:::info
+This variable pair will exclude **all day** and some **multi-day** (ones that started previous day) events. To display these, use the [calendar:all_day_events](#calendarall_day_events) variable pair.
+:::
 
-This variable pair handles the formatting for each hour of the day. It is available to use in the event you want to break down the list of results by sections of hours. It will exclude **all day** and some **multi-day** (ones that started previous day) events. To display these, use the [calendar:all_day_events](#calendar-all-day-events) variable pair.
-
-### calendar:all_day_events
-
-`{calendar:all_day_events}{/calendar:all_day_events}`
-
+### `{calendar:all_day_events}`
 This variable pair handles the formatting for events that are **all day** or **multi-day** (ones that started previous day). It will only display its contents if there are any events of this type for the given day.
 
-### calendar:events
 
-`{calendar:events}{/calendar:events}`
+### `{calendar:events}`
+This variable pair handles the formatting of each event result. Most of the [variables listed in Calendar:Events](../templating/events.mdx#variables) are available for use here, prefixed with `calendar:`.
 
-This variable pair handles the formatting of each event result. Most of the [variables listed in Calendar:Events](../templating/events.mdx#variables) are available for use here, prefixed with **calendar:**.
 
 ## Conditionals
 
-### calendar:no_results
+### `{calendar:no_results}`
+This conditional displays its contents when there is no event results for the given parameters.
 
-```html showLineNumbers
-{if calendar:no_results} Sorry, no events are available within this specified
-date range. {/if}
+:::info
+Available only within the [`calendar:events`](#calendarevents) variable pair.
+:::
+
+```html
+{if calendar:no_results}
+  Sorry, no events exist for the specified parameters.
+{/if}
 ```
 
-This conditional displays its contents when there is no event results for the given parameters. Can only be used INSIDE of the [calendar:events](#calendar-events) variable pair.
+### `{calendar:event_all_day}`
+This conditional will displays its contents if the event is an all day event. E.g. `{if calendar:event_all_day}{/if}`.
 
-### calendar:event_all_day
+:::info
+Available only within the [`calendar:events`](#calendarevents) variable pair.
+:::
 
-`{if calendar:event_all_day}{/if}`
+### `{calendar:event_multi_day}`
+This conditional will displays its contents the event occurs on multiple days. E.g. `{if calendar:event_multi_day}{/if}`.
 
-This conditional will displays its contents if the event is an all day event. Can only be used INSIDE of the [calendar:events](#calendar-events) variable pair.
+:::info
+Available only within the [`calendar:events`](#calendarevents) variable pair.
+:::
 
-### calendar:event_multi_day
+### `{calendar:event_recurs}`
+This conditional will displays its contents if the event has recurrence rules. E.g. `{if calendar:event_recurs}{/if}`.
 
-`{if calendar:event_multi_day}{/if}`
+:::info
+Available only within the [`calendar:events`](#calendarevents) variable pair.
+:::
 
-This conditional will displays its contents the event occurs on multiple days. Can only be used INSIDE of the [calendar:events](#calendar-events) variable pair.
+### `{calendar:day_is_weekend}`
+This conditional is typically used for adjusting styles or formatting, and will display its contents if the day occurs on the weekend (Saturday or Sunday). E.g. `{if calendar:day_is_weekend}{/if}`.
 
-### calendar:event_recurs
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
-`{if calendar:event_recurs}{/if}`
+### `{calendar:day_is_weekday}`
+This conditional is typically used for adjusting styles or formatting, and will display its contents if the day occurs on a weekday (Monday to Friday). E.g. `{if calendar:day_is_weekday}{/if}`.
 
-This conditional will displays its contents if the event has recurrence rules. Can only be used INSIDE of the [calendar:events](#calendar-events) variable pair.
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
-### calendar:day_is_weekend
+### `{calendar:current_day}`
+This conditional will displays its contents if the day is in the current day / today. E.g. `{if calendar:current_day}{/if}`.
 
-`{if calendar:day_is_weekend}{/if}`
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
-This conditional is typically used for adjusting styles or formatting, and will display its contents if the day occurs on the weekend (Saturday or Sunday). Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+### `{calendar:current_week}`
+This conditional will displays its contents if the day is in the current week. E.g. `{if calendar:current_week}{/if}`.
 
-### calendar:day_is_weekday
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
-`{if calendar:day_is_weekday}{/if}`
+### `{calendar:current_month}`
+This conditional will displays its contents if the day is in the current month. E.g. `{if calendar:current_month}{/if}`.
 
-This conditional is typically used for adjusting styles or formatting, and will display its contents if the day occurs on a weekday (Monday to Friday). Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
-### calendar:current_day
+### `{calendar:current_year}`
+This conditional will displays its contents if the day is in the current year. E.g. `{if calendar:current_year}{/if}`.
 
-`{if calendar:current_day}{/if}`
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
-This conditional will displays its contents if the day is in the current day / today. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
-
-### calendar:current_week
-
-`{if calendar:current_week}{/if}`
-
-This conditional will displays its contents if the day is in the current week. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
-
-### calendar:current_month
-
-`{if calendar:current_month}{/if}`
-
-This conditional will displays its contents if the day is in the current month. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
-
-### calendar:current_year
-
-`{if calendar:current_year}{/if}`
-
-This conditional will displays its contents if the day is in the current year. Can only be used OUTSIDE of the [calendar:events](#calendar-events) variable pair.
 
 ## Examples
 
@@ -213,42 +214,42 @@ We strongly recommend you install the [Demo Templates](../guides/control-panel.m
 Below is a basic code example showing how this tag works:
 
 ```html showLineNumbers
-{exp:calendar:day {if segment_3} {!-- Are we looking at a date other than today?
---} date_range_start="{segment_3}-{segment_4}-{segment_5}" {if:else} {!-- Or are
-we looking at today's date? --} date_range_start="today" {/if} }
-<p>
-  <a href="{path='calendar/day'}/{calendar:previous_day format='%Y/%m/%d'}/"
-    >Previous Day</a
-  >
-  <b>{calendar:day_date format="%l, %F %j, %Y"}</b> ({calendar:day_total_events}
-  events)
-  <a href="{path='calendar/day'}/{calendar:next_day format='%Y/%m/%d'}/"
-    >Next Day</a
-  >
-</p>
-{calendar:all_day_events}
-<ul>
-  {calendar:events}
-  <li>
-    <a href="{path='calendar/events'}/{calendar:url_title}/"
-      >{calendar:title}</a
-    >
-    (all day)
-  </li>
-  {/calendar:events}
-</ul>
-{/calendar:all_day_events} {calendar:hours}
-<h4>{calendar:hour_date format="%g %a"}</h4>
-{calendar:events}
-<h3>
-  <a href="{path='calendar/events'}/{calendar:url_title}/">{calendar:title}</a>
-</h3>
-<p>Calendar: {calendar:calendar_short_name}</p>
-<p>
-  From {calendar:event_start_date format="%l, %F %j, %Y - %g:%i%a"} to
-  {calendar:event_end_date format="%l, %F %j, %Y - %g:%i%a"}
-</p>
-{if calendar:no_results}
-<p>No events today.</p>
-{/if} {/calendar:events} {/calendar:hours} {/exp:calendar:day}
+{exp:calendar:day
+  {if segment_3} {!-- Are we looking at a date other than today? --}
+    date_range_start="{segment_3}-{segment_4}-{segment_5}"
+  {if:else} {!-- Or are we looking at today's date? --}
+    date_range_start="today"
+  {/if}
+}
+  <p>
+    <a href="{path='calendar/day'}/{calendar:previous_day format='%Y/%m/%d'}/">Previous Day</a>
+    <b>{calendar:day_date format="%l, %F %j, %Y"}</b> ({calendar:day_total_events} events)
+    <a href="{path='calendar/day'}/{calendar:next_day format='%Y/%m/%d'}/">Next Day</a>
+  </p>
+  {calendar:all_day_events}
+    <ul>
+      {calendar:events}
+        <li>
+          <a href="{path='calendar/events'}/{calendar:url_title}/">{calendar:title}</a> (all day)
+        </li>
+      {/calendar:events}
+    </ul>
+  {/calendar:all_day_events}
+  {calendar:hours}
+    <h4>{calendar:hour_date format="%g %a"}</h4>
+    {calendar:events}
+      <h3>
+        <a href="{path='calendar/events'}/{calendar:url_title}/">{calendar:title}</a>
+      </h3>
+      <p>Calendar: {calendar:calendar_short_name}</p>
+      <p>
+        From {calendar:event_start_date format="%l, %F %j, %Y - %g:%i%a"} to
+        {calendar:event_end_date format="%l, %F %j, %Y - %g:%i%a"}
+      </p>
+      {if calendar:no_results}
+        <p>No events today.</p>
+      {/if}
+    {/calendar:events}
+  {/calendar:hours}
+{/exp:calendar:day}
 ```
