@@ -16,148 +16,171 @@ For more information about how the _Calendar_ fieldtype works (in the publish pa
   alt="Events by Month"
 />
 
-```html showLineNumbers
+```html
 {CALENDAR_FIELD_NAME} content {/CALENDAR_FIELD_NAME}
 ```
 
-Most of the [variables](../templating/events.mdx#variables) and [conditionals](../templating/events.mdx#conditionals) listed in the _Calendar:Events_ template tag are available for use here, inside of the **\{CALENDAR_FIELD_NAME}\{/CALENDAR_FIELD_NAME}** variable pair. Also available is the _\{calendar:recurrences}\{/calendar:recurrences}_ variable pair:
+Most of the [variables](../templating/events.mdx#variables) and [conditionals](../templating/events.mdx#conditionals) listed in the _Calendar:Events_ template tag are available for use here, inside of the `{CALENDAR_FIELD_NAME}{/CALENDAR_FIELD_NAME}` variable pair. Also available is the `{calendar:recurrences}{/calendar:recurrences}` variable pair:
 
-```html showLineNumbers
+```html
 <ul>
-  {calendar:recurrences date_range_start="today" date_range_end="3 months"
-  limit="10" }
-  <li>
-    {calendar:recurrence_start_date format="%F %j, %Y at %g:%i %a"} to
-    {calendar:recurrence_end_date format="%F %j, %Y at %g:%i %a"}
-    ({calendar:recurrence_count} of {calendar:recurrence_total_results} total)
-  </li>
-  {/calendar:recurrences} {if calendar:recurrences:no_results} {!-- Needs to be
-  AFTER the closing tag --}
-  <li>No results found for this timeframe.</li>
+  {calendar:recurrences
+    date_range_start="today"
+    date_range_end="3 months"
+    limit="10"
+  }
+    <li>
+      {calendar:recurrence_start_date format="%F %j, %Y at %g:%i %a"} to
+      {calendar:recurrence_end_date format="%F %j, %Y at %g:%i %a"}
+      ({calendar:recurrence_count} of {calendar:recurrence_total_results} total)
+    </li>
+  {/calendar:recurrences}
+  {if calendar:recurrences:no_results} {!-- Needs to be AFTER the closing tag --}
+    <li>No results found for this timeframe.</li>
   {/if}
 </ul>
 ```
 
 This variable pair handles the formatting and display for each recurrence of an event result. For performance reasons, this variable pair can only be used once (can only be used in a single event entry detail page - not a list).
 
-The following parameters become available for this variable pair:
+### Recurrence Parameters
+The following parameters are available for this variable pair:
 
-- **date_range_start="today"** - Specify a date range to display recurrences for. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter.
-- **date_range_end="3 months"** - Specify a date range to display recurrences for. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter.
-- **limit="10"** - The maximum number of recurrences to display.
-- **offset="1"** - The number of recurrences to skip before displays results. You might commonly use this with value of **1** to exclude the currently viewed occurrence from showing up in the results.
+- `date_range_start="today"` - Defines the start of the date range used to generate recurrences. Supports both [standard and natural-language date formats](../guides/date-formatting.mdx).
+- `date_range_end="3 months"` - Defines the end of the date range used to generate recurrences. Supports both [standard and natural-language date formats](../guides/date-formatting.mdx).
+- `limit="10"` - Limits the number of recurrences returned.
+- `offset="1"` - Skips a specified number of recurrences before returning results. Commonly set to `1` to exclude the currently viewed occurrence.
 
-The following variables become available for use within this variable pair:
+### Recurrence Variables
+The following variables are available inside this variable pair:
 
-- **\{calendar:recurrence_start_date}** - Displays the start date of each recurrence for the event. Format using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html).
-- **\{calendar:recurrence_end_date}** - Displays the end date of each recurrence for the event. Format using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html).
-- **\{calendar:recurrence_count}** - Displays the display order of each recurrence in the list of recurrence results.
-- **\{calendar:recurrence_total_results}** - Displays the total number of recurrence that are happening for the event within the specified date/time range.
+- `{calendar:recurrence_start_date}` - Outputs the start date of each recurrence. Format using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html).
+- `{calendar:recurrence_end_date}` - Outputs the end date of each recurrence. Format using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html).
+- `{calendar:recurrence_count}` - Displays the position of the recurrence within the returned results.
+- `{calendar:recurrence_total_results}` - Displays the total number of recurrences found within the specified date range.
 
-The following conditional becomes available for use **after** this variable pair:
+### Conditionals
+The following conditional is available **after** the variable pair:
 
-- **\{if calendar:recurrences:no_results}\{/if}** - Displays its contents if there are no recurrences within the specified timeframe (based on parameters applied to \{calendar:recurrences} variable pair). Place this conditional right AFTER your \{/calendar:recurrences} closing tag (not inside it) to display your no results message.
+- `{if calendar:recurrences:no_results}{/if}` - Displays its contents when no recurrences are found within the specified date range.
+  :::warning
+  This conditional must be placed **immediately after** the closing `{/calendar:recurrences}` tag (not inside it).
+  :::
 
-## Example
+## Examples
 
+### Single Event
 Below is an example of a single event detail page:
 
-```twig
-{exp:channel:entries channel="events" entry_id="{segment_3}" require_entry="yes"
+```html
+{exp:channel:entries
+  channel="events"
+  entry_id="{segment_3}"
+  require_entry="yes"
 }
-<h3>{title}</h3>
-<p>Location: {location}</p>
-<p>{description}</p>
+  <h3>{title}</h3>
+  <p>Location: {location}</p>
+  <p>{description}</p>
 
-{CALENDAR_FIELD_NAME}
+  {CALENDAR_FIELD_NAME}
 
-<p>Calendar: {calendar:calendar_name}</p>
-<p>
-  {calendar:event_start_date format="%l, %F %j, %Y"} {if calendar:event_all_day}
-  (all day) {if:else} at {calendar:event_start_date format="%g:%i%a"} - {if
-  calendar:event_multi_day}
-  <br />{calendar:event_end_date format="%l, %F %j, %Y at %g:%i%a"} {if:else}
-  {calendar:event_end_date format="%g:%i%a"} {/if} {/if}
-</p>
+    <p>Calendar: {calendar:calendar_name}</p>
+    <p>
+      {calendar:event_start_date format="%l, %F %j, %Y"}
+      {if calendar:event_all_day}
+        (all day)
+      {if:else}
+        at {calendar:event_start_date format="%g:%i%a"} -
+        {if calendar:event_multi_day}
+          <br />{calendar:event_end_date format="%l, %F %j, %Y at %g:%i%a"}
+        {if:else}
+          {calendar:event_end_date format="%g:%i%a"}
+        {/if}
+      {/if}
+    </p>
 
-{if calendar:event_recurs}
-<h3>Upcoming occurrences in the next 3 months:</h3>
-<ul>
-  {calendar:recurrences date_range_start="today" date_range_end="3 months"
-  limit="10" }
-  <li>
-    <a
-      href="{path='calendar/day'}{calendar:recurrence_start_date format='%Y/%m/%d'}/"
-    >
-      {calendar:recurrence_start_date format="%F %j, %Y at %g:%i%a"}
-    </a>
-    -
-    <a
-      href="{path='calendar/day'}{calendar:recurrence_end_date format='%Y/%m/%d'}/"
-    >
-      {calendar:recurrence_end_date format="%F %j, %Y at %g:%i%a"}
-    </a>
-  </li>
-  {/calendar:recurrences}
-</ul>
-{/if} {/CALENDAR_FIELD_NAME}
+    {if calendar:event_recurs}
+      <h3>Upcoming occurrences in the next 3 months:</h3>
+      <ul>
+        {calendar:recurrences
+          date_range_start="today"
+          date_range_end="3 months"
+          limit="10"
+        }
+          <li>
+            <a href="{path='calendar/day'}{calendar:recurrence_start_date format='%Y/%m/%d'}/">
+              {calendar:recurrence_start_date format="%F %j, %Y at %g:%i%a"}
+            </a>
+            -
+            <a href="{path='calendar/day'}{calendar:recurrence_end_date format='%Y/%m/%d'}/">
+              {calendar:recurrence_end_date format="%F %j, %Y at %g:%i%a"}
+            </a>
+          </li>
+        {/calendar:recurrences}
+      </ul>
+    {/if}
+  
+  {/CALENDAR_FIELD_NAME}
 
-<hr />
+  <hr />
 
-{if no_results}
-<p>Sorry, this event could not be found.</p>
-{/if} {/exp:channel:entries}
+  {if no_results}
+    <p>Sorry, this event could not be found.</p>
+  {/if}
+{/exp:channel:entries}
 ```
 
+### List of Events
 Below is an example of a list of event entries:
 
-```twig
+```html
 <ul>
-{exp:channel:entries
-	channel="events"
-	limit="10" paginate="both"
-}
-	<li>
-		<strong>{title}</strong>
-		{CALENDAR_FIELD_NAME}
-			({calendar:calendar_name})
-			Starts {calendar:event_start_date format="%l, %F %j, %Y"}
-			{if calendar:event_all_day}
-				(all day)
-			{if:else}
-				at {calendar:event_start_date format="%g:%i%a"}
-			{/if}
-			{if calendar:event_recurs}
-				(Repeats {calendar:event_recurrence_rule})
-			{/if}
-		{/CALENDAR_FIELD_NAME}
-	</li>
-	{if no_results}
-		<li>Sorry, no channel entry results were found.</li>
-	{/if}
-	{paginate}
-		<li>
-		{pagination_links}
-			<ul class="pagination">
-			{first_page}
-				<li><a href="{pagination_url}" class="page-first">First Page</a></li>
-			{/first_page}
-			{previous_page}
-				<li><a href="{pagination_url}" class="page-previous">Previous Page</a></li>
-			{/previous_page}
-			{page}
-				<li{if current_page} class="active"{/if}><a href="{pagination_url}" class="page-{pagination_page_number}">{pagination_page_number}</a></li>
-			{/page}
-			{next_page}
-				<li><a href="{pagination_url}" class="page-next">Next Page</a></li>
-			{/next_page}
-			{last_page}
-				<li><a href="{pagination_url}" class="page-last">Last Page</a></li>
-			{/last_page}
-			</ul>
-		{/pagination_links}
-		</li>
-	{/paginate}
-{/exp:channel:entries}
+  {exp:channel:entries
+    channel="events"
+    limit="10"
+    paginate="both"
+  }
+    <li>
+      <strong>{title}</strong>
+      {CALENDAR_FIELD_NAME}
+        ({calendar:calendar_name})
+        Starts {calendar:event_start_date format="%l, %F %j, %Y"}
+        {if calendar:event_all_day}
+          (all day)
+        {if:else}
+          at {calendar:event_start_date format="%g:%i%a"}
+        {/if}
+        {if calendar:event_recurs}
+          (Repeats {calendar:event_recurrence_rule})
+        {/if}
+      {/CALENDAR_FIELD_NAME}
+    </li>
+    {if no_results}
+      <li>Sorry, no channel entry results were found.</li>
+    {/if}
+    {paginate}
+      <li>
+        {pagination_links}
+          <ul class="pagination">
+            {first_page}
+              <li><a href="{pagination_url}" class="page-first">First Page</a></li>
+            {/first_page}
+            {previous_page}
+              <li><a href="{pagination_url}" class="page-previous">Previous Page</a></li>
+            {/previous_page}
+            {page}
+              <li{if current_page} class="active"{/if}><a href="{pagination_url}" class="page-{pagination_page_number}">{pagination_page_number}</a></li>
+            {/page}
+            {next_page}
+              <li><a href="{pagination_url}" class="page-next">Next Page</a></li>
+            {/next_page}
+            {last_page}
+              <li><a href="{pagination_url}" class="page-last">Last Page</a></li>
+            {/last_page}
+          </ul>
+        {/pagination_links}
+      </li>
+    {/paginate}
+  {/exp:channel:entries}
 </ul>
 ```

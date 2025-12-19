@@ -61,34 +61,65 @@ This parameter allows you to filter down the event results by the status of the 
 Most of the [variables listed in Calendar:Events](../templating/events.mdx#variables) are available for use here (inside of the [calendar:events](#calendarevents) variable pair). Additionally, the following variables are available for use as well:
 
 ### `{calendar:next_month}`
-This variable displays the month date of the next month. Typically used for linking to next month. Can only be used OUTSIDE of the [calendar:events](#calendarevents) variable pair. E.g. `{calendar:next_month format="%F"}`.
+This variable displays the month date of the next month. Typically used for linking to next month. E.g. `{calendar:next_month format="%F"}`.
+
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair. 
+:::
 
 ### `{calendar:previous_month}`
-This variable displays the month date of the previous month. Typically used for linking to previous month. Can only be used OUTSIDE of the [calendar:events](#calendarevents) variable pair. E.g. `{calendar:previous_month format="%F"}`.
+This variable displays the month date of the previous month. Typically used for linking to previous month. E.g. `{calendar:previous_month format="%F"}`.
+
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair. 
+:::
 
 ### `{calendar:month_date}`
-This variable displays the date of the currently specified month. Can only be used OUTSIDE of the [calendar:events](#calendarevents) variable pair. E.g. `{calendar:month_date format="%F %Y"}`.
+This variable displays the date of the currently specified month. E.g. `{calendar:month_date format="%F %Y"}`.
+
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair. 
+:::
 
 ### `{calendar:month_total_events}`
-This variable displays the total number of events that are happening for a given month. Can only be used OUTSIDE of the [calendar:events](#calendarevents) variable pair.
+This variable displays the total number of events that are happening for a given month.
+
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair. 
+:::
 
 ### `{calendar:week_date}`
-This variable displays the beginning date of the currently specified week. It will parse as if you're using something like _Week beginning Sunday, February 14, 2026_. Can only be used INSIDE of the [calendar:weeks](#calendarweeks) variable pair, and OUTSIDE of the [calendar:events](#calendarevents) variable pair. E.g. `Week of {calendar:week_date format="%F %j, %Y"}`.
+This variable displays the beginning date of the currently specified week. For example, if you're using `Week beginning {calendar:week_date format="%l, %F %j, %Y"}`, it will parse as something like _Week beginning Sunday, February 14, 2026_.
+
+:::info
+Can be used within the [`calendar:weeks`](#calendarweeks) variable pair and OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
 ### `{calendar:week_total_events}`
-This variable displays the total number of events that are happening for a given week. Can only be used INSIDE of the [calendar:weeks](#calendarweeks) variable pair, and OUTSIDE of the [calendar:events](#calendarevents) variable pair.
+This variable displays the total number of events that are happening for a given week. 
+
+:::info
+Can be used within the [`calendar:weeks`](#calendarweeks) variable pair and OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
 ### `{calendar:day_date}`
-This variable displays the date of the currently specified day. Can only be used INSIDE of the [calendar:days](#calendardays) variable pair, and OUTSIDE of the [calendar:events](#calendarevents) variable pair. E.g. `{calendar:day_date format="%j"}`.
+This variable displays the date of the currently specified day. E.g. `{calendar:day_date format="%j"}`.
+
+:::info
+Can be used within the [`calendar:days`](#calendardays) variable pair and OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
 ### `{calendar:day_total_events}`
-This variable displays the total number of events that are happening for a given day. Can only be used INSIDE of the [calendar:days](#calendardays) variable pair, and OUTSIDE of the [calendar:events](#calendarevents) variable pair.
+This variable displays the total number of events that are happening for a given day.
 
+:::info
+Can be used within the [`calendar:days`](#calendardays) variable pair and OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
 
 ## Variable Pairs
 
-### `{calendar:days}`
-This variable pair handles the formatting for each day. It is primarily used to handle the output of each day cell in a full month calendar.
+### `{calendar:weeks}`
+This variable pair handles the formatting for each weeks. It is primarily used to handle the output of week rows in a full month calendar.
 
 ### `{calendar:days_of_week}`
 This variable pair handles the formatting for each day of the week. It is primarily used for displaying the weekday headings for the month calendar (ex: _Monday_, _Tuesday_, _Wednesday_, etc).
@@ -107,8 +138,8 @@ Inside of this variable pair, the following formatted date variables are availab
 {/calendar:days_of_week}
 ```
 
-### `{calendar:weeks}`
-This variable pair handles the formatting for each weeks. It is primarily used to handle the output of week rows in a full month calendar.
+### `{calendar:days}`
+This variable pair handles the formatting for each day. It is primarily used to handle the output of each day cell in a full month calendar.
 
 ### `{calendar:events}`
 This variable pair handles the formatting of each event result. Most of the [variables listed in Calendar:Events](../templating/events.mdx#variables) are available for use here, prefixed with `calendar:`.
@@ -133,7 +164,7 @@ Available only within the [`calendar:events`](#calendarevents) variable pair.
 
 ```html
 {if calendar:no_results}
-  Sorry, no calendars exist for the specified parameters.
+  Sorry, no events exist for the specified parameters.
 {/if}
 ```
 
