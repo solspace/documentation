@@ -8,27 +8,24 @@ import { Photo } from '@site/src/components/utils';
 
 ## Requirements
 
-Solspace Calendar 5.x is compatible with EE7 with mostly the same minimum requirements as listed on the [ExpressionEngine Requirements](https://docs.expressionengine.com/v7/installation/requirements.html) page:
+Solspace Calendar has mostly the same minimum requirements as listed on the [ExpressionEngine Requirements](https://docs.expressionengine.com/v7/installation/requirements.html) page:
 
 - ExpressionEngine 7.x
-- PHP 7.4 or newer
+- PHP 8.0 - 8.4
+- [PHP iconv](http://php.net/manual/en/book.iconv.php) enabled
 - MySQL 5.6 or newer
-- Windows and macOS browsers:
-  - Chrome 21 or newer
-  - Firefox 28 or newer
-  - Safari 9.0 or newer
-  - Microsoft Edge
+
+:::danger
+Calendar 5.x no longer supports PHP 7.4. If you require PHP 7.4 support, please use Calendar 4.x.
+:::
 
 ## Installing Instructions
 
 1. Unzip the download package:
-   - Select the EE version you're installing Calendar for (e.g. **EE6-7** for EE 7.x).
-   - Within that EE version directory, copy the _calendar_ folder into your sites **./system/user/addons/** directory.
-   - Within the **themes** folder of that EE version directory, copy the _calendar_ folder into your site's **./themes/user/** directory.
+   - Open the **EE7** folder.
+   - Copy the `calendar` folder to your EE site's `./system/user/addons/` directory.
+   - Within the `themes` folder, copy the `calendar` folder to your EE site's `./themes/user/` directory.
 2. Go to the _Add-Ons_ page and find _Calendar_ in the list, and click **Install**.
-3. Setup and configuring:
-   - Before you start using Calendar, you'll need to create Calendar field(s), calendars, and set some preferences in the _Preferences_ area of the [Control Panel](../guides/control-panel.mdx).
-   - If you wish to install the demo templates, click on the _Demo Templates_ navigation item inside the [Control Panel](../guides/control-panel.mdx) area.
 
 :::info
 If you had a previous non-Calendar flow setup where you used regular EE fields acting as Start/End Dates and Start/End Times and you're slowly transitioning from that to Calendar, please be sure that any of fields these are not named something like: `event_start_date`, `event_start_time`, `event_end_date`, `event_end_time`, etc. These are reserved names for Calendar's use, and will cause errors like `DateTime::__construct(): Failed to parse time string (0) at position 0 (0): Unexpected character` in your templates if you do not rename or remove the other fields.
@@ -36,24 +33,26 @@ If you had a previous non-Calendar flow setup where you used regular EE fields a
 
 ## Updating Instructions
 
-Calendar has its own **Update Service** built in, which means that every time there's an update available, an **Updates Available** nav item will show up in the Calendar add-on area of the EE control panel. You can then review the changelog there, or [view it here](../setup/changelog.mdx).
+Calendar has its own **Update Service** built in, which means that every time there's an update available, an **Updates Available** nav item will show up in the Calendar add-on area of the EE control panel. You can then review the changelog there, or [view it here](./changelog.mdx).
 
 <Photo
-  img={require('@site/static/img/ee/calendar/v5/calendar-cp_updates.png')}
+  img={require('@site/static/img/ee/calendar/v5/cp_updates.png')}
   alt="Calendar's Built in Update Service"
 />
 
-To download the update, simply click the **Get Latest Version** button, and you'll be taken to your account area on the Solspace site where you can log in and download the updated package for Calendar. Then follow the steps below:
+To download the update, simply click the **Get Latest Version** button, and you'll be taken to your account area on the [EE Add-ons Store](https://expressionengine.com/add-ons/calendar) site where you can log in and download the updated package for Calendar. Then follow the steps below:
 
-1. Within your EE site's **./system/user/addons/** and **./themes/user/** directories, delete the _calendar_ folders.
+1. Within your EE site's `./system/user/addons/` and `./themes/user/` directories, delete the `calendar` folders.
 2. Unzip the download package:
-   - Select the EE version you're updating Calendar for (e.g. **EE6-7** for EE 7.x).
-   - Within that EE version directory, copy the _calendar_ folder into your sites **./system/user/addons/** directory.
-   - Within the **themes** folder of that EE version directory, copy the _calendar_ folder into your site's **./themes/user/** directory.
+   - Open the **EE7** folder.
+   - Copy the `calendar` folder to your EE site's `./system/user/addons/` directory.
+   - Within the `themes` folder, copy the `calendar` folder to your EE site's `./themes/user/` directory.
 3. Go to the _Add-Ons_ page, click on the **Updates** tab near the top, and find _Calendar_ in the list, and click the **Update** button.
 
 ## Quick Setup
 
-Follow the steps below to quickly get Solspace Calendar setup in minutes.
+Follow the steps below to quickly get Solspace Calendar set up in minutes.
 
-1. Customize and configure Solspace Calendar settings by visiting the [Settings](../guides/control-panel.mdx) page (**Developer > Add-Ons > Calendar > Settings**).
+1. Customize and configure Solspace Calendar settings by visiting the [Settings](../guides/control-panel.mdx#preferences) page (**Add-Ons → Calendar → Preferences**).
+2. Create Calendar field(s), calendars, and set some preferences in the _Preferences_ area of the [Control Panel](../guides/control-panel.mdx#preferences).
+3. Install the [Demo Templates](../guides/control-panel.mdx#demo-templates) (**Add-Ons → Calendar → Preferences → Demo Templates**) to get Calendar up and running on the front end with just a couple clicks!
