@@ -7,95 +7,92 @@ title: 'Month_List'
 
 The _Calendar:Month_List_ loop outputs an archive list of months for the purpose of generating simple lists to link to full Month calendars.
 
-```html showLineNumbers
+```html
 {exp:calendar:month_list} content {/exp:calendar:month_list}
 ```
 
 ## Parameters
 
-### date_range_start=
+### `date_range_start`
+Required to set start date of months. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter. This parameter defaults to **today** (current month) when no value specified. E.g. `date_range_start="6 months ago"`.
 
-`date_range_start="6 months ago"`
+### `date_range_end`
+Use this parameter to set end date of months. If this parameter is not specified, then the default [limit](#limit) of `12` results will kick in, unless a different value is specified in the [limit](#limit) parameter. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter. E.g. `date_range_end="6 months"`.
 
-Required to set start date of months. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter. This parameter defaults to **today** (current month) when no value specified.
+### `limit`
+This parameter allows you to limit the amount of month results to be displayed in the list. Default is `12` months. If this parameter is not specified, the default value of this parameter only kicks in when the [date_range_end](#date_range_end) parameter is not used. E.g. `limit="18"`.
 
-### date_range_end=
-
-`date_range_end="6 months"`
-
-Use this parameter to set end date of months. If this parameter is not specified, then the default [limit](#limit) of **12** results will kick in, unless a different value is specified in the [limit](#limit) parameter. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter.
-
-### limit=
-
-`limit="18"`
-
-This parameter allows you to limit the amount of month results to be displayed in the list. Default is **12** months. If this parameter is not specified, the default value of this parameter only kicks in when the [date_range_end](#date-range-end) parameter is not used.
 
 ## Variables
 
-### calendar:date
+### `{calendar:date}`
+Displays the given month and year, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html). E.g. `{calendar:date format="%F, %Y"}`.
 
-`{calendar:date format="%F, %Y"}`
-
-Displays the given month and year, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html).
 
 ## Conditionals
 
-### calendar:current_month
+### `{calendar:current_month}`
+This conditional will display its contents if the month in the list of results is today's month. E.g. `{if calendar:current_month}Current Month{/if}`.
 
-`{if calendar:current_month}Current Month{/if}`
+### `{calendar:current_year}`
+This conditional will display its contents if the month in the list of results is in the current year. E.g. `{if calendar:current_year}Current Year{/if}`.
 
-This conditional will display its contents if the month in the list of results is today's month.
-
-### calendar:current_year
-
-`{if calendar:current_year}Current Year{/if}`
-
-This conditional will display its contents if the month in the list of results is in the current year.
 
 ## Examples
 
-The following code will display a list of months during the period of **January, 2015 - December, 2017**:
+### Date Range
+The following code will display a list of months during the period of **January, 2025 - December, 2027**:
 
-```html showLineNumbers
+```html
 <ul>
-  {exp:calendar:month_list date_range_start="2015-01-01"
-  date_range_end="2017-12-last" limit="36" }
-  <li>
-    <a href="{path='calendar/month'}/{calendar:date format='%Y/%m'}/">
-      {calendar:date format="%F, %Y"}
-    </a>
-  </li>
+  {exp:calendar:month_list
+    date_range_start="2025-01-01"
+    date_range_end="2027-12-last"
+    limit="36"
+  }
+    <li>
+      <a href="{path='calendar/month'}/{calendar:date format='%Y/%m'}/">
+        {calendar:date format="%F, %Y"}
+      </a>
+    </li>
   {/exp:calendar:month_list}
 </ul>
 ```
 
+### Current Year
 The following code will display a list of all months in the current year:
 
-```html showLineNumbers
+```html
 <ul>
-  {exp:calendar:month_list date_range_start="year-01-01"
-  date_range_end="year-12-last" limit="12" }
-  <li>
-    <a href="{path='calendar/month'}/{calendar:date format='%Y/%m'}/">
-      {calendar:date format="%F, %Y"}
-    </a>
-  </li>
+  {exp:calendar:month_list
+    date_range_start="year-01-01"
+    date_range_end="year-12-last"
+    limit="12"
+  }
+    <li>
+      <a href="{path='calendar/month'}/{calendar:date format='%Y/%m'}/">
+        {calendar:date format="%F, %Y"}
+      </a>
+    </li>
   {/exp:calendar:month_list}
 </ul>
 ```
 
+### Rolling List
 The following code will display a rolling year list of all 12 months, but relative to current month:
 
-```html showLineNumbers
+```html
 <ul>
-  {exp:calendar:month_list date_range_start="6 months ago" date_range_end="6
-  months" limit="12" }
-  <li>
-    <a href="{path='calendar/month'}/{calendar:date format='%Y/%m'}/">
-      {calendar:date format="%F, %Y"}
-    </a>
-  </li>
+  {exp:calendar:month_list
+    date_range_start="6 months ago"
+    date_range_end="6 months"
+    limit="12"
+  }
+    <li>
+      <a href="{path='calendar/month'}/{calendar:date format='%Y/%m'}/">
+        {calendar:date format="%F, %Y"}
+      </a>
+    </li>
   {/exp:calendar:month_list}
 </ul>
 ```

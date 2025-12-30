@@ -35,6 +35,12 @@ Freeform includes a wide variety of settings that allow you to customize your fo
       fullCardLink: '#form-behavior',
     },
     {
+      title: 'Queue Processing',
+      description: 'Use Craft\'s Queue to process form submits quicker.',
+      icon: Icons.QueueIcon,
+      fullCardLink: '#queue-processing',
+    },
+    {
       title: 'Form Builder',
       description: "Configure Freeform's form builder experience.",
       icon: Icons.WidgetsIcon,
@@ -68,12 +74,6 @@ Freeform includes a wide variety of settings that allow you to customize your fo
       description: "Configure Freeform's built-in spam controls.",
       icon: Icons.CarrotIcon,
       fullCardLink: '#spam-protection',
-    },
-    {
-      title: 'Captchas',
-      description: 'Enable and setup reCAPTCHA or hCaptcha for your site.',
-      icon: Icons.CaptchaIcon,
-      fullCardLink: '#captchas',
     },
     {
       title: 'Integrations',
@@ -127,12 +127,12 @@ Freeform includes a wide variety of settings that allow you to customize your fo
 
 Configure general settings for Freeform.
 
-:::warning
-This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
+:::info
+This page and its settings all become readonly when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/general.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/general.jpg')}
   alt="General Settings"
 />
 
@@ -166,31 +166,30 @@ Enabling the **Purge Submissions** feature and saving this settings page will re
 
 Configure the front end form behavior.
 
-:::warning
-This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
+:::info
+This page and its settings all become readonly when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/form-behavior.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/form-behavior.jpg')}
   alt="Form Behavior Settings"
 />
 
 <details className="hidden-heading">
   <summary>View list of Settings</summary>
 
-| Setting                                                                          | Project Config                        | Description                                                                                                                                                                                                                                                                                                                                                                                                             | <span className="edition-express">Express</span> | <span className="edition-lite">Lite</span> | <span className="edition-pro">Pro</span> |
-| -------------------------------------------------------------------------------- | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------: | :----------------------------------------: | :--------------------------------------: |
-| **Disable Submit Button on Form Submit**                                         | `formSubmitDisable: true`             | Enable this to automatically disable the form's submit button when the user submits the form. This will prevent the form from double-submitting.                                                                                                                                                                                                                                                                        |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
-| **Automatically Scroll to Form on Errors and Multipage forms**                   | `autoScrollToErrors: true`            | Enable this to have Freeform use JS to automatically scroll the page down to the form upon submit when there are errors or the form is continuing to the next page in multipage forms.                                                                                                                                                                                                                                  |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
-| **Automatically Scroll to top of the Form on AJAX submit**                       | `autoScroll: true`                    | Enable this when using AJAX to have Freeform use JS to automatically scroll the top of the form on submit. This is especially beneficial when you have longer forms and success/error messages at the top of the form become out of sight.                                                                                                                                                                              |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
-| **Remember the Page Order in Multi-page forms**                                  | `rememberPageSubmitOrder: true`       | When enabled, Freeform will take into account Conditional Rules page skipping when the user clicks the 'Previous' button on multi-page forms.                                                                                                                                                                                                                                                                           |    <small className="compare-none">N/A</small>   |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
-| **CSRF Token Refresh Method**<Badge type="feature" text="New in 5.11+" />        | `csrfRefresh: always`                 | When Craft's `asyncCsrfInputs` setting is `true`, this setting will appear. You can control how CSRF tokens refresh by choosing between refreshing once per page view (`once`)<Badge type="recommended" text="Recommended" />, on every AJAX request (`always`) or none (`never` - classic behavior). This helps ensure secure, automatic token handling even when using page caching.                                  |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
-| **Use Queue for Email Notifications**<Badge type="feature" text="New in 5.4+" /> | `useQueueForEmailNotifications: true` | Use Craft's queue system to trigger emails. Enabling this will speed up submission processing for your users. This depends on either routine traffic to your Craft control panel or implementing a proper queue-processing method that doesn't rely on someone visiting your control panel.                                                                                                                             |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
-| **Use Queue for Integrations**<Badge type="feature" text="New in 5.4+" />        | `useQueueForIntegrations: true`       | Use Craft's queue system to trigger integrations (CRM and Email Marketing). Enabling this will speed up submission processing for your users. This depends on either routine traffic to your Craft control panel or implementing a proper queue-processing method that doesn't rely on someone visiting your control panel.                                                                                             |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
-| **Script Insert Location**                                                       | `scriptInsertLocation: footer`        | The location of where you want Freeform to insert it's scripts for form and field functionality (such as spam protection and advanced field types). [More info](#script-insert-location) Options are:<ul><li>_Page Footer_ (`footer`)<Badge type="recommended" text="Recommended" /></li><li>_Page Header_ (`header`)</li><li>_Inside Form_ (`form`)</li><li>_None_ - manually load the JS instead (`manual`)</li></ul> |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
-| **Script Insert Type**<Badge type="feature" text="Improved in 5.3+" />           | `scriptInsertType: files`             | Specify the way Freeform scripts are inserted. Options are:<ul><li>_Asset Bundles_ (`files`)<Badge type="recommended" text="Recommended" /> [More info](https://craftcms.com/docs/5.x/extend/asset-bundles.html)</li><li>_Inline_ (`inline`)</li></ul>                                                                                                                                                                  |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
-| **Number of Days to Keep Saved Form Data** (Save & Continue Later)               | `saveFormTtl: '14'`                   | The number of days to store saved form progress in the database before clearing for Save & Continue Later feature.                                                                                                                                                                                                                                                                                                      |    <small className="compare-none">N/A</small>   |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
-| **Maximum Number of Saved Forms Per Session**                                    | `saveFormSessionLimit: '5'`           | The maximum number of saved forms per session for Save & Continue Later feature.                                                                                                                                                                                                                                                                                                                                        |    <small className="compare-none">N/A</small>   |  <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
+| Setting                                                                                          | Project Config                        | Description                                                                                                                                                                                                                                                                                                                                                                                                             | <span className="edition-express">Express</span> | <span className="edition-lite">Lite</span>   | <span className="edition-pro">Pro</span> |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------: | :------------------------------------------: | :--------------------------------------: |
+| **Disable Submit Button on Form Submit**                                                         | `formSubmitDisable: true`             | Enable this to automatically disable the form's submit button when the user submits the form. This will prevent the form from double-submitting.                                                                                                                                                                                                                                                                        |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>     |  <span className="edition-pro">✓</span>  |
+| **Automatically Scroll to Form on Errors and Multipage forms**                                   | `autoScrollToErrors: true`            | Enable this to have Freeform use JS to automatically scroll the page down to the form upon submit when there are errors or the form is continuing to the next page in multipage forms.                                                                                                                                                                                                                                  |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>     |  <span className="edition-pro">✓</span>  |
+| **Automatically Scroll to top of the Form on AJAX submit**                                       | `autoScroll: true`                    | Enable this when using AJAX to have Freeform use JS to automatically scroll the top of the form on submit. This is especially beneficial when you have longer forms and success/error messages at the top of the form become out of sight.                                                                                                                                                                              |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>     |  <span className="edition-pro">✓</span>  |
+| **Remember the Page Order in Multi-page forms**                                                  | `rememberPageSubmitOrder: true`       | When enabled, Freeform will take into account Conditional Rules page skipping when the user clicks the 'Previous' button on multi-page forms.                                                                                                                                                                                                                                                                           |    <small className="compare-none">N/A</small>   |  <span className="edition-lite">✓</span>     |  <span className="edition-pro">✓</span>  |
+| **Prevent Duplicate Submissions** (Idempotency Keys)<Badge type="feature" text="New in 5.13+" /> | `useIdempotencyKey: true`             | When enabled, Freeform generates a unique token for each form instance to prevent duplicate submissions and actions. If the same data is submitted multiple times in quick succession, only the first submission is processed. This helps avoid duplicate actions, especially for payment or AI-powered forms.                                                                                                          |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>     |  <span className="edition-pro">✓</span>  |
+| **CSRF Token Refresh Method**<Badge type="feature" text="New in 5.11+" />                        | `csrfRefresh: always`                 | When Craft's `asyncCsrfInputs` setting is `true`, this setting will appear. You can control how CSRF tokens refresh by choosing between refreshing once per page view (`once`)<Badge type="recommended" text="Recommended" />, on every AJAX request (`always`) or none (`never` - classic behavior). This helps ensure secure, automatic token handling even when using page caching.                                  |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>     |  <span className="edition-pro">✓</span>  |
+| **Script Insert Location**                                                                       | `scriptInsertLocation: footer`        | The location of where you want Freeform to insert it's scripts for form and field functionality (such as spam protection and advanced field types). [More info](#script-insert-location) Options are:<ul><li>_Page Footer_ (`footer`)<Badge type="recommended" text="Recommended" /></li><li>_Page Header_ (`header`)</li><li>_Inside Form_ (`form`)</li><li>_None_ - manually load the JS instead (`manual`)</li></ul> |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>     |  <span className="edition-pro">✓</span>  |
+| **Script Insert Type**<Badge type="feature" text="Improved in 5.3+" />                           | `scriptInsertType: files`             | Specify the way Freeform scripts are inserted. Options are:<ul><li>_Asset Bundles_ (`files`)<Badge type="recommended" text="Recommended" /> [More info](https://craftcms.com/docs/5.x/extend/asset-bundles.html)</li><li>_Inline_ (`inline`)</li></ul>                                                                                                                                                                  |    <span className="edition-express">✓</span>    |  <span className="edition-lite">✓</span>     |  <span className="edition-pro">✓</span>  |
+| **Number of Days to Keep Saved Form Data** (Save & Continue Later)                               | `saveFormTtl: '14'`                   | The number of days to store saved form progress in the database before clearing for Save & Continue Later feature.                                                                                                                                                                                                                                                                                                      |    <small className="compare-none">N/A</small>   |  <span className="edition-lite">✓</span>     |  <span className="edition-pro">✓</span>  |
+| **Maximum Number of Saved Forms Per Session**                                                    | `saveFormSessionLimit: '5'`           | The maximum number of saved forms per session for Save & Continue Later feature.                                                                                                                                                                                                                                                                                                                                        |    <small className="compare-none">N/A</small>   |  <span className="edition-lite">✓</span>     |  <span className="edition-pro">✓</span>  |
 
 :::info
 The **Automatically Scroll to Form on Errors and Multipage forms** feature can have its behavior can been manipulated with the [Autoscroll Events](../developer/js-plugin.mdx#autoscroll-events).
@@ -228,18 +227,61 @@ The **Automatically Scroll to Form on Errors and Multipage forms** feature can h
     - The key benefits are that it never stores anything anywhere, has no impact on the server, and can be cached out-of-the-box.
   - **Using PHP's sessions**
     - The key benefits are that it stores the context in memory and everything per session ID.
-    - The problems with this approach are that it expires eventually with no way to persist this for longer periods of time. It's also unreliable due to _garbage collection_ on most servers which typically runs every 24 min­utes by default.
+    - The problems with this approach are that it expires eventually with no way to persist this for longer periods of time. It's also unreliable due to _garbage collection_ on most servers which typically runs every 24 minutes by default.
   - **Using a database table**
     - The key benefits are that the context is stored in the database reliably for as long as you wish, offering more control if you have large forms that take a very long time to complete.
     - The problems with this approach is that high traffic sites may run into performance issues as the database table fills up and attempts to clear regularly, etc.
+</details>
+
+## Queue Processing<Badge type="feature" text="Improved in 5.14+" />
+
+The following settings enable Freeform to use Craft's queue to process submissions in the background. This improves performance for users when submitting forms. Enable the free [Queue Pinging service](#automated-queue-pinging-service) to ensure tasks continue running automatically.
+
+:::info
+This page and its settings all become readonly when the Craft `allowAdminChanges` config setting is set to `false`.
+:::
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/configuration/queue-processing.jpg')}
+  alt="Queue Processing Settings"
+/>
+
+### Automated Queue Pinging Service<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.14+" />
+
+The **Queue Pinging Service** is a turn-key feature that keeps Craft's queue moving by periodically automatically triggering it through the free (Pro-only) [Form Monitor](../monitoring/index.mdx) service. This is especially useful for sites that don't receive consistent traffic to the Craft control panel.
+
+When enabled, **Form Monitor** will automatically ping your site at your configured interval, ensuring background processes continue to run smoothly.
+
+#### Why Use the Queue Pinging Service?
+
+- **Reliable queue processing** - Keeps Craft's queue active even when your control panel has little or no traffic.
+- **Hands-off automation** - No cron jobs or server configuration required.
+- **Ideal for background tasks** - Ensures timely processing of emails, integrations, payments, AI tasks, and other queued jobs.
+- **Free & lightweight** - Powered by the free (Pro-only) Form Monitor service with minimal overhead.
+
+<details className="hidden-heading">
+  <summary>View list of Settings</summary>
+
+| Setting                                                                                          | Project Config                        | Description                                                                 | <span className="edition-express">Express</span> | <span className="edition-lite">Lite</span>  | <span className="edition-pro">Pro</span> |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------- | --------------------------------------------------------------------------- | :----------------------------------------------: | :-----------------------------------------: | :--------------------------------------: |
+| **Use Queue for AI Processing**<Badge type="feature" text="New in 5.13+" />                      | `useQueueForAiFields: true`           | Use Craft's queue system to trigger AI processing.                          |    <small className="compare-none">N/A</small>   | <small className="compare-none">N/A</small> |  <span className="edition-pro">✓</span>  |
+| **Use Queue for Email Notifications**<Badge type="feature" text="New in 5.4+" />                 | `useQueueForEmailNotifications: true` | Use Craft's queue system to trigger emails.                                 |    <span className="edition-express">✓</span>    |   <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
+| **Use Queue for Integrations**<Badge type="feature" text="New in 5.4+" />                        | `useQueueForIntegrations: true`       | Use Craft's queue system to trigger integrations (CRM and Email Marketing). |    <span className="edition-express">✓</span>    |   <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
+| **Use Queue Pinging Service**<Badge type="feature" text="New in 5.14+" />                        | `managedPingerEnabled: true`       | Allow Freeform to routinely ping your site via the **Form Monitor** service, automatically triggering Craft's queue in the background. |    <span className="compare-none">✕</span>    |   <span className="compare-none">✕</span>   |  <span className="edition-pro">✓<small> with Form Monitor</small></span>  |
+| **Pinging Interval**<Badge type="feature" text="New in 5.14+" />                        | `queuePingMinIntervalMinutes: 10`       | Controls how often **Form Monitor** should ping your site to trigger queue processing. Set as often as every 5 minutes. |    <span className="compare-none">✕</span>    |   <span className="compare-none">✕</span>   |  <span className="edition-pro">✓<small> with Form Monitor</small></span>  |
+
+:::warning
+This feature requires Craft's queue runner to process tasks. If [Form Monitor](../monitoring/index.mdx) is activated for your site, you can enable Freeform's free pinging service to trigger it automatically.
+:::
+
 </details>
 
 ## Form Builder<Badge type="feature" text="Improved in 5.0+ & 5.13+" />
 
 Control Freeform's form builder experience.
 
-:::warning
-This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
+:::info
+This page and its settings all become readonly when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
 <Player
@@ -263,7 +305,7 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
 
 </details>
 
-## Limited Users<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.4+, Improved in 5.9+" />
+## Limited Users<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.4+, Improved in 5.9+ & 5.13+" />
 
 View the [Limited Users](../configuration/limited-users.mdx) documentation for more information about setting up and configuring.
 
@@ -272,7 +314,7 @@ This page and its settings all remain accessible when the Craft `allowAdminChang
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/limited-users/settings.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/limited-users/settings.jpg')}
   alt="Limited Users - Permission Settings"
 />
 
@@ -280,12 +322,12 @@ This page and its settings all remain accessible when the Craft `allowAdminChang
 
 The Template Manager settings page allows you to configure template directory paths and other settings for Formatting Templates, Email Notification Templates, and Success Templates.
 
-:::warning
-This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
+:::info
+This page and its settings all become readonly when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/template-manager.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/template-manager.jpg')}
   alt="Email Templates"
 />
 
@@ -351,18 +393,116 @@ Things like `form.id`, `form.handle` and `form.name` are available for use here 
 
 You can create an unlimited number of custom PDF's to be generated for email notifications. You are in full control to build beautiful HTML-based templates and dynamically pull in form and submission data. In the [Email Notifications](../forms/email-notifications.mdx) area, when editing an email notification template, you can then assign which PDF template(s) should be included with it.
 
-The file name and PDF body may contain any of the [Twig variables](../forms/email-notifications.mdx#template-options) available in the body of email notification templates. Please [see documentation](../forms/email-notifications.mdx#template-options) for more information.
-
-Each PDF template contains the following:
-
-- Name
-- Description
-- File Name (the name of the PDF file when it's generated - can use Twig variables)
-- PDF Body (uses HTML and can include Twig variables)
-
 :::info
 This page and its settings all remain accessible when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/configuration/pdf-templates.jpg')}
+  alt="Create a new PDF Template"
+/>
+
+The file name and PDF body may contain any of the [Twig variables](../forms/email-notifications.mdx#template-options) available in the body of email notification templates. Please [see documentation](../forms/email-notifications.mdx#template-options) for more information.
+
+<details className="hidden-heading">
+  <summary>PDF Template Settings</summary>
+
+  Each PDF template contains the following:
+
+  - Name
+  - Description
+  - File Name (the name of the PDF file when it's generated - can use Twig variables)
+  - PDF Body (uses HTML and can include Twig variables)
+
+</details>
+<details className="hidden-heading">
+  <summary>Loading Images</summary>
+
+  When using images in your PDF template, it's important to use `dataUrl(asset)` to create an _inline Base64 image_ to avoid PDF image loading issues.
+
+  ```twig {4}
+  <div class="ticket-image">
+    {% set image = craft.assets.id(123).one() %}
+    {% if image %}
+      <img src="{{ dataUrl(image) }}" alt="{{ image.alt ?? image.title }}" />
+    {% endif %}
+  </div>
+  ```
+</details>
+<details className="hidden-heading">
+  <summary>Template Example</summary>
+
+  :::info
+  It's currently only possible to add the template code via the control panel. A future version may support file-based templates.
+  :::
+
+  The example below will generate an event ticket for the form submitter:
+
+  ```twig showLineNumbers
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Event Ticket</title>
+    <style>
+      body { font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #222; margin: 0; padding: 20px; }
+      .ticket { border: 2px dashed #444; padding: 20px; width: 100%; }
+      .ticket-header { text-align: center; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 15px; }
+      .ticket-header h1 { font-size: 20px; margin: 0; letter-spacing: 1px; }
+      .ticket-header h3 { font-size: 14px; margin: 5px 0 0; font-weight: normal; }
+      .event-details { text-align: center; margin-bottom: 15px; }
+      .event-details p { margin: 3px 0; }
+      .ticket-image { text-align: center; margin: 15px 0; }
+      .ticket-image img { max-width: 100%; height: auto; border: 1px solid #ccc; }
+      .ticket-holder { border-top: 1px solid #ccc; padding-top: 10px; margin-top: 15px; }
+      .ticket-holder h4 { font-size: 13px; margin: 0 0 5px; text-transform: uppercase; }
+      .ticket-holder ul { list-style: none; padding: 0; margin: 0; }
+      .ticket-holder li { margin-bottom: 3px; }
+      .ticket-footer { margin-top: 15px; text-align: center; font-size: 10px; color: #666; }
+    </style>
+  </head>
+  <body>
+    <div class="ticket">
+      <div class="ticket-header">
+        <h1>TICKET #{{ submission.id }}</h1>
+        <h3>Competitive Duck Watching Championship</h3>
+      </div>
+      <div class="event-details">
+        <p>Saturday, April 12, 2025 · 10:00 AM – 2:00 PM</p>
+        <p>Riverside Community Park</p>
+        <p>214 Waddle Way, Mapleton, BC</p>
+      </div>
+      <div class="ticket-image">
+        {% set image = craft.assets.id(123).one() %}
+        {% if image %}
+          <img src="{{ dataUrl(image) }}" alt="{{ image.alt ?? image.title }}" />
+        {% endif %}
+      </div>
+      <div class="ticket-holder">
+        <h4>Ticketholder</h4>
+        <ul>
+          <li>{{ firstName }} {{ lastName }}</li>
+          {% if companyName|length %}
+            <li>{{ companyName }}</li>
+          {% endif %}
+          <li>Purchased: {{ dateCreated|date('Y-m-d H:i') }}</li>
+        </ul>
+      </div>
+      <div class="ticket-footer">
+        Please bring this ticket (printed or digital) to the event.
+      </div>
+    </div>
+  </body>
+  </html>
+  ```
+
+  Which will generate a PDF that looks something like this:
+
+  <Photo
+    img={require('@site/static/img/craft/freeform/v5/configuration/pdf-templates-output.jpg')}
+    alt="PDF Template output - Event Ticket example"
+  />
+</details>
 
 ## Statuses
 
@@ -373,11 +513,11 @@ This page and its settings all remain accessible when the Craft `allowAdminChang
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/statuses-list.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/statuses-list.jpg')}
   alt="List of Statuses"
 />
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/statuses-edit.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/statuses-edit.jpg')}
   alt="Create or edit Statuses"
 />
 
@@ -385,12 +525,12 @@ This page and its settings all remain accessible when the Craft `allowAdminChang
 
 Allows you to install the [Demo Templates](./demo-templates.mdx) to get Freeform up and running on the front end with just a couple clicks!
 
-:::warning
-This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
+:::info
+This page and its settings all become readonly when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/demo-templates.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/demo-templates.jpg')}
   alt="Demo Templates settings"
 />
 
@@ -398,12 +538,12 @@ This page and its settings all become inaccessible when the Craft `allowAdminCha
 
 For more information about Freeform's spam protection features, visit the [Spam Protection documentation](../forms/spam-protection.mdx).
 
-:::warning
-This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
+:::info
+This page and its settings all become readonly when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/spam.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/spam.jpg')}
   alt="Spam Settings"
 />
 
@@ -449,8 +589,8 @@ The integration page and their settings remain accessible when the Craft `allowA
 
 Freeform is committed to being the most robust and reliable form plugin for Craft CMS. Freeform has been carefully and meticulously developed and tested over many years and is in use across tens of thousands of websites. However, one other crutial piece of the puzzle in reliability is how your specific site and environment are performing. Because of this, Freeform includes an extensive error logging feature, email issue alerts, an Update Notices feature to alert you of important fixes and changes, and a weekly digest email to keep your finger on the pulse of your website.
 
-:::warning
-This page and its settings all become inaccessible when the Craft `allowAdminChanges` config setting is set to `false`.
+:::info
+This page and its settings all become readonly when the Craft `allowAdminChanges` config setting is set to `false`.
 :::
 
 Check out the options below to learn more about each:
@@ -460,12 +600,12 @@ Check out the options below to learn more about each:
 - [Weekly Digest](../configuration/notices-alerts.mdx)<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/notices-alerts.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/notices-alerts.jpg')}
   alt="Notices & Alerts"
 />
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/notices-alerts-dashboard.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/notices-alerts-dashboard.jpg')}
   alt="Update Notices preview"
 />
 
@@ -478,7 +618,7 @@ This page remains accessible when the Craft `allowAdminChanges` config setting i
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/error-log.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/error-log.jpg')}
   alt="Error Log"
 />
 
@@ -495,7 +635,7 @@ This page remains accessible when the Craft `allowAdminChanges` config setting i
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/integrations-log.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/integrations-log.jpg')}
   alt="Integrations Log"
 />
 
@@ -512,6 +652,6 @@ This page remains accessible when the Craft `allowAdminChanges` config setting i
 :::
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/email-log.png')}
+  img={require('@site/static/img/craft/freeform/v5/configuration/email-log.jpg')}
   alt="Emails Log"
 />

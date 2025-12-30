@@ -7,271 +7,162 @@ import { Photo, Badge } from '@site/src/components/utils';
 
 # Calendar:Events template tag
 
-The _Calendar:Events_ tag displays a chronological event occurrence list for a specified date range. So for example, if an event recurs 4 times within the specified date range, this tag will show those 4 occurrences as results. If you're looking to just display the primary events (and not multiple instances for their recurrences), just use the _Channel:Entries_ tag with the [Calendar fieldtype variable pair and variables](../templating/channel-entries.mdx), or for lists specify the [show_recurrences="no" parameter](#show-recurrences) for this template tag.
+The _Calendar:Events_ tag displays a chronological event occurrence list for a specified date range. So for example, if an event recurs 4 times within the specified date range, this tag will show those 4 occurrences as results. If you're looking to just display the primary events (and not multiple instances for their recurrences), just use the _Channel:Entries_ tag with the [Calendar fieldtype variable pair and variables](../templating/channel-entries.mdx), or for lists specify the [show_recurrences="no" parameter](#show_recurrences) for this template tag.
 
 :::info
 For performance reasons, please be sure to update any Calendar template tags to use the `channel="my_channel|my_other_channel"` parameter, similar to how you would do it for `{exp:channel:entries}`. The demo templates don't include this by default since there's no automated way of knowing which channel(s) you're using.
 :::
 
-```html showLineNumbers
+```html
 {exp:calendar:events} content {/exp:calendar:events}
 ```
 
 ## Parameters
 
-### author_id=
+### `author_id`
+This parameter allows you to filter down the event results by the author of the Calendar event entries. You can hardcode a member ID, pass it through an embed, or grab it from the URI. You can also use `CURRENT_USER` to display event entries for the currently logged in user. Separate multiples with the pipe character. E.g. `author_id="1"`, `author_id="1|5|18"` or `author_id="CURRENT_USER"`.
 
-`author_id="1"`
+### `calendar_id`
+This parameter allows you to display specific calendars by specifying their ID(s). You can hardcode a calendar ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character. E.g. `calendar_id="3"` or `calendar_id="1|3"`.
 
-This parameter allows you to filter down the event results by the author of the Calendar event entries. You can hardcode a member ID, pass it through an embed, or grab it from the URI. You can also use **CURRENT_USER** to display event entries for the currently logged in user. Separate multiples with the pipe character.
+### `calendar_short_name`
+This parameter allows you to display specific calendars by specifying their short names. You can hardcode a short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character. E.g. `calendar_short_name="dodgeball"` or `calendar_short_name="soccer|baseball|dodgeball"`.
 
-### calendar_id=
+### `category`
+This parameter allows you to filter down the event results by the category ID assigned to calendar event entries. You can hardcode a category ID, pass it through an embed, or grab it from the URI. E.g. `category="22"` or `category="22|25|32"`.
 
-`calendar_id="1|3"`
+Like the [category parameter in Channel:Entries](https://docs.expressionengine.com/v7/channels/entries.html#category), separate multiples with the pipe character, and you exclude categories by using `not 3|8`. By default, when excluding categories, all entries that are NOT assigned a category will be included as well. If you wish to stop this from happening (and only display entries that have at least 1 category), then specify the following parameter: `uncategorized_entries="no"`.
 
-This parameter allows you to display specific calendars by specifying their ID(s). You can hardcode a calendar ID, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+### `channel`
+This parameter allows you to filter down the event results by the channel of the calendar event entries. You can hardcode a channel short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character. E.g. `channel="baseball"` or `channel="baseball|hockey|chess"`.
 
-### calendar_short_name=
+### `date_range_start`
+This parameter allows you to show a specific date range to display events for. Enter the beginning day you'd like this tag to show results for. If this parameter is NOT specified or an incorrect date value is passed to this parameter, the current day (today) will be displayed. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter. Used in conjunction with the [date_range_end](#date_range_end) parameter. E.g. `date_range_start="{segment_1}-{segment_2}-{segment_3}"`.
 
-`calendar_short_name="soccer|baseball|dodgeball"`
+### `date_range_end`
+This parameter allows you to show a specific date range to display events for. Enter the ending day you'd like this tag to show results for. If this parameter is NOT specified or an incorrect date value is passed to this parameter, the current day (today) will be displayed. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter. Used in conjunction with the [date_range_start](#date_range_start) parameter. E.g. `date_range_end="{segment_1}-{segment_2}-{segment_3}"`.
 
-This parameter allows you to display specific calendars by specifying their short names. You can hardcode a short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+### `entry_id`
+This parameter works similar to the _Channel:Entries_ `entry_id` parameter, and allows you to filter down the event results by specifying or excluding entry ID(s). It's important to note that this parameter will attempt to pull all recurrences for the given entry ID(s) and also respects date range and limit parameters, etc, so be sure to consider those when using this parameter. You can hardcode entry ID's, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character. E.g. `entry_id="32"`, `entry_id="12|32|66"` or `entry_id="not 46|77"`.
 
-### category=
+### `limit`
+This parameter lets you limit the number of events and occurrences to be displayed. Default is `100`. E.g. `limit="5"`.
 
-`category="22"`
+### `load_resource_consuming_data`
+By default, Calendar tries to offer the best performance possible. This means that not all specialty features are supported by default. However, this parameter allows you to include some of those resource consuming features if you desire to. E.g. `load_resource_consuming_data="yes"`.
 
-This parameter allows you to filter down the event results by the category ID assigned to calendar event entries. You can hardcode a category ID, pass it through an embed, or grab it from the URI. Like the [category parameter in Channel:Entries](https://docs.expressionengine.com/v7/channels/entries.html#category), separate multiples with the pipe character, and you exclude categories by using **not 3|8**. By default, when excluding categories, all entries that are NOT assigned a category will be included as well. If you wish to stop this from happening (and only display entries that have at least 1 category), then specify the following parameter: `uncategorized_entries="no"`
+Currently supported is [image manipulation](https://docs.expressionengine.com/v7/control-panel/file-manager/file-manager.html) for single variable uploaded file fields (e.g: `{calendar:FILE_UPLOAD_FIELD_NAME:MANIPULATION_NAME}`).
 
-### channel=
+### `orderby`
+Currently, events can only be ordered by the start date. You can adjust the [sort](#sort) order to be ascending or descending. E.g. `orderby="event_start_date"`.
 
-`channel="baseball"`
+### `paginate`
+This parameter allows you to control where the pagination will display. Options are `top`, `bottom`, or `both`. Used in conjunction with the [calendar:paginate](#calendarpaginate) variable pair and [limit](#limit) parameter. E.g. `paginate="both"`.
 
-This parameter allows you to filter down the event results by the channel of the calendar event entries. You can hardcode a channel short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+### `site`
+If using [EE Multiple Site Manager](https://docs.expressionengine.com/v7/msm/overview.html) (MSM), you can specify a site short name(s) in this parameter to filter event entries down to that site. E.g. `site="siteB"` or `site="siteA|siteB|siteC"`.
 
-### date_range_start=
-
-`date_range_start="{segment_1}-{segment_2}-{segment_3}"`
-
-This parameter allows you to show a specific date range to display events for. Enter the beginning day you'd like this tag to show results for. If this parameter is NOT specified or an incorrect date value is passed to this parameter, the current day (today) will be displayed. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter. Used in conjunction with the [date_range_end](#date-range-end) parameter.
-
-### date_range_end=
-
-`date_range_end="{segment_1}-{segment_2}-{segment_3}"`
-
-This parameter allows you to show a specific date range to display events for. Enter the ending day you'd like this tag to show results for.If this parameter is NOT specified or an incorrect date value is passed to this parameter, the current day (today) will be displayed. Both [standard and easy-to-use text date formatting](../guides/date-formatting.mdx) apply to this parameter. Used in conjunction with the [date_range_start](#date-range-start) parameter.
-
-### entry_id=
-
-`entry_id="32"` or `entry_id="12|32|66"` or `entry_id="not 46|77"`
-
-This parameter works similar to the _Channel:Entries_ `entry_id` parameter, and allows you to filter down the event results by specifying or excluding entry ID(s). It's important to note that this parameter will attempt to pull all recurrences for the given entry ID(s) and also respects date range and limit parameters, etc, so be sure to consider those when using this parameter. You can hardcode entry ID's, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
-
-### limit=
-
-`limit="5"`
-
-This parameter lets you limit the number of events and occurrences to be displayed. Default is **100**.
-
-### load_resource_consuming_data=
-
-`load_resource_consuming_data="yes"`
-
-By default, Calendar tries to offer the best performance possible. This means that not all specialty features are supported by default. However, this parameter allows you to include some of those resource consuming features if you desire to. Currently supported is [image manipulation](https://docs.expressionengine.com/v7/control-panel/file-manager/file-manager.html) for single variable uploaded file fields (e.g: `{calendar:FILE_UPLOAD_FIELD_NAME:MANIPULATION_NAME}`).
-
-### orderby=
-
-`orderby="event_start_date"`
-
-Currently, events can only be ordered by the start date. You can adjust the [sort](#sort) order to be ascending or descending.
-
-### paginate=
-
-`paginate="both"`
-
-This parameter allows you to control where the pagination will display. Options are **top**, **bottom**, or **both**. Used in conjunction with the [calendar:paginate](#calendar-paginate) variable pair and [limit](#limit) parameter.
-
-### site=
-
-`site="siteA|siteB|siteC"`
-
-If using [EE Multiple Site Manager](https://docs.expressionengine.com/v7/msm/overview.html) (MSM), you can specify a site short name(s) in this parameter to filter event entries down to that site.
-
-### show_recurrences=
-
-`show_recurrences="next"`
-
+### `show_recurrences`
 This parameter allows you to adjust the behavior of how events are filtered within the given time range:
 
-- `yes` (default) - show all available recurrences within the given date range.
-- `no` - display only the first occurrence if it falls within the given date range, and do not display any recurrences at all.
-- `next` - display only the next available occurrence if it falls within the given date range, and do not display any other future recurrences past that.<Badge type="feature" text="3.2.0+" />
+- `show_recurrences="yes"` (default) - show all available recurrences within the given date range.
+- `show_recurrences="no"` - display only the first occurrence if it falls within the given date range, and do not display any recurrences at all.
+- `show_recurrences="next"` - display only the next available occurrence if it falls within the given date range, and do not display any other future recurrences past that.<Badge type="feature" text="3.2.0+" />
 
-### sort=
+### `sort`
+This parameter allows you to control whether the results should be `asc` (ascending) or `desc` (descending). E.g. `sort="desc"`.
 
-`sort="desc"`
-
-This parameter allows you to control whether the results should be **asc** (ascending) or **desc** (descending).
-
-### status=
-
-`status="open|extra"`
-
-This parameter allows you to filter down the event results by the status of the calendar event entries. You can hardcode a channel short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character.
+### `status`
+This parameter allows you to filter down the event results by the status of the calendar event entries. You can hardcode a channel short name, pass it through an embed, or grab it from the URI. Separate multiples with the pipe character. E.g. `status="open|extra"`.
 
 ## Variables
 
-### calendar:calendar_name
-
-`{calendar:calendar_name}`
-
+### `{calendar:calendar_name}`
 This variable outputs the label of the calendar.
 
-### calendar:calendar_short_name
-
-`{calendar:calendar_short_name}`
-
+### `{calendar:calendar_short_name}`
 This variable outputs the short name of the calendar.
 
-### calendar:calendar_id
-
-`{calendar:calendar_id}`
-
+### `{calendar:calendar_id}`
 This variable outputs the unique ID of the calendar.
 
-### calendar:calendar_description
-
-`{calendar:calendar_description}`
-
+### `{calendar:calendar_description}`
 This variable outputs the description of the calendar.
 
-### calendar:calendar_color
-
-`{calendar:calendar_color}`
-
+### `{calendar:calendar_color}`
 This variable outputs the assigned color for the calendar.
 
-### calendar:calendar_color_light
+### `{calendar:calendar_color_light}`
+This variable outputs a lightened version of the assigned color for the calendar. This would typically be used when setting a background color for multi-day and all day events in calendars (as you would see in popular calendar apps). Can also be used in conjunction with the [calendar:calendar_text_color](#calendarcalendar_text_color) variable.
 
-`{calendar:calendar_color_light}`
+### `{calendar:calendar_text_color}`
+This variable looks at the lightened version of the assigned calendar color, and outputs a value of `black` or `white`, whichever it believes to be better contrasting. This would typically be used when setting a background color for multi-day and all day events in calendars (as you would see in popular calendar apps). Can also be used in conjunction with the [calendar:calendar_color_light](#calendarcalendar_color_light) variable.
 
-This variable outputs a lightened version of the assigned color for the calendar. This would typically be used when setting a background color for multi-day and all day events in calendars (as you would see in popular calendar apps). Can also be used in conjunction with the [calendar:calendar_text_color](#calendar-text-color) variable.
-
-### calendar:calendar_text_color
-
-`{calendar:calendar_text_color}`
-
-This variable looks at the lightened version of the assigned calendar color, and outputs a value of **black** or **white**, whichever it believes to be better contrasting. This would typically be used when setting a background color for multi-day and all day events in calendars (as you would see in popular calendar apps). Can also be used in conjunction with the [calendar:calendar_color_light](#calendar-color-light) variable.
-
-### calendar:calendar_ics_hash
-
-`{calendar:calendar_ics_hash}`
-
+### `{calendar:calendar_ics_hash}`
 This variable parses as the unique hash value associated with the assigned calendar for [ICS Subscription](../templating/ics-subscription.mdx) functionality. You use this hash value in a URL that matches the location of the template that contains the [Calendar:ICS_Subscription](../templating/ics-subscription.mdx) template tag, allowing users to subscribe to the whole calendar the event is assigned to. To use this feature, you must have ICS Sharing enabled in the control panel for the applicable calendar (click the green icon button in **Manage** column for the applicable calendar(s) on the list view of calendars in the Calendar control panel).
 
-### calendar:event_start_date
+### `{calendar:event_start_date}`
+Displays the start date of the event, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html). E.g. `{calendar:event_start_date format="%F %j, %Y"}`.
 
-`{calendar:event_start_date format="%F %j, %Y"}`
+### `{calendar:event_start_date_timestamp}`
+Displays a localized timestamp for the start date of the event (e.g. `1472128200`). Calendar dates and times are not localized, but if you wish to compare the event date/time with a variable such as EE's **current_time** to see if the event has started, etc, this becomes necessary. Alternately, you can get the proper timestamp by specifying `_utc` at the end, e.g. `{calendar:event_start_date_timestamp_utc}`.
 
-Displays the start date of the event, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html).
+### `{calendar:event_end_date}`
+Displays the end date of the event, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html). E.g. `{calendar:event_end_date format="%F %j, %Y"}`.
 
-### calendar:event_start_date_timestamp
+### `{calendar:event_end_date_timestamp}`
+Displays a localized timestamp for the end date of the event (e.g. `1472128200`). Calendar dates and times are not localized, but if you wish to compare the event date/time with a variable such as EE's **current_time** to see if the event has ended, etc, this becomes necessary. Alternately, you can get the proper timestamp by specifying `_utc` at the end, e.g. `{calendar:event_end_date_timestamp_utc}`.
 
-`{calendar:event_start_date_timestamp}`
+### `{calendar:event_first_date}`
+Displays the date of the very first recurrence of the event, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html). E.g. `{calendar:event_first_date format="%F %j, %Y"}`.
 
-Displays a localized timestamp for the start date of the event (ex: **1472128200**). Calendar dates and times are not localized, but if you wish to compare the event date/time with a variable such as EE's **current_time** to see if the event has started, etc, this becomes necessary. Alternately, you can get the proper timestamp by specifying **\_utc** at the end (ex: **\{calendar:event_start_date_timestamp_utc}**).
+### `{calendar:event_first_date_timestamp}`
+Displays a localized timestamp for the first recurrence date of the event (e.g. `1472128200`). Calendar dates and times are not localized, but if you wish to compare the event date/time with a variable such as EE's **current_time** to see if the event has started, etc, this becomes necessary. Alternately, you can get the proper timestamp by specifying `_utc` at the end, e.g. `{calendar:event_first_date_timestamp_utc}`.
 
-### calendar:event_end_date
+### `{calendar:event_last_date}`
+Displays the date of the very last recurrence of the event, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html). E.g. `{calendar:event_last_date format="%F %j, %Y"}`.
 
-`{calendar:event_end_date format="%F %j, %Y"}`
+:::info
+This variable may not always be very reliable as it is based on the date value specified in the **Until** field in the Calendar fieldtype. For example, if you have an event that recurs _every Wednesday_, and you set the **Until** field to _end on a Thursday_, the day after, this variable will parse as that date, rather than the _last Wednesday_ recurrence. This is because calculating the final actual occurrence would contribute to performance issues when being used.
+:::
 
-Displays the end date of the event, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html).
+### `{calendar:event_last_date_timestamp}`
+Displays a localized timestamp for the very last recurrence date of the event (e.g. `1472128200`). Calendar dates and times are not localized, but if you wish to compare the event date/time with a variable such as EE's **current_time** to see if the event has ended, etc, this becomes necessary. Alternately, you can get the proper timestamp by specifying `_utc` at the end, e.g. `{calendar:event_last_date_timestamp_utc}`.
 
-### calendar:event_end_date_timestamp
-
-`{calendar:event_end_date_timestamp}`
-
-Displays a localized timestamp for the end date of the event (ex: **1472128200**). Calendar dates and times are not localized, but if you wish to compare the event date/time with a variable such as EE's **current_time** to see if the event has ended, etc, this becomes necessary. Alternately, you can get the proper timestamp by specifying **\_utc** at the end (ex: **\{calendar:event_end_date_timestamp_utc}**).
-
-### calendar:event_first_date
-
-`{calendar:event_first_date format="%F %j, %Y"}`
-
-Displays the date of the very first recurrence of the event, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html).
-
-### calendar:event_first_date_timestamp
-
-`{calendar:event_first_date_timestamp}`
-
-Displays a localized timestamp for the first recurrence date of the event (ex: **1472128200**). Calendar dates and times are not localized, but if you wish to compare the event date/time with a variable such as EE's **current_time** to see if the event has started, etc, this becomes necessary. Alternately, you can get the proper timestamp by specifying **\_utc** at the end (ex: **\{calendar:event_first_date_timestamp_utc}**).
-
-### calendar:event_last_date
-
-`{calendar:event_last_date format="%F %j, %Y"}`
-
-Displays the date of the very last recurrence of the event, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html).
-
-NOTE: this variable may not always be very reliable as it is based on the date value specified in the _Until_ field in the Calendar fieldtype. For example, if you have an event that recurs every Wednesday, and you set the _Until_ field to end on a Thursday, the day after, this variable will parse as that date, rather than the last Wednesday recurrence. This is because calculating the final actual occurrence would contribute to performance issues when being used.
-
-### calendar:event_last_date_timestamp
-
-`{calendar:event_last_date_timestamp}`
-
-Displays a localized timestamp for the very last recurrence date of the event (ex: **1472128200**). Calendar dates and times are not localized, but if you wish to compare the event date/time with a variable such as EE's **current_time** to see if the event has ended, etc, this becomes necessary. Alternately, you can get the proper timestamp by specifying **\_utc** at the end (ex: **\{calendar:event_last_date_timestamp_utc}**).
-
-### calendar:event_count
-
-`{calendar:event_count}`
-
+### `{calendar:event_count}`
 This variable displays the display order of each event entry in the list of results, relative to each pagination page.
 
-### calendar:event_total_results
-
-`{calendar:event_total_results}`
-
+### `{calendar:event_total_results}`
 This variable displays the total number of events that are happening for a given time period, relative to each pagination page.
 
-### calendar:event_absolute_count
-
-`{calendar:event_absolute_count}`
-
+### `{calendar:event_absolute_count}`
 This variable displays the absolute display order of each event entry in the list of results, regardless of pagination.
 
-### calendar:event_absolute_results
-
-`{calendar:event_absolute_results}`
-
+### `{calendar:event_absolute_results}`
 This variable displays the total number of events that are happening for a given time period, regardless of pagination.
 
-### calendar:event_duration_days
+### `{calendar:event_duration_days}`
+Displays the number of days the event lasts, relative to the [calendar:event_duration_hours](#calendarevent_duration_hours) and [calendar:event_duration_minutes](#calendarevent_duration_minutes) variables. If your event lasts _36 hours_, this variable will parse as `1` (day) and [calendar:event_duration_hours](#calendarevent_duration_hours) will parse as `12` (hours).
 
-`{calendar:event_duration_days}`
+:::info
+_All Day_ events will show up as `1` day, `0` hours.
+:::
 
-Displays the number of days the event lasts, relative to the [calendar:event_duration_hours](#event-duration-hours) and [calendar:event_duration_minutes](#event-duration-minutes) variables. If your event lasts 36 hours, this variable will parse as **1** (day) and [calendar:event_duration_hours](#event-duration-hours) will parse as **12** (hours). NOTE: 'All Day' events will show up as **1 day, 0 hours**.
+### `{calendar:event_duration_hours}`
+Displays the number of hours the event lasts, relative to the [calendar:event_duration_days](#calendarevent_duration_days) and [calendar:event_duration_minutes](#calendarevent_duration_minutes) variables. If your event lasts _2 and a half hours_, this variable will parse as `2` (hours).
 
-### calendar:event_duration_hours
+:::info
+_All Day_ events will show up as `1` day, `0` hours.
+:::
 
-`{calendar:event_duration_hours}`
+### `{calendar:event_duration_minutes}`
+Displays the number of minutes the event lasts, relative to the [calendar:event_duration_days](#calendarevent_duration_days) and [calendar:event_duration_hours](#calendarevent_duration_hours) variables. If your event lasts _2 and a half hours_, this variable will parse as `30` (minutes).
 
-Displays the number of hours the event lasts, relative to the [calendar:event_duration_days](#event-duration-days) and [calendar:event_duration_minutes](#event-duration-minutes) variables. If your event lasts 2 and a half hours, this variable will parse as **2** (hours). NOTE: 'All Day' events will show up as **1 day, 0 hours**.
-
-### calendar:event_duration_minutes
-
-`{calendar:event_duration_minutes}`
-
-Displays the number of minutes the event lasts, relative to the [calendar:event_duration_days](#event-duration-days) and [calendar:event_duration_hours](#event-duration-hours) variables. If your event lasts 2 and a half hours, this variable will parse as **30** (minutes).
-
-### calendar:event_recurrence_rule
-
-`{calendar:event_recurrence_rule}`
-
+### `{calendar:event_recurrence_rule}`
 If the event recurs, this variable parses as the base rule type used. So it will simply output as: **Daily**, **Weekly**, **Monthly** or **Yearly**.
 
-### calendar:YOUR_CUSTOM_FIELD
-
-`{calendar:YOUR_CUSTOM_FIELD}`
-
-Prepend all custom field short names with **calendar:** to use them in this tag. For **EE File Upload** fields, Calendar currently supports [single variable](https://docs.expressionengine.com/v6/control-panel/file-manager.html#constrain-or-crop) including [image manipulations](https://docs.expressionengine.com/v7/control-panel/file-manager/file-manager.html) (e.g: `{calendar:FILE_UPLOAD_FIELD_NAME:MANIPULATION_NAME}`). If using the image manipulation option, you'll need to also use the [load_resource_consuming_data](#load-resource-consuming-data) parameter. Enabling this could add as much as 25% loading time to your template, and be noticeable on sites with many events.
+### `{calendar:YOUR_CUSTOM_FIELD}`
+Prepend all custom field short names with `calendar:` to use them in this tag. For **EE File Upload** fields, Calendar currently supports [single variable](https://docs.expressionengine.com/v7/control-panel/file-manager/upload-directories.html#constrain-or-crop) including [image manipulations](https://docs.expressionengine.com/v7/control-panel/file-manager/file-manager.html) (e.g: `{calendar:FILE_UPLOAD_FIELD_NAME:MANIPULATION_NAME}`). If using the image manipulation option, you'll need to also use the [load_resource_consuming_data](#load_resource_consuming_data) parameter. Enabling this could add as much as 25% loading time to your template, and be noticeable on sites with many events.
 
 For performance reasons (due to the recurrence rule functionality where we have to "inflate" event results in the template tags), Calendar uses its own rewritten version of the _Channel:Entries_ functionality. The trade-off here is that more advanced fields like Grid, File, Relationship, etc will not work or have limited functionality:
 
@@ -288,244 +179,181 @@ As a workaround, you can get the above fieldtypes to display within Calendar tem
 
 When displaying a single event/entry page, you would normally use the [Channel:Entries template tag](https://docs.expressionengine.com/v7/channels/entries.html), so the aforementioned fieldtypes will all work as expected in that use-case.
 
-### calendar:author
-
-`{calendar:author}`
-
+### `{calendar:author}`
 Displays the event entry author's screen name, if it exists; otherwise, this variable will display the username.
 
-### calendar:author_id
-
-`{calendar:author_id}`
-
+### `{calendar:author_id}`
 Displays the event entry author's member ID.
 
-### calendar:avatar_image_height
+### `{calendar:avatar_X}`
+Allows you to access the URL, width, and height of the avatar image associated with the event entry's author. E.g.:
 
-` <img src="{calendar:avatar_url}" width="{calendar:avatar_image_width}" height="{calendar:avatar_image_height}" alt="{calendar:author}'s avatar">`
+```html
+<img
+  src="{calendar:avatar_url}"
+  width="{calendar:avatar_image_width}"
+  height="{calendar:avatar_image_height}"
+  alt="{calendar:author}'s avatar"
+>
+```
 
-The height of the avatar image associated with the event entry's author.
-
-### calendar:avatar_image_width
-
-` <img src="{calendar:avatar_url}" width="{calendar:avatar_image_width}" height="{calendar:avatar_image_height}" alt="{calendar:author}'s avatar">`
-
-The width of the avatar image associated with the event entry's author.
-
-### calendar:avatar_url
-
-` <img src="{calendar:avatar_url}" width="{calendar:avatar_image_width}" height="{calendar:avatar_image_height}" alt="{calendar:author}'s avatar">`
-
-The URL to the avatar image associated with the event entry's author.
-
-### calendar:channel
-
-`{calendar:channel}`
-
+### `{calendar:channel}`
 Displays the name of the channel that the event entry belongs to.
 
-### calendar:channel_id
-
-`{calendar:channel_id}`
-
+### `{calendar:channel_id}`
 Displays the ID of the channel that the event entry belongs to.
 
-### calendar:channel_short_name
-
-`{calendar:channel_short_name}`
-
+### `{calendar:channel_short_name}`
 Displays the short name of the channel that the event entry belongs to.
 
-### calendar:entry_date
+### `{calendar:entry_date}`
+Displays the entry date (date the entry was submitted/created) of the event entry, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html). E.g. `{calendar:entry_date format="%F %j, %Y"}`.
 
-`{calendar:entry_date format="%F %j, %Y"}`
-
-Displays the entry date (date the entry was submitted/created) of the event entry, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html).
-
-### calendar:entry_id
-
-`{calendar:entry_id}`
-
+### `{calendar:entry_id}`
 Displays the unique ID number for the event entry.
 
-### calendar:entry_id_path
+### `{calendar:entry_id_path}`
+Parses as a URL to the specified template path with the unique ID number of the event entry. E.g. `{calendar:entry_id_path='calendar/event'}`
 
-`{calendar:entry_id_path='calendar/event'}`
-
-Parses as a URL to the specified template path with the unique ID number of the event entry.
-
-### calendar:entry_site_id
-
-`{calendar:entry_site_id}`
-
+### `{calendar:entry_site_id}`
 If using [EE Multiple Site Manager](https://docs.expressionengine.com/v7/msm/overview.html) (MSM), this displays the unique Site ID number that the event entry belongs to.
 
-### calendar:expiration_date
+### `{calendar:expiration_date}`
+Displays the expiration date of the event entry, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html). E.g. `{calendar:expiration_date format="%F %j, %Y"}`.
 
-`{calendar:expiration_date format="%F %j, %Y"}`
-
-Displays the expiration date of the event entry, formatted using [EE date formatting](https://docs.expressionengine.com/v7/templates/date-variable-formatting.html).
-
-### calendar:status
-
-`{calendar:status}`
-
+### `{calendar:status}`
 Displays the status name that the event entry has been assigned.
 
-### calendar:switch
+### `{calendar:switch}`
+Allows you to rotate through any number of values as each entry is displayed. E.g. when using `{calendar:switch='option_one|option_two|option_three'}`, your first result will parse as `option_one`, second as `option_two`, third as `option_three`, fourth as `option_one`, and so on. Typically used for alternating colors with CSS on results.
 
-`{switch='option_one|option_two|option_three'}`
-
-Allows you to rotate through any number of values as each entry is displayed. Your first result will parse as **option_one**, second as **option_two**, third as **option_three**, fourth as **option_one**, and so on. Typically used for alternating colors with CSS on results.
-
-### calendar:title
-
-`{calendar:title}`
-
+### `{calendar:title}`
 Displays the title of the event entry.
 
-### calendar:url_title
-
-`{calendar:url_title}`
-
+### `{calendar:url_title}`
 Displays the human readable title used in the URL for the event entry.
 
-### calendar:url_title_path
-
-`{calendar:url_title_path='calendar/event'}`
-
-Parses as a URL to the specified template path with the human readable title for URL of the event entry.
+### `{calendar:url_title_path}`
+Parses as a URL to the specified template path with the human readable title for URL of the event entry. E.g. `{calendar:url_title_path='calendar/event'}`.
 
 ## Variable Pairs
 
-### calendar:paginate
+### `{calendar:paginate}`
+Pagination is available for this tag and works just like regular EE pagination, but each variable/variable pair is prepended with `calendar:`, except for any variables and variable pairs inside of the `{calendar:pagination_links}` variable pair. Used in conjunction with the [paginate](#paginate) parameter.
 
-```html showLineNumbers
+```html
+<ul>
 {calendar:paginate}
-<li>
-  Page {calendar:current_page} of {calendar:total_pages} pages &nbsp;
-  {calendar:pagination_links}
-</li>
+  <li>
+    Page {calendar:current_page} of {calendar:total_pages} pages &nbsp;
+    {calendar:pagination_links}
+  </li>
 {/calendar:paginate}
+</ul>
 ```
 
 OR
 
-```html showLineNumbers
+```html
 {calendar:paginate}
-<ul class="pagination">
+  <ul class="pagination">
     {calendar:pagination_links}
-        {first_page}
-            <li><a href="{pagination_url}">First</a></li>
-        {/first_page}
-        {previous_page}
-            <li><a href="{pagination_url}">&laquo; Previous</a></li>
-        {/previous_page}
-        {page}
-            <li{if current_page} class="active"{/if}><a href="{pagination_url}">{pagination_page_number}</a></li>
-        {/page}
-        {next_page}
-            <li><a href="{pagination_url}">Next &raquo;</a></li>
-        {/next_page}
-        {last_page}
-            <li><a href="{pagination_url}">Last</a></li>
-        {/last_page}
+      {first_page}
+        <li><a href="{pagination_url}">First</a></li>
+      {/first_page}
+      {previous_page}
+        <li><a href="{pagination_url}">&laquo; Previous</a></li>
+      {/previous_page}
+      {page}
+        <li{if current_page} class="active"{/if}><a href="{pagination_url}">{pagination_page_number}</a></li>
+      {/page}
+      {next_page}
+        <li><a href="{pagination_url}">Next &raquo;</a></li>
+      {/next_page}
+      {last_page}
+        <li><a href="{pagination_url}">Last</a></li>
+      {/last_page}
     {/calendar:pagination_links}
-</ul>
+  </ul>
 {/calendar:paginate}
 ```
 
-Pagination is available for this tag and works just like regular EE pagination, but each variable/variable pair is prepended with _calendar:_ (except for any variables and variable pairs inside of the _calendar:pagination_links_ variable pair). Used in conjunction with the [paginate](#paginate) parameter.
-
-### calendar:categories
+### `{calendar:categories}`
+Allows you to display the categories assigned to your event entry. Works just like the [EE categories variable pair](https://docs.expressionengine.com/v7/channels/entries.html#categories), except that all variables and pairs are prepended with `calendar:`.
 
 `{calendar:categories backspace="2"}{calendar:category_name}, {/calendar:categories}`
 
-Allows you to display the categories assigned to your event entry. Works just like the [EE categories variable pair](https://docs.expressionengine.com/v7/channels/entries.html#categories), except that all variables and pairs are prepended with _calendar:_.
 
 ## Conditionals
 
-### calendar:no_results
-
-```html showLineNumbers
-{if calendar:no_results} Sorry, no events are available within this specified
-date range. {/if}
-```
-
+### `{calendar:no_results}`
 This conditional displays its contents when there is no event results for the given parameters.
 
-### calendar:event_all_day
+```html
+{if calendar:no_results}
+  Sorry, no calendars exist for the specified parameters.
+{/if}
+```
 
-`{if calendar:event_all_day}{/if}`
+### `{calendar:event_all_day}`
+This conditional will displays its contents if the event is an all day event. E.g. `{if calendar:event_all_day}{/if}`.
 
-This conditional will displays its contents if the event is an all day event.
+### `{calendar:event_multi_day}`
+This conditional will displays its contents the event occurs on multiple days. E.g. `{if calendar:event_multi_day}{/if}`.
 
-### calendar:event_multi_day
+### `{calendar:event_recurs}`
+This conditional will displays its contents if the event has recurrence rules. E.g. `{if calendar:event_recurs}{/if}`.
 
-`{if calendar:event_multi_day}{/if}`
+### `{calendar:event_is_past}`
+This conditional will displays its contents if the event is finished / has past. While this will work correctly with recurrences in _Calendar:Events_ tag, one caveat is that this will not work correctly if attempting to use with recurring events in the [Calendar fieldtype in Channel:Entries tag](../templating/channel-entries.mdx), as it will only be able to check against the first/main event. E.g. `{if calendar:event_is_past}{/if}`
 
-This conditional will displays its contents the event occurs on multiple days.
+### `{calendar:event_is_current}`
+This conditional will displays its contents if the event is currently happening. While this will work correctly with recurrences in _Calendar:Events_ tag, one caveat is that this will not work correctly if attempting to use with recurring events in the [Calendar fieldtype in Channel:Entries tag](../templating/channel-entries.mdx), as it will only be able to check against the first/main event. E.g. `{if calendar:event_is_current}{/if}`.
 
-### calendar:event_recurs
+### `{calendar:event_is_future}`
+This conditional will displays its contents if the event is in the future / has not yet started. While this will work correctly with recurrences in _Calendar:Events_ tag, one caveat is that this will not work correctly if attempting to use with recurring events in the [Calendar fieldtype in Channel:Entries tag](../templating/channel-entries.mdx), as it will only be able to check against the first/main event. E.g. `{if calendar:event_is_future}{/if}`.
 
-`{if calendar:event_recurs}{/if}`
+### `{calendar:event_ampm_match}`
+This conditional will display its contents if the start date and end date's _am/pm_ values match. A common reason you might use this would be if you wanted to display event dates/times like `4:00 - 6:30pm` rather than `4:00pm - 6:30pm`. More practical code might look like:
 
-This conditional will displays its contents if the event has recurrence rules.
-
-### calendar:event_is_past
-
-`{if calendar:event_is_past}{/if}`
-
-This conditional will displays its contents if the event is finished / has past. While this will work correctly with recurrences in _Calendar:Events_ tag, one caveat is that this will not work correctly if attempting to use with recurring events in the [Calendar fieldtype in Channel:Entries tag](../templating/channel-entries.mdx), as it will only be able to check against the first/main event.
-
-### calendar:event_is_current
-
-`{if calendar:event_is_current}{/if}`
-
-This conditional will displays its contents if the event is currently happening. While this will work correctly with recurrences in _Calendar:Events_ tag, one caveat is that this will not work correctly if attempting to use with recurring events in the [Calendar fieldtype in Channel:Entries tag](../templating/channel-entries.mdx), as it will only be able to check against the first/main event.
-
-### calendar:event_is_future
-
-`{if calendar:event_is_future}{/if}`
-
-This conditional will displays its contents if the event is in the future / has not yet started. While this will work correctly with recurrences in _Calendar:Events_ tag, one caveat is that this will not work correctly if attempting to use with recurring events in the [Calendar fieldtype in Channel:Entries tag](../templating/channel-entries.mdx), as it will only be able to check against the first/main event.
-
-### calendar:event_ampm_match
-
-`{if calendar:event_ampm_match}{/if}`
-
-This conditional will display its contents if the start date and end date's `am`/`pm` values match. A common reason you might use this would be if you wanted to display event dates/times like `4:00 - 6:30pm` rather than `4:00pm - 6:30pm`. More practical code might look like:
-
-```html showLineNumbers
-{calendar:event_start_date format="%l, %F %j, %Y"} at {calendar:event_start_date
-format="%g:%i"} {if
-calendar:event_ampm_match}{if:else}{calendar:event_start_date format="%a"}{/if}
+```html {3-6}
+{calendar:event_start_date format="%l, %F %j, %Y"} at
+{calendar:event_start_date format="%g:%i"}
+{if calendar:event_ampm_match}
+{if:else}
+  {calendar:event_start_date format="%a"}
+{/if}
 - {calendar:event_end_date format="%g:%i%a"}
 ```
+
 
 ## Examples
 
 The following example is how you would display a list of events for the current month in chronological order:
 
-```html showLineNumbers
+```html
 <ul>
-  {exp:calendar:events channel="events" date_range_start="year-month-01" {!--
-  will start at first of current month --} date_range_end="year-month-last" {!--
-  will stop at last day of current month --} limit="20" paginate="both" }
-  <li>
-    <a href="{path='calendar/events'}/{calendar:url_title}/"
-      >{calendar:title}</a
-    >
-    ({calendar:event_start_date format="%F %j, %Y"})
-  </li>
-  {if calendar:no_results}
-  <li>No results found.</li>
-  {/if} {calendar:paginate}
-  <li>
-    Page {calendar:current_page} of {calendar:total_pages} pages.
-    {calendar:pagination_links}
-  </li>
-  {/calendar:paginate} {/exp:calendar:events}
+  {exp:calendar:events
+    channel="events"
+    date_range_start="year-month-01" {!-- will start at first of current month --}
+    date_range_end="year-month-last" {!-- will stop at last day of current month --}
+    limit="20"
+    paginate="both"
+  }
+    <li>
+      <a href="{path='calendar/events'}/{calendar:url_title}/">{calendar:title}</a>
+      ({calendar:event_start_date format="%F %j, %Y"})
+    </li>
+    {if calendar:no_results}
+      <li>No results found.</li>
+    {/if}
+    {calendar:paginate}
+      <li>
+        Page {calendar:current_page} of {calendar:total_pages} pages.
+        {calendar:pagination_links}
+      </li>
+    {/calendar:paginate}
+  {/exp:calendar:events}
 </ul>
 ```
 

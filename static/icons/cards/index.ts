@@ -112,6 +112,7 @@ export default {
   PhoneIcon: 'phone',
   PlayButtonIcon: 'play-button',
   QuestionSignIcon: 'question-sign',
+  QueueIcon: 'queue',
   RadioListIcon: 'radio-list',
   RatingIcon: 'rating',
   ReactIcon: 'react',
