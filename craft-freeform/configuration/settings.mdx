@@ -227,15 +227,15 @@ The **Automatically Scroll to Form on Errors and Multipage forms** feature can h
     - The key benefits are that it never stores anything anywhere, has no impact on the server, and can be cached out-of-the-box.
   - **Using PHP's sessions**
     - The key benefits are that it stores the context in memory and everything per session ID.
-    - The problems with this approach are that it expires eventually with no way to persist this for longer periods of time. It's also unreliable due to _garbage collection_ on most servers which typically runs every 24 min­utes by default.
+    - The problems with this approach are that it expires eventually with no way to persist this for longer periods of time. It's also unreliable due to _garbage collection_ on most servers which typically runs every 24 minutes by default.
   - **Using a database table**
     - The key benefits are that the context is stored in the database reliably for as long as you wish, offering more control if you have large forms that take a very long time to complete.
     - The problems with this approach is that high traffic sites may run into performance issues as the database table fills up and attempts to clear regularly, etc.
 </details>
 
-## Queue Processing<Badge type="feature" text="New in 5.14+" />
+## Queue Processing<Badge type="feature" text="Improved in 5.14+" />
 
-The following settings enable Freeform to use Craft's queue to process submissions in the background. This improves performance for users when submitting forms. Enable the free Queue Pinging service to ensure tasks continue running automatically.
+The following settings enable Freeform to use Craft's queue to process submissions in the background. This improves performance for users when submitting forms. Enable the free [Queue Pinging service](#automated-queue-pinging-service) to ensure tasks continue running automatically.
 
 :::info
 This page and its settings all become readonly when the Craft `allowAdminChanges` config setting is set to `false`.
@@ -246,6 +246,19 @@ This page and its settings all become readonly when the Craft `allowAdminChanges
   alt="Queue Processing Settings"
 />
 
+### Automated Queue Pinging Service<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.14+" />
+
+The **Queue Pinging Service** is a turn-key feature that keeps Craft's queue moving by periodically automatically triggering it through the free (Pro-only) [Form Monitor](../monitoring/index.mdx) service. This is especially useful for sites that don't receive consistent traffic to the Craft control panel.
+
+When enabled, **Form Monitor** will automatically ping your site at your configured interval, ensuring background processes continue to run smoothly.
+
+#### Why Use the Queue Pinging Service?
+
+- **Reliable queue processing** - Keeps Craft's queue active even when your control panel has little or no traffic.
+- **Hands-off automation** - No cron jobs or server configuration required.
+- **Ideal for background tasks** - Ensures timely processing of emails, integrations, payments, AI tasks, and other queued jobs.
+- **Free & lightweight** - Powered by the free (Pro-only) Form Monitor service with minimal overhead.
+
 <details className="hidden-heading">
   <summary>View list of Settings</summary>
 
@@ -254,6 +267,8 @@ This page and its settings all become readonly when the Craft `allowAdminChanges
 | **Use Queue for AI Processing**<Badge type="feature" text="New in 5.13+" />                      | `useQueueForAiFields: true`           | Use Craft's queue system to trigger AI processing.                          |    <small className="compare-none">N/A</small>   | <small className="compare-none">N/A</small> |  <span className="edition-pro">✓</span>  |
 | **Use Queue for Email Notifications**<Badge type="feature" text="New in 5.4+" />                 | `useQueueForEmailNotifications: true` | Use Craft's queue system to trigger emails.                                 |    <span className="edition-express">✓</span>    |   <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
 | **Use Queue for Integrations**<Badge type="feature" text="New in 5.4+" />                        | `useQueueForIntegrations: true`       | Use Craft's queue system to trigger integrations (CRM and Email Marketing). |    <span className="edition-express">✓</span>    |   <span className="edition-lite">✓</span>   |  <span className="edition-pro">✓</span>  |
+| **Use Queue Pinging Service**<Badge type="feature" text="New in 5.14+" />                        | `managedPingerEnabled: true`       | Allow Freeform to routinely ping your site via the **Form Monitor** service, automatically triggering Craft's queue in the background. |    <span className="compare-none">✕</span>    |   <span className="compare-none">✕</span>   |  <span className="edition-pro">✓<small> with Form Monitor</small></span>  |
+| **Pinging Interval**<Badge type="feature" text="New in 5.14+" />                        | `queuePingMinIntervalMinutes: 10`       | Controls how often **Form Monitor** should ping your site to trigger queue processing. Set as often as every 5 minutes. |    <span className="compare-none">✕</span>    |   <span className="compare-none">✕</span>   |  <span className="edition-pro">✓<small> with Form Monitor</small></span>  |
 
 :::warning
 This feature requires Craft's queue runner to process tasks. If [Form Monitor](../monitoring/index.mdx) is activated for your site, you can enable Freeform's free pinging service to trigger it automatically.
