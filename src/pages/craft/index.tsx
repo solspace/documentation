@@ -31,6 +31,11 @@ export default function Craft(): JSX.Element {
                     fullCardLink: '/craft/calendar/v5',
                   },
                   {
+                    title: 'AI Assistant',
+                    icon: Icons.AIIcon,
+                    fullCardLink: '/craft/ai-assistant/v1',
+                  },
+                  {
                     title: 'Express Forms',
                     icon: Icons.ExpressFormsIcon,
                     fullCardLink:

@@ -172,6 +172,18 @@ const config: Config = {
               toc_max_heading_level: 2,
             },
           },
+          {
+            version: 1,
+            saveDir: 'craft-ai-assistant/setup',
+            file: 'changelog.mdx',
+            url: 'https://raw.githubusercontent.com/solspace/craft-aiassistant/v1/CHANGELOG.md',
+            meta: {
+              title: 'Changelog',
+              sidebar_label: 'Changelog',
+              sidebar_position: 5,
+              toc_max_heading_level: 2,
+            },
+          },
         ],
       },
     ],
@@ -218,6 +230,25 @@ const config: Config = {
             badge: false,
           },
           v1: {
+            label: '1.x',
+            path: 'v1',
+            badge: false,
+          },
+        },
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'craft-ai-assistant',
+        path: 'craft-ai-assistant',
+        routeBasePath: '/craft/ai-assistant',
+        editUrl: 'https://github.com/solspace/documentation/edit/main',
+        sidebarPath: './sidebars.ts',
+        sidebarCollapsed: false,
+        lastVersion: 'current',
+        versions: {
+          current: {
             label: '1.x',
             path: 'v1',
             badge: false,
@@ -333,6 +364,11 @@ const config: Config = {
         {
           type: 'docsVersionDropdown',
           docsPluginId: 'craft-calendar',
+          position: 'left',
+        },
+        {
+          type: 'docsVersionDropdown',
+          docsPluginId: 'craft-ai-assistant',
           position: 'left',
         },
         {
