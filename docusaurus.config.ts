@@ -172,6 +172,18 @@ const config: Config = {
               toc_max_heading_level: 2,
             },
           },
+          {
+            version: 1,
+            saveDir: 'craft-ai-assistant/setup',
+            file: 'changelog.mdx',
+            url: 'https://raw.githubusercontent.com/solspace/craft-aiassistant/v1/CHANGELOG.md',
+            meta: {
+              title: 'Changelog',
+              sidebar_label: 'Changelog',
+              sidebar_position: 5,
+              toc_max_heading_level: 2,
+            },
+          },
         ],
       },
     ],
