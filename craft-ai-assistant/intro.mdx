@@ -1,0 +1,247 @@
+---
+sidebar_position: 1
+title: 'Overview'
+slug: /
+hide_table_of_contents: true
+id: landing-page
+---
+
+import Player from 'react-player';
+import { FlexCards, Section } from '@site/src/components/docs';
+import SearchBar from '@theme/SearchBar';
+import NavbarSearch from '@theme/Navbar/Search';
+
+import Icons from '@site/static/icons/cards';
+import OldIcons from '@site/static/icons/old';
+import {
+  Photo,
+  PrimaryButtonWithLink,
+  SimpleTextLink,
+  FlexButton,
+} from '@site/src/components/utils';
+
+# Overview
+
+<section className="landing-header">
+  <div className="container">
+    <div className="flex flex-col items-center gap-6 mt-20 mb-5 px-1">
+      <Photo
+        img={require('@site/static/img/intro/aiassistant-dark.png')}
+        className="landing-logo"
+        alt="AI Assistant for Craft CMS"
+      />
+      <span className="landing-cms-for">for</span>
+      <Photo
+        img={require('@site/static/logos/craftcms.png')}
+        className="landing-cms-logo"
+        alt="Craft CMS"
+      />
+      <p className="text-center">
+        Generate smarter text and images with AI using custom prompts and support for multiple models.
+      </p>
+      <div className="flex gap-3 landing-header-buttons">
+        <FlexButton
+          items={[
+            { to: '#key-features', label: 'Feature Tour', outline: true, arrowDown: true },
+          ]}
+        />
+        <NavbarSearch>
+          <SearchBar />
+        </NavbarSearch>
+        <FlexButton
+          items={[{ to: 'setup/installing-updating', label: 'Explore Docs' }]}
+        />
+      </div>
+      <small>
+        <SimpleTextLink
+          to="https://plugins.craftcms.com/aiassistant"
+          label="Try out a free unlimited trial today!"
+        />
+      </small>
+    </div>
+  </div>
+</section>
+
+<div className="landing-nav-docs navbar__item dropdown dropdown--hoverable cursor-pointer hidden md:block">
+  <div className="navbar__item navbar__link">Docs</div>
+  <div className="dropdown__menu min-w-[190px]">
+    <ul className="pl-4">
+      <li className="list-none">
+        <a href="./setup/installing-updating/" className="text-sm text-[#0073ff] dark:text-white">Installing & Updating</a>
+      </li>
+      <li className="list-none">
+        <a href="./guides/getting-started/" className="text-sm text-[#0073ff] dark:text-white">User Guides</a>
+      </li>
+      <li className="list-none">
+        <a href="./configuration/settings/" className="text-sm text-[#0073ff] dark:text-white">Configuration</a>
+      </li>
+      <li className="list-none">
+        <a href="./configuration/integrations/" className="text-sm text-[#0073ff] dark:text-white">Integrations</a>
+      </li>
+      <li className="list-none">
+        <a href="./configuration/prompts/" className="text-sm text-[#0073ff] dark:text-white">Prompts</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div className="intro-main-content container py-8">
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/builder-feature.mp4').default}
+  muted loop playing width="100%" height="100%"
+/>
+
+## Key Features
+
+AI Assistant is loaded with features that make AI-powered content creation seamless and powerful.
+
+<FlexCards
+  promo
+  items={[
+    {
+      title: 'Inline AI Button',
+      description:
+        'Inline AI button on supported fields (Title, Plain Text, CKEditor, Redactor, TinyMCE) for quick access to AI assistance.',
+      icon: OldIcons.IdeaIcon,
+      fullCardLink: './guides/getting-started/#inline-ai-button',
+    },
+    {
+      title: 'Two-Column Modal',
+      description:
+        'Rich two-column modal interface (Input Context left, Generated Text right) with rich HTML rendering for easy content generation.',
+      icon: OldIcons.ViewIcon,
+      fullCardLink: './guides/getting-started/#modal-interface',
+    },
+    {
+      title: 'Prompt Management',
+      description:
+        'Built-in and custom prompt management with integration binding and sort order for organized workflow.',
+      icon: OldIcons.ListIcon,
+      fullCardLink: './configuration/prompts/',
+    },
+    {
+      title: 'Field-Specific Prompts',
+      description:
+        'Configure field-specific prompts per field with automatic modal preselection for streamlined content creation.',
+      icon: OldIcons.FileIcon,
+      fullCardLink: './configuration/settings/#field-prompts',
+    },
+    {
+      title: 'Multiple AI Providers',
+      description:
+        'Integration management for OpenAI, Google Gemini, Anthropic, xAI, and Replicate with enable/disable, API keys, and model selection.',
+      icon: OldIcons.ApiIcon,
+      fullCardLink: './configuration/integrations/',
+    },
+    {
+      title: 'Quick AI Actions Widget',
+      description:
+        'Dashboard widget for quick AI actions: select prompt, edit prompt text, generate, and copy content.',
+      icon: OldIcons.DashboardIcon,
+      fullCardLink: './guides/getting-started/#quick-ai-actions-widget',
+    },
+    {
+      title: 'Craft-Native UI',
+      description:
+        'Uses Craft-native UI components (lightswitch, notices) and event-based widget registration for seamless integration.',
+      icon: OldIcons.SettingsIcon,
+      fullCardLink: './configuration/settings/',
+    },
+    {
+      title: 'Responsive Modal',
+      description:
+        'Responsive, larger modal with dynamic body height for comfortable content generation on any device.',
+      icon: OldIcons.ViewIcon,
+      fullCardLink: './guides/getting-started/#modal-interface',
+    },
+  ]}
+/>
+
+## Current Functionality
+
+AI Assistant provides a comprehensive set of features for AI-powered content creation:
+
+- [x] Inline AI button on supported fields (Title, Plain Text, CKEditor, Redactor, TinyMCE)
+- [x] Two-column modal (Input Context left, Generated Text right) with rich HTML rendering
+- [x] Lightswitch to include/exclude input context in the prompt
+- [x] Correct HTML handling for CKEditor, TinyMCE, and Redactor when inserting back into the field
+- [x] Prompt management (built-in and custom) with integration binding and sort order
+- [x] Field-specific prompts per field with automatic modal preselection
+- [x] Integration management for OpenAI, Google Gemini, Anthropic, xAI, and Replicate (enable/disable, API keys, model selection)
+- [x] Quick AI Actions dashboard widget (select prompt, editable prompt text, generate, copy)
+- [x] Craft-native UI components (lightswitch, notices), event-based widget registration
+- [x] Responsive, larger modal with dynamic body height
+- [x] Image generation for Assets fields
+
+
+## Upcoming Features
+
+- [ ] Per-site settings and field rules
+- [ ] Prompt variables and templating
+- [ ] Batch content processing
+- [ ] Analytics dashboard
+- [ ] SEO content assistant
+- [ ] Commerce integration
+- [ ] Multi-language support
+
+## Package Information
+
+- **Package:** `solspace/craft-aiassistant`
+- **Namespace:** `Solspace\AIAssistant`
+
+## Requirements
+
+- Craft CMS 5+
+- PHP 8.0+
+- Valid API key(s) for configured providers
+
+<Section
+  title="Why AI Assistant?"
+  anchor="why-aiassistant"
+  subtitle="You can count on AI Assistant and the team behind it to give you the quality and support you really deserve."
+  imgSrc={Icons.CheckboxIcon}
+>
+  <FlexCards
+    items={[
+      {
+        title: 'Top Notch Support',
+        description:
+          'Our reputation in the Craft CMS community speaks for itself when it comes to customer support. We strive to offer the best and most reliable help to all our customers.',
+        icon: Icons.SupportIcon,
+        linkWithDescription: '/support/',
+      },
+      {
+        title: '25+ Years Experience',
+        description:
+          'For more than 25 years, Solspace has been busy creating and supporting software for over 30,000 customers. Over 500,000 plugins have been sold or downloaded for free!',
+        icon: Icons.HourglassIcon,
+        linkWithDescription: 'https://solspace.com',
+      },
+      {
+        title: 'Active Development',
+        description:
+          'AI Assistant is continuously updated with new features, improvements, and bug fixes over time.',
+        icon: Icons.DevelopmentIcon,
+        linkWithDescription: 'setup/changelog',
+      },
+    ]}
+  />
+  <div className="intro-cta flex flex-wrap gap-3 justify-center">
+    <div className="intro-cta-text flex flex-col">
+      <h4>Start exploring AI Assistant...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'https://plugins.craftcms.com/aiassistant/', label: 'Plugin Store', outline: true },
+        { to: '/support/', label: 'Support', outline: true },
+        { to: 'setup/installing-updating/', label: 'How to Install', outline: true },
+        { to: 'guides/getting-started/', label: 'Getting Started', outline: true },
+      ]}
+    />
+  </div>
+</Section>
+
+</div>
+

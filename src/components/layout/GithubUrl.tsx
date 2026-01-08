@@ -12,6 +12,10 @@ const githubUrls = [
     link: 'https://github.com/solspace/craft-calendar/',
   },
   {
+    pathname: '/craft/ai-assistant',
+    link: 'https://github.com/solspace/craft-aiassistant/',
+  },
+  {
     pathname: '/expressionengine/freeform',
     link: 'https://github.com/solspace/',
   },

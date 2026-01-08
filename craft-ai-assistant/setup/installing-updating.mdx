@@ -1,0 +1,78 @@
+---
+sidebar_position: 1
+---
+
+import { FlexCards } from '@site/src/components/docs';
+import Icons from '@site/static/icons/cards';
+
+# Installing & Updating
+
+<FlexCards
+  navCards
+  items={[
+    {
+      title: 'Requirements',
+      description: 'Review the requirements for your site to run AI Assistant.',
+      icon: Icons.ClipboardIcon,
+      fullCardLink: '#requirements',
+    },
+    {
+      title: 'Installation',
+      description: 'Instructions for installing a new copy of AI Assistant.',
+      icon: Icons.BoxIcon,
+      fullCardLink: '#installation',
+    },
+    {
+      title: 'Updating',
+      description:
+        'Instructions for updating to newer versions of AI Assistant.',
+      icon: Icons.UpdateArrowsIcon,
+      fullCardLink: '#updating',
+    },
+  ]}
+/>
+
+## Requirements
+
+AI Assistant requires:
+
+**Craft CMS compatibility:**
+
+- **Craft CMS 4.x or 5.x (4.0.0+ / 5.0.0+)**
+- **PHP 8.0+**
+- Valid API key(s) for configured providers (OpenAI, Google Gemini, Anthropic, xAI, or Replicate)
+
+## Installation
+
+AI Assistant can be installed one of two ways:
+
+### Via Composer
+
+1. Require the package:
+
+   ```bash
+   composer require solspace/craft-aiassistant
+   ```
+
+2. In Craft CP → Plugins, install "AI Assistant"
+
+3. Configure providers in **AI Assistant → Integrations**
+
+4. Enable fields in **AI Assistant → Settings**
+
+### Via Plugin Store
+
+1. Go to **Plugin Store** in your Craft control panel
+2. Search for "AI Assistant"
+3. Click **Install**
+4. Configure providers in **AI Assistant → Integrations**
+5. Enable fields in **AI Assistant → Settings**
+
+## Updating
+
+To update AI Assistant:
+
+1. Run `composer update solspace/craft-aiassistant` in your terminal
+2. Or update via the Plugin Store in your Craft control panel
+
+After updating, clear your caches and check the changelog for any breaking changes.
