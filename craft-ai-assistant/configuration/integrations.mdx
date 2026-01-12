@@ -2,17 +2,95 @@
 sidebar_position: 2
 ---
 
+import { IntegrationCards } from '@site/src/components/docs';
+
 # Integrations
 
 AI Assistant supports multiple AI providers. Configure your integrations to enable AI-powered content generation.
 
 ## Supported Providers
 
-- **OpenAI** - GPT models (GPT-4, GPT-3.5, etc.)
-- **Google Gemini** - Gemini models
-- **Anthropic** - Claude models
-- **xAI** - Grok models
-- **Replicate** - Various AI models
+<IntegrationCards
+  layout="large"
+  items={[
+    {
+      title: 'Anthropic',
+      link: '#anthropic',
+      icon: 'anthropic',
+      filterIcon: true,
+    },
+    {
+      title: 'Google Gemini',
+      link: '#google-gemini',
+      icon: 'gemini',
+    },
+    {
+      title: 'OpenAI',
+      link: '#openai',
+      icon: 'openai',
+      filterIcon: true,
+    },
+    {
+      title: 'xAI',
+      link: '#xai',
+      icon: 'xai',
+      filterIcon: true,
+    },
+    {
+      title: 'Replicate',
+      link: '#replicate',
+      icon: 'replicate',
+      filterIcon: true,
+    },
+  ]}
+/>
+
+### Anthropic
+
+Anthropic is an AI research and product company best known for its *Claude* family of large language models, which emphasize **high-quality and safety-focused reasoning, long context handling, and conversational accuracy** for business and creative workflows. Its latest models (like Claude Opus and Sonnet) are tuned for deep reasoning, coding, and complex task support, with robust enterprise APIs and safety guardrails.
+
+Recommended model: `claude-3-5-haiku-latest`
+
+### Google Gemini
+
+Google's **Gemini** models power a broad suite of AI capabilities across Google products (Search, Workspace, APIs), featuring **very large context windows and multimodal understanding (text, images, etc.)** for deep reasoning and document analysis. These proprietary models are tightly integrated with Google's ecosystem, making them especially useful for workflows that leverage Search, Gmail, Docs, and other Google services.
+
+Recommended model: `gemini-1.5-flash`
+
+### OpenAI
+
+OpenAI develops the **GPT (Generative Pre-trained Transformer)** series — including `GPT-4` and `GPT-5` variants — known for **general-purpose language understanding, creativity, and broad ecosystem support** (chat, code generation, APIs). These models balance versatility and performance for developers, researchers, and enterprises, with strong tooling and integrations across platforms.
+
+Recommended model: `gpt-5-nano`
+
+### xAI
+
+_xAI_ offers the **Grok** family of models that aim to provide **fast, real-time conversational AI with integrated web search and reasoning**; they're available both through the xAI API and consumer interfaces like X and dedicated apps. Grok models (e.g., Grok 4) are positioned on **speed, real-time data access, and engaging conversational style**, making them stand out from other LLMs by blending dynamic up-to-date inputs with creative responses.
+
+Recommended model: `grok-3-mini`
+
+### Replicate
+
+Replicate is a **cloud platform for running and deploying machine learning models**, not a single LLM provider. It hosts a broad marketplace of **open-source and official AI models** (including language, vision, audio, and multimodal models) accessible via simple APIs. Instead of building its own flagship model, Replicate makes it easy to **use, fine-tune, share, and scale existing models** without managing infrastructure yourself.
+
+Recommended model: `black-forest-labs/flux-1.1-pro`
+
+
+
+
+## Comparison Chart
+
+Which AI service and model should you use? The chart below might offer some assistance with that.
+
+| **Provider**      | **Primary Offering**           | **Models / Focus**                                           | **Strengths / Differences**                                                    | **Typical Use Cases**                                                           |
+| ----------------- | ------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| **Anthropic**     | AI research org + LLM services | Claude family (e.g., Claude Opus, Sonnet, Haiku)             | Safety-focused, alignment-oriented models with strong reasoning and long-context handling | Complex reasoning, professional writing, customer support, enterprise workflows |
+| **Google Gemini** | Google's flagship AI models    | Gemini (2.x / 3.x series) with multimodal & deep reasoning   | Tight integration with Google ecosystem; large context windows and multimodal capabilities      | Multimodal tasks, research, speech & vision + language workflows                |
+| **OpenAI**        | Broad AI platform & APIs       | GPT-series (GPT-4, GPT-5 and derivatives)                    | Very broad ecosystem, deep reasoning & coding support, rich tooling & agents                    | General purpose chat, creative writing, coding, automation, assistant apps      |
+| **xAI (Grok)**    | Conversational & real-time AI  | Grok family (e.g., Grok-3, Grok-4)                           | Real-time conversation, social data integration (e.g., X), multi-agent architectures        | Real-time insights, social sentiment analysis, fast Q&A                         |
+| **Replicate**     | AI model hosting & deployment  | Marketplace of open-source models (images, text, audio etc.) | API-first access to thousands of ready-to-run open-source models — *not a single LLM vendor* | Hosting, deploying, running/finetuning open-source models in apps               |
+
+
 
 ## Setting Up an Integration
 

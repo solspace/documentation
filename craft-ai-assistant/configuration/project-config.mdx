@@ -1,0 +1,38 @@
+---
+sidebar_position: 8
+title: Project Config
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Project Config
+
+Freeform settings can all be controlled via Craft's [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file.
+
+## Available Config Settings<Badge type="feature" text="Improved in 5.13+, 5.14+" />
+
+If you wish to manage the configuration of Freeform settings via Craft's [Project Config](https://craftcms.com/docs/5.x/system/project-config.html), here's a list of every setting currently available:
+
+```yaml
+ai-assistant:
+  edition: standard
+  enabled: true
+  schemaVersion: 1.0.0
+  settings:
+// highlight-start
+    enabledFieldHandles:
+// highlight-end
+      - title
+      - description
+      - location
+      - myField
+      - someOtherField
+// highlight-start
+    fieldPrompts:
+// highlight-end
+      title: builtin_generate_text
+      description: builtin_rephrase_content
+      location: builtin_translate_text
+      myField: builtin_translate_text
+      someOtherField: '2'
+```
