@@ -2,7 +2,18 @@
 sidebar_position: 1
 ---
 
-import { FlexCards } from '@site/src/components/docs';
+import Player from 'react-player';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+import { Badge, Photo } from '@site/src/components/utils';
+import {
+  VerticalStepWrapper,
+  StepMarkdown,
+  FlexCards,
+  TwoColumnCards,
+  ColumnCardData,
+} from '@site/src/components/docs';
 import Icons from '@site/static/icons/cards';
 
 # Installing & Updating
@@ -25,54 +36,456 @@ import Icons from '@site/static/icons/cards';
     {
       title: 'Updating',
       description:
-        'Instructions for updating to newer versions of AI Assistant.',
+        'Instructions for updating from 1.x to newer versions of AI Assistant 1.x.',
       icon: Icons.UpdateArrowsIcon,
       fullCardLink: '#updating',
+    },
+    {
+      title: 'Purchasing',
+      description: 'Trialing, purchasing and troubleshooting license issues.',
+      icon: Icons.BagIcon,
+      fullCardLink: '#purchasing',
+    },
+    {
+      title: 'Troubleshooting',
+      description: 'Common problems encountered when purchasing / upgrading.',
+      icon: Icons.QuestionSignIcon,
+      fullCardLink: '#troubleshooting',
     },
   ]}
 />
 
 ## Requirements
 
-AI Assistant requires:
+AI Assistant 1.x supports [Craft 5.x](https://craftcms.com/docs/5.x/requirements.html). It meets mostly the same requirements as listed on the Craft Requirements page.
 
-**Craft CMS compatibility:**
-
-- **Craft CMS 4.x or 5.x (4.0.0+ / 5.0.0+)**
-- **PHP 8.0+**
-- Valid API key(s) for configured providers (OpenAI, Google Gemini, Anthropic, xAI, or Replicate)
+- **Craft 5.0.0+**
+- PHP 8.2.0+
+- MySQL 8.0.17+ using InnoDB, MariaDB 10.4.6+, or PostgreSQL 13+
+- 256MB+ of memory allocated to PHP
+- Active/Valid API key(s) for one or more configured providers:
+  - OpenAI
+  - Google Gemini
+  - Anthropic
+  - xAI
+  - Replicate
 
 ## Installation
 
 AI Assistant can be installed one of two ways:
 
-### Via Composer
+<Tabs>
+  <TabItem value="install-cli" label="Composer (CLI)" default>
+    AI Assistant can be installed by running the following set of commands in your favorite CLI app: <Badge type="recommended" text="Recommended" />
 
-1. Require the package:
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Open your Craft project">
+        ```nix
+        cd /path/to/project
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Get AI Assistant">
+        <Tabs>
+          <TabItem value="install-cli-latest-version" label="Latest Version" default>
+            ```nix
+            composer require solspace/craft-aiassistant -w
+            ```
+          </TabItem>
+          <TabItem value="install-cli-specific-version" label="Specific Version">
+            ```nix
+            composer require solspace/craft-aiassistant:1.0.6 -w
+            ```
+          </TabItem>
+        </Tabs>
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Install AI Assistant">
+        <Tabs>
+          <TabItem value="install-cli-install-plugin-cli-57" label="CLI" default>
+            Enter the following command:
+            ```nix
+            ./craft plugin/install ai-assistant
+            ```
+          </TabItem>
+          <TabItem value="install-cli-install-plugin-cp" label="Control Panel">
+            To install AI Assistant via the Craft control panel instead:
+            
+            1. Go to _Settings → Plugins_.
+            2. Click the **Cog button** for AI Assistant
+            3. Select **Install**.
 
-   ```bash
-   composer require solspace/craft-aiassistant
-   ```
+          </TabItem>
+        </Tabs>
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Purchase">
+        If AI Assistant is right for your site, [purchase a copy](#purchasing) of it through the Plugin Store when you're ready!
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="install-cp" label="Control Panel">
+    AI Assistant can be installed via the control panel by following these instructions:
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Get AI Assistant">
+        Go to the **Plugin Store** area inside your Craft control panel and click on *AI Assistant*.
 
-2. In Craft CP → Plugins, install "AI Assistant"
+        <Photo
+          img={require('@site/static/img/craft/freeform/v5/cp/plugin-store.png')}
+          alt="Plugin Store"
+        />
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Choose Edition">
+        Once the product page opens, click the **Try** button.
 
-3. Configure providers in **AI Assistant → Integrations**
+        <Photo
+          img={require('@site/static/img/craft/freeform/v5/cp/plugin-store-install.png')}
+          alt="Plugin Store - Install AI Assistant"
+        />
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Purchase">
+        If AI Assistant is right for your site, [purchase a copy](#purchasing) of it through the Plugin Store when you're ready!
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+</Tabs>
 
-4. Enable fields in **AI Assistant → Settings**
-
-### Via Plugin Store
-
-1. Go to **Plugin Store** in your Craft control panel
-2. Search for "AI Assistant"
-3. Click **Install**
-4. Configure providers in **AI Assistant → Integrations**
-5. Enable fields in **AI Assistant → Settings**
 
 ## Updating
 
-To update AI Assistant:
+:::warning
+#### Back up your database before continuing...
 
-1. Run `composer update solspace/craft-aiassistant` in your terminal
-2. Or update via the Plugin Store in your Craft control panel
+If the upgrade migration fails at any point, you must be prepared to fully restore your database using the backup you created before initiating the update again. A failed migration may leave the database partially changed or other migrations may have occurred. Downgrading to an earlier version could corrupt the database and make it unrecoverable.
 
-After updating, clear your caches and check the changelog for any breaking changes.
+**It is essential that you take a complete backup of your database before proceeding with this update!**
+:::
+
+AI Assistant can be updated one of three ways:
+
+<Tabs>
+  <TabItem value="update-cli" label="Craft Update (CLI)" default>
+    You can use the Craft [_update_ command](https://craftcms.com/docs/5.x/update.html#updating-from-the-terminal) to update AI Assistant. <Badge type="recommended" text="Recommended" />
+
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Open your Craft project">
+        ```nix
+        cd /path/to/project
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Check for Updates">
+        ```nix
+        ./craft update
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Perform the Updates">
+        <Tabs>
+          <TabItem value="updating-cli-latest-version" label="Latest Version" default>
+            ```nix
+            ./craft update ai-assistant
+            ```
+          </TabItem>
+          <TabItem value="updating-cli-specific-version" label="Specific Version">
+            ```nix
+            ./craft update ai-assistant:1.0.6
+            ```
+          </TabItem>
+        </Tabs>
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="update-cli-composer" label="Composer (CLI)">
+    You can also update AI Assistant more manually if you like, using Composer (`composer update`). This may also be helpful in certain scenarios where you need to workaround an issue while updating.
+
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Update composer.json">
+        <Tabs>
+          <TabItem value="updating-cli-composer-latest-versions" label="Latest Versions" default>
+            Specifying the caret (`^`) before the version number will always grab the latest available version:
+
+            ```json {4}
+            "require": {
+                "craftcms/cms": "^5.0.0",
+                "vlucas/phpdotenv": "^5.4.0",
+                "solspace/craft-aiassistant": "^1.0.0",
+                "solspace/craft-freeform": "^5.0.0"
+            },
+            ```
+          </TabItem>
+          <TabItem value="updating-cli-composer-locked-versions" label="Locked Versions">
+            If you are locking your versions, you will need to open your Craft site's main `composer.json` file and adjust the version number for AI Assistant ([see guide below](#understanding-versions-and-composer-update)).
+
+            ```diff
+            "require": {
+                "craftcms/cms": "5.8.1",
+                "vlucas/phpdotenv": "5.4.0",
+            -   "solspace/craft-aiassistant": "1.0.2",
+            +   "solspace/craft-aiassistant": "1.1.5",
+                "solspace/craft-freeform": "5.14.3"
+            },
+            ```
+          </TabItem>
+        </Tabs>
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Open your Craft project">
+        ```nix
+        cd /path/to/project
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Get Updates">
+        ```nix
+        composer update
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Run Migrations">
+        <Tabs>
+          <TabItem value="updating-cli-composer-all" label="Craft and All Plugins" default>
+            ```nix
+            ./craft migrate/all
+            ```
+          </TabItem>
+          <TabItem value="updating-cli-composer-aiassistant" label="AI Assistant only">
+            ```nix
+            ./craft migrate --plugin=ai-assistant
+            ```
+          </TabItem>
+          <TabItem value="updating-cli-control-panel" label="Control Panel">
+            Proceed to the Craft control panel and click the **Finish Updates** button if it shows.
+
+            :::warning
+            We strongly advise against using the Control Panel for updates and migrations.
+            :::
+          </TabItem>
+        </Tabs>
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="update-cp" label="Control Panel">
+    :::warning
+    We strongly advise against using the Control Panel for updates and migrations.
+    :::
+
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Check for Updates">
+        Go to the Craft Updates area inside the control panel (**Utilities** → **Updates**) and review the changelog for AI Assistant.
+
+        <Photo
+          img={require('@site/static/img/craft/freeform/v5/cp/updates.png')}
+          alt="Craft Updates Service"
+        />
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Run Updates">
+        Simply click the **Update** button and Craft will do the rest.
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+</Tabs>
+
+## Disable AI Assistant
+
+AI Assistant can be temporarily disabled from the CLI or control panel. The benefit of this is to troubleshoot potential issues and conflicts while preserving your data until a proper fix or change to the site is made.
+
+<Tabs>
+  <TabItem value="disable-plugin-cli" label="CLI" default>
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Open your Craft Project">
+        ```nix
+        cd /path/to/project
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Disable AI Assistant">
+        ```nix
+        ./craft plugin/disable ai-assistant
+        ```
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="disable-plugin-cp" label="Control Panel">
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Go to _Settings → Plugins_.
+      </StepMarkdown>
+      <StepMarkdown>
+        Click the **Cog button** for AI Assistant
+      </StepMarkdown>
+      <StepMarkdown>
+        Select **Disable**.
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+</Tabs>
+
+## Uninstall AI Assistant
+
+Follow the steps below to uninstall AI Assistant from your site.
+
+:::danger
+This action cannot be undone. All of your AI Assistant data be will lost forever, unless you have made a backup.
+:::
+
+<Tabs>
+  <TabItem value="uninstall-plugin-cli" label="CLI" default>
+    <VerticalStepWrapper>
+      <StepMarkdown stepTitle="Open your Craft Project">
+        ```nix
+        cd /path/to/project
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Uninstall AI Assistant">
+        ```nix
+        ./craft plugin/uninstall ai-assistant
+        ```
+      </StepMarkdown>
+      <StepMarkdown stepTitle="Remove Dependencies">
+        :::danger
+        Do not remove a plugin package with Composer before uninstalling it from the control panel or with Craft's CLI.
+        :::
+
+        ```nix
+        composer remove solspace/craft-aiassistant
+        ```
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+  <TabItem value="uninstall-plugin-cp" label="Control Panel">
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Go to _Settings → Plugins_.
+      </StepMarkdown>
+      <StepMarkdown>
+        Click the **Cog button** for AI Assistant
+      </StepMarkdown>
+      <StepMarkdown>
+        Select **Uninstall**.
+      </StepMarkdown>
+    </VerticalStepWrapper>
+  </TabItem>
+</Tabs>
+
+## Purchasing
+
+<Tabs>
+  <TabItem value="purchasing-trialing" label="Trialing" default>
+    Craft allows you to trial third-party plugins to see if they're right for your needs. We recommend **trying** any commercial plugin first before buying it. You can trial any plugin or Craft CMS itself by running your site from any domain [that Craft does not consider to be a public domain](https://craftcms.com/knowledge-base/how-craft-license-enforcement-works).
+  </TabItem>
+  <TabItem value="purchasing-purchasing" label="Purchasing">
+    If this is your first time purchasing a third-party plugin, here's an overview of the purchasing process of plugins. You may purchase licenses for plugins either via the [Craft Plugin Store website](https://plugins.craftcms.com) or directly through the Craft Control Panel. For the latter, here is the process:
+
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Go to the _Plugins_ section of your Craft control panel (**Craft CP** → **Settings** → **Plugins**).
+      </StepMarkdown>
+      <StepMarkdown>
+        For the plugin(s) that need to be purchased, click the **Buy Now** button to add them to your cart.
+      </StepMarkdown>
+      <StepMarkdown>
+        Proceed to purchase the plugin directly inside your Craft control panel. If you think you'll need updates and product support beyond the first year, you can optionally pre-purchase renewal years. You can also purchase renewals later after expiry.
+      </StepMarkdown>
+      <StepMarkdown>
+        Once purchased, the current trial license key for the AI Assistant will become valid. These product keys can also be accessed and managed later on in your [Craft Console account](https://console.craftcms.com) by visiting the **Plugins** area.
+      </StepMarkdown>
+    </VerticalStepWrapper>
+
+    If you encounter any issues with licensing your plugin, please refer to the [Troubleshooting guide](#troubleshooting) below.
+
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/cp/switch-editions-purchase-3.png')}
+      alt="Switch edition after Purchase"
+    />
+  </TabItem>
+  <TabItem value="purchasing-renewals" label="Renewals">
+    Renewals are not required to continue using AI Assistant past the one-year term, but they are required if you wish to update to newer versions of AI Assistant and receive official support from Solspace. Renewals can be set to automatic, or you may also purchase a renewal directly through the Craft Control Panel or via the [Craft Console website](https://console.craftcms.com/).
+  </TabItem>
+</Tabs>
+
+## Understanding versions and `composer update`
+
+- For example, under the `"require"` area, change `"solspace/craft-aiassistant": "1.0.2",` to `"solspace/craft-aiassistant": "1.1.3",`.
+- You can also use `~` and `^` to somewhat automate your updating process.
+  - `1.0.0` - means exactly & only this version
+  - `~1.0.0` - means this version & any _patch_ release (up to `1.0.99̅`)
+  - `^1.0.0` - means this version & any _minor_ release (up to `1.99̅.99̅`)
+    - Specifying `"solspace/craft-aiassistant": "^1.0.0",` for example, would always get you the latest version of AI Assistant **1.x** (e.g. `1.1.9`), but never the next _major_ version of AI Assistant like **2.x**.
+
+Your final `composer.json` file might have something like this:
+
+```json {4}
+"require": {
+    "craftcms/cms": "^5.0.0",
+    "vlucas/phpdotenv": "^5.4.0",
+    "solspace/craft-aiassistant": "^1.0.0",
+    "solspace/craft-freeform": "^5.0.0",
+},
+```
+
+<details className="hidden-heading">
+  <summary>Getting Latest Unreleased Version...</summary>
+
+  Sometimes you need to update your site to use the latest _unreleased_ changes in the AI Assistant repository. This could be in the main branch or a temporary fix/feat branch, e.g. `v1` or `feat/SFT-123`.
+  <br />
+  To access the latest unreleased version of AI Assistant (`v1`), you would set the version in your `composer.json` file to just `v1.x-dev` and run `composer update` after. Your final `composer.json` file might have something like this:
+  <br />
+
+  ```json {4}
+  "require": {
+      "craftcms/cms": "^5.0.0",
+      "vlucas/phpdotenv": "^5.4.0",
+      "solspace/craft-aiassistant": "v1.x-dev",
+      "solspace/craft-freeform": "^5.0.0",
+  },
+  ```
+
+  To access an unreleased version from a different branch (e.g. `feat/SFT-123`), you would prefix the branch with `dev-` + the exact branch path/name. We also recommend that you run those changes as a "dummy" next version number and append a beta version. For example, if the current released version of AI Assistant is `1.3.4` and there are new unreleased changes in the `feat/SFT-123` branch you want to grab, go up 1 patch version number + `-beta.1`. In this case, we would assume `1.3.5` was the next version, so we'd create the version number: `1.3.5-beta.1`. Altogether, we'd be specifying: `dev-feat/SFT-123 as 1.3.5-beta.1`.
+  <br />
+  Your final `composer.json` file might have something like this:
+  <br />
+
+  ```json {4}
+  "require": {
+      "craftcms/cms": "^5.0.0",
+      "vlucas/phpdotenv": "^5.4.0",
+      "solspace/craft-aiassistant": "dev-feat/SFT-123 as 1.3.5-beta.1",
+      "solspace/craft-freeform": "^5.0.0",
+  },
+  ```
+
+  :::info
+  If there are more unreleased changes to the repo in the future, you could change `-beta.1` to `-beta.2` and so on. For example, `dev-feat/SFT-123 as 1.3.5-beta.2`.
+  :::
+</details>
+
+## Troubleshooting
+
+Third-party plugin licenses are managed and validated entirely by Craft. Some issues may require that you contact the Craft Team directly if issues persist. The following troubleshooting tips account for the most common issues we've seen our customers report to us:
+
+<details className="hidden-heading">
+  <summary>Error: 'This license is tied to another Craft install'</summary>
+
+  If you receive the error `This license is tied to another Craft install. Visit id.craftcms.com to resolve.` it indicates that the license is tied to another install of Craft CMS. This is likely because either you purchased this under a different domain or subdomain, or something glitched in the process of purchasing the license. Regardless of what happened here, this can likely be resolved by:
+
+  1. Visit your [Craft Console account](https://console.craftcms.com/).
+  2. Under **Licenses** → **Plugins**, look for the _AI Assistant_ (or affected plugin) license in the list and confirm it's tied to the correct Craft CMS license. If not, click into the license (e.g. `CRZ6`) and click on the _Detach from this Craft license_ button. This will release it from being attached to the wrong or orphaned Craft CMS license and allow you to enter it into the Craft install you're using.
+
+  If you are moving an existing site to a new non-public domain from a different local hostname, you will need to clear your data caches from the **Clear Caches** tool on the **Settings** page before Craft realizes that the hostname has changed.
+
+</details>
+<details className="hidden-heading">
+  <summary>Error: 'This license isn't allowed to run version X.X.X.'</summary>
+
+  If you receive the error `This license isn't allowed to run version X.X.X.`, it indicates that you're using a version of the plugin that your license isn't eligible for, which in almost all cases would be a plugin license that expired/finished the 1-year term since the initial purchase. According to Craft's policy (out of Solspace's control), once the plugin license has expired, the current version you have installed is the maximum version you can have. The rationale behind this (according to Craft) is that if, for example, you were using AI Assistant 1.6.1 at the time of expiry, but 1.7.4 was available to you just before the license expiry date, if that 1.7.4 version was available to you indefinitely, one might update to that version months or years later and experience issues while upgrading, which could generate issues and support requests to the developer beyond that initial 1 year term. This is a fair statement and concern on Craft's part, in our opinion. Craft does send out 30-day notices reminding customers of plugin licenses nearing expiry, so it would be wise to consider squeezing in your final update(s) earlier in that 30-day window if you do not wish to renew your license for future updates beyond the initial 1-year term.
+
+  > When a license expires, you can keep using the version that's currently installed. However, you won't be able to update it to newer versions until you've renewed the license.
+
+  As for **_how_ this happened** in the first place, Craft's [CP updater](#update-from-the-control-panel) and their recommended built-in [_update_ command](#update-from-the-cli) feature will make sure that you never update to a plugin version you don't have access to. However, if you used [Composer](#update-via-composer-from-the-cli) to update, it bypasses all of Craft's license validation and you can get yourself into the situation where you now have a version that your license shouldn't have access to, which then generates the error inside the Craft CP. The only way to resolve this would be reverting back to the previous version (which is not always recommended, as it's possible plugin update migration(s) could have taken place, and reverting could break your install), or renew your license. Please feel free to reach out to us for further clarification and assistance if you're in a bind with this, and we'll do the best we can to help.
+
+</details>
+<details className="hidden-heading">
+  <summary>Plugin shows it's 'Missing'</summary>
+
+  If you have a plugin that shows as _Missing_, this is because you don't have the plugin installed and/or the plugin files are not in the Craft **vendor** folder, BUT you have a valid purchased Craft 3 license for the plugin tied to that Craft install. Depending on your scenario, you likely either have the issue of wanting the plugin to be available or not wanting it to show up there.
+
+  If you purchased the plugin and are expecting it to show up for installation, what likely happened is that Craft or your server environment glitched and didn't correctly add the plugin dependency (files) to your Craft site's **vendor** folder (but knows that you have a valid purchase of it). If this is the case, you'll need to follow the [Installation Instructions](#installation) documentation above to install the plugin.
+
+  If the above is not the case for you, and you don't want this license showing up on your Craft site, this can likely be resolved by:
+
+  1. Visit your [Craft Console account](https://console.craftcms.com/).
+  2. Under **Licenses** → **Plugins**, look for the _AI Assistant_ (or affected plugin) license in the list and confirm it's tied to the correct Craft CMS license. If not, click into the license (e.g. `CRZ6`) and click on the _Detach from this Craft license_ button. This will release it from being attached to the wrong or orphaned Craft CMS license, and later use it on the correct/different Craft install.
+
+</details>
