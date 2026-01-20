@@ -7,6 +7,21 @@ title: Common Issues
 
 Below are some common questions that are asked about how _Solspace Calendar_ works, and what its limitations are:
 
+## Can I use Calendar as a Booking System?
+
+Calendar is best suited as an internal or editorial event system, not a booking or appointment system. It's designed for administrators to create and manage events, not for customers to make bookings through a front-end flow.
+
+While Calendar's features appear to get you most of the way there to a booking system, it does not support customer-facing booking features such as:
+
+- Availability or time-slot enforcement
+- Preventing double bookings
+- Booking rules or constraints
+- Payments or payment integrations
+
+Although it's possible to have users [submit events on the front end](./templating/events-front-end.mdx), extending this in a way that is intuitive for regular users and includes features not available in Calendar would require significant custom development to deliver a suitable end-user experience.
+
+If customer bookings, conflict prevention, or payments are required, we recommend using a dedicated booking or appointment solution rather than Calendar.
+
 ## How does Calendar handle timezones?
 
 Calendar does not use Timezones. All event date data is stored as **UTC+0**, and retrieved as **UTC+0**. So, no matter where you are in the world, an event start date entered at **6pm** will be stored and displayed always as **6pm**. The [calendar.export](../templates/queries/export.mdx) template query compensates for this by setting the timezone as **[floating](https://tools.ietf.org/html/rfc5545#section-3.3.5)**, which (in the current example) means the event will show up at 6pm no matter what timezone the user is located in.
