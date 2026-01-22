@@ -101,20 +101,58 @@ php craft freeform/submissions/generate -f=quoteRequest -c=50 -l=en -s="open,ope
 </TabItem>
 </Tabs>
 
-## Resave Submissions<Badge type="feature" text="5.1.13+" />
+## Resave Submissions<Badge type="feature" text="New in 5.1.13+, Improved in 5.10.13+ and 5.14.7+" />
 
-If you need to resave all Freeform submissions, you can do so with the `freeform/submissions/resave` CLI command. Most of the arguments available to Craft's `resave/entries` command are available here too, so if you need to also update the Craft Search Index, be sure to add `--update-search-index`.
+If you need to resave all Freeform submissions, you can do so with the `freeform/submissions/resave` CLI command. If you need to also update the Craft Search Index, be sure to add `--update-search-index`.
 
+- `--batch` <Badge type="feature" text="5.14.7+" />
+  - Specify the number of submissions that should be processed at a time.
+  - E.g. `--batch=100`.
+- `--dryRun` <Badge type="feature" text="5.14.7+" />
+  - Perform a dry run of the command to see how many submissions will be affected without actually making the changes. Defaults to off.
 - `--siteId` <Badge type="feature" text="5.10.13+" />
   - Specify a Site ID. When not used, defaults to _all sites_.
   - E.g. `--siteId=3`, `--siteId=2 --siteId=3`.
+- `--status` <Badge type="feature" text="5.10.13+" />
+  - Specify a Status. When not used, defaults to _all statuses_.
+  - E.g. `--status=open`, `--status=open --status=pending`.
 - `--updateSearchIndex`
   - Specifying this will also update the _Craft Search Index_. Defaults to off.
+- `--verbose` <Badge type="feature" text="5.14.7+" />
+  - Displays in the CLI more information about the progress. Helpful with seeing `--batch` progress. Defaults to off.
 
+
+<Tabs>
+<TabItem value="resave-submissions-basic" label="Basic" default>
+
+Resaves all Freeform submissions. Updates the _Craft Search Index_ as well.
 
 ```nix
-php craft freeform/submissions/resave --update-search-index
+php craft freeform/submissions/resave --updateSearchIndex
 ```
+
+</TabItem>
+<TabItem value="resave-submissions-batch" label="Batching">
+
+Resaves all Freeform submissions in batches of `1000`. This will help prevent your request from timing out. Also updates the _Craft Search Index_ and is in verbose mode so you can see the progress in the CLI.
+
+```nix
+php craft freeform/submissions/resave --updateSearchIndex --batch=1000 --verbose
+```
+
+
+</TabItem>
+<TabItem value="resave-submissions-sites-status" label="Target Sites/Status">
+
+Resaves all Freeform submissions that belong to site ID's `2` and `3` that are in the `open` status.
+
+```nix
+php craft freeform/submissions/resave --siteId=2 --siteId=3 --status=open
+```
+
+</TabItem>
+</Tabs>
+
 
 ## Migrate Craft 4 Element Titles<Badge type="feature" text="5.1.13+" />
 
