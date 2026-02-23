@@ -159,6 +159,7 @@ export default {
   UpdateArrowsIcon: 'update-arrows',
   UpdateNotificationIcon: 'update-notification',
   UploadIcon: 'upload',
+  URLTrackingParametersIcon: 'url-parameter-tracking',
   UserCheckIcon: 'user-check',
   UserShieldIcon: 'user-shield',
   UserIcon: 'user',

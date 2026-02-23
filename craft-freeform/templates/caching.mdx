@@ -42,6 +42,12 @@ Here are some solutions, depending on your caching approach:
       icon: Icons.StripeIcon,
       fullCardLink: '#stripe-payment-forms',
     },
+    {
+      title: 'URL Tracking Parameters',
+      description: 'Caching URL tracking parameters on Craft Cloud',
+      icon: Icons.URLTrackingParametersIcon,
+      fullCardLink: '#craft-cloud--url-tracking-parameters',
+    },
   ]}
 />
 
@@ -57,7 +63,14 @@ There are two approaches you can take:
 
 <Tabs>
   <TabItem value="template-async" label="Craft's `asyncCsrfInputs` setting" default>
-    The simplest approach you can take is enabling Craft's [`asyncCsrfInputs`](https://craftcms.com/docs/5.x/reference/config/general.html#asynccsrfinputs) setting. It will automatically take care of the CSRF token for you and you don't need to do anything else.<Badge type="recommended" text="Recommended" />
+    If you're using **Freeform 5.11+** and **AJAX**, enable Craft's [`asyncCsrfInputs`](https://craftcms.com/docs/5.x/reference/config/general.html#asynccsrfinputs) setting and let Freeform handle CSRF auto-fetch (no custom endpoint needed).<Badge type="recommended" text="Recommended" />
+
+    :::info
+    If you're running an **older version of Freeform**, or have **custom JavaScript submitting POST requests outside of Freeform's request layer**, you'll need to implement a CSRF token refresh strategy. You can do this using either of the following approaches:
+
+    - Craft's `/actions/users/session-info` endpoint (simplest to implement)
+    - A custom Twig-based JSON endpoint (offers more control and a smaller payload)
+    :::
 
     #### Template Code
 
@@ -120,7 +133,14 @@ There are a few different approaches you can take:
 
 <Tabs>
   <TabItem value="static-caching-single" label="Single-Page forms" default>
-    If your form is a single-page form, you can use Craft's [`asyncCsrfInputs`](https://craftcms.com/docs/5.x/reference/config/general.html#asynccsrfinputs) setting. It will automatically handle the CSRF token for you, and you won't need to do anything else.<Badge type="recommended" text="Recommended" />
+    If using a **single-page** form and you're using **Freeform 5.11+** and **AJAX**, enable Craft's [`asyncCsrfInputs`](https://craftcms.com/docs/5.x/reference/config/general.html#asynccsrfinputs) setting and let Freeform handle CSRF auto-fetch (no custom endpoint needed).<Badge type="recommended" text="Recommended" />
+
+    :::info
+    If you're running an **older version of Freeform**, or have **custom JavaScript submitting POST requests outside of Freeform's request layer**, you'll need to implement a CSRF token refresh strategy. You can do this using either of the following approaches:
+
+    - Craft's `/actions/users/session-info` endpoint (simplest to implement)
+    - A custom Twig-based JSON endpoint (offers more control and a smaller payload)
+    :::
 
     #### Craft Config
 
@@ -146,98 +166,101 @@ There are a few different approaches you can take:
     :::
 
     <VerticalStepWrapper>
-    <StepMarkdown>
-      Create a separate Twig template to handle loading the refreshed tokens with the following code:
+      <StepMarkdown>
+        Create a separate Twig template to handle loading the refreshed tokens with the following code:
 
-      ```twig
-      {{
-        {
-          csrf: {
-            name: craft.app.config.general.csrfTokenName,
-            value: craft.app.request.csrfToken
-          }
-        } 
-        |json_encode|raw
-      }}
-      ```
-    </StepMarkdown>
-    <StepMarkdown>
-      Make sure routing to that template works correctly. Best practice is to dedicate a directory **inside the Craft templates directory** named something like `dynamic` and place files in that directory that should never be cached. The above template might be in a directory called `dynamic` with a filename of `index.twig`.
-    </StepMarkdown>
-    <StepMarkdown>
-      Set up a rule in Blitz, CloudFlare or your preferred CDN that makes sure any URLs starting with `dynamic` are not cached. You can then aggressively cache all of your other site URLs.
-    </StepMarkdown>
-    <StepMarkdown>
-      Add the following Javascript snippet to your main `.js` file or to the bottom of all your web pages.
+        ```twig
+        {{
+          {
+            csrf: {
+              name: craft.app.config.general.csrfTokenName,
+              value: craft.app.request.csrfToken
+            }
+          } 
+          |json_encode|raw
+        }}
+        ```
+      </StepMarkdown>
+      <StepMarkdown>
+        Make sure routing to that template works correctly. Best practice is to dedicate a directory **inside the Craft templates directory** named something like `dynamic` and place files in that directory that should never be cached. The above template might be in a directory called `dynamic` with a filename of `index.twig`.
+      </StepMarkdown>
+      <StepMarkdown>
+        Set up a rule in Blitz, CloudFlare or your preferred CDN that makes sure any URLs starting with `dynamic` are not cached. You can then aggressively cache all of your other site URLs.
+      </StepMarkdown>
+      <StepMarkdown>
+        Add the following JavaScript snippet to your main `.js` file, or just before the closing `</body>` tag on your site's pages.
 
-      It uses AJAX to fetch the contents of `https://yourwebsite.com/dynamic`, which just returns a fresh CSRF token. This is then replaced in the CSRF token field of all forms on the page.
+        This script uses AJAX to request `https://yourwebsite.com/dynamic`, which returns a fresh CSRF token. The token is then automatically injected into the CSRF fields of all forms on the page.
 
-      <Tabs>
-        <TabItem value="static-cache-refresh-js" label="Plain JS" default>
-          ```js
-          document.addEventListener("DOMContentLoaded", function () {
-            // Find the corresponding form
-            var form = document.querySelector('form');
+        :::info
+        Be sure to configure your caching layer (e.g. _Blitz_, _Cloudflare_, or your preferred CDN) to **bypass caching for any URLs beginning with `/dynamic`**. This ensures that CSRF tokens are always generated per-request, while allowing the rest of your site to remain aggressively cached. If your firewall blocks Craft's `/actions/*` endpoints, you may also need to explicitly allow `/dynamic/*` in your _Cloudflare_ WAF security rules.
+        :::
+        <Tabs>
+          <TabItem value="static-cache-refresh-js" label="Plain JS" default>
+            ```js
+            document.addEventListener("DOMContentLoaded", function () {
+              // Find the corresponding form
+              var form = document.querySelector('form');
 
-            if (!form) return;
+              if (!form) return;
 
-            // Fetch the new CSRF token
-            fetch('https://yourwebsite.com/dynamic')
-              .then(response => response.json())
-              .then(data => {
-                if (data.csrf && data.csrf.name && data.csrf.value) {
-                  var csrfInput = form.querySelector('input[name="' + data.csrf.name + '"]');
-                  if (csrfInput) {
-                    csrfInput.value = data.csrf.value;
+              // Fetch the new CSRF token
+              fetch('https://yourwebsite.com/dynamic')
+                .then(response => response.json())
+                .then(data => {
+                  if (data.csrf && data.csrf.name && data.csrf.value) {
+                    var csrfInput = form.querySelector('input[name="' + data.csrf.name + '"]');
+                    if (csrfInput) {
+                      csrfInput.value = data.csrf.value;
+                    }
                   }
-                }
-              })
-              .catch(error => console.error("CSRF update error:", error
-            ));
-          });
-          ```
-        </TabItem>
-        <TabItem value="static-cache-refresh-jquery" label="jQuery">
-          ```js
-          $(function () {
-            // Find the corresponding Form
-            var form = document.querySelector('form');
-
-            $.ajax({
-              // Specify the form handle in the GET parameters
-              // ! Make sure to change the `myFormHandle` to your specific form handle.
-              url: 'https://yourwebsite.com/dynamic',
-              type: 'get',
-              dataType: 'json',
-              success: function (response) {
-                // Locate and update the CSRF input
-                var csrf = response.csrf;
-                form.querySelector('input[name=' + csrf.name + ']').value = csrf.value;
-              },
+                })
+                .catch(error => console.error("CSRF update error:", error
+              ));
             });
-          });
-          ```
-          :::info
-          Note that this snippet assumes you're already running [jQuery](https://jquery.com).
-          :::
-        </TabItem>
-      </Tabs>
-    </StepMarkdown>
-    <StepMarkdown>
-      Your final template code might look something like this:
+            ```
+          </TabItem>
+          <TabItem value="static-cache-refresh-jquery" label="jQuery">
+            ```js
+            $(function () {
+              // Find the corresponding Form
+              var form = document.querySelector('form');
 
-      ```twig
-      {# Initialize the form #}
-      {% set form = freeform.form("myFormHandle") %}
-      {{ form.render }}
+              $.ajax({
+                // Specify the form handle in the GET parameters
+                // ! Make sure to change the `myFormHandle` to your specific form handle.
+                url: 'https://yourwebsite.com/dynamic',
+                type: 'get',
+                dataType: 'json',
+                success: function (response) {
+                  // Locate and update the CSRF input
+                  var csrf = response.csrf;
+                  form.querySelector('input[name=' + csrf.name + ']').value = csrf.value;
+                },
+              });
+            });
+            ```
+            :::info
+            Note that this snippet assumes you're already running [jQuery](https://jquery.com).
+            :::
+          </TabItem>
+        </Tabs>
+      </StepMarkdown>
+      <StepMarkdown>
+        Your final template code might look something like this:
 
-      {# Load the jQuery library, if using #}
-      <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        ```twig
+        {# Initialize the form #}
+        {% set form = freeform.form("myFormHandle") %}
+        {{ form.render }}
 
-      {# The script for updating the form's CSRF token loads after #}
-      <script src="/assets/js/main.js"></script>
-      ```
-    </StepMarkdown>
+        {# Load the jQuery library, if using #}
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+        {# The script for updating the form's CSRF token loads after #}
+        <script src="/assets/js/main.js"></script>
+        ```
+      </StepMarkdown>
     </VerticalStepWrapper>
   </TabItem>
   <TabItem value="static-caching-blitz-csrf" label="Blitz `csrfInput()`">
@@ -287,3 +310,82 @@ There is then no need to refresh CSRF tokens as the dynamic content is injected 
 :::tip
 [Using a form more than once in the same template? Check out the additional steps necessary to prevent potential issues.](../guides/guide/multiple-instances-of-same-form.mdx)
 :::
+
+## Craft Cloud + URL Tracking Parameters
+
+When using **static caching** in [Craft Cloud](https://craftcms.com/cloud), you may encounter an issue where tracked URL parameters (such as UTM values like `?utm_source=google`) become unintentionally cached into the page output.
+
+Craft Cloud's edge caching may cache the fully rendered HTML of a page **after** Freeform has already populated tracked URL parameter values into the form.
+
+For example:
+
+1. A visitor arrives via a campaign link such as: `/contact?utm_source=google`
+2. Freeform tracks the `utm_source` value and populates it into the form.
+3. Craft Cloud caches the rendered page, including that tracked value.
+4. Subsequent visitors (without any UTM parameters) may now receive the cached version of the page containing the original visitor's tracked values.
+
+This can result in incorrect tracking data being submitted by other users.
+
+There are a few different approaches available depending on your performance needs:
+
+1. [Prevent the Form Page from Being Cached](#option-1-prevent-the-form-page-from-being-cached)
+2. [Use Edge-Side Includes (Recommended)](#option-2-use-edge-side-includes-recommended)
+3. [Ignore Tracking Parameters in the Cache Key](#option-3-ignore-tracking-parameters-in-the-cache-key)
+
+### Option 1: Prevent the Form Page from Being Cached
+
+The simplest solution is to prevent Craft Cloud from statically caching the page that contains your form.
+
+You can do this by adding the following Twig tag anywhere in the template that renders your Freeform form:
+
+```twig
+{% expires %}
+```
+
+This ensures the page is always rendered dynamically and prevents tracked URL parameter values from being cached into the HTML.
+
+### Option 2: Use Edge-Side Includes (Recommended)
+
+Craft Cloud supports [Edge-Side Includes (ESI)](https://craftcms.com/docs/cloud/static-caching.html#edge-side-includes), which allow you to keep the main page cached while rendering specific portions dynamically.
+
+This provides the best balance of performance and accuracy by keeping your form output uncached while the rest of the page remains statically cached.
+
+<VerticalStepWrapper>
+  <StepMarkdown stepTitle="Update Your Main Template">
+    Replace your form include with an ESI call:
+
+    ```twig
+    {{ cloud.esi('contact-form.twig') }}
+    ```
+  </StepMarkdown>
+  <StepMarkdown stepTitle="Create a Dedicated Form Template">
+    Move your Freeform form rendering into a separate template (e.g. `contact-form.twig`) and add the following:
+
+    ```twig
+    {% expires %}
+    {{ freeform.form('contact').render() }}
+    ```
+  </StepMarkdown>
+</VerticalStepWrapper>
+
+This ensures that only the form is dynamically rendered at request time, preventing tracked URL parameters from being cached and reused across visitors.
+
+### Option 3: Ignore Tracking Parameters in the Cache Key
+
+In addition to rendering your form dynamically, you may also wish to configure Craft Cloud to **ignore common marketing query parameters** (such as UTM values) when generating the cache key.
+
+Without this, crawlers or campaign visitors may unintentionally generate cached versions of your page that include tracking parameters, even if they never submit the form.
+
+By configuring Craft Cloud to ignore parameters such as:
+
+```
+utm_source
+utm_medium
+utm_campaign
+utm_term
+utm_content
+gclid
+fbclid
+```
+
+You can help prevent multiple cached variants of the same page from being created based on marketing or referral data. This reduces the risk of cached tracking values being embedded into statically cached HTML and served to other visitors. Refer to the Craft Cloud documentation for details on configuring ignored query parameters for caching.
