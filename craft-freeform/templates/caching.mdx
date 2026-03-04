@@ -185,7 +185,7 @@ There are a few different approaches you can take:
         Make sure routing to that template works correctly. Best practice is to dedicate a directory **inside the Craft templates directory** named something like `dynamic` and place files in that directory that should never be cached. The above template might be in a directory called `dynamic` with a filename of `index.twig`.
       </StepMarkdown>
       <StepMarkdown>
-        Set up a rule in Blitz, CloudFlare or your preferred CDN that makes sure any URLs starting with `dynamic` are not cached. You can then aggressively cache all of your other site URLs.
+        Set up a rule in Blitz, CloudFlare or your preferred CDN that makes sure the `/freeform/tokens` URL end point and any URLs starting with `dynamic` are not cached. You can then aggressively cache all of your other site URLs.
       </StepMarkdown>
       <StepMarkdown>
         Add the following JavaScript snippet to your main `.js` file, or just before the closing `</body>` tag on your site's pages.
@@ -193,7 +193,7 @@ There are a few different approaches you can take:
         This script uses AJAX to request `https://yourwebsite.com/dynamic`, which returns a fresh CSRF token. The token is then automatically injected into the CSRF fields of all forms on the page.
 
         :::info
-        Be sure to configure your caching layer (e.g. _Blitz_, _Cloudflare_, or your preferred CDN) to **bypass caching for any URLs beginning with `/dynamic`**. This ensures that CSRF tokens are always generated per-request, while allowing the rest of your site to remain aggressively cached. If your firewall blocks Craft's `/actions/*` endpoints, you may also need to explicitly allow `/dynamic/*` in your _Cloudflare_ WAF security rules.
+        Be sure to configure your caching layer (e.g. _Blitz_, _Cloudflare_, or your preferred CDN) to exclude the `/freeform/tokens` URL end point and **bypass caching for any URLs beginning with `/dynamic`**. This ensures that CSRF tokens are always generated per-request, while allowing the rest of your site to remain aggressively cached. If your firewall blocks Craft's `/actions/*` endpoints, you may also need to explicitly allow `/dynamic/*` in your _Cloudflare_ WAF security rules.
         :::
         <Tabs>
           <TabItem value="static-cache-refresh-js" label="Plain JS" default>
