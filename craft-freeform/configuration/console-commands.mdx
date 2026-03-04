@@ -17,8 +17,9 @@ Freeform includes several console commands to allow you to run cleanup tasks and
   - [Purge Submissions](#purge-submissions)
   - [Purge Spam](#purge-spam)
   - [Purge Unfinalized Assets](#purge-unfinalized-assets)
-- Cleanup Utilities
+- [Cleanup Utilities](#cleanup-utilities)
   - [Resave Submissions](#resave-submissions)
+  - [Fix Submission Database Table Names](#fix-submission-database-table-names)
   - [Migrate Craft 4 Element Titles](#migrate-craft-4-element-titles) (Craft 4 → 5)
   - [Convert Form Handles and Field Handles](#convert-form-handles-and-field-handles)
 
@@ -101,7 +102,41 @@ php craft freeform/submissions/generate -f=quoteRequest -c=50 -l=en -s="open,ope
 </TabItem>
 </Tabs>
 
-## Resave Submissions<Badge type="feature" text="New in 5.1.13+, Improved in 5.10.13+ and 5.14.7+" />
+
+## Purge Commands
+
+Freeform automatically attempts to routinely execute all of the below commands as Craft jobs, but they are available in the event you need to correct or troubleshoot an issue.
+
+### Purge Submissions<Badge type="pro" text="Pro" />
+
+Allows you to purge all submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Submission Data** setting.
+
+```nix
+php craft freeform/purge/submissions --age-in-days=30
+```
+
+### Purge Spam<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+
+Allows you to purge all spam submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Spam Submissions** setting.
+
+```nix
+php craft freeform/purge/spam --age-in-days=30
+```
+
+### Purge Unfinalized Assets
+
+Allows you to purge all unfinalized assets older than a specific number of minutes. Freeform automatically attempts to execute this service every 3 hours.
+
+```nix
+php craft freeform/purge/unfinalized-assets --age-in-minutes=180
+```
+
+
+## Cleanup Utilities
+
+Freeform includes several cleanup utilities designed to resolve edge-case issues that may occasionally occur on some sites.
+
+### Resave Submissions<Badge type="feature" text="New in 5.1.13+, Improved in 5.10.13+ and 5.14.7+" />
 
 If you need to resave all Freeform submissions, you can do so with the `freeform/submissions/resave` CLI command. If you need to also update the Craft Search Index, be sure to add `--update-search-index`.
 
@@ -154,7 +189,16 @@ php craft freeform/submissions/resave --siteId=2 --siteId=3 --status=open
 </Tabs>
 
 
-## Migrate Craft 4 Element Titles<Badge type="feature" text="5.1.13+" />
+### Fix Submission Database Table Names<Badge type="feature" text="5.14.10+" />
+
+In **Craft 5.9+**, a breaking change in the _Stringy_ library affects how Freeform generates database table names for form submissions. Freeform includes migrations that automatically correct this, but if your site is still affected, you can manually resolve the issue by running the following command:
+
+```nix
+php craft freeform/submissions/fix-table-names
+```
+
+
+### Migrate Craft 4 Element Titles<Badge type="feature" text="5.1.13+" />
 
 If you have upgraded your Craft 4 site to Craft 5, please note that the Craft migration process does not automatically migrate submission Element titles. In Craft 5, Element titles are now stored in the `elements_sites` table, and the `content` table which used to store Element titles is no longer used.
 
@@ -168,7 +212,7 @@ This CLI command is only applicable to sites that have migrated from Craft 4 to 
 php craft freeform/submissions/fix-titles
 ```
 
-## Convert Form Handles and Field Handles<Badge type="feature" text="5.9.11+" />
+### Convert Form Handles and Field Handles<Badge type="feature" text="5.9.11+" />
 
 This console command is available in the event you need to convert all form handles and field handles to _camelCase_ or _under_scores_. This allows you to correct your data from much older versions of Freeform where dashes were allowed inside of form handles and field handles.
 
@@ -182,7 +226,7 @@ Common reasons for using this command would be:
 After running this command, please review all templates and email notification templates to ensure that any hard-coded form handles and field handles are updated to match their new converted values.
 :::
 
-### Options
+#### Options
 
 The following arguments are available:
 
@@ -192,7 +236,7 @@ The following arguments are available:
 - `--dry-run`
   - Displays a list of all of the form and field handles that will be converted, as well as what they will be converted to inside the CLI without actually making the changes, allowing you to know what to expect. Defaults to off.
 
-### Examples
+#### Examples
 
 <Tabs>
 <TabItem value="convert-handles-camel-case" label="Camel Case" default>
@@ -223,31 +267,3 @@ php craft freeform/freeform/convert-handles --dryRun
 
 </TabItem>
 </Tabs>
-
-## Purge Commands
-
-Freeform automatically attempts to routinely execute all of the below commands as Craft jobs, but they are available in the event you need to correct or troubleshoot an issue.
-
-### Purge Submissions<Badge type="pro" text="Pro" />
-
-Allows you to purge all submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Submission Data** setting.
-
-```nix
-php craft freeform/purge/submissions --age-in-days=30
-```
-
-### Purge Spam<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
-
-Allows you to purge all spam submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Spam Submissions** setting.
-
-```nix
-php craft freeform/purge/spam --age-in-days=30
-```
-
-### Purge Unfinalized Assets
-
-Allows you to purge all unfinalized assets older than a specific number of minutes. Freeform automatically attempts to execute this service every 3 hours.
-
-```nix
-php craft freeform/purge/unfinalized-assets --age-in-minutes=180
-```
