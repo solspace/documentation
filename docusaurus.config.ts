@@ -337,7 +337,7 @@ const config: Config = {
     },
     algolia: {
       appId: '0I9DTHM8U8',
-      apiKey: '4ba7fadf20a42f8515ff213715c1c77f',
+      apiKey: '1afd8c1e630cd7d71f6f892ddb47c697',
       indexName: 'solspace',
       replaceSearchResultPathname: {
         from: '/docs/',
