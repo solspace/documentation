@@ -2620,7 +2620,14 @@ Here's how to render a Table field's data inside the [Submission object](../temp
     {% for row in submission[field.handle].value %}
         <tr>
         {% for index, column in field.tableLayout %}
-            <td>{{ row[index] }}</td>
+            <td>
+                {% set cell = row[index] ?? null %}
+                {% if cell is iterable %}
+                    {{ cell|join(', ') }}
+                {% else %}
+                    {{ cell }}
+                {% endif %}
+            </td>
         {% endfor %}
         </tr>
     {% endfor %}
@@ -2649,7 +2656,14 @@ A complete example might look like:
             {% for row in submission[field.handle].value %}
                 <tr>
                 {% for index, column in field.tableLayout %}
-                    <td>{{ row[index] }}</td>
+                    <td>
+                        {% set cell = row[index] ?? null %}
+                        {% if cell is iterable %}
+                            {{ cell|join(', ') }}
+                        {% else %}
+                            {{ cell }}
+                        {% endif %}
+                    </td>
                 {% endfor %}
                 </tr>
             {% endfor %}
@@ -2694,7 +2708,14 @@ By default, Table field data will be rendered as comma separated values in [emai
         {% for row in field.value %}
           <tr>
           {% for index, column in field.tableLayout %}
-            <td>{{ row[index] }}</td>
+            <td>
+              {% set cell = row[index] ?? null %}
+              {% if cell is iterable %}
+                {{ cell|join(', ') }}
+              {% else %}
+                {{ cell }}
+              {% endif %}
+            </td>
           {% endfor %}
           </tr>
         {% endfor %}

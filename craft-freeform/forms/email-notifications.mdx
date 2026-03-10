@@ -728,7 +728,14 @@ By default, [Table field](./fields.mdx#table) data will be rendered as comma sep
         {% for row in field.value %}
           <tr>
           {% for index, column in field.tableLayout %}
-            <td>{{ row[index] }}</td>
+            <td>
+              {% set cell = row[index] ?? null %}
+              {% if cell is iterable %}
+                {{ cell|join(', ') }}
+              {% else %}
+                {{ cell }}
+              {% endif %}
+            </td>
           {% endfor %}
           </tr>
         {% endfor %}

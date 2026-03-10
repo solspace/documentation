@@ -231,26 +231,56 @@ To see how many active saved form submissions exist for each form, navigate to t
 </StepMarkdown>
 </VerticalStepWrapper>
 
+
 ## Caveats
 
-### Spam Considerations
+### Spam Protection Behavior
 
-The _Save & Continue Features_ still factors in some spam protection features, but the behavior may not be the exact same or expected in this context. Please be cautious and make note of the following behavior that will happen with forms using any spam protection when a user attempts to _Save_ the form progress:
+The **Save & Continue Later** feature still respects most spam protection, but because the form is being *saved* instead of submitted, behavior may differ slightly.
 
-- 🟢 **reCAPTCHA v2 Checkbox**: if a user does not complete the reCAPTCHA v2 Checkbox (checking it and/or interacting with puzzle), Freeform will <u>allow</u> the _Save & Continue Later_ feature to work. It's important to note that the user will still need to complete the reCAPTCHA check to fully submit the form at the end.
-- 🟢 **reCAPTCHA v2 Invisible**: if a user does not pass the reCAPTCHA v2 Invisible check (automated checking and/or interacting with puzzle), Freeform will <u>allow</u> the _Save & Continue Later_ feature to work. It's important to note that the user will still need to complete the reCAPTCHA check to fully submit the form at the end.
-- 🟡 **Honeypot**: if a user fails the Honeypot test (a value entered into the Honeypot field), Freeform will <u>bypass</u> the _Save & Continue Later_ feature and run field validation. If the user has missed any required fields or filled out any incorrectly, the user will see the appropriate errors (as if they attempted to fully submit the form). If the user were to clear the incorrect value in the Honeypot field while completing required fields and attempts to save the form again, the _Save & Continue Later_ feature will <u>work</u>. If the user had no errors, the form will <u>bypass</u> the _Save & Continue Later_ feature and treat the submission as spam (place in Spam Folder or error, depending on settings). In the case of multipage forms, if the Honeypot fails on one page and there are no field validation errors, the form would just advance to the next page (and theoretically give the user another chance to NOT fill in the Honeypot field).
-- 🟡 **reCAPTCHA v3**: if a user fails the automatic **v3** test, Freeform will <u>bypass</u> the _Save & Continue Later_ feature and run field validation. If the user has missed any required fields or filled out any incorrectly, the user will see the appropriate errors (as if they attempted to fully submit the form). If the user has/had no errors, the form will <u>bypass</u> the _Save & Continue Later_ feature and treat the submission as spam (place in Spam Folder or error, depending on settings). If the user does happen to pass the automatic **v3** test, the _Save & Continue Later_ feature will <u>work</u>.
-- 🟡 **Minimum Submit Time**: if the user attempts to save the form before the minimum submit time has been reached, Freeform will <u>bypass</u> the _Save & Continue Later_ feature and run field validation. If the user has missed any required fields or filled out any incorrectly, the user will see the appropriate errors (as if they attempted to fully submit the form). If the user meets the minimum submit time while completing required fields and attempts to save the form again, the _Save & Continue Later_ feature will <u>work</u>. If the user had no errors, the form will <u>bypass</u> the _Save & Continue Later_ feature and treat the submission as spam (place in Spam Folder or error, depending on settings).
-- 🔴 **Block Email addresses**: if a blocked email address is entered, the submission will <u>bypass</u> the _Save & Continue Later_ feature and treat the submission as spam (place in Spam Folder or error, depending on settings).
-- 🔴 **Block Keywords**: if a blocked keyword is entered, the submission will <u>bypass</u> the _Save & Continue Later_ feature and treat the submission as spam (place in Spam Folder or error, depending on settings).
-- 🔴 **Block IP addresses**: if the user's IP address has been blocked, the submission will <u>bypass</u> the _Save & Continue Later_ feature and treat the submission as spam (place in Spam Folder or error, depending on settings).
-- 🔴 **Form Submit Expiration**: if the user attempts to save the form after the maximum submit time has passed, the form will <u>bypass</u> the _Save & Continue Later_ feature and treat the submission as spam (place in Spam Folder or error, depending on settings).
+When a user attempts to **Save** a form:
+
+- 🟢 **reCAPTCHA v2 Checkbox / Invisible**
+  - If the check is not completed, Freeform will still **allow the form to be saved**.
+  - The user must pass reCAPTCHA before the form can be fully submitted.
+- 🟡 **Honeypot**
+  - If the honeypot field contains a value, Freeform will **bypass saving** and run normal validation.
+  - If validation errors exist, they are shown to the user.
+  - If there are no validation errors, the submission is treated as spam.
+  - On multi-page forms, the form may simply advance to the next page.
+- 🟡 **reCAPTCHA v3**
+  - If the score **fails**, saving is bypassed and normal validation runs.
+  - If there are no validation errors, the submission is treated as spam.
+  - If the check **passes**, saving works normally.
+- 🟡 **Minimum Submit Time**
+  - If the form is saved **too quickly**, saving is bypassed and normal validation runs.
+  - If the minimum time is later met, saving will work.
+- 🔴 **Blocked Email, Keywords, or IP**
+  - If any block rules are triggered, saving is bypassed and the submission is treated as spam.
+- 🔴 **Form Submit Expiration**
+  - If the maximum submit time has passed, saving is bypassed and the submission is treated as spam.
+
+---
 
 ### Other Considerations
 
-The _Save & Continue Features_ attempts to account for all kinds of scenarios, but there are some limitations with this. Please be cautious and make note of the following behavior that will happen with forms using any of the following features when a user attempts to _Save_ the form progress:
+Some features have limitations when using **Save & Continue Later**.
 
-- 🟢 **Uploaded Files**: by default, Freeform has a cleanup process that routinely checks for partially completed forms and removes associated uploaded files after 3 hours by default (assuming the user never completed the form and will be unable to). In the context of _Save & Continue Later_, users may upload files and then save the form and return back well beyond 3 hours later to complete the form. In this case, Freeform will only clear files associated with incomplete form saves that have expired (once the value for the **Number of Days to Keep Saved Form Data** setting has passed). The way this works is that Freeform will give the uploaded asset a date in the future (matching the number of days for that setting). For this reason, any changes to the **Number of Days to Keep Saved Form Data** setting will not be retroactive on existing uploaded files.
-- 🟡 **Stripe Payments**: when the Stripe Payment Element field is present on the form page, attempting to save the form while these fields are empty or invalid will result in Stripe mentioning the Payment fields are required. If filled out and the user saves the form, the form will save the progress but will not save credit card numbers and will also push through payment to Stripe. For this reason, we <u>strongly recommend</u> that for multi-page payment forms, you <u>place the credit card fields on the last page</u> and <u>do not allow saving of the last page</u>.
-- 🔴 **Editing Forms**: there is currently no support for saving progress while [editing submissions](../submissions/overview.mdx#submission-editing). If attempted, Freeform will just create a duplicate submission instead.
+- 🟢 **Uploaded Files**
+  - Only the [File Upload Drag & Drop](./fields.mdx#file-upload-drag--drop) field type fully supports saved forms.
+  - Standard file inputs cannot restore previously selected files due to browser restrictions.
+  - When using saved forms, uploaded files are preserved until the saved form expires based on the **Number of Days to Keep Saved Form Data** setting.
+  :::warning
+  Changing this setting will **not retroactively affect existing uploaded files**.
+  :::
+- 🟡 **Stripe Payments**
+  - If a **Stripe Payment Element** field is on the page:
+    - Stripe may require valid payment fields before saving.
+    - Payment details are **not saved** with the form.
+    - Saving after entering payment details **may still process the payment**.
+    :::info
+    **Recommendation:** Place payment fields on the **last page** and **disable saving on that page**.
+    :::
+- 🔴 **Editing Submissions**
+  - Saving progress is **not supported when editing existing submissions**.
+  - Attempting this will create a **duplicate submission**.
