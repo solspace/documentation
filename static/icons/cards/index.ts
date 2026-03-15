@@ -1,4 +1,5 @@
 export default {
+  ABTestIcon: 'abtest',
   AIAssistantIcon: 'ai-assistant',
   AIIcon: 'ai',
   AISpamIcon: 'ai-spam',

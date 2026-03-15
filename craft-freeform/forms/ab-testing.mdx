@@ -1,0 +1,126 @@
+---
+title: 'A/B Testing'
+sidebar_position: 10
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+import { Badge, Photo } from '@site/src/components/utils';
+
+# A/B Testing<Badge type='pro' text='Pro' /><Badge type='feature' text='New in 5.15+' />
+
+This bundle lets you split traffic between multiple Freeform forms (variants), track their performance, and identify a winner.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/ab-testing-dashboard.jpg')}
+  alt="A/B Testing Dashboard"
+/>
+
+## Overview
+
+### What It Does
+
+- Assigns visitors to a variant based on configured variant weights.
+- Persists assignment (cookie and/or logged-in user assignment).
+- Tracks lifecycle events for each test session:
+  - `served` (impression)
+  - `interacted`
+  - `failed`
+  - `completed` (conversion)
+- Provides CP dashboard data for charts and variant performance cards.
+- For ended tests, serves the winning variant (best conversion rate).
+
+### A/B Test Stats & Metrics
+You will see the following stats and metrics per test card in the A/B dashboard:
+
+- Status (`Active` / `Ended` / `Scheduled`), running days, variant count, total impressions.
+- `Edit` or `Delete` an existing test group.
+- Chart tabs:
+  - **Conversion Rate** - `completed ÷ served`.
+  - **Impressions** (`served`): total sessions served.
+    - Includes all final statuses (`served`, `interacted`, `failed`, `completed`).
+  - **Interactions** (`interacted`): sessions that reached interacted/failed/completed states.
+  - **Failures** (`failed`): sessions ending in failed state.
+- Variant cards show:
+  - **Weight**
+  - **Impressions**
+  - **Interactions**
+  - **Failures**
+  - **Conversions** (`completed`)**: sessions ending in completed state.
+  - **Conversion rate**
+  - **Winner** badge
+
+### Winner Selection
+
+The winning variant is determined using the following criteria, in order:
+
+1. **Highest conversion rate** (`completed ÷ served`).
+2. **If tied:** the variant with the higher number of **completed submissions**.
+3. **If still tied:** the variant with the **lower variant ID**.
+
+For completed tests, the selected winner is cached temporarily to improve performance during runtime lookups.
+
+## Usage
+
+### Creating a new A/B Test Group
+
+<VerticalStepWrapper>
+  <StepMarkdown>
+    Open **A/B Tests** from the Freeform navigation menu.
+  </StepMarkdown>
+  <StepMarkdown>
+    Click the **Add Test** button at the top right.
+  </StepMarkdown>
+  <StepMarkdown>
+    Configure the test group:
+      - Name
+      - Handle (auto-generated from name, editable)
+      - Description
+      - Start date
+      - Optional end date
+      - Variants (form + weight)
+        :::info
+        Keep in mind that the weights do not need to total **100%**. Freeform will automatically calculate the ratios based on the values provided. For example, entering `50`, `30`, and `40` will still distribute form impressions proportionally according to those weights.
+        :::
+  </StepMarkdown>
+  <StepMarkdown>
+    Click the **Save** button.
+  </StepMarkdown>
+</VerticalStepWrapper>
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/ab-testing-create.jpg')}
+  alt="Create new A/B Test"
+  scale="65"
+/>
+
+### Twig
+
+Both snippets below ultimately render an **A/B test form**, but they differ mainly in how much control you have in Twig before rendering.
+
+<Tabs>
+  <TabItem value="twig-simple" label="Simple" default>
+    A simple, direct one-line render:
+
+    ```twig
+    {{ freeform.abTest("myTestGroupHandle", {}).render }}
+    ```
+  </TabItem>
+  <TabItem value="twig-" label="Customizeable">
+    Retrieve the form first, allowing logic, checks, or customization before rendering:
+
+    ```twig
+    {% set form = craft.freeform.abTest('myTestGroupHandle') %}
+
+    {% if form %}
+      <h2>{{ form.name }}</h2>
+      {{ form.render() }}
+    {% endif %}
+    ```
+  </TabItem>
+</Tabs>
+
+- The argument is the **A/B test handle**.
+- The variant provider resolves a variant for that handle.
+- A/B metadata is injected into form render properties (`variant`, `sessionId`) and used for tracking.
