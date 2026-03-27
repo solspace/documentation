@@ -5,7 +5,7 @@ sidebar_position: 7
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-import { Photo } from '@site/src/components/utils';
+import { Badge, Photo } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
 # Success Return on Forms
@@ -15,6 +15,7 @@ Freeform offers a wide variety of ways to handle the success return on forms. Ch
 - [Reload form with banner](#reload-form-with-banner)
 - [Replace with success message](#replace-with-success-message)
 - [Redirect to another URL](#redirect-to-another-url)
+- [Redirect to an entry](#redirect-to-an-entry)<Badge type="feature" text="New in 5.15+" />
 
 ## Reload form with banner
 
@@ -344,5 +345,32 @@ If you'd like to redirect the form submitter to a different return URL, this can
 
     If you're using an automated rendering of the form, you'll need to consider how and where to add this into the formatting template. In most cases it
     might be best to add a conditional and pair this with the submit button or another field.
+  </TabItem>
+</Tabs>
+
+## Redirect to an entry<Badge type="feature" text="New in 5.15+" />
+
+If you'd like to redirect the form submitter to the configured URL path of a Craft Entry, this can be set inside the form builder.
+
+<Tabs>
+  <TabItem value="success-entry-builder" label="Form Builder" default>
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Go to the **Success & Errors** section under the **Settings** tab in the form builder.
+      </StepMarkdown>
+      <StepMarkdown>
+        For the **Success Behavior** setting, select the `Redirect to an entry` option.
+      </StepMarkdown>
+      <StepMarkdown>
+        For the **Redirect Entry** setting, select the Craft Entry you'd like users to be redirected to.
+
+        - The full URL configured for the entry's section is used.
+        - When using multi-site, the redirect will match the currently active site.
+      </StepMarkdown>
+    </VerticalStepWrapper>
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/guides/success-entry.jpg')}
+      alt="Set a Craft Entry as the return for the form"
+    />
   </TabItem>
 </Tabs>

@@ -97,6 +97,10 @@ Below is a general example of various overrides:
 
 ### Logged in User Data
 
+:::info
+Freeform automatically captures the submitting user when the form is submitted by a logged-in user. This is available via `author` on the [Submission object](../../templates/objects/submission.mdx#author), with access to user properties such as `submission.author.id` and `submission.author.fullName`.
+:::
+
 Include data from the logged-in user in your Freeform fields:
 
 ```twig showLineNumbers
@@ -116,6 +120,10 @@ Include data from the logged-in user in your Freeform fields:
 ```
 
 ### Current URL
+
+:::info
+Freeform automatically captures the full page URL where each form submission originates. This value is available via `sourceUrl` on the [Submission object](../../templates/objects/submission.mdx#sourceurl).<Badge type="feature" text="New in 5.15+" />
+:::
 
 Include the current URL in a hidden Freeform field:
 

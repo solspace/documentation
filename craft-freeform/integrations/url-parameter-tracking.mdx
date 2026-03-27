@@ -8,13 +8,21 @@ import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
 # URL Parameter Tracking<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.12+" />
 
-Freeform can automatically capture UTM and other URL tracking parameters (e.g., `utm_campaign`, `utm_source`, `utm_medium`) for every submission. Configure the expected parameter names just once globally, with the option to configure form-specific parameters in the builder, and Freeform handles the rest.
+Freeform can automatically capture UTM and other URL tracking parameters (e.g., `utm_campaign`, `utm_source`, `utm_medium`) for every submission. Configure the expected parameter names just once globally, with the option to configure form-specific parameters in the builder, and Freeform handles the rest. Optional cookie storage ensures that even if tracking parameters are no longer present in the URL, they can still be captured with the submission.
 
 ## Setup Instructions
 
 <VerticalStepWrapper>
   <StepMarkdown>
     ### Configure Global Tracking Parameters
+
+    - Add any **URL tracking parameters** you'd like the integration to detect by default:
+      - E.g. `utm_source`, `utm_medium`, `utm_campaign`, etc.
+    - **Store in Cookies**<Badge type="feature" text="New in 5.15+" />
+      - Save tracked parameters in cookies so they can be reused by Freeform later.
+    - **Cookie Lifetime**<Badge type="feature" text="New in 5.15+" />
+      - How long tracked parameters should be stored in cookies (in minutes).
+
     <Photo
       img={require('@site/static/img/craft/freeform/v5/integrations/url-parameter-tracking-integration.png')}
       alt="URL Parameter Tracking settings in Freeform"
