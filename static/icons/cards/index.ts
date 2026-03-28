@@ -134,6 +134,7 @@ export default {
   ShieldIcon: 'shield',
   SignatureIcon: 'signature',
   SketchIcon: 'sketch',
+  SolspaceAiIcon: 'solspace-ai',
   SpamIcon: 'spam',
   StackExchangeIcon: 'stack-exchange',
   StarIcon: 'star',
@@ -167,6 +168,7 @@ export default {
   ValidCheckIcon: 'valid-check',
   VuejsIcon: 'vue',
   WebhookIcon: 'webhook',
+  WandAiIcon: 'wand-ai',
   WidgetsIcon: 'widgets',
   WorldIcon: 'world',
 };
