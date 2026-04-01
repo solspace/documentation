@@ -19,12 +19,10 @@ import translations from '@theme/SearchTranslations';
 import type {
   DocSearchModal as DocSearchModalType,
   DocSearchModalProps,
-} from '@docsearch/react';
-import type {
   InternalDocSearchHit,
   StoredDocSearchHit,
-} from '@docsearch/react/dist/esm/types';
-import type { SearchClient } from 'algoliasearch/lite';
+} from '@docsearch/react';
+import type { LiteClient as SearchClient } from 'algoliasearch/lite';
 
 import docsTag from '@site/docsTag.json';
 
@@ -112,10 +110,9 @@ type FacetFilters = Required<
 >['facetFilters'];
 
 function mergeFacetFilters(f1: FacetFilters, f2: FacetFilters): FacetFilters {
-  const normalize = (
-    f: FacetFilters
-  ): readonly string[] | readonly (string | readonly string[])[] =>
-    typeof f === 'string' ? [f] : f;
+  const normalize = (f: FacetFilters): unknown[] =>
+    typeof f === 'string' ? [f] : (f as unknown[]);
+
   return [...normalize(f1), ...normalize(f2)] as FacetFilters;
 }
 
@@ -147,13 +144,19 @@ function DocSearch({
     return docsTag[matchingKey].map((tag) => `docusaurus_tag:${tag.id}`);
   }, [pathname]);
 
-  const contextualSearchFacetFilters = useAlgoliaContextualFacetFilters() || [];
-  const configFacetFilters = props.searchParameters?.facetFilters ?? [];
+  const contextualSearchFacetFilters =
+    (useAlgoliaContextualFacetFilters() || []) as FacetFilters;
+  const configFacetFilters = (props.searchParameters?.facetFilters ??
+    []) as FacetFilters;
 
-  const facetFilters = useMemo(() => {
-    const combinedFilters = [versionTags];
-    return combinedFilters;
-  }, [contextualSearchFacetFilters, configFacetFilters, versionTags]);
+  const facetFilters = useMemo<FacetFilters>(
+    () =>
+      mergeFacetFilters(
+        mergeFacetFilters(contextualSearchFacetFilters, configFacetFilters),
+        versionTags
+      ),
+    [contextualSearchFacetFilters, configFacetFilters, versionTags]
+  );
 
   const searchParameters = useMemo(
     () => ({
@@ -238,7 +241,7 @@ function DocSearch({
   const resultsFooterComponent: DocSearchProps['resultsFooterComponent'] =
     useMemo(
       () =>
-        (footerProps: Omit<ResultsFooterProps, 'onClose'>): JSX.Element =>
+        (footerProps: Omit<ResultsFooterProps, 'onClose'>): React.JSX.Element =>
           <ResultsFooter {...footerProps} onClose={closeModal} />,
       [closeModal]
     );
@@ -261,6 +264,8 @@ function DocSearch({
     onClose: closeModal,
     onInput: handleInput,
     searchButtonRef,
+    isAskAiActive: false,
+    onAskAiToggle: () => {},
   });
 
   return (
@@ -308,7 +313,7 @@ function DocSearch({
   );
 }
 
-export default function SearchBar(): JSX.Element {
+export default function SearchBar(): React.JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return <DocSearch {...(siteConfig.themeConfig.algolia as DocSearchProps)} />;
 }

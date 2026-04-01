@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 import { translate } from '@docusaurus/Translate';
 import IconHome from '@theme/Icon/Home';
 
-export default function HomeBreadcrumbItem(): JSX.Element {
+export default function HomeBreadcrumbItem(): React.JSX.Element {
   const { pathname } = useLocation();
 
   // Check if the path starts with '/expressionengine/freeform/classic/'

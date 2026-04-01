@@ -143,7 +143,7 @@ function DocVersionBannerEnabled({
   versionMetadata,
 }: Props & {
   versionMetadata: PropVersionMetadata;
-}): JSX.Element {
+}): React.JSX.Element {
   const {
     siteConfig: { title: siteTitle },
   } = useDocusaurusContext();
@@ -196,7 +196,7 @@ function DocVersionBannerEnabled({
 
 export default function DocVersionBanner({
   className,
-}: Props): JSX.Element | null {
+}: Props): React.JSX.Element | null {
   const versionMetadata = useDocsVersion();
   if (versionMetadata.banner) {
     return (

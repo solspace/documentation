@@ -12,7 +12,7 @@ interface LogoItem {
   latestVersionSlug?: string;
   title: string;
   logoLine: string;
-  logoLineShort: string;
+  logoLineShort?: string;
   src: string;
 }
 
@@ -22,7 +22,7 @@ const logos: LogoItem[] = [
     latestVersionSlug: '/craft/freeform/v5',
     title: 'Freeform',
     logoLine: 'for Craft',
-    logoLineShort: null,
+    logoLineShort: '',
     src: 'logos/icons/freeform.png',
   },
   {
@@ -30,7 +30,7 @@ const logos: LogoItem[] = [
     latestVersionSlug: '/craft/calendar/v5',
     title: 'Calendar',
     logoLine: 'for Craft',
-    logoLineShort: null,
+    logoLineShort: '',
     src: 'logos/icons/calendar.png',
   },
   {
@@ -38,14 +38,14 @@ const logos: LogoItem[] = [
     latestVersionSlug: '/craft/ai-assistant/v1',
     title: 'AI Assistant',
     logoLine: 'for Craft',
-    logoLineShort: null,
+    logoLineShort: '',
     src: 'logos/icons/ai.png',
   },
   {
     pathname: 'https://discontinued-docs.solspace.com/express-forms/',
     title: 'Express Forms',
     logoLine: 'for Craft',
-    logoLineShort: null,
+    logoLineShort: '',
     src: 'logos/icons/express-forms.png',
   },
   {
@@ -97,7 +97,7 @@ function LogoThemedImage({
   );
 }
 
-export default function Logo(props: Props): JSX.Element {
+export default function Logo(props: Props): React.JSX.Element {
   const {
     siteConfig: { title },
   } = useDocusaurusContext();
@@ -116,6 +116,7 @@ export default function Logo(props: Props): JSX.Element {
     pathname: '/',
     title: navbarTitle || 'Solspace',
     logoLine: '',
+    logoLineShort: '',
     src: logo?.src || 'logos/icons/solspace.png',
   };
 
@@ -125,7 +126,7 @@ export default function Logo(props: Props): JSX.Element {
 
   return (
     <Link
-      to={currentLogo.latestVersionSlug}
+      to={currentLogo.latestVersionSlug ?? '/'}
       {...propsRest}
       {...(logo?.target && { target: logo.target })}
     >
