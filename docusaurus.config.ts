@@ -24,11 +24,13 @@ const config: Config = {
   projectName: 'solspace-documentation',
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'throw',
   onBrokenAnchors: 'ignore',
 
   markdown: {
     mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: 'throw',
+    },
   },
 
   themes: ['@docusaurus/theme-mermaid'],

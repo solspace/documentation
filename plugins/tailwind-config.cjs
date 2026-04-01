@@ -12,4 +12,4 @@ const tailwind = () => {
   };
 };
 
-export default tailwind;
+module.exports = tailwind;

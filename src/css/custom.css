@@ -280,8 +280,13 @@ details ul:last-of-type {
   margin-bottom: 0 !important;
 }
 
-[data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
+/*
+ * Dark theme: set tokens on `html[data-theme='dark']` only.
+ * `[data-theme='dark']` alone ties with `:root` (0,1,0); Infima/Docusaurus can ship a later
+ * `:root { --ifm-navbar-background-color: #fff }` and win. `html` + attribute beats `:root`.
+ */
+html[data-theme='dark'] {
+  --ifm-color-primary: #058ffe;
   --ifm-color-primary-dark: #21af90;
   --ifm-color-primary-darker: #1fa588;
   --ifm-color-primary-darkest: #1a8870;
@@ -289,20 +294,42 @@ details ul:last-of-type {
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
   --table-border-color: #173154;
-  --ifm-color-primary: #058ffe;
-  --svg-foreground-color: #000;
+  --svg-foreground-color: #fff;
   --ifm-navbar-background-color: #000000;
   --ifm-dropdown-background-color: rgba(0, 0, 0, 1);
   --ifm-menu-color: rgba(255, 255, 255, 0.9);
   --ifm-menu-color-background-active: transparent;
-  --ifm-menu-color-background-hover: rgba(255, 255, 255, 0.01);
+  --ifm-menu-color-background-hover: rgba(255, 255, 255, 0.06);
   --menu-level-item-color: rgba(255, 255, 255, 0.7);
-}
-
-html[data-theme='dark'] {
   --ifm-background-color: #0b1017;
   --ifm-table-stripe-background: rgba(0, 0, 0, 0.1);
   --ifm-toc-border-color: rgba(255, 255, 255, 0.1);
+  --ifm-font-color-base: #e8edf4;
+  --ifm-font-color-secondary: #9aa5b5;
+  --ifm-navbar-link-color: var(--ifm-font-color-base);
+  --ifm-navbar-link-hover-color: var(--ifm-color-primary);
+  --ifm-navbar-link-active-color: var(--ifm-color-primary);
+  --ifm-background-surface-color: #121826;
+  --ifm-hover-overlay-color: rgba(255, 255, 255, 0.08);
+  --ifm-menu-color-active: var(--ifm-color-primary);
+}
+
+html[data-theme='dark'] .navbar .navbar__link,
+html[data-theme='dark'] .navbar .navbar__title {
+  color: var(--ifm-navbar-link-color);
+}
+
+html[data-theme='dark'] .theme-doc-sidebar-container .menu__link {
+  color: var(--ifm-menu-color);
+}
+
+html[data-theme='dark'] .theme-doc-sidebar-container .menu__link:hover {
+  color: var(--ifm-menu-color);
+  background: var(--ifm-menu-color-background-hover);
+}
+
+html[data-theme='dark'] .theme-doc-sidebar-container .menu__link--active {
+  color: var(--ifm-menu-color-active);
 }
 
 /**
@@ -1937,8 +1964,7 @@ html[data-theme='light'].docs-doc-id-intro .landing-cms-for {
 }
 
 .docs-doc-id-intro .landing-header-buttons .DocSearch.DocSearch-Button {
-  padding: 1.23rem 1.7rem;
-  margin-top: -0.25rem;
+  padding: 0.22rem 1.7rem;
 }
 
 .docs-doc-id-intro .landing-header-buttons .DocSearch-Button-Placeholder {
@@ -2992,4 +3018,14 @@ h2 + h3 .custom-anchor-link {
   .feature-grid {
     grid-template-columns: repeat(auto-fill, 33.33%) !important;
   }
+}
+
+/*
+ * If another bundle still sets `:root { --ifm-navbar-background-color: ... }` after this file,
+ * `!important` keeps the dark navbar token correct on <html data-theme="dark">.
+ */
+html[data-theme='dark'] {
+  --ifm-navbar-background-color: #000000 !important;
+  --ifm-dropdown-background-color: rgba(0, 0, 0, 1) !important;
+  --svg-foreground-color: #fff !important;
 }
