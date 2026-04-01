@@ -1847,119 +1847,200 @@ html[data-theme='dark'] .version {
   top: 9px;
   right: 355px;
 }
+/* =====================================================
+   MICROSOFT WINDOWS 2000 STYLE — Landing Header
+   ===================================================== */
+
+/* Win2k titlebar gradient: deep cobalt → teal */
 .landing-header {
-  background: linear-gradient(350deg, #0073ff 40%, #058ffe 100%);
+  background: linear-gradient(180deg, #1c5fa8 0%, #0a3a7a 35%, #003e8a 60%, #0f4fa3 100%);
+  border-bottom: 3px solid #0a2e6e;
   padding: 1px 0 200px 0 !important;
   margin: 0 !important;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Tahoma', 'MS Sans Serif', 'Arial', sans-serif !important;
+  image-rendering: pixelated;
 }
+
+/* Scanline / CRT effect overlay */
+.landing-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.07) 2px,
+    rgba(0,0,0,0.07) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Inset bevel panel holding the content */
+.landing-header > .container {
+  position: relative;
+  z-index: 2;
+}
+
 .landing-header .photo img {
   border-radius: 0;
+  /* Win2k raised border on images */
+  border: 2px solid;
+  border-color: #c0c0c0 #404040 #404040 #c0c0c0;
+  image-rendering: pixelated;
 }
+
 .landing-logo {
   max-width: 40rem;
 }
+
+/* Win2k inset panel for the "for" label */
+.landing-cms-for {
+  color: #c8e4ff;
+  font-size: 1.1rem;
+  font-style: italic;
+  font-family: 'Tahoma', 'MS Sans Serif', Arial, sans-serif;
+  line-height: 0;
+  margin: -30px 0 0 -240px;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.8);
+}
+
+html[data-theme='light'].docs-doc-id-intro .landing-cms-for {
+  color: #c8e4ff;
+}
+
+.landing-cms-for.landing-cms-ee {
+  font-size: 1.3rem;
+  margin: -30px 0 0 -240px;
+}
+
 .landing-cms-logo {
   max-width: 15rem;
 }
+
 .landing-cms-logo img {
   display: block;
   margin-top: -51px;
   margin-left: 30px;
 }
+
 .landing-cms-logo.landing-cms-ee img {
   margin-top: -39px;
 }
-.landing-cms-for {
-  color: #ffffff;
-  font-size: 1.5rem;
-  font-style: italic;
-  line-height: 0;
-  margin: -30px 0 0 -240px;
-}
-html[data-theme='light'].docs-doc-id-intro .landing-cms-for {
-  color: #525252;
-}
-.landing-cms-for.landing-cms-ee {
-  font-size: 1.3rem;
-  margin: -30px 0 0 -240px;
-}
+
+/* Body text inside header: white with hard drop shadow like Win2k titlebars */
 .landing-header p {
-  font-size: 1.4rem;
-  color: #ffffff;
-  text-shadow: rgba(0, 0, 0, 0.3) 1px 0 10px;
-}
-.landing-header small {
+  font-family: 'Tahoma', 'MS Sans Serif', Arial, sans-serif !important;
   font-size: 1rem;
-  color: #ffffff;
-  text-shadow: rgba(0, 0, 0, 0.3) 1px 0 10px;
+  color: #d0e8ff;
+  text-shadow: 1px 1px 0 #000a1e, 0 0 8px rgba(0,60,180,0.5);
+  letter-spacing: 0.01em;
 }
+
+.landing-header small {
+  font-family: 'Tahoma', 'MS Sans Serif', Arial, sans-serif;
+  font-size: 0.85rem;
+  color: #b8d9ff;
+  text-shadow: 1px 1px 0 #000a1e;
+}
+
 .landing-header small a {
-  color: #ffffff;
-  border-bottom: 1px solid #ffffff !important;
+  color: #88ccff !important;
+  border-bottom: 1px dashed #88ccff !important;
+  text-shadow: none;
 }
+
+/* Win2k raised button style */
 .landing-header .primary-btn,
 .landing-header-buttons .DocSearch.DocSearch-Button {
-  color: #ff6624;
-  font-size: 1.25rem;
-  background: #ffffff;
-  border: 2px solid #ffffff;
-  transition: all 0.2s !important;
+  font-family: 'Tahoma', 'MS Sans Serif', Arial, sans-serif !important;
+  font-size: 0.85rem !important;
+  font-weight: bold;
+  color: #000000 !important;
+  background: #d4d0c8 !important;
+  border: 2px solid !important;
+  border-color: #ffffff #808080 #808080 #ffffff !important;
+  border-radius: 0 !important;
+  box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #404040 !important;
+  transition: none !important;
+  padding: 4px 12px !important;
+  text-transform: none;
+  letter-spacing: 0;
 }
+
+/* Win2k pressed button state */
 .landing-header .primary-btn:hover,
 .landing-header-buttons .DocSearch.DocSearch-Button:hover {
-  color: #ff6624;
-  background: #f5f9ff;
+  color: #000000 !important;
+  background: #c0bdb5 !important;
+  border-color: #808080 #ffffff #ffffff #808080 !important;
+  box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #404040 !important;
 }
+
+/* "Outline" button = same raised btn but slightly different label */
 .landing-header .primary-btn.outline-btn {
-  color: #ffffff;
-  background: transparent;
+  color: #000000 !important;
+  background: #d4d0c8 !important;
+  border-color: #ffffff #808080 #808080 #ffffff !important;
 }
+
 .landing-header .primary-btn.outline-btn:hover {
-  color: #ffffff;
-  border-color: #ffffff;
-  background: rgba(255, 255, 255, 0.1);
+  border-color: #808080 #ffffff #ffffff #808080 !important;
+  background: #c0bdb5 !important;
 }
+
+/* DocSearch Win2k style */
 .landing-header-buttons .DocSearch.DocSearch-Button {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
-    Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  font-weight: 500;
-  color: #ffffff;
-  background: #ff6624;
-  border-color: #ff6624;
-  padding: 0.4rem 2rem 0.4rem 2rem;
+  font-family: 'Tahoma', 'MS Sans Serif', Arial, sans-serif !important;
+  font-weight: bold;
+  color: #000000 !important;
+  background: #d4d0c8 !important;
+  border: 2px solid !important;
+  border-color: #ffffff #808080 #808080 #ffffff !important;
+  border-radius: 0 !important;
+  box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #404040 !important;
+  padding: 0.3rem 1.5rem;
   margin: 0 -0.25rem -12px 0;
-  transition: all 500ms;
-  border-radius: 9999px;
+  transition: none !important;
 }
+
 .landing-header-buttons .DocSearch-Button-Placeholder {
   padding: 0 0 0 8px !important;
+  color: #000000 !important;
 }
+
 .landing-header-buttons .DocSearch.DocSearch-Button:hover {
-  color: #ff6624;
-  border-color: #ffffff;
-  background: #ffffff;
-  box-shadow: none;
+  background: #c0bdb5 !important;
+  border-color: #808080 #ffffff #ffffff #808080 !important;
+  box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #404040 !important;
+  color: #000000 !important;
 }
+
 .landing-header-buttons .DocSearch.DocSearch-Button:hover > span {
   box-shadow: none;
 }
+
 .landing-header-buttons .DocSearch-Search-Icon,
 .landing-header-buttons .DocSearch-Button-Keys {
   display: none;
 }
+
 .landing-header-buttons
   .DocSearch.DocSearch-Button
   > span
   .DocSearch-Search-Icon {
-  color: #ffffff;
+  color: #000000;
   display: block;
 }
+
 .landing-header-buttons
   .DocSearch.DocSearch-Button:hover
   > span
   .DocSearch-Search-Icon {
-  color: #ff6624;
+  color: #000000;
   display: block;
 }
 
@@ -1988,9 +2069,51 @@ html[data-theme='light'].docs-doc-id-intro .landing-cms-for {
   max-width: none;
 }
 
+/* Win2k inset dialog panel around the header content */
+.landing-header .container > .flex {
+  background: rgba(12, 36, 90, 0.55);
+  border: 2px solid;
+  border-color: #404080 #c0d0ff #c0d0ff #404080;
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.15),
+    inset -1px -1px 0 rgba(0,0,0,0.3),
+    0 4px 24px rgba(0,0,0,0.4);
+  padding: 32px 40px 36px !important;
+  margin-top: 30px !important;
+  position: relative;
+}
+
+/* Win2k: the landing-page variant gets a classic titlebar strip on top */
 .docs-doc-id-landing-page .landing-header {
   padding: 75px 0;
   margin-bottom: 40px;
+  /* Pixel-art star field subtle overlay */
+  background-image:
+    linear-gradient(180deg, #1c5fa8 0%, #0a3a7a 35%, #003e8a 60%, #0f4fa3 100%),
+    radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+  background-size: 100% 100%, 20px 20px;
+}
+
+/* Win2k classic titlebar above the landing header */
+.docs-doc-id-landing-page .landing-header::after {
+  content: 'Freeform 5 Documentation  ─   □   ✕';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 22px;
+  background: linear-gradient(90deg, #0831d9 0%, #0a6bcd 40%, #0831d9 100%);
+  color: #ffffff;
+  font-family: 'Tahoma', 'MS Sans Serif', Arial, sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+  border-bottom: 1px solid #0a2e6e;
+  letter-spacing: 0.03em;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
 }
 
 .docs-doc-id-landing-page article header {
