@@ -32,7 +32,7 @@ export default function DocSidebarDesktopContent({
   path,
   sidebar,
   className,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const showAnnouncementBar = useShowAnnouncementBar();
 
   return (
@@ -49,7 +49,7 @@ export default function DocSidebarDesktopContent({
         className
       )}
     >
-      <NavbarSearch>
+      <NavbarSearch className="mr-6">
         <SearchBar />
       </NavbarSearch>
       <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>

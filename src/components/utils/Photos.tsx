@@ -43,7 +43,7 @@ const HoverPhotoChange = ({ children }) => {
 
 export default HoverPhotoChange;
 
-const ThemedIdealImage = (props: ThemedImageProps): JSX.Element => {
+const ThemedIdealImage = (props: ThemedImageProps): React.JSX.Element => {
   const { sources, className: parentClassName, alt, ...propsRest } = props;
   return (
     <ThemedComponent className={parentClassName}>

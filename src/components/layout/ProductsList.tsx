@@ -2,7 +2,7 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import allPlugins from '@site/allPlugins.json';
 
-export function ProductsList(): JSX.Element {
+export function ProductsList(): React.JSX.Element {
   return (
     <div className="navbar__item dropdown dropdown--hoverable cursor-pointer hidden md:block">
       <div className="navbar__item navbar__link">Plugins</div>

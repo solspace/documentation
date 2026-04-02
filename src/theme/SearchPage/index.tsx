@@ -153,7 +153,7 @@ type ResultDispatcher =
   | { type: 'update'; value: ResultDispatcherState }
   | { type: 'advance'; value?: undefined };
 
-function SearchPageContent(): JSX.Element {
+function SearchPageContent(): React.JSX.Element {
   const {
     i18n: { currentLocale },
   } = useDocusaurusContext();
@@ -172,6 +172,7 @@ function SearchPageContent(): JSX.Element {
 
   const processSearchResultUrl = useSearchResultUrlProcessor();
   const documentsFoundPlural = useDocumentsFoundPlural();
+  const titleFormatter = useTitleFormatter();
 
   const docsSearchVersionsHelpers = useDocsSearchVersionsHelpers();
   const [searchQuery, setSearchQuery] = useSearchQueryString();
@@ -476,7 +477,7 @@ function SearchPageContent(): JSX.Element {
   return (
     <Layout>
       <Head>
-        <title>{useTitleFormatter(getTitle())}</title>
+        <title>{titleFormatter.format(getTitle())}</title>
         {/*
          We should not index search pages
           See https://github.com/facebook/docusaurus/pull/3233
@@ -683,7 +684,7 @@ function SearchPageContent(): JSX.Element {
   );
 }
 
-export default function SearchPage(): JSX.Element {
+export default function SearchPage(): React.JSX.Element {
   return (
     <HtmlClassNameProvider className="search-page-wrapper">
       <SearchPageContent />

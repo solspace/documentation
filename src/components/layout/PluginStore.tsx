@@ -30,7 +30,7 @@ const stores = [
   },
 ];
 
-export function PluginStore(): JSX.Element {
+export function PluginStore(): React.JSX.Element | null {
   const { pathname } = useLocation();
   const matchedStore = stores.find((l) => pathname.startsWith(l.pathname));
 

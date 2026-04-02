@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import Layout from '@theme/Layout';
 import { LeftNav, Footer } from '@site/src/components/layout';
 import { FlexCards } from '@site/src/components/docs';

@@ -41,9 +41,9 @@ const FlexButton: React.FC<ButtonProps> = ({ items }) => {
   return (
     <div className="flex flex-col items-center gap-3">
       <div className="flex flex-wrap gap-2 md:gap-3 justify-center">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <PrimaryButtonWithLink
-            key={item.to}
+            key={`${item.to}-${item.label ?? 'btn'}-${index}`}
             to={item.to}
             label={item.label || 'Learn more'}
             outline={item?.outline || false}

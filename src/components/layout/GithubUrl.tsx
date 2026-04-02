@@ -38,7 +38,7 @@ const GithubIcon = () => (
   </svg>
 );
 
-export function GithubUrl(): JSX.Element {
+export function GithubUrl(): React.JSX.Element {
   const { pathname } = useLocation();
   const matchedStore = githubUrls.find((entry) =>
     pathname.startsWith(entry.pathname)

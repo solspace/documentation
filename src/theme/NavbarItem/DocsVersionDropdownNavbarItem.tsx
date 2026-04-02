@@ -51,7 +51,7 @@ export default function DocsVersionDropdownNavbarItem({
   dropdownItemsBefore,
   dropdownItemsAfter,
   ...props
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const activeDocContext = useActiveDocContext(docsPluginId);
 
   if (!activeDocContext.activeVersion) {

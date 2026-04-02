@@ -8,7 +8,7 @@ import { useLocation } from '@docusaurus/router';
 
 import allPlugins from '@site/allPlugins.json';
 
-export default function DocItemMetadata(): JSX.Element {
+export default function DocItemMetadata(): React.JSX.Element {
   const { metadata, frontMatter, assets } = useDoc();
   const { pathname } = useLocation();
   const breadcrumbs = useSidebarBreadcrumbs();

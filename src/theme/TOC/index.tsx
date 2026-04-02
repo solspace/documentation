@@ -45,7 +45,10 @@ const buttonThumbsDown = (
   </svg>
 );
 
-export default function TOC({ className, ...props }: Props): JSX.Element {
+export default function TOC({
+  className,
+  ...props
+}: Props): React.JSX.Element {
   const projectId = 'o9vrsuaik2';
 
   useEffect(() => {
