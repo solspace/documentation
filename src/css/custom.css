@@ -373,25 +373,28 @@ html[data-theme='dark'] blockquote p {
   margin-right: 5px;
 }
 
-/* A tag */
-.docs-doc-page .theme-doc-markdown a:not([class]),
+/* Markdown body links only (.doc-md-inline-link from swizzled MDXComponents/A) */
+.docs-doc-page .theme-doc-markdown a.doc-md-inline-link,
 .external-link {
   border-bottom: 1px solid #058ffe;
-  transition: all 0.5s;
+  transition: border-color 0.5s, color 0.5s;
   font-weight: 500;
 }
 
-.docs-doc-page .theme-doc-markdown a:not([class]):hover,
+.docs-doc-page .theme-doc-markdown a.doc-md-inline-link:hover,
 .external-link:hover {
   border-bottom: 1px solid #ff6624;
 }
 
-.docs-doc-page
-  .theme-doc-markdown
-  a:not([class])[target='_blank'][rel='noopener noreferrer']:after,
-.external-link:after {
+/* External / new-tab links: icon after label (target set by Docusaurus Link) */
+.docs-doc-page .theme-doc-markdown a.doc-md-inline-link[target='_blank']::after,
+.docs-doc-page .theme-doc-markdown a.text-link[target='_blank']::after,
+.external-link[target='_blank']::after {
   content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGFyaWEtaGlkZGVuPSJ0cnVlIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHdpZHRoPSIxNSIgaGVpZ2h0PSIxNSIgY2xhc3M9Imljb24gb3V0Ym91bmQiPjxwYXRoIGZpbGw9IiM5MTkxOTIiIGQ9Ik0xOC44LDg1LjFoNTZsMCwwYzIuMiwwLDQtMS44LDQtNHYtMzJoLTh2MjhoLTQ4di00OGgyOHYtOGgtMzJsMCwwYy0yLjIsMC00LDEuOC00LDR2NTZDMTQuOCw4My4zLDE2LjYsODUuMSwxOC44LDg1LjF6Ii8+IDxwb2x5Z29uIGZpbGw9IiM5MTkxOTIiIHBvaW50cz0iNDUuNyw0OC43IDUxLjMsNTQuMyA3Ny4yLDI4LjUgNzcuMiwzNy4yIDg1LjIsMzcuMiA4NS4yLDE0LjkgNjIuOCwxNC45IDYyLjgsMjIuOSA3MS41LDIyLjkiLz48L3N2Zz4=');
-  margin-left: 1px;
+  margin-left: 3px;
+  vertical-align: middle;
+  display: inline-block;
+  line-height: 1;
 }
 
 .text-link {

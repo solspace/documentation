@@ -1,4 +1,5 @@
 import Link from '@docusaurus/Link';
+import clsx from 'clsx';
 
 interface SimpleTextLink {
   to: string;
@@ -8,7 +9,7 @@ interface SimpleTextLink {
 
 const SimpleTextLink: React.FC<SimpleTextLink> = ({ to, label, classes }) => {
   return (
-    <Link to={to} className={`font-medium text-link ${classes}`}>
+    <Link to={to} className={clsx('font-medium text-link', classes)}>
       {label}
     </Link>
   );
