@@ -99,36 +99,31 @@ function BannerLabel(props: BannerLabelComponentProps) {
 
 function LatestVersionSuggestionLabel({
   versionLabel,
-  to,
-  onClick,
 }: {
-  to: string;
-  onClick: () => void;
   versionLabel: string;
 }) {
+  // Spans only: the banner is wrapped in a single outer <Link> (no nested <a>).
+  const linkLike = 'text-black dark:text-white latest-version-link';
   return (
     <Translate
       id="theme.docs.versions.latestVersionSuggestionLabel"
       description="The label used to tell the user to check the latest version"
       values={{
         versionLabel: (
-          <Link
-            className="text-black dark:text-white latest-version-link"
-            to={to}
-          >
+          <span className={linkLike}>
             View the latest version (<b>{versionLabel}</b>) →
-          </Link>
+          </span>
         ),
         latestVersionLink: (
           <b>
-            <Link to={to} onClick={onClick}>
+            <span className={linkLike}>
               <Translate
                 id="theme.docs.versions.latestVersionLinkLabel"
                 description="The label used for the latest version suggestion link label"
               >
                 latest version
               </Translate>
-            </Link>
+            </span>
           </b>
         ),
       }}
@@ -163,7 +158,11 @@ function DocVersionBannerEnabled({
   const productName = getCurrentProductName();
 
   return (
-    <Link to={latestVersionSuggestedDoc.path}>
+    <Link
+      to={latestVersionSuggestedDoc.path}
+      onClick={() => savePreferredVersionName(latestVersionSuggestion.name)}
+      className="block no-underline hover:no-underline focus:no-underline"
+    >
       <div
         className={clsx(
           className,
@@ -182,10 +181,6 @@ function DocVersionBannerEnabled({
           <div className="ml-1">
             <LatestVersionSuggestionLabel
               versionLabel={latestVersionSuggestion.label}
-              to={latestVersionSuggestedDoc.path}
-              onClick={() =>
-                savePreferredVersionName(latestVersionSuggestion.name)
-              }
             />
           </div>
         </div>
