@@ -2,33 +2,66 @@
 sidebar_position: 1
 ---
 
+import { Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
 # Settings
 
-AI Assistant settings allow you to configure which fields show the inline AI button and set up field-specific prompts.
+AI Assistant settings let you control where the inline AI button appears and optionally assign default prompts to each field.
 
-## Field Enablement
+## Enable AI on Fields
 
-1. Go to **AI Assistant → Settings**
-2. Toggle which fields show the inline AI button
-3. Save
+Select which fields should display the inline AI button.
+
+<VerticalStepWrapper>
+  <StepMarkdown>
+    Go to **AI Assistant → Settings**
+  </StepMarkdown>
+  <StepMarkdown>
+    Toggle which fields should show the inline AI button
+  </StepMarkdown>
+  <StepMarkdown>
+    Click the **Save** button
+  </StepMarkdown>
+</VerticalStepWrapper>
+
+<Photo
+  img={require('@site/static/img/craft/ai-assistant/v1/configuration/settings-fields.jpg')}
+  alt="Enable AI on Fields"
+/>
 
 ## Field-Specific Prompts
 
-You can preselect a prompt for each enabled field so the Generate modal opens with the right context:
+You can assign a default prompt to each field so the _Generate_ modal opens with the right context.
 
-1. Go to **AI Assistant → Settings**
-2. In the "Field Prompts" table, choose a prompt per field (or keep "Any")
-3. Save Settings
+<VerticalStepWrapper>
+  <StepMarkdown>
+    Go to **AI Assistant → Settings**
+  </StepMarkdown>
+  <StepMarkdown>
+    In the **Field Prompts** table, choose a prompt for each field (or leave as _Any_)
+  </StepMarkdown>
+  <StepMarkdown>
+    Click the **Save** button
+  </StepMarkdown>
+</VerticalStepWrapper>
+
+<Photo
+  img={require('@site/static/img/craft/ai-assistant/v1/configuration/settings-fields-edit.jpg')}
+  alt="Field-specific Prompts"
+/>
 
 ### Behavior on Entry Edit Pages
 
-- When you click the inline AI button, the modal will auto-select the field's prompt.
-- This works for Craft fields (Plain Text, CKEditor, Redactor, TinyMCE, Assets) and for the built-in Title field (handle `title`).
-- For Title specifically, the modal reads the selection from plugin settings, so it's honored even though Title isn't a custom Craft field.
+- Clicking the inline AI button will automatically select the field's assigned prompt.
+- Supported field types include:
+  - Craft fields: _Plain Text_, _CKEditor_, _Redactor_, _TinyMCE_, _Assets_
+  - Built-in field: _Title_ (`title`)
+- The _Title_ field uses the configured prompt from settings, even though it isn't a custom field.
 
 ### Notes
 
-- Choosing "Any" means the modal won't preselect a specific prompt.
-- If a prompt is bound to a particular integration, that integration is used automatically; otherwise the selected integration is used.
-- Changes you make to the selected prompt inside an entry are not saved back to Settings; edit the mapping in **AI Assistant → Settings**.
-
+- **Any** means no default prompt will be selected.
+- If a prompt is tied to a specific integration, that integration will be used automatically.
+- Changes made to the selected prompt inside an entry are not saved back to Settings.
+  - To update the default, edit it in **AI Assistant → Settings**.

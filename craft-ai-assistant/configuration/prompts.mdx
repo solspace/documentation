@@ -2,31 +2,53 @@
 sidebar_position: 3
 ---
 
+import { Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
 # Prompts
 
-Prompts are the instructions you give to the AI to generate content. AI Assistant includes built-in prompts and allows you to create custom prompts.
+Prompts define the instructions given to the AI when generating content. AI Assistant includes built-in prompts and also allows you to create your own.
+
+<Photo
+  img={require('@site/static/img/craft/ai-assistant/v1/configuration/prompts.jpg')}
+  alt="AI Prompts"
+/>
 
 ## Built-in Prompts
 
-AI Assistant comes with several built-in prompts for common content generation tasks. These prompts are ready to use and can be customized.
+AI Assistant includes several ready-to-use prompts for common content generation tasks. You can use these as-is or customize them to fit your needs.
 
 ## Custom Prompts
 
-1. Go to **AI Assistant → Prompts**
-2. Click **New Prompt**
-3. Enter a name and prompt text
-4. Optionally bind the prompt to a specific integration
-5. Set sort order
-6. Save
+Create your own prompts to control how content is generated.
 
-## Prompt Binding
+<VerticalStepWrapper>
+  <StepMarkdown>
+    Go to **AI Assistant → Prompts** and click **New Prompt**
+  </StepMarkdown>
+  <StepMarkdown>
+    Enter a name and the prompt instructions
+  </StepMarkdown>
+  <StepMarkdown>
+    Optionally bind a prompt to a specific integration.
+    :::info
+    When a prompt is bound to a specific integration:
+    - That integration will be used automatically when the prompt is selected
+    - The prompt will only appear when that integration is enabled
+    :::
+  </StepMarkdown>
+  <StepMarkdown>
+    Set a sort order value to organize your prompts.
+    :::info
+    Prompts can be ordered using the sort value to control how they appear in the list. Lower numbers appear first.
+    :::
+  </StepMarkdown>
+  <StepMarkdown>
+    Click the **Save** button
+  </StepMarkdown>
+</VerticalStepWrapper>
 
-You can bind a prompt to a specific integration. When a prompt is bound to an integration:
-
-- That integration will be used automatically when the prompt is selected
-- The prompt will only appear when that integration is enabled
-
-## Sort Order
-
-Prompts can be ordered to appear in your preferred sequence. Set a sort order value (lower numbers appear first) to organize your prompts.
-
+<Photo
+  img={require('@site/static/img/craft/ai-assistant/v1/configuration/prompts-edit.jpg')}
+  alt="Custom AI Prompts"
+/>
