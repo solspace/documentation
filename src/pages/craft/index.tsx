@@ -33,7 +33,7 @@ export default function Craft(): JSX.Element {
                   },
                   {
                     title: 'AI Assistant',
-                    icon: Icons.AIIcon,
+                    icon: Icons.AIAssistantIcon,
                     fullCardLink: '/craft/ai-assistant/v1',
                   },
                   {
