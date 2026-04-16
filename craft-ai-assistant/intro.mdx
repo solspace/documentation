@@ -7,18 +7,12 @@ id: landing-page
 ---
 
 import Player from 'react-player';
-import { FlexCards, Section } from '@site/src/components/docs';
+import { FlexCards, IntroCards, ReviewCards, FieldCards, IntegrationCards, FaqCards, IntroSection } from '@site/src/components/docs';
 import SearchBar from '@theme/SearchBar';
 import NavbarSearch from '@theme/Navbar/Search';
-
 import Icons from '@site/static/icons/cards';
 import OldIcons from '@site/static/icons/old';
-import {
-  Photo,
-  PrimaryButtonWithLink,
-  SimpleTextLink,
-  FlexButton,
-} from '@site/src/components/utils';
+import { Photo, PrimaryButtonWithLink, SimpleTextLink, FlexButton } from '@site/src/components/utils';
 
 # Overview
 
@@ -90,6 +84,46 @@ import {
 <Photo
   img={require('@site/static/img/craft/ai-assistant/v1/cp/generate-text.jpg')}
   alt="Generate text with AI Assistant model"
+/>
+
+
+<IntegrationCards
+  items={[
+    {
+      title: 'Anthropic AI',
+      link: 'configuration/integrations/#anthropic',
+      icon: 'anthropic',
+      filterIcon: true,
+    },
+    {
+      title: 'Gemini AI',
+      link: 'configuration/integrations/#google-gemini',
+      icon: 'gemini',
+    },
+    {
+      title: 'OpenAI',
+      link: 'configuration/integrations/#openai',
+      icon: 'openai',
+      filterIcon: true,
+    },
+    {
+      title: 'xAI',
+      link: 'configuration/integrations/#xai',
+      icon: 'xai',
+      filterIcon: true,
+    },
+    {
+      title: 'Replicate',
+      link: 'configuration/integrations/#replicate',
+      icon: 'replicate',
+      filterIcon: true,
+    },
+    {
+      icon: 'solspace-ai',
+      title: 'SolspaceAI',
+      link: 'configuration/integrations/#solspaceai',
+    }
+  ]}
 />
 
 ## Key Features
@@ -176,57 +210,132 @@ AI Assistant provides a comprehensive set of features for AI-powered content cre
 - [x] Image editing and transformation for existing assets
 - [x] Multi-language support
 
-## Upcoming Features
 
-- [ ] Per-site settings and field rules
-- [ ] Prompt variables and templating
-- [ ] Batch content processing
-- [ ] Analytics dashboard
-- [ ] SEO content assistant
-- [ ] Commerce integration
+  <IntroSection
+    title="Why AI Assistant?"
+    anchor="reviews"
+    description="Thousands of sites trust Solspace plugins and our team to deliver the quality and support they need."
+    mediaPosition="top"
+  >
+    <IntroCards
+      layout="inline"
+      items={[
+        {
+          title: 'Top Notch Support',
+          description: 'We’re trusted in the Craft CMS community for reliable, high-quality support.',
+          icon: Icons.SupportIcon,
+          linkWithDescription: '/support/',
+        },
+        {
+          title: '25+ Years Experience',
+          description: 'For more than 25 years, Solspace has been busy creating and supporting software for over tens of thousands of sites.',
+          icon: Icons.HourglassIcon,
+          linkWithDescription: 'https://solspace.com',
+        },
+        {
+          title: 'Active Development',
+          description: 'AI Assistant is continuously updated with new features, improvements, and bug fixes over time.',
+          icon: Icons.DevelopmentIcon,
+          linkWithDescription: 'setup/changelog',
+        },
+      ]}
+    />
+  </IntroSection>
 
-## Package Information
+  <IntroSection
+    title="Frequently Asked Questions"
+    anchor="faq"
+    description="Frequently asked questions about buying AI Assistant."
+    mediaPosition="top"
+  >
+    <FaqCards
+      items={[
+        {
+          title: 'Can I test AI Assistant before I buy?',
+          description: `
+            Yes! You can use AI Assistant on any private domain name for as long as you need, just like with Craft.
+            Whether it's on your local dev server or a staging site, you're good to go. You only have to buy a
+            license when you're ready to launch your site live, just like with Craft.
+          `,
+        },
+        {
+          title: 'How many sites does a license cover?',
+          description: `
+            You only need to buy a AI Assistant license for each Craft license you have. So, if you're running a
+            Craft multi-site on one install, you just need one license. It's just like Craft! There's no need to
+            get separate licenses for other environments of the same site, like development or staging.
+          `,
+        },
+        {
+          title: 'Do you offer discounts to non-profits?',
+          description: `
+            Yes! We offer a discount to non-profits for 20% off the regular price upon proof of non-profit status.
+            Please <a href="/support/">contact us</a> for more information about this.
+          `,
+        },
+        {
+          title: 'Does the Trial version limit features?',
+          description: `
+            The trial versions of Solspace software are fully functional and not limited in any way. However, if
+            you try to use a trial version on a production site, Craft will display a red banner at the top of your
+            control panel, prompting you to purchase a license.
+            <br /><br />
+            More information about
+            <a href="https://craftcms.com/knowledge-base/how-craft-license-enforcement-works">Craft's license enforcement</a>.
+          `,
+        },
+        {
+          title: 'How long does a license last for?',
+          description: `
+            A single license provides one year of updates and support. After this period, you can continue using
+            the plugin but will no longer receive updates or support. To maintain access to updates and support,
+            you will need to renew your license each year at a discounted rate.
+          `,
+        },
+        {
+          title: 'Do I have to renew my license each year?',
+          description: `
+            You can renew your license after the initial one-year support period has ended. Your plugin will
+            continue to work properly in the meantime. If you prefer, you can wait until the following year to
+            renew and receive the latest updates.
+            <br /><br />
+            However, we don't recommend avoiding updates altogether, as you would miss out on new features and
+            important fixes.
+          `,
+        },
+        {
+          title: 'What are renewals and how do they work?',
+          description: `
+            Renewals help you keep your plugin updated and access technical support. However, they are entirely
+            optional.
+            <br /><br />
+            For example, if you purchase AI Assistant for $49, the renewal price after one year
+            is $29. Your initial purchase of $49 includes support and updates for one year. When it's time to
+            renew, you can extend your updates and support for another year at the renewal price of just $29,
+            rather than paying the full amount of $49 again.
+          `,
+        },
+        {
+          title: 'How do I install AI Assistant?',
+          description: `
+            Installing AI Assistant is done just like any other plugin for Craft, similar to how you would install
+            Craft itself. Please refer to the <a href="./setup/installing-updating/">Installation guide</a> in the
+            documentation.
+          `,
+        },
+        {
+          title: 'How do I get support for AI Assistant?',
+          description: `
+            We provide free support for AI Assistant. If you have any questions or encounter issues, you can
+            <a href="https://github.com/solspace/craft-aiassistant/issues/new/choose">create an issue on GitHub</a> or
+            <a href="/support/">send us a private support ticket</a>. We're here to help!
+          `,
+        },
+      ]}
+    />
+  </IntroSection>
 
-- **Package:** `solspace/craft-aiassistant`
-- **Namespace:** `Solspace\AIAssistant`
 
-## Requirements
-
-- Craft CMS 5+
-- PHP 8.0+
-- Valid API key(s) for configured providers
-
-<Section
-  title="Why AI Assistant?"
-  anchor="why-aiassistant"
-  subtitle="You can count on AI Assistant and the team behind it to give you the quality and support you really deserve."
-  imgSrc={Icons.CheckboxIcon}
->
-  <FlexCards
-    items={[
-      {
-        title: 'Top Notch Support',
-        description:
-          'Our reputation in the Craft CMS community speaks for itself when it comes to customer support. We strive to offer the best and most reliable help to all our customers.',
-        icon: Icons.SupportIcon,
-        linkWithDescription: '/support/',
-      },
-      {
-        title: '25+ Years Experience',
-        description:
-          'For more than 25 years, Solspace has been busy creating and supporting software for over 30,000 customers. Over 500,000 plugins have been sold or downloaded for free!',
-        icon: Icons.HourglassIcon,
-        linkWithDescription: 'https://solspace.com',
-      },
-      {
-        title: 'Active Development',
-        description:
-          'AI Assistant is continuously updated with new features, improvements, and bug fixes over time.',
-        icon: Icons.DevelopmentIcon,
-        linkWithDescription: 'setup/changelog',
-      },
-    ]}
-  />
   <div className="intro-cta flex flex-wrap gap-3 justify-center">
     <div className="intro-cta-text flex flex-col">
       <h4>Start exploring AI Assistant...</h4>
@@ -241,7 +350,6 @@ AI Assistant provides a comprehensive set of features for AI-powered content cre
       ]}
     />
   </div>
-</Section>
 
 </div>
 
