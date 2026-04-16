@@ -10,7 +10,7 @@ import { Badge, Photo } from '@site/src/components/utils';
 
 This integration allows you to use [OpenAI](https://openai.com)'s AI models for processing in form submissions.
 
-Once you enable and configure an AI integration, various AI functionality becomes available in Freeform, including the [AI field type](../forms/fields.mdx#ai) becomes available in your forms. Use it to provide a system prompt with instructions for how the model should process submission data (e.g., categorization, summarization, sentiment analysis, content generation). Specify the exact output format you need.
+Once you enable and configure an AI integration, various AI functionality becomes available in Freeform, including the [AI field type](../forms/fields.mdx#ai). Use it to provide a system prompt with instructions for how the model should process submission data (e.g., categorization, summarization, sentiment analysis, content generation). Specify the exact output format you need.
 
 ## Setup Instructions
 
@@ -29,10 +29,19 @@ Visit your [account settings area](https://platform.openai.com/api-keys) on the 
 - Go to the [Integrations](../configuration/settings.mdx#integrations) section in Freeform Settings (**Freeform** → **Integrations**).
 - Find _Gemini_ in the list of **service providers**.
 - Copy and paste your API key into the integration in Freeform.
-- Select the AI model you want to use. The default is `gpt-5-mini`.
+- Select the AI model you want to use. The default is `gpt-5.4-nano`.
   - When choosing a model, consider that AI processing can potentially hold up form submission processing for the user submitting the form, so try to choose a more light-weight model.
 - Configure the Max Tokens setting. This can be overrided per form.
 - Click the **Save** button.
+
+#### Recommended Models
+
+- ⚡ `gpt-5.4-nano` — fast + cheap
+  - High-volume, simple tasks
+- ⚖️ `gpt-5.4-mini` — balanced
+  - Balance of speed + intelligence
+- 🧠 `gpt-5.4` — smartest
+  - Complex reasoning, coding, agents
 
 </StepMarkdown>
 <StepMarkdown>
@@ -57,11 +66,8 @@ To use this integration on your form(s), you'll need to configure each form indi
   - Enable the integration.
 
 </StepMarkdown>
-<StepMarkdown>
-
-### Add an AI Field
-
-Finally, you'll need to add an AI field to your form. Check out the [AI field](../forms/fields.mdx#ai) documentation for further instruction.
-
-</StepMarkdown>
 </VerticalStepWrapper>
+
+## Add an AI Field
+
+If you'd like to use the AI field in your forms, check out the [AI field](../forms/fields.mdx#ai) documentation for further instruction.
