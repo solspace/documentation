@@ -45,6 +45,9 @@ import { Photo, PrimaryButtonWithLink, SimpleTextLink, FlexButton } from '@site/
         <FlexButton
           items={[{ to: 'guides/getting-started', label: 'Explore Docs' }]}
         />
+        <FlexButton
+          items={[{ to: 'guides/getting-started', label: 'User Guides', mobileHidden: true, icon: Icons.GraduationCapIcon }]}
+        />
       </div>
       <small>
         <SimpleTextLink
@@ -67,13 +70,13 @@ import { Photo, PrimaryButtonWithLink, SimpleTextLink, FlexButton } from '@site/
         <a href="./guides/getting-started/" className="text-sm text-[#0073ff] dark:text-white">User Guides</a>
       </li>
       <li className="list-none">
-        <a href="./configuration/settings/" className="text-sm text-[#0073ff] dark:text-white">Configuration</a>
+        <a href="./configuration/" className="text-sm text-[#0073ff] dark:text-white">Configuration</a>
       </li>
       <li className="list-none">
         <a href="./configuration/integrations/" className="text-sm text-[#0073ff] dark:text-white">Integrations</a>
       </li>
       <li className="list-none">
-        <a href="./configuration/prompts/" className="text-sm text-[#0073ff] dark:text-white">Prompts</a>
+        <a href="./developer/api-endpoints/" className="text-sm text-[#0073ff] dark:text-white">Developer</a>
       </li>
     </ul>
   </div>
@@ -81,135 +84,227 @@ import { Photo, PrimaryButtonWithLink, SimpleTextLink, FlexButton } from '@site/
 
 <div className="intro-main-content container py-8">
 
-<Photo
-  img={require('@site/static/img/craft/ai-assistant/v1/cp/generate-text.jpg')}
-  alt="Generate text with AI Assistant model"
-/>
+  <Photo
+    img={require('@site/static/img/craft/ai-assistant/v1/cp/generate-text.jpg')}
+    alt="Generate text with AI Assistant model"
+  />
 
+  <h3 className="text-3xl text-center font-semibold text-pretty text-black dark:text-white pb-4 mt-10 border-0">Available AI Providers</h3>
 
-<IntegrationCards
-  items={[
-    {
-      title: 'Anthropic AI',
-      link: 'configuration/integrations/#anthropic',
-      icon: 'anthropic',
-      filterIcon: true,
-    },
-    {
-      title: 'Gemini AI',
-      link: 'configuration/integrations/#google-gemini',
-      icon: 'gemini',
-    },
-    {
-      title: 'OpenAI',
-      link: 'configuration/integrations/#openai',
-      icon: 'openai',
-      filterIcon: true,
-    },
-    {
-      title: 'xAI',
-      link: 'configuration/integrations/#xai',
-      icon: 'xai',
-      filterIcon: true,
-    },
-    {
-      title: 'Replicate',
-      link: 'configuration/integrations/#replicate',
-      icon: 'replicate',
-      filterIcon: true,
-    },
-    {
-      icon: 'solspace-ai',
-      title: 'SolspaceAI',
-      link: 'configuration/integrations/#solspaceai',
-    }
-  ]}
-/>
+  <IntegrationCards
+    items={[
+      {
+        title: 'Anthropic AI',
+        link: 'configuration/integrations/#anthropic',
+        icon: 'anthropic',
+        filterIcon: true,
+      },
+      {
+        title: 'Gemini AI',
+        link: 'configuration/integrations/#google-gemini',
+        icon: 'gemini',
+      },
+      {
+        title: 'OpenAI',
+        link: 'configuration/integrations/#openai',
+        icon: 'openai',
+        filterIcon: true,
+      },
+      {
+        title: 'xAI',
+        link: 'configuration/integrations/#xai',
+        icon: 'xai',
+        filterIcon: true,
+      },
+      {
+        title: 'Replicate',
+        link: 'configuration/integrations/#replicate',
+        icon: 'replicate',
+        filterIcon: true,
+      },
+      {
+        icon: 'solspace-ai',
+        title: 'SolspaceAI',
+        link: 'configuration/integrations/#solspaceai',
+      }
+    ]}
+  />
 
-## Key Features
+  <IntroSection
+    title="AI for Everyday Content Tasks"
+    anchor="use-cases"
+    description="Handle your everyday content tasks faster with built-in AI tools across Craft."
+    imgSrc="craft/ai-assistant/v1/cp/dashboard-widget.jpg"
+    imgAlt="AI for Everyday Content Tasks"
+    mediaPosition="left"
+  >
+    <IntroCards
+      items={[
+        {
+          title: 'Generate Text',
+          description: 'Create high-quality content instantly for fields.',
+          icon: Icons.FieldTextIcon,
+          linkWithDescription: 'configuration/prompts',
+        },
+        {
+          title: 'Improve Content',
+          description: 'Refine existing text to be clearer, more engaging, and on-brand.',
+          icon: Icons.MagicWandIcon,
+        },
+        {
+          title: 'Translate',
+          description: 'Quickly translate content into other languages with minimal effort.',
+          icon: Icons.TranslationIcon,
+        },
+        {
+          title: 'Create Images',
+          description: 'Generate detailed, high-quality images from a prompt or existing content.',
+          icon: Icons.PaletteIcon,
+          linkWithDescription: 'configuration/prompts',
+        },
+      ]}
+    />
+  </IntroSection>
 
-AI Assistant is loaded with features that make AI-powered content creation seamless and powerful.
+  <IntroSection
+    title="Generate and refine content without leaving your workflow."
+    anchor="content-elements"
+    description="The inline AI button appears inside supported fields, giving you instant access to text and image generation as you edit entries and other elements."
+    imgSrc="craft/ai-assistant/v1/cp/entry-highlight.jpg"
+    imgAlt="Improve and generate content in Elements with AI Assistant"
+    mediaPosition="top"
+  >
+    <IntroCards
+      layout="inline"
+      items={[
+        {
+          title: 'Improve Content and Images',
+          description: 'Generate new content, refine existing text, translate across languages, and even create images — all in one place.',
+          icon: Icons.MagicWandIcon,
+          linkWithDescription: 'configuration/integrations',
+        },
+        {
+          title: 'Works with Any Craft Element',
+          description: 'Use AI Assistant across entries, categories, assets, and more, anywhere you work in Craft.',
+          icon: Icons.ContentIcon,
+          linkWithDescription: 'guides/inline-button',
+        },
+        {
+          title: 'Never Leave the Control Panel',
+          description: 'Work seamlessly inside the Craft control panel with AI tools built directly into your editing experience.',
+          icon: Icons.ComputerIcon,
+        },
+      ]}
+    />
+  </IntroSection>
 
-<FlexCards
-  promo
-  items={[
-    {
-      title: 'Inline AI Button',
-      description:
-        'Inline AI button on supported fields (Title, Plain Text, CKEditor, Redactor, TinyMCE) for quick access to AI assistance.',
-      icon: OldIcons.IdeaIcon,
-      fullCardLink: './guides/getting-started/#inline-ai-button',
-    },
-    {
-      title: 'Two-Column Modal',
-      description:
-        'Rich two-column modal interface (Input Context left, Generated Text right) with rich HTML rendering for easy content generation.',
-      icon: OldIcons.ViewIcon,
-      fullCardLink: './guides/getting-started/#modal-interface',
-    },
-    {
-      title: 'Prompt Management',
-      description:
-        'Built-in and custom prompt management with integration binding and sort order for organized workflow.',
-      icon: OldIcons.ListIcon,
-      fullCardLink: './configuration/prompts/',
-    },
-    {
-      title: 'Field-Specific Prompts',
-      description:
-        'Configure field-specific prompts per field with automatic modal preselection for streamlined content creation.',
-      icon: OldIcons.FileIcon,
-      fullCardLink: './configuration/settings/#field-prompts',
-    },
-    {
-      title: 'Multiple AI Providers',
-      description:
-        'Integration management for OpenAI, Google Gemini, Anthropic, xAI, and Replicate with enable/disable, API keys, and model selection.',
-      icon: OldIcons.ApiIcon,
-      fullCardLink: './configuration/integrations/',
-    },
-    {
-      title: 'Quick AI Actions Widget',
-      description:
-        'Dashboard widget for quick AI actions: select prompt, edit prompt text, generate, and copy content.',
-      icon: OldIcons.DashboardIcon,
-      fullCardLink: './guides/getting-started/#quick-ai-actions-widget',
-    },
-    {
-      title: 'Craft-Native UI',
-      description:
-        'Uses Craft-native UI components (lightswitch, notices) and event-based widget registration for seamless integration.',
-      icon: OldIcons.SettingsIcon,
-      fullCardLink: './configuration/settings/',
-    },
-    {
-      title: 'Responsive Modal',
-      description:
-        'Responsive, larger modal with dynamic body height for comfortable content generation on any device.',
-      icon: OldIcons.ViewIcon,
-      fullCardLink: './guides/getting-started/#modal-interface',
-    },
-  ]}
-/>
+  <IntroSection
+    title="Integrations"
+    anchor="integrations"
+    description="Connect to a wide range of AI providers and tailor everything to your needs."
+    imgSrc="craft/ai-assistant/v1/configuration/integrations-edit.jpg"
+    imgAlt="Create and configure integrations"
+    mediaPosition="right"
+  >
+    <IntroCards
+      items={[
+        {
+          title: 'Multiple AI Providers',
+          description: 'Choose from a growing list of AI service integrations to fit your workflow.',
+          icon: Icons.CloudApiIcon,
+          linkWithDescription: 'configuration/integrations',
+        },
+        {
+          title: 'Choose Your AI Models',
+          description: 'Select the models that best match your performance, cost, and quality needs.',
+          icon: Icons.BrainIcon,
+        },
+        {
+          title: 'Set up Multiple integrations',
+          description: 'Configure multiple providers and models, and choose the best option for each field or use case.',
+          icon: Icons.GroupsIcon,
+        },
+        {
+          title: 'SolspaceAI',
+          titleBadge: 'Coming soon!',
+          description: 'Get started in seconds with no setup required. No accounts or credit card needed!',
+          icon: Icons.SolspaceAiIcon,
+          linkWithDescription: 'configuration/integrations/#solspaceai',
+        },
+        {
+          title: '1000 Free Credits',
+          titleBadge: 'Coming soon!',
+          description: 'Every SolspaceAI account includes 1000 free credits to get you started.',
+          icon: Icons.CreditsIcon,
+          linkWithDescription: 'configuration/integrations/#solspaceai',
+        }
+      ]}
+    />
+  </IntroSection>
 
-## Current Functionality
+  <IntroSection
+    title="Choose Your Fields"
+    anchor="fields"
+    description="Enable AI Assistant on the fields you want and set a default provider and model for each."
+    imgSrc="craft/ai-assistant/v1/configuration/settings-fields.jpg"
+    imgAlt="Configure AI Assistant for fields"
+    mediaPosition="top"
+  >
+    <IntroCards
+      layout="inline"
+      items={[
+        {
+          title: 'Field-Specific Prompts',
+          description: 'Create tailored prompts for each field, with automatic preselection in the modal for faster, more consistent content creation.',
+          icon: Icons.FieldTextIcon,
+          linkWithDescription: 'configuration/settings/#field-specific-prompts',
+        },
+        {
+          title: 'Plain Text',
+          description: 'Use the inline AI button in the Title and Plain Text fields (single-line and multi-line) for quick, simple content generation.',
+          icon: Icons.TextareaIcon,
+          linkWithDescription: 'configuration/settings',
+        },
+        {
+          title: 'Rich Text',
+          description: 'Works seamlessly with rich text editors like CKEditor, Redactor, and TinyMCE, giving you AI assistance directly within your content editor.',
+          icon: Icons.RichTextIcon,
+          linkWithDescription: 'configuration/settings',
+        },
+      ]}
+    />
+  </IntroSection>
 
-AI Assistant provides a comprehensive set of features for AI-powered content creation:
-
-- [x] Inline AI button on supported fields (Title, Plain Text, CKEditor, Redactor, TinyMCE)
-- [x] Two-column modal (Input Context left, Generated Text right) with rich HTML rendering
-- [x] Lightswitch to include/exclude input context in the prompt
-- [x] Correct HTML handling for CKEditor, TinyMCE, and Redactor when inserting back into the field
-- [x] Prompt management (built-in and custom) with integration binding and sort order
-- [x] Field-specific prompts per field with automatic modal preselection
-- [x] Integration management for OpenAI, Google Gemini, Anthropic, xAI, and Replicate (enable/disable, API keys, model selection)
-- [x] Quick AI Actions dashboard widget (select prompt, editable prompt text, generate, copy)
-- [x] Craft-native UI components (lightswitch, notices), event-based widget registration
-- [x] Responsive, larger modal with dynamic body height
-- [x] Image generation for Assets fields
-- [x] Image editing and transformation for existing assets
-- [x] Multi-language support
-
+  <IntroSection
+    title="Generate Images"
+    anchor="images"
+    description="Create high-quality images in seconds, right from the Craft control panel."
+    imgSrc="craft/ai-assistant/v1/cp/generate-image.jpg"
+    imgAlt="Create and generate images"
+    mediaPosition="left"
+  >
+    <IntroCards
+      items={[
+        {
+          title: 'Create Images',
+          description: 'Enter a prompt to generate one or multiple images instantly.',
+          icon: Icons.PaletteIcon,
+          linkWithDescription: 'configuration/prompts',
+        },
+        {
+          title: 'Generate Images from Content',
+          description: 'Use your existing element content as the prompt to quickly generate relevant visuals.',
+          icon: Icons.ExportIcon,
+          linkWithDescription: 'configuration/prompts',
+        },
+        {
+          title: 'Retry As Needed',
+          description: 'Not quite right? Regenerate images with a single click until you get the result you want.',
+          icon: Icons.UpdateArrowsIcon,
+        },
+      ]}
+    />
+  </IntroSection>
 
   <IntroSection
     title="Why AI Assistant?"
@@ -335,21 +430,15 @@ AI Assistant provides a comprehensive set of features for AI-powered content cre
     />
   </IntroSection>
 
-
-  <div className="intro-cta flex flex-wrap gap-3 justify-center">
-    <div className="intro-cta-text flex flex-col">
-      <h4>Start exploring AI Assistant...</h4>
-      <p>Check out these helpful links.</p>
-    </div>
+  <div className="mt-10 text-center">
     <FlexButton
       items={[
-        { to: 'https://plugins.craftcms.com/aiassistant/', label: 'Plugin Store', outline: true },
-        { to: '/support/', label: 'Support', outline: true },
-        { to: 'setup/installing-updating/', label: 'How to Install', outline: true },
-        { to: 'guides/getting-started/', label: 'Getting Started', outline: true },
+        { to: './guides/getting-started/', label: 'Getting Started'},
+        { to: 'https://plugins.craftcms.com/ai-assistant/', label: 'Plugin Store', outline: true },
+        { to: 'https://plugins.craftcms.com/ai-assistant/', label: 'Try a Free Unlimited Trial', outline: true, mobileHidden: true },
+        { to: '/support/', label: 'Support', outline: true, mobileHidden: true }
       ]}
     />
   </div>
 
 </div>
-

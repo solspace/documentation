@@ -14,6 +14,11 @@ const stores = [
     link: 'https://plugins.craftcms.com/calendar',
   },
   {
+    pathname: '/craft/ai-assistant',
+    title: 'Buy Now',
+    link: 'https://plugins.craftcms.com/ai-assistant',
+  },
+  {
     pathname: '/craft/express-forms',
     title: 'Buy Now',
     link: 'https://plugins.craftcms.com/express-forms',
