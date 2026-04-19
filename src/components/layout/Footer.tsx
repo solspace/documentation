@@ -8,8 +8,8 @@ const footerMenu = {
     { label: 'Home', to: '/' },
     { label: 'Support', to: '/support/' },
     {
-      label: 'Premium Support',
-      to: '/support/premium/',
+      label: 'Custom Development Services',
+      to: '/support/custom-development',
     },
     {
       label: 'License Agreement',

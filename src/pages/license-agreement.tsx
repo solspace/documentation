@@ -12,8 +12,6 @@ export default function LincenseAgreement(): JSX.Element {
         <LeftNav />
         <div className="flex flex-col gap-3 md:ml-72 p-8">
           <main className="max-w-6xl m-auto my-3">
-            <span className="page-section">License Agreement</span>
-
             <h1>License Agreement</h1>
             <p>
               This license is a legal agreement between you and Solspace, Inc.

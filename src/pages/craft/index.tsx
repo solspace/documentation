@@ -12,39 +12,65 @@ export default function Craft(): JSX.Element {
     >
       <div className="flex">
         <LeftNav />
-        <div className="flex flex-col gap-3 md:ml-72 p-8 w-full">
-          <main className="max-w-6xl my-3">
-            <div className="flex flex-col">
-              <span className="page-section">Plugins</span>
-              <h1>Craft CMS</h1>
-              <p>Choose a Craft plugin from below:</p>
-
-              <FlexCards
-                items={[
-                  {
-                    title: 'Freeform',
-                    icon: Icons.FreeformIcon,
-                    fullCardLink: '/craft/freeform/v5',
-                  },
-                  {
-                    title: 'Calendar',
-                    icon: Icons.CalendarIcon,
-                    fullCardLink: '/craft/calendar/v5',
-                  },
-                  {
-                    title: 'AI Assistant',
-                    icon: Icons.AIAssistantIcon,
-                    fullCardLink: '/craft/ai-assistant/v1',
-                  },
-                  {
-                    title: 'Express Forms',
-                    icon: Icons.ExpressFormsIcon,
-                    fullCardLink:
-                      'https://discontinued-docs.solspace.com/express-forms',
-                  },
-                ]}
-              />
-            </div>
+        <div className="flex flex-col gap-3 md:ml-72 p-8">
+          <main className="max-w-6xl m-auto my-3">
+            <span className="page-section">Plugins</span>
+            <h1>Craft CMS</h1>
+            <p>
+              Solspace builds high quality plugins and add-ons to extend{' '}
+              <a className="external-link" rel="noopener noreferrer" target="_blank" href="https://craftcms.com">Craft CMS</a>.
+              Our offerings push the boundaries of Craft CMS with creative thinking to help you create ambitious websites.
+            </p>
+            <p>Choose a Craft plugin from below:</p>
+            <FlexCards
+              items={[
+                {
+                  title: 'Freeform',
+                  icon: Icons.FreeformIcon,
+                  fullCardLink: '/craft/freeform/v5',
+                },
+                {
+                  title: 'Calendar',
+                  icon: Icons.CalendarIcon,
+                  fullCardLink: '/craft/calendar/v5',
+                },
+                {
+                  title: 'AI Assistant',
+                  icon: Icons.AIAssistantIcon,
+                  fullCardLink: '/craft/ai-assistant/v1',
+                },
+              ]}
+            />
+            <h2 className="mt-8">Why Solspace</h2>
+            <p>
+              Rest assured the team behind Solspace plugins are committed to
+              providing you with the level of quality and support that you
+              expect and deserve.
+            </p>
+            <FlexCards
+              items={[
+                {
+                  title: 'Top Notch Support',
+                  icon: Icons.SupportIcon,
+                  description:
+                    'Our commitment to providing top-notch customer support is well-known in the Craft CMS community. We always aim to deliver the best and most dependable assistance to our valued customers.',
+                  linkWithDescription: '/support/',
+                },
+                {
+                  title: '25+ Years Experience',
+                  icon: Icons.HourglassIcon,
+                  description:
+                    'For over 25 years, Solspace has been creating, maintaining, and providing support for software to more than 30,000 customers. In total, over 500,000 plugins have been sold or downloaded for free.',
+                  linkWithDescription: 'https://solspace.com',
+                },
+                {
+                  title: 'Active Development',
+                  icon: Icons.DevelopmentIcon,
+                  description:
+                    'Solspace builds some of the most popular plugins for Craft CMS and boasts an impressive track record of continuous development, including numerous feature upgrades, enhancements, and bug fixes.',
+                },
+              ]}
+            />
           </main>
         </div>
       </div>

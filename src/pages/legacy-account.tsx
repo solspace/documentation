@@ -13,8 +13,6 @@ export default function LegacyAccount(): JSX.Element {
         <LeftNav />
         <div className="flex flex-col gap-3 md:ml-72 p-8">
           <main className="max-w-6xl m-auto my-3">
-            <span className="page-section">Legacy Account</span>
-
             <h1>Legacy Account</h1>
             <p>
               Before the{' '}

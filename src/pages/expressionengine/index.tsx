@@ -12,28 +12,60 @@ export default function ExpressionEngine(): JSX.Element {
     >
       <div className="flex">
         <LeftNav />
-        <div className="flex flex-col gap-3 md:ml-72 p-8 w-full">
-          <main className="max-w-6xl my-3">
-            <div className="flex flex-col">
-              <span className="page-section">Add-ons</span>
-              <h1>ExpressionEngine CMS</h1>
-              <p>Choose an ExpressionEngine add-on from below:</p>
-
-              <FlexCards
-                items={[
-                  {
-                    title: 'Freeform',
-                    icon: Icons.FreeformIcon,
-                    fullCardLink: '/expressionengine/freeform/v3',
-                  },
-                  {
-                    title: 'Calendar',
-                    icon: Icons.CalendarIcon,
-                    fullCardLink: '/expressionengine/calendar/v5',
-                  },
-                ]}
-              />
-            </div>
+        <div className="flex flex-col gap-3 md:ml-72 p-8">
+          <main className="max-w-6xl m-auto my-3">
+            <span className="page-section">Add-ons</span>
+            <h1>ExpressionEngine CMS</h1>
+            <p>
+              Solspace builds high quality plugins and add-ons to extend{' '}
+              <a className="external-link" rel="noopener noreferrer" target="_blank" href="https://expressionengine.com">ExpressionEngine</a>.
+              Our offerings push the boundaries of ExpressionEngine with creative thinking to help you create ambitious websites.
+            </p>
+            <p>Choose an ExpressionEngine add-on from below:</p>
+            <FlexCards
+              items={[
+                {
+                  title: 'Freeform',
+                  icon: Icons.FreeformIcon,
+                  fullCardLink: '/expressionengine/freeform/v3',
+                },
+                {
+                  title: 'Calendar',
+                  icon: Icons.CalendarIcon,
+                  fullCardLink: '/expressionengine/calendar/v5',
+                },
+              ]}
+            />
+            <h2 className="mt-8">Why Solspace</h2>
+            <p>
+              Rest assured the team behind Solspace add-ons are committed to
+              providing you with the level of quality and support that you
+              expect and deserve.
+            </p>
+            <FlexCards
+              items={[
+                {
+                  title: 'Top Notch Support',
+                  icon: Icons.SupportIcon,
+                  description:
+                    'Our commitment to providing top-notch customer support is well-known in the ExpressionEngine CMS community. We always aim to deliver the best and most dependable assistance to our valued customers.',
+                  linkWithDescription: '/support/',
+                },
+                {
+                  title: '25+ Years Experience',
+                  icon: Icons.HourglassIcon,
+                  description:
+                    'For over 25 years, Solspace has been creating, maintaining, and providing support for software to more than 30,000 customers. In total, over 500,000 add-ons and plugins have been sold or downloaded for free.',
+                  linkWithDescription: 'https://solspace.com',
+                },
+                {
+                  title: 'Active Development',
+                  icon: Icons.DevelopmentIcon,
+                  description:
+                    'Solspace builds some of the most popular add-ons for ExpressionEngine CMS and boasts an impressive track record of continuous development, including numerous feature upgrades, enhancements, and bug fixes.',
+                },
+              ]}
+            />
           </main>
         </div>
       </div>

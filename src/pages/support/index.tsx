@@ -1,29 +1,60 @@
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
-
 import { Footer, LeftNav } from '@site/src/components/layout';
 
 const Support: React.FC = () => {
   return (
     <Layout
-      title="Support"
-      description="Need help with Freeform or Calendar? We love helping our customers discover best practices, resolve issues, and achieve their goals!"
+      title="Software Support"
+      description="Need help with one of our plugins or add-ons? We love helping our customers discover best practices, resolve issues, and achieve their goals!"
     >
       <div className="flex">
         <LeftNav />
         <div className="flex flex-col gap-3 md:ml-72 p-8">
           <main className="max-w-6xl m-auto my-3">
             <span className="page-section">Support</span>
-
-            <h1>Support</h1>
+            <h1>Software Support</h1>
             <p>
-              Need help with Freeform or Calendar? We love helping our customers
-              discover best practices, resolve issues, and achieve their goals!
+              Need help with one of our plugins or add-ons? We love helping our customers discover best practices, resolve issues, and achieve their goals!
             </p>
-            <p>
-              For more extensive or urgent needs, consider our <a href="/support/premium/">premium support services</a>.
-              Get direct, high-priority access to our Software team for complex questions, custom modules, and complicated upgrades.
-            </p>
+            <div className="flex flex-col gap-4 lg:flex-row">
+              <div className="flex-1 bg-red-100/50 rounded-lg dark:bg-red-800/10 dark:outline dark:-outline-offset-1 dark:outline-white/10">
+                <div className="p-4">
+                  <div className="sm:flex sm:items-start sm:justify-between">
+                    <div>
+                      <h5 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Priority Support</h5>
+                      <div className="text-sm text-gray-800 dark:text-gray-200">
+                        <p className="mb-0">
+                          Need help fast? Priority Support moves your request to the front of the line and gives you direct access to our team,
+                          so you can get unstuck quickly and keep things moving. Just choose <strong>Priority</strong> under <i>Support Level</i> below.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mt-5 sm:mt-0 sm:ml-6 sm:flex sm:shrink-0 sm:items-center">
+                      <a href="#support-form" className="inline-flex items-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white hover:bg-[#058ffe] hover:text-white border-0">Learn more</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex-1 bg-teal-100/50 rounded-lg dark:bg-teal-800/10 dark:outline dark:-outline-offset-1 dark:outline-white/10">
+                <div className="p-4">
+                  <div className="sm:flex sm:items-start sm:justify-between">
+                    <div>
+                      <h5 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Custom Software Development Services</h5>
+                      <div className="text-sm text-gray-800 dark:text-gray-200">
+                        <p className="mb-0">
+                          Need something beyond what our plugins offer out of the box? Our team provides <a href="/support/custom-development/" className="text-teal-800 dark:text-teal-600">custom development services</a> to
+                          help you extend, integrate, and tailor Solspace plugins to fit your exact project needs.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mt-5 sm:mt-0 sm:ml-6 sm:flex sm:shrink-0 sm:items-center">
+                      <a href="/support/custom-development/" className="inline-flex items-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white hover:bg-[#058ffe] hover:text-white border-0">Learn more</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="mt-10">
               <div className="flex gap-1">
                 <h2 className="leading-0 !m-0 px-6 py-4 bg-[#ff6624] rounded-t-md support-tab">
@@ -31,10 +62,10 @@ const Support: React.FC = () => {
                 </h2>
                 <div className="flex gap-1 items-end">
                   <Link
-                    className="px-6 py-2 bg-red-600 rounded-t-md text-white font-bold hover:text-white hover:bg-red-800 support-tab-urgent"
-                    href="/support/premium"
+                    className="px-6 py-2 bg-teal-600 rounded-t-md text-white font-bold hover:text-white hover:bg-[#058ffe] support-tab-urgent"
+                    href="/support/custom-development"
                   >
-                    Urgent
+                    Custom Development
                   </Link>
                   <Link
                     className="px-6 py-2 bg-[rgba(0,127,230,0.2)]  rounded-t-md text-black dark:text-white font-bold hover:text-white hover:bg-[#058ffe] dark:bg-[rgba(0,105,190,0.25)] dark:hover:hover:bg-[#058ffe]"

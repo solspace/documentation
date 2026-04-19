@@ -14,30 +14,13 @@ export default function Home(): JSX.Element {
         <LeftNav />
         <div className="flex flex-col gap-3 md:ml-72 p-8">
           <main className="max-w-6xl m-auto my-3">
-            <span className="page-section">Home</span>
             <h1>Software Documentation</h1>
             <p>
               Solspace builds high quality plugins and add-ons to extend{' '}
-              <a
-                className="external-link"
-                rel="noopener noreferrer"
-                target="_blank"
-                href="https://craftcms.com"
-              >
-                Craft CMS
-              </a>{' '}
-              and{' '}
-              <a
-                className="external-link"
-                rel="noopener noreferrer"
-                target="_blank"
-                href="https://expressionengine.com"
-              >
-                ExpressionEngine
-              </a>{' '}
-              . Our offerings push the boundaries of Craft CMS and
-              ExpressionEngine with creative thinking to help you create
-              ambitious websites.
+              <a className="external-link" rel="noopener noreferrer" target="_blank" href="https://craftcms.com">Craft CMS</a>{' '}and{' '}
+              <a className="external-link" rel="noopener noreferrer" target="_blank" href="https://expressionengine.com">ExpressionEngine</a>.
+              Our offerings push the boundaries of Craft CMS and ExpressionEngine with creative
+              thinking to help you create ambitious websites.
             </p>
 
             <h2 className="mt-12">Craft CMS Plugins</h2>
@@ -57,12 +40,6 @@ export default function Home(): JSX.Element {
                   title: 'AI Assistant',
                   icon: Icons.AIAssistantIcon,
                   fullCardLink: 'craft/ai-assistant/v1',
-                },
-                {
-                  title: 'Express Forms',
-                  icon: Icons.ExpressFormsIcon,
-                  fullCardLink:
-                    'https://discontinued-docs.solspace.com/express-forms/',
                 },
               ]}
             />
