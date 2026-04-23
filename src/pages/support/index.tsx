@@ -18,7 +18,7 @@ const Support: React.FC = () => {
               Need help with one of our plugins or add-ons? We love helping our customers discover best practices, resolve issues, and achieve their goals!
             </p>
             <div className="flex flex-col gap-4 lg:flex-row">
-              <div className="flex-1 bg-red-100/50 rounded-lg dark:bg-red-800/10 dark:outline dark:-outline-offset-1 dark:outline-white/10">
+              <div className="flex-1 bg-[rgba(255,102,36,0.1)] rounded-lg outline -outline-offset-1 outline-[rgba(255,102,36,0.3)]">
                 <div className="p-4">
                   <div className="sm:flex sm:items-start sm:justify-between">
                     <div>
@@ -31,12 +31,12 @@ const Support: React.FC = () => {
                       </div>
                     </div>
                     <div className="mt-5 sm:mt-0 sm:ml-6 sm:flex sm:shrink-0 sm:items-center">
-                      <a href="#support-form" className="inline-flex items-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white hover:bg-[#058ffe] hover:text-white border-0">Learn more</a>
+                      <a href="#support-form" className="inline-flex items-center rounded-md bg-[rgba(255,102,36,1)] px-3 py-2 text-sm font-semibold text-white hover:bg-[#058ffe] hover:text-white border-0">Learn more</a>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="flex-1 bg-teal-100/50 rounded-lg dark:bg-teal-800/10 dark:outline dark:-outline-offset-1 dark:outline-white/10">
+              <div className="flex-1 bg-teal-100/50 rounded-lg dark:bg-teal-800/10 dark:outline dark:-outline-offset-1 dark:outline-teal-600/30">
                 <div className="p-4">
                   <div className="sm:flex sm:items-start sm:justify-between">
                     <div>
@@ -57,31 +57,31 @@ const Support: React.FC = () => {
             </div>
             <div className="mt-10">
               <div className="flex gap-1">
-                <h2 className="leading-0 !m-0 px-6 py-4 bg-[#ff6624] rounded-t-md support-tab">
+                <h2 className="leading-0 !m-0 px-6 py-4 bg-[#058ffe] rounded-t-md support-tab">
                   Private Ticket
                 </h2>
                 <div className="flex gap-1 items-end">
                   <Link
-                    className="px-6 py-2 bg-teal-600 rounded-t-md text-white font-bold hover:text-white hover:bg-[#058ffe] support-tab-urgent"
+                    className="px-6 py-2 bg-teal-600 rounded-t-md text-white font-bold hover:text-white hover:bg-[#ff6624] support-tab-urgent"
                     href="/support/custom-development"
                   >
                     Custom Development
                   </Link>
                   <Link
-                    className="px-6 py-2 bg-[rgba(0,127,230,0.2)]  rounded-t-md text-black dark:text-white font-bold hover:text-white hover:bg-[#058ffe] dark:bg-[rgba(0,105,190,0.25)] dark:hover:hover:bg-[#058ffe]"
+                    className="px-6 py-2 bg-[rgba(0,105,190,0.25)]  rounded-t-md text-white font-bold hover:text-white hover:bg-[#ff6624]"
                     to="https://github.com/solspace"
                   >
                     Github
                   </Link>
                   <Link
-                    className="px-6 py-2 bg-[rgba(0,127,230,0.2)]  rounded-t-md text-black dark:text-white font-bold hover:text-white hover:bg-[#058ffe] dark:bg-[rgba(0,105,190,0.25)] dark:hover:hover:bg-[#058ffe]"
+                    className="px-6 py-2 bg-[rgba(0,105,190,0.25)]  rounded-t-md text-white font-bold hover:text-white hover:bg-[#ff6624]"
                     to="https://craftcms.stackexchange.com/questions/tagged/solspace"
                   >
                     Stack Exchange
                   </Link>
                 </div>
               </div>
-              <div className="mx-auto p-6 bg-[#181d27] text-white rounded-b-md rounded-tr-md border border-solid border-[#ff6624]">
+              <div className="mx-auto p-6 bg-[#121820] text-white rounded-b-md rounded-tr-md border border-solid border-[#058ffe]">
                 <h2 className="text-xl md:text-3xl font-bold mb-4 text-gray-200 support-page">
                   Create a Support Ticket
                 </h2>

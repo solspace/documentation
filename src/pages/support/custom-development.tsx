@@ -58,7 +58,7 @@ const Support: React.FC = () => {
                   {
                     title: 'Integrations',
                     description:
-                      'Connect Freeform, Calendar, or AI Assistant with third-party services, APIs, or internal systems',
+                      'Connect Freeform, Calendar, or AI Assistant with third-party services, APIs, or internal systems.',
                     icon: Icons.CloudApiIcon,
                   },
                   {
@@ -117,7 +117,7 @@ const Support: React.FC = () => {
               </h3>
               <ul role="list" className="mt-6 ml-0 pl-0 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
                 <li className="col-span-1 flex rounded-md shadow-xs dark:shadow-none">
-                  <div className="flex w-10 shrink-0 items-center justify-center rounded-l-md bg-[#058ffe] text-lg font-bold text-white dark:text-black">1</div>
+                  <div className="flex w-10 shrink-0 items-center justify-center rounded-l-md bg-teal-600 text-lg font-bold text-white dark:text-black">1</div>
                   <div className="flex flex-1 items-center justify-between rounded-r-md bg-gray-100/50 dark:bg-gray-800/50">
                     <div className="flex-1 px-4 py-2 text-sm">
                       <span className="font-medium text-gray-900 hover:text-gray-600 dark:text-white dark:hover:text-gray-200">
@@ -127,7 +127,7 @@ const Support: React.FC = () => {
                   </div>
                 </li>
                 <li className="col-span-1 flex rounded-md shadow-xs dark:shadow-none">
-                  <div className="flex w-10 shrink-0 items-center justify-center rounded-l-md bg-[#058ffe] text-lg font-bold text-white dark:text-black">2</div>
+                  <div className="flex w-10 shrink-0 items-center justify-center rounded-l-md bg-teal-600 text-lg font-bold text-white dark:text-black">2</div>
                   <div className="flex flex-1 items-center justify-between rounded-r-md bg-gray-100/50 dark:bg-gray-800/50">
                     <div className="flex-1 px-4 py-2 text-sm">
                       <span className="font-medium text-gray-900 hover:text-gray-600 dark:text-white dark:hover:text-gray-200">
@@ -137,7 +137,7 @@ const Support: React.FC = () => {
                   </div>
                 </li>
                 <li className="col-span-1 flex rounded-md shadow-xs dark:shadow-none">
-                  <div className="flex w-10 shrink-0 items-center justify-center rounded-l-md bg-[#058ffe] text-lg font-bold text-white dark:text-black">3</div>
+                  <div className="flex w-10 shrink-0 items-center justify-center rounded-l-md bg-teal-600 text-lg font-bold text-white dark:text-black">3</div>
                   <div className="flex flex-1 items-center justify-between rounded-r-md bg-gray-100/50 dark:bg-gray-800/50">
                     <div className="flex-1 px-4 py-2 text-sm">
                       <span className="font-medium text-gray-900 hover:text-gray-600 dark:text-white dark:hover:text-gray-200">
@@ -147,7 +147,7 @@ const Support: React.FC = () => {
                   </div>
                 </li>
                 <li className="col-span-1 flex rounded-md shadow-xs dark:shadow-none">
-                  <div className="flex w-10 shrink-0 items-center justify-center rounded-l-md bg-[#058ffe] text-lg font-bold text-white dark:text-black">4</div>
+                  <div className="flex w-10 shrink-0 items-center justify-center rounded-l-md bg-teal-600 text-lg font-bold text-white dark:text-black">4</div>
                   <div className="flex flex-1 items-center justify-between rounded-r-md bg-gray-100/50 dark:bg-gray-800/50">
                     <div className="flex-1 px-4 py-2 text-sm">
                       <span className="font-medium text-gray-900 hover:text-gray-600 dark:text-white dark:hover:text-gray-200">
@@ -177,11 +177,11 @@ const Support: React.FC = () => {
 
             <div className="mt-10">
               <div className="flex gap-1">
-                <h2 className="leading-0 !m-0 px-6 py-4 bg-[#ff6624] rounded-t-md">
+                <h2 className="leading-0 !m-0 px-6 py-4 bg-teal-600 rounded-t-md support-tab">
                   Get Started
                 </h2>
               </div>
-              <div className="mx-auto p-6 bg-[#181d27] text-white rounded-b-md rounded-tr-md border border-solid border-[#ff6624]">
+              <div className="mx-auto p-6 bg-[#121820] text-white rounded-b-md rounded-tr-md border border-solid border-teal-600">
                 <iframe
                   title="Support Form"
                   id="support-form"
