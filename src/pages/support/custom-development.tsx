@@ -163,7 +163,7 @@ const Support: React.FC = () => {
               </h3>
               <ul>
                 <li>Direct collaboration with experienced developers who know the plugins inside and out</li>
-                <li>Practical, implementation-focused guidance—not just theory</li>
+                <li>Practical, implementation-focused guidance. Not just theory</li>
                 <li>Clear communication and iterative progress throughout the project</li>
               </ul>
 
