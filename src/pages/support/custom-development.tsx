@@ -121,7 +121,7 @@ const Support: React.FC = () => {
                   <div className="flex flex-1 items-center justify-between rounded-r-md bg-gray-100/50 dark:bg-gray-800/50">
                     <div className="flex-1 px-4 py-2 text-sm">
                       <span className="font-medium text-gray-900 hover:text-gray-600 dark:text-white dark:hover:text-gray-200">
-                        Tell us about your project, goals, and any challenges you're facing
+                        Tell us about your project, goals, and any challenges you're facing.
                       </span>
                     </div>
                   </div>
@@ -131,7 +131,7 @@ const Support: React.FC = () => {
                   <div className="flex flex-1 items-center justify-between rounded-r-md bg-gray-100/50 dark:bg-gray-800/50">
                     <div className="flex-1 px-4 py-2 text-sm">
                       <span className="font-medium text-gray-900 hover:text-gray-600 dark:text-white dark:hover:text-gray-200">
-                        We'll review your request and help define a clear scope of work
+                        We'll review your request and help define a clear scope of work.
                       </span>
                     </div>
                   </div>
@@ -141,7 +141,7 @@ const Support: React.FC = () => {
                   <div className="flex flex-1 items-center justify-between rounded-r-md bg-gray-100/50 dark:bg-gray-800/50">
                     <div className="flex-1 px-4 py-2 text-sm">
                       <span className="font-medium text-gray-900 hover:text-gray-600 dark:text-white dark:hover:text-gray-200">
-                        If needed, we can suggest approaches, architecture, or best practices
+                        If needed, we can suggest approaches, architecture, or best practices.
                       </span>
                     </div>
                   </div>
@@ -151,7 +151,7 @@ const Support: React.FC = () => {
                   <div className="flex flex-1 items-center justify-between rounded-r-md bg-gray-100/50 dark:bg-gray-800/50">
                     <div className="flex-1 px-4 py-2 text-sm">
                       <span className="font-medium text-gray-900 hover:text-gray-600 dark:text-white dark:hover:text-gray-200">
-                        Once aligned, we'll provide an estimate and timeline for the work
+                        Once aligned, we'll provide an estimate and timeline for the work.
                       </span>
                     </div>
                   </div>
@@ -162,9 +162,9 @@ const Support: React.FC = () => {
                 What to expect
               </h3>
               <ul>
-                <li>Direct collaboration with experienced developers who know the plugins inside and out</li>
-                <li>Practical, implementation-focused guidance. Not just theory</li>
-                <li>Clear communication and iterative progress throughout the project</li>
+                <li>Direct collaboration with experienced developers who know the plugins inside and out.</li>
+                <li>Practical, implementation-focused guidance. Not just theory.</li>
+                <li>Clear communication and iterative progress throughout the project.</li>
               </ul>
 
               <h3 className="py-6">
