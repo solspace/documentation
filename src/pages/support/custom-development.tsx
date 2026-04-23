@@ -182,9 +182,6 @@ const Support: React.FC = () => {
                 </h2>
               </div>
               <div className="mx-auto p-6 bg-[#181d27] text-white rounded-b-md rounded-tr-md border border-solid border-[#ff6624]">
-                <Admonition type="info">
-                  <span className="text-gray-100">Tell us about your project and we'll take it from there.</span>
-                </Admonition>
                 <iframe
                   title="Support Form"
                   id="support-form"
