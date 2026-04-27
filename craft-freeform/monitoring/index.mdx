@@ -69,6 +69,12 @@ _Form Monitor_ is a new Freeform Pro feature that automatically tests and valida
       icon: Icons.EmailPlaneIcon,
       fullCardLink: '#reports',
     },
+    {
+      title: 'Troubleshooting',
+      description: 'Troubleshooting guides to common problems encountered.',
+      icon: Icons.QuestionSignIcon,
+      fullCardLink: '#troubleshooting',
+    },
   ]}
 />
 
@@ -140,6 +146,10 @@ Form Monitor will not work for every form and site setup. Please be aware that F
 - Integration services, including CRMs, email marketing, webhooks, POST forwarding, and payment forms, will be bypassed. Form Monitor cannot verify the successful submission of data to an integration (e.g., Salesforce, Mailchimp, etc.).
 - Custom module behavior may impact Form Monitor's testing capabilities. This includes modules, extensions, custom javascript behaviors and client-side validations.
 - Private or restricted sites. Any site that uses HTTP authentication, password-protected pages, IP-restricted access, or VPN-required access cannot be tested.
+
+:::info
+Please see the [Troubleshooting](#troubleshooting) guide further below for tips on resolving common issues.
+:::
 
 ## Recommendations
 
@@ -232,3 +242,25 @@ Every Monday morning, Form Monitor will send you a summary of the previous week'
   alt="Weekly Summary for forms"
   scale={60}
 />
+
+## Troubleshooting
+If you're experiencing any issues with Form Monitor, please consider some of the following guides. If the issue persists, please [contact Support](/support/) for assistance.
+
+### Cloudflare / WAF Allowlisting
+If your site is protected by [Cloudflare](https://cloudflare.com) (or another WAF / bot protection service), _Form Monitor_ may be shown an interstitial like `Just a moment...`, `Checking your browser...` or an interactive challenge (e.g. [Turnstile](https://www.cloudflare.com/application-services/products/turnstile/)). If that challenge cannot be completed automatically, monitoring tests may fail even though the form works for real users.
+
+To make monitoring reliable, we recommend _allowlisting_ Form Monitor's outbound IP address(es) in your security provider and skipping challenge actions for that allowlisted traffic.
+
+#### What to Allowlist
+
+- Allowlist the **Form Monitor outbound IP address(es)**.
+  - Contact Solspace support to get the **current outbound IP list** for the Form Monitor service.
+
+#### What to Change in Cloudflare
+
+- Create a **WAF / Security rule** to **skip** (or reduce) bot protections for the allowlisted IPs.
+- Scope the rule as narrowly as possible:
+  - Only the specific hostname(s) you want monitored.
+  - Optionally only the page(s) that contain monitored forms (e.g. `/contact`, `/support`, etc.).
+
+Once _allowlisted_, Form Monitor can access the real form page directly and your monitoring runs should no longer be blocked by Cloudflare interstitials/challenges.
