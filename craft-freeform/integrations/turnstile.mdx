@@ -113,3 +113,57 @@ You can add attributes to the main Captcha wrapper that is automatically inserte
     }
 }) }}
 ```
+
+## Troubleshooting CSP Errors
+
+If you're seeing errors related to `TrustedHTML`, `TrustedScript`, **cross-origin frames**, or `srcdoc`, these are typically coming from **Cloudflare's Turnstile challenge iframe**, not your site or Freeform.
+
+:::info
+These errors typically don't affect Turnstile functionality in Freeform, so no changes or fixes are usually required on your site.
+:::
+
+### Why This Happens
+
+* The errors originate inside Cloudflare's embedded challenge iframe.
+* This iframe is served from `challenges.cloudflare.com`.
+* Because of that, **you do not have direct control over its internal behavior**.
+* This is a known issue and has already been reported by multiple users to Cloudflare.
+
+You can follow updates here:
+[https://developers.cloudflare.com/turnstile/reference/content-security-policy/](https://developers.cloudflare.com/turnstile/reference/content-security-policy/)
+
+### Temporary Workaround
+
+Some users have had success reducing these errors by adjusting their **Content Security Policy (CSP)** to explicitly allow Cloudflare's challenge domain.
+
+:::warning
+This workaround **may affect other parts of your site**, especially the Craft control panel. CSP changes can be sensitive—small misconfigurations may break scripts, styles, or functionality. The example above is **not guaranteed to work in all environments** and should be adapted carefully.
+
+If you proceed with CSP changes:
+- Test thoroughly (frontend + Craft CP)
+- Adjust directives incrementally
+- Avoid overly broad permissions unless necessary
+:::
+
+#### Minimal CSP Additions
+
+Add the following directives:
+
+```txt
+script-src https://challenges.cloudflare.com
+frame-src https://challenges.cloudflare.com
+```
+
+#### Example Nginx Configuration
+
+Below is a more complete example CSP header configuration:
+
+```nginx
+add_header Content-Security-Policy "
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com;
+  style-src 'self' 'unsafe-inline';
+  frame-src 'self' https://challenges.cloudflare.com;
+  require-trusted-types-for 'script'
+" always;
+```
