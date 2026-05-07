@@ -7,6 +7,12 @@ toc_max_heading_level: 2
 
 import { TitleDate } from '@site/src/components/docs';
 
+## 3.3.6<TitleDate date="2026-05-07" />
+
+### Fixed
+- Fixed a compatibility issue where third-party extensions (e.g. Snaptcha) could trigger a fatal error by calling `setMarkedAsSpam()` with an outdated method signature.
+- Updated EE-specific code to use `ee('Security/XSS')->clean()` instead of the removed `ee()->security->xss_clean()` method for forward compatibility.
+
 ## 3.3.5<TitleDate date="2026-02-02" />
 
 ### Added
