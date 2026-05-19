@@ -14,11 +14,12 @@ import Icons from '@site/static/icons/cards';
 
 Accepting payments on your site with PayPal is now supported. Setup is simpler than [Stripe](./stripe-payments.mdx), though PayPal offers fewer configuration options.
 
-#### Payment Flow
+#### Payment Flow<Badge type="feature" text="Improved in 5.15.13+" />
 
-1. The customer fills out the form and selects either the **PayPal** or **Debit or Credit Card** button.
-2. If **PayPal** is selected, a popup appears where the customer can log into their PayPal account and pay using PayPal funds or linked accounts.
-3. Once payment is complete, the popup closes and the customer is returned to the Freeform form. They must then click the **Submit** button to finalize the form submission.
+1. The customer fills out the form and chooses either **PayPal** or **Debit or Credit Card**.
+2. If **PayPal** is selected, a popup opens where the customer can log in to PayPal and pay using their PayPal balance, linked bank account, or saved card.
+3. After the payment is completed, the popup closes and the customer is returned to the Freeform form.
+4. Freeform then automatically submits the form and completes the submission.
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/integrations/paypal-flow.png')}
