@@ -1,0 +1,87 @@
+---
+title: 'Brevo'
+sidebar_position: 4
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Brevo<Badge type="pro" text="Pro" />
+
+This guide assumes you have an [Brevo](https://www.brevo.com) account already.
+
+## Compatibility
+
+Uses `v3` of the REST API.
+
+### Endpoints
+
+Maps data to the following endpoints:
+
+- **Contact**
+
+Does your project require something else? &nbsp; <PrimaryButtonWithLink to='/support/' label='Contact Us' size='sm' />
+
+### Fields
+
+Maps data to the following field types:
+
+- **Contact Attributes**
+
+## Duplicate Check & Update
+The following duplicate checks are available on:
+
+- **Contact**
+  - _Email Address_ - will update other details if it matches instead of creating a new contact.
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+  <StepMarkdown>
+    ### Create & get API Key from Brevo
+
+    - Go to the [Brevo website](https://www.brevo.com) and log into your account.
+    - At the top right corner, click on the gear icon.
+    - On the next page, click the **SMTP & API** subnav option near the middle of the page.
+    - Click the **API Keys & MCP** tab and then **Generate API key** button.
+    - Fil in the **Key name** field, select an **Expiry** option and click **Generate**.
+    - Copy the value in the **API key** field.
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Set up Integration on your site
+
+    - Go to the [Integrations](../configuration/settings.mdx#integrations) section in Freeform Settings (**Freeform** → **Integrations**).
+    - Find _Brevo_ in the list of **service providers**.
+    - Paste the **API Key** value from Brevo into the **API Key** field in Freeform.
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Authorize the Integration
+
+    - Click the **Save** button.
+    - After the integration is saved, you will see an **Authorize** button appear.
+    - Click the **Authorize** button.
+    - If authorized successfully, you'll see a green _Authorized_ status at the top beside the integration name.
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Configure the Form
+
+    To use this integration on your form(s), you'll need to configure each form individually.
+
+    - Visit the form inside the form builder.
+    - Click on the **Integrations** tab.
+    - Click on **Brevo** in the list of available integrations.
+    - On the right side of the page:
+      - Enable the integration.
+      - Choose a Freeform field to be the target opt-in field. (Email Marketing only)
+      - Select a mailing list that new users should be subscribed to. (Email Marketing only)
+      - Select the API endpoints you wish to map to.
+      - Map Freeform fields to the Brevo fields as needed.
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Additional Notes
+
+    When specifying multiples, separate each with a semi-colon (`;`), e.g. `basic;premium;premium plus;preferred`.
+  </StepMarkdown>
+</VerticalStepWrapper>
