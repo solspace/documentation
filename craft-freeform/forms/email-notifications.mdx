@@ -529,7 +529,7 @@ When templating the **Email Body** part of the notification template, it may con
     - `field.placeholder` - displays the placeholder of the field.
   - To parse only fields with data, you can use:
     ```twig
-    {% for field in allFields if field.valueAsString %}
+    {% for field in allFields|filter(field => field.valueAsString) %}
     ```
   - Excludes _File Upload_ fields. To render these manually, [see example here](#including-file-upload-data).
   - Excludes _Email Marketing_ (mailing list checkbox) selection. To render manually, [see example here](#including-email-marketing-selection-data).
@@ -680,7 +680,7 @@ To only parse fields that include data submitted with them, you would add the fo
 <p>The following submission came in on {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}.</p>
 <p>Here are the details:</p>
 <ul>
-{% for field in allFields if field.valueAsString %}
+{% for field in allFields|filter(field => field.valueAsString) %}
     <li>{{ field.label }}: {{ field.valueAsString }}</li>
 {% endfor %}
 </ul>
