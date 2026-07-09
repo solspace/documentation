@@ -100,6 +100,7 @@ const config: Config = {
               sidebar_label: 'Changelog',
               sidebar_position: 5,
               toc_max_heading_level: 2,
+              description: 'Review the Freeform 5.x for Craft CMS changelog, including new features, improvements, bug fixes, and release notes.',
             },
           },
           {
@@ -112,6 +113,7 @@ const config: Config = {
               sidebar_label: 'Changelog',
               sidebar_position: 5,
               toc_max_heading_level: 2,
+              description: 'Review the Freeform 4.x for Craft CMS changelog, including new features, improvements, bug fixes, and release notes.',
             },
           },
           {
@@ -124,6 +126,7 @@ const config: Config = {
               sidebar_label: 'Changelog',
               sidebar_position: 5,
               toc_max_heading_level: 2,
+              description: 'Review the Freeform 3.x for Craft CMS changelog, including new features, improvements, bug fixes, and release notes.',
             },
           },
           {
@@ -136,6 +139,7 @@ const config: Config = {
               sidebar_label: 'Changelog',
               sidebar_position: 5,
               toc_max_heading_level: 2,
+              description: 'Review the Freeform 2.x for Craft CMS changelog, including new features, improvements, bug fixes, and release notes.',
             },
           },
           {
@@ -148,6 +152,7 @@ const config: Config = {
               sidebar_label: 'Changelog',
               sidebar_position: 2,
               toc_max_heading_level: 2,
+              description: 'Changelog for Solspace Calendar 5.x for Craft CMS.',
             },
           },
           {
@@ -160,6 +165,7 @@ const config: Config = {
               sidebar_label: 'Changelog',
               sidebar_position: 2,
               toc_max_heading_level: 2,
+              description: 'Changelog for Solspace Calendar 4.x for Craft CMS.',
             },
           },
           {
@@ -172,6 +178,7 @@ const config: Config = {
               sidebar_label: 'Changelog',
               sidebar_position: 3,
               toc_max_heading_level: 2,
+              description: 'Changelog for Solspace Calendar 3.x for Craft CMS.',
             },
           },
           {
@@ -184,6 +191,7 @@ const config: Config = {
               sidebar_label: 'Changelog',
               sidebar_position: 5,
               toc_max_heading_level: 2,
+              description: 'Changelog for Solspace AI Assistant 1.x for Craft CMS.',
             },
           },
         ],
