@@ -22,6 +22,11 @@ const badgeObj = {
       ✓ Latest
     </div>
   ),
+  Upcoming: (
+    <div className="inline-block relative bg-blue-100 text-blue-800 text-[9px] font-medium me-2 px-2 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+      Upcoming
+    </div>
+  ),
   Retired: (
     <div className="inline-block relative bg-gray-200 text-gray-800 text-[9px] font-medium me-2 px-2 py-0.5 rounded-full dark:bg-gray-800 dark:text-gray-300">
       Retired
@@ -68,7 +73,17 @@ export default function DocsVersionDropdownNavbarItem({
   );
   const versionBadgeList = versionData ? versionsBadge[versionData] : [];
 
-  const versionLinks = versions.map((version) => {
+  const getVersionOrder = (version: GlobalVersion) => {
+    const badgeIndex = versionBadgeList.findIndex(
+      (v) => v.version === version.name
+    );
+
+    return badgeIndex === -1 ? Number.MAX_SAFE_INTEGER : badgeIndex;
+  };
+
+  const versionLinks = [...versions].sort(
+    (a, b) => getVersionOrder(a) - getVersionOrder(b)
+  ).map((version) => {
     const versionDoc =
       activeDocContext.alternateDocVersions[version.name] ??
       getVersionMainDoc(version);
