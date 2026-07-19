@@ -1,33 +1,168 @@
 ---
 title: Next.js
 sidebar_position: 4
-description: Build headless forms with Freeform 5.x and Next.js in Craft CMS.
+description: Build headless Freeform forms with Next.js and the official React packages for Craft CMS.
 ---
 
 import { Badge, BadgeGroup } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-# Next.js Implementations
+# Next.js<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
-:::warning
-Please see the [How to Render a Form](./graphql.mdx#how-to-render-a-form) guide for detailed steps for being able to render your own form in the front-end using GraphQL data and Next.js.
+:::info npm Public Beta — `0.1.0-beta.1`
+Use the official `@solspace/freeform-react` packages. Complete [Getting Started](./getting-started.mdx) (enable headless + install packages) first. The Freeform plugin itself is a normal release.
 :::
 
-## GraphQL Demo<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+Freeform’s React packages are client-side. In the App Router, render them from a **Client Component** and proxy `/freeform` so CSRF cookies stay on your Next.js origin.
 
-The below demo link shows how Freeform is implemented with [Next.js](https://react.dev/) and [GraphQL](./graphql.mdx).
+## Install
 
-:::info
-Please note that the paths in the demos are specific for the Solspace demo site and server. Please make sure your code uses paths that match your server setup.
-:::
+```bash
+npm install @solspace/freeform-core@beta \
+  @solspace/freeform-react@beta \
+  @solspace/freeform-extensions@beta \
+  @solspace/freeform-react-theme-default@beta
+```
 
-https://github.com/solspace/craft-freeform-demo-nextjs-graphql
+## Setup
 
-## AJAX Demo
+<VerticalStepWrapper>
+<StepMarkdown stepTitle="Proxy Freeform through Next.js">
 
-The below demo link shows how Freeform is implemented with [Next.js](https://react.dev/) and AJAX.
+```ts title="next.config.ts" showLineNumbers
+import type { NextConfig } from 'next';
 
-:::info
-Please note that the paths in the demos are specific for the Solspace demo site and server. Please make sure your code uses paths that match your server setup.
-:::
+const nextConfig: NextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: '/freeform/:path*',
+        destination: `${process.env.CRAFT_URL}/freeform/:path*`,
+      },
+    ];
+  },
+};
 
-https://github.com/solspace/craft-freeform-demo-nextjs-ajax
+export default nextConfig;
+```
+
+Set `CRAFT_URL` to your Craft site (for example `https://cms.example.com`). Requests from the browser hit `/freeform/...` on the Next.js origin; Next.js forwards them to Craft.
+
+</StepMarkdown>
+<StepMarkdown stepTitle="Create a Client Component">
+
+```tsx title="app/contact/contact-form.tsx" showLineNumbers
+'use client';
+
+import { Freeform } from '@solspace/freeform-react';
+import { recommendedExtensions } from '@solspace/freeform-extensions';
+import '@solspace/freeform-react-theme-default/styles.css';
+
+export function ContactForm() {
+  return (
+    <Freeform
+      handle="contact"
+      // Same-origin via the rewrite above
+      baseUrl=""
+      extensions={recommendedExtensions}
+      onSuccess={(response) => {
+        console.log(response);
+      }}
+    />
+  );
+}
+```
+
+```tsx title="app/contact/page.tsx" showLineNumbers
+import { ContactForm } from './contact-form';
+
+export default function ContactPage() {
+  return (
+    <main>
+      <h1>Contact</h1>
+      <ContactForm />
+    </main>
+  );
+}
+```
+
+</StepMarkdown>
+<StepMarkdown stepTitle="Enable the form in Freeform">
+
+In `config/freeform.php` on Craft:
+
+```php
+'headless' => [
+    'enabled' => true,
+    'forms' => [
+        'contact' => [
+            'exposeManifest' => true,
+            'allowSubmit' => true,
+        ],
+    ],
+],
+```
+
+With the same-origin proxy you usually do **not** need to add the Next.js origin to `allowedOrigins`. Add it only if the browser calls Craft directly.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+## Environment variables
+
+| Variable | Where | Example |
+| --- | --- | --- |
+| `CRAFT_URL` | Next.js server (rewrites) | `https://cms.example.com` |
+| `NEXT_PUBLIC_CRAFT_URL` | Optional public Craft URL | Only if you skip the proxy |
+
+Prefer the proxy + `baseUrl=""` pattern over exposing Craft’s origin to the browser.
+
+## Cross-origin (no proxy)
+
+If the browser must call Craft directly:
+
+1. Set `baseUrl={process.env.NEXT_PUBLIC_CRAFT_URL}`
+2. Add your Next.js origin to `headless.allowedOrigins`
+3. Keep credentials enabled (default in the Freeform client)
+
+```tsx
+<Freeform
+  handle="contact"
+  baseUrl={process.env.NEXT_PUBLIC_CRAFT_URL}
+  extensions={recommendedExtensions}
+/>
+```
+
+## Headless markup
+
+`useFreeform()` works the same as in a Vite React app — still inside a Client Component:
+
+```tsx
+'use client';
+
+import { useFreeform } from '@solspace/freeform-react';
+
+export function HeadlessContactForm() {
+  const form = useFreeform({
+    handle: 'contact',
+    baseUrl: '',
+  });
+
+  // …build your own fields with form.getFieldProps(), etc.
+}
+```
+
+See [React JS](./reactjs.mdx) for themes, captchas, custom renderers, and the full hook API.
+
+## File uploads
+
+Official packages handle multipart submits and File Drag & Drop via `@solspace/freeform-extensions`. You do not need the older GraphQL Base64 upload guides for new projects.
+
+## Legacy demos
+
+Older Next.js GraphQL / AJAX demos:
+
+- [Next.js + GraphQL](https://github.com/solspace/craft-freeform-demo-nextjs-graphql)
+- [Next.js + AJAX](https://github.com/solspace/craft-freeform-demo-nextjs-ajax)
+
+Recommended path for new work: this page + [Getting Started](./getting-started.mdx).

@@ -1,0 +1,151 @@
+---
+title: Getting Started
+sidebar_position: 1
+description: Install and enable Freeform's official headless React packages for Craft CMS (npm public beta).
+---
+
+import { Badge, BadgeGroup } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Getting Started (React Headless)<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+
+:::info npm Public Beta — `0.1.0-beta.1`
+The official `@solspace/freeform-*` packages ship on the npm **`beta`** tag (`0.1.0-beta.x`). The Freeform **Craft plugin** (with the headless REST API) ships as a normal release on main — not as a plugin beta. Package APIs may still change before a stable `0.1.0` / `1.0.0`.
+:::
+
+Freeform’s recommended headless path for React and Next.js is:
+
+1. Use a Freeform plugin build that includes the **headless REST API**
+2. Enable headless in Freeform config
+3. Install the official npm packages (`@beta`)
+4. Render forms with `<Freeform />` or build your own UI with `useFreeform()`
+
+GraphQL and older AJAX demos remain available, but new React/Next.js projects should start here.
+
+## Requirements
+
+| Piece | Version / notes |
+| --- | --- |
+| Craft CMS | 4.17+ or 5.9+ |
+| Freeform plugin | Build that includes headless REST (merged to main) |
+| npm packages | **`0.1.0-beta.1`** (`@beta` tag) |
+| React | 18 or 19 |
+| Node | Modern LTS with `npm` / `pnpm` / `yarn` |
+
+## Quick setup
+
+<VerticalStepWrapper>
+<StepMarkdown stepTitle="Enable headless in Freeform">
+
+Headless is **off by default**. Add a `headless` section to your Craft project’s `config/freeform.php` (merge with your existing config):
+
+```php title="config/freeform.php" showLineNumbers
+<?php
+
+return [
+    'headless' => [
+        // Master switch — endpoints return 404 when false
+        'enabled' => true,
+
+        // CORS origins for browser apps that call Craft directly
+        'allowedOrigins' => [
+            'http://localhost:3000',
+            'https://app.example.com',
+        ],
+
+        // Per-form exposure (keyed by form handle)
+        'forms' => [
+            'contact' => [
+                'exposeManifest' => true,
+                'allowSubmit' => true,
+            ],
+        ],
+    ],
+];
+```
+
+:::tip Same-origin proxy
+If your frontend proxies `/freeform/*` to Craft (recommended for Next.js), CSRF cookies stay same-origin and you can keep `allowedOrigins` tight.
+:::
+
+See the full [REST API](./rest-api.mdx) reference for profiles, CSRF, and submit details.
+
+</StepMarkdown>
+<StepMarkdown stepTitle="Install the npm packages">
+
+```bash
+npm install @solspace/freeform-core@beta \
+  @solspace/freeform-react@beta \
+  @solspace/freeform-extensions@beta \
+  @solspace/freeform-react-theme-default@beta
+```
+
+| Package | Purpose |
+| --- | --- |
+| `@solspace/freeform-core` | Manifest client, form state, conditionals, submit |
+| `@solspace/freeform-react` | `<Freeform />` component and `useFreeform()` hook |
+| `@solspace/freeform-extensions` | Captchas, datetime picker, file drag & drop |
+| `@solspace/freeform-react-theme-default` | Default light/dark theme CSS |
+
+</StepMarkdown>
+<StepMarkdown stepTitle="Render a form">
+
+```tsx title="ContactForm.tsx" showLineNumbers
+import { Freeform } from '@solspace/freeform-react';
+import { recommendedExtensions } from '@solspace/freeform-extensions';
+import '@solspace/freeform-react-theme-default/styles.css';
+
+export function ContactForm() {
+  return (
+    <Freeform
+      handle="contact"
+      baseUrl="https://cms.example.com"
+      extensions={recommendedExtensions}
+      onSuccess={(response) => {
+        console.log('Submitted', response);
+      }}
+    />
+  );
+}
+```
+
+- **`handle`** — Freeform form handle (must be enabled under `headless.forms`)
+- **`baseUrl`** — Craft site origin, **or** `""` / same origin when you proxy `/freeform`
+- **`extensions`** — register captchas and advanced fields when the form needs them
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+## Choose your guide
+
+| Guide | When to use it |
+| --- | --- |
+| [React JS](./reactjs.mdx) | Vite, CRA, Remix, or any React SPA |
+| [Next.js](./nextjs.mdx) | App Router / Pages Router + proxy |
+| [REST API](./rest-api.mdx) | Endpoints, CSRF, CORS, profiles |
+| [GraphQL](./graphql.mdx) | Existing GraphQL integrations (alternate path) |
+
+## What’s included in this npm beta
+
+- Manifest load + CSRF + submit (JSON and multipart)
+- Multi-page forms and conditionals (client UX)
+- Captchas via `@solspace/freeform-extensions`
+- File upload and File Drag & Drop
+- Default theme with light / dark / system color schemes
+
+## Deferred (coming later)
+
+- Drafts / save & continue
+- Payment fields (Stripe, etc.)
+- Calculation fields
+- Official Vue adapter
+- Bootstrap and Tailwind theme packages
+- Full GraphQL parity with the REST contract
+
+## Security checklist
+
+1. Keep headless **disabled** until you intentionally enable forms.
+2. Set explicit `headless.allowedOrigins` for cross-origin apps.
+3. Enable a **captcha** on public forms (do not rely on honeypot alone for API callers).
+4. Leave **`allowRawHtml` off** unless HTML / rich-text field content is trusted CMS content.
+5. Do not treat client-side conditional hiding as a server access-control boundary yet.

@@ -1,0 +1,166 @@
+---
+title: REST API
+sidebar_position: 2
+description: Freeform headless REST API for manifests, submissions, CSRF, CORS, and file uploads in Craft CMS.
+---
+
+import { Badge, BadgeGroup } from '@site/src/components/utils';
+
+# REST API<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+
+:::info npm Public Beta — `@solspace/freeform-*` `0.1.0-beta.1`
+The headless REST API ships with the Freeform plugin (normal release). Official npm clients are on a separate **`0.1.0-beta.x`** line.
+:::
+
+Most customers should use [`@solspace/freeform-react`](./reactjs.mdx) and never call these endpoints by hand. This page is the contract reference when you build a custom client or debug requests.
+
+## Enable the API
+
+Merge into `config/freeform.php`:
+
+```php title="config/freeform.php" showLineNumbers
+<?php
+
+return [
+    'headless' => [
+        'enabled' => true,
+        'allowedOrigins' => [
+            'http://localhost:3000',
+            'https://app.example.com',
+        ],
+        'forms' => [
+            'contact' => [
+                'exposeManifest' => true,
+                'allowSubmit' => true,
+                // Optional per-form CORS override
+                // 'allowedOrigins' => ['https://app.example.com'],
+            ],
+        ],
+    ],
+];
+```
+
+| Setting | Purpose |
+| --- | --- |
+| `headless.enabled` | Master switch. When `false`, headless routes return 404. |
+| `headless.allowedOrigins` | Global CORS allow-list (supports `*` wildcards like `https://*.example.com`). |
+| `forms.{handle}.exposeManifest` | Allow `GET` manifest for that form. |
+| `forms.{handle}.allowSubmit` | Allow `POST` submit for that form. |
+
+A config example ships with Freeform at `packages/plugin/config/headless.example.php`.
+
+## Endpoints
+
+URLs below are relative to your Craft site. Official clients resolve them with your `baseUrl`.
+
+### Form manifest
+
+```http
+GET /freeform/api/forms/{handle}/manifest
+Accept: application/json
+```
+
+Returns layout, fields, conditionals, security metadata, and submit endpoint URLs.
+
+### Submit
+
+```http
+POST /freeform/api/forms/{handle}/submit
+Content-Type: application/json
+# or multipart/form-data
+```
+
+JSON body shape (simplified):
+
+```json
+{
+  "values": {
+    "email": "jane@example.com",
+    "message": "Hello"
+  },
+  "intent": "submit",
+  "meta": {
+    "honeypot": { "name": "freeform_form_handle", "value": "" },
+    "javascriptTest": { "name": "freeform_form_handle", "value": "" },
+    "captchas": [{ "name": "g-recaptcha-response", "value": "…" }]
+  }
+}
+```
+
+| Intent | Use |
+| --- | --- |
+| `submit` | Final submit (or single-page forms) |
+| `next` / `back` | Multi-page navigation |
+| `validate` | Validate without completing |
+| `saveDraft` | Reserved — drafts are not in this beta |
+
+**Multipart** submits use a `_freeform` JSON field for the payload plus file inputs, matching what `@solspace/freeform-core` sends automatically.
+
+### CSRF token
+
+```http
+GET /freeform/tokens
+Accept: application/json
+```
+
+When Craft CSRF is enabled, include the token on submit:
+
+- JSON: header `X-CSRF-Token: {value}`
+- Multipart: form field named with the Craft CSRF param
+
+Official clients fetch and attach this for you when `credentials: "include"` is used (default).
+
+### File Drag & Drop
+
+```http
+POST /freeform/api/forms/{handle}/files/{fieldHandle}
+POST /freeform/api/forms/{handle}/files/{fieldHandle}/delete
+```
+
+Used by the `file-dnd` extension. Requires CSRF and the upload token header provided by the client.
+
+### Named profiles (advanced)
+
+```http
+GET  /freeform/api/manifests/{profile}/manifest?properties[eventId]=123
+POST /freeform/api/manifests/{profile}/submit
+```
+
+Profiles are explicit config entries under `headless.profiles` — never inferred from integrations. Use them for contextual manifests that need auth, signed tokens, or typed query properties.
+
+## CORS and credentials
+
+Browser apps that call Craft on another origin must:
+
+1. List that origin in `headless.allowedOrigins` (or per-form / per-profile overrides)
+2. Send requests with credentials (`credentials: "include"`) so CSRF cookies work
+
+**Recommended:** proxy `/freeform/*` through your frontend (Next.js rewrites, Vite proxy, etc.) so the browser stays same-origin.
+
+:::warning Do not use a wildcard CORS origin in production
+Set explicit origins. A misconfigured fallback to GraphQL’s `*` is unsafe for credentialed requests.
+:::
+
+## Security metadata
+
+The manifest includes `security` for honeypot, javascript test, and captcha site keys. Official clients fill `meta` automatically. For public forms, enable a captcha integration in Freeform — honeypot / JS test alone are soft signals for direct API callers.
+
+## Compatibility headers
+
+Manifests include:
+
+```json
+{
+  "schemaVersion": "1.0",
+  "pluginVersion": "5.15.19",
+  "minimumClientVersion": "0.1.0"
+}
+```
+
+`pluginVersion` matches Freeform. `minimumClientVersion` matches the npm client line (`0.1.0-beta.x` satisfies `0.1.0+`).
+
+## Next steps
+
+- [Getting Started](./getting-started.mdx) — install packages
+- [React JS](./reactjs.mdx) — `<Freeform />` and `useFreeform()`
+- [Next.js](./nextjs.mdx) — App Router + proxy
