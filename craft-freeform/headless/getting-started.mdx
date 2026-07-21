@@ -35,9 +35,23 @@ Clone the [Freeform Headless React Demo](https://github.com/solspace/freeform-he
 ## Quick setup
 
 <VerticalStepWrapper>
-<StepMarkdown stepTitle="Enable headless in Freeform">
+<StepMarkdown stepTitle="Enable headless in Freeform (Craft project)">
 
-Headless is **off by default**. Add a `headless` section to your Craft project’s `config/freeform.php` (merge with your existing config):
+Headless is **off by default**. Configure it in your **Craft CMS project** (the site where Freeform is installed) — not in your React / Next.js app repo.
+
+Edit or create:
+
+```text
+your-craft-project/config/freeform.php
+```
+
+That file lives next to Craft’s other config files (`general.php`, `routes.php`, etc.), for example:
+
+```text
+~/Sites/my-craft-site/config/freeform.php
+```
+
+Merge a `headless` section into that file (keep any existing Freeform settings):
 
 ```php title="config/freeform.php" showLineNumbers
 <?php
@@ -53,7 +67,7 @@ return [
             'https://app.example.com',
         ],
 
-        // Per-form exposure (keyed by form handle)
+        // Per-form exposure (keyed by form handle from the Freeform CP)
         'forms' => [
             'contact' => [
                 'exposeManifest' => true,
