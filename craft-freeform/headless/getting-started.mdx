@@ -1,7 +1,7 @@
 ---
 title: Getting Started
 sidebar_position: 1
-description: Install and enable Freeform's official headless React packages for Craft CMS (npm public beta).
+description: Install and enable Freeform's official headless React packages for Craft CMS.
 ---
 
 import { Badge, BadgeGroup } from '@site/src/components/utils';
@@ -9,26 +9,26 @@ import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
 # Getting Started (React Headless)<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
-:::info npm Public Beta — `0.1.0-beta.1`
-The official `@solspace/freeform-*` packages ship on the npm **`beta`** tag (`0.1.0-beta.x`). The Freeform **Craft plugin** (with the headless REST API) ships as a normal release on main — not as a plugin beta. Package APIs may still change before a stable `0.1.0` / `1.0.0`.
-:::
-
 Freeform’s recommended headless path for React and Next.js is:
 
 1. Use a Freeform plugin build that includes the **headless REST API**
 2. Enable headless in Freeform config
-3. Install the official npm packages (`@beta`)
+3. Install the official npm packages (`0.1.0`)
 4. Render forms with `<Freeform />` or build your own UI with `useFreeform()`
 
 GraphQL and older AJAX demos remain available, but new React/Next.js projects should start here.
+
+:::tip Example app
+Clone the [Freeform Headless React Demo](https://github.com/solspace/freeform-headless-react-demo) to try the packages against your Craft site.
+:::
 
 ## Requirements
 
 | Piece | Version / notes |
 | --- | --- |
 | Craft CMS | 4.17+ or 5.9+ |
-| Freeform plugin | Build that includes headless REST (merged to main) |
-| npm packages | **`0.1.0-beta.1`** (`@beta` tag) |
+| Freeform plugin | Build that includes headless REST |
+| npm packages | **`0.1.0`** ([npm org](https://www.npmjs.com/org/solspace)) |
 | React | 18 or 19 |
 | Node | Modern LTS with `npm` / `pnpm` / `yarn` |
 
@@ -74,10 +74,10 @@ See the full [REST API](./rest-api.mdx) reference for profiles, CSRF, and submit
 <StepMarkdown stepTitle="Install the npm packages">
 
 ```bash
-npm install @solspace/freeform-core@beta \
-  @solspace/freeform-react@beta \
-  @solspace/freeform-extensions@beta \
-  @solspace/freeform-react-theme-default@beta
+npm install @solspace/freeform-core \
+  @solspace/freeform-react \
+  @solspace/freeform-extensions \
+  @solspace/freeform-react-theme-default
 ```
 
 | Package | Purpose |
@@ -124,8 +124,9 @@ export function ContactForm() {
 | [Next.js](./nextjs.mdx) | App Router / Pages Router + proxy |
 | [REST API](./rest-api.mdx) | Endpoints, CSRF, CORS, profiles |
 | [GraphQL](./graphql.mdx) | Existing GraphQL integrations (alternate path) |
+| [Example demo](https://github.com/solspace/freeform-headless-react-demo) | Cloneable Vite app using the published packages |
 
-## What’s included in this npm beta
+## What’s included
 
 - Manifest load + CSRF + submit (JSON and multipart)
 - Multi-page forms and conditionals (client UX)
@@ -133,7 +134,7 @@ export function ContactForm() {
 - File upload and File Drag & Drop
 - Default theme with light / dark / system color schemes
 
-## Deferred (coming later)
+## Coming later
 
 - Drafts / save & continue
 - Payment fields (Stripe, etc.)

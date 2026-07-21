@@ -8,9 +8,7 @@ import { Badge, BadgeGroup } from '@site/src/components/utils';
 
 # REST API<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
-:::info npm Public Beta — `@solspace/freeform-*` `0.1.0-beta.1`
-The headless REST API ships with the Freeform plugin (normal release). Official npm clients are on a separate **`0.1.0-beta.x`** line.
-:::
+The headless REST API ships with the Freeform plugin. Official npm clients are on an independent **`0.1.0`** line ([npm org](https://www.npmjs.com/org/solspace)).
 
 Most customers should use [`@solspace/freeform-react`](./reactjs.mdx) and never call these endpoints by hand. This page is the contract reference when you build a custom client or debug requests.
 
@@ -92,7 +90,7 @@ JSON body shape (simplified):
 | `submit` | Final submit (or single-page forms) |
 | `next` / `back` | Multi-page navigation |
 | `validate` | Validate without completing |
-| `saveDraft` | Reserved — drafts are not in this beta |
+| `saveDraft` | Reserved — drafts are not available yet |
 
 **Multipart** submits use a `_freeform` JSON field for the payload plus file inputs, matching what `@solspace/freeform-core` sends automatically.
 
@@ -157,7 +155,7 @@ Manifests include:
 }
 ```
 
-`pluginVersion` matches Freeform. `minimumClientVersion` matches the npm client line (`0.1.0-beta.x` satisfies `0.1.0+`).
+`pluginVersion` matches Freeform. `minimumClientVersion` matches the npm client line (`0.1.0+`).
 
 ## Next steps
 
