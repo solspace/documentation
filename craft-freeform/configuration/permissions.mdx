@@ -99,14 +99,14 @@ Can access and update settings area for Freeform as well as access [Error Log](.
 If this permission is applied to the user or user group, their form builder experience will be limited to what is configured in the [Limited Users](../configuration/limited-users.mdx) feature settings.
 
 
-### Per User Permissions<Badge type="feature" text="New in 5.15.23+" />
+### Form Access Delegation<Badge type="feature" text="New in 5.15.23+" />
 
 The **Allow Assigning Permissions to Other Users** permission setting lets non-admins that can administrate users hand out per-form Freeform access to tother users themselves without needing a _super_ admin. For example, a marketing lead can give a teammate access to one specific form (and its submissions) without raising a ticket.
 
 Previously this was impossible as Craft only lets you assign a permission you personally hold, and a user with **Manage All Forms** holds the all-forms permission, not the individual per-form ones — so the **by Form** checkboxes never showed up when they edited a user.
 
 <Tabs>
-  <TabItem value="per-user-setup" label="Set Up Delegate" default>
+  <TabItem value="form-access-setup" label="Set Up Delegate" default>
     To set up a "delegate" user (admin, one-time per person), follow the steps below:
 
     <VerticalStepWrapper>
@@ -123,7 +123,7 @@ Previously this was impossible as Craft only lets you assign a permission you pe
 
     They can now open another user's Permissions screen and tick the specific forms/submissions that user should have.
   </TabItem>
-  <TabItem value="per-user-behavior" label="Behavior">
+  <TabItem value="form-access-behavior" label="Behavior">
 
     - On the **delegate's own** screen, the three **by Form** branches show greyed-out and fully ticked — they hold every form so they can hand out any of them. Nothing to manage there.
     - When the delegate views another user's account those branches are editable, so the delegate picks exactly which forms that user gets.
@@ -131,7 +131,7 @@ Previously this was impossible as Craft only lets you assign a permission you pe
     - Turning the flag off and saving cleanly removes all the per-form access again — no manual cleanup.
 
   </TabItem>
-  <TabItem value="per-user-notes" label="Important Notes">
+  <TabItem value="form-access-notes" label="Important Notes">
 
     - **Set it on individual users, not groups.** Ticking it on a user group has no effect (enforced). Enable it per user.
     - **A delegate always holds every form and can't be scoped to a subset** — that's a hard Craft rule. If someone should be limited to certain forms, they're a recipient, not a delegate — don't give them this permission.
