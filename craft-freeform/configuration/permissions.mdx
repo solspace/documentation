@@ -4,8 +4,10 @@ description: Configure granular user and user group permissions for Freeform 5.x
 ---
 
 import Player from 'react-player';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import { Badge } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
 # Permissions
 
@@ -95,3 +97,46 @@ Can access and update settings area for Freeform as well as access [Error Log](.
 ### Limited Users<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.4+" />
 
 If this permission is applied to the user or user group, their form builder experience will be limited to what is configured in the [Limited Users](../configuration/limited-users.mdx) feature settings.
+
+
+### Per User Permissions<Badge type="feature" text="New in 5.15.23+" />
+
+The **Allow Assigning Permissions to Other Users** permission setting lets non-admins that can administrate users hand out per-form Freeform access to tother users themselves without needing a _super_ admin. For example, a marketing lead can give a teammate access to one specific form (and its submissions) without raising a ticket.
+
+Previously this was impossible as Craft only lets you assign a permission you personally hold, and a user with **Manage All Forms** holds the all-forms permission, not the individual per-form ones — so the **by Form** checkboxes never showed up when they edited a user.
+
+<Tabs>
+  <TabItem value="per-user-setup" label="Set Up Delegate" default>
+    To set up a "delegate" user (admin, one-time per person), follow the steps below:
+
+    <VerticalStepWrapper>
+      <StepMarkdown>
+        Edit the user → **Permissions** → **Freeform** → tick _Allow Assigning Permissions to Other Users_ (leave _Access Forms_ and _Access Submissions_ on).
+      </StepMarkdown>
+      <StepMarkdown>
+        **Permissions** → **Users** → give them Craft's _Edit users + Assign user permissions_ (this is what lets them open another user's Permissions screen at all). Skip _Administrate users_ unless you want them handing out Craft-level powers too.
+      </StepMarkdown>
+      <StepMarkdown>
+        Save the user account.
+      </StepMarkdown>
+    </VerticalStepWrapper>
+
+    They can now open another user's Permissions screen and tick the specific forms/submissions that user should have.
+  </TabItem>
+  <TabItem value="per-user-behavior" label="Behavior">
+
+    - On the **delegate's own** screen, the three **by Form** branches show greyed-out and fully ticked — they hold every form so they can hand out any of them. Nothing to manage there.
+    - When the delegate views another user's account those branches are editable, so the delegate picks exactly which forms that user gets.
+    - New forms are added to every delegate automatically. Deleting forms drop off automatically as well.
+    - Turning the flag off and saving cleanly removes all the per-form access again — no manual cleanup.
+
+  </TabItem>
+  <TabItem value="per-user-notes" label="Important Notes">
+
+    - **Set it on individual users, not groups.** Ticking it on a user group has no effect (enforced). Enable it per user.
+    - **A delegate always holds every form and can't be scoped to a subset** — that's a hard Craft rule. If someone should be limited to certain forms, they're a recipient, not a delegate — don't give them this permission.
+    - **A form spans three checkboxes** — Manage Forms Individually, Read Submissions by Form, and Manage Submissions by Form. To fully grant or remove a form for someone, set it in all three.
+    - For per-form limits to actually restrict what a regular user sees, their user group must grant **Manage Forms Individually** and **Manage Submissions by Forms** only. Never _Manage All Forms_ or _Manage/Read All Submissions_ (an **All** permission anywhere overrides per-form limits).
+
+  </TabItem>
+</Tabs>
