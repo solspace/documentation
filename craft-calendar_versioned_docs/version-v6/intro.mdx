@@ -1,0 +1,557 @@
+---
+sidebar_position: 1
+title: 'Overview'
+slug: /
+hide_table_of_contents: true
+id: landing-page
+---
+
+import { FlexCards, Section } from '@site/src/components/docs';
+import { CraftCalendarPageHeader } from '@site/src/components/docs/PageHeader';
+import SearchBar from '@theme/SearchBar';
+import NavbarSearch from '@theme/Navbar/Search';
+
+import Icons from '@site/static/icons/cards';
+import OldIcons from '@site/static/icons/old';
+import {
+  Photo,
+  PrimaryButtonWithLink,
+  SimpleTextLink,
+  FlexButton,
+} from '@site/src/components/utils';
+
+# Overview
+
+<section className="landing-header">
+  <div className="container">
+    <div className="flex flex-col items-center gap-6 mt-20 mb-5 px-1">
+      <Photo
+        img={require('@site/static/img/intro/calendar-dark.png')}
+        className="landing-logo"
+        alt="Calendar 6 for Craft CMS"
+      />
+      <span className="landing-cms-for">for</span>
+      <Photo
+        img={require('@site/static/logos/craftcms.png')}
+        className="landing-cms-logo"
+        alt="Craft CMS"
+      />
+      <div className="text-center">
+        Calendar gives you full control over event management in Craft CMS. Calendar 6 modernizes the event editing experience, stores recurring occurrences for faster querying, supports Craft drafts for events, and expands headless support with richer GraphQL queries and mutations.
+      </div>
+      <div className="flex gap-3 landing-header-buttons">
+        <FlexButton
+          items={[
+            { to: '#key-features', label: 'Feature Tour', outline: true, arrowDown: true },
+            { to: '#compare', label: 'Pricing / Compare', outline: true, arrowDown: true, mobileHidden: true },
+          ]}
+        />
+        <NavbarSearch>
+          <SearchBar />
+        </NavbarSearch>
+        <FlexButton
+          items={[{ to: 'guides/getting-started', label: 'Explore Docs' }]}
+        />
+      </div>
+      <small>
+        <SimpleTextLink
+          to="https://plugins.craftcms.com/calendar"
+          label="Try out a free unlimited trial today!"
+        />
+      </small>
+    </div>
+  </div>
+</section>
+
+<div className="landing-nav-docs navbar__item dropdown dropdown--hoverable cursor-pointer hidden md:block">
+  <div className="navbar__item navbar__link">Docs</div>
+  <div className="dropdown__menu min-w-[190px]">
+    <ul className="pl-4">
+      <li className="list-none">
+        <a href="./setup/installing-updating/" className="text-sm text-[#0073ff] dark:text-white">Installing & Updating</a>
+      </li>
+      <li className="list-none">
+        <a href="./guides/getting-started/" className="text-sm text-[#0073ff] dark:text-white">User Guides</a>
+      </li>
+      <li className="list-none">
+        <a href="./configuration/settings/" className="text-sm text-[#0073ff] dark:text-white">Configuration</a>
+      </li>
+      <li className="list-none">
+        <a href="./events/" className="text-sm text-[#0073ff] dark:text-white">Events</a>
+      </li>
+      <li className="list-none">
+        <a href="./calendars/" className="text-sm text-[#0073ff] dark:text-white">Calendars</a>
+      </li>
+      <li className="list-none">
+        <a href="./templates/queries/events/" className="text-sm text-[#0073ff] dark:text-white">Templating</a>
+      </li>
+      <li className="list-none">
+        <a href="./headless/graphql/" className="text-sm text-[#0073ff] dark:text-white">Headless</a>
+      </li>
+      <li className="list-none">
+        <a href="./developer/events/" className="text-sm text-[#0073ff] dark:text-white">Developer</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div className="intro-main-content container py-8">
+
+<Photo
+  img={require('@site/static/img/craft/calendar/v5/cp_month.png')}
+  alt="Month Events view with Side bar"
+/>
+
+## Key Features
+
+Calendar is loaded with features that have been battle-tested over the years from hundreds of sites using them. Calendar 6 is a major refactor of Calendar 5, focused on a more Craft-native event model, better recurrence handling, and improved permission control while keeping legacy APIs available where possible.
+
+:::info Calendar 6 refactor highlights
+
+- Events now support Craft drafts, including CP draft workflows and GraphQL draft mutations.
+- Recurring event occurrences are persisted and queried from dedicated occurrence tables for more reliable date-range filtering.
+- Recurrence data is normalized to RRULE/RSet strings, with support for `RRULE`, `RDATE`, `EXDATE`, and all-day date normalization.
+- Event timezone handling has been improved with per-calendar defaults and per-event timezone storage.
+- Calendar permissions have been reorganized around _Access Events_ and _Access Calendars_, matching the structure used by Freeform.
+- GraphQL now includes top-level Calendar queries, occurrence queries, calendar/event mutations, event draft mutations, and legacy compatibility for the v5 `solspace_calendar` wrapper.
+
+:::
+
+<FlexCards
+  promo
+  items={[
+    {
+      title: 'CP Month/Week/Day',
+      description:
+        'Groundbreaking approach to event management that feels very similar to popular calendaring apps like Apple Calendar and Google Calendar.',
+      icon: OldIcons.CalendarCpIcon,
+      fullCardLink: './events/#month-week-day-views',
+    },
+    {
+      title: 'Intuitive Interface',
+      description:
+        "Calendar's event creation and editing interface is similar to Craft Entries, and the fields for capturing event details are quick and intuitive to use.",
+      icon: OldIcons.ListIcon,
+      fullCardLink: './events/#managing-events',
+    },
+    {
+      title: 'Live Preview',
+      description:
+        'Get a feel for how your events will look on the front end, as you create them! Watch as recurrences populate when you set up repeat rules.',
+      icon: OldIcons.ViewIcon,
+      fullCardLink: './events/#managing-events',
+    },
+    {
+      title: 'Recurring Event Rules',
+      description:
+        'Create events with complex recurrence rules such as repeating every 2nd month on the last Saturday, and exclude certain dates from recurrences.',
+      icon: OldIcons.RepeatIcon,
+      fullCardLink: './events/#managing-events',
+    },
+    {
+      title: 'All Day & Multi-Day',
+      description:
+        'Events can be set to be all day and/or span across multiple days. Multi-day events will span across multiple days in CP and front end templates.',
+      icon: OldIcons.SwitchIcon,
+      fullCardLink: './events/#managing-events',
+    },
+    {
+      title: 'Calendar Groups',
+      description:
+        'Create and manage beautiful and flexible calendars, each with their own unique field layout and color that is used throughout the CP and optionally front end.',
+      icon: OldIcons.TabsIcon,
+      fullCardLink: './calendars/',
+    },
+    {
+      title: 'ICS Exporting & Subscriptions',
+      description:
+        'Allow users to export/subscribe to calendars or events directly into other calendar applications like Apple Calendar, Microsoft Outlook, and more.',
+      icon: OldIcons.IcsIcon,
+      fullCardLink: './events/exporting/',
+    },
+    {
+      title: 'Front End Event Creation',
+      description:
+        'Calendar allows you or guests to create events via a front end form. Settings include enabling Guest access and granular calendar permissions.',
+      icon: OldIcons.ClipboardIcon,
+      fullCardLink: './guides/templating/events-front-end/',
+    },
+    {
+      title: 'Event Searching',
+      description:
+        "Just like other Craft elements, Calendar's Event elements can be searched upon and displayed as results in the front end templates in a similar way.",
+      icon: OldIcons.SearchIcon,
+      fullCardLink: './guides/templating/searching-events/',
+    },
+    {
+      title: 'Flexible Templating',
+      description:
+        'Templating is easy and highly customizable for even complex setups! Ready-to-go demo templates and features will have you ready in minutes!',
+      icon: OldIcons.CodeIcon,
+      fullCardLink: './guides/getting-started/',
+    },
+    {
+      title: 'Display Events Any Way',
+      description:
+        'Display your events on the front end templates as a list, month grid, week, day, and more. Events can be filtered by calendars, field data, and more.',
+      icon: OldIcons.CalendarIcon,
+      fullCardLink: './templates/queries/month/',
+    },
+    {
+      title: 'FullCalendar JS library',
+      description:
+        'Calendar includes a sample front end integration with the powerful FullCalendar JS library that behaves similar to popular calendar apps you know.',
+      icon: OldIcons.FullcalIcon,
+      fullCardLink: './events/',
+    },
+    {
+      title: 'Dashboard Widgets',
+      description:
+        'Includes 4 different powerful, customizable dashboard widgets: Quick Event, Calendar Agenda, Upcoming Events, and Mini Calendar.',
+      icon: OldIcons.DashboardIcon,
+      fullCardLink: './events/widgets/',
+    },
+    {
+      title: 'Element Fieldtype',
+      description:
+        'Using the Calendar element fieldtype, you can assign/relate or reverse relate events to other element types such as Craft Entries or Commerce Products.',
+      icon: OldIcons.PushPinIcon,
+      fullCardLink: './events/fieldtype/',
+    },
+    {
+      title: 'Customizable',
+      description:
+        'Calendar includes a wide range of controls that allow you to change the way Calendar behaves and customize your event management experience.',
+      icon: OldIcons.SettingsIcon,
+      fullCardLink: './configuration/settings/',
+    },
+    {
+      title: 'User Group Permissions',
+      description:
+        'Calendar includes a granular set of user group and user permission controls that allow you to limit access to sections and calendars and events.',
+      icon: OldIcons.ControlsIcon,
+      fullCardLink: './configuration/permissions/',
+    },
+    {
+      title: 'Translatable',
+      description:
+        "All of the Calendar control panel is translatable and there's full support for localization and translation of calendars and all Event field data, etc.",
+      icon: OldIcons.WorldwideIcon,
+      fullCardLink: './configuration/translating/',
+    },
+    {
+      title: 'Project Config',
+      description:
+        'Support for Project Config for the general configuration and settings of Calendar, as well as settings and field layouts for each calendar.',
+      icon: OldIcons.DocumentGearIcon,
+      fullCardLink: './configuration/project-config/',
+    },
+    {
+      title: 'GraphQL',
+      description:
+        'Calendar robustly supports querying calendars and events via GraphQL. Click here to view the guide for using GraphQL with Calendar.',
+      icon: OldIcons.GraphqlIcon,
+      fullCardLink: './headless/graphql/',
+    },
+    {
+      title: 'Developer-friendly',
+      description:
+        'Calendar has a wide variety of developer events and is very customizable, allowing you to easily extend Calendar for all of your needs!',
+      icon: OldIcons.SocketIcon,
+      fullCardLink: './developer/events/',
+    },
+  ]}
+/>
+
+## Intuitive
+
+Add, edit, move, delete events within intuitive Month/Week/Day views for easier management of events.
+
+<Photo
+  img={require('@site/static/img/craft/calendar/v5/screenshots/intuitive.png')}
+  alt="Intuitive"
+/>
+
+## Powerful
+
+Create complex recurring events with exclusions!
+
+<Photo
+  img={require('@site/static/img/craft/calendar/v5/screenshots/powerful.png')}
+  alt="Powerful"
+/>
+
+## Calendars
+
+Create as many different calendars as you need, each with their own layout.
+
+<Photo
+  img={require('@site/static/img/craft/calendar/v5/screenshots/calendars.png')}
+  alt="Calendars"
+/>
+
+## Dashboard Widgets
+
+Includes 4 different powerful, customizable dashboard widgets.
+
+<Photo
+  img={require('@site/static/img/craft/calendar/v5/screenshots/widgets.png')}
+  alt="Widgets"
+/>
+
+## Customizable
+
+Adjust a wide range of settings to change the way Calendar behaves.
+
+<Photo
+  img={require('@site/static/img/craft/calendar/v5/screenshots/customizable.png')}
+  alt="Customizable"
+/>
+
+## Live Preview
+
+Get a feel for how your events will look on the front end, as you create them!
+
+<Photo
+  img={require('@site/static/img/craft/calendar/v5/screenshots/livepreview.png')}
+  alt="Live Preview"
+/>
+
+## FullCalendar JS implementation
+
+Includes a sample front end integration with the FullCalendar JS library.
+
+<Photo
+  img={require('@site/static/img/craft/calendar/v5/screenshots/fullcal.png')}
+  alt="FullCalendar JS implementation"
+/>
+
+## Demo Templates
+
+With one click, you can have a set of working, styled templates ready to go!
+
+<Photo
+  img={require('@site/static/img/craft/calendar/v5/screenshots/demo.png')}
+  alt="Demo Templates"
+/>
+
+## Element Fieldtype
+
+Attach events to any other Craft Element type.
+
+<Photo
+  img={require('@site/static/img/craft/calendar/v5/screenshots/fieldtype.png')}
+  alt="Element Fieldtype"
+/>
+
+<Section
+  title="Compare"
+  anchor="compare"
+  subtitle="Which edition is the best fit for what you need?"
+  imgSrc={Icons.ScaleIcon}
+>
+<div className="feature-table two-editions w-full">
+
+| <h3 className="no-margin"></h3> | <h2 className="edition-lite no-margin" id="title">Lite</h2> | <h2 className="edition-pro no-margin" id="title">Pro</h2> |
+|:--- |:---:|:---:|
+| One-time Cost | **<span className="edition-lite">$99</span>** | **<span className="edition-pro">$199</span>** |
+| Renewals (optional) | <span className="edition-lite">$49/yr</span> | <span className="edition-pro">$99/yr</span> |
+| [Compatibility](./setup/installing-updating.mdx#requirements)<br /><small>_Calendar 6.x supports Craft 5.x, Craft 4.x and [Craft Cloud](https://craftcms.com/cloud)._</small> | <span className="edition-lite">Craft&nbsp;5+, 4+, _Cloud_</span> | <span className="edition-pro">Craft&nbsp;5+, 4+, _Cloud_</span> |
+| Intuitive event creation interface                                                                                                        |                              <span className="edition-lite">✓</span>                               |                               <span className="edition-pro">✓</span>                                |
+| Intuitive month, week & day views in CP                                                                                                   |                              <span className="edition-lite">✓</span>                               |                               <span className="edition-pro">✓</span>                                |
+| All day & multi-day events                                                                                                                |                              <span className="edition-lite">✓</span>                               |                               <span className="edition-pro">✓</span>                                |
+| Recurring event rules                                                                                                                     |                              <span className="compare-none">✕</span>                               |                               <span className="edition-pro">✓</span>                                |
+| Exclusion dates from recurrences                                                                                                          |                              <span className="compare-none">✕</span>                               |                               <span className="edition-pro">✓</span>                                |
+| Unlimited calendar groups & colors                                                                                                        |                              <span className="edition-lite">✓</span>                               |                               <span className="edition-pro">✓</span>                                |
+| Element fieldtype for adding events to other Craft Elements                                                                               |                              <span className="edition-lite">✓</span>                               |                               <span className="edition-pro">✓</span>                                |
+| ICS exporting                                                                                                                             |                              <span className="compare-none">✕</span>                               |                               <span className="edition-pro">✓</span>                                |
+| ICS subscriptions                                                                                                                         |                              <span className="compare-none">✕</span>                               |                               <span className="edition-pro">✓</span>                                |
+| Powerful & flexible templating                                                                                                            |                              <span className="edition-lite">✓</span>                               |                               <span className="edition-pro">✓</span>                                |
+| Show events by lists, months, weeks, and days                                                                                             |                              <span className="edition-lite">✓</span>                               |                               <span className="edition-pro">✓</span>                                |
+| Dashboard widgets                                                                                                                         |                              <span className="compare-none">✕</span>                               |                               <span className="edition-pro">✓</span>                                |
+| 1-click demo templates                                                                                                                    |                              <span className="edition-lite">✓</span>                               |                               <span className="edition-pro">✓</span>                                |
+| GraphQL support                                                                                                                           |                              <span className="edition-lite">✓</span>                               |                               <span className="edition-pro">✓</span>                                |
+| Translatable                                                                                                                              |                              <span className="edition-lite">✓</span>                               |                               <span className="edition-pro">✓</span>                                |
+| Rename plugin                                                                                                                             |                              <span className="compare-none">✕</span>                               |                               <span className="edition-pro">✓</span>                                |
+| <small><a href="https://plugins.craftcms.com/calendar">Try out a free unlimited trial today!</a></small>                                 | <PrimaryButtonWithLink to="https://plugins.craftcms.com/calendar" label="Get it!" size="sm" /><br /><b className="edition-lite">$99</b> | <PrimaryButtonWithLink to="https://plugins.craftcms.com/calendar" label="Get it!" size="sm" /><br /><b className="edition-pro">$199</b> |
+
+</div>
+  <div className="intro-cta flex flex-wrap gap-3 justify-center">
+    <div className="intro-cta-text flex flex-col">
+      <h4>Start exploring Calendar...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'https://plugins.craftcms.com/calendar/', label: 'Plugin Store', outline: true },
+        { to: '/support/', label: 'Support', outline: true },
+        { to: 'setup/installing-updating/', label: 'How to Install', outline: true },
+        { to: 'guides/getting-started/', label: 'Getting Started', outline: true },
+      ]}
+    />
+  </div>
+</Section>
+
+<Section
+  title="Ratings & Reviews"
+  anchor="ratings-reviews"
+  subtitle="What others are saying about Calendar."
+  imgSrc={Icons.HeartIcon}
+>
+
+<div className="quote-grid">
+  <blockquote>
+    <span className="stars">★★★★★</span>
+    <p>Provides exactly what it says on the tin. Incredibly powerful and flexible to meet the demands of any calendaring feature.</p>
+    <cite>Steven Grant</cite>
+  </blockquote>
+  <blockquote>
+    <span className="stars">★★★★★</span>
+    <p>I had never dealt with your support until now... I'm seriously impressed.</p>
+  </blockquote>
+  <blockquote>
+    <span className="stars">★★★★★</span>
+    <p>I consider Solspace plugins to be top-notch, among the best in the Craft community!</p>
+  </blockquote>
+  <blockquote>
+    <span className="stars">★★★★★</span>
+    <p>Very glad to find that Solspace has such great support. Never really needed it before, but now twice in one week, I was quickly helped back on track!</p>
+  </blockquote>
+  <blockquote>
+    <span className="stars">★★★★★</span>
+    <p>Calendar has so many repeating event options - it's awesome and my client loves it!</p>
+  </blockquote>
+</div>
+
+</Section>
+
+<Section
+  title="Why Calendar?"
+  anchor="why-calendar"
+  subtitle="You can count on Calendar and the team behind it to give you the quality and support you really deserve."
+  imgSrc={Icons.CheckboxIcon}
+>
+  <FlexCards
+    items={[
+      {
+        title: 'Top Notch Support',
+        description:
+          'Our reputation in the Craft CMS community speaks for itself when it comes to customer support. We strive to offer the best and most reliable help to all our customers.',
+        icon: Icons.SupportIcon,
+        linkWithDescription: '/support/',
+      },
+      {
+        title: '25+ Years Experience',
+        description:
+          'For more than 25 years, Solspace has been busy creating and supporting software for over 30,000 customers. Over 500,000 plugins have been sold or downloaded for free!',
+        icon: Icons.HourglassIcon,
+        linkWithDescription: 'https://solspace.com',
+      },
+      {
+        title: 'Active Development',
+        description:
+          'Craft CMS users really like Calendar, a plugin that’s been continuously updated with a ton of new features, improvements, and bug fixes over time.',
+        icon: Icons.DevelopmentIcon,
+        linkWithDescription: 'setup/changelog',
+      },
+    ]}
+  />
+  <div className="intro-cta flex flex-wrap gap-3 justify-center">
+    <div className="intro-cta-text flex flex-col">
+      <h4>Start exploring Calendar...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'https://plugins.craftcms.com/calendar/', label: 'Plugin Store', outline: true },
+        { to: '/support/', label: 'Support', outline: true },
+        { to: 'setup/installing-updating/', label: 'How to Install', outline: true },
+        { to: 'guides/getting-started', label: 'Getting Started', outline: true },
+      ]}
+    />
+  </div>
+</Section>
+
+<Section
+  title="FAQ"
+  anchor="faq"
+  subtitle="Frequently asked questions about buying Calendar."
+  imgSrc={Icons.QuestionSignIcon}
+>
+  <div className="faq-list">
+  <details>
+    <summary>Can I test Calendar before I buy?</summary>
+
+    Yes! You can use Calendar on any private domain name for as long as you need, just like with Craft. Whether it's on your local dev server or a staging site, you're good to go. You only have to buy a license when you're ready to launch your site live, just like with Craft.
+  </details>
+  <details>
+    <summary>How many sites does a license cover?</summary>
+
+    You only need to buy a Calendar license for each Craft license you have. So, if you're running a Craft multi-site on one install, you just need one license. It's just like Craft! There's no need to get separate licenses for other environments of the same site, like development or staging.
+  </details>
+  <details>
+    <summary>Can I switch to a different edition later?</summary>
+
+    Yes! You can switch to the _Lite_ or _Pro_ editions at any time! You just pay the difference in price. For example, if you're using the _Lite_ edition and wish to switch to _Pro_, you will just pay $100. You don't need to reinstall anything and you won't lose any of your data.
+
+    Check out the [Changing Editions](./setup/installing-updating/#changing-editions) guide for more information!
+  </details>
+  <details>
+    <summary>Do you offer discounts to non-profits?</summary>
+
+    Yes! We offer a discount to non-profits for 20% off the regular price upon proof of non-profit status. Please [contact us](/support/) for more information about this.
+  </details>
+  <details>
+    <summary>Does the Trial version limit features?</summary>
+
+    The trial versions of Solspace software are fully functional and not limited in any way. However, if you try to use a trial version on a production site, Craft will display a red banner at the top of your control panel, prompting you to purchase a license.
+
+    More information about [Craft's license enforcement](https://craftcms.com/knowledge-base/how-craft-license-enforcement-works).
+  </details>
+  <details>
+    <summary>How long does a license last for?</summary>
+
+    A single license provides one year of updates and support. After this period, you can continue using the plugin but will no longer receive updates or support. To maintain access to updates and support, you will need to renew your license each year at a discounted rate.
+  </details>
+  <details>
+    <summary>Do I have to renew my license each year?</summary>
+
+    You can renew your license after the initial one-year support period has ended. Your plugin will continue to work properly in the meantime. If you prefer, you can wait until the following year to renew and receive the latest updates.
+    
+    However, we don't recommend avoiding updates altogether, as you would miss out on new features and important fixes.
+  </details>
+  <details>
+    <summary>What are renewals and how do they work?</summary>
+
+    Renewals help you keep your plugin updated and access technical support. However, they are entirely optional.
+    
+    For example, if you purchase the _Lite_ edition of Calendar for $99, the renewal price after one year is $49. Your initial purchase of $99 includes support and updates for one year. When it's time to renew, you can extend your updates and support for another year at the renewal price of just $49, rather than paying the full amount of $99 again.
+  </details>
+  <details>
+    <summary>How do I install Calendar?</summary>
+
+    Installing Calendar is done just like any other plugin for Craft, similar to how you would install Craft itself. Please refer to the [Installation guide](./setup/installing-updating.mdx) in the documentation.
+  </details>
+  <details>
+    <summary>How do I get support for Calendar?</summary>
+
+    We provide free support for Calendar. If you have any questions or encounter issues, you can [create an issue on GitHub](https://github.com/solspace/craft-calendar/issues/new/choose) or [send us a private support ticket](/support/). We're here to help!
+  </details>
+  </div>
+  <div className="intro-cta flex flex-wrap gap-3 justify-center">
+    <div className="intro-cta-text flex flex-col">
+      <h4>Start exploring Calendar...</h4>
+      <p>Check out these helpful links.</p>
+    </div>
+    <FlexButton
+      items={[
+        { to: 'https://plugins.craftcms.com/calendar/', label: 'Plugin Store', outline: true },
+        { to: '/support/', label: 'Support', outline: true },
+        { to: 'setup/installing-updating/', label: 'How to Install', outline: true },
+        { to: 'guides/getting-started/', label: 'Getting Started', outline: true },
+      ]}
+    />
+  </div>
+</Section>
+
+</div>
