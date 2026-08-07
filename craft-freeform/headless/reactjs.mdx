@@ -1,33 +1,222 @@
 ---
-title: React.js
+title: React JS
 sidebar_position: 3
-description: Build headless forms with Freeform 5.x and React.js in Craft CMS.
+description: Build headless Freeform forms with the official React packages for Craft CMS.
 ---
 
 import { Badge, BadgeGroup } from '@site/src/components/utils';
 
-# React JS Implementations
+# React JS<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
-:::warning
-Please see the [How to Render a Form](./graphql.mdx#how-to-render-a-form) guide for detailed steps for being able to render your own form in the front-end using GraphQL data and React JS.
-:::
+Use the official `@solspace/freeform-react` packages (`0.1.0`). See [Getting Started](./getting-started.mdx) for enabling the headless API.
 
-## GraphQL Demo<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+## Install
 
-The below demo link shows how Freeform is implemented with [React JS](https://react.dev/) and [GraphQL](./graphql.mdx).
+```bash
+npm install @solspace/freeform-core \
+  @solspace/freeform-react \
+  @solspace/freeform-extensions \
+  @solspace/freeform-react-theme-default
+```
+
+Import the default theme CSS once in your app entry:
+
+```tsx
+import '@solspace/freeform-react-theme-default/styles.css';
+```
+
+## Render with `<Freeform />`
+
+The easiest path — Freeform loads the manifest, manages state, renders fields, handles CSRF, and submits:
+
+```tsx title="ContactForm.tsx" showLineNumbers
+import { Freeform } from '@solspace/freeform-react';
+import { recommendedExtensions } from '@solspace/freeform-extensions';
+import '@solspace/freeform-react-theme-default/styles.css';
+
+export function ContactForm() {
+  return (
+    <Freeform
+      handle="contact"
+      baseUrl="https://cms.example.com"
+      extensions={recommendedExtensions}
+      loadingMessage="Loading form…"
+      onSuccess={(response) => {
+        // response.success, response.submission, etc.
+      }}
+      onError={(response) => {
+        // Field / form errors from Freeform
+      }}
+    />
+  );
+}
+```
+
+| Prop | Description |
+| --- | --- |
+| `handle` | Form handle (must be allowed in `headless.forms`) |
+| `baseUrl` | Craft origin. Use `""` or your SPA origin when `/freeform` is proxied. |
+| `extensions` | Captcha / datetime / file-dnd extensions |
+| `theme` | Optional theme object (`lightTheme`, `darkTheme`, or `createTheme()`) |
+| `allowRawHtml` | Default `false`. Set `true` only if HTML/rich-text fields are trusted CMS content. |
+| `loadingFallback` / `errorFallback` | Custom loading and error UI |
+
+### Light / dark theme
+
+```tsx
+import { Freeform } from '@solspace/freeform-react';
+import {
+  darkTheme,
+  lightTheme,
+} from '@solspace/freeform-react-theme-default';
+import '@solspace/freeform-react-theme-default/styles.css';
+
+<Freeform handle="contact" baseUrl="…" theme={darkTheme} />;
+// or theme={lightTheme}
+```
+
+By default the theme follows the visitor’s OS preference (`system`).
+
+## Headless control with `useFreeform()`
+
+Own the markup while Freeform still loads the form, tracks values, evaluates conditionals, and submits:
+
+```tsx title="HeadlessContactForm.tsx" showLineNumbers
+import { useFreeform } from '@solspace/freeform-react';
+import { recommendedExtensions } from '@solspace/freeform-extensions';
+
+export function HeadlessContactForm() {
+  const form = useFreeform({
+    handle: 'contact',
+    baseUrl: 'https://cms.example.com',
+    extensions: recommendedExtensions,
+  });
+
+  if (form.loading) {
+    return <p>Loading…</p>;
+  }
+
+  if (form.error) {
+    return <p role="alert">{form.error.message}</p>;
+  }
+
+  return (
+    <form onSubmit={form.handleSubmit}>
+      {form.formErrors.map((message) => (
+        <div key={message} role="alert">
+          {message}
+        </div>
+      ))}
+
+      <label>
+        Email
+        <input {...form.getFieldProps('email')} type="email" />
+      </label>
+
+      <button type="submit" disabled={form.isSubmitting}>
+        {form.isSubmitting ? 'Submitting…' : 'Submit'}
+      </button>
+
+      {form.isComplete && form.successMessage ? (
+        <p>{form.successMessage}</p>
+      ) : null}
+    </form>
+  );
+}
+```
+
+Useful helpers on the hook result:
+
+| API | Purpose |
+| --- | --- |
+| `getFieldProps(handle)` | `name`, `id`, `onChange`, `onBlur`, etc. |
+| `values` / `setValue` | Read / write field values |
+| `fieldErrors` / `formErrors` | Validation messages |
+| `isFieldVisible(handle)` | Conditional visibility |
+| `handleSubmit` / `goNext` / `goBack` | Submit and multi-page |
+
+## Captchas and advanced fields
+
+Pass `recommendedExtensions` (or a subset) so Freeform can mount captchas, Flatpickr datetime fields, and File Drag & Drop:
+
+```tsx
+import {
+  captchaExtensions,
+  datetimeExtension,
+  fileDndExtension,
+  recommendedExtensions,
+} from '@solspace/freeform-extensions';
+
+// All of the above:
+<Freeform extensions={recommendedExtensions} … />
+
+// Or pick what you need:
+<Freeform extensions={[...captchaExtensions, datetimeExtension]} … />
+```
+
+Configure captcha integrations in the Freeform control panel. Site keys are exposed on the form manifest; tokens are submitted automatically through `meta.captchas`.
+
+## Custom field renderers
+
+Override rendering by handle, frontend renderer key, or field type:
+
+```tsx
+<Freeform
+  handle="donation"
+  baseUrl="https://cms.example.com"
+  renderers={{
+    handles: {
+      payment: MyPaymentField,
+    },
+    types: {
+      text: MyTextField,
+    },
+  }}
+/>
+```
+
+## Same-origin proxy (recommended)
+
+Point your Vite (or other) dev server at Craft so CSRF cookies stay same-origin:
+
+```ts title="vite.config.ts"
+export default {
+  server: {
+    proxy: {
+      '/freeform': {
+        target: 'https://cms.example.com',
+        changeOrigin: true,
+        secure: false, // local TLS only
+      },
+    },
+  },
+};
+```
+
+Then use `baseUrl=""` (or `window.location.origin`) in the browser.
+
+For Next.js, see the [Next.js](./nextjs.mdx) guide.
+
+## Security notes
+
+- Leave **`allowRawHtml`** at the default (`false`) unless HTML fields are trusted.
+- Enable a **captcha** on public forms.
+- Set **`headless.allowedOrigins`** when calling Craft cross-origin.
+- See [REST API](./rest-api.mdx) for CORS and CSRF details.
+
+## Example demo
+
+- [Freeform Headless React Demo](https://github.com/solspace/freeform-headless-react-demo) — Vite app using the official npm packages
+
+## Legacy GraphQL / AJAX demos
+
+Older demos that query Freeform via GraphQL or custom AJAX still work, but are **not** the recommended path for new projects:
 
 :::info
 Please note that the paths in the demos are specific for the Solspace demo site and server. Please make sure your code uses paths that match your server setup.
 :::
 
-https://github.com/solspace/craft-freeform-demo-reactjs-graphql
+- [React + GraphQL demo](https://github.com/solspace/craft-freeform-demo-reactjs-graphql)
+- [React + AJAX demo](https://github.com/solspace/craft-freeform-demo-reactjs-ajax)
 
-## AJAX Demo
-
-The below demo link shows how Freeform is implemented with [React JS](https://react.dev/) and AJAX.
-
-:::info
-Please note that the paths in the demos are specific for the Solspace demo site and server. Please make sure your code uses paths that match your server setup.
-:::
-
-https://github.com/solspace/craft-freeform-demo-reactjs-ajax
+For GraphQL field queries and mutations, see [GraphQL](./graphql.mdx).
