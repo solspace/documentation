@@ -1,7 +1,7 @@
 ---
 title: GraphQL
 sidebar_position: 6
-description: Integrate Freeform 5.x with GraphQL in Craft CMS for headless form handling and submissions.
+description: Freeform headless GraphQL adapters plus legacy form queries and submission mutations for Craft CMS.
 ---
 
 import Tabs from '@theme/Tabs';
@@ -12,16 +12,85 @@ import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
 # GraphQL<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
-Freeform supports querying form layouts and form submission mutations via GraphQL. This guide assumes you have some GraphQL experience. To learn more about GraphQL and Craft, please check out the [Fetch content with GraphQL](https://craftcms.com/docs/getting-started-tutorial/build/graphql.html) guide and [Craft's GraphQL API](https://craftcms.com/docs/5.x/development/graphql.html).
+Freeform supports GraphQL in two ways:
+
+1. **Headless adapters** (recommended when you want GraphQL) — `freeformHeadlessManifest` and `freeformHeadlessSubmit`, matching the [REST API](./rest-api.mdx) contract
+2. **Legacy form queries / `save_{handle}_Submission` mutations** — still supported for existing integrations (documented below)
+
+This guide assumes some GraphQL experience. See Craft’s [Fetch content with GraphQL](https://craftcms.com/docs/getting-started-tutorial/build/graphql.html) and [GraphQL API](https://craftcms.com/docs/5.x/development/graphql.html).
 
 :::tip New React / Next.js projects
-For new React and Next.js apps, prefer the official packages and [REST API](./rest-api.mdx) — start with [Getting Started](./getting-started.mdx). GraphQL remains fully supported for existing headless integrations.
+Prefer the official packages with the [REST API](./rest-api.mdx) for `<Freeform />` / `useFreeform()` — start with [Getting Started](./getting-started.mdx). Use the headless GraphQL adapters when your app already speaks Craft GraphQL and you want the same manifest/submit payload shape.
 :::
+
+## Headless GraphQL adapters
+
+These adapters reuse Freeform’s headless `ManifestService` and `HeadlessSubmitService`. Enable headless for the form first (same `config/freeform.php` as REST).
+
+### Requirements
+
+| Requirement | Notes |
+| --- | --- |
+| Headless config | `headless.enabled` + per-form `exposeManifest` / `allowSubmit` |
+| Craft GraphQL schema | Freeform **form read** + **submission create** for that form |
+| Site access | Enable your Craft **site** on the schema (missing this returns *Schema doesn’t have access to the “Site” site*) |
+| Schema token | Pass as `Authorization: Bearer <token>` |
+
+Typical endpoint: `POST /actions/graphql/api` (or your Craft GraphQL URL).
+
+### Manifest query
+
+Returns the same manifest object as REST `GET /freeform/api/forms/{handle}/manifest` (the `data` payload).
+
+```graphql showLineNumbers
+query {
+  freeformHeadlessManifest(handle: "contact")
+}
+```
+
+### Submit mutation
+
+Returns the same structured submit response as REST (`success`, `status`, `errors`, `draft`, etc.).
+
+```graphql showLineNumbers
+mutation {
+  freeformHeadlessSubmit(
+    handle: "contact"
+    intent: "submit"
+    values: { email: "jane@example.com", message: "Hello" }
+    meta: {}
+    context: {}
+  )
+}
+```
+
+| Argument | Description |
+| --- | --- |
+| `handle` | Form handle (required) |
+| `intent` | `submit`, `next`, `back`, `validate`, or `saveDraft` (default `submit`) |
+| `values` | Field values by handle (`FreeformJson`) |
+| `meta` | Honeypot, captcha, javascriptTest, etc. |
+| `context` | Draft tokens and other submit context |
+| `csrfToken` | Optional; when omitted, cookie CSRF is skipped (schema token is the gate) |
+
+### File uploads
+
+Multipart / File Drag & Drop uploads remain on the **REST** endpoints. Use GraphQL for JSON values; upload files via REST (or the official React packages on REST).
+
+### Try it
+
+The [Freeform Headless React Demo](https://github.com/solspace/freeform-headless-react-demo) includes a **GraphQL** tab. Set `VITE_GRAPHQL_TOKEN` (and optional `VITE_GRAPHQL_PATH`) in `.env`.
+
+---
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/cp/graphql.png')}
   alt="GraphQL"
 />
+
+## Legacy GraphQL (form queries and submission mutations)
+
+The sections below document Freeform’s original GraphQL form layout queries and per-form `save_{handle}_Submission` mutations.
 
 ## Demos
 
