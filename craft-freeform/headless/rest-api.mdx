@@ -8,7 +8,7 @@ import { Badge, BadgeGroup } from '@site/src/components/utils';
 
 # REST API<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
-The headless REST API ships with the Freeform plugin. Official npm clients are on an independent **`0.1.0`** line ([npm org](https://www.npmjs.com/org/solspace)).
+The headless REST API ships with the Freeform plugin. Official npm clients are published under the [Solspace npm org](https://www.npmjs.com/org/solspace).
 
 Most customers should use [`@solspace/freeform-react`](./reactjs.mdx) and never call these endpoints by hand. This page is the contract reference when you build a custom client or debug requests.
 
@@ -92,9 +92,23 @@ JSON body shape (simplified):
 | `submit` | Final submit (or single-page forms) |
 | `next` / `back` | Multi-page navigation |
 | `validate` | Validate without completing |
-| `saveDraft` | Reserved — drafts are not available yet |
+| `saveDraft` | Save progress (token + key returned in `draft`) |
 
-**Multipart** submits use a `_freeform` JSON field for the payload plus file inputs, matching what `@solspace/freeform-core` sends automatically.
+On `draft_saved`, the response includes:
+
+```json
+{
+  "status": "draft_saved",
+  "draft": { "token": "…", "key": "…", "resumeUrl": null },
+  "state": { "values": { "…": "…" }, "pageIndex": 0 }
+}
+```
+
+Pass `context.draftToken` and `context.draftKey` on later submits to update or resume the same draft.
+
+In React, enable Save in the form builder, then follow the simple URL recipe in [React JS → Save & Continue Later](./reactjs.mdx#save--continue-later) (`draftToken` / `draftKey` props + `session-token` / `key` query params).
+
+**Multipart** submits use a `_freeform` JSON field for the payload plus file inputs, matching what `@solspace/freeform-core` sends automatically. Standalone file fields and **table file cells** both use this path (table cells use nested keys under the table handle).
 
 ### CSRF token
 
@@ -157,7 +171,7 @@ Manifests include:
 }
 ```
 
-`pluginVersion` matches Freeform. `minimumClientVersion` matches the npm client line (`0.1.0+`).
+`pluginVersion` matches Freeform. `minimumClientVersion` is the oldest npm client line the plugin expects to work with.
 
 ## Next steps
 

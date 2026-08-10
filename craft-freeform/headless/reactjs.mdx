@@ -8,7 +8,7 @@ import { Badge, BadgeGroup } from '@site/src/components/utils';
 
 # React JS<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
-Use the official `@solspace/freeform-react` packages (`0.1.0`). See [Getting Started](./getting-started.mdx) for enabling the headless API.
+Use the official `@solspace/freeform-react` packages. See [Getting Started](./getting-started.mdx) for enabling the headless API.
 
 ## Install
 
@@ -56,7 +56,8 @@ export function ContactForm() {
 | --- | --- |
 | `handle` | Form handle (must be allowed in `headless.forms`) |
 | `baseUrl` | Craft origin. Use `""` or your SPA origin when `/freeform` is proxied. |
-| `extensions` | Captcha / datetime / file-dnd extensions |
+| `extensions` | Captcha / datetime / file-dnd / calculation / table / signature |
+| `draftToken` / `draftKey` | Resume a saved draft (from a prior `saveDraft` response) |
 | `theme` | Optional theme object (`lightTheme`, `darkTheme`, or `createTheme()`) |
 | `allowRawHtml` | Default `false`. Set `true` only if HTML/rich-text fields are trusted CMS content. |
 | `loadingFallback` / `errorFallback` | Custom loading and error UI |
@@ -133,28 +134,113 @@ Useful helpers on the hook result:
 | `values` / `setValue` | Read / write field values |
 | `fieldErrors` / `formErrors` | Validation messages |
 | `isFieldVisible(handle)` | Conditional visibility |
-| `handleSubmit` / `goNext` / `goBack` | Submit and multi-page |
+| `handleSubmit` / `goNext` / `goBack` / `saveDraft` | Submit, multi-page, and save progress |
+
+## Save & Continue Later
+
+Enable **Save** on the form’s Button Layout in Freeform. React shows the Save button automatically.
+
+After Save, Freeform returns a `token` and `key`. Put those in your page URL so the visitor can come back later (email the link, bookmark it, or copy it):
+
+```tsx title="ContactFormWithSave.tsx" showLineNumbers
+import { Freeform } from '@solspace/freeform-react';
+import { recommendedExtensions } from '@solspace/freeform-extensions';
+
+function readDraft() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    draftToken: params.get('session-token'),
+    draftKey: params.get('key'),
+  };
+}
+
+function writeDraft(token: string, key: string) {
+  const url = new URL(window.location.href);
+  url.searchParams.set('session-token', token);
+  url.searchParams.set('key', key);
+  window.history.replaceState({}, '', url);
+}
+
+export function ContactFormWithSave() {
+  const { draftToken, draftKey } = readDraft();
+
+  return (
+    <Freeform
+      handle="contact"
+      baseUrl="https://cms.example.com"
+      extensions={recommendedExtensions}
+      draftToken={draftToken}
+      draftKey={draftKey}
+      onSuccess={(response) => {
+        if (
+          response.status === 'draft_saved' &&
+          response.draft?.token &&
+          response.draft?.key
+        ) {
+          writeDraft(response.draft.token, response.draft.key);
+          // Optional: show “Progress saved — bookmark this page”
+        }
+      }}
+    />
+  );
+}
+```
+
+**Customer flow**
+
+1. Enable Save in Freeform → set Save label (Redirect URL optional).
+2. Visitor clicks **Save** → your app stores `token` + `key` in the URL (as above).
+3. Visitor returns via that URL → pass `draftToken` / `draftKey` → fields restore.
+4. Visitor clicks **Submit** → real submission; draft is removed.
+
+Optional: set the form’s Save **Redirect URL** to  
+`https://your-app.com/contact?session-token={token}&key={key}`  
+so the API also returns `draft.resumeUrl` for emails or custom UI.
 
 ## Captchas and advanced fields
 
-Pass `recommendedExtensions` (or a subset) so Freeform can mount captchas, Flatpickr datetime fields, and File Drag & Drop:
+Pass `recommendedExtensions` (or a subset) so Freeform can mount captchas and advanced fields:
 
 ```tsx
 import {
   captchaExtensions,
   datetimeExtension,
   fileDndExtension,
+  calculationExtension,
+  tableExtension,
+  signatureExtension,
   recommendedExtensions,
 } from '@solspace/freeform-extensions';
 
-// All of the above:
+// Recommended preset (captchas + datetime + file DnD + calculation + table + signature):
 <Freeform extensions={recommendedExtensions} … />
 
 // Or pick what you need:
-<Freeform extensions={[...captchaExtensions, datetimeExtension]} … />
+<Freeform
+  extensions={[
+    ...captchaExtensions,
+    datetimeExtension,
+    tableExtension,
+    signatureExtension,
+  ]}
+  …
+/>
 ```
 
+| Extension | Covers |
+| --- | --- |
+| Captchas | Turnstile, reCAPTCHA, hCaptcha, Friendly Captcha |
+| `datetimeExtension` | Flatpickr / native datetime fields |
+| `fileDndExtension` | File Drag & Drop uploads |
+| `calculationExtension` | Live calculation fields |
+| `tableExtension` | Table rows (min/max/exact limits, required columns, file cells) |
+| `signatureExtension` | Signature pad (draw, clear, required validation) |
+
 Configure captcha integrations in the Freeform control panel. Site keys are exposed on the form manifest; tokens are submitted automatically through `meta.captchas`.
+
+For **table** fields: enable the field in Freeform as usual. Row limits and required columns come from the form builder. File columns upload through the same headless multipart path as standalone file fields.
+
+For **signature** fields: visitors draw on the canvas; the value is stored as a PNG data URL. Clear resets the pad.
 
 ## Custom field renderers
 
