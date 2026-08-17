@@ -1,7 +1,7 @@
 ---
 title: REST API
 sidebar_position: 2
-description: Freeform headless REST API for manifests, submissions, CSRF, CORS, file uploads, and Stripe payment checkpoints in Craft CMS.
+description: Freeform headless REST API for manifests, submissions, CSRF, CORS, file uploads, and payment routes in Craft CMS.
 ---
 
 import { Badge, BadgeGroup } from '@site/src/components/utils';
@@ -146,6 +146,18 @@ Official clients call this for you. Prefer [`@solspace/freeform-react`](./reactj
 
 Related Stripe routes (also used by classic Freeform) remain under `/freeform/payments/stripe/…` (PaymentIntent create/update, callback, webhook).
 
+### Square payments
+
+```http
+POST /freeform/payments/square/payments
+Content-Type: application/json
+FF-SQUARE-INTEGRATION: {opaque-integration-hash}
+```
+
+Used by the `payment.square` extension after the Web Payments SDK tokenizes the card. Body includes the Square `nonce`, `currency`, and current form `values` so Freeform can resolve fixed or dynamic amounts server-side with the Square access token (never exposed in the manifest).
+
+Official clients call this for you. Prefer [`@solspace/freeform-react`](./reactjs.mdx#square-payments) rather than calling the endpoint by hand. This is the same Square charge route used by classic Freeform templates.
+
 ### Named profiles (advanced)
 
 ```http
@@ -192,4 +204,5 @@ Manifests include:
 - [React JS](./reactjs.mdx) — `<Freeform />` and `useFreeform()`
 - [Next.js](./nextjs.mdx) — App Router + proxy
 - [React JS → Stripe payments](./reactjs.mdx#stripe-payments) — Payment Element in headless React
+- [React JS → Square payments](./reactjs.mdx#square-payments) — Web Payments SDK in headless React
 - [GraphQL](./graphql.mdx#headless-graphql-adapters) — headless manifest/submit via Craft GraphQL

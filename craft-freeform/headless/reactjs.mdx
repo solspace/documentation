@@ -210,10 +210,11 @@ import {
   tableExtension,
   signatureExtension,
   stripePaymentExtension,
+  squarePaymentExtension,
   recommendedExtensions,
 } from '@solspace/freeform-extensions';
 
-// Recommended preset (captchas + datetime + file DnD + calculation + table + signature + Stripe):
+// Recommended preset (captchas + datetime + file DnD + calculation + table + signature + Stripe + Square):
 <Freeform extensions={recommendedExtensions} … />
 
 // Or pick what you need:
@@ -224,6 +225,7 @@ import {
     tableExtension,
     signatureExtension,
     stripePaymentExtension,
+    squarePaymentExtension,
   ]}
   …
 />
@@ -238,6 +240,7 @@ import {
 | `tableExtension` | Table rows (min/max/exact limits, required columns, file cells) |
 | `signatureExtension` | Signature pad (draw, clear, required validation) |
 | `stripePaymentExtension` | Stripe Payment Element (one-time and subscriptions) |
+| `squarePaymentExtension` | Square Web Payments SDK (one-time card payments) |
 
 Configure captcha integrations in the Freeform control panel. Site keys are exposed on the form manifest; tokens are submitted automatically through `meta.captchas`.
 
@@ -282,6 +285,43 @@ export function DonationForm() {
 **Multi-page tip:** put the Stripe field on the **last** page. Back / Next never charge; payment runs only on final submit.
 
 **Testing cards** (Stripe test mode): success `4242…`, decline `4000000000000002`, 3DS `4000000000003220`. Full list: [Stripe testing](https://stripe.com/docs/testing) and [Stripe Payments → Testing](../integrations/stripe-payments.mdx#testing).
+
+## Square payments
+
+Square works in headless React the same way it does in classic Freeform templates: configure the [Square](../integrations/square.mdx) integration and add a **Square** field in the form builder. With `recommendedExtensions` (or `squarePaymentExtension`), Freeform mounts Square’s Web Payments SDK card form from the form manifest.
+
+```tsx title="CheckoutForm.tsx" showLineNumbers
+import { Freeform } from '@solspace/freeform-react';
+import { recommendedExtensions } from '@solspace/freeform-extensions';
+import '@solspace/freeform-react-theme-default/styles.css';
+
+export function CheckoutForm() {
+  return (
+    <Freeform
+      handle="checkout"
+      baseUrl="" // same-origin proxy recommended
+      extensions={recommendedExtensions}
+    />
+  );
+}
+```
+
+**What Freeform handles for you**
+
+1. Manifest exposes public Square config only (Application ID, Location ID, sandbox flag, amount field handle, opaque integration hash). Access tokens never leave Craft.
+2. On final submit, the card is tokenized in the browser; Freeform charges via the existing Square payments route using current form values (including dynamic amounts).
+3. The payment resource ID is written into the Square field value, then the normal headless submit runs so Freeform can link a PaymentRecord — the same finalization path as classic forms.
+
+**Requirements**
+
+- Freeform **Pro** with Square configured (Application ID, Access Token, Location ID; sandbox recommended for testing)
+- Headless enabled for the form (`exposeManifest` + `allowSubmit`)
+- `@solspace/freeform-extensions` that includes `squarePaymentExtension` (use `recommendedExtensions`)
+- Prefer a **same-origin proxy** for `/freeform/*` so CSRF cookies and the Square payments endpoint stay on your app origin
+
+**Multi-page tip:** put the Square field on the **last** page. Back / Next never charge; payment runs only on final submit.
+
+**Testing cards** (Square sandbox): use [Square sandbox test values](https://developer.squareup.com/docs/devtools/sandbox/payments). See also [Square → Sandbox Testing](../integrations/square.mdx#sandbox-testing).
 
 ## Custom field renderers
 
