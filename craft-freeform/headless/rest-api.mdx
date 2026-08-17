@@ -1,7 +1,7 @@
 ---
 title: REST API
 sidebar_position: 2
-description: Freeform headless REST API for manifests, submissions, CSRF, CORS, and file uploads in Craft CMS.
+description: Freeform headless REST API for manifests, submissions, CSRF, CORS, file uploads, and Stripe payment checkpoints in Craft CMS.
 ---
 
 import { Badge, BadgeGroup } from '@site/src/components/utils';
@@ -133,6 +133,19 @@ POST /freeform/api/forms/{handle}/files/{fieldHandle}/delete
 
 Used by the `file-dnd` extension. Requires CSRF and the upload token header provided by the client.
 
+### Stripe payment checkpoint
+
+```http
+POST /freeform/api/forms/{handle}/payments/stripe/checkpoint
+Content-Type: application/json
+```
+
+Used by the `payment.stripe` extension before Stripe confirmation. Validates the form, verifies the PaymentIntent belongs to this form’s Stripe field, and stores an encrypted checkpoint so Freeform’s existing Stripe callback / webhook can create the submission after payment (including 3DS redirects).
+
+Official clients call this for you. Prefer [`@solspace/freeform-react`](./reactjs.mdx#stripe-payments) rather than calling the endpoint by hand.
+
+Related Stripe routes (also used by classic Freeform) remain under `/freeform/payments/stripe/…` (PaymentIntent create/update, callback, webhook).
+
 ### Named profiles (advanced)
 
 ```http
@@ -178,4 +191,5 @@ Manifests include:
 - [Getting Started](./getting-started.mdx) — install packages
 - [React JS](./reactjs.mdx) — `<Freeform />` and `useFreeform()`
 - [Next.js](./nextjs.mdx) — App Router + proxy
+- [React JS → Stripe payments](./reactjs.mdx#stripe-payments) — Payment Element in headless React
 - [GraphQL](./graphql.mdx#headless-graphql-adapters) — headless manifest/submit via Craft GraphQL

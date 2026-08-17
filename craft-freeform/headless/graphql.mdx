@@ -77,9 +77,41 @@ mutation {
 
 Multipart / File Drag & Drop uploads remain on the **REST** endpoints. Use GraphQL for JSON values; upload files via REST (or the official React packages on REST).
 
+### Try it with `<Freeform />` / `useFreeform()`
+
+The official React packages already accept a custom `fetch`. Point Freeform REST URLs at GraphQL with a small adapter (see the [example demo](https://github.com/solspace/freeform-headless-react-demo) `graphqlFetch` helper):
+
+```tsx title="GraphQLFreeform.tsx" showLineNumbers
+import { Freeform, useFreeform } from '@solspace/freeform-react';
+import { recommendedExtensions } from '@solspace/freeform-extensions';
+import { graphqlFetch } from './graphqlFetch'; // demo helper — copy from the example repo
+
+// Drop-in component
+<Freeform
+  handle="contact"
+  baseUrl={window.location.origin}
+  fetch={graphqlFetch}
+  extensions={recommendedExtensions}
+/>
+
+// Or headless hook
+const form = useFreeform({
+  handle: 'contact',
+  baseUrl: window.location.origin,
+  fetch: graphqlFetch,
+  extensions: recommendedExtensions,
+});
+```
+
+The adapter maps:
+
+- `GET …/manifest` → `freeformHeadlessManifest`
+- `POST …/submit` (JSON) → `freeformHeadlessSubmit`
+- Multipart file uploads + CSRF token fetch stay on REST
+
 ### Try it
 
-The [Freeform Headless React Demo](https://github.com/solspace/freeform-headless-react-demo) includes a **GraphQL** tab. Set `VITE_GRAPHQL_TOKEN` (and optional `VITE_GRAPHQL_PATH`) in `.env`.
+The [Freeform Headless React Demo](https://github.com/solspace/freeform-headless-react-demo) **GraphQL** tab includes live `<Freeform />`, `useFreeform()`, and raw query examples. Set `VITE_GRAPHQL_TOKEN` (and optional `VITE_GRAPHQL_PATH`) in `.env`.
 
 ---
 

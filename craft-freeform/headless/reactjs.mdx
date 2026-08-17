@@ -56,7 +56,7 @@ export function ContactForm() {
 | --- | --- |
 | `handle` | Form handle (must be allowed in `headless.forms`) |
 | `baseUrl` | Craft origin. Use `""` or your SPA origin when `/freeform` is proxied. |
-| `extensions` | Captcha / datetime / file-dnd / calculation / table / signature |
+| `extensions` | Captcha / datetime / file-dnd / calculation / table / signature / Stripe |
 | `draftToken` / `draftKey` | Resume a saved draft (from a prior `saveDraft` response) |
 | `theme` | Optional theme object (`lightTheme`, `darkTheme`, or `createTheme()`) |
 | `allowRawHtml` | Default `false`. Set `true` only if HTML/rich-text fields are trusted CMS content. |
@@ -209,10 +209,11 @@ import {
   calculationExtension,
   tableExtension,
   signatureExtension,
+  stripePaymentExtension,
   recommendedExtensions,
 } from '@solspace/freeform-extensions';
 
-// Recommended preset (captchas + datetime + file DnD + calculation + table + signature):
+// Recommended preset (captchas + datetime + file DnD + calculation + table + signature + Stripe):
 <Freeform extensions={recommendedExtensions} … />
 
 // Or pick what you need:
@@ -222,6 +223,7 @@ import {
     datetimeExtension,
     tableExtension,
     signatureExtension,
+    stripePaymentExtension,
   ]}
   …
 />
@@ -235,12 +237,51 @@ import {
 | `calculationExtension` | Live calculation fields |
 | `tableExtension` | Table rows (min/max/exact limits, required columns, file cells) |
 | `signatureExtension` | Signature pad (draw, clear, required validation) |
+| `stripePaymentExtension` | Stripe Payment Element (one-time and subscriptions) |
 
 Configure captcha integrations in the Freeform control panel. Site keys are exposed on the form manifest; tokens are submitted automatically through `meta.captchas`.
 
 For **table** fields: enable the field in Freeform as usual. Row limits and required columns come from the form builder. File columns upload through the same headless multipart path as standalone file fields.
 
 For **signature** fields: visitors draw on the canvas; the value is stored as a PNG data URL. Clear resets the pad.
+
+## Stripe payments
+
+Stripe works in headless React the same way it does in classic Freeform templates: configure the [Stripe Payments](../integrations/stripe-payments.mdx) integration and add a **Stripe** field in the form builder. With `recommendedExtensions` (or `stripePaymentExtension`), Freeform mounts Stripe’s Payment Element from the form manifest.
+
+```tsx title="DonationForm.tsx" showLineNumbers
+import { Freeform } from '@solspace/freeform-react';
+import { recommendedExtensions } from '@solspace/freeform-extensions';
+import '@solspace/freeform-react-theme-default/styles.css';
+
+export function DonationForm() {
+  return (
+    <Freeform
+      handle="donation"
+      baseUrl="" // same-origin proxy recommended
+      extensions={recommendedExtensions}
+    />
+  );
+}
+```
+
+**What Freeform handles for you**
+
+1. Manifest exposes public Stripe config only (publishable key, theme/layout, amount field handles, opaque integration hash). Secret keys never leave Craft.
+2. Payment Element creates / updates PaymentIntents through Freeform’s existing Stripe routes.
+3. Dynamic amounts sync from your Number (or other amount) fields before confirmation.
+4. On final submit, Freeform validates the form, stores an encrypted payment checkpoint, confirms with Stripe (including 3DS when required), then completes via Freeform’s Stripe callback / webhook — the same finalization path as classic forms.
+
+**Requirements**
+
+- Freeform **Pro** with Stripe configured (test or live keys + webhook)
+- Headless enabled for the form (`exposeManifest` + `allowSubmit`)
+- `@solspace/freeform-extensions` that includes `stripePaymentExtension` (use `recommendedExtensions`)
+- Prefer a **same-origin proxy** for `/freeform/*` so CSRF cookies and Stripe endpoints stay on your app origin
+
+**Multi-page tip:** put the Stripe field on the **last** page. Back / Next never charge; payment runs only on final submit.
+
+**Testing cards** (Stripe test mode): success `4242…`, decline `4000000000000002`, 3DS `4000000000003220`. Full list: [Stripe testing](https://stripe.com/docs/testing) and [Stripe Payments → Testing](../integrations/stripe-payments.mdx#testing).
 
 ## Custom field renderers
 
