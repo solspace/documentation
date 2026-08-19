@@ -153,6 +153,26 @@ To help your multi-day events have a better chance at displaying nicely across m
 
 This means that a multi-day event that starts at 10am on its first day will show up before a regular event that starts at 8am, to increase the odds of the multi-day event spanning all of its days in an unbroken horizontal line.
 
+### `{calendar:events_truncated}`
+
+This Boolean variable is `true` when Calendar stops processing event occurrences after reaching the tag's `limit`. It prevents an unusually large number of recurring event occurrences from exhausting PHP memory while rendering the calendar.
+
+The default `limit` is `1000`. When this variable is true, the displayed calendar may not include every matching event occurrence. Increase the tag's `limit` only where the server has sufficient memory to process the additional events.
+
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
+
+For example, display a notice when Calendar reaches the result limit:
+
+```html
+{if calendar:events_truncated}
+  <p class="calendar-notice">
+    Some calendar events are not displayed because the result limit was reached.
+  </p>
+{/if}
+```
+
 
 ## Conditionals
 
