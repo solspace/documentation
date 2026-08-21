@@ -1,0 +1,56 @@
+---
+title: Event
+sidebar_position: 4
+description: Single Event query methods and properties in Solspace Calendar 6.x templates for Craft CMS.
+---
+
+# Event Query
+
+The `craft.calendar.events()` element query fetches Calendar Event elements. To fetch a single event, pass the criteria you need and call `.one()`.
+
+:::warning Legacy query deprecated
+
+The old `craft.calendar.event()` helper is deprecated in Calendar 6. Use `craft.calendar.events(...).one()` for existing events, and use `craft.calendar.createEvent()` when you need a new event model for a front-end form.
+
+:::
+
+## Parameters
+
+The single event query supports the same criteria as the [Events Query](./events.mdx), including `id`, `slug`, `calendar`, `calendarId`, `siteId`, `status`, and date filters.
+
+## Usage in Templates
+
+```twig showLineNumbers
+{% set event = craft.calendar.events({
+    id: craft.app.request.segment(2),
+}).one() %}
+
+<ul>
+{% if event %}
+    <li>
+        {{ event.title }} - {{ event.startDate.format("l d, Y") }}<br />
+        {{ event.eventDescription }}
+    </li>
+{% endif %}
+</ul>
+```
+
+For an event detail page that needs a specific recurrence date, query occurrences instead:
+
+```twig showLineNumbers
+{% set occurrenceDate = null %}
+{% if craft.app.request.segment(3) and craft.app.request.segment(4) and craft.app.request.segment(5) %}
+    {% set occurrenceDate = craft.app.request.segment(3)~"-"~craft.app.request.segment(4)~"-"~craft.app.request.segment(5) %}
+{% endif %}
+
+{% set occurrence = craft.calendar.occurrences({
+    event: craft.app.request.segment(2),
+    startsAfterOrAt: occurrenceDate,
+    startsBefore: occurrenceDate ? occurrenceDate|date_modify('+1 day')|date('Y-m-d') : null,
+}).one() %}
+
+{% if occurrence %}
+    <h1>{{ occurrence.event.title }}</h1>
+    <p>{{ occurrence.startDateLocalized|date('l, F j, Y g:ia') }}</p>
+{% endif %}
+```
