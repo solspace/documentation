@@ -8,6 +8,42 @@ description: Review the Freeform 5.x for Craft CMS changelog, including new feat
 
 import { TitleDate } from '@site/src/components/docs'
 
+## 5.15.27<TitleDate date="2026-08-20" />
+
+### Added
+- Added a **Custom Cron Schedule** option to the frequency list for **Export Notifications**.
+
+### Changed
+- Updated date picker range limits to preserve the `today` value in **Date & Time** fields on cached forms.
+
+### Fixed
+- Updated the **Payment Configuration ID** setting to note that Stripe does not support it for subscription payments.
+- Fixed migrating submissions from **Formie** when using the **Name** field type with subfields configured.
+- Fixed a bug where there were some missing permission checks in the Control Panel.
+
+## 5.15.26<TitleDate date="2026-08-13" />
+
+### Added
+- Added support for the **Number** field column type for **Table** fields.
+
+### Fixed
+- Fixed an issue where the **Formie** submission migration could skip additional sites in multi-site installs, with improved logging.
+
+## 5.15.25<TitleDate date="2026-08-12" />
+
+### Security
+- Updated `dompdf/dompdf` to the latest compatible version and removed support for `2.x`.
+- Updated dependencies to address security vulnerabilities.
+
+## 5.15.24<TitleDate date="2026-08-11" />
+
+### Changed
+- **Dashboard chart widgets** now exclude spam submissions by default, with an opt-in toggle to include them.
+
+### Fixed
+- Fixed an issue where forms could fail to load after upgrading to Craft 5 if the `freeform_forms_sites` mapping was empty.
+- Updated **Salesforce OAuth** documentation to reference the **Authorization Code** flow instead of only the **Client Credentials** flow.
+
 ## 5.15.23<TitleDate date="2026-08-06" />
 
 ### Added
@@ -753,7 +789,7 @@ import { TitleDate } from '@site/src/components/docs'
 ## 5.11.6<TitleDate date="2025-07-18" />
 
 ### Changed
-- Refined the integration settings page and OAuth flow for a smoother setup experience and comaptibility with `sameSite` strict session cookies.
+- Refined the integration settings page and OAuth flow for a smoother setup experience and compatibility with `sameSite` strict session cookies.
 - Improved performance of submission queries across the control panel and front end.
 - Updated the Archived Forms list to support permanent deletion of forms.
 
@@ -2058,7 +2094,7 @@ If you are experiencing visual issues with form layouts and styles on the front 
 - Fixed a bug where reCAPTCHA would conflict with forms using Stripe Payments.
 - Fixed a bug where mapping a field with a handle of `name` would break the Stripe integration.
 - Fixed a bug where running the migration from Freeform 3.x could trigger a `Base table or view already exists` error.
-- Fixed some Safari browser stying issues with the horizontal scrollbar for page tabs.
+- Fixed some Safari browser styling issues with the horizontal scrollbar for page tabs.
 
 ## 5.1.6<TitleDate date="2024-03-20" />
 

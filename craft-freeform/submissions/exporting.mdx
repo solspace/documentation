@@ -111,6 +111,13 @@ To be used in conjunction with Export Profiles, you can automate email notificat
     - **Weekly on Thursdays**
     - **Weekly on Fridays**
     - **Weekly on Saturdays**
+    - **Custom Cron Schedule**<Badge type="feature" text="New in 5.15.27+" />
+      - **Cron Expression**
+        - Enter a standard five-part cron expression (minute, hour, day of month, month, day of week).
+        - For example, `0 0 1 * *` runs monthly on the 1st, `0 0 15 * *` runs monthly on the 15th, and `0 0 1,15 * *` runs on both.
+        :::info
+        For reliable delivery, configure your server to run `php craft freeform/export-notifications/run` routinely. Use [Crontab.guru](https://crontab.guru/) to help with building and validating expressions.
+        :::
 - **Emails to Notify**
   - Enter the email address(es) that should be notified. If more than one, enter each one on a new line.
 - **File Name**
