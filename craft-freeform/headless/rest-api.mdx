@@ -158,6 +158,33 @@ Used by the `payment.square` extension after the Web Payments SDK tokenizes the 
 
 Official clients call this for you. Prefer [`@solspace/freeform-react`](./reactjs.mdx#square-payments) rather than calling the endpoint by hand. This is the same Square charge route used by classic Freeform templates.
 
+### PayPal payments
+
+```http
+POST /freeform/payments/paypal/orders
+POST /freeform/payments/paypal/orders/{orderId}/capture
+Content-Type: application/json
+FF-PAYPAL-INTEGRATION: {opaque-integration-hash}
+```
+
+Used by the `payment.paypal` extension with PayPal Buttons. Create locks the amount from current form `values`; capture finalizes the PayPal order. Client secrets stay server-side.
+
+Official clients call these for you. Prefer [`@solspace/freeform-react`](./reactjs.mdx#paypal-payments) rather than calling the endpoints by hand. These are the same PayPal routes used by classic Freeform templates.
+
+### Mollie payments
+
+```http
+POST /freeform/payments/mollie/create?integration={opaque-integration-hash}
+Content-Type: application/json
+
+GET  /freeform/payments/mollie/callback
+POST /freeform/payments/mollie/webhook
+```
+
+Used by the `payment.mollie` extension. Create returns a `paymentId` and Mollie `checkoutUrl`. The create body may include `returnOrigin` (your SPA origin, e.g. `http://localhost:3000`); when that origin is listed in `headless.allowedOrigins`, Mollie’s browser return uses `{returnOrigin}/freeform/payments/mollie/callback` so the Vite/Next proxy keeps session cookies on the SPA host. Webhook stays on the public Craft URL.
+
+Official clients call create for you. Prefer [`@solspace/freeform-react`](./reactjs.mdx#mollie-payments) rather than calling the endpoints by hand. These are the same Mollie routes used by classic Freeform templates.
+
 ### Named profiles (advanced)
 
 ```http
@@ -205,4 +232,6 @@ Manifests include:
 - [Next.js](./nextjs.mdx) — App Router + proxy
 - [React JS → Stripe payments](./reactjs.mdx#stripe-payments) — Payment Element in headless React
 - [React JS → Square payments](./reactjs.mdx#square-payments) — Web Payments SDK in headless React
+- [React JS → PayPal payments](./reactjs.mdx#paypal-payments) — PayPal Buttons in headless React
+- [React JS → Mollie payments](./reactjs.mdx#mollie-payments) — hosted checkout redirect in headless React
 - [GraphQL](./graphql.mdx#headless-graphql-adapters) — headless manifest/submit via Craft GraphQL
