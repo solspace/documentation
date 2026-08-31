@@ -18,8 +18,8 @@ Freeform’s recommended headless path for React and Next.js is:
 
 GraphQL and older AJAX demos remain available, but new React/Next.js projects should start here.
 
-:::tip Example app
-Clone the [Freeform Headless React Demo](https://github.com/solspace/freeform-headless-react-demo) to try the packages against your Craft site (REST, GraphQL tab, Save & Continue, table, signature, calculation, Stripe, Square, PayPal, and Mollie payments, and more).
+:::tip Example apps
+Clone the [Freeform Headless React Demo](https://github.com/solspace/freeform-headless-react-demo) or [Vue Demo](https://github.com/solspace/freeform-headless-vue-demo) to try the packages against your Craft site (REST, GraphQL tab, Save & Continue, table, signature, calculation, payments, and more).
 :::
 
 ## Requirements
@@ -91,7 +91,7 @@ See the full [REST API](./rest-api.mdx) reference for profiles, CSRF, and submit
 npm install @solspace/freeform-core \
   @solspace/freeform-react \
   @solspace/freeform-extensions \
-  @solspace/freeform-react-theme-default
+  @solspace/freeform-theme-default
 ```
 
 | Package | Purpose |
@@ -99,8 +99,9 @@ npm install @solspace/freeform-core \
 | `@solspace/freeform-core` | Manifest client, form state, conditionals, submit |
 | `@solspace/freeform-react` | `<Freeform />` component and `useFreeform()` hook |
 | `@solspace/freeform-extensions` | Captchas, datetime, file drag & drop, calculation, table, signature, Stripe, Square, PayPal, and Mollie payments |
-| `@solspace/freeform-react-theme-default` | Default light/dark theme CSS |
-| `@solspace/freeform-react-theme-tailwind` | Official Tailwind starter theme |
+| `@solspace/freeform-theme-default` | Default light/dark theme CSS (React & Vue) |
+| `@solspace/freeform-theme-tailwind` | Official Tailwind starter theme (class maps) |
+| `@solspace/freeform-theme-bootstrap` | Official Bootstrap 5 starter theme (class maps) |
 
 </StepMarkdown>
 <StepMarkdown stepTitle="Render a form">
@@ -108,7 +109,7 @@ npm install @solspace/freeform-core \
 ```tsx title="ContactForm.tsx" showLineNumbers
 import { Freeform } from '@solspace/freeform-react';
 import { recommendedExtensions } from '@solspace/freeform-extensions';
-import '@solspace/freeform-react-theme-default/styles.css';
+import '@solspace/freeform-theme-default/styles.css';
 
 export function ContactForm() {
   return (
@@ -156,13 +157,13 @@ export function ContactForm() {
 - **PayPal payments** (Buttons; see [React JS → PayPal payments](./reactjs.mdx#paypal-payments))
 - **Mollie payments** (hosted checkout redirect; see [React JS → Mollie payments](./reactjs.mdx#mollie-payments))
 - Default theme with light / dark / system color schemes
-- Official Tailwind starter theme (`@solspace/freeform-react-theme-tailwind`)
+- Official Tailwind starter theme (`@solspace/freeform-theme-tailwind`)
+- Official Bootstrap 5 starter theme (`@solspace/freeform-theme-bootstrap`)
 - Headless GraphQL adapters (`freeformHeadlessManifest` / `freeformHeadlessSubmit`)
 
 ## Coming later
 
 - Official Vue adapter
-- Bootstrap theme package
 
 ## Security checklist
 

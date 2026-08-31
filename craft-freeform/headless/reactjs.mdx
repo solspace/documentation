@@ -16,13 +16,13 @@ Use the official `@solspace/freeform-react` packages. See [Getting Started](./ge
 npm install @solspace/freeform-core \
   @solspace/freeform-react \
   @solspace/freeform-extensions \
-  @solspace/freeform-react-theme-default
+  @solspace/freeform-theme-default
 ```
 
 Import the default theme CSS once in your app entry:
 
 ```tsx
-import '@solspace/freeform-react-theme-default/styles.css';
+import '@solspace/freeform-theme-default/styles.css';
 ```
 
 ## Render with `<Freeform />`
@@ -32,7 +32,7 @@ The easiest path — Freeform loads the manifest, manages state, renders fields,
 ```tsx title="ContactForm.tsx" showLineNumbers
 import { Freeform } from '@solspace/freeform-react';
 import { recommendedExtensions } from '@solspace/freeform-extensions';
-import '@solspace/freeform-react-theme-default/styles.css';
+import '@solspace/freeform-theme-default/styles.css';
 
 export function ContactForm() {
   return (
@@ -69,8 +69,8 @@ import { Freeform } from '@solspace/freeform-react';
 import {
   darkTheme,
   lightTheme,
-} from '@solspace/freeform-react-theme-default';
-import '@solspace/freeform-react-theme-default/styles.css';
+} from '@solspace/freeform-theme-default';
+import '@solspace/freeform-theme-default/styles.css';
 
 <Freeform handle="contact" baseUrl="…" theme={darkTheme} />;
 // or theme={lightTheme}
@@ -83,24 +83,46 @@ By default the theme follows the visitor’s OS preference (`system`).
 If the app already uses Tailwind, use the official Tailwind starter theme. It ships no CSS — your Tailwind build generates the utilities.
 
 ```bash
-npm install @solspace/freeform-react-theme-tailwind
+npm install @solspace/freeform-theme-tailwind
 ```
 
 ```css title="app.css"
 @import "tailwindcss";
-@source "../node_modules/@solspace/freeform-react-theme-tailwind";
+@source "../node_modules/@solspace/freeform-theme-tailwind";
 ```
 
 ```tsx
 import { Freeform } from '@solspace/freeform-react';
-import { tailwindTheme } from '@solspace/freeform-react-theme-tailwind';
+import { tailwindTheme } from '@solspace/freeform-theme-tailwind';
 
 <Freeform handle="contact" baseUrl="…" theme={tailwindTheme} />;
 ```
 
-Use `tailwindDarkTheme` on a dark page. Do not import `@solspace/freeform-react-theme-default/styles.css` on the same form. Override slots with `createTheme({ classNames: { submitButton: "…" } })` from the Tailwind package.
+Use `tailwindDarkTheme` on a dark page. Do not import `@solspace/freeform-theme-default/styles.css` on the same form. Override slots with `createTheme({ classNames: { submitButton: "…" } })` from the Tailwind package.
 
 See the package README for Tailwind 3 `content` paths.
+
+## Bootstrap theme
+
+If the app already uses Bootstrap 5, use the official Bootstrap starter theme. It ships no CSS — load Bootstrap in your app.
+
+```bash
+npm install @solspace/freeform-theme-bootstrap bootstrap
+```
+
+```ts
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@solspace/freeform-theme-bootstrap/styles.css';
+```
+
+```tsx
+import { Freeform } from '@solspace/freeform-react';
+import { bootstrapTheme } from '@solspace/freeform-theme-bootstrap';
+
+<Freeform handle="contact" baseUrl="…" theme={bootstrapTheme} />;
+```
+
+Use `bootstrapDarkTheme` on a dark page (classic `bootstrap-5-dark`). Do not import `@solspace/freeform-theme-default/styles.css` on the same form. Override slots with `createTheme()` from the Bootstrap package.
 
 ## Headless control with `useFreeform()`
 
@@ -285,7 +307,7 @@ Stripe works in headless React the same way it does in classic Freeform template
 ```tsx title="DonationForm.tsx" showLineNumbers
 import { Freeform } from '@solspace/freeform-react';
 import { recommendedExtensions } from '@solspace/freeform-extensions';
-import '@solspace/freeform-react-theme-default/styles.css';
+import '@solspace/freeform-theme-default/styles.css';
 
 export function DonationForm() {
   return (
@@ -323,7 +345,7 @@ Square works in headless React the same way it does in classic Freeform template
 ```tsx title="CheckoutForm.tsx" showLineNumbers
 import { Freeform } from '@solspace/freeform-react';
 import { recommendedExtensions } from '@solspace/freeform-extensions';
-import '@solspace/freeform-react-theme-default/styles.css';
+import '@solspace/freeform-theme-default/styles.css';
 
 export function CheckoutForm() {
   return (
@@ -362,7 +384,7 @@ Unlike Stripe/Square (charge on form Submit), visitors **approve PayPal first**.
 ```tsx title="CheckoutForm.tsx" showLineNumbers
 import { Freeform } from '@solspace/freeform-react';
 import { recommendedExtensions } from '@solspace/freeform-extensions';
-import '@solspace/freeform-react-theme-default/styles.css';
+import '@solspace/freeform-theme-default/styles.css';
 
 export function CheckoutForm() {
   return (
@@ -407,7 +429,7 @@ document.addEventListener('freeform-mollie-payment-return', (event) => {
 ```tsx title="CheckoutForm.tsx" showLineNumbers
 import { Freeform } from '@solspace/freeform-react';
 import { recommendedExtensions } from '@solspace/freeform-extensions';
-import '@solspace/freeform-react-theme-default/styles.css';
+import '@solspace/freeform-theme-default/styles.css';
 
 export function CheckoutForm() {
   return (
