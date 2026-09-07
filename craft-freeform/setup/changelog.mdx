@@ -8,6 +8,95 @@ description: Review the Freeform 5.x for Craft CMS changelog, including new feat
 
 import { TitleDate } from '@site/src/components/docs'
 
+## 5.15.29<TitleDate date="2026-09-07" />
+
+### Added
+- Added support for payment method type overrides in **Stripe** subscription payments.
+
+### Fixed
+- Fixed an issue where **Apple Pay** payments could fail to open when using the **Stripe** integration.
+- Fixed an accessibility issue where field instructions and validation errors, including AJAX validation errors, were not properly announced by screen readers.
+- Fixed an issue where importing forms could omit conditional rules and reset custom button layouts and labels.
+- Fixed duplicate form handle handling so new forms automatically receive unique handles, with names kept in sync across modal, AI-generated, and duplicated forms.
+- Fixed an issue where blank custom attribute names could render invalid HTML and break frontend JavaScript.
+
+## 5.15.28<TitleDate date="2026-08-31" />
+
+### Changed
+- **AI Spam Analysis**: Added async spam validation handling for submission post-processing and related integrations:
+  - New **Wait for Analysis Before Processing Submission Actions** setting.
+  - Defers post-processing for submissions awaiting async spam validation.
+  - Ensures **Mollie** webhooks wait for pending async spam validation before processing submissions.
+  - Updates post-forwarding behavior to account for async spam validation before sending payloads.
+  - Skips spam checks for **Form Monitor** requests.
+- Updated AI model versions in documentation.
+- Improved AI field selection logic when inserting field handles into prompts.
+- Simplified temperature handling in the **Anthropic** integration.
+
+### Fixed
+- **Mailchimp** birthday and date fields now respect configured output date formats.
+
+## 5.15.27<TitleDate date="2026-08-20" />
+
+### Added
+- Added a **Custom Cron Schedule** option to the frequency list for **Export Notifications**.
+
+### Changed
+- Updated date picker range limits to preserve the `today` value in **Date & Time** fields on cached forms.
+
+### Fixed
+- Updated the **Payment Configuration ID** setting to note that Stripe does not support it for subscription payments.
+- Fixed migrating submissions from **Formie** when using the **Name** field type with subfields configured.
+- Fixed a bug where there were some missing permission checks in the Control Panel.
+
+## 5.15.26<TitleDate date="2026-08-13" />
+
+### Added
+- Added support for the **Number** field column type for **Table** fields.
+
+### Fixed
+- Fixed an issue where the **Formie** submission migration could skip additional sites in multi-site installs, with improved logging.
+
+## 5.15.25<TitleDate date="2026-08-12" />
+
+### Security
+- Updated `dompdf/dompdf` to the latest compatible version and removed support for `2.x`.
+- Updated dependencies to address security vulnerabilities.
+
+## 5.15.24<TitleDate date="2026-08-11" />
+
+### Changed
+- **Dashboard chart widgets** now exclude spam submissions by default, with an opt-in toggle to include them.
+
+### Fixed
+- Fixed an issue where forms could fail to load after upgrading to Craft 5 if the `freeform_forms_sites` mapping was empty.
+- Updated **Salesforce OAuth** documentation to reference the **Authorization Code** flow instead of only the **Client Credentials** flow.
+
+## 5.15.23<TitleDate date="2026-08-06" />
+
+### Added
+- Added a **Form Access Delegation** permission that allows non-admin users to assign per-form access to other users.
+
+### Fixed
+- Fixed an issue where `renderTag` attributes were not preserved when a non-AJAX form re-rendered after a validation failure.
+- Fixed the **Generic Webhook** integration to correctly use submission field values.
+- Fixed an issue with **Mollie** payments on multi-page forms using dynamic amounts, ensuring the submit handler is attached correctly and previous page field values are included when creating the payment.
+- Fixed issues with the **ActiveCampaign CRM** integration.
+
+## 5.15.22<TitleDate date="2026-07-27" />
+
+### Fixed
+- Fixed an issue where deleting submissions on the frontend could fail in some cases.
+- Fixed an issue where the **Clear** button on Freeform log pages could fail in some cases.
+
+## 5.15.21<TitleDate date="2026-07-13" />
+
+### Fixed
+- Fixed several issues with the **Mollie** integration, including missing SDK dependencies, payment creation errors, and redirect handling.
+- Fixed an issue where **Mollie** payment descriptions could render raw Twig, such as `{{ form.name }}`, instead of the parsed value.
+- Fixed an issue where successful **Mollie** payment returns did not always re-enter Freeform's success handling pipeline, affecting success banners and configured success behavior for AJAX and non-AJAX forms.
+- Fixed an issue where **Mollie** payment fields could inherit an invalid default value, causing duplicate-key errors.
+
 ## 5.15.20<TitleDate date="2026-07-08" />
 
 ### Fixed
@@ -728,7 +817,7 @@ import { TitleDate } from '@site/src/components/docs'
 ## 5.11.6<TitleDate date="2025-07-18" />
 
 ### Changed
-- Refined the integration settings page and OAuth flow for a smoother setup experience and comaptibility with `sameSite` strict session cookies.
+- Refined the integration settings page and OAuth flow for a smoother setup experience and compatibility with `sameSite` strict session cookies.
 - Improved performance of submission queries across the control panel and front end.
 - Updated the Archived Forms list to support permanent deletion of forms.
 
@@ -2033,7 +2122,7 @@ If you are experiencing visual issues with form layouts and styles on the front 
 - Fixed a bug where reCAPTCHA would conflict with forms using Stripe Payments.
 - Fixed a bug where mapping a field with a handle of `name` would break the Stripe integration.
 - Fixed a bug where running the migration from Freeform 3.x could trigger a `Base table or view already exists` error.
-- Fixed some Safari browser stying issues with the horizontal scrollbar for page tabs.
+- Fixed some Safari browser styling issues with the horizontal scrollbar for page tabs.
 
 ## 5.1.6<TitleDate date="2024-03-20" />
 
