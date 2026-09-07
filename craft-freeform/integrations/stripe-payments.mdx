@@ -290,6 +290,11 @@ Setting up your form to collect payments will generally consist of the following
     - Map your Freeform fields to Stripe's fields as necessary.
     ---
     #### Additional settings
+    - **Payment Configuration ID**<Badge type="feature" text="New in 5.11.11+" />
+      - To use a Stripe payment configuration other than the Default, enter its ID here. Payment configurations apply to one-time payments only. To limit methods on subscriptions, use the _Subscription Payment Methods_ setting below.
+    - **Subscription Payment Methods**<Badge type="feature" text="New in 5.15.29+" />
+      - Comma-separated Stripe payment method types allowed on subscriptions (e.g. `card, paypal, bacs_debit, us_bank_account`). Leave blank to use your Stripe account default.
+      - See the [full list of Stripe values available](#subscription-payment-methods) for this setting.
     - **Suppress Email Notifications & Integrations when Payments Fail**
       - Failed payments will still be stored as submissions, but enabling this will suppress email notifications and API integrations from being sent.
     - **Send Success Email from Stripe to Submitter**
@@ -373,6 +378,72 @@ Some payment methods such as _Apple Pay_ require domains to be registered. You c
 
 - [Registering domains for payment methods](https://stripe.com/docs/payments/payment-methods/pmd-registration)
 - [Full list of available Payment methods](https://stripe.com/docs/payments/payment-methods/overview)
+
+
+#### Payment Configuration ID<Badge type="feature" text="New in 5.11.11+" />
+
+To use a different Stripe payment configuration other than the Default, enter its ID here. This is a per-form settings.
+
+::: note
+Payment configurations apply to one-time payments only. To limit methods on subscriptions, use the _Subscription Payment Methods](#subscription-payment-methods)_ setting below.
+:::
+
+#### Subscription Payment Methods<Badge type="feature" text="New in 5.15.29+" />
+
+Unlike single one-time pauments, Subscription payments will always use the Stripe account default due to a limitation with the API. If you wish to use a custom set of payment options for a form accepting Subscription payments, use this setting and enter a comma-separated list of Stripe payment method types (e.g. `card, paypal, bacs_debit, us_bank_account`). Leave blank to use your Stripe account default.
+
+<details className="hidden-heading">
+<summary>Full list of Stripe values available</summary>
+
+| Payment type                  | Value              |
+| ----------------------------- | ------------------ |
+| ACH Debit                     | `ach_debit`        |
+| ACSS Debit                    | `acss_debit`       |
+| Affirm                        | `affirm`           |
+| Alipay                        | `alipay`           |
+| Amazon Pay                    | `amazon_pay`       |
+| Australian BECS Direct Debit  | `au_becs_debit`    |
+| Bacs Direct Debit             | `bacs_debit`       |
+| Bancontact                    | `bancontact`       |
+| Billie                        | `billie`           |
+| Boleto                        | `boleto`           |
+| Card                          | `card`             |
+| Cash App Pay                  | `cashapp`          |
+| Crypto                        | `crypto`           |
+| Custom                        | `custom`           |
+| Customer Balance              | `customer_balance` |
+| EPS                           | `eps`              |
+| FPX                           | `fpx`              |
+| giropay                       | `giropay`          |
+| GrabPay                       | `grabpay`          |
+| iDEAL                         | `ideal`            |
+| Kakao Pay                     | `kakao_pay`        |
+| Klarna                        | `klarna`           |
+| Konbini                       | `konbini`          |
+| Korean Cards                  | `kr_card`          |
+| Link                          | `link`             |
+| MB WAY                        | `mb_way`           |
+| Multibanco                    | `multibanco`       |
+| Naver Pay                     | `naver_pay`        |
+| New Zealand BECS Direct Debit | `nz_bank_account`  |
+| Przelewy24                    | `p24`              |
+| Pay By Bank                   | `pay_by_bank`      |
+| PAYCO                         | `payco`            |
+| PayNow                        | `paynow`           |
+| PayPal                        | `paypal`           |
+| PayTo                         | `payto`            |
+| Pix                           | `pix`              |
+| PromptPay                     | `promptpay`        |
+| Revolut Pay                   | `revolut_pay`      |
+| Satispay                      | `satispay`         |
+| SEPA Direct Debit             | `sepa_debit`       |
+| Sofort                        | `sofort`           |
+| TWINT                         | `twint`            |
+| UPI                           | `upi`              |
+| ACH Direct Debit              | `us_bank_account`  |
+| WeChat Pay                    | `wechat_pay`       |
+
+</details>
 
 ### Mapping Payment Data to Other Integrations
 
