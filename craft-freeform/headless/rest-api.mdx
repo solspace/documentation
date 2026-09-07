@@ -10,7 +10,7 @@ import { Badge, BadgeGroup } from '@site/src/components/utils';
 
 The headless REST API ships with the Freeform plugin. Official npm clients are published under the [Solspace npm org](https://www.npmjs.com/org/solspace).
 
-Most customers should use [`@solspace/freeform-react`](./reactjs.mdx) and never call these endpoints by hand. This page is the contract reference when you build a custom client or debug requests.
+Most customers should use [`@solspace/freeform-react`](./reactjs.mdx) or [`@solspace/freeform-vue`](./vuejs.mdx) and never call these endpoints by hand. This page is the contract reference when you build a custom client or debug requests.
 
 ## Enable the API
 
@@ -142,7 +142,7 @@ Content-Type: application/json
 
 Used by the `payment.stripe` extension before Stripe confirmation. Validates the form, verifies the PaymentIntent belongs to this form’s Stripe field, and stores an encrypted checkpoint so Freeform’s existing Stripe callback / webhook can create the submission after payment (including 3DS redirects).
 
-Official clients call this for you. Prefer [`@solspace/freeform-react`](./reactjs.mdx#stripe-payments) rather than calling the endpoint by hand.
+Official clients call this for you. Prefer [`@solspace/freeform-react`](./reactjs.mdx#stripe-payments) or [`@solspace/freeform-vue`](./vuejs.mdx#payments-stripe-square-paypal-mollie) rather than calling the endpoint by hand.
 
 Related Stripe routes (also used by classic Freeform) remain under `/freeform/payments/stripe/…` (PaymentIntent create/update, callback, webhook).
 
@@ -156,7 +156,7 @@ FF-SQUARE-INTEGRATION: {opaque-integration-hash}
 
 Used by the `payment.square` extension after the Web Payments SDK tokenizes the card. Body includes the Square `nonce`, `currency`, and current form `values` so Freeform can resolve fixed or dynamic amounts server-side with the Square access token (never exposed in the manifest).
 
-Official clients call this for you. Prefer [`@solspace/freeform-react`](./reactjs.mdx#square-payments) rather than calling the endpoint by hand. This is the same Square charge route used by classic Freeform templates.
+Official clients call this for you. Prefer [`@solspace/freeform-react`](./reactjs.mdx#square-payments) or [`@solspace/freeform-vue`](./vuejs.mdx#payments-stripe-square-paypal-mollie) rather than calling the endpoint by hand. This is the same Square charge route used by classic Freeform templates.
 
 ### PayPal payments
 
@@ -169,7 +169,7 @@ FF-PAYPAL-INTEGRATION: {opaque-integration-hash}
 
 Used by the `payment.paypal` extension with PayPal Buttons. Create locks the amount from current form `values`; capture finalizes the PayPal order. Client secrets stay server-side.
 
-Official clients call these for you. Prefer [`@solspace/freeform-react`](./reactjs.mdx#paypal-payments) rather than calling the endpoints by hand. These are the same PayPal routes used by classic Freeform templates.
+Official clients call these for you. Prefer [`@solspace/freeform-react`](./reactjs.mdx#paypal-payments) or [`@solspace/freeform-vue`](./vuejs.mdx#payments-stripe-square-paypal-mollie) rather than calling the endpoints by hand. These are the same PayPal routes used by classic Freeform templates.
 
 ### Mollie payments
 
@@ -183,7 +183,7 @@ POST /freeform/payments/mollie/webhook
 
 Used by the `payment.mollie` extension. Create returns a `paymentId` and Mollie `checkoutUrl`. The create body may include `returnOrigin` (your SPA origin, e.g. `http://localhost:3000`); when that origin is listed in `headless.allowedOrigins`, Mollie’s browser return uses `{returnOrigin}/freeform/payments/mollie/callback` so the Vite/Next proxy keeps session cookies on the SPA host. Webhook stays on the public Craft URL.
 
-Official clients call create for you. Prefer [`@solspace/freeform-react`](./reactjs.mdx#mollie-payments) rather than calling the endpoints by hand. These are the same Mollie routes used by classic Freeform templates.
+Official clients call create for you. Prefer [`@solspace/freeform-react`](./reactjs.mdx#mollie-payments) or [`@solspace/freeform-vue`](./vuejs.mdx#payments-stripe-square-paypal-mollie) rather than calling the endpoints by hand. These are the same Mollie routes used by classic Freeform templates.
 
 ### Named profiles (advanced)
 
@@ -228,10 +228,12 @@ Manifests include:
 ## Next steps
 
 - [Getting Started](./getting-started.mdx) — install packages
-- [React JS](./reactjs.mdx) — `<Freeform />` and `useFreeform()`
+- [React JS](./reactjs.mdx) — React `<Freeform />` and `useFreeform()`
+- [Vue.js](./vuejs.mdx) — Vue `<Freeform />` and `useFreeform()`
 - [Next.js](./nextjs.mdx) — App Router + proxy
 - [React JS → Stripe payments](./reactjs.mdx#stripe-payments) — Payment Element in headless React
 - [React JS → Square payments](./reactjs.mdx#square-payments) — Web Payments SDK in headless React
 - [React JS → PayPal payments](./reactjs.mdx#paypal-payments) — PayPal Buttons in headless React
 - [React JS → Mollie payments](./reactjs.mdx#mollie-payments) — hosted checkout redirect in headless React
+- [Vue.js → Payments](./vuejs.mdx#payments-stripe-square-paypal-mollie) — same payment extensions in Vue
 - [GraphQL](./graphql.mdx#headless-graphql-adapters) — headless manifest/submit via Craft GraphQL
