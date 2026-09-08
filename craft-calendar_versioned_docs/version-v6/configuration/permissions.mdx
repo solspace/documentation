@@ -1,0 +1,36 @@
+---
+sidebar_position: 4
+title: Permissions
+description: Set user and group permissions for Solspace Calendar 6.x in Craft CMS.
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Permissions
+
+Solspace Calendar ties into regular Craft User Group Permissions. Simply visit the permissions page for the applicable user group(s) (**Settings > Users > User Groups**) to grant/edit/remove permissions to Calendar.
+
+Calendar 6 reorganizes permissions to match the structure used by Freeform. The older Calendar permission IDs are migrated to the new IDs during the Calendar 6 update so existing user group access continues working.
+
+<Photo
+  img={require('@site/static/img/craft/calendar/v5/cp_permissions.png')}
+  alt="Permissions"
+/>
+
+- **General**
+  - _Access Calendar_ - required for users to access Solspace Calendar at all.
+- **Access Events**
+  - _Read All Events_ - allows users to view events in all calendars. This overrides individual _Read Events by Calendar_ selections.
+  - _Read Events by Calendar_ - allows users to view events in selected calendars only.
+  - _Manage All Events_ - allows users to create, edit, delete, and save events in all calendars. This also grants read access and overrides individual _Manage Events by Calendar_ selections.
+  - _Manage Events by Calendar_ - allows users to create, edit, delete, and save events in selected calendars only.
+- **Access Calendars**
+  - _Create New Calendars_ - allows users to create calendars.
+  - _Delete Calendars_ - allows users to delete calendars.
+    :::danger
+    Deleting a calendar deletes ALL events associated with that calendar as well, so be careful which users have access to this permission.
+    :::
+  - _Manage All Calendars_ - allows users to edit all calendars.
+  - _Manage Calendars Individually_ - allows users to edit selected calendars only.
+- _Access Settings_ - access to the settings area for Calendar and [Demo Templates](../configuration/demo-templates.mdx) install page.
+- _Access Resources_ - access to the resources area for Calendar.

@@ -1,0 +1,123 @@
+---
+title: Creating/Editing Events
+sidebar_position: 3
+description: Create and edit Solspace Calendar 6.x events from front-end templates in Craft CMS.
+---
+
+# Creating/Editing Events on the Front End
+
+Calendar 6 includes an updated front-end event creation flow. The demo templates are still the best starting point, but the request payload is more direct than Calendar 5 and aligns with the v6 event model, recurrence handling, and persisted occurrence generation.
+
+## Overview
+
+A few important things to note are that:
+
+- Use `craft.calendar.createEvent(siteId, calendarId)` when rendering a new event form.
+- Use `craft.calendar.events({...}).one()` when editing an existing event.
+- Submit event forms to `calendar/events-api/save`.
+- Core event fields are submitted as top-level POST fields.
+- Custom fields are submitted in Craft's normal `fields[]` array. For example, a field handle of `location` should use `fields[location]`.
+- When the event is saved, Calendar normalizes the event schedule and regenerates persisted occurrences.
+
+## Loading the Event
+
+```twig showLineNumbers
+{% set currentSite = craft.app.sites.currentSite %}
+{% set routeEventId = id is defined ? id : 'new' %}
+{% set allowedCalendars = craft.calendar.allowedCalendars %}
+
+{% if routeEventId == 'new' %}
+    {% set selectedCalendar = allowedCalendars|first %}
+    {% set event = craft.calendar.createEvent(currentSite.id, selectedCalendar.id) %}
+{% else %}
+    {% set event = craft.calendar.events({
+        id: routeEventId,
+        siteId: currentSite.id,
+        status: null,
+    }).one() %}
+{% endif %}
+```
+
+## Saving the Event
+
+```twig showLineNumbers
+{% if event %}
+    {% requireEventEditPermissions event %}
+
+    <form method="post">
+        {{ csrfInput() }}
+        <input type="hidden" name="action" value="calendar/events-api/save">
+        <input type="hidden" name="redirect" value="{{ url('calendar/event/{id}')|hash }}">
+        <input type="hidden" name="eventId" value="{{ event.id }}">
+        <input type="hidden" name="siteId" value="{{ event.siteId ?? currentSite.id }}">
+        <input type="hidden" name="calendarId" value="{{ event.calendarId }}">
+        <input type="hidden" name="timezone" value="{{ event.timezone ?? craft.app.timezone }}">
+
+        <label for="event-title">Title</label>
+        <input id="event-title" type="text" name="title" value="{{ event.title }}" required>
+
+        <label for="event-start">Starts</label>
+        <input id="event-start" type="datetime-local" name="start" value="{{ event.getStartDate().format('Y-m-d\\TH:i:s') }}" required>
+
+        <label for="event-end">Ends</label>
+        <input id="event-end" type="datetime-local" name="end" value="{{ event.getEndDate().format('Y-m-d\\TH:i:s') }}" required>
+
+        <label>
+            <input type="checkbox" name="allDay" value="1" {{ event.allDay ? 'checked' }}>
+            All day
+        </label>
+
+        <button type="submit">Save Event</button>
+    </form>
+{% endif %}
+```
+
+## Recurring Events
+
+For recurring events, submit the normalized recurrence fields alongside the event schedule:
+
+```twig showLineNumbers
+<input type="hidden" name="repeatType" value="{{ event.repeatType ?? 'NEVER' }}">
+<input type="hidden" name="repeatEndType" value="{{ event.repeatEndType ?? 'NEVER' }}">
+<input type="hidden" name="until" value="{{ event.getUntil() ? event.getUntil().format('Y-m-d\\TH:i:s') : '' }}">
+<input type="hidden" name="rrule" value="{{ event.rrule }}">
+```
+
+The `rrule` value can contain `DTSTART`, `RRULE`, `RDATE`, and `EXDATE` lines. Calendar 6 normalizes this data when the event is saved and regenerates the stored occurrence rows.
+
+```text
+DTSTART:20260714T090000
+RRULE:FREQ=WEEKLY;INTERVAL=1;COUNT=6
+EXDATE:20260728T090000
+```
+
+For all-day events, use date-only values:
+
+```text
+DTSTART:20260714
+RRULE:FREQ=DAILY;COUNT=3
+```
+
+## JSON Responses
+
+If the request accepts JSON, Calendar returns a JSON response containing the saved event data transformed for front-end calendar use:
+
+```json
+{
+  "success": true,
+  "event": {
+    "id": 123,
+    "title": "Example Event"
+  }
+}
+```
+
+## Permissions
+
+Calendar checks the same permissions for front-end event management as it does in the control panel:
+
+- users need _Manage All Events_ or _Manage Events by Calendar_ access for the target calendar;
+- changing an event to another calendar requires create/manage access for the destination calendar;
+- guest event creation must also be enabled in Calendar's Guest Access settings.
+
+The included demo templates contain a complete vanilla JavaScript example for schedule, all-day, recurrence, and custom field handling.

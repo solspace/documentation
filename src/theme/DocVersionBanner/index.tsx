@@ -41,7 +41,6 @@ function getCurrentProductName(): string {
 }
 
 function UnreleasedVersionLabel({
-  siteTitle,
   versionMetadata,
   productName,
 }: BannerLabelComponentProps) {
@@ -50,14 +49,11 @@ function UnreleasedVersionLabel({
       id="theme.docs.versions.unreleasedVersionLabel"
       description="The label used to tell the user that they're browsing an unreleased doc version"
       values={{
-        siteTitle,
-        versionLabel: <b>{versionMetadata.label}</b>,
+        versionLabel: versionMetadata.label,
         productName,
       }}
     >
-      {
-        'This is unreleased documentation for {siteTitle} {versionLabel} version of {productName}.'
-      }
+      {'This is unreleased documentation for {productName} {versionLabel}.'}
     </Translate>
   );
 }
