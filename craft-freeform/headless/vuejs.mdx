@@ -6,7 +6,7 @@ description: Build headless Freeform forms with the official Vue packages for Cr
 
 import { Badge, BadgeGroup } from '@site/src/components/utils';
 
-# Vue.js<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+# Vue.js<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.16+" />
 
 Use the official `@solspace/freeform-vue` packages. See [Getting Started](./getting-started.mdx) for enabling the headless API.
 
@@ -14,7 +14,7 @@ The Vue adapter matches the React API (`<Freeform />`, `useFreeform()`, themes, 
 
 ## Install
 
-```bash
+```nix
 npm install @solspace/freeform-core \
   @solspace/freeform-vue \
   @solspace/freeform-extensions \
@@ -27,11 +27,11 @@ Import the default theme CSS once in your app entry:
 import '@solspace/freeform-theme-default/styles.css';
 ```
 
-## Render with `<Freeform />`
+## Render with `<Freeform />`<Badge type="recommended" text="Recommended" />
 
 The easiest path — Freeform loads the manifest, manages state, renders fields, handles CSRF, and submits:
 
-```vue title="ContactForm.vue" showLineNumbers
+```html title="ContactForm.vue" showLineNumbers
 <script setup lang="ts">
 import { Freeform } from '@solspace/freeform-vue';
 import { recommendedExtensions } from '@solspace/freeform-extensions';
@@ -71,9 +71,9 @@ function onError(response: unknown) {
 | `#loading` / `#error` slots | Custom loading and error UI |
 | `#default="{ form }"` | Headless slot — own the markup (same idea as React `children`) |
 
-### Light / dark theme
+### Light / Dark Theme
 
-```vue
+```nix
 <script setup lang="ts">
 import { Freeform } from '@solspace/freeform-vue';
 import { darkTheme, lightTheme } from '@solspace/freeform-theme-default';
@@ -92,11 +92,11 @@ By default the theme follows the visitor’s OS preference (`system`).
 `@solspace/freeform-theme-default`, `-tailwind`, and `-bootstrap` are shared with React. Pass them as `:theme` on Vue forms the same way.
 :::
 
-## Tailwind theme
+## Tailwind Theme
 
 If the app already uses Tailwind, use the official Tailwind starter theme. It ships no CSS — your Tailwind build generates the utilities.
 
-```bash
+```nix
 npm install @solspace/freeform-theme-tailwind
 ```
 
@@ -105,7 +105,7 @@ npm install @solspace/freeform-theme-tailwind
 @source "../node_modules/@solspace/freeform-theme-tailwind";
 ```
 
-```vue
+```html
 <script setup lang="ts">
 import { Freeform } from '@solspace/freeform-vue';
 import { tailwindTheme } from '@solspace/freeform-theme-tailwind';
@@ -118,11 +118,11 @@ import { tailwindTheme } from '@solspace/freeform-theme-tailwind';
 
 Use `tailwindDarkTheme` on a dark page. Do not import `@solspace/freeform-theme-default/styles.css` on the same form.
 
-## Bootstrap theme
+## Bootstrap Theme
 
 If the app already uses Bootstrap 5, use the official Bootstrap starter theme. It ships no CSS — load Bootstrap in your app.
 
-```bash
+```nix
 npm install @solspace/freeform-theme-bootstrap bootstrap
 ```
 
@@ -131,7 +131,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@solspace/freeform-theme-bootstrap/styles.css';
 ```
 
-```vue
+```html
 <script setup lang="ts">
 import { Freeform } from '@solspace/freeform-vue';
 import { bootstrapTheme } from '@solspace/freeform-theme-bootstrap';
@@ -144,11 +144,11 @@ import { bootstrapTheme } from '@solspace/freeform-theme-bootstrap';
 
 Use `bootstrapDarkTheme` on a dark page. Do not import `@solspace/freeform-theme-default/styles.css` on the same form.
 
-## Headless control with `useFreeform()`
+## Headless Control with `useFreeform()`
 
 Own the markup while Freeform still loads the form, tracks values, evaluates conditionals, and submits:
 
-```vue title="HeadlessContactForm.vue" showLineNumbers
+```html title="HeadlessContactForm.vue" showLineNumbers
 <script setup lang="ts">
 import { useFreeform } from '@solspace/freeform-vue';
 import { recommendedExtensions } from '@solspace/freeform-extensions';
@@ -194,7 +194,7 @@ function onSubmit(event: Event) {
 
 You can also pass a default slot to `<Freeform>`:
 
-```vue
+```html
 <Freeform handle="contact" :base-url="baseUrl">
   <template #default="{ form }">
     <!-- your markup using form.* -->
@@ -218,7 +218,7 @@ Enable **Save** on the form’s Button Layout in Freeform. Vue shows the Save bu
 
 After Save, Freeform returns a `token` and `key`. Put those in your page URL so the visitor can come back later:
 
-```vue title="ContactFormWithSave.vue" showLineNumbers
+```html title="ContactFormWithSave.vue" showLineNumbers
 <script setup lang="ts">
 import { Freeform } from '@solspace/freeform-vue';
 import { recommendedExtensions } from '@solspace/freeform-extensions';
@@ -267,14 +267,14 @@ function onSuccess(response: {
 </template>
 ```
 
-**Customer flow**
+**Customer Flow**
 
 1. Enable Save in Freeform → set Save label (Redirect URL optional).
 2. Visitor clicks **Save** → your app stores `token` + `key` in the URL.
 3. Visitor returns via that URL → pass `draftToken` / `draftKey` → fields restore.
 4. Visitor clicks **Submit** → real submission; draft is removed.
 
-## Captchas and advanced fields
+## Captchas and Advanced Fields
 
 Pass `recommendedExtensions` (or a subset) so Freeform can mount captchas and advanced fields:
 
@@ -294,7 +294,7 @@ import {
 } from '@solspace/freeform-extensions';
 ```
 
-```vue
+```html
 <!-- Recommended preset -->
 <Freeform :extensions="recommendedExtensions" … />
 ```
@@ -318,11 +318,11 @@ For **table** fields: enable the field in Freeform as usual. Row limits and requ
 
 For **signature** fields: visitors draw on the canvas; the value is stored as a PNG data URL. Clear resets the pad.
 
-## Payments (Stripe, Square, PayPal, Mollie)
+## Payments
 
-Payment fields work the same in Vue as in React: configure the integration in Freeform, add the payment field in the form builder, and pass `recommendedExtensions` (or the matching `*PaymentExtension`).
+Payment fields (Stripe, Square, PayPal, Mollie) work the same in Vue as in React: configure the integration in Freeform, add the payment field in the form builder, and pass `recommendedExtensions` (or the matching `*PaymentExtension`).
 
-```vue
+```html
 <script setup lang="ts">
 import { Freeform } from '@solspace/freeform-vue';
 import { recommendedExtensions } from '@solspace/freeform-extensions';
@@ -340,18 +340,13 @@ import '@solspace/freeform-theme-default/styles.css';
 
 Prefer a **same-origin proxy** for `/freeform/*`. Put payment fields on the **last** page of multi-page forms.
 
-Deep dives (behavior, testing cards, webhooks):
+For deep dives (behavior, testing cards, webhooks), view the [React JS](./reactjs.mdx#payments) docs.
 
-- [React JS → Stripe payments](./reactjs.mdx#stripe-payments)
-- [React JS → Square payments](./reactjs.mdx#square-payments)
-- [React JS → PayPal payments](./reactjs.mdx#paypal-payments)
-- [React JS → Mollie payments](./reactjs.mdx#mollie-payments)
-
-## Custom field renderers
+## Custom Field Renderers
 
 Override rendering by handle, frontend renderer key, or field type:
 
-```vue
+```html
 <script setup lang="ts">
 import { Freeform } from '@solspace/freeform-vue';
 import MyPaymentField from './MyPaymentField.vue';
@@ -376,7 +371,7 @@ const renderers = {
 </template>
 ```
 
-## Same-origin proxy (recommended)
+## Same-origin Proxy<Badge type="recommended" text="Recommended" />
 
 Point your Vite (or other) dev server at Craft so CSRF cookies stay same-origin:
 
@@ -396,7 +391,7 @@ export default {
 
 Then use `base-url=""` (or `window.location.origin`) in the browser.
 
-## Security notes
+## Security Notes
 
 - Leave **`allowRawHtml`** at the default (`false`) unless HTML fields are trusted.
 - Enable a **captcha** on public forms.
@@ -407,7 +402,7 @@ Then use `base-url=""` (or `window.location.origin`) in the browser.
 
 Freeform’s Vue packages are client-side. In Nuxt, use a `.client.vue` component (or `<ClientOnly>`) and proxy `/freeform` — same pattern as [Next.js](./nextjs.mdx) for React. See the dedicated [Nuxt](./nuxt.mdx) guide.
 
-## Example demos
+## Example Demos
 
 - [Freeform Headless Vue Demo](https://github.com/solspace/freeform-headless-vue-demo) — Vite + Vue 3 app (REST + GraphQL tab)
 - [Freeform Headless Nuxt Demo](https://github.com/solspace/freeform-headless-nuxt-demo) — Nuxt 3 + `@solspace/freeform-vue`
@@ -416,7 +411,7 @@ Freeform’s Vue packages are client-side. In Nuxt, use a `.client.vue` componen
 
 Prefer the [headless GraphQL adapters](./graphql.mdx#headless-graphql-adapters) when you want Craft GraphQL with the same manifest/submit contract as REST. Pass a custom `fetch` (same pattern as the Vue demo’s `graphqlFetch`) into `<Freeform>` / `useFreeform()`.
 
-## Legacy GraphQL / AJAX demos
+## Legacy GraphQL / AJAX Demos
 
 Older demos that query Freeform via GraphQL or custom AJAX still work, but are **not** the recommended path for new projects:
 

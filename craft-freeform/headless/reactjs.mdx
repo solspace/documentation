@@ -4,15 +4,17 @@ sidebar_position: 3
 description: Build headless Freeform forms with the official React packages for Craft CMS.
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import { Badge, BadgeGroup } from '@site/src/components/utils';
 
-# React JS<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+# React JS<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.16+" />
 
 Use the official `@solspace/freeform-react` packages. See [Getting Started](./getting-started.mdx) for enabling the headless API. For Vue 3, see [Vue.js](./vuejs.mdx).
 
 ## Install
 
-```bash
+```nix
 npm install @solspace/freeform-core \
   @solspace/freeform-react \
   @solspace/freeform-extensions \
@@ -25,7 +27,7 @@ Import the default theme CSS once in your app entry:
 import '@solspace/freeform-theme-default/styles.css';
 ```
 
-## Render with `<Freeform />`
+## Render with `<Freeform />`<Badge type="recommended" text="Recommended" />
 
 The easiest path — Freeform loads the manifest, manages state, renders fields, handles CSRF, and submits:
 
@@ -62,7 +64,7 @@ export function ContactForm() {
 | `allowRawHtml` | Default `false`. Set `true` only if HTML/rich-text fields are trusted CMS content. |
 | `loadingFallback` / `errorFallback` | Custom loading and error UI |
 
-### Light / dark theme
+### Light / Dark Theme
 
 ```tsx
 import { Freeform } from '@solspace/freeform-react';
@@ -78,11 +80,11 @@ import '@solspace/freeform-theme-default/styles.css';
 
 By default the theme follows the visitor’s OS preference (`system`).
 
-## Tailwind theme
+## Tailwind Theme
 
 If the app already uses Tailwind, use the official Tailwind starter theme. It ships no CSS — your Tailwind build generates the utilities.
 
-```bash
+```nix
 npm install @solspace/freeform-theme-tailwind
 ```
 
@@ -102,7 +104,7 @@ Use `tailwindDarkTheme` on a dark page. Do not import `@solspace/freeform-theme-
 
 See the package README for Tailwind 3 `content` paths.
 
-## Bootstrap theme
+## Bootstrap Theme
 
 If the app already uses Bootstrap 5, use the official Bootstrap starter theme. It ships no CSS — load Bootstrap in your app.
 
@@ -232,18 +234,16 @@ export function ContactFormWithSave() {
 }
 ```
 
-**Customer flow**
+#### Customer Flow
 
 1. Enable Save in Freeform → set Save label (Redirect URL optional).
 2. Visitor clicks **Save** → your app stores `token` + `key` in the URL (as above).
 3. Visitor returns via that URL → pass `draftToken` / `draftKey` → fields restore.
 4. Visitor clicks **Submit** → real submission; draft is removed.
 
-Optional: set the form’s Save **Redirect URL** to  
-`https://your-app.com/contact?session-token={token}&key={key}`  
-so the API also returns `draft.resumeUrl` for emails or custom UI.
+Optional: set the form’s Save **Redirect URL** to `https://your-app.com/contact?session-token={token}&key={key}` so the API also returns `draft.resumeUrl` for emails or custom UI.
 
-## Captchas and advanced fields
+## Captchas and Advanced Fields
 
 Pass `recommendedExtensions` (or a subset) so Freeform can mount captchas and advanced fields:
 
@@ -300,169 +300,178 @@ For **table** fields: enable the field in Freeform as usual. Row limits and requ
 
 For **signature** fields: visitors draw on the canvas; the value is stored as a PNG data URL. Clear resets the pad.
 
-## Stripe payments
+## Payments
 
-Stripe works in headless React the same way it does in classic Freeform templates: configure the [Stripe Payments](../integrations/stripe-payments.mdx) integration and add a **Stripe** field in the form builder. With `recommendedExtensions` (or `stripePaymentExtension`), Freeform mounts Stripe’s Payment Element from the form manifest.
+<Tabs>
+  <TabItem value="payments-stripe" label="Stripe" default>
+    Stripe works in headless React the same way it does in classic Freeform templates: configure the [Stripe Payments](../integrations/stripe-payments.mdx) integration and add a **Stripe** field in the form builder. With `recommendedExtensions` (or `stripePaymentExtension`), Freeform mounts Stripe’s Payment Element from the form manifest.
 
-```tsx title="DonationForm.tsx" showLineNumbers
-import { Freeform } from '@solspace/freeform-react';
-import { recommendedExtensions } from '@solspace/freeform-extensions';
-import '@solspace/freeform-theme-default/styles.css';
+    ```tsx title="DonationForm.tsx" showLineNumbers
+    import { Freeform } from '@solspace/freeform-react';
+    import { recommendedExtensions } from '@solspace/freeform-extensions';
+    import '@solspace/freeform-theme-default/styles.css';
 
-export function DonationForm() {
-  return (
-    <Freeform
-      handle="donation"
-      baseUrl="" // same-origin proxy recommended
-      extensions={recommendedExtensions}
-    />
-  );
-}
-```
+    export function DonationForm() {
+      return (
+        <Freeform
+          handle="donation"
+          baseUrl="" // same-origin proxy recommended
+          extensions={recommendedExtensions}
+        />
+      );
+    }
+    ```
 
-**What Freeform handles for you**
+    #### What Freeform handles for you
 
-1. Manifest exposes public Stripe config only (publishable key, theme/layout, amount field handles, opaque integration hash). Secret keys never leave Craft.
-2. Payment Element creates / updates PaymentIntents through Freeform’s existing Stripe routes.
-3. Dynamic amounts sync from your Number (or other amount) fields before confirmation.
-4. On final submit, Freeform validates the form, stores an encrypted payment checkpoint, confirms with Stripe (including 3DS when required), then completes via Freeform’s Stripe callback / webhook — the same finalization path as classic forms.
+    - Manifest exposes public Stripe config only (publishable key, theme/layout, amount field handles, opaque integration hash). Secret keys never leave Craft.
+    - Payment Element creates / updates PaymentIntents through Freeform’s existing Stripe routes.
+    - Dynamic amounts sync from your Number (or other amount) fields before confirmation.
+    - On final submit, Freeform validates the form, stores an encrypted payment checkpoint, confirms with Stripe (including 3DS when required), then completes via Freeform’s Stripe callback / webhook — the same finalization path as classic forms.
 
-**Requirements**
+    #### Requirements
 
-- Freeform **Pro** with Stripe configured (test or live keys + webhook)
-- Headless enabled for the form (`exposeManifest` + `allowSubmit`)
-- `@solspace/freeform-extensions` that includes `stripePaymentExtension` (use `recommendedExtensions`)
-- Prefer a **same-origin proxy** for `/freeform/*` so CSRF cookies and Stripe endpoints stay on your app origin
+    - Freeform **Pro** with Stripe configured (test or live keys + webhook)
+    - Headless enabled for the form (`exposeManifest` + `allowSubmit`)
+    - `@solspace/freeform-extensions` that includes `stripePaymentExtension` (use `recommendedExtensions`)
+    - Prefer a **same-origin proxy** for `/freeform/*` so CSRF cookies and Stripe endpoints stay on your app origin
 
-**Multi-page tip:** put the Stripe field on the **last** page. Back / Next never charge; payment runs only on final submit.
+    :::info
+    **Multi-page forms:** put the Stripe field on the **last** page. Back / Next never charge; payment runs only on final submit.
 
-**Testing cards** (Stripe test mode): success `4242…`, decline `4000000000000002`, 3DS `4000000000003220`. Full list: [Stripe testing](https://stripe.com/docs/testing) and [Stripe Payments → Testing](../integrations/stripe-payments.mdx#testing).
+    **Testing cards** (Stripe test mode): success `4242…`, decline `4000000000000002`, 3DS `4000000000003220`. Full list: [Stripe testing](https://stripe.com/docs/testing) and [Stripe Payments → Testing](../integrations/stripe-payments.mdx#testing).
+    :::
+  </TabItem>
+  <TabItem value="payments-square" label="Square">
+    Square works in headless React the same way it does in classic Freeform templates: configure the [Square](../integrations/square.mdx) integration and add a **Square** field in the form builder. With `recommendedExtensions` (or `squarePaymentExtension`), Freeform mounts Square’s Web Payments SDK card form from the form manifest.
 
-## Square payments
+    ```tsx title="CheckoutForm.tsx" showLineNumbers
+    import { Freeform } from '@solspace/freeform-react';
+    import { recommendedExtensions } from '@solspace/freeform-extensions';
+    import '@solspace/freeform-theme-default/styles.css';
 
-Square works in headless React the same way it does in classic Freeform templates: configure the [Square](../integrations/square.mdx) integration and add a **Square** field in the form builder. With `recommendedExtensions` (or `squarePaymentExtension`), Freeform mounts Square’s Web Payments SDK card form from the form manifest.
+    export function CheckoutForm() {
+      return (
+        <Freeform
+          handle="checkout"
+          baseUrl="" // same-origin proxy recommended
+          extensions={recommendedExtensions}
+        />
+      );
+    }
+    ```
 
-```tsx title="CheckoutForm.tsx" showLineNumbers
-import { Freeform } from '@solspace/freeform-react';
-import { recommendedExtensions } from '@solspace/freeform-extensions';
-import '@solspace/freeform-theme-default/styles.css';
+    #### What Freeform handles for you
 
-export function CheckoutForm() {
-  return (
-    <Freeform
-      handle="checkout"
-      baseUrl="" // same-origin proxy recommended
-      extensions={recommendedExtensions}
-    />
-  );
-}
-```
+    - Manifest exposes public Square config only (Application ID, Location ID, sandbox flag, amount field handle, opaque integration hash). Access tokens never leave Craft.
+    - On final submit, the card is tokenized in the browser; Freeform charges via the existing Square payments route using current form values (including dynamic amounts).
+    - The payment resource ID is written into the Square field value, then the normal headless submit runs so Freeform can link a PaymentRecord — the same finalization path as classic forms.
 
-**What Freeform handles for you**
+    #### Requirements
 
-1. Manifest exposes public Square config only (Application ID, Location ID, sandbox flag, amount field handle, opaque integration hash). Access tokens never leave Craft.
-2. On final submit, the card is tokenized in the browser; Freeform charges via the existing Square payments route using current form values (including dynamic amounts).
-3. The payment resource ID is written into the Square field value, then the normal headless submit runs so Freeform can link a PaymentRecord — the same finalization path as classic forms.
+    - Freeform **Pro** with Square configured (Application ID, Access Token, Location ID; sandbox recommended for testing)
+    - Headless enabled for the form (`exposeManifest` + `allowSubmit`)
+    - `@solspace/freeform-extensions` that includes `squarePaymentExtension` (use `recommendedExtensions`)
+    - Prefer a **same-origin proxy** for `/freeform/*` so CSRF cookies and the Square payments endpoint stay on your app origin
 
-**Requirements**
+    :::info
+    **Multi-page forms:** put the Square field on the **last** page. Back / Next never charge; payment runs only on final submit.
 
-- Freeform **Pro** with Square configured (Application ID, Access Token, Location ID; sandbox recommended for testing)
-- Headless enabled for the form (`exposeManifest` + `allowSubmit`)
-- `@solspace/freeform-extensions` that includes `squarePaymentExtension` (use `recommendedExtensions`)
-- Prefer a **same-origin proxy** for `/freeform/*` so CSRF cookies and the Square payments endpoint stay on your app origin
+    **Testing cards** (Square sandbox): use [Square sandbox test values](https://developer.squareup.com/docs/devtools/sandbox/payments). See also [Square → Sandbox Testing](../integrations/square.mdx#sandbox-testing).
+    :::
+  </TabItem>
+  <TabItem value="payments-paypal" label="PayPal">
+    PayPal works in headless React the same way it does in classic Freeform templates: configure the [PayPal](../integrations/paypal.mdx) integration and add a **PayPal** field in the form builder. With `recommendedExtensions` (or `paypalPaymentExtension`), Freeform mounts PayPal Buttons from the form manifest.
 
-**Multi-page tip:** put the Square field on the **last** page. Back / Next never charge; payment runs only on final submit.
+    Unlike Stripe/Square (charge on form Submit), visitors **approve PayPal first**. After a successful capture, Freeform auto-submits the form with the PayPal order id (same finalization path as classic forms).
 
-**Testing cards** (Square sandbox): use [Square sandbox test values](https://developer.squareup.com/docs/devtools/sandbox/payments). See also [Square → Sandbox Testing](../integrations/square.mdx#sandbox-testing).
+    ```tsx title="CheckoutForm.tsx" showLineNumbers
+    import { Freeform } from '@solspace/freeform-react';
+    import { recommendedExtensions } from '@solspace/freeform-extensions';
+    import '@solspace/freeform-theme-default/styles.css';
 
-## PayPal payments
+    export function CheckoutForm() {
+      return (
+        <Freeform
+          handle="checkout"
+          baseUrl="" // same-origin proxy recommended
+          extensions={recommendedExtensions}
+        />
+      );
+    }
+    ```
 
-PayPal works in headless React the same way it does in classic Freeform templates: configure the [PayPal](../integrations/paypal.mdx) integration and add a **PayPal** field in the form builder. With `recommendedExtensions` (or `paypalPaymentExtension`), Freeform mounts PayPal Buttons from the form manifest.
+    #### What Freeform handles for you
 
-Unlike Stripe/Square (charge on form Submit), visitors **approve PayPal first**. After a successful capture, Freeform auto-submits the form with the PayPal order id (same finalization path as classic forms).
+    - Manifest exposes public PayPal config only (Client ID, sandbox flag, currency, amount field handle, opaque integration hash). Client secrets never leave Craft.
+    - Buttons create a PayPal order through Freeform’s existing orders route (dynamic amounts use current form values).
+    - On approve, Freeform captures the order, stores the order id on the PayPal field, then submits the form automatically.
 
-```tsx title="CheckoutForm.tsx" showLineNumbers
-import { Freeform } from '@solspace/freeform-react';
-import { recommendedExtensions } from '@solspace/freeform-extensions';
-import '@solspace/freeform-theme-default/styles.css';
+    #### Requirements
 
-export function CheckoutForm() {
-  return (
-    <Freeform
-      handle="checkout"
-      baseUrl="" // same-origin proxy recommended
-      extensions={recommendedExtensions}
-    />
-  );
-}
-```
+    - Freeform **Pro** with PayPal configured (Client ID + Client Secret; sandbox recommended for testing)
+    - Headless enabled for the form (`exposeManifest` + `allowSubmit`)
+    - `@solspace/freeform-extensions` that includes `paypalPaymentExtension` (use `recommendedExtensions`)
+    - Prefer a **same-origin proxy** for `/freeform/*` so CSRF cookies and PayPal order endpoints stay on your app origin
 
-**What Freeform handles for you**
+    :::info
+    **Multi-page forms:** put the PayPal field on the **last** page and collect amount fields earlier when possible (order amount is locked at create time).
 
-1. Manifest exposes public PayPal config only (Client ID, sandbox flag, currency, amount field handle, opaque integration hash). Client secrets never leave Craft.
-2. Buttons create a PayPal order through Freeform’s existing orders route (dynamic amounts use current form values).
-3. On approve, Freeform captures the order, stores the order id on the PayPal field, then submits the form automatically.
+    **Testing:** use PayPal sandbox accounts and card values from [PayPal → Sandbox Testing](../integrations/paypal.mdx#sandbox-testing).
+    :::
+  </TabItem>
+  <TabItem value="payments-mollie" label="Mollie">
+    Mollie works in headless React the same way it does in classic Freeform templates: configure the [Mollie](../integrations/mollie.mdx) integration and add a **Mollie** field in the form builder. With `recommendedExtensions` (or `molliePaymentExtension`), Freeform creates a Mollie payment on final submit and redirects to Mollie hosted checkout.
 
-**Requirements**
+    There is **no Mollie card UI in the form** — the field is a redirect handoff (iDEAL, Bancontact, cards, and other methods Mollie enables for your account), same idea as the classic hidden payment field. The default renderer hides the field (no label, no input). Use a custom renderer or this optional event if you want cancel/failure copy in your SPA:
 
-- Freeform **Pro** with PayPal configured (Client ID + Client Secret; sandbox recommended for testing)
-- Headless enabled for the form (`exposeManifest` + `allowSubmit`)
-- `@solspace/freeform-extensions` that includes `paypalPaymentExtension` (use `recommendedExtensions`)
-- Prefer a **same-origin proxy** for `/freeform/*` so CSRF cookies and PayPal order endpoints stay on your app origin
+    ```js
+    document.addEventListener('freeform-mollie-payment-return', (event) => {
+      // event.detail.status — e.g. canceled, failed, expired
+    });
+    ```
 
-**Multi-page tip:** put the PayPal field on the **last** page and collect amount fields earlier when possible (order amount is locked at create time).
+    ```tsx title="CheckoutForm.tsx" showLineNumbers
+    import { Freeform } from '@solspace/freeform-react';
+    import { recommendedExtensions } from '@solspace/freeform-extensions';
+    import '@solspace/freeform-theme-default/styles.css';
 
-**Testing:** use PayPal sandbox accounts and card values from [PayPal → Sandbox Testing](../integrations/paypal.mdx#sandbox-testing).
+    export function CheckoutForm() {
+      return (
+        <Freeform
+          handle="checkout"
+          baseUrl="" // same-origin proxy recommended
+          extensions={recommendedExtensions}
+        />
+      );
+    }
+    ```
 
-## Mollie payments
+    #### What Freeform handles for you
 
-Mollie works in headless React the same way it does in classic Freeform templates: configure the [Mollie](../integrations/mollie.mdx) integration and add a **Mollie** field in the form builder. With `recommendedExtensions` (or `molliePaymentExtension`), Freeform creates a Mollie payment on final submit and redirects to Mollie hosted checkout.
+    - Manifest exposes only an opaque integration hash plus amount/currency meta. The Mollie API key never leaves Craft.
+    - On final submit, Freeform creates a Mollie payment through the existing create route (dynamic amounts use current form values).
+    - The payment id is written into the Mollie field, the form submission is saved, then the browser redirects to Mollie checkout.
+    - Mollie returns through Freeform’s callback **on your app origin** (same-origin `/freeform` proxy) so Craft session cookies still match; the webhook updates the PaymentRecord on Craft.
 
-There is **no Mollie card UI in the form** — the field is a redirect handoff (iDEAL, Bancontact, cards, and other methods Mollie enables for your account), same idea as the classic hidden payment field. The default renderer hides the field (no label, no input). Use a custom renderer or this optional event if you want cancel/failure copy in your SPA:
+    #### Requirements
 
-```js
-document.addEventListener('freeform-mollie-payment-return', (event) => {
-  // event.detail.status — e.g. canceled, failed, expired
-});
-```
+    - Freeform **Pro** with Mollie configured (API key; test mode recommended for testing)
+    - A publicly reachable Craft site for the Mollie **webhook** (local tunnels like ngrok work for development)
+    - Headless enabled for the form (`exposeManifest` + `allowSubmit`)
+    - Your SPA origin listed in `headless.allowedOrigins` (e.g. `http://localhost:3000`) so Mollie can return through the proxy callback
+    - `@solspace/freeform-extensions` that includes `molliePaymentExtension` (use `recommendedExtensions`)
+    - Prefer a **same-origin proxy** for `/freeform/*` so create, submit, and Mollie callback share one cookie jar
 
-```tsx title="CheckoutForm.tsx" showLineNumbers
-import { Freeform } from '@solspace/freeform-react';
-import { recommendedExtensions } from '@solspace/freeform-extensions';
-import '@solspace/freeform-theme-default/styles.css';
+    :::info
+    **Multi-page forms:** put the Mollie field on the **last** page. Back / Next never create a payment; redirect runs only on final submit.
 
-export function CheckoutForm() {
-  return (
-    <Freeform
-      handle="checkout"
-      baseUrl="" // same-origin proxy recommended
-      extensions={recommendedExtensions}
-    />
-  );
-}
-```
+    **Testing:** use [Mollie testing payments](https://docs.mollie.com/reference/testing) and [Mollie → Testing](../integrations/mollie.mdx#testing).
+    :::
+  </TabItem>
+</Tabs>
 
-**What Freeform handles for you**
-
-1. Manifest exposes only an opaque integration hash plus amount/currency meta. The Mollie API key never leaves Craft.
-2. On final submit, Freeform creates a Mollie payment through the existing create route (dynamic amounts use current form values).
-3. The payment id is written into the Mollie field, the form submission is saved, then the browser redirects to Mollie checkout.
-4. Mollie returns through Freeform’s callback **on your app origin** (same-origin `/freeform` proxy) so Craft session cookies still match; the webhook updates the PaymentRecord on Craft.
-
-**Requirements**
-
-- Freeform **Pro** with Mollie configured (API key; test mode recommended for testing)
-- A publicly reachable Craft site for the Mollie **webhook** (local tunnels like ngrok work for development)
-- Headless enabled for the form (`exposeManifest` + `allowSubmit`)
-- Your SPA origin listed in `headless.allowedOrigins` (e.g. `http://localhost:3000`) so Mollie can return through the proxy callback
-- `@solspace/freeform-extensions` that includes `molliePaymentExtension` (use `recommendedExtensions`)
-- Prefer a **same-origin proxy** for `/freeform/*` so create, submit, and Mollie callback share one cookie jar
-
-**Multi-page tip:** put the Mollie field on the **last** page. Back / Next never create a payment; redirect runs only on final submit.
-
-**Testing:** use [Mollie testing payments](https://docs.mollie.com/reference/testing) and [Mollie → Testing](../integrations/mollie.mdx#testing).
-
-## Custom field renderers
+## Custom Field Renderers
 
 Override rendering by handle, frontend renderer key, or field type:
 
@@ -481,7 +490,7 @@ Override rendering by handle, frontend renderer key, or field type:
 />
 ```
 
-## Same-origin proxy (recommended)
+## Same-origin Proxy<Badge type="recommended" text="Recommended" />
 
 Point your Vite (or other) dev server at Craft so CSRF cookies stay same-origin:
 
@@ -503,14 +512,14 @@ Then use `baseUrl=""` (or `window.location.origin`) in the browser.
 
 For Next.js, see the [Next.js](./nextjs.mdx) guide.
 
-## Security notes
+## Security Notes
 
 - Leave **`allowRawHtml`** at the default (`false`) unless HTML fields are trusted.
 - Enable a **captcha** on public forms.
 - Set **`headless.allowedOrigins`** when calling Craft cross-origin.
 - See [REST API](./rest-api.mdx) for CORS and CSRF details.
 
-## Example demo
+## Example Demo
 
 - [Freeform Headless React Demo](https://github.com/solspace/freeform-headless-react-demo) — Vite app using the official npm packages (REST tabs + **GraphQL** tab)
 
@@ -518,7 +527,7 @@ For Next.js, see the [Next.js](./nextjs.mdx) guide.
 
 Prefer the [headless GraphQL adapters](./graphql.mdx#headless-graphql-adapters) when you want Craft GraphQL with the same manifest/submit contract as REST. Legacy form queries and `save_{handle}_Submission` mutations are documented on the same page.
 
-## Legacy GraphQL / AJAX demos
+## Legacy GraphQL / AJAX Demos
 
 Older demos that query Freeform via GraphQL or custom AJAX still work, but are **not** the recommended path for new projects:
 

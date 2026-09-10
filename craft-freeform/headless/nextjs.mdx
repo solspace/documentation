@@ -4,10 +4,12 @@ sidebar_position: 4
 description: Build headless Freeform forms with Next.js and the official React packages for Craft CMS.
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import { Badge, BadgeGroup } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-# Next.js<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+# Next.js<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.16+" />
 
 Use the official `@solspace/freeform-react` packages. Complete [Getting Started](./getting-started.mdx) (enable headless + install packages) first.
 
@@ -15,7 +17,7 @@ Freeform’s React packages are client-side. In the App Router, render them from
 
 ## Install
 
-```bash
+```nix
 npm install @solspace/freeform-core \
   @solspace/freeform-react \
   @solspace/freeform-extensions \
@@ -25,88 +27,84 @@ npm install @solspace/freeform-core \
 ## Setup
 
 <VerticalStepWrapper>
-<StepMarkdown stepTitle="Proxy Freeform through Next.js">
+  <StepMarkdown stepTitle="Proxy Freeform through Next.js">
+    ```ts title="next.config.ts" showLineNumbers
+    import type { NextConfig } from 'next';
 
-```ts title="next.config.ts" showLineNumbers
-import type { NextConfig } from 'next';
-
-const nextConfig: NextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: '/freeform/:path*',
-        destination: `${process.env.CRAFT_URL}/freeform/:path*`,
+    const nextConfig: NextConfig = {
+      async rewrites() {
+        return [
+          {
+            source: '/freeform/:path*',
+            destination: `${process.env.CRAFT_URL}/freeform/:path*`,
+          },
+        ];
       },
-    ];
-  },
-};
+    };
 
-export default nextConfig;
-```
+    export default nextConfig;
+    ```
 
-Set `CRAFT_URL` to your Craft site (for example `https://cms.example.com`). Requests from the browser hit `/freeform/...` on the Next.js origin; Next.js forwards them to Craft.
+    Set `CRAFT_URL` to your Craft site (for example `https://cms.example.com`). Requests from the browser hit `/freeform/...` on the Next.js origin; Next.js forwards them to Craft.
+  </StepMarkdown>
+  <StepMarkdown stepTitle="Create a Client Component">
+    ```tsx title="app/contact/contact-form.tsx" showLineNumbers
+    'use client';
 
-</StepMarkdown>
-<StepMarkdown stepTitle="Create a Client Component">
+    import { Freeform } from '@solspace/freeform-react';
+    import { recommendedExtensions } from '@solspace/freeform-extensions';
+    import '@solspace/freeform-theme-default/styles.css';
 
-```tsx title="app/contact/contact-form.tsx" showLineNumbers
-'use client';
+    export function ContactForm() {
+      return (
+        <Freeform
+          handle="contact"
+          // Same-origin via the rewrite above
+          baseUrl=""
+          extensions={recommendedExtensions}
+          onSuccess={(response) => {
+            console.log(response);
+          }}
+        />
+      );
+    }
+    ```
 
-import { Freeform } from '@solspace/freeform-react';
-import { recommendedExtensions } from '@solspace/freeform-extensions';
-import '@solspace/freeform-theme-default/styles.css';
+    ```tsx title="app/contact/page.tsx" showLineNumbers
+    import { ContactForm } from './contact-form';
 
-export function ContactForm() {
-  return (
-    <Freeform
-      handle="contact"
-      // Same-origin via the rewrite above
-      baseUrl=""
-      extensions={recommendedExtensions}
-      onSuccess={(response) => {
-        console.log(response);
-      }}
-    />
-  );
-}
-```
+    export default function ContactPage() {
+      return (
+        <main>
+          <h1>Contact</h1>
+          <ContactForm />
+        </main>
+      );
+    }
+    ```
 
-```tsx title="app/contact/page.tsx" showLineNumbers
-import { ContactForm } from './contact-form';
+    </StepMarkdown>
+    <StepMarkdown stepTitle="Enable the form in Freeform">
 
-export default function ContactPage() {
-  return (
-    <main>
-      <h1>Contact</h1>
-      <ContactForm />
-    </main>
-  );
-}
-```
+    In `config/freeform.php` on Craft:
 
-</StepMarkdown>
-<StepMarkdown stepTitle="Enable the form in Freeform">
-
-In `config/freeform.php` on Craft:
-
-```php
-'headless' => [
-    'enabled' => true,
-    'forms' => [
-        'contact' => [
-            'exposeManifest' => true,
-            'allowSubmit' => true,
+    ```php
+    'headless' => [
+        'enabled' => true,
+        'forms' => [
+            'contact' => [
+                'exposeManifest' => true,
+                'allowSubmit' => true,
+            ],
         ],
     ],
-],
-```
+    ```
 
-With the same-origin proxy you usually do **not** need to add the Next.js origin to `allowedOrigins`. Add it only if the browser calls Craft directly.
-
-</StepMarkdown>
+    With the same-origin proxy you usually do **not** need to add the Next.js origin to `allowedOrigins`. Add it only if the browser calls Craft directly.
+  </StepMarkdown>
 </VerticalStepWrapper>
 
-## Environment variables
+## Environment Variables
 
 | Variable | Where | Example |
 | --- | --- | --- |
@@ -131,7 +129,7 @@ If the browser must call Craft directly:
 />
 ```
 
-## Headless markup
+## Headless Markup
 
 `useFreeform()` works the same as in a Vite React app — still inside a Client Component:
 
@@ -152,27 +150,28 @@ export function HeadlessContactForm() {
 
 See [React JS](./reactjs.mdx) for themes (including the official Tailwind and Bootstrap starters), captchas, **Stripe**, **Square**, **PayPal**, and **Mollie** payments, custom renderers, and the full hook API.
 
-## File uploads
+## File Uploads
 
 Official packages handle multipart submits and File Drag & Drop via `@solspace/freeform-extensions`. You do not need the older GraphQL Base64 upload guides for new projects.
 
-## Stripe payments
+## Payments
 
-Stripe Payment Element forms work with the same Client Component + `/freeform` rewrite pattern. Pass `recommendedExtensions` and follow [React JS → Stripe payments](./reactjs.mdx#stripe-payments). Keep Stripe webhooks pointed at your Craft site.
+<Tabs>
+  <TabItem value="payments-stripe" label="Stripe" default>
+    Stripe Payment Element forms work with the same Client Component + `/freeform` rewrite pattern. Pass `recommendedExtensions` and follow [React JS → Stripe payments](./reactjs.mdx#payments). Keep Stripe webhooks pointed at your Craft site.
+  </TabItem>
+  <TabItem value="payments-square" label="Square">
+    Square Web Payments SDK forms work with the same Client Component + `/freeform` rewrite pattern. Pass `recommendedExtensions` and follow [React JS → Square payments](./reactjs.mdx#payments).
+  </TabItem>
+  <TabItem value="payments-paypal" label="PayPal">
+    PayPal Buttons forms work with the same Client Component + `/freeform` rewrite pattern. Pass `recommendedExtensions` and follow [React JS → PayPal payments](./reactjs.mdx#payments).
+  </TabItem>
+  <TabItem value="payments-mollie" label="Mollie">
+    Mollie hosted-checkout forms work with the same Client Component + `/freeform` rewrite pattern. Pass `recommendedExtensions` and follow [React JS → Mollie payments](./reactjs.mdx#payments). Mollie callback/webhook must reach your Craft site.
+  </TabItem>
+</Tabs>
 
-## Square payments
-
-Square Web Payments SDK forms work with the same Client Component + `/freeform` rewrite pattern. Pass `recommendedExtensions` and follow [React JS → Square payments](./reactjs.mdx#square-payments).
-
-## PayPal payments
-
-PayPal Buttons forms work with the same Client Component + `/freeform` rewrite pattern. Pass `recommendedExtensions` and follow [React JS → PayPal payments](./reactjs.mdx#paypal-payments).
-
-## Mollie payments
-
-Mollie hosted-checkout forms work with the same Client Component + `/freeform` rewrite pattern. Pass `recommendedExtensions` and follow [React JS → Mollie payments](./reactjs.mdx#mollie-payments). Mollie callback/webhook must reach your Craft site.
-
-## Legacy demos
+## Legacy Demos
 
 Older Next.js GraphQL / AJAX demos:
 

@@ -4,12 +4,14 @@ sidebar_position: 1
 description: Install and enable Freeform's official headless React and Vue packages for Craft CMS.
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import { Badge, BadgeGroup } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-# Getting Started (Headless)<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+# Getting Started (Headless)<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.16+" />
 
-Freeform’s recommended headless path for React, Next.js, and Vue is:
+Freeform's recommended headless path for React, Next.js, and Vue is:
 
 1. Use a Freeform plugin build that includes the **headless REST API**
 2. Enable headless in Freeform config
@@ -18,7 +20,7 @@ Freeform’s recommended headless path for React, Next.js, and Vue is:
 
 GraphQL and older AJAX demos remain available, but new projects should start here.
 
-:::tip Example apps
+:::info Example apps
 Clone the [Freeform Headless React Demo](https://github.com/solspace/freeform-headless-react-demo), [Vue Demo](https://github.com/solspace/freeform-headless-vue-demo), or [Nuxt Demo](https://github.com/solspace/freeform-headless-nuxt-demo) to try the packages against your Craft site (REST, GraphQL tab, Save & Continue, table, signature, calculation, payments, and more).
 :::
 
@@ -27,7 +29,7 @@ Clone the [Freeform Headless React Demo](https://github.com/solspace/freeform-he
 | Piece | Version / notes |
 | --- | --- |
 | Craft CMS | 4.17+ or 5.9+ |
-| Freeform plugin | Build that includes headless REST |
+| Freeform plugin | 5.16+ |
 | npm packages | Official `@solspace/freeform-*` packages ([npm org](https://www.npmjs.com/org/solspace)) |
 | React | 18 or 19 (for `@solspace/freeform-react`) |
 | Vue | 3.4+ (for `@solspace/freeform-vue`) |
@@ -36,140 +38,136 @@ Clone the [Freeform Headless React Demo](https://github.com/solspace/freeform-he
 ## Quick setup
 
 <VerticalStepWrapper>
-<StepMarkdown stepTitle="Enable headless in Freeform (Craft project)">
+  <StepMarkdown stepTitle="Enable headless in Freeform (Craft project)">
+    Headless is **off by default**. Configure it in your **Craft CMS project** (the site where Freeform is installed) — not in your React / Vue / Next.js app repo.
 
-Headless is **off by default**. Configure it in your **Craft CMS project** (the site where Freeform is installed) — not in your React / Vue / Next.js app repo.
+    Edit or create:
 
-Edit or create:
+    ```text
+    your-craft-project/config/freeform.php
+    ```
 
-```text
-your-craft-project/config/freeform.php
-```
+    That file lives next to Craft's other config files (`general.php`, `routes.php`, etc.), for example:
 
-That file lives next to Craft’s other config files (`general.php`, `routes.php`, etc.), for example:
+    ```text
+    ~/Sites/my-craft-site/config/freeform.php
+    ```
 
-```text
-~/Sites/my-craft-site/config/freeform.php
-```
+    Merge a `headless` section into that file (keep any existing Freeform settings):
 
-Merge a `headless` section into that file (keep any existing Freeform settings):
+    ```php title="config/freeform.php" showLineNumbers
+    <?php
 
-```php title="config/freeform.php" showLineNumbers
-<?php
+    return [
+        'headless' => [
+            // Master switch — endpoints return 404 when false
+            'enabled' => true,
 
-return [
-    'headless' => [
-        // Master switch — endpoints return 404 when false
-        'enabled' => true,
+            // CORS origins for browser apps that call Craft directly
+            'allowedOrigins' => [
+                'http://localhost:3000',
+                'https://app.example.com',
+            ],
 
-        // CORS origins for browser apps that call Craft directly
-        'allowedOrigins' => [
-            'http://localhost:3000',
-            'https://app.example.com',
-        ],
-
-        // Per-form exposure (keyed by form handle from the Freeform CP)
-        'forms' => [
-            'contact' => [
-                'exposeManifest' => true,
-                'allowSubmit' => true,
+            // Per-form exposure (keyed by form handle from the Freeform CP)
+            'forms' => [
+                'contact' => [
+                    'exposeManifest' => true,
+                    'allowSubmit' => true,
+                ],
             ],
         ],
-    ],
-];
-```
+    ];
+    ```
 
-:::tip Same-origin proxy
-If your frontend proxies `/freeform/*` to Craft (recommended for Next.js and SPAs), CSRF cookies stay same-origin and you can keep `allowedOrigins` tight.
-:::
+    :::info Same-origin proxy
+    If your frontend proxies `/freeform/*` to Craft (recommended for Next.js and SPAs), CSRF cookies stay same-origin and you can keep `allowedOrigins` tight.
+    :::
 
-See the full [REST API](./rest-api.mdx) reference for profiles, CSRF, and submit details.
+    See the full [REST API](./rest-api.mdx) reference for profiles, CSRF, and submit details.
+  </StepMarkdown>
+  <StepMarkdown stepTitle="Install the npm packages">
+    <Tabs>
+      <TabItem value="install-packages-react-next" label="React / Next.js" default>
+        ```nix
+        npm install @solspace/freeform-core \
+          @solspace/freeform-react \
+          @solspace/freeform-extensions \
+          @solspace/freeform-theme-default
+        ```
+      </TabItem>
+      <TabItem value="install-packages-vue" label="Vue 3">
+        ```nix
+        npm install @solspace/freeform-core \
+          @solspace/freeform-vue \
+          @solspace/freeform-extensions \
+          @solspace/freeform-theme-default
+        ```
+      </TabItem>
+    </Tabs>
 
-</StepMarkdown>
-<StepMarkdown stepTitle="Install the npm packages">
+    | Package | Purpose |
+    | --- | --- |
+    | `@solspace/freeform-core` | Manifest client, form state, conditionals, submit |
+    | `@solspace/freeform-react` | React `<Freeform />` and `useFreeform()` hook |
+    | `@solspace/freeform-vue` | Vue `<Freeform />` and `useFreeform()` composable |
+    | `@solspace/freeform-extensions` | Captchas, datetime, file drag & drop, calculation, table, signature, Stripe, Square, PayPal, and Mollie payments |
+    | `@solspace/freeform-theme-default` | Default light/dark theme CSS (React & Vue) |
+    | `@solspace/freeform-theme-tailwind` | Official Tailwind starter theme (class maps) |
+    | `@solspace/freeform-theme-bootstrap` | Official Bootstrap 5 starter theme (class maps) |
+  </StepMarkdown>
+  <StepMarkdown stepTitle="Render a form">
+    <Tabs>
+      <TabItem value="render-example-react" label="React" default>
+        ```tsx title="ContactForm.tsx" showLineNumbers
+        import { Freeform } from '@solspace/freeform-react';
+        import { recommendedExtensions } from '@solspace/freeform-extensions';
+        import '@solspace/freeform-theme-default/styles.css';
 
-**React / Next.js**
+        export function ContactForm() {
+          return (
+            <Freeform
+              handle="contact"
+              baseUrl="https://cms.example.com"
+              extensions={recommendedExtensions}
+              onSuccess={(response) => {
+                console.log('Submitted', response);
+              }}
+            />
+          );
+        }
+        ```
+      </TabItem>
+      <TabItem value="render-example-vue" label="Vue">
+        ```html title="ContactForm.vue" showLineNumbers
+        <script setup lang="ts">
+        import { Freeform } from '@solspace/freeform-vue';
+        import { recommendedExtensions } from '@solspace/freeform-extensions';
+        import '@solspace/freeform-theme-default/styles.css';
 
-```bash
-npm install @solspace/freeform-core \
-  @solspace/freeform-react \
-  @solspace/freeform-extensions \
-  @solspace/freeform-theme-default
-```
+        const baseUrl = 'https://cms.example.com';
 
-**Vue 3**
+        function onSuccess(response: unknown) {
+          console.log('Submitted', response);
+        }
+        </script>
 
-```bash
-npm install @solspace/freeform-core \
-  @solspace/freeform-vue \
-  @solspace/freeform-extensions \
-  @solspace/freeform-theme-default
-```
+        <template>
+          <Freeform
+            handle="contact"
+            :base-url="baseUrl"
+            :extensions="recommendedExtensions"
+            :on-success="onSuccess"
+          />
+        </template>
+        ```
+      </TabItem>
+    </Tabs>
 
-| Package | Purpose |
-| --- | --- |
-| `@solspace/freeform-core` | Manifest client, form state, conditionals, submit |
-| `@solspace/freeform-react` | React `<Freeform />` and `useFreeform()` hook |
-| `@solspace/freeform-vue` | Vue `<Freeform />` and `useFreeform()` composable |
-| `@solspace/freeform-extensions` | Captchas, datetime, file drag & drop, calculation, table, signature, Stripe, Square, PayPal, and Mollie payments |
-| `@solspace/freeform-theme-default` | Default light/dark theme CSS (React & Vue) |
-| `@solspace/freeform-theme-tailwind` | Official Tailwind starter theme (class maps) |
-| `@solspace/freeform-theme-bootstrap` | Official Bootstrap 5 starter theme (class maps) |
-
-</StepMarkdown>
-<StepMarkdown stepTitle="Render a form">
-
-**React**
-
-```tsx title="ContactForm.tsx" showLineNumbers
-import { Freeform } from '@solspace/freeform-react';
-import { recommendedExtensions } from '@solspace/freeform-extensions';
-import '@solspace/freeform-theme-default/styles.css';
-
-export function ContactForm() {
-  return (
-    <Freeform
-      handle="contact"
-      baseUrl="https://cms.example.com"
-      extensions={recommendedExtensions}
-      onSuccess={(response) => {
-        console.log('Submitted', response);
-      }}
-    />
-  );
-}
-```
-
-**Vue**
-
-```vue title="ContactForm.vue" showLineNumbers
-<script setup lang="ts">
-import { Freeform } from '@solspace/freeform-vue';
-import { recommendedExtensions } from '@solspace/freeform-extensions';
-import '@solspace/freeform-theme-default/styles.css';
-
-const baseUrl = 'https://cms.example.com';
-
-function onSuccess(response: unknown) {
-  console.log('Submitted', response);
-}
-</script>
-
-<template>
-  <Freeform
-    handle="contact"
-    :base-url="baseUrl"
-    :extensions="recommendedExtensions"
-    :on-success="onSuccess"
-  />
-</template>
-```
-
-- **`handle`** — Freeform form handle (must be enabled under `headless.forms`)
-- **`baseUrl`** — Craft site origin, **or** `""` / same origin when you proxy `/freeform`
-- **`extensions`** — register captchas and advanced fields when the form needs them
-
-</StepMarkdown>
+    - **`handle`** — Freeform form handle (must be enabled under `headless.forms`)
+    - **`baseUrl`** — Craft site origin, **or** `""` / same origin when you proxy `/freeform`
+    - **`extensions`** — register captchas and advanced fields when the form needs them
+  </StepMarkdown>
 </VerticalStepWrapper>
 
 ## Choose your guide
@@ -186,7 +184,7 @@ function onSuccess(response: unknown) {
 | [Vue demo](https://github.com/solspace/freeform-headless-vue-demo) | Cloneable Vite + Vue app |
 | [Nuxt demo](https://github.com/solspace/freeform-headless-nuxt-demo) | Cloneable Nuxt 3 app |
 
-## What’s included
+## What's included
 
 - Manifest load + CSRF + submit (JSON and multipart)
 - Multi-page forms and conditionals (client UX)
@@ -196,10 +194,10 @@ function onSuccess(response: unknown) {
 - Calculation fields
 - Table fields (row limits, required columns, file cells)
 - Signature fields (canvas pad + clear)
-- **Stripe payments** (Payment Element; see [React JS → Stripe](./reactjs.mdx#stripe-payments) / [Vue.js → Payments](./vuejs.mdx#payments-stripe-square-paypal-mollie))
-- **Square payments** (Web Payments SDK; see [React JS → Square](./reactjs.mdx#square-payments) / [Vue.js → Payments](./vuejs.mdx#payments-stripe-square-paypal-mollie))
-- **PayPal payments** (Buttons; see [React JS → PayPal](./reactjs.mdx#paypal-payments) / [Vue.js → Payments](./vuejs.mdx#payments-stripe-square-paypal-mollie))
-- **Mollie payments** (hosted checkout redirect; see [React JS → Mollie](./reactjs.mdx#mollie-payments) / [Vue.js → Payments](./vuejs.mdx#payments-stripe-square-paypal-mollie))
+- **Stripe payments** (Payment Element; see [React JS → Stripe](./reactjs.mdx#payments) / [Vue.js → Payments](./vuejs.mdx#payments))
+- **Square payments** (Web Payments SDK; see [React JS → Square](./reactjs.mdx#payments) / [Vue.js → Payments](./vuejs.mdx#payments))
+- **PayPal payments** (Buttons; see [React JS → PayPal](./reactjs.mdx#payments) / [Vue.js → Payments](./vuejs.mdx#payments))
+- **Mollie payments** (hosted checkout redirect; see [React JS → Mollie](./reactjs.mdx#payments) / [Vue.js → Payments](./vuejs.mdx#payments))
 - Default theme with light / dark / system color schemes
 - Official Tailwind starter theme (`@solspace/freeform-theme-tailwind`)
 - Official Bootstrap 5 starter theme (`@solspace/freeform-theme-bootstrap`)
