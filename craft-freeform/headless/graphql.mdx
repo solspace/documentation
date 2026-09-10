@@ -1,23 +1,127 @@
 ---
 title: GraphQL
-sidebar_position: 1
-description: Integrate Freeform 5.x with GraphQL in Craft CMS for headless form handling and submissions.
+sidebar_position: 7
+description: Freeform headless GraphQL adapters plus legacy form queries and submission mutations for Craft CMS.
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
 import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-# GraphQL<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+# GraphQL<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.16+" />
 
-Freeform supports querying form layouts and form submission mutations via GraphQL. This guide assumes you have some GraphQL experience. To learn more about GraphQL and Craft, please check out the [Fetch content with GraphQL](https://craftcms.com/docs/getting-started-tutorial/build/graphql.html) guide and [Craft's GraphQL API](https://craftcms.com/docs/5.x/development/graphql.html).
+Freeform supports GraphQL in two ways:
+
+- **Headless Adapters**<Badge type="recommended" text="Recommended" /><Badge type="feature" text="New in 5.16+" />
+    - `freeformHeadlessManifest` and `freeformHeadlessSubmit`, matching the [REST API](./rest-api.mdx) contract
+- **Legacy Form Queries / `save_{handle}_Submission` mutations**
+    - still supported for existing integrations ([documented below](#legacy-graphql-form-queries-and-submission-mutations))
+
+This guide assumes some GraphQL experience. See Craft's [Fetch content with GraphQL](https://craftcms.com/docs/getting-started-tutorial/build/graphql.html) and [GraphQL API](https://craftcms.com/docs/5.x/development/graphql.html).
+
+:::tip New React / Vue / Next.js projects
+Prefer the official packages with the [REST API](./rest-api.mdx) for `<Freeform />` / `useFreeform()` — start with [Getting Started](./getting-started.mdx). Use the headless GraphQL adapters when your app already speaks Craft GraphQL and you want the same manifest/submit payload shape.
+:::
+
+## Headless GraphQL Adapters<Badge type="feature" text="New in 5.16+" />
+
+These adapters reuse Freeform's headless `ManifestService` and `HeadlessSubmitService`. Enable headless for the form first (same `config/freeform.php` as REST).
+
+### Requirements
+
+| Requirement | Notes |
+| --- | --- |
+| Headless config | `headless.enabled` + per-form `exposeManifest` / `allowSubmit` |
+| Craft GraphQL schema | Freeform **form read** + **submission create** for that form |
+| Site access | Enable your Craft **site** on the schema (missing this returns *Schema doesn't have access to the "Site" site*) |
+| Schema token | Pass as `Authorization: Bearer <token>` |
+
+Typical endpoint: `POST /actions/graphql/api` (or your Craft GraphQL URL).
+
+### Manifest query
+
+Returns the same manifest object as REST `GET /freeform/api/forms/{handle}/manifest` (the `data` payload).
+
+```graphql
+query {
+  freeformHeadlessManifest(handle: "contact")
+}
+```
+
+### Submit mutation
+
+Returns the same structured submit response as REST (`success`, `status`, `errors`, `draft`, etc.).
+
+```graphql
+mutation {
+  freeformHeadlessSubmit(
+    handle: "contact"
+    intent: "submit"
+    values: { email: "jane@example.com", message: "Hello" }
+    meta: {}
+    context: {}
+  )
+}
+```
+
+| Argument | Description |
+| --- | --- |
+| `handle` | Form handle (required) |
+| `intent` | `submit`, `next`, `back`, `validate`, or `saveDraft` (default `submit`) |
+| `values` | Field values by handle (`FreeformJson`) |
+| `meta` | Honeypot, captcha, javascriptTest, etc. |
+| `context` | Draft tokens and other submit context |
+| `csrfToken` | Optional; when omitted, cookie CSRF is skipped (schema token is the gate) |
+
+### File uploads
+
+Multipart / File Drag & Drop uploads remain on the **REST** endpoints. Use GraphQL for JSON values; upload files via REST (or the official React / Vue packages on REST).
+
+### Try it with `<Freeform />` / `useFreeform()`
+
+The official React and Vue packages already accept a custom `fetch`. Point Freeform REST URLs at GraphQL with a small adapter (see the [React demo](https://github.com/solspace/freeform-headless-react-demo) or [Vue demo](https://github.com/solspace/freeform-headless-vue-demo) `graphqlFetch` helper):
+
+```tsx title="GraphQLFreeform.tsx" showLineNumbers
+import { Freeform, useFreeform } from '@solspace/freeform-react';
+import { recommendedExtensions } from '@solspace/freeform-extensions';
+import { graphqlFetch } from './graphqlFetch'; // demo helper — copy from the example repo
+
+// Drop-in component
+<Freeform
+  handle="contact"
+  baseUrl={window.location.origin}
+  fetch={graphqlFetch}
+  extensions={recommendedExtensions}
+/>
+
+// Or headless hook
+const form = useFreeform({
+  handle: 'contact',
+  baseUrl: window.location.origin,
+  fetch: graphqlFetch,
+  extensions: recommendedExtensions,
+});
+```
+
+#### Adapter Maps
+
+- `GET .../manifest` → `freeformHeadlessManifest`
+- `POST .../submit` (JSON) → `freeformHeadlessSubmit`
+- Multipart file uploads + CSRF token fetch stay on REST
+
+### Try it
+
+The [Freeform Headless React Demo](https://github.com/solspace/freeform-headless-react-demo) and [Vue Demo](https://github.com/solspace/freeform-headless-vue-demo) **GraphQL** tabs include live `<Freeform />`, `useFreeform()`, and raw query examples. Set `VITE_GRAPHQL_TOKEN` (and optional `VITE_GRAPHQL_PATH`) in `.env`.
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/cp/graphql.png')}
   alt="GraphQL"
 />
+
+## Legacy GraphQL (form queries and submission mutations)
+
+The sections below document Freeform's original GraphQL form layout queries and per-form `save_{handle}_Submission` mutations.
 
 ## Demos
 
@@ -36,66 +140,65 @@ Freeform has a root `freeform` query, which contains all the possible queries ne
 ### Querying multiple Forms
 
 <Tabs>
-<TabItem value="query-multiple-forms" label="Query" default>
+  <TabItem value="query-multiple-forms" label="Query" default>
+    To query all or some forms, you have to use the `forms` query:
 
-To query all or some forms, you have to use the `forms` query:
-
-```graphql {3} showLineNumbers
-query {
-  freeform {
-    forms {
-      name
-      handle
-      pages {
-        label
-        rows {
-          fields {
-            id
-            type
+    ```graphql {3} showLineNumbers
+    query {
+      freeform {
+        forms {
+          name
+          handle
+          pages {
             label
-            handle
-            required
-            requiredMessage
+            rows {
+              fields {
+                id
+                type
+                label
+                handle
+                required
+                requiredMessage
+              }
+            }
           }
         }
       }
     }
-  }
-}
-```
+    ```
+  </TabItem>
+  <TabItem value="response-multiple-forms" label="Response">
+    Example response data:
 
-</TabItem>
-<TabItem value="response-multiple-forms" label="Response">
-
-Example response data:
-
-```json showLineNumbers
-{
-  "data": {
-    "freeform": {
-      "forms": [
-        {
-          "name": "My Form",
-          "handle": "myForm",
-          "pages": [
+    ```json showLineNumbers
+    {
+      "data": {
+        "freeform": {
+          "forms": [
             {
-              "label": "First Page",
-              "rows": [
+              "name": "My Form",
+              "handle": "myForm",
+              "pages": [
                 {
-                  "fields": [
+                  "label": "First Page",
+                  "rows": [
                     {
-                      "type": "text",
-                      "label": "First Name",
-                      "handle": "firstName",
-                      "required": false,
-                      "requiredMessage": null,
-                    },
-                    {
-                      "type": "text",
-                      "label": "Last Name",
-                      "handle": "lastName",
-                      "required": true,
-                      "requiredMessage": "Last Name is required."
+                      "fields": [
+                        {
+                          "type": "text",
+                          "label": "First Name",
+                          "handle": "firstName",
+                          "required": false,
+                          "requiredMessage": null,
+                        },
+                        {
+                          "type": "text",
+                          "label": "Last Name",
+                          "handle": "lastName",
+                          "required": true,
+                          "requiredMessage": "Last Name is required."
+                        }
+                      ]
                     }
                   ]
                 }
@@ -103,131 +206,120 @@ Example response data:
             }
           ]
         }
-      ]
+      }
     }
-  }
-}
-```
-
-</TabItem>
+    ```
+  </TabItem>
 </Tabs>
 
 ### Querying a single Form
 
 <Tabs>
-<TabItem value="query-single-form" label="Query" default>
+  <TabItem value="query-single-form" label="Query" default>
+    You can query a single form directly by using the `form` query:
 
-You can query a single form directly by using the `form` query:
-
-```graphql {3}
-query {
-  freeform {
-    form (handle: "my-form") {
-      name
-      handle
-      pages {
-        # ...
+    ```graphql {3}
+    query {
+      freeform {
+        form (handle: "my-form") {
+          name
+          handle
+          pages {
+            # ...
+          }
+        }
       }
     }
-  }
-}
-```
+    ```
+  </TabItem>
+  <TabItem value="response-single-form" label="Response">
+    Example response data:
 
-</TabItem>
-<TabItem value="response-single-form" label="Response">
-
-Example response data:
-
-```json showLineNumbers
-{
-  "data": {
-    "freeform": {
-      "form": {
-        "name": "My Form",
-        "handle": "myForm",
-        "pages": [
-          {
-            "label": "First Page",
-            "rows": [
+    ```json showLineNumbers
+    {
+      "data": {
+        "freeform": {
+          "form": {
+            "name": "My Form",
+            "handle": "myForm",
+            "pages": [
               {
-                "fields": [
+                "label": "First Page",
+                "rows": [
                   {
-                    "type": "text",
-                    "label": "First name",
-                    "handle": "firstName",
-                    "required": false
+                    "fields": [
+                      {
+                        "type": "text",
+                        "label": "First name",
+                        "handle": "firstName",
+                        "required": false
+                      }
+                    ]
                   }
                 ]
               }
             ]
           }
-        ]
+        }
       }
     }
-  }
-}
-```
-
-</TabItem>
+    ```
+  </TabItem>
 </Tabs>
 
 ### Querying a form field on a Craft Entry
 
 <Tabs>
-<TabItem value="query-field-craft-entry" label="Query" default>
+  <TabItem value="query-field-craft-entry" label="Query" default>
+    You can query an Entry form field by using the form field name in the query. Assuming the form field's handle is `myFormFieldHandle` and the section is called `Blog`:
 
-You can query an Entry form field by using the form field name in the query. Assuming the form field's handle is `myFormFieldHandle` and the section is called `Blog`:
-
-```graphql {5-15} showLineNumbers
-query {
-  entries {
-    id
-    title
-    ... on blog_blog_Entry {
-      myFormFieldHandle {
+    ```graphql {5-15} showLineNumbers
+    query {
+      entries {
         id
-        name
-        fields {
-          handle
-          label
-          type
+        title
+        ... on blog_blog_Entry {
+          myFormFieldHandle {
+            id
+            name
+            fields {
+              handle
+              label
+              type
+            }
+          }
         }
       }
     }
-  }
-}
-```
+    ```
+  </TabItem>
+  <TabItem value="response-field-craft-entry" label="Response">
+    Example response data:
 
-</TabItem>
-<TabItem value="response-field-craft-entry" label="Response">
-
-Example response data:
-
-```json showLineNumbers
-{
-  "data": {
-    "entries": [
-      {
-        "id": "226",
-        "title": "Some Entry title",
-        "myFormFieldHandle": {
-          "id": 1,
-          "name": "Simple Form",
-          "fields": [
-            {
-              "handle": "firstName",
-              "label": "First Name",
-              "type": "text"
+    ```json showLineNumbers
+    {
+      "data": {
+        "entries": [
+          {
+            "id": "226",
+            "title": "Some Entry title",
+            "myFormFieldHandle": {
+              "id": 1,
+              "name": "Simple Form",
+              "fields": [
+                {
+                  "handle": "firstName",
+                  "label": "First Name",
+                  "type": "text"
+                }
+              ]
             }
-          ]
-        }
+          }
+        ]
       }
-    ]
-  }
-}
-```
-
-</TabItem>
+    }
+    ```
+  </TabItem>
 </Tabs>
 
 ### Form Query Arguments
@@ -426,12 +518,12 @@ These are the fields available for the `FreeformFormInterface`:
 | `successTemplate`<Badge type="feature" text="New in 5.9.6+" />       | `String`                                                                       | The form's success template                                            |
 | `successMessage`                                                     | `String`                                                                       | The specified success message                                          |
 | `errorMessage`                                                       | `String`                                                                       | The specified error message                                            |
-| `disableSubmit`                                                      | `Boolean`                                                                      | Should the form’s submit button be disabled when the form is submitted |
-| `disableReset`                                                       | `Boolean`                                                                      | Should the form’s submit button be disabled state be reset             |
-| `duplicateCheck`<Badge type="feature" text="New in 5.9.6+" />        | `String`                                                                       | The form’s duplicate check rule                                        |
-| `stopSubmissionsAfter`<Badge type="feature" text="New in 5.9.6+" />  | `String`                                                                       | The form’s stop submissions after date                                 |
-| `enctype`                                                            | `String`                                                                       | The form’s enctype                                                     |
-| `rules`                                                              | [`FreeformRulesInterface`](#rules-interface)                                   | The form’s rules                                                       |
+| `disableSubmit`                                                      | `Boolean`                                                                      | Should the form's submit button be disabled when the form is submitted |
+| `disableReset`                                                       | `Boolean`                                                                      | Should the form's submit button be disabled state be reset             |
+| `duplicateCheck`<Badge type="feature" text="New in 5.9.6+" />        | `String`                                                                       | The form's duplicate check rule                                        |
+| `stopSubmissionsAfter`<Badge type="feature" text="New in 5.9.6+" />  | `String`                                                                       | The form's stop submissions after date                                 |
+| `enctype`                                                            | `String`                                                                       | The form's enctype                                                     |
+| `rules`                                                              | [`FreeformRulesInterface`](#rules-interface)                                   | The form's rules                                                       |
 | `postForwarding`<Badge type="feature" text="New in 5.9.5+" />        | [`FreeformPostForwardingInterface`](#post-forwarding-interface)                | The Post Forwarding integration for this form                          |
 | `gtm`<Badge type="feature" text="New in 5.9.5+" />                   | [`FreeformGoogleTagManagerInterface`](#google-tag-manager-gtm-interface)       | The Google Tag Manager integration for this form                       |
 | `javascriptTest`<Badge type="feature" text="New in 5.9.6+" />        | [`FreeformJavascriptTestInterface`](#javascript-test-interface)                | The Javascript Test integration for this form                          |
@@ -1166,211 +1258,199 @@ Make sure to read [How to Build a Module](https://craftcms.com/docs/5.x/extend/m
 :::
 
 <VerticalStepWrapper>
-<StepMarkdown>
+  <StepMarkdown>
+    ### Create a Module
+    Below is an example of what your `/modules/FreeformModule.php` file should look like:
 
-### Create a Module
+    ```php showLineNumbers
+    <?php
 
-Below is an example of what your `/modules/FreeformModule.php` file should look like:
+    namespace modules;
 
-```php showLineNumbers
-<?php
+    use Craft;
+    use yii\base\Module;
 
-namespace modules;
-
-use Craft;
-use yii\base\Module;
-
-class FreeformModule extends Module
-{
-    public function init()
+    class FreeformModule extends Module
     {
-        Craft::setAlias('@modules', __DIR__);
+        public function init()
+        {
+            Craft::setAlias('@modules', __DIR__);
 
-        if (Craft::$app->getRequest()->getIsConsoleRequest()) {
-            $this->controllerNamespace = 'modules\\console\\controllers';
-        } else {
-            $this->controllerNamespace = 'modules\\controllers';
+            if (Craft::$app->getRequest()->getIsConsoleRequest()) {
+                $this->controllerNamespace = 'modules\\console\\controllers';
+            } else {
+                $this->controllerNamespace = 'modules\\controllers';
+            }
+
+            parent::init();
+        }
+    }
+    ```
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Update the Application Config
+    Add your module to your project's application configuration by listing it in the `/config/app.php` file:
+
+    ```php
+    <?php
+
+    use modules\FreeformModule;
+
+    return [
+        'modules' => [
+            'freeform-module' => FreeformModule::class,
+        ],
+        'bootstrap' => ['freeform-module'],
+    ];
+    ```
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Add Controller
+    Create a new controller for Freeform located at `/modules/controllers/FormController.php`:
+
+    ```php showLineNumbers
+    <?php
+
+    namespace modules\controllers;
+
+    use craft\web\Controller;
+    use Solspace\Freeform\Freeform;
+    use yii\web\Response;
+
+    class FormController extends Controller
+    {
+        protected array|bool|int $allowAnonymous = true;
+
+        public function actionIndex(): string
+        {
+            return 'Welcome to the Craft Freeform Form Controller';
         }
 
-        parent::init();
-    }
-}
-```
+        public function actionProperties(int $formId): Response
+        {
+            $form = Freeform::getInstance()->forms->getFormById($formId);
 
-</StepMarkdown>
-<StepMarkdown>
-### Update the Application Config
+            if ($form) {
+                return $this->asJson($form->toArray());
+            }
 
-Add your module to your project's application configuration by listing it in the `/config/app.php` file:
-
-```php
-<?php
-
-use modules\FreeformModule;
-
-return [
-    'modules' => [
-        'freeform-module' => FreeformModule::class,
-    ],
-    'bootstrap' => ['freeform-module'],
-];
-```
-
-</StepMarkdown>
-<StepMarkdown>
-### Add Controller
-
-Create a new controller for Freeform located at `/modules/controllers/FormController.php`:
-
-```php showLineNumbers
-<?php
-
-namespace modules\controllers;
-
-use craft\web\Controller;
-use Solspace\Freeform\Freeform;
-use yii\web\Response;
-
-class FormController extends Controller
-{
-    protected array|bool|int $allowAnonymous = true;
-
-    public function actionIndex(): string
-    {
-        return 'Welcome to the Craft Freeform Form Controller';
-    }
-
-    public function actionProperties(int $formId): Response
-    {
-        $form = Freeform::getInstance()->forms->getFormById($formId);
-
-        if ($form) {
-            return $this->asJson($form->toArray());
+            return $this->asJson(['message' => 'Form was not found']);
         }
-
-        return $this->asJson(['message' => 'Form was not found']);
     }
-}
-```
+    ```
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Update the Routes
+    Update the `/config/routes.php` with your new module controller actions:
 
-</StepMarkdown>
-<StepMarkdown>
-### Update the Routes
+    ```php
+    <?php
 
-Update the `/config/routes.php` with your new module controller actions:
+    return [
+        'graphql/api' => 'graphql/api',
+        'freeform/form' => 'freeform-module/form/index',
+        'freeform/form/properties/<formId:\d+>' => 'freeform-module/form/properties',
+    ];
+    ```
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Example JSON Response
+    The JSON response looks like this:
 
-```php
-<?php
-
-return [
-    'graphql/api' => 'graphql/api',
-    'freeform/form' => 'freeform-module/form/index',
-    'freeform/form/properties/<formId:\d+>' => 'freeform-module/form/properties',
-];
-```
-
-</StepMarkdown>
-<StepMarkdown>
-
-### Example JSON Response
-
-The JSON response looks like this:
-
-```json showLineNumbers
-{
-    "id": 1,
-    "hash": "xxxxxxxx-xxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    "name": "My Form Handle",
-    "handle": "my-form-handle",
-    "class": "Solspace\\Freeform\\Form\\Types\\Regular",
-    "enctype": "application\/x-www-form-urlencoded",
-    "properties": {
-        "hash": "YNkW4Jzye-O2Gd90zeo-tY6a9U8ihSaw0zdJ9yUKne7P7OiLNVnuMVi9Nf5v",
-        "init-time": 1694603762,
-        "secret": "F2okR1p8To6y1nAZaY5n"
-    },
-    "attributes": {
-        "row": {},
-        "success": {},
-        "errors": {}
-    },
-    "settings": {
-        "behavior": {
-            "ajax": true,
-            "showProcessingSpinner": true,
-            "showProcessingText": true,
-            "processingText": "Its Processing...",
-            "successBehavior": "reload",
-            "successTemplate": "successsample.twig",
-            "returnUrl": "/",
-            "successMessage": "Form has been submitted successfully!",
-            "errorMessage": "Sorry, there was an error submitting the form. Please try again.",
-            "duplicateCheck": "limit_once_per_email",
-            "stopSubmissionsAfter": "2023-09-15T23:00:00.000000Z"
+    ```json showLineNumbers
+    {
+        "id": 1,
+        "hash": "xxxxxxxx-xxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "name": "My Form Handle",
+        "handle": "my-form-handle",
+        "class": "Solspace\\Freeform\\Form\\Types\\Regular",
+        "enctype": "application\/x-www-form-urlencoded",
+        "properties": {
+            "hash": "YNkW4Jzye-O2Gd90zeo-tY6a9U8ihSaw0zdJ9yUKne7P7OiLNVnuMVi9Nf5v",
+            "init-time": 1694603762,
+            "secret": "F2okR1p8To6y1nAZaY5n"
         },
-        "general": {
-            "name": "My Form Handle",
-            "handle": "my-form-handle",
-            "type": "Solspace\\Freeform\\Form\\Types\\Regular",
-            "submissionTitle": "{{ dateCreated|date(\"Y-m-d H:i:s\") }}",
-            "formattingTemplate": "basic-dark/index.twig",
-            "description": "Test Form",
-            "color": "#d0021b",
-            "storeData": true,
-            "defaultStatus": 3,
-            "collectIpAddresses": true,
-            "allowUsersToOptIn": true,
-            "optInCheckbox": null
-        }
-    },
-    "csrfToken": {
-        "name": "CRAFT_CSRF_TOKEN",
-        "token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    },
-    "honeypot": {
-        "errorMessage": "Form honeypot is invalid",
-        "name": "freeform_form_handle"
-    },
-    "gtm": {
-        "containerId": "GTM-xxxxxxxxxxxx",
-        "eventName": "demo-form-submitted"
-    },
-    "postForwarding": {
-        "url": "xxxxxxxxxxxxxx",
-        "errorTrigger": "An error occurred",
-        "sendFiles": true
-    },
-    "javascriptTest": {
-        "errorMessage": "Javascript must be enabled to submit this form",
-        "name": "freeform_javascript_test"
-    },
-    "javascriptTest": {
-        "errorMessage": "Javascript must be enabled to submit this form",
-        "inputName": "freeform_javascript_test",
-    },
-    // If using encrypted payloads:
-    "freeform_payload": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    "anchor": "xxxxxx-form-xxxxxxxx-xxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    "action": "freeform\/submit",
-    // If using Captchas:
-    "captchas": [{
-        "size": "normal",
-        "theme": "light",
-        "locale": "en",
-        "errorMessage": "Please verify that you are not a robot.",
-        "failureBehavior": "display-error",
-        "triggerOnInteract": false,
-        "enabled": true,
-        "handle": "captcha",
-        "action": "submit",
-        "version": "v2-checkbox",
-        "scoreThreshold": "0.5",
-        "name": "g-recaptcha-response" // or h-captcha-response or cf-turnstile-response
-    }]
-}
-```
-
-</StepMarkdown>
+        "attributes": {
+            "row": {},
+            "success": {},
+            "errors": {}
+        },
+        "settings": {
+            "behavior": {
+                "ajax": true,
+                "showProcessingSpinner": true,
+                "showProcessingText": true,
+                "processingText": "Its Processing...",
+                "successBehavior": "reload",
+                "successTemplate": "successsample.twig",
+                "returnUrl": "/",
+                "successMessage": "Form has been submitted successfully!",
+                "errorMessage": "Sorry, there was an error submitting the form. Please try again.",
+                "duplicateCheck": "limit_once_per_email",
+                "stopSubmissionsAfter": "2023-09-15T23:00:00.000000Z"
+            },
+            "general": {
+                "name": "My Form Handle",
+                "handle": "my-form-handle",
+                "type": "Solspace\\Freeform\\Form\\Types\\Regular",
+                "submissionTitle": "{{ dateCreated|date(\"Y-m-d H:i:s\") }}",
+                "formattingTemplate": "basic-dark/index.twig",
+                "description": "Test Form",
+                "color": "#d0021b",
+                "storeData": true,
+                "defaultStatus": 3,
+                "collectIpAddresses": true,
+                "allowUsersToOptIn": true,
+                "optInCheckbox": null
+            }
+        },
+        "csrfToken": {
+            "name": "CRAFT_CSRF_TOKEN",
+            "token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "honeypot": {
+            "errorMessage": "Form honeypot is invalid",
+            "name": "freeform_form_handle"
+        },
+        "gtm": {
+            "containerId": "GTM-xxxxxxxxxxxx",
+            "eventName": "demo-form-submitted"
+        },
+        "postForwarding": {
+            "url": "xxxxxxxxxxxxxx",
+            "errorTrigger": "An error occurred",
+            "sendFiles": true
+        },
+        "javascriptTest": {
+            "errorMessage": "Javascript must be enabled to submit this form",
+            "name": "freeform_javascript_test"
+        },
+        "javascriptTest": {
+            "errorMessage": "Javascript must be enabled to submit this form",
+            "inputName": "freeform_javascript_test",
+        },
+        // If using encrypted payloads:
+        "freeform_payload": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "anchor": "xxxxxx-form-xxxxxxxx-xxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "action": "freeform\/submit",
+        // If using Captchas:
+        "captchas": [{
+            "size": "normal",
+            "theme": "light",
+            "locale": "en",
+            "errorMessage": "Please verify that you are not a robot.",
+            "failureBehavior": "display-error",
+            "triggerOnInteract": false,
+            "enabled": true,
+            "handle": "captcha",
+            "action": "submit",
+            "version": "v2-checkbox",
+            "scoreThreshold": "0.5",
+            "name": "g-recaptcha-response" // or h-captcha-response or cf-turnstile-response
+        }]
+    }
+    ```
+  </StepMarkdown>
 </VerticalStepWrapper>
 
 Have a look at our headless demos to get a feel for what's possible with GraphQL:
