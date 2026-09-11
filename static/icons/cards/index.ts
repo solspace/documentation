@@ -103,6 +103,7 @@ export default {
   MultipleEmailTemplateIcon: 'multiple-email-template',
   NextjsIcon: 'nextjs',
   NumbersIcon: 'numbers',
+  NuxtIcon: 'nuxt',
   OpenLetterIcon: 'open-letter',
   OpenAIIcon: 'openai',
   OpinionScaleIcon: 'opinion-scale',
