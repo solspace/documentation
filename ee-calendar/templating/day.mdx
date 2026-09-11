@@ -128,6 +128,26 @@ This variable pair handles the formatting for events that are **all day** or **m
 ### `{calendar:events}`
 This variable pair handles the formatting of each event result. Most of the [variables listed in Calendar:Events](../templating/events.mdx#variables) are available for use here, prefixed with `calendar:`.
 
+### `{calendar:events_truncated}`
+
+This Boolean variable is `true` when Calendar stops processing event occurrences after reaching the tag's `limit`. It prevents an unusually large number of recurring event occurrences from exhausting PHP memory while rendering the calendar.
+
+The default `limit` is `1000`. When this variable is true, the displayed calendar may not include every matching event occurrence. Increase the tag's `limit` only where the server has sufficient memory to process the additional events.
+
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
+
+For example, display a notice when Calendar reaches the result limit:
+
+```html
+{if calendar:events_truncated}
+  <p class="calendar-notice">
+    Some calendar events are not displayed because the result limit was reached.
+  </p>
+{/if}
+```
+
 
 ## Conditionals
 
