@@ -4,7 +4,7 @@ title: 'Month'
 description: Calendar:Month template tag reference for Calendar 5.x for ExpressionEngine, covering parameters, variables, variable pairs, and conditionals for building month grid calendar views.
 ---
 
-import { Photo } from '@site/src/components/utils';
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 
 # Calendar:Month template tag
 
@@ -153,7 +153,23 @@ To help your multi-day events have a better chance at displaying nicely across m
 
 This means that a multi-day event that starts at 10am on its first day will show up before a regular event that starts at 8am, to increase the odds of the multi-day event spanning all of its days in an unbroken horizontal line.
 
-### `{calendar:events_truncated}`
+
+## Conditionals
+
+### `{calendar:no_results}`
+This conditional displays its contents when there is no event results for the given parameters.
+
+:::info
+Available only within the [`calendar:events`](#calendarevents) variable pair.
+:::
+
+```html
+{if calendar:no_results}
+  Sorry, no events exist for the specified parameters.
+{/if}
+```
+
+### `{calendar:events_truncated}`<Badge type="feature" text="New in 5.0.6+" />
 
 This Boolean variable is `true` when Calendar stops processing event occurrences after reaching the tag's `limit`. It prevents an unusually large number of recurring event occurrences from exhausting PHP memory while rendering the calendar.
 
@@ -170,22 +186,6 @@ For example, display a notice when Calendar reaches the result limit:
   <p class="calendar-notice">
     Some calendar events are not displayed because the result limit was reached.
   </p>
-{/if}
-```
-
-
-## Conditionals
-
-### `{calendar:no_results}`
-This conditional displays its contents when there is no event results for the given parameters.
-
-:::info
-Available only within the [`calendar:events`](#calendarevents) variable pair.
-:::
-
-```html
-{if calendar:no_results}
-  Sorry, no events exist for the specified parameters.
 {/if}
 ```
 
