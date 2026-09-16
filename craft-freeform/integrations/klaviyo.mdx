@@ -1,0 +1,99 @@
+---
+title: 'Klaviyo'
+sidebar_position: 22
+description: Klaviyo integration for Freeform 5.x in Craft CMS.
+---
+
+import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Klaviyo<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.15.30+" />
+
+This guide assumes you have a [Klaviyo](https://www.klaviyo.com) account already.
+
+## Compatibility
+
+Uses revision `2026-07-15` of the REST API.
+
+## Supported Features
+
+- Subscribe email addresses to a selected Klaviyo list.
+- Create profiles or update existing profiles using the submitted email address.
+- Map profile fields, including names, phone numbers, company details, and location.
+- Map custom profile properties by name. Custom values are sent as text; multiple selected options are joined with commas.
+- Use an optional opt-in checkbox and Freeform integration rules.
+
+Does your project require something else? &nbsp; <PrimaryButtonWithLink to='/support/' label='Contact Us' size='sm' />
+
+## Behavior
+
+- **Profiles are created or updated first.** This does not change the profile's subscription status by itself.
+- **List opt-in settings still apply.** Double opt-in subscribers must confirm before they are subscribed.
+- **Previously unsubscribed profiles may be resubscribed.** Only enable subscriptions on forms where the user has provided consent. Use an opt-in checkbox when signup is optional.
+- **Blank or unmapped fields are ignored.** Existing Klaviyo values are left unchanged.
+- **Subscription requests are processed asynchronously.** If subscribing fails after the profile is updated, the profile changes remain in Klaviyo. Check Freeform's integration logs for details.
+- **Email subscriptions only.** SMS subscriptions, events, and ecommerce data are not supported.
+
+## Setup Instructions
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+### Create a Private API Key
+
+- Create a private API key in your [Klaviyo API key settings](https://www.klaviyo.com/settings/account/api-keys) with these scopes:
+  - **List**: Full Access
+  - **Profiles**: Full Access
+  - **Subscriptions**: Full Access
+
+:::info
+A public API key (site ID) cannot be used for this integration.
+:::
+
+</StepMarkdown>
+<StepMarkdown>
+
+### Configure the Integration
+
+- In Freeform, create a new **Klaviyo** email marketing integration.
+- Enter the key in **Private API Key**, or reference an environment variable containing the key.
+- If you want to map custom properties, enter their exact names in **Custom Profile Properties**, one per line. For example:
+  ```text
+  Favorite Color
+  Membership Level
+  Referral Source
+  ```
+  :::warning
+  Names are case-sensitive. These properties are account-wide and can be created when a profile is sent to Klaviyo. They do not need to exist on a profile beforehand.
+  :::
+- Click the **Save** button.
+
+</StepMarkdown>
+<StepMarkdown>
+
+### Authorize the Integration
+
+- After the integration is saved, you will see an **Authorize** button appear.
+- Click the **Authorize** button.
+- If authorized successfully, you'll see a green _Authorized_ status at the top beside the integration name.
+
+</StepMarkdown>
+<StepMarkdown>
+
+### Configure the Form
+
+To use this integration on your form(s), you'll need to configure each form individually.
+
+- Open the form builder and select **Integrations → Klaviyo**.
+- Enable the integration, choose the **Target Email Field**, and select a mailing list.
+- If subscribing is optional, select the **Opt-in Field**. An unchecked or missing opt-in field skips both the profile update and subscription. Without an opt-in field, every submission that passes the integration rules is sent to Klaviyo.
+- Map **Profile Fields** and **Custom Profile Properties** as needed.
+- Save the form.
+
+:::info
+- After changing custom property names in the integration settings, refresh the fields in the form builder to update the available mappings. Use Klaviyo's exact property names; do not prefix custom names with `properties.`.
+- Phone numbers must use E.164 format, such as `+12045550123`. Timezones should use IANA identifiers, such as `America/Winnipeg`. Map these values only when they are available in the required format.
+:::
+
+</StepMarkdown>
+</VerticalStepWrapper>
