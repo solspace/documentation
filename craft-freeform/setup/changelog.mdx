@@ -8,6 +8,32 @@ description: Review the Freeform 5.x for Craft CMS changelog, including new feat
 
 import { TitleDate } from '@site/src/components/docs'
 
+## 5.16.0<TitleDate date="2026-09-17" />
+
+### Added
+- Added **headless form support** for building custom frontends with Freeform handling form configuration, validation, and submissions.
+- Added a **headless REST API** for retrieving form manifests and submitting forms through `/freeform/api/forms/{handle}/manifest` and `/freeform/api/forms/{handle}/submit`. Includes CSRF support, CORS configuration, captcha metadata, multipart file uploads, dedicated drag-and-drop upload endpoints, and optional named profiles.
+- Added **headless GraphQL support** through the `freeformHeadlessManifest` query and `freeformHeadlessSubmit` mutation. Both use the same underlying services and structured payloads as the REST API. Multipart file uploads are available through REST only.
+- Added **official frontend npm packages** for building headless forms with React or Vue: `@solspace/freeform-core`, `@solspace/freeform-react`, `@solspace/freeform-vue`, and `@solspace/freeform-extensions`.
+- Added **Default, Tailwind, and Bootstrap starter themes**: `@solspace/freeform-theme-default`, `@solspace/freeform-theme-tailwind`, and `@solspace/freeform-theme-bootstrap`.
+- Added a **Microsoft Dynamics 365 CRM integration** with Lead and Contact creation and automatic discovery of supported standard and custom fields.
+- Added a **Klaviyo email marketing integration** with list subscriptions, profile and custom property mapping, and opt-in support.
+- Added **Nationalities** to the predefined field options.
+- Verified support for **Craft 5.11.x** and **4.19.x**.
+
+:::important
+**Headless setup:** Enable headless support globally in Freeform settings or configuration, then individually for each form. Install the core and extensions npm packages alongside your preferred framework adapter and starter theme.
+**Versioning and compatibility:** Frontend packages launch at **1.0.0** and are versioned independently from Freeform. The manifest's `minimumClientVersion` refers to the npm client version. Existing GraphQL APIs remain available, but the new headless APIs are recommended for new implementations. Payment support is planned for a later release.
+:::
+
+### Fixed
+- Fixed a potential display issue in the **SolspaceAI dashboard**.
+- Fixed a bug where switching a field's option source and then switching back could clear its configured options and custom values.
+- Fixed a bug where resending email notifications could fail or omit submission data depending on the columns displayed in the submissions table.
+
+### Security
+- Updated Vitest to **4.1.11** to address a security vulnerability in development tooling.
+
 ## 5.15.29<TitleDate date="2026-09-07" />
 
 ### Added
@@ -663,7 +689,7 @@ import { TitleDate } from '@site/src/components/docs'
 - **Mollie** integration: Accept payments with Mollie.
 - **xAI** integration: Use xAI models to process form submissions.
 - **Anthropic** integration: Use Anthropic models to process form submissions.
-- **SugarCRM** integration: Send submission data to _Leads_, _Opportunities_, _Accounts_, and _Contacts_ endpoints.
+- **SugarAI** integration: Send submission data to _Leads_, _Opportunities_, _Accounts_, and _Contacts_ endpoints.
 - **Gibberish Spam Blocking**: Block spam when submissions score as gibberish or contain random-looking values (e.g., `X76fddHg8qw8`, `sadjfgasfh`).
 - **Check MX Record** option for _Email Blocking_: Validate email domains against their MX records to ensure they can receive mail.
 - **Check DNS Block Lists** option for _IP Address Blocking_: Check IP addresses against the DNS block lists you provide to help detect spam and abuse.

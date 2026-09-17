@@ -4,7 +4,7 @@ title: 'Month'
 description: Calendar:Month template tag reference for Calendar 5.x for ExpressionEngine, covering parameters, variables, variable pairs, and conditionals for building month grid calendar views.
 ---
 
-import { Photo } from '@site/src/components/utils';
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 
 # Calendar:Month template tag
 
@@ -166,6 +166,26 @@ Available only within the [`calendar:events`](#calendarevents) variable pair.
 ```html
 {if calendar:no_results}
   Sorry, no events exist for the specified parameters.
+{/if}
+```
+
+### `{calendar:events_truncated}`<Badge type="feature" text="New in 5.0.6+" />
+
+This Boolean variable is `true` when Calendar stops processing event occurrences after reaching the tag's `limit`. It prevents an unusually large number of recurring event occurrences from exhausting PHP memory while rendering the calendar.
+
+The default `limit` is `1000`. When this variable is true, the displayed calendar may not include every matching event occurrence. Increase the tag's `limit` only where the server has sufficient memory to process the additional events.
+
+:::info
+Available only OUTSIDE of the [`calendar:events`](#calendarevents) variable pair.
+:::
+
+For example, display a notice when Calendar reaches the result limit:
+
+```html
+{if calendar:events_truncated}
+  <p class="calendar-notice">
+    Some calendar events are not displayed because the result limit was reached.
+  </p>
 {/if}
 ```
 

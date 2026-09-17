@@ -1,0 +1,146 @@
+---
+title: Nuxt
+sidebar_position: 6
+description: Build headless Freeform forms with Nuxt and the official Vue packages for Craft CMS.
+---
+
+import { Badge, BadgeGroup } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Nuxt<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="New in 5.16+" />
+
+Use the official `@solspace/freeform-vue` packages. Complete [Getting Started](./getting-started.mdx) (enable headless + install packages) first.
+
+Freeform’s Vue packages are **client-side**. In Nuxt, render them from a client-only component (or wrap with `<ClientOnly>`) and proxy `/freeform` so CSRF cookies stay on your Nuxt origin.
+
+## Install
+
+```nix
+npm install @solspace/freeform-core \
+  @solspace/freeform-vue \
+  @solspace/freeform-extensions \
+  @solspace/freeform-theme-default
+```
+
+## Setup
+
+<VerticalStepWrapper>
+  <StepMarkdown stepTitle="Proxy Freeform through Nuxt">
+    ```ts title="nuxt.config.ts" showLineNumbers
+    export default defineNuxtConfig({
+      runtimeConfig: {
+        // Server-only — used by the proxy target below
+        craftProxyTarget: process.env.CRAFT_PROXY_TARGET || 'https://cms.example.com',
+      },
+      nitro: {
+        devProxy: {
+          '/freeform': {
+            target: process.env.CRAFT_PROXY_TARGET || 'https://cms.example.com',
+            changeOrigin: true,
+            secure: false, // local TLS only
+          },
+        },
+      },
+      // Optional: Vite proxy (dev) with cookie Domain/Secure stripping for Craft CSRF
+      vite: {
+        server: {
+          proxy: {
+            '/freeform': {
+              target: process.env.CRAFT_PROXY_TARGET || 'https://cms.example.com',
+              changeOrigin: true,
+              secure: false,
+            },
+          },
+        },
+      },
+    });
+    ```
+
+    Set `CRAFT_PROXY_TARGET` to your Craft site. Browser requests hit `/freeform/...` on the Nuxt origin; Nuxt forwards them to Craft.
+  </StepMarkdown>
+  <StepMarkdown stepTitle="Create a client-only form component">
+    ```html title="components/ContactForm.client.vue" showLineNumbers
+    <script setup lang="ts">
+    import { Freeform } from '@solspace/freeform-vue';
+    import { recommendedExtensions } from '@solspace/freeform-extensions';
+    import '@solspace/freeform-theme-default/styles.css';
+    </script>
+
+    <template>
+      <Freeform
+        handle="contact"
+        base-url=""
+        :extensions="recommendedExtensions"
+        :on-success="(response) => console.log(response)"
+      />
+    </template>
+    ```
+
+    ```html title="pages/contact.vue" showLineNumbers
+    <template>
+      <main>
+        <h1>Contact</h1>
+        <ClientOnly>
+          <ContactForm />
+          <template #fallback>
+            <p>Loading form…</p>
+          </template>
+        </ClientOnly>
+      </main>
+    </template>
+    ```
+
+    The `.client.vue` suffix (or `<ClientOnly>`) keeps Freeform off the Nuxt server render — captchas, payments, DnD, and cookies need the browser.
+  </StepMarkdown>
+  <StepMarkdown stepTitle="Enable the form in Freeform">
+    In `config/freeform.php` on Craft:
+
+    ```php
+    'headless' => [
+        'enabled' => true,
+        'forms' => [
+            'contact' => [
+                'exposeManifest' => true,
+                'allowSubmit' => true,
+            ],
+        ],
+    ],
+    ```
+
+    With the same-origin proxy you usually do **not** need to add the Nuxt origin to `allowedOrigins`. Add it only if the browser calls Craft directly.
+  </StepMarkdown>
+</VerticalStepWrapper>
+
+## Environment Variables
+
+| Variable | Where | Example |
+| --- | --- | --- |
+| `CRAFT_PROXY_TARGET` | Nuxt server / `.env` | `https://cms.example.com` |
+| `NUXT_PUBLIC_*` | Optional public config | Form handle, GraphQL token, etc. |
+
+Prefer the proxy + `base-url=""` pattern over exposing Craft’s origin to the browser.
+
+## Headless Markup
+
+`useFreeform()` works the same as in a Vite Vue app — still inside a client component:
+
+```vue
+<script setup lang="ts">
+import { useFreeform } from '@solspace/freeform-vue';
+
+const form = useFreeform({
+  handle: 'contact',
+  baseUrl: '',
+});
+</script>
+```
+
+See [Vue.js](./vuejs.mdx) for themes, captchas, payments, custom renderers, and the full composable API.
+
+## Example Demo
+
+- [Freeform Headless Nuxt Demo](https://github.com/solspace/freeform-headless-nuxt-demo) — Nuxt 3 app using `@solspace/freeform-vue` (REST + GraphQL tab)
+
+## Payments
+
+Stripe, Square, PayPal, and Mollie work with the same client component + `/freeform` proxy pattern. Pass `recommendedExtensions` and follow [Vue.js → Payments](./vuejs.mdx#payments).

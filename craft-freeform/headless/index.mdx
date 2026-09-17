@@ -1,37 +1,69 @@
+import { Badge, BadgeGroup } from '@site/src/components/utils';
 import { FlexCards } from '@site/src/components/docs';
-
 import Icons from '@site/static/icons/cards';
 
-# Headless
+# Headless<Badge type="feature" text="Improved in 5.16+" />
 
-Freeform supports headless website architecture making it easy to use JavaScript-based front-end frameworks such as Vue.js, Next.js, React JS and more! Freeform also supports querying form layouts and using mutations to create submissions via GraphQL.
+Freeform supports headless website architecture for JavaScript front ends such as React, Next.js, Vue.js, and Nuxt.
+
+**Official _npm_ Packages**<Badge type="feature" text="New in 5.16+" />
+
+Freeform 5.16+ now includes official `npm` packages (`@solspace/freeform-react` or `@solspace/freeform-vue`) and a headless REST API. Start with [Getting Started](./getting-started) to enable headless and install the packages, or try the [React](https://github.com/solspace/freeform-headless-react-demo), [Vue](https://github.com/solspace/freeform-headless-vue-demo), and [Nuxt](https://github.com/solspace/freeform-headless-nuxt-demo) demos.
+
+:::info
+For projects already using Craft GraphQL, we recommend using the [headless GraphQL adapters](./graphql#headless-graphql-adapters).
+:::
 
 <FlexCards
   navCards
   items={[
     {
-      title: 'Vue.js',
-      description: 'Full support for implementation Freeform with Vue.js.',
-      icon: Icons.VuejsIcon,
-      fullCardLink: 'vuejs',
+      title: 'Getting Started',
+      description:
+        'Enable the headless API and install the official React or Vue packages.',
+      icon: Icons.TapIcon,
+      fullCardLink: 'getting-started',
+    },
+    {
+      title: 'REST API',
+      description:
+        'Manifest, submit, CSRF, CORS, file uploads, and payment routes.',
+      icon: Icons.ApiGearIcon,
+      fullCardLink: 'rest-api',
     },
     {
       title: 'React JS',
-      description: 'Full support for implementation Freeform with React JS.',
+      description:
+        'Render forms with <Freeform /> or build your own UI with useFreeform().',
       icon: Icons.ReactIcon,
       fullCardLink: 'reactjs',
     },
     {
       title: 'Next.js',
-      description: 'Full support for implementation Freeform with Next.js.',
+      description:
+        'App Router Client Components, rewrites proxy, and CSRF-friendly setup.',
       icon: Icons.NextjsIcon,
       fullCardLink: 'nextjs',
       filterIcon: true,
     },
     {
+      title: 'Vue.js',
+      description:
+        'Render forms with <Freeform /> or build your own UI with useFreeform().',
+      icon: Icons.VuejsIcon,
+      fullCardLink: 'vuejs',
+    },
+    {
+      title: 'Nuxt',
+      description:
+        'Client-only Freeform components, /freeform proxy, and CSRF-friendly setup.',
+      icon: Icons.NuxtIcon,
+      fullCardLink: 'nuxt',
+    },
+    {
       title: 'GraphQL',
       description:
-        'With Freeform, you can easily query form layouts and submit form mutations using GraphQL.',
+        'Headless manifest/submit adapters, plus legacy form queries and mutations.',
       icon: Icons.GraphqlIcon,
       fullCardLink: 'graphql',
     },
