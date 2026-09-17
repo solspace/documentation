@@ -1,0 +1,91 @@
+---
+title: Occurrences
+sidebar_position: 3
+description: Occurrence object for recurring events in Solspace Calendar 6.x templates.
+---
+
+# Occurrence object
+
+The _occurrence_ object represents one generated occurrence of a Calendar event. Calendar 6 stores generated occurrences in dedicated occurrence tables, which gives recurrence-heavy sites more reliable date range filtering and a stable occurrence key for each event/date combination.
+
+## Properties
+
+- `id`
+  - The stable occurrence key. Calendar builds this from the event ID and occurrence start date.
+- `uid`
+  - The occurrence UID.
+- `startDate`
+  - a [Date object](./date.mdx) in UTC.
+- `startDateLocalized`
+  - a localized [Date object](./date.mdx).
+- `endDate`
+  - a [Date object](./date.mdx) in UTC.
+- `endDateLocalized`
+  - a localized [Date object](./date.mdx).
+- `allDay`
+  - a `boolean` value.
+- `event`
+  - the parent [Event object](./event.mdx).
+- `calendar`
+  - the parent [Calendar object](./calendar.mdx).
+- `dateCreated`
+  - a `\DateTime` object for when the occurrence row was generated.
+- `dateUpdated`
+  - a `\DateTime` object for when the occurrence row was last updated.
+
+## Usage in Templates
+
+```twig showLineNumbers
+{% set event = craft.calendar.events({
+    id: craft.app.request.segment(2),
+}).one() %}
+
+{% if event.repeating %}
+
+    <h3>Upcoming Recurrences</h3>
+
+    {% set occurrences = event.occurrences({
+        rangeStart: 'today',
+        rangeEnd: '+6 months',
+        limit: 10,
+    }) %}
+
+    {% if occurrences %}
+        <ul class="list-group">
+            {% for occurrence in occurrences %}
+                <li class="list-group-item">
+                    {{ occurrence.startDate.format("l, F j, Y") }}
+                    {% if occurrence.allDay %}
+                        (all day)
+                    {% else %}
+                        at {{ occurrence.startDate.format("g:ia") }}
+                        {% if occurrence.multiDay %}
+                            <br />{{ occurrence.endDate.format("l, F j, Y \\a\\t g:ia") }}
+                        {% else %}
+                            {{ occurrence.endDate.format("g:ia") }}
+                        {% endif %}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No occurrences found for this timeframe.</p>
+    {% endif %}
+
+{% endif %}
+```
+
+You can also access the parent event or calendar from each occurrence:
+
+```twig showLineNumbers
+{% for occurrence in event.occurrences({
+    rangeStart: 'today',
+    rangeEnd: '+3 months',
+}) %}
+    <article>
+        <h2>{{ occurrence.event.title }}</h2>
+        <p>{{ occurrence.calendar.name }}</p>
+        <time>{{ occurrence.startDateLocalized|date('M j, Y g:ia') }}</time>
+    </article>
+{% endfor %}
+```
