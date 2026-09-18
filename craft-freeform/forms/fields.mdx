@@ -273,6 +273,14 @@ Freeform contains a rich set of field types to handle just about every possible 
       filterIcon: true,
     },
     {
+      link: '#summary',
+      title: 'Summary',
+      description: 'Users can review their answers before submitting',
+      icon: 'summary',
+      color: 'bg-green-500/50',
+      filterIcon: true,
+    },
+    {
       link: '#html',
       title: 'HTML Block',
       description: 'Include HTML/Twig inside form layouts',
@@ -361,6 +369,7 @@ Fields can be changed to other field types at any point, but be aware that data 
 | [Regex](#regex)                                                                   | `regex`                                   | An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`).                                                                   |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Rich Text](#rich-text)<Badge type="feature" text="Improved in 5.10+" />          | `rich-text`                               | A block that allows you to insert rich text into areas of your form (headings, descriptions, etc).                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Signature](#signature)                                                           | `signature`                               | A field that allows users to handwrite signatures inside your form.                                                                                                |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Summary](#summary)<Badge type="feature" text="New in 5.16+" />                   | `summary`                                 | Allows users to review their answers before submitting the form.                                                                                                   |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Stripe Payment](#stripe-payment)<Badge type="feature" text="Improved in 5.0+" /> | `stripe`                                  | A set of input fields to allow the validation of credit cards and other payment options for [Stripe Payment](../integrations/stripe-payments.mdx) implementations. |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Submit buttons](#submit-buttons)                                                 | <span className="compare-none">N/A</span> | Handles the submit button(s), including **Save** option for the form.                                                                                              |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Table](#table)<Badge type="feature" text="Improved in 5.8, 5.14.12+" />          | `table`                                   | A field that allows you to collect and handle repeating data.                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
@@ -2241,6 +2250,64 @@ A field that allows users to handwrite signatures with their mouse inside your f
 - The _Clear_ button can be styled inside the form builder with **Input attributes** area inside the property editor.
 - The Signature field, due to it's complexness, cannot easily be manually generated in a form, and is best done with render helpers, e.g. `field.render`.
 - There's currently no way to make the signature pad area "responsive" (like setting it to 100% width), as this would be quite difficult to account for with the need to display the signature image in various places, etc.
+
+</details>
+
+
+## Summary<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.16+" />
+
+The Summary field displays a live read-only review of answers entered before it in the form layout. Place it at the bottom of a single-page form or on the final page of a multi-page form. It does not store a duplicate answer, participate in validation, or add content to email notifications or the submission GraphQL schema.
+
+The `field.type` property value is `summary` (for conditionals).
+
+<Photo
+  scale={70}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/summary.png')}
+  alt="Summary field type"
+/>
+
+<details className="hidden-heading">
+<summary>Settings</summary>
+
+- **Included Field Handles**
+  - Leave blank for all supported preceding fields, or enter comma-separated handles (for example `name, email, interests`). The summary follows form order. Unknown handles, fields after the Summary, and unsupported field types are ignored. Update this setting if you rename a selected field handle.
+- **Hide Empty Fields**
+  - Enabled by default. Disable to show _Not answered_ for empty answers and _No_ for unchecked checkboxes. Numeric zero is an answer.
+- The normal label, instructions, translations, conditional rules, and input attributes apply.
+
+</details>
+<details>
+<summary>View Important Notes...</summary>
+
+#### Display & Styling
+
+- **Included Fields**: Text, email, number, phone, website, regex, date/time, multi-choice fields, cards, ratings, opinion scales, calculations, uploads, and tables are supported.
+  - Multi-choice field types display comma-seperated option labels.
+  - Checkboxes show `Yes` or `No`.
+  - Uploads show a file count, without exposing asset IDs, URLs, or file contents.
+  - Tables display one line per row with column labels; file cells also show a count.
+  - Groups are traversed in layout order.
+- **Excluded Fields**: Hidden/invisible fields, hidden calculations, passwords, confirmations, payment fields, signatures, decorative fields, and unrecognized custom field types are excluded, even when their handle is explicitly selected.
+  - Conditional fields and children of hidden groups are omitted.
+  - Answers are escaped text, never executable HTML.
+- **Twig rendering** includes a server-rendered `<dl>` with `data-freeform-summary`.
+  - Freeform's standard JavaScript updates current-page answers on input, choice changes, calculations, uploads, table edits, and reset.
+  - Completed pages use the server's form state and are refreshed when navigating or submitting.
+  - Back navigation uses Freeform's existing Back button; this field does not introduce page-jump links.
+  - Without JavaScript, the server-rendered review remains available and updates on page requests.
+- For **custom styling**, target `[data-freeform-summary]`, its `dt`/`dd` elements, or `[data-summary-field="handle"]`.
+  - Custom templates must render the field's input and retain the standard `data-field-container`/`data-hidden` attributes for live conditional visibility.
+
+---
+
+#### Headless
+
+- The manifest uses renderer `summary` and provides `frontend.config.fields`, `hideEmpty`, and translated display labels.
+  - The built-in React and Vue renderers derive the review from current runtime values and conditional visibility, including hidden parent groups.
+  - No extension or `allowRawHtml` is needed.
+  - Custom renderers can call `getSummaryEntries(field, form)` from `@solspace/freeform-core`.
+- Summary entries contain untrusted text, not sanitized HTML. The built-in headless renderers display labels and answers literally, including any markup.
+  - Custom renderers must use escaped text interpolation or `textContent` for both `entry.label` and `entry.text`, never `innerHTML`, `v-html`, or `dangerouslySetInnerHTML`.
 
 </details>
 
