@@ -36,8 +36,32 @@ These adapters reuse Freeform's headless `ManifestService` and `HeadlessSubmitSe
 | Craft GraphQL schema | Freeform **form read** + **submission create** for that form |
 | Site access | Enable your Craft **site** on the schema (missing this returns *Schema doesn't have access to the "Site" site*) |
 | Schema token | Pass as `Authorization: Bearer <token>` |
+| Craft GraphQL CORS | See [Cross-origin GraphQL (CORS)](#cross-origin-graphql-cors) when the browser calls Craft from another origin |
 
 Typical endpoint: `POST /actions/graphql/api` (or your Craft GraphQL URL).
+
+### Cross-origin GraphQL (CORS)
+
+Craft's GraphQL endpoint (`/actions/graphql/api`) is **not** covered by Freeform's `headless.allowedOrigins`. That setting only applies to Freeform REST headless routes.
+
+Craft always sends `Access-Control-Allow-Credentials: true` for GraphQL. If `allowedGraphqlOrigins` is left at the default, Craft responds with `Access-Control-Allow-Origin: *`, and browsers **block** requests that use `credentials: 'include'` (the usual pattern for CSRF cookies).
+
+When your frontend origin differs from Craft (e.g. a Vercel app calling `demo.example.com`), set explicit origins in Craft's `config/general.php`:
+
+```php title="config/general.php" showLineNumbers
+use craft\config\GeneralConfig;
+
+return GeneralConfig::create()
+    // ...
+    ->allowedGraphqlOrigins([
+        'http://localhost:3000',
+        'https://app.example.com',
+    ]);
+```
+
+Use the same frontend origins you list in Freeform `headless.allowedOrigins`. Do **not** use `*` here if the client sends credentials.
+
+See Craft's [`allowedGraphqlOrigins`](https://craftcms.com/docs/5.x/reference/config/general.html#allowedgraphqlorigins) setting.
 
 ### Manifest query
 
