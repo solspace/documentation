@@ -1,0 +1,384 @@
+---
+title: GraphQL
+sidebar_position: 1
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# GraphQL
+
+Calendar supports querying and mutating calendars and events via GraphQL. This guide assumes you have some GraphQL experience. To learn more about GraphQL and Craft, please check out the [Fetch content with GraphQL](https://craftcms.com/docs/getting-started-tutorial/build/graphql.html) guide.
+
+<Photo
+  img={require('@site/static/img/craft/calendar/v5/cp/graphql.png')}
+  alt="GraphQL"
+/>
+
+## Permissions
+
+Calendar GraphQL schemas use separate read and manage permissions for calendars and events. In the GraphQL schema editor, enable the permissions that match the data a token should access.
+
+- **Access Events** allows event queries.
+- **Read All Events** allows reading events from all calendars.
+- **Read Events by Calendar** allows reading events from selected calendars.
+- **Manage All Events** allows saving and publishing events in all calendars.
+- **Manage Events by Calendar** allows saving and publishing events in selected calendars.
+- **Access Calendars** allows calendar queries and calendar management permissions.
+- **Create New Calendars**, **Delete Calendars**, **Manage All Calendars**, and **Manage Calendars Individually** control calendar mutations and management access.
+
+## Querying Calendar data
+
+Calendar 6 adds top-level GraphQL queries for calendars, events, and occurrences. The legacy `solspace_calendar` wrapper from Calendar 5 is still available for compatibility, but it is deprecated. New headless implementations should use the top-level queries shown below.
+
+## Querying multiple Calendars
+
+To query all or some calendars, use the top-level `calendars` query:
+
+```graphql showLineNumbers
+query {
+  calendars {
+    id
+    uid
+    name
+    handle
+    description
+    color
+    lighterColor
+    darkerColor
+    icsHash
+    allowRepeatingEvents
+
+    events {
+      id
+      uid
+      title
+      calendarId
+      startDate
+      startDateLocalized
+      endDate
+      endDateLocalized
+      allDay
+      rrule
+    }
+  }
+}
+```
+
+## Querying a single Calendar
+
+To query a single calendar, use the top-level `calendar` query:
+
+```graphql showLineNumbers
+query {
+  calendar(handle: "default") {
+    id
+    name
+    handle
+    events {
+      id
+      title
+      startDateLocalized
+      endDateLocalized
+    }
+  }
+}
+```
+
+## Querying Events
+
+To query events, use the top-level `events`, `event`, and `eventCount` queries:
+
+```graphql showLineNumbers
+query {
+  events(calendarId: [1], startsAfterOrAt: "2026-07-01") {
+    id
+    uid
+    title
+    calendarId
+    calendar {
+      id
+      name
+      handle
+    }
+    startDate
+    startDateLocalized
+    endDate
+    endDateLocalized
+    allDay
+    rrule
+  }
+
+  eventCount(calendarId: [1])
+}
+```
+
+To query a single event:
+
+```graphql showLineNumbers
+query {
+  event(id: [123]) {
+    id
+    title
+    startDateLocalized
+    endDateLocalized
+  }
+}
+```
+
+## Querying Occurrences
+
+Calendar 6 includes occurrence queries for expanded event occurrences:
+
+```graphql showLineNumbers
+query {
+  occurrences(calendarId: [1], startsAfterOrAt: "2026-07-01") {
+    id
+    startDate
+    startDateLocalized
+    endDate
+    endDateLocalized
+    event {
+      id
+      title
+    }
+    calendar {
+      id
+      handle
+    }
+  }
+
+  occurrenceCount(calendarId: [1])
+}
+```
+
+## Calendar Query Arguments
+
+The following arguments are available when querying single or multiple calendars:
+
+| Argument  | Type       | Description                                         |
+| --------- | ---------- | --------------------------------------------------- |
+| `id`      | `[int]`    | Narrow the queried calendars by one or more IDs     |
+| `uid`     | `[string]` | Narrow the queried calendars by one or more UIDs    |
+| `handle`  | `[string]` | Narrow the queried calendars by one or more handles |
+| `limit`   | `int`      | Limit the amount of returned calendar results       |
+| `offset`  | `int`      | Offset the returned calendar results                |
+| `orderBy` | `string`   | Order the calendars by a specific property          |
+| `sort`    | `string`   | Sort by `asc` or `desc` order                       |
+
+## Event Query Arguments
+
+You can query events by the following arguments:
+
+| Argument           | Type     | Description                                                               |
+| ------------------ | -------- | ------------------------------------------------------------------------- |
+| `id`               | `[int]`  | Narrow the queried events by ID                                           |
+| `uid`              | `[string]` | Narrow the queried events by UID                                        |
+| `calendarId`       | `[int]`  | Narrow the queried events by calendar ID                                  |
+| `authorId`         | `[int]`  | Narrow the queried events by author ID                                    |
+| `allDay`           | `bool`   | Only select all-day events                                                |
+| `rangeStart`       | `string` | Filter events starting from a certain date. Example: `2026-07-01`         |
+| `rangeEnd`         | `string` | Filter events ending by a certain date. Example: `2026-07-31`             |
+| `startDate`        | `string` | Filter events that start at a certain date                                |
+| `startsBefore`     | `string` | Filter events that start before a certain date                            |
+| `startsBeforeOrAt` | `string` | Filter events that start before or at a certain date                      |
+| `startsAfter`      | `string` | Filter events that start after a certain date                             |
+| `startsAfterOrAt`  | `string` | Filter events that start after or at a certain date                       |
+| `endDate`          | `string` | Filter events that end at a certain date                                  |
+| `endsBefore`       | `string` | Filter events that end before a certain date                              |
+| `endsBeforeOrAt`   | `string` | Filter events that end before or at a certain date                        |
+| `endsAfter`        | `string` | Filter events that end after a certain date                               |
+| `endsAfterOrAt`    | `string` | Filter events that end after or at a certain date                         |
+
+Occurrence queries use the same date and calendar filtering pattern as event queries.
+
+## Saving Calendars
+
+Use `saveCalendar` to create or update a calendar. Creating calendars requires the **Create New Calendars** GraphQL permission. Updating calendars requires **Manage All Calendars** or access to manage the selected calendar.
+
+```graphql showLineNumbers
+mutation {
+  saveCalendar(
+    name: "Courses"
+    handle: "courses"
+    color: "#57DB2B"
+    hasTitleField: true
+    titleLabel: "Title"
+    allowRepeatingEvents: true
+  ) {
+    id
+    uid
+    name
+    handle
+  }
+}
+```
+
+To update an existing calendar, pass its `id` or `uid`.
+
+## Saving Events
+
+Calendar creates one event mutation per calendar. The mutation name uses the calendar handle:
+
+```graphql
+save_{calendarHandle}_Event
+```
+
+For example, a calendar with the handle `default` exposes `save_default_Event`.
+
+```graphql showLineNumbers
+mutation saveEvent($siteId: Int, $title: String) {
+  save_default_Event(
+    siteId: $siteId
+    title: $title
+    startDate: "2026-07-14 09:00"
+    endDate: "2026-07-14 10:00"
+  ) {
+    id
+    title
+    startDateLocalized
+    endDateLocalized
+  }
+}
+```
+
+Pass `id` to update an existing event. The available custom field arguments depend on the calendar's field layout and the active GraphQL schema.
+
+## Saving Event Drafts
+
+Calendar creates one draft mutation per calendar:
+
+```graphql
+save_{calendarHandle}_Draft
+```
+
+Omit `draftId` to create a new unpublished draft event. Include `draftId` to update an existing draft.
+
+```graphql showLineNumbers
+mutation saveDraft($siteId: Int, $title: String) {
+  save_default_Draft(
+    siteId: $siteId
+    title: $title
+    draftName: "Headless draft"
+  ) {
+    id
+    draftId
+    title
+  }
+}
+```
+
+The response includes both IDs:
+
+| Field     | Description                                                       |
+| --------- | ----------------------------------------------------------------- |
+| `id`      | The element ID for the draft event                                |
+| `draftId` | The Craft drafts table ID. Use this value when updating or publishing the draft |
+
+To update the draft later:
+
+```graphql showLineNumbers
+mutation updateDraft($draftId: ID!, $title: String) {
+  save_default_Draft(
+    draftId: $draftId
+    title: $title
+  ) {
+    id
+    draftId
+    title
+  }
+}
+```
+
+## Publishing Event Drafts
+
+Use `publishEventDraft` to publish a Calendar event draft. This mutation returns the published event ID, so do not add a selection set.
+
+```graphql showLineNumbers
+mutation publishDraft($draftId: ID!) {
+  publishEventDraft(id: $draftId)
+}
+```
+
+The `id` argument must be the draft's `draftId`, not the event element `id`.
+
+## Repeating Events and RRULE
+
+The `rrule` mutation argument accepts an RFC 5545 recurrence rule string. Include a `DTSTART` line and one or more recurrence lines:
+
+```graphql showLineNumbers
+mutation {
+  save_default_Event(
+    title: "Weekly Course"
+    startDate: "2026-07-14 09:00"
+    endDate: "2026-07-14 10:00"
+    rrule: "DTSTART:20260714T090000Z\nRRULE:FREQ=WEEKLY;INTERVAL=1;COUNT=6"
+  ) {
+    id
+    title
+    rrule
+  }
+}
+```
+
+For all-day repeats, use a date-only `DTSTART`:
+
+```text
+DTSTART;VALUE=DATE:20260714
+RRULE:FREQ=DAILY;COUNT=3
+```
+
+You can also include `RDATE` and `EXDATE` lines.
+
+## Calendar Interface
+
+These are the fields available for the `CalendarInterface`:
+
+| Field                  | Type     | Description                                    |
+| ---------------------- | -------- | ---------------------------------------------- |
+| `id`                   | `int`    | ID                                             |
+| `uid`                  | `string` | UID                                            |
+| `name`                 | `string` | Name                                           |
+| `handle`               | `string` | Handle                                         |
+| `description`          | `string` | Description                                    |
+| `color`                | `string` | Color                                          |
+| `lighterColor`         | `string` | Lighter variant of the `color`                 |
+| `darkerColor`          | `string` | Darker variant of the `color`                  |
+| `icsHash`              | `string` | ICS hash of this calendar                      |
+| `allowRepeatingEvents` | `bool`   | If the calendar allows repeating events or not |
+
+## Event Interface
+
+These are the common fields available for event results:
+
+| Field                | Type                                       | Description                               |
+| -------------------- | ------------------------------------------ | ----------------------------------------- |
+| `id`                 | `int`                                      | Event or draft element ID                 |
+| `uid`                | `string`                                   | UID                                       |
+| `draftId`            | `int`                                      | Draft ID from Craft's drafts table        |
+| `siteId`             | `int`                                      | Site ID                                   |
+| `authorId`           | `int`                                      | Author's ID                               |
+| `calendarId`         | `int`                                      | Calendar ID                               |
+| `calendar`           | [`CalendarInterface`](#calendar-interface) | Calendar                                  |
+| `title`              | `string`                                   | Title of the event                        |
+| `postDate`           | `string`                                   | Post Date                                 |
+| `startDate`          | `string`                                   | Start Date                                |
+| `startDateLocalized` | `string`                                   | Start Date localized                      |
+| `initialStartDate`   | `string`                                   | Initial Start Date for repeating events   |
+| `endDate`            | `string`                                   | End Date                                  |
+| `endDateLocalized`   | `string`                                   | End Date localized                        |
+| `initialEndDate`     | `string`                                   | Initial End Date for repeating events     |
+| `allDay`             | `bool`                                     | Whether the event is all-day              |
+| `multiDay`           | `bool`                                     | Whether the event spans multiple days     |
+| `duration`           | `DurationInterface`                        | Event duration                            |
+| `url`                | `string`                                   | Event URL                                 |
+| `uri`                | `string`                                   | Event URI                                 |
+| `rrule`              | `string`                                   | RFC 5545 recurrence rule                  |
+| `freq`               | `string`                                   | Repeat frequency                          |
+| `interval`           | `int`                                      | Repeat interval                           |
+| `count`              | `int`                                      | Number of times the event should repeat   |
+| `until`              | `string`                                   | Date until the event repeats              |
+| `untilLocalized`     | `string`                                   | Localized version of the `until` date     |
+| `byMonth`            | `string`                                   | Repeat by month rule                      |
+| `byYearDay`          | `string`                                   | Repeat by year day rule                   |
+| `byMonthDay`         | `string`                                   | Repeat by month day rule                  |
+| `byDay`              | `string`                                   | Repeat by day rule                        |
