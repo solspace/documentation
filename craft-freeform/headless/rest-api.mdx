@@ -81,6 +81,12 @@ JSON body shape (simplified):
     "message": "Hello"
   },
   "intent": "submit",
+  "context": {
+    "draftToken": null,
+    "draftKey": null,
+    "stateToken": null,
+    "sourceUrl": "https://app.example.com/contact"
+  },
   "meta": {
     "honeypot": { "name": "freeform_form_handle", "value": "" },
     "javascriptTest": { "name": "freeform_form_handle", "value": "" },
@@ -95,6 +101,19 @@ JSON body shape (simplified):
 | `next` / `back` | Multi-page navigation |
 | `validate` | Validate without completing |
 | `saveDraft` | Save progress (token + key returned in `draft`) |
+
+### Submit `context` allow-list
+
+Client-supplied `context` is restricted to:
+
+| Key | Purpose |
+| --- | --- |
+| `draftToken` / `draftKey` | Resume or update a saved draft (both required together) |
+| `stateToken` | Multi-page session token from a prior submit response |
+| `sourceUrl` | Browser page URL (e.g. Mollie return / submission source tracking) |
+| `token` | Signed context token when a profile sets `requiresSignedToken` |
+
+Anything else (for example `disable`, `elementId`, `submissionId`) is **stripped** before Freeform applies form context. Do not rely on passing internal form settings through submit `context`.
 
 On `draft_saved`, the response includes:
 
@@ -196,6 +215,21 @@ POST /freeform/api/manifests/{profile}/submit
 ```
 
 Profiles are explicit config entries under `headless.profiles` — never inferred from integrations. Use them for contextual manifests that need auth, signed tokens, or typed query properties.
+
+**Submit the same allow-listed `properties` on POST** that you used for the manifest GET (JSON body `properties`, or nested under multipart `_freeform`). Required properties missing on submit are rejected.
+
+When a context provider is configured, the manifesto may include:
+
+- `context.defaultValues` — seeded field values
+- `context.hiddenFields` / `context.lockedFields` — handles the client should hide or treat as read-only (official packages honor these; server also re-applies provider defaults for those handles on submit)
+
+If the profile sets `requiresSignedToken: true`, include a non-empty token via:
+
+- header `X-Freeform-Context: …`, or
+- `context.token` in the submit body (or nested under multipart `_freeform`), or
+- query `contextToken` on the manifest request
+
+Cryptographic verification of that token is planned; until then Freeform **requires the token to be present** so the flag is not a silent no-op.
 
 ## CORS and credentials
 

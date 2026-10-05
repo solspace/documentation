@@ -67,7 +67,7 @@ function onError(response: unknown) {
 | `extensions` | Captcha / datetime / file-dnd / calculation / table / signature / Stripe |
 | `draftToken` / `draftKey` | Resume a saved draft (from a prior `saveDraft` response) |
 | `theme` | Optional theme object (`lightTheme`, `darkTheme`, or `createTheme()`) |
-| `allowRawHtml` | Default `false`. Set `true` only if HTML/rich-text fields are trusted CMS content. |
+| `allowRawHtml` | Default `false`. Set `true` only for trusted CMS content in HTML/rich-text fields **and** checkbox WYSIWYG labels (e.g. terms links). |
 | `#loading` / `#error` slots | Custom loading and error UI |
 | `#default="{ form }"` | Headless slot — own the markup (same idea as React `children`) |
 
@@ -393,7 +393,7 @@ Then use `base-url=""` (or `window.location.origin`) in the browser.
 
 ## Security Notes
 
-- Leave **`allowRawHtml`** at the default (`false`) unless HTML fields are trusted.
+- Leave **`allowRawHtml`** at the default (`false`) unless HTML / rich-text fields and checkbox WYSIWYG labels are trusted CMS content.
 - Enable a **captcha** on public forms.
 - Set **`headless.allowedOrigins`** when calling Craft cross-origin.
 - See [REST API](./rest-api.mdx) for CORS and CSRF details.
