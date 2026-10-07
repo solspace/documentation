@@ -8,6 +8,64 @@ description: Review the Freeform 5.x for Craft CMS changelog, including new feat
 
 import { TitleDate } from '@site/src/components/docs'
 
+## 5.16.6<TitleDate date="2026-10-07" />
+
+### Added
+- Added database integrity checks and optional orphan and duplicate scans to Diagnostics, with links to repair guidance.
+- Added console utilities to inspect database integrity and restore missing foreign keys.
+
+### Fixed
+- Fixed a bug where uninstalling another Craft plugin could remove Freeform's foreign keys, leaving related submission data behind after deletion.
+- Improved **Forms list** performance, particularly on sites with many forms.
+
+### Security
+- Fixed a security vulnerability where visitor-supplied notification recipient addresses could evaluate Twig expressions and disclose server-side information.
+
+## 5.16.5<TitleDate date="2026-10-06" />
+
+### Fixed
+- Fixed an issue where Opinion Scale fields with missing values or labels, including some AI-generated configurations, could cause errors when loading forms or opening Quick Export.
+- Fixed an issue where email notifications could be silently skipped when a form was not assigned to the submission's site.
+- Fixed an issue where saving settings could unintentionally enable disabled settings, including Site-Aware Forms.
+- Fixed an issue where Diagnostics could display an incorrect status for the AI processing queue setting.
+
+## 5.16.4<TitleDate date="2026-10-01" />
+
+### Fixed
+- Fixed an issue where news feed checks could delay frontend page loads by moving feed refreshes to Craft's queue.
+- Fixed unnecessary loading of all forms on frontend requests after a cache clear when URL Parameter Tracking is not configured.
+
+### Security
+- Updated Axios, DOMPurify, JSDom, and Vue dependencies to resolve multiple security vulnerabilities.
+- Updated `brace-expansion` to resolve three denial-of-service vulnerabilities in build dependencies.
+
+## 5.16.3<TitleDate date="2026-09-28" />
+
+### Fixed
+- Fixed **Pardot custom fields** not appearing in form builder integration mappings, including support for single-field API responses and proper Pardot v4 field type handling.
+- Fixed **CSRF token requests for headless forms** to properly support CORS, including allowed origins configured globally, per form, and through headless profiles.
+
+## 5.16.2<TitleDate date="2026-09-24" />
+
+### Security
+- Fixed a security issue in GraphQL file uploads by URL that could allow requests to internal network addresses and bypass a field's allowed file extensions. Remote downloads now validate destinations, reject redirects, and enforce the file size limit.
+
+## 5.16.1<TitleDate date="2026-09-23" />
+
+### Added
+- Added a **MailerLite email marketing integration** with group subscriptions, automatic discovery of standard and custom subscriber fields, and opt-in support.
+
+### Fixed
+- Improved **Opinion Scale** fields on Control Panel submission detail pages with consistent field labels, compact rounded options, and clearer selection and keyboard focus states.
+- Fixed uneven column widths and spacing for fields using fieldset containers on Control Panel submission detail pages.
+- Fixed an issue where custom HTML attributes configured in the form builder could affect field appearance and editing on Control Panel submission detail pages.
+- Fixed an issue where **Stripe** receipt email updates could still be attempted when receipts were disabled.
+- Updated form submission handling to prioritize Freeform validation errors before displaying **Stripe** error messages.
+- Fixed an issue where the submit state was not properly restored after a failed quick-save request.
+
+### Security
+- Enforced **File Upload (Drag & Drop)** restrictions before files are stored.
+
 ## 5.16.0<TitleDate date="2026-09-17" />
 
 ### Added
