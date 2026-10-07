@@ -339,6 +339,17 @@ const config: Config = {
         },
       },
     ],
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            from: '/craft/freeform/v5/guides/database-integrity/',
+            to: '/craft/freeform/v5/configuration/console-commands/#repair-database-foreign-keys',
+          },
+        ],
+      },
+    ],
   ],
 
   themeConfig: {
