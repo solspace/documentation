@@ -4,18 +4,22 @@ title: HTML Embeds
 description: Learn how to embed Freeform forms in HTML pages with Craft CMS. Follow setup steps, customize styling, and troubleshoot common embedding issues.
 ---
 
-import { FlexCards, VerticalStepWrapper, StepMarkdown, AnswerCard, AnswerChecklist } from '@site/src/components/docs';
+import Admonition from '@theme/Admonition';
+import Icons from '@site/static/icons/cards';
+import { FlexCards, VerticalStepWrapper, StepMarkdown, AnswerCard } from '@site/src/components/docs';
 import { Photo, Badge } from '@site/src/components/utils';
 
 # Embedding Forms in HTML Pages<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.17+" />
 
-Freeform 5.17 lets you add a form to an HTML page that is not rendered by Craft. An administrator enables the form, then copies a single script tag from the form builder into the HTML page. The form itself is served by Craft and reflects changes after you save them in Freeform.
+HTML embeds in Freeform Pro let you add a Freeform form to a standalone HTML page without rendering that page through Craft. Copy a script tag from the form builder and place it where the form should appear. Craft serves the form using its selected Formatting Template, so saved changes to the form appear the next time the embed loads.
 
-:::warning
-The HTML page and the selected Craft site must have the **same origin**: the same protocol (`https`), hostname, and port. A different subdomain or domain is not supported by this embed option.
+## Requirements
 
-For example, a static page at `https://example.com/landing.html` can embed a form served by `https://example.com`. A page at `https://www.example.com/landing.html` cannot embed that form, because `www.example.com` is a different hostname.
-:::
+The HTML page and the selected Craft site must use the **same origin**: the same protocol, hostname, and port.
+
+For example, a page at `https://example.com/landing.html` can embed a form served by `https://example.com`. A page on `https://www.example.com`, another subdomain, a different port, or an HTTP version of that site uses a different origin and cannot use this embed.
+
+Serve the HTML page through your website. Opening an HTML file directly from your computer does not meet this requirement. You do not need to enable Freeform’s headless API.
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/cp/embed-html.jpg')}
@@ -23,49 +27,96 @@ For example, a static page at `https://example.com/landing.html` can embed a for
 />
 
 ## Setup Guide
-Follow these simple steps to have your form added to a regular HTML page not served up by Craft.
+Follow the steps below to have your form added to a regular HTML page not served up by Craft.
 
-<div className="common-issues">
-  <VerticalStepWrapper>
-    <StepMarkdown>
-      Open the form in the Freeform control panel and select **Settings → Embed Form**. Save a new form first.
-    </StepMarkdown>
-    <StepMarkdown>
-      A Craft administrator turns on **Allow HTML Embeds** and saves the form. This setting is off by default. If you cannot see the switch, ask a Craft administrator to enable it.
-    </StepMarkdown>
-    <StepMarkdown>
-      Select the Craft site for the form and click **Copy code** under **HTML page on this site**.
-    </StepMarkdown>
-    <StepMarkdown>
-      Paste the copied script tag into the HTML page where the form should appear. Publish or upload that page on the **same origin** as the selected Craft site.
-    </StepMarkdown>
-    <StepMarkdown>
-      Open the HTML page in a browser and submit a test entry.
-    </StepMarkdown>
-  </VerticalStepWrapper>
-</div>
+<VerticalStepWrapper>
+  <StepMarkdown>
+    Open the form in the Freeform control panel.
+  </StepMarkdown>
+  <StepMarkdown>
+    Go to **Settings → Embed Form**. Save the form first if it is new.
+  </StepMarkdown>
+  <StepMarkdown>
+    Have a Craft administrator enable **Allow HTML Embeds**, then save the form. This setting is off by default.
+  </StepMarkdown>
+  <StepMarkdown>
+    Click **Copy code** under **HTML page on this site**.
+    :::info
+    If using multi-sites feature, select a Craft site for the form from the menu in the breadcrumbs at the top of the page.
+    :::
+  </StepMarkdown>
+  <StepMarkdown>
+    Paste the copied script tag into the HTML page where the form should appear. Publish or upload that page on the **same origin** as the selected Craft site.
+  </StepMarkdown>
+  <StepMarkdown>
+    Open the HTML page in a browser and submit a test entry.
+  </StepMarkdown>
+</VerticalStepWrapper>
 
-The copied code looks like this (your site URL and form handle will differ):
+## Add the form to your HTML page
+
+Paste the copied script tag into the page where the form should appear. For example:
 
 ```html
-<script src="https://example.com/freeform/embed.js" data-freeform-url="https://example.com/freeform/embed/contact" data-freeform-title="Contact" defer></script>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact us</title>
+</head>
+<body>
+  <h1>Contact us</h1>
+
+  <script
+    src="https://example.com/freeform/embed.js"
+    data-freeform-url="https://example.com/freeform/embed/contact"
+    data-freeform-title="Contact"
+    defer
+  ></script>
+</body>
+</html>
 ```
 
-Copy the complete tag from Freeform so it contains the correct site URL and form handle. You do not need to enable Freeform's headless API for this method.
+The URLs and form handle above are examples. Copy the complete tag from your form's **Embed Form** tab to get the correct values, including any site path.
 
-## Appearance and behavior
+Publish the page on the same origin as the selected Craft site, then load it in a browser and submit a test entry.
 
-The embed displays the form in an iframe and adjusts its height as the form changes. Craft renders the form using its selected **Formatting Template**. The bundled Bootstrap, Foundation, and Tailwind templates load their corresponding framework assets in the embedded page.
+## Appearance and Styling
+
+The embed displays the form in an iframe and adjusts its height as the form changes. The surrounding page's styles do not automatically apply inside the iframe. Craft renders the form using its selected **Formatting Template**. The bundled Bootstrap, Foundation, and Tailwind templates load their corresponding framework assets in the embedded page.
+
+See [Formatting Templates](./templates/formatting/) and [Creating a Custom Formatting Template](../guides/guide/custom-formatting-templates/) for customization options.
 
 :::warning
 Custom formatting templates do not receive framework assets automatically, regardless of their filename. You may need to include the styles and scripts directly in a custom template, and test it in the embed.
 :::
 
+## Submissions and Success Behavior
+
+Embedded forms use AJAX submission automatically, including forms whose **Use AJAX** setting is otherwise disabled. Craft handles the form's validation, CSRF protection, and configured spam controls inside the iframe.
+
+For the smoothest experience, choose **Reload form with banner** or **Replace with success message** under **Settings → Success & Errors**. See [Success Return on Forms](../guides/guide/success-return-on-forms/) for the available options.
+
 :::info
-Submissions are handled by the Craft site inside the iframe. A **success message** is usually the best completion behavior: a redirect opens *inside* the embedded form rather than navigating the whole HTML page. See the [Success Behavior guide](../guides/guide/success-return-on-forms.mdx) for your form's options.
+If you choose a redirect, it will open *inside* the embedded form rather than navigating the whole HTML page.
 :::
 
-## Public access and other domains
+## Using a Craft Twig template
+
+For a page rendered by Craft, you can use the separate **Twig code** provided in the same tab:
+
+```twig
+{{ freeform.form("contact").render() }}
+```
+
+Replace `contact` with your form's handle. Twig rendering does not require **Allow HTML Embeds** to be enabled and renders the form directly in your page. Use [Template Overrides](./templates/formatting/#template-overrides) when you need to customize a Twig placement or pass values to it.
+
+## Disable an Embed
+
+Turn off **Allow HTML Embeds** and save the form to disable its public embed URL. Archived forms are also unavailable through that URL.
+
+## Public Access and Other Domains
 
 Enabling **Allow HTML Embeds** creates a public form URL. Only enable forms intended for public visitors. Avoid secrets in the form's HTML blocks, default values, and other publicly rendered content. Save the form after turning the switch off to disable its embed URL. Archived forms are unavailable at that URL.
 
@@ -74,32 +125,43 @@ This script cannot embed a form on another domain or subdomain. Changing CORS se
 :::
 
 ## Troubleshooting
+If you're experiencing any issues, please check out the diagnostic steps below.
 
-<details>
-  <summary>No form appears</summary>
-  <AnswerCard>
-    Confirm that the form is saved, HTML embeds are enabled and saved, the form is not archived, and you copied the code for the correct Craft site. Check that the HTML page uses the same protocol, hostname, and port as the Craft site.
-  </AnswerCard>
-</details>
-<details>
-  <summary>The browser blocks the script or iframe</summary>
-  <AnswerCard>
-    Check any Content Security Policy on the HTML page and Craft site. The HTML page must permit the embed script and iframe; a stricter site-wide framing policy can also block the embed.
-  </AnswerCard>
-</details>
-<details>
-  <summary>The form looks different</summary>
-  <AnswerCard>
-    Check the selected Formatting Template and any assets required by a custom template. Test payment flows and advanced fields on the actual site before publishing the page.
-  </AnswerCard>
-</details>
-<details>
-  <summary>A redirect stays inside the form</summary>
-  <AnswerCard>
-    Select a success message for this placement.
-  </AnswerCard>
-</details>
-
----
-
-For a Craft Twig template, use the separate **Twig code** in the same Embed tab instead.
+<div className="common-issues">
+  <details>
+    <summary>No form appears</summary>
+    <AnswerCard>
+      Confirm the HTML page and Craft site have the same protocol, hostname, and port. Check that the page allows JavaScript and uses the complete copied script tag.
+    </AnswerCard>
+  </details>
+  <details>
+    <summary>The embed URL returns a 404</summary>
+    <AnswerCard>
+      Confirm the form exists for the selected site, is not archived, and has **Allow HTML Embeds** enabled and saved. Recopy the code if its handle or site URL changed.
+    </AnswerCard>
+  </details>
+  <details>
+    <summary>The browser blocks the script or frame</summary>
+    <AnswerCard>
+      Check the HTML page's Content Security Policy and any framing restrictions set by Craft, your web server, or a proxy.
+    </AnswerCard>
+  </details>
+  <details>
+    <summary>The form looks unstyled</summary>
+    <AnswerCard>
+      Check its selected Formatting Template and any assets required by a custom template. The HTML page's CSS does not style the iframe contents.
+    </AnswerCard>
+  </details>
+  <details>
+    <summary>A redirect opens inside the form</summary>
+    <AnswerCard>
+      Choose a success banner or success message if visitors should remain on the HTML page.
+    </AnswerCard>
+  </details>
+  <details>
+    <summary>A submission fails</summary>
+    <AnswerCard>
+      Check the browser console and network responses, then follow [Troubleshooting Form Issues](../guides/guide/troubleshooting-form-issues/).
+    </AnswerCard>
+  </details>
+</div>
