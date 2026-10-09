@@ -363,7 +363,7 @@ Fields can be changed to other field types at any point, but be aware that data 
 | [Number](#number)                                                                 | `number`                                  | A `number` type input field that is validated to contain certain numbers only.                                                                                     |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Opinion Scale](#opinion-scale)                                                   | `opinion-scale`                           | A special field that allows for flexible opinion scoring.                                                                                                          |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Password](#password)<Badge type="feature" text="Improved in 5.17+" />            | `password`                                | A text input field that collects sensitive passwords but does not store them.                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Phone](#phone)                                                                   | `phone`                                   | A `tel` type input field that is validated to contain phone numbers only, based on a configured pattern.                                                           |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
+| [Phone](#phone)<Badge type="feature" text="Improved in 5.17+" />.                 | `phone`                                   | A `tel` type input field that is validated to contain phone numbers only, based on a configured pattern.                                                           |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Radios](#radios)                                                                 | `radios`                                  | A group of radio options.                                                                                                                                          |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Rating](#rating)                                                                 | `rating`                                  | A special field that allows for star ratings.                                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Regex](#regex)                                                                   | `regex`                                   | An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`).                                                                   |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
@@ -440,7 +440,7 @@ If you wish to use a different security key for Freeform specifically, you can s
 Encryption is not retroactive. Each submission will need to be resaved to update older submissions.
 :::
 
-## Populating Field Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.0+" />
+## Populating Field Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.0+, 5.17+" />
 
 All multi-option field types (such as Dropdown, Checkboxes, etc) can have their option labels and values automatically populated with Craft Elements or Pre-defined list options. This allows you to quickly build forms by having fields auto-generated.
 
@@ -467,7 +467,7 @@ The following Freeform _Predefined Options_ and _Craft Elements_ can be fed to t
 :::
 
 <Tabs>
-<TabItem value="predefined-options-Dates" label="Dates & Timezones" default>
+<TabItem value="predefined-options-Dates" label="Dates/Times" default>
 
 #### Months
 
@@ -501,6 +501,19 @@ The following Freeform _Predefined Options_ and _Craft Elements_ can be fed to t
 - **Option Label** and **Option Value** choices:
   - UTC Label, e.g. `(UTC-04:00) New York`
   - Identifier, e.g. `America/New_York`
+
+#### Time Intervals<Badge type="feature" text="New in 5.17+" />
+
+Generates a list of times using these settings:
+
+- **Start Time:** The first time, entered in 24-hour `HH:MM` format.
+- **End Time:** The final boundary, on the same day and at or after the start time.
+- **Interval:** Spacing of **15**, **30**, or **60 minutes**.
+- **Time Label Format:** Display times using **12-hour** or **24-hour** notation.
+
+For example, `09:00` to `10:00` at 30-minute intervals produces `09:00`, `09:30`, and `10:00`. The end time is included when it falls on an interval.
+
+Stored values always use 24-hour `HH:MM` format, regardless of the label format. These options provide a time list; they do not check availability or prevent duplicate bookings.
 
 </TabItem>
 <TabItem value="predefined-options-Ranges" label="Ranges">
@@ -562,6 +575,30 @@ The following Freeform _Predefined Options_ and _Craft Elements_ can be fed to t
   - Full (translated), e.g. `Frankrijk`<Badge type="feature" text="New in 5.14.12+" />
   - Abbreviated (upper case 2 letters)
 
+#### Regional Subdivisions<Badge type="feature" text="New in 5.17+" />
+
+Generates options for the subdivisions of a selected country. Choose from:
+- **Australia**: States and territories
+- **Germany**: Federal states
+- **France**: Regions
+- **Italy**: Regions
+- **Netherlands**: Provinces
+- **United Kingdom**: Constituent countries—England, Northern Ireland, Scotland, and Wales
+
+The **Country** setting determines which list is displayed. When **Option Value** is set to **Identifier**, values include the country prefix, such as `AU-NSW` for _New South Wales_ or `GB-ENG` for _England_.
+
+#### Continents<Badge type="feature" text="New in 5.17+" />
+
+Provides seven continent options with these identifiers:
+
+- **Africa** / `AF`
+- **Antarctica** / `AN`
+- **Asia** / `AS`
+- **Europe** / `EU`
+- **North America** / `NA`
+- **Oceania** / `OC`
+- **South America** / `SA`
+
 </TabItem>
 <TabItem value="predefined-options-Languages" label="Languages">
 
@@ -572,6 +609,81 @@ The following Freeform _Predefined Options_ and _Craft Elements_ can be fed to t
   - Full, e.g. `Spanish`
   - Full (translated), e.g. `Español`<Badge type="feature" text="New in 5.14.12+" />
   - Abbreviated (lower case 2 letters)
+
+</TabItem>
+<TabItem value="predefined-options-Demographics" label="Demographics">
+
+#### Age Ranges<Badge type="feature" text="New in 5.17+" />
+Provides these age groups for surveys and demographic questions:
+
+- **Under 18** / `under-18`
+- **18-24** / `18-24`
+- **25-34** / `25-34`
+- **35-44** / `35-44`
+- **45-54** / `45-54`
+- **55-64** / `55-64`
+- **65 or older** / `65-plus`
+- **Prefer not to say** / `prefer-not-to-say`
+
+#### Company Sizes<Badge type="feature" text="New in 5.17+" />
+Useful for business inquiries, lead qualification, and organizational surveys. Groups companies by employee count:
+
+- **1 employee** / `1`
+- **2-10** / `2-10`
+- **11-50** / `11-50`
+- **51-200** / `51-200`
+- **201-500** / `201-500`
+- **501-1,000** / `501-1,000`
+- **1,001-5,000** / `1,001-5,000`
+- **5,001 or more employees** / `5001-plus`
+
+#### Industries<Badge type="feature" text="New in 5.17+" />
+Provides 20 broad industry categories:
+
+- **Agriculture, Forestry and Fishing**
+- **Arts and Entertainment**
+- **Construction**
+- **Education**
+- **Energy and Utilities**
+- **Finance and Insurance**
+- **Government and Public Administration**
+- **Healthcare and Social Assistance** / `healthcare`
+- **Hospitality and Food Services**
+- **Information Technology** / `information-technology`
+- **Manufacturing; Media and Communications**
+- **Mining and Extraction**
+- **Nonprofit and Charitable Organizations**
+- **Professional and Business Services**
+- **Real Estate**
+- **Retail**
+- **Transportation and Logistics**
+- **Wholesale**
+- **Other** / `other`
+
+#### Employment Statuses<Badge type="feature" text="New in 5.17+" />
+Useful for demographic and registration forms. Provides these employment categories:
+
+- **Employed full-time** / `full-time`
+- **Employed part-time** / `part-time`
+- **Self-employed** / `self-employed`
+- **Unemployed** / `unemployed`
+- **Student** / `student`
+- **Retired** / `retired`
+- **Homemaker** / `homemaker`
+- **Unable to work** / `unable-to-work`
+- **Other** / `other`
+- **Prefer not to say** / `prefer-not-to-say`
+
+#### Survey Scales<Badge type="feature" text="New in 5.17+" />
+Provides five-point response scales for surveys and feedback forms. Use the **Survey Scale** setting to choose:
+
+- **Agreement** / _Strongly disagree_, _Disagree_, _Neither agree nor disagree_, _Agree_, _Strongly agree_
+- **Satisfaction** / _Very dissatisfied_, _Dissatisfied_, _Neither satisfied nor dissatisfied_, _Satisfied_, _Very satisfied_
+- **Frequency** / _Never_, _Rarely_, _Sometimes_, _Often_, _Always_
+- **Importance** / _Not at all important_, _Slightly important_, _Moderately important_, _Very important_, _Extremely important_
+- **Likelihood** / _Very unlikely_, _Unlikely_, _Neither likely nor unlikely_, _Likely_, _Very likely_
+
+With **Option Value** set to **Identifier**, responses are stored as scores from `1` to `5`.
 
 </TabItem>
 <TabItem value="predefined-options-Elements" label="Craft Elements">
@@ -1580,7 +1692,7 @@ To customize the date picker appearance and behavior, please see [Date Picker Ev
 A select dropdown menu field. The `field.type` property value is `dropdown` (for conditionals).
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/forms/fields/dropdown.png')}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/dropdown.jpg')}
   alt="Dropdown field type"
 />
 
@@ -2124,8 +2236,7 @@ A field that allows you to collect hidden data in form submissions without a hid
 A multiple-select field. The `field.type` property value is `multiple-select` (for conditionals).
 
 <Photo
-  scale={40}
-  img={require('@site/static/img/craft/freeform/v5/forms/fields/multi-select.png')}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/multi-select.jpg')}
   alt="Multiple Select field type"
 />
 
@@ -2376,12 +2487,12 @@ The **Show password** and **Hide password** labels are translatable and used for
 
 </details>
 
-## Phone<Badge type="pro" text="Pro" />
+## Phone<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.17+" />
 
 A `tel` type input field that is validated to contain phone numbers only, based on a configured pattern. The `field.type` property value is `phone` (for conditionals).
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/forms/fields/phone.png')}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/phone.jpg')}
   alt="Phone field type"
 />
 
@@ -2392,11 +2503,78 @@ A `tel` type input field that is validated to contain phone numbers only, based 
   - E.g. `(000) 000-0000` or `+0 0000 000000`, etc.
   - Toggle the _Use JS validation_ setting to have Freeform include JS in the form that validates the format and auto-inserts the extra characters like `(`, `-`, `+` etc).
 
+### International Phone Input<Badge type="feature" text="New in 5.17+" />
+
+Enable **Use International Phone Input** setting to add a searchable country selector and validate international phone numbers. This mode replaces the field's pattern validation and built-in pattern mask.
+<br />
+- **Default Country:** Select the country initially shown.
+- **Allowed Countries:** Enter comma-separated two-letter country codes, such as `US, CA, GB`. Leave blank to allow all supported countries.
+<br />
+Valid numbers are saved in **E.164 format**, including the country code—for example, `+12045551234`. Validation checks the number's format and allowed country; it does not verify that the number is active.
+
 </details>
 <details className="hidden-heading">
 <summary>Templating</summary>
 
 - `pattern`
+
+</details>
+<details className="hidden-heading">
+<summary>Customize the Appearance</summary>
+
+### International Phone Input
+
+The country selector can be styled with CSS variables. Add a class to the field's surrounding element to limit your changes to that field:
+
+```twig
+<div class="my-phone-field">
+  {{ field.renderInput }}
+</div>
+```
+
+#### Colors
+
+```css
+.my-phone-field {
+    --ff-phone-background: #ffffff;
+    --ff-phone-selector-background: #f3f4f6;
+    --ff-phone-color: #1f2937;
+    --ff-phone-border: #d1d5db;
+    --ff-phone-highlight: #eef2ff;
+    --ff-phone-dial-color: #6b7280;
+}
+```
+
+| Variable | Controls |
+| --- | --- |
+| `--ff-phone-background` | Country menu and search background |
+| `--ff-phone-selector-background` | Country selector button background |
+| `--ff-phone-color` | Selector and menu text |
+| `--ff-phone-border` | Selector divider, menu border, and search border |
+| `--ff-phone-highlight` | Hovered or keyboard-highlighted country |
+| `--ff-phone-dial-color` | Calling codes in the country list |
+
+The phone input itself uses your formatting template's normal input styles. The selector button inherits its border radius.
+<br />
+#### Country List Height
+
+Adjust the scrollable list's maximum height:
+
+```css
+.my-phone-field .freeform-phone-options {
+    max-height: 12rem !important;
+}
+```
+
+The selector uses inline styles for layout, so direct overrides such as this require `!important`. The CSS variables above do not.
+<br />
+#### Placeholder and Language
+
+Set the field's **Placeholder** in the form builder to use your own text. When left blank, Freeform displays an example number for the selected country.
+
+Country names follow the input's `lang` attribute, then the page's language, and finally the browser's language. For example, use `<html lang="fr">` to display French country names.
+
+The **Country**, **Search countries**, and **No countries found** labels can be customized through Craft's translation overrides for the `freeform` category.
 
 </details>
 
