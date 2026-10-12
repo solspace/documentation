@@ -191,6 +191,14 @@ Freeform contains a rich set of field types to handle just about every possible 
       filterIcon: true,
     },
     {
+      link: '#range-slider',
+      title: 'Range Slider',
+      description: 'Users select a numeric value by dragging a slider',
+      icon: 'range',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
       link: '#rating',
       title: 'Rating',
       description: 'Plug and play rating stars',
@@ -359,12 +367,13 @@ Fields can be changed to other field types at any point, but be aware that data 
 | [HTML](#html)                                                                     | `html`                                    | A block that allows you to insert HTML into areas of your form.                                                                                                    |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Image](#image)<Badge type="feature" text="New in 5.13+" />                       | `image`                                   | Allows you to add Asset images into your form layout.                                                                                                              |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Invisible](#invisible)                                                           | <span className="compare-none">N/A</span> | A field that allows you to collect hidden data in form submissions without a hidden field being present in the template source code.                               |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
-| [Multiple Select](#multiple-select)<Badge type="feature" text="Improved in 5.17+" /> | `multiple-select`                         | A multiple-select field.                                                                                                                                           |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Multiple Select](#multiple-select)<Badge type="feature" text="Improved in 5.17+" /> | `multiple-select`                      | A multiple-select field.                                                                                                                                           |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Number](#number)                                                                 | `number`                                  | A `number` type input field that is validated to contain certain numbers only.                                                                                     |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
 | [Opinion Scale](#opinion-scale)                                                   | `opinion-scale`                           | A special field that allows for flexible opinion scoring.                                                                                                          |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Password](#password)<Badge type="feature" text="Improved in 5.17+" />            | `password`                                | A text input field that collects sensitive passwords but does not store them.                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Phone](#phone)<Badge type="feature" text="Improved in 5.17+" />.                 | `phone`                                   | A `tel` type input field that is validated to contain phone numbers only, based on a configured pattern.                                                           |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Radios](#radios)                                                                 | `radios`                                  | A group of radio options.                                                                                                                                          |         <span className="edition-express">✓</span>         |       <span className="edition-lite">✓</span>        |       <span className="edition-pro">✓</span>       |
+| [Range Slider](#range-slider)<Badge type="feature" text="New in 5.17+" />         | `range`                                   | Users select a numeric value by dragging a slider.                                                                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Rating](#rating)                                                                 | `rating`                                  | A special field that allows for star ratings.                                                                                                                      |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Regex](#regex)                                                                   | `regex`                                   | An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`).                                                                   |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
 | [Rich Text](#rich-text)<Badge type="feature" text="Improved in 5.10+" />          | `rich-text`                               | A block that allows you to insert rich text into areas of your form (headings, descriptions, etc).                                                                 |          <span className="compare-none">✕</span>           |       <span className="compare-none">✕</span>        |       <span className="edition-pro">✓</span>       |
@@ -2606,6 +2615,119 @@ A group of radio options. The `field.type` property value is `radios` (for condi
 
 </details>
 
+## Range Slider<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.17+" />
+
+The Range Slider field lets users select a numeric value by dragging a slider. Use it for quantities, budgets, scores, percentages, or other values within a defined range.
+
+The `field.type` property value is `range` (for conditionals).
+
+<Photo
+  scale={70}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/range-slider.jpg')}
+  alt="Range Slider field type"
+/>
+
+<details className="hidden-heading">
+<summary>Settings</summary>
+
+| Setting | Description | Default |
+|---|---|---|
+| Minimum value | The lowest available value. Supports negative numbers and decimals. | `0` |
+| Maximum value | The highest available value. | `100` |
+| Step | The increment between available values, starting from the minimum. Must be greater than zero. | `1` |
+| Default value | The initially selected value. Leave blank to start at the minimum. Values are adjusted to fit the range and align with an available step. | Minimum value |
+
+For example, a **Budget** slider could use:
+
+- **Minimum value:** `500`
+- **Maximum value:** `5000`
+- **Step:** `250`
+- **Default value:** `1500`
+
+Users can select `500`, `750`, `1000`, and so on, up to `5000`.
+
+For decimal values, use a decimal step such as `0.5` or `0.25`. Steps are calculated from the minimum: a minimum of `1` with a step of `2` provides `1`, `3`, `5`, etc. Choose a maximum that aligns with your step if you want the endpoint to be selectable.
+
+</details>
+<details className="hidden-heading">
+<summary>Display & Behavior</summary>
+
+- The field uses a native HTML range input, supporting mouse, touch, and keyboard interaction.
+- The minimum and maximum values appear below the slider.
+- Freeform's JavaScript displays the selected value and updates it as the slider moves.
+- Without JavaScript, the slider remains usable, but the separate selected-value display stays hidden.
+- Submitted values must be numeric, within the configured range, and aligned with the configured step.
+- A slider starts with a selected value. Making it required does not require the user to move it before submitting.
+
+</details>
+<details className="hidden-heading">
+<summary>Templating</summary>
+
+The following properties are available in Twig:
+
+| Property | Description |
+|---|---|
+| `field.minValue` | Minimum value |
+| `field.maxValue` | Maximum value |
+| `field.step` | Increment between values |
+| `field.defaultValue` | Effective starting value |
+| `field.value` | Current field value |
+
+Render the field normally inside your formatting template’s field loop:
+
+```twig
+{{ field.render }}
+```
+
+For separate control over its label, instructions, and input:
+
+```twig
+{{ field.renderContainerOpeningTag }}
+  {{ field.renderLabel }}
+  {{ field.renderInstructions }}
+  {{ field.renderInput }}
+  {{ field.renderErrors }}
+{{ field.renderContainerClosingTag }}
+```
+
+</details>
+<details className="hidden-heading">
+<summary>Customizing the Appearance</summary>
+
+The following styling hooks are available:
+
+| Selector | Element |
+|---|---|
+| `.ff-range` | Slider wrapper |
+| `.ff-range-input` | Range input |
+| `.ff-range-values` | Minimum, selected value, and maximum |
+| `.ff-range-value` | Selected-value output |
+| `input[data-freeform-range]` | Input used by Freeform's slider JavaScript |
+
+To customize one slider, add a `class` attribute with the value `budget-slider` under **Attributes → Container** in its property editor.
+
+```css
+.budget-slider {
+  --ff-range-accent: #2563eb;
+  --ff-range-error: #dc2626;
+}
+
+.budget-slider .ff-range-values {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.budget-slider .ff-range-value {
+  font-weight: 700;
+}
+```
+
+The bundled styles use `--ff-range-accent` for the slider color and `--ff-range-error` for its validation outline. The final appearance depends on the browser and formatting template.
+
+Keep the generated range input, wrapper, and output markup when customizing the field so Freeform can continue updating the selected-value display.
+
+</details>
+
 ## Rating<Badge type="pro" text="Pro" />
 
 A special field that allows for star ratings using Freeform's built-in CSS. The `field.type` property value is `rating` (for conditionals).
@@ -2752,6 +2874,106 @@ The `field.type` property value is `summary` (for conditionals).
 - **Hide Empty Fields**
   - Enabled by default. Disable to show _Not answered_ for empty answers and _No_ for unchecked checkboxes. Numeric zero is an answer.
 - The normal label, instructions, translations, conditional rules, and input attributes apply.
+
+</details>
+<details className="hidden-heading">
+<summary>Customizing the Appearance</summary>
+
+The Summary field renders a definition list (`<dl>`). Each answer appears inside a row containing a label (`<dt>`) and value (`<dd>`).
+
+You can target the following elements with CSS:
+
+| Selector | Element |
+|---|---|
+| `[data-freeform-summary]` | Summary list |
+| `[data-summary-field]` | Individual answer row |
+| `[data-freeform-summary] dt` | Field labels |
+| `[data-freeform-summary] dd` | Answer values |
+| `[data-summary-field="email"]` | Answer row for a specific field handle |
+
+#### Responsive Review Panel
+
+To style a particular Summary field, add a `class` attribute with the value `custom-summary` under **Attributes → Input** in the field's property editor. For Summary fields, Input attributes apply to the `<dl>` element.
+
+Add the following CSS to your site's stylesheet. It places labels beside answers on larger screens and stacks them on smaller screens:
+
+```css
+.custom-summary[data-freeform-summary] {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid #dbe2ea;
+  border-radius: 0.75rem;
+  background: #f8fafc;
+  color: #1e293b;
+}
+
+.custom-summary[data-freeform-summary] > [data-summary-field] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 0.5rem 1.5rem;
+  padding: 0.875rem 0;
+}
+
+.custom-summary[data-freeform-summary] > [data-summary-field]
+  + [data-summary-field] {
+  border-top: 1px solid #dbe2ea;
+}
+
+.custom-summary[data-freeform-summary] dt {
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.custom-summary[data-freeform-summary] dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  .custom-summary[data-freeform-summary] > [data-summary-field] {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+  }
+}
+```
+
+#### Styling Individual Answers
+
+Use the source field's handle to target a particular row. For example, this emphasizes the answer from a field with the handle `total`:
+
+```css
+.custom-summary[data-freeform-summary]
+  > [data-summary-field="total"] dd {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #166534;
+}
+```
+
+#### Custom Formatting Templates
+
+Keep Freeform's generated Summary markup so its JavaScript can continue updating answers. Inside your formatting template's field loop, you can render it normally:
+
+```twig
+{{ field.render }}
+```
+
+For more control over label and instruction placement:
+
+```twig
+{{ field.renderContainerOpeningTag }}
+  {{ field.renderLabel }}
+  {{ field.renderInstructions }}
+  {{ field.renderInput }}
+{{ field.renderContainerClosingTag }}
+```
+
+The render helpers retain the Summary data attributes and standard field container attributes needed for live updates and conditional visibility. Add custom styling through CSS rather than replacing the generated answer markup.
 
 </details>
 <details>
