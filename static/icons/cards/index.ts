@@ -1,5 +1,6 @@
 export default {
   ABTestIcon: 'abtest',
+  AccessibilityIcon: 'accessibility',
   AIAssistantIcon: 'ai-assistant',
   AIIcon: 'ai',
   AISpamIcon: 'ai-spam',

@@ -25,6 +25,12 @@ Freeform offers the most flexible and customizable options for handling the form
       fullCardLink: '#sample-templates',
     },
     {
+      title: 'Accessibility',
+      description: 'Built-in improvements for keyboard navigation and screen readers.',
+      icon: Icons.AccessibilityIcon,
+      fullCardLink: '#accessibility',
+    },
+    {
       title: 'Custom Templates',
       description:
         'Get started quickly with customizing your own formatting templates.',
@@ -56,6 +62,7 @@ Shows how you can quickly get started with customizing your own formatting templ
 
 - [The Custom Formatting Template guide shows how you can quickly get started with customizing your own formatting templates!](../../guides/guide/custom-formatting-templates)
 - [Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../../guides/guide/troubleshooting-form-issues.mdx)
+- [Add a Freeform form to a standalone HTML page on the same origin as your Craft site.](../html-embeds.mdx)
 
 :::
 
@@ -278,23 +285,25 @@ Freeform offers a wide variety of sample _formatting templates_. You can use the
 [If you wish to create your own modified version of one of the sample formatting templates, please see the _Custom Formatting Template_ guide](../../guides/guide/custom-formatting-templates)
 :::
 
-| Template Name                                                                                                                                                   | Type                                          | Description                                                                                                                                                                                                                |
-| :-------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <div className="sample-templates-icon"><img src="/icons/integrations/solspace-freeform.svg" alt="Freeform" />[Basic Light](./plug-and-play.mdx)</div>           | <span className="nowrap">Plug-and-play</span> | A neatly styled basic _light mode_ formatting template.                                                                                                                                                                    |
-| <div className="sample-templates-icon"><img src="/icons/integrations/solspace-freeform.svg" alt="Freeform" />[Basic Dark](./plug-and-play.mdx)</div>            | <span className="nowrap">Plug-and-play</span> | A neatly styled basic _dark mode_ formatting template.                                                                                                                                                                     |
-| <div className="sample-templates-icon"><img src="/icons/integrations/solspace-freeform.svg" alt="Freeform" />[Basic Floating Labels](./plug-and-play.mdx)</div> | <span className="nowrap">Plug-and-play</span> | A neatly styled basic formatting template that displays labels in the center of the inputs and shrinks them to the top-left when clicked and/or contains a value.                                                          |
-| <div className="sample-templates-icon"><img src="/icons/integrations/solspace-freeform.svg" alt="Freeform" />[Conversational](./plug-and-play.mdx)</div>        | <span className="nowrap">Plug-and-play</span> | A neatly styled basic formatting template that displays one field at a time and smoothly scrolls down to the next question until complete. Similar to how _Typeform_ displays forms. Also a great choice for survey forms. |
-| <div className="sample-templates-icon"><img src="/icons/integrations/solspace-freeform.svg" alt="Freeform" />[Multipage All Fields](./plug-and-play.mdx)</div>  | <span className="nowrap">Plug-and-play</span> | A neatly styled basic formatting template that displays ALL fields for a multipage form for the purpose of reviewing/previewing fields on other pages.                                                                     |
-| <div className="sample-templates-icon"><img src="/icons/integrations/grid.svg" alt="Unstyled" />[Grid](./unstyled.mdx)</div>                                    | Unstyled                                      | A very basic starter template that requires additional CSS to style it.                                                                                                                                                    |
-| <div className="sample-templates-icon"><img src="/icons/integrations/grid.svg" alt="Unstyled" />[Flexbox](./unstyled.mdx)</div>                                 | Unstyled                                      | A very basic starter template that requires additional CSS to style it.                                                                                                                                                    |
-| <div className="sample-templates-icon"><img src="/icons/integrations/bootstrap.svg" alt="Bootstrap" />[Bootstrap 5](./bootstrap.mdx) </div>                     | Framework                                     | An implementation of the Bootstrap 5 framework that uses the light theme.                                                                                                                                                  |
-| <div className="sample-templates-icon"><img src="/icons/integrations/bootstrap.svg" alt="Bootstrap" />[Bootstrap 5 Dark Mode](./bootstrap.mdx) </div>           | Framework                                     | An implementation of the Bootstrap 5 framework that uses the dark theme.                                                                                                                                                   |
-| <div className="sample-templates-icon"><img src="/icons/integrations/bootstrap.svg" alt="Bootstrap" />[Bootstrap 5 Floating Labels](./bootstrap.mdx)</div>      | Framework                                     | An implementation of the Bootstrap 5 framework that uses the floating labels feature.                                                                                                                                      |
-| <div className="sample-templates-icon"><img src="/icons/integrations/tailwind.svg" alt="Tailwind CSS" />[Tailwind 4 Light](./tailwind.mdx)</div>                | Framework                                     | An implementation of the Tailwind CSS 4 framework that uses a light theme.                                                                                                                                                 |
-| <div className="sample-templates-icon"><img src="/icons/integrations/tailwind.svg" alt="Tailwind CSS" />[Tailwind 4 Dark](./tailwind.mdx)</div>                 | Framework                                     | An implementation of the Tailwind CSS 4 framework that uses a dark theme.                                                                                                                                                  |
-| <div className="sample-templates-icon"><img src="/icons/integrations/tailwind.svg" alt="Tailwind CSS" />[Tailwind 3 (light)](./tailwind.mdx)</div>              | Framework                                     | An implementation of the Tailwind CSS 3 framework that uses a light theme.                                                                                                                                                 |
-| <div className="sample-templates-icon"><img src="/icons/integrations/tailwind.svg" alt="Tailwind CSS" />[Tailwind 3 Dark](./tailwind.mdx)</div>                 | Framework                                     | An implementation of the Tailwind CSS 3 framework that uses a dark theme.                                                                                                                                                  |
-| <div className="sample-templates-icon"><img src="/icons/integrations/foundation.svg" alt="Foundation"/>[Foundation 6](./foundation.mdx)<Badge type="deprecated" text="Deprecated" /></div> | Framework                                     | An implementation of the Foundation 6 framework.                                                                                                                                                                           |
+| Template Name                                                                                                                                                   | Type                                          | Description                                                                                                                                                                                                                                                      |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <div className="sample-templates-icon"><img src="/icons/integrations/solspace-freeform.svg" alt="Freeform" />[Basic Light](./plug-and-play.mdx)</div>                                                 | <span className="nowrap">Plug-and-play</span> | A neatly styled basic _light mode_ formatting template.                                                                                                                                                                    |
+| <div className="sample-templates-icon"><img src="/icons/integrations/solspace-freeform.svg" alt="Freeform" />[Basic Dark](./plug-and-play.mdx)</div>                                                  | <span className="nowrap">Plug-and-play</span> | A neatly styled basic _dark mode_ formatting template.                                                                                                                                                                     |
+| <div className="sample-templates-icon"><img src="/icons/integrations/solspace-freeform.svg" alt="Freeform" />[Basic Floating Labels](./plug-and-play.mdx)</div>                                       | <span className="nowrap">Plug-and-play</span> | A neatly styled basic formatting template that displays labels in the center of the inputs and shrinks them to the top-left when clicked and/or contains a value.                                                          |
+| <div className="sample-templates-icon"><img src="/icons/integrations/solspace-freeform.svg" alt="Freeform" />[Conversational](./plug-and-play.mdx)</div>                                              | <span className="nowrap">Plug-and-play</span> | A neatly styled basic formatting template that displays one field at a time and smoothly scrolls down to the next question until complete. Similar to how _Typeform_ displays forms. Also a great choice for survey forms. |
+| <div className="sample-templates-icon"><img src="/icons/integrations/solspace-freeform.svg" alt="Freeform" />[Multipage All Fields](./plug-and-play.mdx)</div>                                        | <span className="nowrap">Plug-and-play</span> | A neatly styled basic formatting template that displays ALL fields for a multipage form for the purpose of reviewing/previewing fields on other pages.                                                                     |
+| <div className="sample-templates-icon"><img src="/icons/integrations/grid.svg" alt="Unstyled" />[Grid](./unstyled.mdx)</div>                                                                          | Unstyled                                      | A very basic starter template that requires additional CSS to style it.                                                                                                                                                    |
+| <div className="sample-templates-icon"><img src="/icons/integrations/grid.svg" alt="Unstyled" />[Flexbox](./unstyled.mdx)</div>                                                                       | Unstyled                                      | A very basic starter template that requires additional CSS to style it.                                                                                                                                                    |
+| <div className="sample-templates-icon"><img src="/icons/integrations/bootstrap.svg" alt="Bootstrap" />[Bootstrap 5](./bootstrap.mdx) </div>                                                           | Framework                                     | An implementation of the Bootstrap 5 framework that uses the light theme.                                                                                                                                                  |
+| <div className="sample-templates-icon"><img src="/icons/integrations/bootstrap.svg" alt="Bootstrap" />[Bootstrap 5 Dark Mode](./bootstrap.mdx) </div>                                                 | Framework                                     | An implementation of the Bootstrap 5 framework that uses the dark theme.                                                                                                                                                   |
+| <div className="sample-templates-icon"><img src="/icons/integrations/bootstrap.svg" alt="Bootstrap" />[Bootstrap 5 Floating Labels](./bootstrap.mdx)</div>                                            | Framework                                     | An implementation of the Bootstrap 5 framework that uses the floating labels feature.                                                                                                                                      |
+| <div className="sample-templates-icon"><img src="/icons/integrations/tailwind.svg" alt="Tailwind CSS" />[Tailwind 4 Light](./tailwind.mdx)</div>                                                      | Framework                                     | An implementation of the Tailwind CSS 4 framework that uses a light theme.                                                                                                                                                 |
+| <div className="sample-templates-icon"><img src="/icons/integrations/tailwind.svg" alt="Tailwind CSS" />[Tailwind 4 Dark](./tailwind.mdx)</div>                                                       | Framework                                     | An implementation of the Tailwind CSS 4 framework that uses a dark theme.                                                                                                                                                  |
+| <div className="sample-templates-icon"><img src="/icons/integrations/tailwind.svg" alt="Tailwind CSS" />[Tailwind 3 (light)](./tailwind.mdx)<Badge type="deprecated" text="Deprecated" /></div>       | Framework                                     | An implementation of the Tailwind CSS 3 framework that uses a light theme.                                                                                                                                                 |
+| <div className="sample-templates-icon"><img src="/icons/integrations/tailwind.svg" alt="Tailwind CSS" />[Tailwind 3 Dark](./tailwind.mdx)<Badge type="deprecated" text="Deprecated" /></div>          | Framework                                     | An implementation of the Tailwind CSS 3 framework that uses a dark theme.                                                                                                                                                  |
+| <div className="sample-templates-icon"><img src="/icons/integrations/daisyui.svg" alt="daisyUI" />[daisyUI 5 Light](./daisyui.mdx)<Badge type="feature" text="New in 5.17+" /></div>                  | Framework                                     | An implementation of the daisyUI 5 framework that uses a light theme.                                                                                                                                                      |
+| <div className="sample-templates-icon"><img src="/icons/integrations/daisyui.svg" alt="daisyUI" />[daisyUI 5 Dark](./daisyui.mdx)<Badge type="feature" text="New in 5.17+" /></div>                   | Framework                                     | An implementation of the daisyUI 5 framework that uses a dark theme.                                                                                                                                                       |
+| <div className="sample-templates-icon"><img src="/icons/integrations/foundation.svg" alt="Foundation"/>[Foundation 6](./foundation.mdx)<Badge type="deprecated" text="Deprecated" /></div>            | Framework                                     | An implementation of the Foundation 6 framework.                                                                                                                                                                           |
 
 :::info
 
@@ -303,6 +312,37 @@ _Unstyled_: Barebones starter templates that require additional CSS to complete 
 _Framework_: Formatting templates that are set up to automatically work well with popular frameworks.
 
 :::
+
+
+## Accessibility<Badge type="feature" text="Improved in 5.17+" />
+
+Freeform's bundled formatting templates include improvements for keyboard navigation and screen readers. The specific improvements vary by template and field type:
+
+- **Accessible choice groups:** Tailwind 4 and daisyUI 5 templates use `fieldset` and `legend` for Checkboxes, Radios, Opinion Scale, Rating, and Cards fields. This associates the question with its available choices.
+- **Linked instructions and errors:** Inputs reference their instructions and validation errors through `aria-describedby`. Invalid inputs use `aria-invalid="true"`, helping screen readers identify fields that need attention.
+- **Keyboard-accessible controls:** Updated Tailwind templates keep visually hidden choice inputs available to keyboard users and screen readers. Visible focus indicators identify the selected control when navigating with a keyboard.
+- **Success and error messages:** Success banners use `role="status"` and error banners use `role="alert"`, giving assistive technologies additional context for submission feedback.
+- **Multi-page progress:** The current page is identified with `aria-current="step"` in templates with page progress indicators.
+- **File upload feedback:** Updated Tailwind 4 upload controls associate their labels with the file input, show keyboard focus, and use a status region for selected-file messages.
+- **Table and image markup:** Table field column headings use `scope="col"`. The Multipage All Fields review template identifies row headings and provides alternative text for uploaded image previews.
+- **Decorative icons:** Updated decorative icons are hidden from screen readers so they do not distract from labels and messages.
+
+:::warning
+Most existing sample formatting templates in Freeform 5 retain their original HTML structure to avoid breaking layouts and custom styles. Accessibility changes such as replacing field containers and labels with `fieldset` and `legend` will be introduced for these templates in Freeform 6. Newer templates, including Tailwind 4 and daisyUI 5, already use this markup for supported choice fields.
+:::
+
+### Focusing Validation Errors
+
+Enable **Focus First Error After Submit** in the form's processing settings to move keyboard focus to the first visible field with an error after validation fails. If there are no field errors, focus moves to the form's error message.
+
+### Custom Formatting Templates
+
+Existing copies of formatting templates do not automatically receive updated Twig markup or copied styles. Compare your custom template with the latest bundled version and bring across the relevant changes, including supporting CSS.
+
+When customizing, preserve label associations, instruction and error IDs, ARIA attributes, and keyboard focus styles. Prefer Freeform's render helpers where practical, and retain the generated attributes when rendering inputs manually.
+
+These improvements provide a stronger starting point for accessible forms. The finished form's accessibility also depends on its labels, instructions, content, styling, and custom controls.
+
 
 ## Template Overrides<Badge type="feature" text="New in 5.0+, Improved in 5.10+" />
 
@@ -352,9 +392,9 @@ Here's a breakdown:
           - `input` - applied to `<input>` (and `<select>`, etc) for all fields.
           - `label` - applied to `<label>` for all fields.
           - `instructions` - applied to instructions `<div>` for all fields.
-          - `errors` - applied to errors `<div>` for all fields.
+          - `error` - applied to the field's validation error block.
       - `":required"` - applied to all fields that are set to be required.
-      - `":errors"` - applied to all fields that trigger an error upon submit of the form (non-AJAX only).
+      - `":errors"` - applied to fields with validation errors. In Freeform 5.17+, the default AJAX renderer also mirrors supported error-state classes from the formatting template onto field containers, labels, and inputs.
       - `"@fieldtypename"` - applied to all fields of this type. Use the field type name prefixed with an `@` symbol. Specify multiples with a comma, e.g. `"@checkboxes, @radios"`.
         - `attributes`
           - `container` - applied to field wrapper `<div>` for all fields of this type.
@@ -363,7 +403,7 @@ Here's a breakdown:
           - `optionLabel` - applied to `<label>` for all options in _Checkboxes_, _Radios_, _Rating_ and _Opinion Scale_ fields.<Badge type="feature" text="New in 5.10+" />
           - `option` - applied to `<option>` for all options in _Dropdown_ and _Multi-Select_ fields.<Badge type="feature" text="New in 5.10+" />
           - `instructions` - applied to instructions `<div>` for all fields of this type.
-          - `errors` - applied to errors `<div>` for all fields of this type.
+          - `error` - applied to the field's validation error block.
         - `value` - override the default value for the specified field type(s).
         - `label` - override the field label for the specified field type(s).
         - `instructions` - override the field instructions for the specified field type(s).
@@ -378,7 +418,7 @@ Here's a breakdown:
           - `optionLabel` - applied to `<label>` for this specific field's options (applies to _Checkboxes_, _Radios_, _Rating_ and _Opinion Scale_ fields).<Badge type="feature" text="New in 5.10+" />
           - `option` - applied to `<option>` for this specific field's options (applies to _Dropdown_ and _Multi-Select_ fields).<Badge type="feature" text="New in 5.10+" />
           - `instructions` - applied to instructions `<div>` for this specific field handle.
-          - `errors` - applied to errors `<div>` for this specific field handle.
+          - `error` - applied to the field's validation error block.
         - `value` - override the default value for the specified field.
         - `label` - override the field label for the specified field.
         - `instructions` - override the field instructions for the specified field type.
@@ -645,8 +685,8 @@ The example below shows the hierarchy and behavior of each option.
 
 
 
-← Apply attributes to the success and error
-  banners (will not affect AJAX forms).
+← Apply attributes to the success and error banners.
+  Also used by the default AJAX renderer in 5.17+.
 
 
 
@@ -693,8 +733,8 @@ The example below shows the hierarchy and behavior of each option.
 
 
 
-← Apply attributes to fields when an error
-  is triggered for them. (affects non-AJAX forms).
+← Apply overrides to fields with validation errors.
+  Supported error-state classes also apply to AJAX in 5.17+.
 
 
 ← Target fields by interfaces they implement:
@@ -976,8 +1016,8 @@ It is not possible to override the `input` tag at this time.
   </TabItem>
   <TabItem value="overriding-html-tags-checkboxes-radios" label="Accessible Checkboxes & Radios">
 
-    If you want your [Checkboxes](../../forms/fields.mdx#checkboxes) and [Radios](../../forms/fields.mdx#radios) fields to follow best practices for accessibility, you can implement the following overrides:
-    
+    To group choices using accessible HTML, render the field container as a `fieldset` and its question label as a `legend`. The bundled Tailwind 4 and daisyUI 5 templates already apply this approach to supported choice fields. For custom templates, you can use the following overrides:
+
     The result will be that their:
       - Field wrapper switched from the default tag of `div` to `fieldset`.
       - Field label switched from the default tag of `label` to `legend`.
@@ -1787,6 +1827,12 @@ The following is a basic example of what your formatting template can look like 
 ### Manual Formatting Template
 
 Form formatting can also be extremely manual, if that is something you prefer. Here's an example of different levels of manual you can use:
+
+:::info
+When customizing the surrounding markup, use `field.renderInput()` to retain Freeform's generated control and feature attributes. This supports features such as searchable selects, international phone input, character counts, auto-growing textareas, email suggestions, password toggles, upload requirements, and live summaries.
+
+If you write the control markup yourself, those features require their corresponding attributes and structure. See each field's **Templating** and customization sections in the [Fields documentation](../../forms/fields.mdx).
+:::
 
 ```twig showLineNumbers
 {% set form = freeform.form("myForm") %}

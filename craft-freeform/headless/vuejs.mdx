@@ -67,9 +67,15 @@ function onError(response: unknown) {
 | `extensions` | Captcha / datetime / file-dnd / calculation / table / signature / Stripe |
 | `draftToken` / `draftKey` | Resume a saved draft (from a prior `saveDraft` response) |
 | `theme` | Optional theme object (`lightTheme`, `darkTheme`, or `createTheme()`) |
-| `allowRawHtml` | Default `false`. Set `true` only if HTML/rich-text fields are trusted CMS content. |
+| `allowRawHtml` | Default `false`. Set `true` only for trusted CMS content in HTML/rich-text fields **and** checkbox WYSIWYG labels (e.g. terms links). |
 | `#loading` / `#error` slots | Custom loading and error UI |
 | `#default="{ form }"` | Headless slot — own the markup (same idea as React `children`) |
+
+:::info
+The built-in renderers support Freeform 5.17 features such as Range Slider, Summary, searchable selects, international phone input, and the new input enhancements.
+
+Configure these features in the form builder. See [Field Configuration](./rest-api.mdx#field-configuration) for manifest settings and differences from Twig rendering.
+:::
 
 ### Light / Dark Theme
 
@@ -344,6 +350,8 @@ For deep dives (behavior, testing cards, webhooks), view the [React JS](./reactj
 
 ## Custom Field Renderers
 
+When replacing a built-in renderer, use the field's [manifest configuration](./rest-api.mdx#field-configuration) to preserve any enabled features your custom control needs.
+
 Override rendering by handle, frontend renderer key, or field type:
 
 ```html
@@ -393,7 +401,7 @@ Then use `base-url=""` (or `window.location.origin`) in the browser.
 
 ## Security Notes
 
-- Leave **`allowRawHtml`** at the default (`false`) unless HTML fields are trusted.
+- Leave **`allowRawHtml`** at the default (`false`) unless HTML / rich-text fields and checkbox WYSIWYG labels are trusted CMS content.
 - Enable a **captcha** on public forms.
 - Set **`headless.allowedOrigins`** when calling Craft cross-origin.
 - See [REST API](./rest-api.mdx) for CORS and CSRF details.

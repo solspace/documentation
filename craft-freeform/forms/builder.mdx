@@ -240,6 +240,10 @@ Please see the [Spam Protection](./spam-protection.mdx) documentation guide for 
 
 If any integrations are available, click on them in the left column. Once loaded in the right column, toggle the **Use integration for this form** switch ON and proceed to configuring settings and field mapping as necessary. It will differ slightly for each integration.
 
+:::info
+If a previously mapped field has been deleted, its dropdown will be yellow and display **Mapped field no longer exists**. Select another field to restore the mapping, or choose **Do not map this field** to clear it.
+:::
+
 #### Conditional Rules<Badge type="feature" text="New in 5.12+" />
 
 Add conditional logic to your Element integrations to control **when** submission data is sent. Create rules based on other field values (e.g., send only if _Subscribe_ is checked or if _Country_ is `US`).
@@ -347,11 +351,18 @@ This is where you configure all settings and behaviors for the form.
 <details className="hidden-heading">
 <summary>Processing</summary>
 
-- **Use AJAX** - enables Freeform's [built-in automated AJAX submit support](../templates/ajax.mdx). Once enabled, Freeform will handle the rest (as long as you're using standard template formatting - very custom formatting templates may not work properly).
-- **Show Processing Indicator on Submit** - show a processing indicator on the submit button upon submittal of the form.
+- **Use AJAX**
+  - Use built-in AJAX for this form when handling validation and submission of the form (as long as you're using standard template formatting - very custom formatting templates may not work properly).
+- **Focus First Error After Submit**<Badge type="feature" text="New in 5.17+" />
+  - After validation fails, move focus to the first visible field with an error, or to the error message if there are no field errors.
+- **Show Processing Indicator on Submit**
+  - Show 'processing' text on the submit button when the user submits the form until it finishes processing.
 - **Show Processing Text on Submit**
   - Enabling this will change the submit button's label to the text of your choice.
-  - **Processing Text** - enter the custom value you'd like to be displayed when the form is processing.
+- **Show Processing Overlay on Submit**<Badge type="feature" text="New in 5.17+" />
+  - Dim the form and show a centered spinner and processing message while a submission is being processed.
+- **Processing Text**
+  - Text shown on the submit button or processing overlay when the form is processing.
 
 </details>
 <details className="hidden-heading">
@@ -409,11 +420,37 @@ Please see the [Submission Limits](../submissions/overview.mdx#submission-limits
 
 </details>
 <details className="hidden-heading">
+<summary>Embed Form<Badge type="feature" text="New in 5.17+" /></summary>
+
+- The **Embed Forms** area provides code and guidance for displaying your form on a website. Copy the ready-to-use Twig snippet to render the form in a Craft template, or use the included guidance for formatting, dynamic data, success behavior, and spam protection.
+- With **Freeform Pro**, Craft administrators can also enable **Allow HTML Embeds** and copy a script tag to display the form on a standalone HTML page. The page must use the same protocol, hostname, and port as your Craft site. Embedded forms use the form's selected formatting template and support AJAX submissions, CSRF protection, and configured spam controls. See [Embedding forms in HTML pages](../templates/html-embeds.mdx) documentation for more information.
+<br />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/embed-html.jpg')}
+  alt="Embed Form in HTML page"
+/>
+
+</details>
+<details className="hidden-heading">
 <summary>Usage in Elements<Badge type="feature" text="New in 5.7.2+" /></summary>
 
 The **Usage in Elements** tab displays a list of other Craft elements that use that form in the [Freeform Form element field type](./fieldtype.mdx) (Craft 5 only).
 
 </details>
+
+## Undo & Redo<Badge type="feature" text="New in 5.17+" />
+
+Use the **Undo** and **Redo** buttons beside **Save** to step backward or forward through changes to your form's layout, fields, settings, rules, notifications, and integrations.
+
+- **Undo:** `⌘Z` on Mac or `Ctrl+Z` on Windows.
+- **Redo:** `⌘Shift+Z` on Mac or `Ctrl+Shift+Z` / `Ctrl+Y` on Windows.
+
+While typing in an input, these shortcuts use the input's normal undo/redo behavior. Builder history clears after successfully saving or reloading the form.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-undo-redo.jpg')}
+  alt="Undo & Redo in Form Builder"
+/>
 
 ## Multi-Page Forms<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 

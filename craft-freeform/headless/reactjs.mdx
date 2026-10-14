@@ -61,8 +61,14 @@ export function ContactForm() {
 | `extensions` | Captcha / datetime / file-dnd / calculation / table / signature / Stripe |
 | `draftToken` / `draftKey` | Resume a saved draft (from a prior `saveDraft` response) |
 | `theme` | Optional theme object (`lightTheme`, `darkTheme`, or `createTheme()`) |
-| `allowRawHtml` | Default `false`. Set `true` only if HTML/rich-text fields are trusted CMS content. |
+| `allowRawHtml` | Default `false`. Set `true` only for trusted CMS content in HTML/rich-text fields **and** checkbox WYSIWYG labels (e.g. terms links). |
 | `loadingFallback` / `errorFallback` | Custom loading and error UI |
+
+:::info
+The built-in renderers support Freeform 5.17 features such as Range Slider, Summary, searchable selects, international phone input, and the new input enhancements.
+
+Configure these features in the form builder. See [Field Configuration](./rest-api.mdx#field-configuration) for manifest settings and differences from Twig rendering.
+:::
 
 ### Light / Dark Theme
 
@@ -473,6 +479,8 @@ For **signature** fields: visitors draw on the canvas; the value is stored as a 
 
 ## Custom Field Renderers
 
+When replacing a built-in renderer, use the field's [manifest configuration](./rest-api.mdx#field-configuration) to preserve any enabled features your custom control needs.
+
 Override rendering by handle, frontend renderer key, or field type:
 
 ```tsx
@@ -514,7 +522,7 @@ For Next.js, see the [Next.js](./nextjs.mdx) guide.
 
 ## Security Notes
 
-- Leave **`allowRawHtml`** at the default (`false`) unless HTML fields are trusted.
+- Leave **`allowRawHtml`** at the default (`false`) unless HTML / rich-text fields and checkbox WYSIWYG labels are trusted CMS content.
 - Enable a **captcha** on public forms.
 - Set **`headless.allowedOrigins`** when calling Craft cross-origin.
 - See [REST API](./rest-api.mdx) for CORS and CSRF details.

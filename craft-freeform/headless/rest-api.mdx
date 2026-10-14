@@ -81,6 +81,12 @@ JSON body shape (simplified):
     "message": "Hello"
   },
   "intent": "submit",
+  "context": {
+    "draftToken": null,
+    "draftKey": null,
+    "stateToken": null,
+    "sourceUrl": "https://app.example.com/contact"
+  },
   "meta": {
     "honeypot": { "name": "freeform_form_handle", "value": "" },
     "javascriptTest": { "name": "freeform_form_handle", "value": "" },
@@ -95,6 +101,19 @@ JSON body shape (simplified):
 | `next` / `back` | Multi-page navigation |
 | `validate` | Validate without completing |
 | `saveDraft` | Save progress (token + key returned in `draft`) |
+
+### Submit `context` allow-list
+
+Client-supplied `context` is restricted to:
+
+| Key | Purpose |
+| --- | --- |
+| `draftToken` / `draftKey` | Resume or update a saved draft (both required together) |
+| `stateToken` | Multi-page session token from a prior submit response |
+| `sourceUrl` | Browser page URL (e.g. Mollie return / submission source tracking) |
+| `token` | Signed context token when a profile sets `requiresSignedToken` |
+
+Anything else (for example `disable`, `elementId`, `submissionId`) is **stripped** before Freeform applies form context. Do not rely on passing internal form settings through submit `context`.
 
 On `draft_saved`, the response includes:
 
@@ -197,6 +216,47 @@ POST /freeform/api/manifests/{profile}/submit
 
 Profiles are explicit config entries under `headless.profiles` — never inferred from integrations. Use them for contextual manifests that need auth, signed tokens, or typed query properties.
 
+**Submit the same allow-listed `properties` on POST** that you used for the manifest GET (JSON body `properties`, or nested under multipart `_freeform`). Required properties missing on submit are rejected.
+
+When a context provider is configured, the manifesto may include:
+
+- `context.defaultValues` — seeded field values
+- `context.hiddenFields` / `context.lockedFields` — handles the client should hide or treat as read-only (official packages honor these; server also re-applies provider defaults for those handles on submit)
+
+If the profile sets `requiresSignedToken: true`, include a non-empty token via:
+
+- header `X-Freeform-Context: …`, or
+- `context.token` in the submit body (or nested under multipart `_freeform`), or
+- query `contextToken` on the manifest request
+
+Cryptographic verification of that token is planned; until then Freeform **requires the token to be present** so the flag is not a silent no-op.
+
+## Field Configuration<Badge type="feature" text="Improved in 5.17+" />
+
+The manifest includes field-specific settings under `fields.{handle}.frontend.config`. The official React and Vue renderers use these settings to provide the corresponding controls.
+
+| Field or feature | Configuration keys | Purpose |
+|---|---|---|
+| Range Slider | `min`, `max`, `step` | Slider bounds and increment. Its starting value is provided separately as `field.defaultValue`. |
+| Summary | `fields`, `hideEmpty`, `emptyValue`, `checkedLabel`, `uncheckedLabel`, `filesLabel` | Source field handles, empty-answer behavior, and translated display labels. |
+| Searchable Dropdown and Multiple Select | `searchable` | An object containing `enabled`, `placeholder`, `noResults`, `toggleLabel`, `resultsLabel`, and `removeLabel`. |
+| Text and Textarea character counts | `showCharacterCount`, `characterCountMessages` | Enables the counter and supplies translated `count` and `limit` messages. The character limit is provided as `field.validation.maxLength`. |
+| Auto-growing Textarea | `autoGrow`, `autoGrowMaxHeight` | Enables automatic resizing and optionally limits its height in pixels. |
+| Email suggestions | `suggestEmailCorrections`, `emailSuggestionLabels` | Enables suggestions and supplies translated `message` and `action` labels. |
+| Password toggle | `showPasswordToggle`, `passwordToggleLabels` | Enables the visibility toggle and supplies translated `show` and `hide` labels. |
+| International Phone | `international`, `defaultCountry`, `allowedCountries`, `examples`, `labels` | Enables international input and supplies the initial country, an array of allowed country codes, example numbers, and translated country-selector labels. |
+| File Upload and File Upload Drag & Drop | `uploadRequirements` | Translated requirements text, included when **Show Upload Requirements** is enabled. |
+
+Optional feature keys may be omitted when the feature is disabled or its setting is unset. Custom renderers must implement the behavior represented by these settings.
+
+Browser autofill is provided separately as `fields.{handle}.attributes.input.autocomplete`. A custom `autocomplete` input attribute takes precedence over the **Browser Autofill** setting.
+
+:::info
+Headless forms use their own themes and renderers. Twig formatting-template styling and JavaScript Plugin overrides do not automatically apply.
+
+The form builder's processing overlay and focus-first-error settings are not currently included in the headless manifest. Implement these behaviors in your front end when needed.
+:::
+
 ## CORS and credentials
 
 Browser apps that call Craft on another origin must:
@@ -226,7 +286,8 @@ Manifests include:
 }
 ```
 
-`pluginVersion` matches Freeform. `minimumClientVersion` is the oldest npm client line the plugin expects to work with.
+- `pluginVersion` matches Freeform.
+- `minimumClientVersion` identifies the oldest compatible npm client version. Use that version or newer.
 
 ## Next steps
 

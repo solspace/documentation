@@ -19,6 +19,8 @@ Freeform includes several console commands to allow you to run cleanup tasks and
   - [Purge Spam](#purge-spam)
   - [Purge Unfinalized Assets](#purge-unfinalized-assets)
 - [Cleanup Utilities](#cleanup-utilities)
+  - [Check Database Integrity](#check-database-integrity)
+  - [Repair Database Foreign Keys](#repair-database-foreign-keys)
   - [Resave Submissions](#resave-submissions)
   - [Fix Submission Database Table Names](#fix-submission-database-table-names)
   - [Migrate Craft 4 Element Titles](#migrate-craft-4-element-titles) (Craft 4 → 5)
@@ -136,6 +138,47 @@ php craft freeform/purge/unfinalized-assets --age-in-minutes=180
 ## Cleanup Utilities
 
 Freeform includes several cleanup utilities designed to resolve edge-case issues that may occasionally occur on some sites.
+
+### Check Database Integrity<Badge type="feature" text="5.16.6+" />
+
+If you need to investigate a database warning in Freeform's Diagnostics page, you can run the following command from your Craft project directory:
+
+```nix
+php craft freeform/database/check-integrity
+```
+
+This checks Freeform's database structure and relationships, along with orphaned records and potential duplicates. An orphaned record is one whose parent record, such as a submission or form, no longer exists.
+
+The command is read-only and does not change your database. If it reports an issue, the results can help your developer identify the next steps. Checks may take some time on larger sites.
+
+### Repair Database Foreign Keys<Badge type="feature" text="5.16.6+" />
+
+Freeform uses foreign keys to maintain relationships between database records and help remove related data when submissions or forms are deleted. If Diagnostics reports missing foreign keys, you can inspect and restore them with the `freeform/database/repair-foreign-keys` command.
+
+First, check the relationships and any orphaned records without making changes:
+
+```nix
+php craft freeform/database/repair-foreign-keys --dry-run=1
+```
+
+Running the command without options also performs a dry run. The results show which keys are missing and whether they can be restored.
+
+To restore missing keys, review the results and take a database backup. Run the repair while site writes, queue workers, and scheduled purges are paused:
+
+```nix
+php craft freeform/database/repair-foreign-keys --apply=1
+```
+
+This restores missing keys where the required tables and columns exist and no orphaned records block the repair. Existing matching keys are preserved, and submission data is not deleted or changed. Any conflicting keys or other issues are reported for your developer to review.
+
+#### Options
+
+- `--dry-run=1`
+  - Checks the relationships without making changes. This is the default behavior. If supplied with `--apply=1`, the command still performs a dry run.
+- `--apply=1`
+  - Restores missing foreign keys that can be safely added.
+
+The Diagnostics page also offers **Scan for orphaned submissions** and **Scan related data and duplicates** for checking existing records. A clean scan means no issues were found in the records checked; it does not confirm that the foreign keys are present. Updating Freeform does not automatically restore missing keys.
 
 ### Resave Submissions<Badge type="feature" text="New in 5.1.13+, Improved in 5.10.13+ and 5.14.7+" />
 

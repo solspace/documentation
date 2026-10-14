@@ -1,5 +1,6 @@
 ---
 sidebar_position: 9
+title: JavaScript Plugin
 # Only display h2 headings to keep TOC tidy
 toc_max_heading_level: 2
 description: JavaScript plugin reference for Freeform 5.x in Craft CMS, covering form events, plugin options, manual script loading, and extensibility hooks for AJAX, Stripe, table fields, and more.
@@ -9,929 +10,1314 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { Badge } from '@site/src/components/utils';
 
-# Javascript Plugin
+# JavaScript Plugin<Badge type='feature' text='Improved in 5.17+' />
 
-Freeform includes its own JS plugin that is at the center of handling all of Freeform's powerful convenience features like AJAX, conditional rules, date pickers, table fields, Captchas, Stripe payments, and more!
+Freeform's JavaScript plugin handles AJAX submissions and client-side features such as conditional rules, date pickers, table fields, CAPTCHA, and Stripe payments. Additional scripts are loaded as needed for the fields and integrations used by each form.
 
-Freeform is designed to be as lean as possible, and will only call the necessary scripts when the form is loaded inside your template. For example, if the form you're loading does not contain a Date field with datepicker, Freeform will not call the additional scripts that make this necessary.
+Use the options and events below to customize or extend this behavior.
 
-In the event you wish to override or extend any of Freeform's default JS behavior, you can certainly do so by referring to the options below:
+:::info
+In Freeform 5.17+, the default AJAX renderer uses compatible formatting templates' banner and field-error styling. Custom JavaScript is optional for styling these elements.
+
+Success and error messages can also be configured in the form builder. Use JavaScript overrides or rendering events when you need additional control. See [AJAX Forms](../templates/ajax.mdx) for examples.
+:::
 
 ## Getting Started
 
-For the sake of this article, let's assume that you have this form in your page:
-
-```html
-<form id="my-form" data-handle="mySpecificFormHandle" data-freeform>
-  ... form content here ...
-</form>
-```
-
-To hook into the Freeform JS plugin once the plugin has been initialised, your custom javascript has to listen to the `freeform-ready` event either on the `form` element or on the `document` element.
-
-Here's a small preview of the things possible:
-
-```js showLineNumbers
-const myForm = document.getElementById('my-form');
-myForm.addEventListener('freeform-ready', function (event) {
-  const freeform = event.freeform;
-  const form = event.form;
-
-  // override options by changing the event.options object
-  // for a full list of available options, see the "Plugin Options" section below
-  event.options.ajax = true;
-  event.options.processingText = 'My Custom Loading Text';
-});
-
-myForm.addEventListener('freeform-on-submit', function (event) {
-  // Submit handling logic
-});
-
-// Or...
-
-document.addEventListener('freeform-ready', function (event) {
-  const freeform = event.freeform;
-  const form = event.form;
-
-  // perform something on a specific form only
-  if (form.dataset.handle === 'mySpecificFormHandle') {
-    alert('Loaded "My Specific Form"');
-
-    // override options by changing the event.options object
-    // for a full list of available options, see the "Plugin Options" section below
-    event.options.ajax = true;
-    event.options.processingText = 'My Custom Loading Text';
-  }
-
-  form.addEventListener('freeform-on-submit', function (submitEvent) {
-    // Stop all forms from submitting
-    submitEvent.preventDefault();
-  });
-});
-
-document.addEventListener('freeform-on-submit', function (event) {
-  const form = event.form;
-  if (form.id === 'my-form') {
-    // Submit handling logic
-  }
-});
-```
-
-## When to call your Custom Scripts
-
-You can add your custom form handler scripts anywhere in the page. The `freeform-ready` event is triggered for each form and dispatched via the `form` and `document` elements. The events are dispatched once the DOM is ready. If you add a form to the page via AJAX, it will automatically get initialized with the `Freeform` plugin and will also trigger the `freeform-ready` event.
-
-## Loading Freeform JS manually<Badge type='feature' text='Improved in 5.5+' />
-
-If you wish to manually load the Freeform JS elsewhere in your template (rather than having Freeform automatically insert it inside the Freeform form or in the page footer), be sure to select the `None` option for the [Script Insertion Location](../configuration/settings.mdx#general-settings) setting. Then, you'll need to add the `freeform.loadFreeformPlugin()` function to your template where you'd like it to insert the JS. You can pass two variables to the function to add custom attributes to the script and style tags that Freeform generates.
-
-- `freeform.loadFreeformPlugin()` - will load Freeform's global `freeform.js` and `freeform.css` files.
-- `freeform.loadFreeformPluginJs()`<Badge type="feature" text="New in 5.14+" /> - will load Freeform's global `freeform.js` file.
-- `freeform.loadFreeformPluginCss()`<Badge type="feature" text="New in 5.14+" /> - will load Freeform's global `freeform.css` file.
-- `freeform.loadFormSpecificScripts(form)`<Badge type="feature" text="New in 5.5.3+" /> - will load form-specific scripts such as **reCAPTCHA** and the **JS Test** scripts, where applicable. Be sure to pass the form to this function. If `form` is already defined, you can use that.
-- `freeform.loadScripts()`<Badge type="recommended" text="Recommended" /><Badge type="feature" text="New in 5.5.4+" /> - capable of generating any of Freeform's scripts when you specify them.
-  - Options are:
-    - `freeform` (loads Freeform's main `freeform.js` and `freeform.css` files)
-    - `freeform.js-test`
-    - `recaptcha.v2-invisible`
-    - `recaptcha.v2-checkbox`
-    - `recaptcha.v3`
-    - `hcaptcha.invisible`
-    - `hcaptcha.checkbox`
-    - `turnstile`<Badge type="feature" text="New in 5.6.5+" />
-    - `stripe`
-    - `field.calculation`<Badge type="feature" text="New in 5.8.0+" />
-
-If you wish to generate Freeform's main scripts, the JS Test, reCAPTCHA v3 and Stripe, your template might look something like this:
-
-```twig
-{{ freeform.loadScripts([
-  "freeform",
-  "freeform.js-test",
-  "recaptcha.v3",
-  "stripe"
-]) }}
-```
-
-### `loadScripts()` Example
+Use the `freeform-ready` event to override options during form initialization. Listen on `document` to apply changes to all forms, or on a specific form element to target only that form.
 
 <Tabs>
-<TabItem value="ff-manual-js-loadscripts-example" label="Example Code" default>
+  <TabItem value="plugin-ready-all" label="All Forms" default>
+    ```js
+    document.addEventListener('freeform-ready', (event) => {
+      event.options.showProcessingText = true;
+      event.options.processingText = 'Submitting...';
+    });
+    ```
+  </TabItem>
+  <TabItem value="plugin-ready-specific" label="Specific Form">
+    Assign the form a unique ID and register your listener after its markup:
 
-```twig {7-11}
-<html>
-  <head>
-  </head>
-  <body>
-    {# your template code #}
+    ```twig
+    {{ freeform.form('myFormHandle', {
+      attributes: {
+        id: 'my-form'
+      }
+    }).render() }}
 
-    {{ freeform.loadScripts([
-      "freeform",
-      "freeform.js-test",
-      "recaptcha.v3",
-    ]) }}
-  </body>
-</html>
-```
+    <script>
+      const form = document.getElementById('my-form');
 
-</TabItem>
-<TabItem value="ff-manual-js-loadscripts-output" label="Output">
-
-```twig {7-10}
-<html>
-  <head>
-  </head>
-  <body>
-    {# your template code #}
-
-    <link rel="stylesheet" href="https://site.test/cpresources/ff3a9010/css/front-end/plugin/freeform.css?v=1719558790" />
-    <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/plugin/freeform.js?v=1719558790"></script>
-    <script type="text/javascript" src="https://site.test/cpresources/8c409078/js-test.js?v=1720148793"></script>
-    <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/captchas/recaptcha/v3.js?v=1719558790"></script>
-  </body>
-</html>
-```
-
-</TabItem>
+      form.addEventListener('freeform-ready', (event) => {
+        event.options.showProcessingText = true;
+        event.options.processingText = 'Submitting...';
+      });
+    </script>
+    ```
+  </TabItem>
 </Tabs>
+
+Replace `myFormHandle` with your form's handle and ensure `my-form` is unique on the page.
+
+The `freeform-ready` event provides:
+
+- `event.form` — the form element.
+- `event.freeform` — the Freeform plugin instance.
+- `event.options` — an object for supplying option overrides.
+
+See [Plugin Options](#plugin-options) for the available settings.
+
+## When to Call Your Custom Scripts
+
+Register your event listeners before Freeform initializes the form. A listener added after initialization will not receive the earlier `freeform-ready` event.
+
+Document-level listeners can be registered before the form markup exists. Listeners attached directly to a form require that element to exist first, so place them after the form markup.
+
+Forms added dynamically to the page are automatically detected and initialized by the loaded Freeform plugin. Each newly initialized form also dispatches `freeform-ready`.
+
+## Loading Freeform JS Manually<Badge type="feature" text="Improved in 5.5+" />
+
+To control where Freeform's assets appear in your template, set **Script Insert Location** to **None** under [Form Behavior](../configuration/settings.mdx#form-behavior), then use the helpers below.
+
+Manual loading controls where Freeform's assets are inserted. The loaded plugin still handles form initialization and its configured behavior, including AJAX submissions.
+
+| Helper | What it loads |
+|---|---|
+| `freeform.loadScripts([...])` | Assets selected by their script identifiers. |
+| `freeform.loadFreeformPlugin()` | The main Freeform JavaScript and CSS files. |
+| `freeform.loadFreeformPluginJs()` | Only the main JavaScript file. |
+| `freeform.loadFreeformPluginCss()` | Only the main CSS file. |
+| `freeform.loadFormSpecificScripts(form)` | Additional scripts and styles required by the specified form, such as CAPTCHA and JavaScript Test assets. Accepts a Freeform form object or form handle. |
+
+Load the main plugin once per page and include the additional assets needed by the forms on that page. These helpers generate the published asset URLs for you.
+
+### `loadScripts()` Example<Badge type="recommended" text="Recommended" /><Badge type="feature" text="New in 5.5.4+" />
+
+Use `loadScripts()` when you want to explicitly select the assets to load:
+
+<Tabs>
+  <TabItem value="ff-manual-js-loadscripts-example" label="Example Code" default>
+    ```twig
+    {{ freeform.loadScripts([
+      'freeform',
+      'freeform.js-test',
+      'recaptcha.v3',
+      'stripe'
+    ]) }}
+    ```
+  </TabItem>
+  <TabItem value="ff-manual-js-loadscripts-output" label="Output">
+    ```twig {7-10}
+    <html>
+      <head>
+      </head>
+      <body>
+        {# your template code #}
+
+        <link rel="stylesheet" href="https://site.test/cpresources/ff3a9010/css/front-end/plugin/freeform.css?v=1719558790" />
+        <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/plugin/freeform.js?v=1719558790"></script>
+        <script type="text/javascript" src="https://site.test/cpresources/8c409078/js-test.js?v=1720148793"></script>
+        <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/captchas/recaptcha/v3.js?v=1719558790"></script>
+      </body>
+    </html>
+    ```
+  </TabItem>
+</Tabs>
+
+Choose identifiers that match the features used by your forms. Common identifiers include:
+
+- `freeform` — the main Freeform JavaScript and CSS.
+- `freeform.js-test` — JavaScript Test.
+- `recaptcha.v2-invisible`
+- `recaptcha.v2-checkbox`
+- `recaptcha.v3`
+- `hcaptcha.invisible`
+- `hcaptcha.checkbox`
+- `turnstile`<Badge type="feature" text="New in 5.6.5+" />
+- `stripe`
+- `field.calculation`<Badge type="feature" text="New in 5.8.0+" />
+
+Unlike `loadFormSpecificScripts(form)`, this helper uses the identifiers you supply rather than inspecting a particular form.
 
 ### `loadFreeformPlugin()` and `loadFormSpecificScripts()` Example
 
+Use this approach to load the main plugin together with the additional assets required by a particular form:
+
+```twig
+{% set form = freeform.form('myFormHandle') %}
+
+{{ form.render() }}
+
+{{ freeform.loadFreeformPlugin() }}
+{{ freeform.loadFormSpecificScripts(form) }}
+```
+
+Replace `myFormHandle` with your form's handle. Place these calls after the form markup, typically near the end of the page.
+
+### `loadFreeformPluginCss()`, `loadFreeformPluginJs()` and `loadFormSpecificScripts()` Example<Badge type="feature" text="Improved in 5.14+" />
+
+Use separate helpers to place the main stylesheet in the page head and JavaScript after the form markup:
+
 <Tabs>
-<TabItem value="ff-manual-js-loadffplugin-example" label="Example Code" default>
+  <TabItem value="ff-manual-cssjs-loadffplugin-example" label="Example Code" default>
+    ```twig
+    {% set form = freeform.form('myFormHandle') %}
 
-```twig {7-8}
-<html>
-  <head>
-  </head>
-  <body>
-    {# your template code #}
+    <html>
+      <head>
+        {{ freeform.loadFreeformPluginCss() }}
+      </head>
+      <body>
+        {{ form.render() }}
 
-    {{ freeform.loadFreeformPlugin }}
-    {{ freeform.loadFormSpecificScripts(form) }}
-  </body>
-</html>
-```
+        {{ freeform.loadFreeformPluginJs() }}
+        {{ freeform.loadFormSpecificScripts(form) }}
+      </body>
+    </html>
+    ```
+  </TabItem>
+  <TabItem value="ff-manual-cssjs-loadffplugin-output" label="Output">
+    ```twig {3,8-10}
+    <html>
+      <head>
+        <link rel="stylesheet" href="https://site.test/cpresources/ff3a9010/css/front-end/plugin/freeform.css?v=1719558790" />
+      </head>
+      <body>
+        {# your template code #}
 
-</TabItem>
-<TabItem value="ff-manual-js-loadffplugin-output" label="Output">
-
-```twig {7-10}
-<html>
-  <head>
-  </head>
-  <body>
-    {# your template code #}
-
-    <link rel="stylesheet" href="https://site.test/cpresources/ff3a9010/css/front-end/plugin/freeform.css?v=1719558790" />
-    <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/plugin/freeform.js?v=1719558790"></script>
-    <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/captchas/recaptcha/v3.js?v=1719558790"></script>
-    <script type="text/javascript" src="https://site.test/cpresources/8c409078/js-test.js?v=1720148793"></script>
-  </body>
-</html>
-```
-
-</TabItem>
+        <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/plugin/freeform.js?v=1719558790"></script>
+        <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/captchas/recaptcha/v3.js?v=1719558790"></script>
+        <script type="text/javascript" src="https://site.test/cpresources/8c409078/js-test.js?v=1720148793"></script>
+      </body>
+    </html>
+    ```
+  </TabItem>
 </Tabs>
 
-### `loadFreeformPluginCss()`, `loadFreeformPluginJs()` and `loadFormSpecificScripts()` Example
+### Passing Custom Attributes to `loadFreeformPlugin()`
+
+Pass attribute strings to customize the generated script and stylesheet tags. The first argument applies to the `<script>` tag; the second applies to the stylesheet `<link>` tag:
 
 <Tabs>
-<TabItem value="ff-manual-cssjs-loadffplugin-example" label="Example Code" default>
-
-```twig {3,8-9}
-<html>
-  <head>
-    {{ freeform.loadFreeformPluginCss }}
-  </head>
-  <body>
-    {# your template code #}
-
-    {{ freeform.loadFreeformPluginJs }}
-    {{ freeform.loadFormSpecificScripts(form) }}
-  </body>
-</html>
-```
-
-</TabItem>
-<TabItem value="ff-manual-cssjs-loadffplugin-output" label="Output">
-
-```twig {3,8-10}
-<html>
-  <head>
-    <link rel="stylesheet" href="https://site.test/cpresources/ff3a9010/css/front-end/plugin/freeform.css?v=1719558790" />
-  </head>
-  <body>
-    {# your template code #}
-
-    <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/plugin/freeform.js?v=1719558790"></script>
-    <script type="text/javascript" src="https://site.test/cpresources/ff3a9010/js/scripts/front-end/captchas/recaptcha/v3.js?v=1719558790"></script>
-    <script type="text/javascript" src="https://site.test/cpresources/8c409078/js-test.js?v=1720148793"></script>
-  </body>
-</html>
-```
-
-</TabItem>
-</Tabs>
-
-### Passing Custom Attributes to `loadFreeformPlugin()`:
-
-<Tabs>
-<TabItem value="ff-manual-js-loadffplugin-attr-example" label="Example Code" default>
-
-```twig {7-10}
-<html>
-  <head>
-  </head>
-  <body>
-    {# your template code #}
-
+  <TabItem value="ff-manual-js-loadffplugin-attr-example" label="Example Code" default>
+    ```twig
     {{ freeform.loadFreeformPlugin(
-      'data-custom="attribute" extra="something else"',
-      'css="stuff"'
+      'data-custom="script-value"',
+      'data-custom="stylesheet-value"'
     ) }}
-  </body>
-</html>
-```
+    ```
+  </TabItem>
+  <TabItem value="ff-manual-js-loadffplugin-attr-output" label="Output">
+    ```twig {7-8}
+    <html>
+      <head>
+      </head>
+      <body>
+        {# your template code #}
 
-</TabItem>
-<TabItem value="ff-manual-js-loadffplugin-attr-output" label="Output">
-
-```twig {7-8}
-<html>
-  <head>
-  </head>
-  <body>
-    {# your template code #}
-
-    <link href="https://site.test/cpresources/87e67e90/css/front-end/plugin/freeform.css?v=1716400868" css="stuff" rel="stylesheet">
-    <script src="https://site.test/cpresources/87e67e90/js/scripts/front-end/plugin/freeform.js?v=1716401083" data-custom="attribute" extra="something else"></script>
-  </body>
-</html>
-```
-
-</TabItem>
+        <link href="https://site.test/cpresources/87e67e90/css/front-end/plugin/freeform.css?v=1716400868" data-custom="stylesheet-value" rel="stylesheet">
+        <script src="https://site.test/cpresources/87e67e90/js/scripts/front-end/plugin/freeform.js?v=1716401083" data-custom="script-value"></script>
+      </body>
+    </html>
+    ```
+  </TabItem>
 </Tabs>
+
+You can also pass attributes to the separate helpers:
+
+```twig
+{{ freeform.loadFreeformPluginJs('data-custom="script-value"') }}
+{{ freeform.loadFreeformPluginCss('data-custom="stylesheet-value"') }}
+```
+
+:::info
+Register your `freeform-ready` listeners before the form initializes. See [When to Call Your Custom Scripts](#when-to-call-your-custom-scripts).
+:::
 
 ## Form Events
 
-Freeform emits various events which let you extend its functionality in various ways.
+Freeform dispatches events that let you customize form initialization, submission, and rendering.
+
+Listen on `document` to handle events from all forms, or on a specific form element to target only that form. Each event includes:
+
+- `event.form` — the form element.
+- `event.freeform` — the Freeform plugin instance.
+
+Additional properties are listed under each event below.
 
 ### Plugin Initialized: `freeform-ready`
 
-This is the plugin which lets you modify the initial form setup. Use this to change the class names and texts of error messages, success messages, etc.
+Fires during initialization, before Freeform applies your option overrides and completes the form's setup.
 
-This event has the following properties:
+Use `event.options` to supply overrides for the [Plugin Options](#plugin-options). Register your listener before the form initializes.
 
-- `form` - the `<form>` element
-- `freeform` - the Freeform JS Plugin instance
-- `options` - an object which lets you modify the [Plugin Options](#plugin-options)
+#### Additional Property
 
-```js
-const myForm = document.getElementById('my-form');
-myForm.addEventListener('freeform-ready', function (event) {
-  event.options.ajax = true;
-  event.options.processingText = 'My Custom Loading Text';
+- `options` — an object for supplying option overrides.
+
+```js showLineNumbers
+document.addEventListener('freeform-ready', (event) => {
+  event.options.showProcessingText = true;
+  event.options.processingText = 'Submitting…';
 });
 ```
+
+Success and error messages can also be configured in the form builder. In Freeform 5.17+, compatible formatting templates provide styling for the default AJAX renderer, so JavaScript overrides are optional.
 
 ### On Submit: `freeform-on-submit`
 
-This event is cancelable and lets you do something as soon as the form submit button is pressed. This event can be used to perform additional validation or anything else, really.
+Fires before Freeform submits the form, for both AJAX and regular submissions. Use it to modify field values, perform additional checks, or register asynchronous tasks.
 
-This event has the following properties:
+Call `event.preventDefault()` to stop the submission.
 
-- `form` - the `<form>` element.
-- `freeform` - the Freeform JS Plugin instance.
-- `addCallback(callback: () => Promise<void | boolean>, prority?: number)`<Badge type="feature" text="New in 5.0+" /> - an async function which lets you add a callback to be executed before the form is submitted. It will lock the submit process until finished. The callback should return `true` or nothing to allow the form to be submitted, or `false` to prevent the form from being submitted.
-- `isBackButtonPressed` - a `boolean` value which specifies if the Back button was pressed or not.
+#### Additional Properties
+
+- `isBackButtonPressed` — whether the submission was triggered by the multi-page form's Back button.
+- `addCallback(callback, priority = 0)` — registers a callback that Freeform waits for before submitting.
+
+The following example checks a checkbox field with the handle `terms`. Replace that handle and the validation logic to match your form.
 
 ```js showLineNumbers
-const myForm = document.getElementById('my-form');
-myForm.addEventListener('freeform-on-submit', function (event) {
-  const form = event.form;
-  const isBackButtonPressed = event.isBackButtonPressed;
+const form = document.getElementById('my-form');
 
-  // Do not modify anything if the form is going back
-  if (isBackButtonPressed) {
-    alert('Going backwards!');
-    return;
-  }
+form.addEventListener('freeform-on-submit', (event) => {
+  if (event.isBackButtonPressed) return;
 
-  const name = form.querySelector('input[name="firstName"]').value;
+  const terms = event.form.querySelector('input[name="terms"]');
 
-  // Prevent anyone except Bob from submitting the form
-  if (name !== 'Bob') {
-    alert("You're not Bob");
+  if (terms && !terms.checked) {
     event.preventDefault();
+    alert('Please accept the terms before submitting.');
   }
-
-  // Force everyone to always be a Smith
-  form.querySelector('input[name="lastName"]').value = 'Smith';
 });
 ```
 
-To add a blocking synchronous callback to the form submit process, you can use the `addCallback` method:
+#### Asynchronous Submission Callbacks
+
+Use `event.addCallback()` when a check or task must finish before the form submits. Freeform pauses submission while the registered callbacks run.
+
+- Return `true` or nothing to allow submission to continue.
+- Return `false` to stop submission.
+- Callbacks run sequentially, from lowest to highest priority.
+- The default priority is `0`; negative priorities run before it.
+
+This example calls a custom validation endpoint that returns an object such as `{ "valid": true }`. Replace the endpoint and response handling with your own implementation.
 
 ```js showLineNumbers
-// Priorities of the callbacks are 0 by default, and are optional.
-// The bigger the priority, the faster the callback will be executed.
-// The smaller the priority, the slower the callback will be executed.
-// Negative numbers are allowed.
+const form = document.getElementById('my-form');
 
-const myForm = document.getElementById('my-form');
-myForm.addEventListener('freeform-on-submit', function (event) {
-  // Add priority 100 to make sure this callback is executed before others
+form.addEventListener('freeform-on-submit', (event) => {
+  if (event.isBackButtonPressed) return;
+
   event.addCallback(async () => {
-    const json = await fetch('/some/long/api/call').then((response) =>
-      response.json()
-    );
+    try {
+      const response = await fetch('/my-validation-endpoint');
 
-    if (json.errors.length) {
-      alert('There was an error');
+      if (!response.ok) {
+        throw new Error(`Validation request failed: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (!result.valid) {
+        alert('Please review your entries before submitting.');
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Unable to validate the submission:', error);
+      alert('Unable to validate your entries. Please try again.');
       return false;
     }
-  }, 100);
-
-  // Add priority -100 to make sure this callback is executed after others
-  event.addCallback(async () => {
-    // execute some blocking code here
   }, -100);
 });
 ```
 
+Client-side checks supplement server-side validation. Validate any requirements that must be enforced on the server as well.
+
 ### On Reset: `freeform-on-reset`
 
-This event can be used to perform any actions when the form is reset (after AJAX submits).
+Fires after Freeform resets the form following a completed, successful AJAX submission. Use it to reset custom interface elements or other client-side state.
 
-### Handle Actions when Saving Forms: `freeform-handle-actions`
-
-Happens when saving forms.
-
-### Right before AJAX submits: `freeform-ajax-before-submit`
-
-This event is cancelable and lets you tinker with the `XMLHttpRequest` object and perform anything else you'd like to do before the AJAX call is made.
-
-This event has the following properties:
-
-- `form` - the `<form>` element
-- `freeform` - the Freeform JS Plugin instance
-- `data` - a `FormData` object with all of the `POST` values added to it
-- `request` - an `XMLHttpRequest` object that is about to be executed
+This event is skipped when form resetting is disabled or Freeform redirects before resetting the form. It is a notification after the reset; preventing this event does not undo the reset.
 
 ```js showLineNumbers
-const myForm = document.getElementById('my-form');
-myForm.addEventListener('freeform-ajax-before-submit', function (event) {
-  const form = event.form;
-  const payload = event.data;
-  const request = event.request;
-
-  // Attach a little present to the POST payload
-  payload.append('present', 'surprise');
-
-  // Set an additional header for the request
-  request.setRequestHeader('X-CUSTOM-HEADER', 'This is a custom header');
-
-  // And after all this hard work - we just prevent the form from submitting the AJAX data
-  event.preventDefault();
+document.addEventListener('freeform-on-reset', (event) => {
+  console.log('Form reset:', event.form);
 });
 ```
 
-### Before Successful AJAX submission: `freeform-before-ajax-success`
+To detect resets triggered outside Freeform's AJAX handling, listen for the form's native `reset` event instead.
 
-Use this event to perform actions that should happen before the form has successfully posted via AJAX.
+### Handle Submission Actions: `freeform-handle-actions`
 
-### After a Successful AJAX submission: `freeform-ajax-success`
+Fires when an AJAX response contains pending actions that require additional processing, such as payment actions.
 
-:::warning
-If you wish to modify the success messages, there's a specific event for that: `freeform-render-success`
-Alternatively you might consider the `successBannerMessage` and `successClassBanner` Freeform [Plugin Options](#plugin-options)
+This event concerns front-end submissions, not saving a form's configuration in the form builder. Freeform's integration scripts handle their supported actions automatically.
+
+#### Additional Properties
+
+- `response` — the parsed response object.
+- `actions` — the actions returned in the response.
+
+This event is not cancelable.
+
+```js showLineNumbers
+document.addEventListener('freeform-handle-actions', (event) => {
+  console.log('Pending submission actions:', event.actions);
+});
+```
+
+### Before Sending an AJAX Request: `freeform-ajax-before-submit`
+
+Fires after Freeform prepares the submission data, but before it sends the AJAX request.
+
+Use this event to modify the outgoing `FormData`. Call `event.preventDefault()` to stop the request from being sent.
+
+#### Additional Properties
+
+- `data` — the `FormData` containing the submission values.
+- `request` — the `XMLHttpRequest` object, before it has been opened or sent.
+
+```js
+document.addEventListener('freeform-ajax-before-submit', (event) => {
+  event.data.set('myCustomValue', 'example');
+});
+```
+
+:::info
+The request has not been opened when this event fires, so you cannot call `event.request.setRequestHeader()` here.
 :::
 
-Use this event to perform actions that should happen only if the form has been successfully posted via AJAX.
+### Before Processing an AJAX Response: `freeform-before-ajax-success`
 
-This event has the following properties:
+Fires after Freeform receives an HTTP 200 AJAX response, before it processes the result.
 
-- `form` - the `<form>` element
-- `freeform` - the Freeform JS Plugin instance
-- `request` - an `XMLHttpRequest` object that was executed
-- `response` - the response `JSON` object, already deserialized
+Despite its name, this event also fires when the response contains validation errors or pending actions. Check the response properties before treating the submission as successful.
 
-```js
-const myForm = document.getElementById('my-form');
-myForm.addEventListener('freeform-ajax-success', function (event) {
-  const form = event.form;
-  const response = event.response;
+#### Additional Properties
 
-  alert(`Successfully submitted Submission #${response.submissionId}`);
-});
-```
-
-#### CUSTOM RETURN URL
-
-If you need to control a custom return on the form, you would do that with the following code:
+- `request` — the `XMLHttpRequest` used for the submission.
+- `response` — the parsed response object.
 
 ```js
-// Find the form element
-const form = document.getElementById('my-form');
-// Do something on a successful ajax submit
-form.addEventListener('freeform-ajax-success', function (event) {
-  // Redirect the user
-  window.location.href = event.response.returnUrl;
-});
-```
+document.addEventListener('freeform-before-ajax-success', (event) => {
+  const { success, finished } = event.response;
 
-### After a Failed AJAX submission: `freeform-ajax-error`
-
-:::warning
-If you wish to modify the error messages, there are specific events for that: `freeform-render-field-errors` and `freeform-render-form-errors`
-Alternatively you might consider the `errorBannerMessage`, `errorClassBanner`, `errorClassList` and `errorClassField` Freeform [Plugin Options](#plugin-options)
-:::
-
-Use this event to handle cases when there was an error while submitting, such as a missing required field, etc.
-
-This event has the following properties:
-
-- `form` - the `<form>` element
-- `freeform` - the Freeform JS Plugin instance
-- `request` - an `XMLHttpRequest` object that was executed
-- `response` - the response `JSON` object, already deserialized
-- `errors` - an object of all field handles as keys containing an array of error message strings each. (e.g. `{ firstName: ['This field is Required', 'Some other error'], lastName: ['error happened']`)
-- `formErrors` - an array of all form error strings (e.g. `['invalid recaptcha', 'some other error']`)
-
-```js
-const myForm = document.getElementById('my-form');
-myForm.addEventListener('freeform-ajax-error', function (event) {
-  const form = event.form;
-  const errors = event.errors;
-  const formErrors = event.formErrors;
-
-  alert(`There were ${formErrors.length} form errors`);
-});
-```
-
-### After any AJAX submit: `freeform-ajax-after-submit`
-
-This event happens after an AJAX submit is finished, regardless of the success or failure of it. This is usually used to perform some sort of reset logic. For instance Freeform uses this event to reset the captcha elements and stripe elements, since each request has to get new tokens.
-
-This event has the following properties:
-
-- `form` - the `<form>` element
-- `freeform` - the Freeform JS Plugin instance
-- `request` - an `XMLHttpRequest` object that was executed
-- `response` - the response `JSON` object, already deserialized
-
-```js
-// Count the number of times the submit button was pressed
-let numberOfSubmissions = 0;
-const myForm = document.getElementById('my-form');
-myForm.addEventListener('freeform-ajax-after-submit', function (event) {
-  const form = event.form;
-  numberOfSubmissions++;
-});
-```
-
-### After any Failed AJAX submit: `freeform-after-failed-submit`
-
-This event happens after a failed AJAX submit is finished.
-
-### Rendering Success Messages: `freeform-render-success`
-
-This event is cancelable. Use this event to do something in addition to the default success message renderer. Or write your own success rendering logic by preventing the default behavior of the event.
-
-This event has the following properties:
-
-- `form` - the `<form>` element
-- `freeform` - the Freeform JS Plugin instance
-
-```js showLineNumbers
-document.addEventListener('freeform-render-success', function (event) {
-  // Stop the default success message rendering
-  event.preventDefault();
-
-  const options = event.freeform.options;
-  const form = event.form;
-
-  const classNames = options.successClassBanner; // Get the success banner css class names
-
-  // create a custom banner <div>
-  const banner = document.createElement('div');
-  banner.classList.add(classNames);
-  banner.innerText = 'So successful. Omg.';
-
-  form.appendChild(banner);
-});
-```
-
-### Rendering Form Errors: `freeform-render-form-errors`
-
-This event is cancelable and lets you override or complement the default form error rendering.
-
-This event has the following properties:
-
-- `form` - the `<form>` element
-- `freeform` - the Freeform JS Plugin instance
-- `errors` - an array of all form error strings
-
-```js showLineNumbers
-document.addEventListener('freeform-render-form-errors', function (event) {
-  // Stop the default form error rendering
-  event.preventDefault();
-
-  const options = event.freeform.options;
-  const form = event.form;
-  const errors = event.errors;
-
-  const classNames = options.errorClassBanner; // Get the error banner css class names
-
-  // create a custom banner <div>
-  const banner = document.createElement('div');
-  banner.classList.add(classNames);
-  banner.innerText = `There are ${errors.length} errors in this form`;
-
-  form.appendChild(banner);
-});
-```
-
-### Rendering Field Errors: `freeform-render-field-errors`
-
-This event is cancelable. Use this event to do something on field error rendering, or write your own field rendering logic by preventing the default behavior of the event.
-
-This event has the following properties:
-
-- `form` - the `<form>` element
-- `freeform` - the Freeform JS Plugin instance
-- `errors` - an object with field handles as keys, that contains an array of error messages for each key.
-
-```js showLineNumbers
-document.addEventListener('freeform-render-field-errors', function (event) {
-  // Stop the default field error rendering
-  event.preventDefault();
-
-  const form = event.form;
-  const errors = event.errors;
-
-  for (const fieldHandle in errors) {
-    // Log each field errors to the console
-    console.error(
-      '%s has the following errors: %s',
-      fieldHandle,
-      errors[fieldHandle].join('; ')
-    );
+  if (success && finished) {
+    console.log('A completed submission is ready to be processed.');
   }
 });
 ```
 
-### Removing Success and Error Banner Messages: `freeform-remove-messages`
+This event is cancelable. Calling `event.preventDefault()` stops Freeform's remaining response handling, including rendering feedback, replacing form HTML, processing pending actions, and updating the form payload.
 
-This event is cancelable and lets you handle the removal of success and error messages. It makes sense to use this only if you are doing your own success and error rendering.
+Canceling this event does not undo the request or any submission already processed by the server. Use it when your code will take responsibility for handling the response.
 
-This event has the following properties:
+For changes limited to success or error markup, use the rendering events documented below instead.
 
-- `form` - the `<form>` element
-- `freeform` - the Freeform JS Plugin instance
+### After a Successful AJAX Submission: `freeform-ajax-success`
+
+Fires when Freeform processes a successful AJAX response. For multi-page forms, this can mean advancing to the next page rather than completing the submission.
+
+Check `event.response.finished` before running code intended for a completed submission.
+
+#### Additional Properties
+
+- `request` — the `XMLHttpRequest` used for the submission.
+- `response` — the parsed response object.
 
 ```js
-document.addEventListener('freeform-remove-messages', function (event) {
-  const form = event.form;
+document.addEventListener('freeform-ajax-success', (event) => {
+  if (!event.response.finished) return;
 
-  // Find every element with the class "error"
-  const allErrorElements = form.querySelectorAll('.error');
-  allErrorElements.forEach(function (element) {
-    // Remove element from the DOM
-    element.remove();
+  console.log('Submission completed:', event.response.submissionId);
+});
+```
+
+When the form's success behavior is a redirect, this event fires before Freeform redirects. Calling `event.preventDefault()` stops that automatic redirect.
+
+For other success behaviors, Freeform processes the form HTML, reset, and success banner before dispatching this event. Preventing the event does not undo those actions.
+
+#### Custom Return URL
+
+Configure redirects in the form builder whenever possible. To redirect a specific form using custom JavaScript, check that the submission is finished and a return URL is available:
+
+```js
+const form = document.getElementById('my-form');
+
+form.addEventListener('freeform-ajax-success', (event) => {
+  const { finished, returnUrl } = event.response;
+
+  if (finished && returnUrl) {
+    window.location.href = returnUrl;
+  }
+});
+```
+
+See [AJAX Forms](../templates/ajax.mdx) for examples of configuring the return URL and overriding the form builder's success behavior.
+
+:::info
+Configure success messages in the form builder. Use plugin options for runtime overrides, or `freeform-render-success` when you need custom success markup or positioning.
+:::
+
+### After an AJAX Error: `freeform-ajax-error`
+
+Fires when an AJAX submission returns validation errors or encounters a request failure.
+
+#### Additional Properties
+
+- `request` — the request associated with the failure.
+- `response` — the parsed validation response, or error information for a request failure.
+- `errors` — field handles mapped to arrays of validation messages, when available.
+- `formErrors` — an array of form-level validation messages, when available.
+
+Request failures may not include `errors` or `formErrors`, so check for them before accessing their contents.
+
+```js
+document.addEventListener('freeform-ajax-error', (event) => {
+  console.log('Field errors:', event.errors || {});
+  console.log('Form errors:', event.formErrors || []);
+  console.log('Response:', event.response);
+});
+```
+
+Calling `event.preventDefault()` on this event does not suppress Freeform's default validation feedback. Use `freeform-render-field-errors` or `freeform-render-form-errors` to customize rendering.
+
+:::info
+In Freeform 5.17+, compatible formatting templates provide styling for the default AJAX error renderer. JavaScript overrides remain available when additional customization is needed.
+:::
+
+### After Processing an AJAX Response: `freeform-ajax-after-submit`
+
+Fires after Freeform processes an HTTP 200 AJAX response and updates the form payload. It can follow a successful response, validation errors, or pending submission actions.
+
+Use it for follow-up tasks that should run after normal response processing.
+
+#### Additional Properties
+
+- `data` — the submitted `FormData`.
+- `request` — the `XMLHttpRequest` used for the submission.
+- `response` — the parsed response object.
+
+This event is not cancelable.
+
+```js
+document.addEventListener('freeform-ajax-after-submit', (event) => {
+  console.log('AJAX response processed:', event.response);
+});
+```
+
+:::info
+This event does not fire for every submission attempt. Request failures, redirects, and canceled response processing can bypass it.
+
+Use `freeform-ajax-error` to handle request failures, and `freeform-ajax-success` with a `finished` check to identify completed submissions.
+:::
+
+### After a Failed or Canceled Submission: `freeform-after-failed-submit`
+
+Fires when Freeform reports a stopped or unsuccessful submission, including:
+
+- A `freeform-on-submit` listener prevents submission.
+- A submission callback returns `false`.
+- An AJAX response contains validation errors.
+
+Use it to restore custom interface state after these outcomes. It has no additional properties beyond `form` and `freeform`, and is not cancelable.
+
+```js
+document.addEventListener('freeform-after-failed-submit', (event) => {
+  console.log('Submission stopped or validation failed:', event.form);
+});
+```
+
+This event is not a notification for every possible request failure. Use `freeform-ajax-error` when you need the validation or request-error details.
+
+### Rendering Success Messages: `freeform-render-success`
+
+Fires before Freeform renders an AJAX success banner.
+
+This event is optional. Configure messages in the form builder and use formatting-template styling for the default renderer. Use this event when you need custom markup or positioning.
+
+Call `event.preventDefault()` to replace the built-in renderer.
+
+The following example places the success banner at the bottom of the form while using its configured message and classes:
+
+```js showLineNumbers
+document.addEventListener('freeform-render-success', (event) => {
+  event.preventDefault();
+
+  const { options } = event.freeform;
+  const banner = document.createElement('div');
+  const message = document.createElement('p');
+
+  banner.className = options.successClassBanner || '';
+  banner.setAttribute('role', 'status');
+  banner.setAttribute('data-freeform-ajax-banner', 'success');
+
+  message.textContent = options.successBannerMessage || '';
+  banner.appendChild(message);
+
+  event.form.appendChild(banner);
+});
+```
+
+The `data-freeform-ajax-banner` attribute allows Freeform to remove the custom banner during normal AJAX cleanup.
+
+:::note
+If your formatting template already provides a custom success-rendering handler, modify that handler rather than adding another one.
+:::
+
+### Rendering Form Errors: `freeform-render-form-errors`
+
+Fires before Freeform renders the AJAX error banner.
+
+In Freeform 5.17+, compatible formatting templates provide styling for the default banner. Use this event when you need custom markup or positioning, and call `event.preventDefault()` to replace the built-in renderer.
+
+#### Additional Property
+
+- `errors` — an array of form-level error messages. It may be empty when validation errors belong only to individual fields.
+
+The following example places the error banner at the bottom of the form. It displays the configured error message followed by any form-level errors:
+
+```js showLineNumbers
+document.addEventListener('freeform-render-form-errors', (event) => {
+  event.preventDefault();
+
+  const { options } = event.freeform;
+  const banner = document.createElement('div');
+  const message = document.createElement('p');
+
+  banner.className = options.errorClassBanner || '';
+  banner.setAttribute('role', 'alert');
+  banner.setAttribute('data-freeform-ajax-banner', 'error');
+
+  message.textContent = options.errorBannerMessage || '';
+  banner.appendChild(message);
+
+  const errors = event.errors || [];
+
+  if (errors.length) {
+    const list = document.createElement('ul');
+
+    errors.forEach((error) => {
+      const item = document.createElement('li');
+      item.textContent = error;
+      list.appendChild(item);
+    });
+
+    banner.appendChild(list);
+  }
+
+  event.form.appendChild(banner);
+});
+```
+
+This replaces only the form-level banner. Field errors continue to use their existing rendering behavior.
+
+If your formatting template already provides a custom form-error renderer, modify that handler instead of adding another one.
+
+### Rendering Field Errors: `freeform-render-field-errors`
+
+Fires before Freeform renders individual field validation errors.
+
+In Freeform 5.17+, the default renderer uses compatible formatting templates' field-error styling and supported error-state classes. It also handles accessibility attributes that connect errors to their inputs.
+
+Listen to this event to inspect errors or perform additional tasks. Call `event.preventDefault()` only when you intend to replace the built-in field-error renderer.
+
+#### Additional Property
+
+- `errors` — an object mapping field handles to arrays of validation messages.
+
+The following example logs field errors while allowing Freeform to display them normally:
+
+```js
+document.addEventListener('freeform-render-field-errors', (event) => {
+  Object.entries(event.errors || {}).forEach(([handle, messages]) => {
+    console.log(`Validation errors for ${handle}:`, messages);
   });
 });
 ```
 
-### Removing Field Messages: `freeform-remove-field-messages`
+:::info
+If you replace field-error rendering, your implementation must handle the error markup, field styling, accessibility relationships, and cleanup.
 
-This event is cancelable and lets you handle the removing of field specific error messages.
-It makes sense to use this only if you are doing your own field error rendering logic.
-Event then, you might be able to do all of it in the [Removing success and error banner messages](#removing-success-and-error-banner-messages-freeform-remove-messages) event.
+For class changes alone, use formatting-template overrides or the relevant [Plugin Options](#plugin-options).
+:::
 
-This event has the following properties:
+### Removing Success and Error Banner Messages: `freeform-remove-messages`
 
-- `form` - the `<form>` element
-- `freeform` - the Freeform JS Plugin instance
-- `field` - the field input element
+Fires before Freeform clears existing AJAX messages and error styling, including when it processes a subsequent submission response.
 
-```js showLineNumbers
-document.addEventListener('freeform-remove-field-messages', function (event) {
-  const form = event.form;
-  const field = event.field;
+Freeform handles cleanup for its default renderer. Custom banners also participate in this cleanup when they use the appropriate marker:
 
-  // <input type="text" class="my-custom-error-class" />
-  // Removing the class name of this field's input element
-  field.classList.remove('my-custom-error-class');
+- `data-freeform-ajax-banner="success"`
+- `data-freeform-ajax-banner="error"`
 
-  // Removing a <div class="my-custom-errors-block"> which
-  // is located right after the field's input element
-  const errorBlock = field.parentElement.querySelector(
-    '.my-custom-errors-block'
-  );
-  errorBlock.remove();
+You do not need a separate cleanup handler solely because you changed banner classes or used these markers.
+
+Use this event to remove additional elements created by your custom rendering code. The following example removes elements marked with `data-custom-form-message` while allowing Freeform's normal cleanup to continue:
+
+```js
+document.addEventListener('freeform-remove-messages', (event) => {
+  event.form
+    .querySelectorAll('[data-custom-form-message]')
+    .forEach((element) => element.remove());
 });
 ```
+
+This event is cancelable. Call `event.preventDefault()` only when your implementation will replace all of Freeform's default message and error-state cleanup.
+
+### Removing Field Messages: `freeform-remove-field-messages`
+
+Fires before Freeform clears validation feedback for a field, including when its value changes.
+
+The default cleanup removes the field's error messages, restores its styling, and clears the accessibility attributes associated with its validation errors.
+
+#### Additional Property
+
+- `field` — the input, select, or textarea element whose feedback is being cleared.
+
+Use this event to clean up additional field-level elements or classes created by your custom code. This example removes a custom class and message blocks marked with `data-custom-field-errors`:
+
+```js
+document.addEventListener('freeform-remove-field-messages', (event) => {
+  const field = event.field;
+  const container = field.closest('[data-field-container]');
+
+  field.classList.remove('my-custom-error-class');
+
+  container
+    ?.querySelectorAll('[data-custom-field-errors]')
+    .forEach((element) => element.remove());
+});
+```
+
+This example supplements Freeform's cleanup without preventing it.
+
+Call `event.preventDefault()` only when replacing the default field cleanup. Your implementation must then remove the relevant error markup, restore field styling, and update accessibility attributes while preserving links to instructions or other descriptions.
 
 ## Plugin Options
 
-The Freeform JS Plugin has several options that let you override the way it works. Mainly, the options are for rendering AJAX form success or failure messages.
+Use plugin options to override settings during the `freeform-ready` event. Most forms can use their form-builder settings and formatting-template styles without additional JavaScript.
 
-You can override the options by passing your own option values during the `freeform-ready` event
+Listen on `document` to apply overrides to all forms, or on a specific form element to target only that form.
 
 ```js
-const form = document.getElementById('my-form');
-form.addEventListener('freeform-ready', function (event) {
-  // Enable AJAX. This happens automatically if you enable AJAX via the form builder
-  event.options.ajax = true;
-  event.options.successBannerMessage = 'Custom success banner message here';
-  event.options.successClassBanner =
-    'my-success-class additional-success-css-class';
+document.addEventListener('freeform-ready', (event) => {
+  event.options.successBannerMessage = 'Thank you! Your form was submitted.';
+  event.options.errorBannerMessage = 'Please review your entries and try again.';
 });
 ```
 
-The available options are:
+:::info
+Success and error messages can also be configured and translated in the form builder. JavaScript message overrides take precedence over those configured messages.
+:::
 
-- [`bool`] `ajax` - Determines if AJAX is used on this form or not
-- [`bool`] `disableSubmit` - Enables the automatic disabling/enabling of submit buttons once the form is submitted
-- [`bool`] `autoScroll` - Will automatically scroll to the top of the form upon submit
-- [`bool`] `showProcessingSpinner` - Shows the spinner icon in the submit button when submitted
-- [`bool`] `showProcessingText` - Changes the text of the submit button when the form is submitted
-- [`string`] `processingText` - The text to use when `showProcessingText` is enabled
-- [`string`] `successBannerMessage` - The text that will be shown in the success banner
-- [`string`] `errorBannerMessage` - The text that will be shown in the error banner
-- [`string`] `errorClassBanner` - the `css` class name(-s) to be attached to the error banner html element
-- [`string`] `errorClassList` - the `css` class name(-s) to be attached to the error `<ul>` list element for each field with errors
-- [`string`] `errorClassField` - the `css` class name(-s) to be attached to the input field that has errors
-- [`string`] `successClassBanner` - the `css` class name(-s) to be attached to the success banner html element
+### Submission and Validation
+
+| Option | Type | Description |
+|---|---|---|
+| `ajax` | `boolean` | Enables or disables built-in AJAX submission handling. Normally controlled by **Use AJAX** in the form builder. |
+| `disableSubmit` | `boolean` | Disables submit buttons while Freeform processes a submission, then enables them again when processing ends. |
+| `disableReset` | `boolean` | Prevents Freeform from resetting field values after a completed, successful AJAX submission. |
+| `skipHtmlReload` | `boolean` | Prevents Freeform from replacing the form's contents with HTML returned by an AJAX response. |
+| `focusFirstError` | `boolean` | Moves focus to the first visible field with a validation error, or to the error banner when no field can be focused. |
+| `autoScroll` | `boolean` | Scrolls to the form after an AJAX response is processed. Successful error focusing takes precedence over this scrolling. |
+| `scrollToAnchor` | `boolean` | Scrolls to the form during initialization when enabled. |
+| `scrollOffset` | `number` | Adjusts the scrolling position in pixels. Defaults to `0`; a negative value can leave space above the form for a fixed header. |
+| `scrollElement` | `Window` or `HTMLElement` | The target used for scrolling. Defaults to `window`. |
+
+`disableReset` and `skipHtmlReload` control different operations. Disabling the reset does not prevent HTML replacement, and skipping HTML replacement does not prevent field resetting.
+
+For custom markup and multi-page considerations, see [AJAX Forms](../templates/ajax.mdx#not-using-a-formatting-template).
+
+### Processing Feedback
+
+| Option | Type | Description |
+|---|---|---|
+| `showProcessingSpinner` | `boolean` | Enables the submit button's processing indicator. |
+| `showProcessingText` | `boolean` | Replaces the submit button's text while the submission is processing. |
+| `showProcessingOverlay` | `boolean` | Displays a processing overlay over the form. |
+| `processingText` | `string` | The text used for the processing button text and overlay. |
+
+```js
+document.addEventListener('freeform-ready', (event) => {
+  event.options.showProcessingText = true;
+  event.options.showProcessingOverlay = true;
+  event.options.processingText = 'Submitting…';
+});
+```
+
+### Success and Error Messages
+
+| Option | Type | Description |
+|---|---|---|
+| `successBannerMessage` | `string` | The message displayed by the default AJAX success-banner renderer. |
+| `errorBannerMessage` | `string` | The summary message displayed by the default AJAX error-banner renderer. |
+
+These options change the banner messages. They do not replace individual field-validation messages or additional form-level errors.
+
+### Success and Error Styling<Badge type="feature" text="Improved in 5.17+" />
+
+In Freeform 5.17+, the default AJAX renderer uses compatible formatting templates' banner attributes, field-error styling, and supported error-state classes.
+
+JavaScript class overrides remain available. Existing overrides can stay in place; updating to 5.17 does not, by itself, require removing or replacing them.
+
+| Option | Type | Behavior in 5.17+ |
+|---|---|---|
+| `successClassBanner` | `string` | Overrides the success-banner classes inherited from the formatting template. Without template classes or an override, the fallback is `freeform-form-success`. |
+| `errorClassBanner` | `string` | Overrides the error-banner classes inherited from the formatting template. Without template classes or an override, the fallback is `freeform-form-errors`. |
+| `errorClassList` | `string` | A value other than `freeform-errors` overrides the field-error block's inherited classes. Leaving this at `freeform-errors` allows template classes to be inherited when a matching rendered error block is available. |
+| `errorClassField` | `string` | Adds classes to invalid inputs alongside the formatting template's error-state classes. Defaults to `freeform-has-errors`; it does not replace template classes. |
+
+Class options accept multiple class names separated by spaces:
+
+```js showLineNumbers
+document.addEventListener('freeform-ready', (event) => {
+  event.options.successClassBanner = 'alert alert-success';
+  event.options.errorClassBanner = 'alert alert-danger';
+  event.options.errorClassList = 'my-field-errors';
+  event.options.errorClassField = 'my-invalid-input';
+});
+```
+
+:::info
+Custom rendering handlers control their own output. If a formatting template or your JavaScript replaces the default renderer, these options affect that output only if the custom handler uses them.
+
+Change the existing handler when necessary rather than adding a second renderer.
+:::
+
+### Custom Rendering and Cleanup Callbacks
+
+The following options replace the corresponding built-in rendering or cleanup function:
+
+| Option | Callback | Purpose |
+|---|---|---|
+| `renderSuccess` | `function()` | Renders the AJAX success banner. |
+| `renderFormErrors` | `function(errors)` | Renders the error banner. Receives an array of form-level errors. |
+| `renderFieldErrors` | `function(errors)` | Renders field errors. Receives field handles mapped to arrays of validation messages. |
+| `removeMessages` | `function()` | Replaces the normal AJAX message and error-state cleanup. |
+
+Freeform binds these callbacks to its plugin instance. Use a regular function if you need to access the instance through `this`.
+
+The corresponding rendering or cleanup event fires before its callback. If an event listener prevents the default behavior, Freeform skips both the option callback and its built-in implementation.
+
+Use these callbacks or the events documented above when you need custom rendering behavior. Class or message changes alone do not require replacing the renderer.
 
 ## Stripe Payments Events<Badge type="feature" text="Improved in 5.0+" />
 
-To style the Stripe Payment Element, you'll need to apply [Stripe's Appearance API variables](https://docs.stripe.com/elements/appearance-api?platform=web#variables) to the `elementOptions` and `paymentOptions` listeners.
+Use `freeform-stripe-appearance` to customize Stripe's Payment Element before Freeform creates it.
 
-### elementOptions.appearance
+The event exposes two option objects:
 
-Below is a list of commonly used variables. See [Stripe documentation](https://docs.stripe.com/elements/appearance-api?platform=web#additional-variables) for a complete list of other variables.
+- `elementOptions` — options passed to `stripe.elements()`, including `appearance`.
+- `paymentOptions` — options passed when creating the Payment Element, including `layout`.
 
-| Variable          | Description                                                                                                                                                          |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `fontFamily`      | The font family used throughout Elements. Elements supports custom fonts by passing the fonts option to the Elements group.                                          |
-| `fontSizeBase`    | The font size that's set on the root of the Element. By default, other font size variables like fontSizeXs or fontSizeSm are scaled from this value using rem units. |
-| `spacingUnit`     | The base spacing unit that all other spacing is derived from. Increase or decrease this value to make your layout more or less spacious.                             |
-| `borderRadius`    | The border radius used for tabs, inputs, and other components in the Element.                                                                                        |
-| `colorPrimary`    | A primary color used throughout the Element. Set this to your primary brand color.                                                                                   |
-| `colorBackground` | The color used for the background of inputs, tabs, and other components in the Element.                                                                              |
-| `colorText`       | The default text color used in the Element.                                                                                                                          |
-| `colorDanger`     | A color used to indicate errors or destructive actions in the Element.                                                                                               |
+Listen on `document` to customize all Stripe payment fields, or on a specific form element to target that form.
 
-The `rules` option is a map of CSS-like selectors to CSS properties, allowing granular customization of individual components. After defining your `theme` and `variables`, use `rules` to seamlessly integrate **Elements** to match the design of your site.
+:::info
+This event bubbles from the Stripe payment field. Unlike Freeform's form events, it does not include `event.form` or `event.freeform`.
 
-The selector for a rule can target any of the public class names in the Element, as well as the supported states, pseudo-classes, and pseudo-elements for each class. For example, the following are valid selectors:
+If needed, find the containing form with `event.target.closest('form')`. Modify the supplied options to customize initialization; calling `event.preventDefault()` does not stop it.
+:::
 
-- `.Tab`, `.Label`, `.Input`
-- `.Tab:focus`
-- `.Input--invalid`, `.Label--invalid`
-- `.Input::placeholder`
+### `elementOptions.appearance`
 
-The following are not valid selectors:
+Use [Stripe's Appearance API](https://docs.stripe.com/elements/appearance-api) to customize the Payment Element's theme, variables, and supported styling rules.
 
-- `.p-SomePrivateClass`, `img` - only public class names can be targeted
-- `.Tab .TabLabel` - ancestor-descendant relationships in selectors are unsupported
-- `.Tab--invalid` - the `.Tab` class does not support the `--invalid` state
+Common variables include:
 
-See [Stripe documentation](https://docs.stripe.com/elements/appearance-api?platform=web#rules) for a complete list.
+| Variable | Description |
+|---|---|
+| `fontFamily` | Font family used by the Payment Element. |
+| `fontSizeBase` | Base font size used to derive other font sizes. |
+| `spacingUnit` | Base spacing used throughout the interface. |
+| `borderRadius` | Corner radius for inputs, tabs, and other elements. |
+| `colorPrimary` | Primary accent color. |
+| `colorBackground` | Background color. |
+| `colorText` | Text color. |
+| `colorDanger` | Error color. |
 
-### paymentOptions.layout
+Use `appearance.rules` for supported Stripe selectors such as `.Input`, `.Label`, and `.Input:focus`.
 
-Options for creating the Payment Element.
+Stripe supports specific public classes and styling properties. Arbitrary HTML selectors and descendant selectors are not supported. See the [Appearance API rules reference](https://docs.stripe.com/elements/appearance-api#rules) for the available options.
 
-| Property                        | Description                                                                                                                                                                                                                                                                            |
-| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `defaultCollapsed: true`        | Controls if the Payment Element renders in a collapsed state (where no payment method is selected by default). When you leave this undefined, Stripe renders the experience that it determines will have the best conversion.                                                          |
-| `radios: true`                  | Renders each Payment Method with a radio input next to its logo. The radios visually indicate the current selection of the Payment Element. This property is only applicable to the accordion layout.                                                                                  |
-| `spacedAccordionItems: false`   | When true, the Payment Methods render as standalone buttons with space in between them. This property is only applicable to the accordion layout.                                                                                                                                      |
-| `visibleAccordionItemsCount: 2` | Sets the max number of Payment Methods visible before using the "More" button to hide additional Payment Methods. Set this value to 0 to disable the "More" button and render all available Payment Methods. Default is `5`. This property is only applicable to the accordion layout. |
+#### Styling Rules
 
-Full documentation can be found here: [Stripe Elements Appearance API](https://stripe.com/docs/elements/appearance-api)
+Use `elementOptions.appearance.rules` to style Stripe's supported public classes, states, pseudo-classes, and pseudo-elements.
 
-### Example
+Examples of supported selectors include:
 
-```html showLineNumbers
-<script>
-  var form = document.querySelector('[data-id="{{ form.anchor }}"]');
-  if (form) {
-    form.addEventListener('freeform-stripe-appearance', function (event) {
-      event.elementOptions.appearance = Object.assign(
-        event.elementOptions.appearance,
-        {
-          variables: {
-            colorPrimary: '#0d6efd',
-            fontFamily:
-              '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"',
-            fontSizeBase: '16px',
-            spacingUnit: '0.2em',
-            tabSpacing: '10px',
-            gridColumnSpacing: '20px',
-            gridRowSpacing: '20px',
-            colorText: '#eaeaea',
-            colorBackground: '#1d1f23',
-            colorDanger: '#dc3545',
-            borderRadius: '5px',
-          },
-          rules: {
-            '.Tab, .Input': {
-              border: '1px solid #6c757d',
-              boxShadow: 'none',
-            },
-            '.Tab:focus, .Input:focus': {
-              border: '1px solid #0b5ed7',
-              boxShadow: 'none',
-              outline: '0',
-              transition: 'border-color .15s ease-in-out',
-            },
-            '.Label': {
-              fontSize: '16px',
-              fontWeight: '400',
-            },
-          },
-        }
-      );
-      event.paymentOptions.layout = Object.assign(event.paymentOptions.layout, {
+| Selector | Targets |
+|---|---|
+| `.Tab`, `.Label`, `.Input` | Tabs, labels, and inputs. |
+| `.Tab:focus` | A focused tab. |
+| `.Input--invalid`, `.Label--invalid` | Inputs and labels in their invalid state. |
+| `.Input::placeholder` | Input placeholder text. |
+
+The following selectors are not supported:
+
+| Selector | Reason |
+|---|---|
+| `.p-SomePrivateClass` | Private Stripe classes cannot be targeted. |
+| `img` | Arbitrary HTML element selectors are not supported. |
+| `.Tab .TabLabel` | Descendant selectors are not supported. |
+| `.Tab--invalid` | Tabs do not support the `--invalid` state. |
+
+Each class supports specific states and CSS properties. See [Stripe's Appearance API rules reference](https://docs.stripe.com/elements/appearance-api#rules) for the complete list.
+
+### `paymentOptions.layout`
+
+Use `paymentOptions.layout` to configure the Payment Element's layout.
+
+| Property | Description |
+|---|---|
+| `type` | Selects `tabs` or `accordion`. |
+| `defaultCollapsed` | Controls whether the element initially appears collapsed. |
+| `radios` | Controls radio indicators in accordion layouts. Stripe currently documents `auto`, `always`, `never`, and `if_multiple`. |
+| `spacedAccordionItems` | When `true`, adds space between accordion items. |
+| `visibleAccordionItemsCount` | Number of accordion items shown before the “More” control. Set to `0` to show all available items. Stripe's documented default is `5`. |
+
+See [Stripe's Payment Element options](https://docs.stripe.com/js/elements_object/create_payment_element) for the complete reference.
+
+### Examples
+
+These examples customize colors, typography, spacing, borders, labels, focus styles, and the Payment Element's accordion layout.
+
+Register the listener before Stripe initializes the payment field.
+
+<Tabs>
+  <TabItem value="stripe-full-all" label="All Forms" default>
+    Apply the same appearance settings to all Stripe payment fields on the page:
+
+    ```js showLineNumbers
+    document.addEventListener('freeform-stripe-appearance', (event) => {
+      const appearance = event.elementOptions.appearance;
+
+      appearance.variables = {
+        ...appearance.variables,
+        colorPrimary: '#0d6efd',
+        colorBackground: '#1d1f23',
+        colorText: '#eaeaea',
+        colorDanger: '#dc3545',
+        fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+        fontSizeBase: '16px',
+        spacingUnit: '0.2em',
+        tabSpacing: '10px',
+        gridColumnSpacing: '20px',
+        gridRowSpacing: '20px',
+        borderRadius: '5px',
+      };
+
+      appearance.rules = {
+        ...appearance.rules,
+        '.Tab, .Input': {
+          border: '1px solid #6c757d',
+          boxShadow: 'none',
+        },
+        '.Tab:focus, .Input:focus': {
+          border: '1px solid #0d6efd',
+          boxShadow: '0 0 0 2px #0d6efd',
+          transition: 'border-color .15s ease-in-out',
+        },
+        '.Label': {
+          fontSize: '16px',
+          fontWeight: '400',
+        },
+      };
+
+      event.paymentOptions.layout = {
+        ...event.paymentOptions.layout,
+        type: 'accordion',
         defaultCollapsed: true,
         visibleAccordionItemsCount: 3,
-      });
+      };
     });
-  }
-</script>
-```
+    ```
+  </TabItem>
+  <TabItem value="stripe-full-form" label="Specific Form">
+    Assign the form a unique ID and place the listener after its markup:
+
+    ```twig showLineNumbers
+    {{ freeform.form('myFormHandle', {
+      attributes: {
+        id: 'my-form'
+      }
+    }).render() }}
+
+    <script>
+      const form = document.getElementById('my-form');
+
+      form?.addEventListener('freeform-stripe-appearance', (event) => {
+        const appearance = event.elementOptions.appearance;
+
+        appearance.variables = {
+          ...appearance.variables,
+          colorPrimary: '#0d6efd',
+          colorBackground: '#1d1f23',
+          colorText: '#eaeaea',
+          colorDanger: '#dc3545',
+          fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+          fontSizeBase: '16px',
+          spacingUnit: '0.2em',
+          tabSpacing: '10px',
+          gridColumnSpacing: '20px',
+          gridRowSpacing: '20px',
+          borderRadius: '5px',
+        };
+
+        appearance.rules = {
+          ...appearance.rules,
+          '.Tab, .Input': {
+            border: '1px solid #6c757d',
+            boxShadow: 'none',
+          },
+          '.Tab:focus, .Input:focus': {
+            border: '1px solid #0d6efd',
+            boxShadow: '0 0 0 2px #0d6efd',
+            transition: 'border-color .15s ease-in-out',
+          },
+          '.Label': {
+            fontSize: '16px',
+            fontWeight: '400',
+          },
+        };
+
+        event.paymentOptions.layout = {
+          ...event.paymentOptions.layout,
+          type: 'accordion',
+          defaultCollapsed: true,
+          visibleAccordionItemsCount: 3,
+        };
+      });
+    </script>
+    ```
+
+    Replace `myFormHandle` with your form's handle and ensure `my-form` is unique on the page.
+  </TabItem>
+</Tabs>
+
+:::info
+These examples select the accordion layout because `visibleAccordionItemsCount` applies only to that layout. Adjust the variables, rules, and layout options to match your site's design.
+:::
 
 ## Date Picker Events
 
-The Freeform [Date & Time](../forms/fields.mdx#date--time) field comes packed with a built-in, optional [flatpickr](https://flatpickr.js.org/) instance. Check out the [Date Picker Events](./datepicker.mdx) documentation for full customization options of the _flatpickr_ instance.
+The [Date & Time](../forms/fields.mdx#date--time) field can use Freeform's optional [flatpickr](https://flatpickr.js.org/) picker.
+
+When the picker is enabled, use the following events to customize it:
+
+| Event | Purpose |
+|---|---|
+| `flatpickr-before-init` | Modify `event.options` before the picker is created. |
+| `flatpickr-ready` | Access the created picker through `event.flatpickr`. |
+
+Listen on `document` to handle pickers across all forms, or on a specific form element to target its pickers.
+
+See [Date Picker Events](./datepicker.mdx) for configuration options and customization examples.
 
 ## Autoscroll Events
 
-When using the [Automatically Scroll to Form on Errors and Multipage forms?](../configuration/settings.mdx#automatically-scroll-to-form-on-errors-and-multipage-forms) setting, Freeform will automatically handle scrolling the the browser down to the form. However, if you have a floating header or other situation you need to account for, you can override the scroll offset as well as the anchor to scroll to. You can attach your own logic to the events by listening on the following events:
+Customize Freeform's automatic scrolling through the `freeform-ready` event. This is useful when a fixed header obscures the top of the form or your page uses a scrollable container.
+
+| Option | Purpose |
+|---|---|
+| `scrollOffset` | Adjusts the scroll position in pixels. Defaults to `0`. A negative value leaves space above the form. |
+| `scrollElement` | Specifies the window or element to scroll. Defaults to `window`. |
+
+### Adjusting the Scroll Offset
+
+These examples leave 80 pixels above the form to accommodate a fixed header:
+
+<Tabs>
+  <TabItem value="scroll-offset-all" label="All Forms" default>
+    ```js
+    document.addEventListener('freeform-ready', (event) => {
+      event.options.scrollOffset = -80;
+    });
+    ```
+  </TabItem>
+  <TabItem value="scroll-offset-form" label="Specific Form">
+    Place this code after the markup for a form with the ID `my-form`:
+
+    ```js
+    const form = document.getElementById('my-form');
+
+    form?.addEventListener('freeform-ready', (event) => {
+      event.options.scrollOffset = -80;
+    });
+    ```
+  </TabItem>
+</Tabs>
+
+Adjust `-80` to match your header height and the desired spacing.
+
+### Changing the Scroll Target
+
+If your page scrolls inside an element instead of the browser window, use `scrollElement` to select that container:
 
 ```js
 document.addEventListener('freeform-ready', (event) => {
-  // scrolling offset in pixels from the top of the form.
-  // defaults to 0
-  event.options.scrollOffset = -400;
+  const container = document.getElementById('main');
+
+  if (container) {
+    event.options.scrollElement = container;
+  }
 });
 ```
 
-```js
-document.addEventListener('freeform-ready', (event) => {
-  // element to call `.scrollTo()` on
-  // defaults to `window`
-  // using `document.getElementById('main');` as an example
-  event.options.scrollElement = document.getElementById('main');
-});
-```
+The selected element must be a scrollable container. Leave the default `window` target when the browser page itself scrolls.
+
+:::info
+Changing the offset or target does not enable automatic scrolling. Configure the relevant scrolling settings in Freeform, or use the [Plugin Options](#plugin-options).
+
+When **Focus First Error After Submit** successfully focuses an error, it takes precedence over Freeform's standard AJAX autoscroll.
+:::
 
 ## Table Field Events
 
-The Freeform [Table](../forms/fields.mdx#table) field comes with its own optional javascript functionality for adding and removing rows. You can attach your own logic to the events by listening on the following events:
+The [Table](../forms/fields.mdx#table) field dispatches events when rows are added or removed through Freeform's controls.
+
+Listen on `document` to handle events from all forms, or on a specific form element to target that form. Each event includes `event.form`, `event.freeform`, and `event.table`.
+
+| Event | When it fires | Includes `event.row` |
+|---|---|---|
+| `freeform-field-table-on-add-row` | Before the new row is inserted. | Yes |
+| `freeform-field-table-after-row-added` | After the new row is inserted. | Yes |
+| `freeform-field-table-on-remove-row` | Before the row is removed. | Yes |
+| `freeform-field-table-after-remove-row` | After the row is removed. | No |
+
+:::info
+These events let you customize rows or respond to changes. Calling `event.preventDefault()` does not stop Freeform from adding or removing a row.
+:::
 
 ### `freeform-field-table-on-add-row`
 
+Fires after Freeform prepares the new row's inputs and default values, but before inserting the row into the table.
+
+Use `event.row` to customize the new row before it appears:
+
 ```js
-const form = document.getElementById('my-form');
-form.addEventListener('freeform-field-table-on-add-row', function (event) {
-  const form = event.form;
-  const freeform = event.freeform;
-
-  const table = event.table; // The table element
-  const row = event.row; // The row element that will be added
-
-  // Do something before the row is added to the DOM
-  // ...
+document.addEventListener('freeform-field-table-on-add-row', (event) => {
+  event.row.classList.add('my-table-row');
 });
 ```
 
 ### `freeform-field-table-after-row-added`
 
-```js
-const form = document.getElementById('my-form');
-form.addEventListener('freeform-field-table-after-row-added', function (event) {
-  const form = event.form;
-  const freeform = event.freeform;
+Fires after the new row has been inserted into the table.
 
-  const table = event.table; // The table element
-  const row = event.row; // The row element that will be added
-
-  // Do something after the row has been added to the DOM
-  // ...
-});
-```
-
-### `freeform-field-table-after-remove-row`
+Use this event to initialize custom widgets or interact with the row's inputs. This example focuses the first available input:
 
 ```js
-const form = document.getElementById('my-form');
-form.addEventListener('freeform-field-table-on-remove-row', function (event) {
-  const form = event.form;
-  const freeform = event.freeform;
+document.addEventListener('freeform-field-table-after-row-added', (event) => {
+  const input = event.row.querySelector(
+    'input:not([type="hidden"]):not(:disabled), select:not(:disabled), textarea:not(:disabled)'
+  );
 
-  const table = event.table; // The table element
-  const row = event.row; // The row element that will be removed
-
-  // Do something before the row is removed from the DOM
-  // ...
+  input?.focus();
 });
 ```
 
 ### `freeform-field-table-on-remove-row`
 
+Fires immediately before a row is removed.
+
+Use `event.row` to inspect the row or clean up custom widgets attached to it before removal:
+
 ```js
-const form = document.getElementById('my-form');
-form.addEventListener(
-  'freeform-field-table-after-remove-row',
-  function (event) {
-    const form = event.form;
-    const freeform = event.freeform;
-
-    const table = event.table; // The table element
-
-    // Do something after the row is removed from the DOM
-    // ...
-  }
-);
+document.addEventListener('freeform-field-table-on-remove-row', (event) => {
+  console.log('Row about to be removed:', event.row);
+});
 ```
+
+### `freeform-field-table-after-remove-row`
+
+Fires after a row has been removed.
+
+Use `event.table` to inspect the remaining rows or update calculations and other interface elements:
+
+```js
+document.addEventListener('freeform-field-table-after-remove-row', (event) => {
+  const rows = event.table.querySelectorAll('tbody > tr');
+
+  console.log('Remaining rows:', rows.length);
+});
+```
+
+:::info
+These events describe row additions and removals. Rows already present when the form loads need any custom widget initialization during your normal setup.
+:::
 
 ## File Upload Drag & Drop Field Events
 
-The Freeform [File Upload Drag & Drop](../forms/fields.mdx#file-upload-drag--drop) field comes with its own optional javascript functionality. You can attach your own logic to the events by listening on the following events:
+The [File Upload Drag & Drop](../forms/fields.mdx#file-upload-drag--drop) field provides events for customizing previews, messages, and upload handling.
 
-- Render Preview: `freeform-field-dnd-on-render-preview`
-- Render Preview Remove Button: `freeform-field-dnd-on-render-preview-remove-button`
-- Render Error Container: `freeform-field-dnd-render-error-container`
-- Show Global Message: `freeform-field-dnd-show-global-message`
-- Append Errors: `freeform-field-dnd-append-errors`
-- Clear Errors: `freeform-field-dnd-clear-errors`
-- On Change: `freeform-field-dnd-on-change`
-- On Upload Progress: `freeform-field-dnd-on-upload-progress`
+| Event | Purpose |
+|---|---|
+| `freeform-field-dnd-on-render-preview` | Customize the preview through `event.container`. File information is available in `event.metadata`. |
+| `freeform-field-dnd-on-render-preview-remove-button` | Customize the preview's remove button through `event.button`. |
+| `freeform-field-dnd-render-error-container` | Customize the error element through `event.container`. |
+| `freeform-field-dnd-show-global-message` | Customize a field-level message through `event.messageItem`. |
+| `freeform-field-dnd-on-change` | Respond to changes in the field's preview list. The upload field is available through `event.container`. |
+| `freeform-field-dnd-on-upload-progress` | Monitor upload progress through `event.loaded`, `event.total`, and `event.percent`. |
+| `freeform-field-dnd-after-upload` | Respond to a successfully uploaded file through `event.file`. The upload field is available through `event.container`. |
+| `freeform-field-dnd-after-errors` | Respond after upload-error handling. Provides `event.container` and `event.messages`. |
+
+Additional error-handling hooks are available as `freeform-field-dnd-append-errors` and `freeform-field-dnd-clear-errors`.
+
+### Upload Progress
+
+Listen on `document` to monitor uploads across forms:
+
+```js
+document.addEventListener('freeform-field-dnd-on-upload-progress', (event) => {
+  console.log(`Upload progress: ${event.percent}%`);
+});
+```
+
+### Completed Uploads
+
+Use this event to respond after an individual file has uploaded successfully:
+
+```js
+document.addEventListener('freeform-field-dnd-after-upload', (event) => {
+  console.log('Uploaded file:', event.file);
+});
+```
+
+:::info
+A completed file upload is separate from a completed form submission. Use `freeform-ajax-success` with an `event.response.finished` check when your code should run after the form itself is submitted.
+:::
 
 ## Save & Continue Later Button Events
 
-You can attach your own logic to the Freeform [Save & Continue Later](../forms/fields.mdx#save--continue-later) button by listening on the following events:
+Use `freeform-save-form-handle-token` to customize what happens after the [Save & Continue Later](../forms/fields.mdx#save--continue-later) button saves an AJAX form's progress.
 
-- Save Form Handle Token: `freeform-save-form-handle-token`
+The event provides:
+
+- `key` — the key associated with the saved form state.
+- `token` — the saved form's session token.
+- `url` — the URL Freeform will redirect to after saving.
+
+You can modify `event.url` to change the destination, or call `event.preventDefault()` to stop the automatic redirect and handle the result yourself.
+
+This event is dispatched directly on the form. Attach your listener to that form element.
+
+### Example
+
+Place this example after a form with the ID `my-form`. It replaces the automatic redirect with a confirmation message:
+
+```html
+<div id="save-status" role="status" aria-live="polite"></div>
+
+<script>
+  const form = document.getElementById('my-form');
+
+  form?.addEventListener('freeform-save-form-handle-token', (event) => {
+    const status = document.getElementById('save-status');
+
+    if (!status) return;
+
+    event.preventDefault();
+    status.textContent = 'Your progress has been saved.';
+  });
+</script>
+```
+
+Preventing the redirect does not undo the saved progress.
 
 ## Conditional Rules Events
 
-You can attach your own logic to the Freeform [Conditional Rules](../forms/conditional-rules.mdx) feature by listening on the following events:
+Use `freeform-rules-applied` to respond when [Conditional Rules](../forms/conditional-rules.mdx) change a field or button container's visibility.
 
-- Rules Applied: `freeform-rules-applied`
+The event provides:
 
-## External Script Loaders<Badge type='feature' text='New in 5.11.5+' />
+- `rule` — the rule being applied.
+- `target` — the affected field or button container.
 
-Freeform loads external scripts such as _IMask_, _Flatpickr_, _reCAPTCHA_, etc. If you need to alter something for the `script` tags, that can be done via the `freeform-script-before-load` event:
+This event is dispatched on the affected container and does not bubble. Use a capture listener to receive it at document level:
 
 ```js
-document.addEventListener('freeform-script-before-load', function (event) {
-  const src = event.detail.src;
-  const scriptTag = event.detail.script;
+document.addEventListener(
+  'freeform-rules-applied',
+  (event) => {
+    const container = event.target;
+    const visible = !container.hasAttribute('data-hidden');
 
-  if (src === 'https://www.google.com/recaptcha/api.js') {
-    // Do something with the reCAPTCHA script tag
-    scriptTag.setAttribute('data-custom-attribute', 'value');
+    console.log('Rule applied:', event.rule);
+    console.log('Container visible:', visible);
+  },
+  { capture: true }
+);
+```
+
+:::info
+This event reports visibility changes after a rule is applied. It does not fire during the initial rule setup or when the container's visibility remains unchanged.
+
+Calling `event.preventDefault()` does not undo the visibility change.
+:::
+
+## External Script Loaders<Badge type="feature" text="New in 5.11.5+" />
+
+Freeform provides events for external assets inserted through its JavaScript loading helpers. Use them to customize generated tags before insertion or respond after an asset loads.
+
+These events are dispatched on `document` and expose their properties through `event.detail`.
+
+| Event | When it fires | Properties |
+|---|---|---|
+| `freeform-script-before-load` | Before the script tag is inserted. | `detail.src`, `detail.script` |
+| `freeform-script-after-load` | After the script loads successfully. | `detail.src`, `detail.script` |
+| `freeform-stylesheet-before-load` | Before the stylesheet link is inserted. | `detail.href`, `detail.link` |
+| `freeform-stylesheet-after-load` | After the stylesheet loads successfully. | `detail.href`, `detail.link` |
+
+### Scripts
+
+This example adds an attribute to Google's reCAPTCHA script tag. Checking the URL's hostname and path allows it to match URLs containing query parameters:
+
+```js
+document.addEventListener('freeform-script-before-load', (event) => {
+  const { src, script } = event.detail;
+  const url = new URL(src, window.location.href);
+
+  if (
+    url.hostname === 'www.google.com' &&
+    url.pathname === '/recaptcha/api.js'
+  ) {
+    script.setAttribute('data-custom-attribute', 'value');
   }
 });
 ```
 
-To do something after the `script` has been loaded, you can use the `freeform-script-after-load` event:
+To run code after an external script loads:
 
 ```js
-document.addEventListener('freeform-script-after-load', function (event) {
-  const src = event.detail.src;
-  const scriptTag = event.detail.script;
-
-  if (src === 'https://www.google.com/recaptcha/api.js') {
-    // Do something after the reCAPTCHA script has been loaded
-    console.log('reCAPTCHA script loaded');
-  }
+document.addEventListener('freeform-script-after-load', (event) => {
+  console.log('External script loaded:', event.detail.src);
 });
 ```
 
-The same events are available for stylesheets as well. The event names are `freeform-style-before-load` and `freeform-style-after-load`:
+### Stylesheets
+
+Customize a generated stylesheet tag before insertion:
 
 ```js
-document.addEventListener('freeform-style-before-load', function (event) {
-  const href = event.detail.href;
-  const linkTag = event.detail.link;
-
-  // your code here
+document.addEventListener('freeform-stylesheet-before-load', (event) => {
+  event.detail.link.setAttribute('data-custom-attribute', 'value');
 });
 ```
 
-```js
-document.addEventListener('freeform-style-after-load', function (event) {
-  const href = event.detail.href;
-  const linkTag = event.detail.link;
+To run code after a stylesheet loads:
 
-  // your code here
+```js
+document.addEventListener('freeform-stylesheet-after-load', (event) => {
+  console.log('External stylesheet loaded:', event.detail.href);
 });
 ```
+
+:::info
+Register these listeners before Freeform requests the assets. Assets already present in its loader cache do not trigger a new loading cycle.
+
+These events are not cancelable and do not cover every script or stylesheet already included in your page.
+:::

@@ -179,7 +179,11 @@ Please see the [Template Overrides](../formatting/index.mdx#template-overrides) 
 
 ## Field Specific Properties
 
-Each field type has their own specific properties available to them. Some are more complex than others. To see all available properties, check out the [Fields documentation](../../forms/fields.mdx).
+Each field type exposes additional properties. See the **Templating** section for the relevant field in the [Fields documentation](../../forms/fields.mdx).
+
+These include configuration and translated interface labels for features such as searchable selects, international phone input, character counts, email suggestions, password toggles, upload requirements, and Summary fields.
+
+The Range Slider field uses `field.type == 'range'`, and the Summary field uses `field.type == 'summary'`.
 
 ## Methods
 
@@ -193,7 +197,7 @@ Renders only the field's label inside `<label>` HTML.
 
 ### `renderInput()`
 
-Renders only the field's `<input>` HTML.
+Renders the field's input or display markup, including the attributes required by its enabled features. Depending on the field type, this may be an `<input>`, `<textarea>`, `<select>`, or a more complex control.
 
 The single **Checkbox** field type has an additional `renderSingleInput()` method to render the checkbox input without an additional hidden input. However, this is available as a workaround for special use cases and could have negative consequences for most regular setups and flows.
 
@@ -201,9 +205,15 @@ The single **Checkbox** field type has an additional `renderSingleInput()` metho
 
 If instructions are present for the field, this renders only the field's instructions inside HTML.
 
-### `renderErrors()`
+### `renderErrors()`<Badge type="feature" text="Improved in 5.17+" />
 
-If errors are present for the field, this renders only the field's error message block inside HTML.
+Renders the field's validation error block when errors are present.
+
+:::info
+In Freeform 5.17+, the default AJAX renderer can reuse styling from the matching field-error block rendered by the formatting template. JavaScript overrides remain available for additional customization.
+
+See [AJAX Forms](../ajax.mdx) for styling behavior and override examples.
+:::
 
 ### `isValid()`
 
