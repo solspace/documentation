@@ -1,0 +1,147 @@
+---
+title: "Form Settings"
+sidebar_position: 2
+description: "Per-form settings reference for general options, data storage, processing, success behavior, limits, scheduling, embedding, and element usage."
+---
+
+import Player from 'react-player';
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+
+# Form Settings
+
+These settings apply to the form you are editing. Open **Settings** in the form builder and choose a section below. Site-wide defaults and builder preferences are documented separately in [Form Builder Settings](../../configuration/settings/form-builder.mdx).
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/builder-settings.mp4').default}
+  controls width="100%" height="100%"
+/>
+
+## General
+
+- **Form Name** - the name for your form to identify it easier.
+- **Form Handle** - the unique identifier for the form used in your regular templates calling the form.
+- **Form Type** - the type of form and its specialized behavior. See [Form Types](./managing-forms.mdx#form-types) for the available form types.
+- **Submission Title** - the variable(s) you place here will establish the title of each form submission to be displayed in the Submissions list.
+  - May include any token variables or Freeform field Twig variables (`fieldName`) as well as `form.name`, `form.id`, `form.handle` and `dateCreated` as long as they are wrapped in curly braces (`{{` and `}}`).
+- **Formatting Template** - if using the [render() method](../../templates/queries/form.mdx#automated-rendering-of-forms), this essentially allows you to "attach" a formatting template to a form so that you don't need to include formatting inside the template(s) you place the form inside.
+  - Select from an existing sample or custom template.
+- **Description** - a description for the form to store notes or help identify what it's used for, etc.
+- **Form Color** - used for form cards in the dashboard as well as features like charts in Freeform dashboard widgets.
+- **Form tag Attributes** - add any `<form>` tag attributes for the form here, e.g. `novalidate`, `data-my-attribute` and `autocomplete="on"`.
+
+
+## Data Storage
+
+- **Store Submitted Data for this Form** - allows you to specify whether the submission data for this form should be stored in the database.
+  - Typical use cases for not storing submission data on your site would be if you just wanted the [email notification](../email-notifications/index.mdx) and/or wanted the data submitted over to an [Email Marketing](../../integrations/index.mdx) or [CRM](../../integrations/index.mdx) integration.
+  - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../../configuration/gdpr-compliance.mdx) for more information.
+- **Default Status** - the default status to be used when users submit the form, unless overwritten at template level.
+  - See [Statuses](../../configuration/settings/statuses.mdx) documentation for managing statuses.
+- **Collect IP Addresses** - allows you to specify whether or not the form should collect IP addresses from submitters.
+  - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../../configuration/gdpr-compliance.mdx) for more information.
+- **Allow Users to Opt-in** - if enabled, it allows the submitter to choose whether or not they want their submission data stored on your site.
+  - **Opt-in Checkbox** - select a **Checkbox** fieldtype you want to be the designated opt-in field.
+  - If the user does NOT opt-in, Freeform will still send off data to [integrations](../../integrations/index.mdx) and [email notifications](../email-notifications/index.mdx).
+  - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../../configuration/gdpr-compliance.mdx) for more information.
+
+
+## Processing
+
+- **Use AJAX**
+  - Use built-in AJAX for this form when handling validation and submission of the form (as long as you're using standard template formatting - very custom formatting templates may not work properly).
+- **Focus First Error After Submit**<Badge type="feature" text="New in 5.17+" />
+  - After validation fails, move focus to the first visible field with an error, or to the error message if there are no field errors.
+- **Show Processing Indicator on Submit**
+  - Show 'processing' text on the submit button when the user submits the form until it finishes processing.
+- **Show Processing Text on Submit**
+  - Enabling this will change the submit button's label to the text of your choice.
+- **Show Processing Overlay on Submit**<Badge type="feature" text="New in 5.17+" />
+  - Dim the form and show a centered spinner and processing message while a submission is being processed.
+- **Processing Text**
+  - Text shown on the submit button or processing overlay when the form is processing.
+
+
+## Success & Errors<Badge type="feature" text="Improved in 5.15+" />
+
+:::tip
+[Check out the guide for setting up different Success return options](../../guides/guide/success-return-on-forms.mdx)
+:::
+
+- **Success Behavior** - set how you'd like the success return of this form to be handled. Some of these may also conflict with template-level approaches to controlling the form behavior, most typically [JS Overrides](../../templates/ajax.mdx).
+  - Options are:
+    - **Reload form with banner**
+      - Upon successful submit of the form, Freeform will reload the form again and display a success banner above the form.
+      - **Success Message**
+        - The text to be shown at the top of the form if the submit is successful (AJAX), or load in your template with `form.successMessage`.
+    - **Replace with success message**
+      - Upon successful submit of the form, Freeform will stay on the same page but replace the form contents with the contents of the _Success Template_ that you specify. Please note that this will not work when manually rendering form formatting directly inside a regular template (not using a [Formatting Template](../../templates/formatting/index.mdx)).
+      - **Success Template**
+        - Specify which [Success Template](../../configuration/settings/template-manager.mdx) you'd like to be used for this form.
+    - **Redirect to another URL**
+      - Upon successful submit of the form, Freeform will redirect the user to the URL specified in the _Return URL_ setting.
+      - **Return URL**
+        - The URL that the form will redirect to after successful submit.
+        - May contain:
+          - `form.handle` - handle of form.
+          - `submission.token` - secure token created for the submission.
+          - `submission.id` - newly created unique submission ID in the URL. This would allow you to use the [Submissions query](../../templates/queries/submissions.mdx) to display some or all of the users' submission on the success page.
+    - **Redirect to an entry**<Badge type="feature" text="New in 5.15+" />
+      - Upon successful submit of the form, Freeform will redirect the user to the URL path configured for the Craft Entry selected.
+      - **Redirect Entry**
+        - Select an entry for the user to be redirected to.
+- **Error Message**
+  - The text to be shown at the top of the form if there are any errors upon submit (AJAX), or load in your template with `form.errorMessage`.
+
+
+## Limits
+
+- **Duplicate Check**<Badge type="pro" text="Pro" />
+
+  - Allows you to limit the number of times a user can submit the form.
+  - Options are:
+    - _No restrictions_ (default)
+    - _Logged-in users — unlimited_
+    - _Logged-in users — once per form_
+    - _Anyone — once per email_
+      - This will check any _Email_ field type for a matching email address (across all Email fields if using more than one in the same form).
+    - _Anyone — once per user or cookie_
+    - _Anyone — once per user, IP, or cookie_
+
+- **Scope by Field**<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.17+" />
+  - For a once-only **Duplicate Check** mode, limit repeat submissions to the same value of a selected field, such as a product or entry ID.
+  - Leave blank for the existing form-wide restriction. Requires stored submissions and a nonempty scope value.
+  - See [Scoped Duplicate Checking](../../submissions/scoped-duplicate-checking.mdx) for supported fields, examples, and cookie behavior.
+
+- **Schedule Form** <span className="badge-group"><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></span><Badge type="feature" text="New in 5.17+" />
+  - Enable an opening date, an expiry date, or both. Turning this off ignores the saved dates without clearing them.
+  - **Schedule Start Date** - when the form becomes available, including the time. Leave blank for immediate availability.
+  - **Schedule End Date** - when the form expires, including the time. Leave blank for no expiry. Replaces **Stop Submissions After Date**; existing cutoffs keep their end-of-day behavior.
+  - **Pending Message** / **Expired Message** - the text shown instead of the form outside its scheduled period. Leave a message blank to hide the form without displaying text.
+  - Dates and times use the timezone shown beneath the controls. If both are set, the end must be after the start.
+  - See [Form Scheduling](../../submissions/form-scheduling.mdx) for rendering, custom Twig layouts, and API behavior.
+
+- **Limit Submissions** <span className="badge-group"><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></span><Badge type="feature" text="New in 5.17+" />
+  - Set a cap on stored submissions. Requires **Store Submitted Data** to be enabled.
+  - **Number of Submissions** - a whole number greater than zero; defaults to `50`.
+  - **Limit Period** - **Total**, **Per day**, **Per week**, **Per month**, or **Per year**. Calendar periods use Craft's timezone and configured week start; **Total** never resets.
+  - **Limit Reached Message** - shown instead of the form when full. Defaults to “Submission limit reached”; leave blank to hide the form without a message.
+  - Spam and deleted submissions do not count. Editing an existing submission does not use another slot.
+  - Template-level `submissionLimit` overrides take precedence. See [Limit Submissions](../../submissions/limiting-submissions.mdx) for counting rules, rendering, and compatibility with existing Twig examples.
+
+See [Submission Limits](../../submissions/overview.mdx#submission-limits) to compare total caps, duplicate checks, and scheduling.
+
+
+## Embed Form<Badge type="feature" text="New in 5.17+" />
+
+- The **Embed Forms** area provides code and guidance for displaying your form on a website. Copy the ready-to-use Twig snippet to render the form in a Craft template, or use the included guidance for formatting, dynamic data, success behavior, and spam protection.
+- With **Freeform Pro**, Craft administrators can also enable **Allow HTML Embeds** and copy a script tag to display the form on a standalone HTML page. The page must use the same protocol, hostname, and port as your Craft site. Embedded forms use the form's selected formatting template and support AJAX submissions, CSRF protection, and configured spam controls. See [Embedding forms in HTML pages](../../templates/html-embeds.mdx) documentation for more information.
+<br />
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/embed-html.jpg')}
+  alt="Embed Form in HTML page"
+/>
+
+
+## Usage in Elements<Badge type="feature" text="New in 5.7.2+" />
+
+The **Usage in Elements** tab displays a list of other Craft elements that use that form in the [Freeform Form element field type](../fieldtype.mdx) (Craft 5 only).

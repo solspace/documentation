@@ -1,0 +1,111 @@
+---
+title: "Connecting Integrations"
+sidebar_position: 3
+description: "Enable integrations for individual forms, configure mappings and conditional rules, and set up payments, captchas, analytics, and POST forwarding."
+---
+
+import Player from 'react-player';
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Connecting Integrations
+
+Use the form's **Integrations** tab to enable connections and map fields for that form. Only connections already configured in [Freeform Settings](../../configuration/settings/index.mdx) appear here.
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/builder-integrations.mp4').default}
+  controls width="100%" height="100%"
+/>
+
+## Enable an Integration for a Form
+
+<VerticalStepWrapper>
+<StepMarkdown>
+Configure and save the connection in **Freeform → Settings → Integrations**. See the [integration directory](../../integrations/index.mdx) for service-specific instructions.
+</StepMarkdown>
+<StepMarkdown>
+Open the form's **Integrations** tab and select the configured connection in the left column.
+</StepMarkdown>
+<StepMarkdown>
+Turn on **Use integration for this form**, then configure the available settings, field mappings, and conditions in the right column. Save the form.
+</StepMarkdown>
+</VerticalStepWrapper>
+
+## Captchas
+
+Enable the configured **reCAPTCHA**, **hCaptcha**, or **Cloudflare Turnstile** connection for the form, then review its available settings.
+
+Please see the [Spam Protection](../spam-protection.mdx) documentation guide for more information about this feature.
+
+## CRM & Email Marketing<Badge type="pro" text="Pro" />
+
+Select the configured connection and enable it for the form using the steps above. Available settings and field mappings differ between integrations.
+
+:::info
+If a previously mapped field has been deleted, its dropdown will be yellow and display **Mapped field no longer exists**. Select another field to restore the mapping, or choose **Do not map this field** to clear it.
+:::
+
+### Conditional Rules<Badge type="feature" text="New in 5.12+" /> {#crm-conditional-rules}
+
+Add conditional logic to your CRM and Email Marketing integrations to control **when** submission data is sent. Create rules based on other field values (e.g., send only if _Subscribe_ is checked or if _Country_ is `US`).
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-integration-rules.jpg')}
+  alt="Integration Conditional Rules settings in the form builder"
+/>
+
+## Payments<Badge type="pro" text="Pro" />
+
+If the **Stripe Payments** integration is available, click on it in the left column. Once loaded in the right column, toggle the **Use integration for this form** switch ON and proceed to configuring settings and field mapping as necessary. You will also need to add a [Stripe Payments](../fields/stripe-payment.mdx#stripe-payment) special field to the form layout.
+
+See the [Stripe Payments](../../integrations/stripe-payments.mdx) guide for complete setup.
+
+[Mollie](../../integrations/mollie.mdx) is also available. It redirects the submitter to a Mollie-hosted payment page and does not require a Mollie field in the form layout.
+
+## Elements<Badge type="pro" text="Pro" />
+
+This feature allows you to connect and map Freeform submission data to other Craft Elements such as [Craft Entries](https://craftcms.com/docs/5.x/reference/element-types/entries.html) and [Craft Users](https://craftcms.com/docs/5.x/reference/element-types/users.html). The possibilities are endless when you consider that it essentially allows you to easily create complex user registration forms or accept guest submitted content that maps to Craft entries for further management by site admins for publishing... or whatever else you can dream up!
+
+Select the configured Element connection and enable it for the form using the steps above, then configure its settings and field mappings.
+
+Please see the [Elements](../../integrations/elements.mdx) documentation for more information about this feature.
+
+### Conditional Rules<Badge type="feature" text="New in 5.12+" /> {#element-conditional-rules}
+
+Add conditional logic to your Element integrations to control **when** submission data is sent. Create rules based on other field values (e.g., send only if _Subscribe_ is checked or if _Country_ is `US`).
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-integration-rules.jpg')}
+  alt="Integration Conditional Rules settings in the form builder"
+/>
+
+## Google Tag Manager<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+
+This allows you to enable [Google Tag Manager](../../integrations/google-tag-manager.mdx) to push successful form submission events to the data layer (when AJAX is enabled).
+
+- **Event Name** - specify a custom event name that you wish to assign to a successful form submission.
+- **GTM Account ID** - add this to the main integration settings if you want Google Tag Manager scripts added to your page by Freeform. Leave blank if you are adding your own GTM scripts.
+
+:::tip
+[Need to customize what gets sent to the events? You can write your own JS and add an event listener in your template.](../../integrations/google-tag-manager.mdx#customizing)
+:::
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/gtm-2.png')}
+  alt="Google Tag Manager settings in the form builder"
+/>
+
+## POST Forwarding<Badge type="pro" text="Pro" />
+
+This allows your forms to automatically submit an extra POST to pass off submission data to an external API URL upon successful submit and validation of a form. This option is available for simpler and/or limited integrations as an alternative to our traditional [Email Marketing](../../integrations/index.mdx) and [CRM](../../integrations/index.mdx) integrations.
+
+- **URL** - if you need to have the POST data of this form submitted to an external API, provide that custom URL here.
+- **Error Trigger** - provide a keyword or phrase Freeform should check for in the output of the external POST URL to know if and when there's an error to log, e.g. `error` or `an error occurred`.
+- **Include Uploaded Files** - if files are present in the form submission, they will be attached to the payload and sent as multipart form data.
+
+Please see the [POST Forwarding](../../integrations/post-forwarding.mdx) documentation for more information about this feature.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/integrations/post-forwarding-builder.jpg')}
+  alt="Post Forwarding settings in the form builder"
+/>
