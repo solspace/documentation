@@ -7,7 +7,7 @@ description: Choose a Freeform formatting template, render a form, and find cust
 
 import Player from 'react-player';
 import { Badge } from '@site/src/components/utils';
-import { SettingsCards, IntegrationCards } from '@site/src/components/docs';
+import { SettingsCards, IntegrationCards, VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 import LegacyReferenceRedirect from '@site/src/components/docs/LegacyReferenceRedirect';
 import legacyAnchors from './legacy-anchors.json';
 
@@ -19,13 +19,22 @@ Formatting templates control how a Freeform form appears on your site. Start wit
 
 ## Render Your First Form
 
-1. Open the form builder and choose a **Formatting Template** in the form's settings.
-2. Save the form.
-3. Add this to the Craft Twig template where the form should appear, replacing `contact` with your form handle:
+<VerticalStepWrapper>
+<StepMarkdown>
+Open the form builder and choose a **Formatting Template** in the form's settings.
+</StepMarkdown>
+<StepMarkdown>
+Save the form, then check its appearance in the builder's [Preview tab](../../forms/builder/preview.mdx). Add your site's CSS or JavaScript under **Additional Preview Assets** when needed.
+</StepMarkdown>
+<StepMarkdown>
+Add this to the Craft Twig template where the form should appear, replacing `contact` with your form handle:
 
 ```twig
 {{ freeform.form('contact').render() }}
 ```
+
+</StepMarkdown>
+</VerticalStepWrapper>
 
 The form uses the template assigned in the builder. A formatting template can be shared across forms, and changing that assignment does not require editing the page template.
 

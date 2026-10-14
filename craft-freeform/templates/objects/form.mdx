@@ -74,17 +74,21 @@ In Freeform 5.17+, a form using **Scope by Field** checks for a duplicate of the
 
 ### `isAvailable()`<Badge type="feature" text="New in 5.17+" /> {#isavailable}
 
-Returns whether the form is currently available according to its [schedule](../../submissions/form-scheduling.mdx). Also accessible as `form.available`. Returns `true` when scheduling is disabled or no schedule boundary currently prevents availability. This does not check duplicate or total submission limits.
+Returns whether the form can be displayed according to its [schedule](../../submissions/form-scheduling.mdx) and enabled builder [submission limit](../../submissions/limiting-submissions.mdx). Also accessible as `form.available`. This does not check visitor duplicates. A template-only cap with the builder toggle off does not change this value; use `form.isSubmissionLimitReached()` for that check.
 
-```twig
-{% if form.isAvailable() %}
-    {{ form.render() }}
-{% elseif form.scheduleMessage %}
-    <p role="status">{{ form.scheduleMessage|nl2br }}</p>
-{% endif %}
-```
+`form.render()` handles schedules and enabled builder submission caps automatically. Use the availability check when writing your own layout with `form.renderTag()` and field helpers. Calling `form.render()` in the unavailable branch preserves the appropriate message, including intentionally blank messages. See the [custom layout example](../../submissions/limiting-submissions.mdx#rendering-in-twig).
 
-`form.render()` handles the schedule automatically. Use this explicit check when writing your own layout with `form.renderTag()` and field helpers.
+### `isSubmissionLimitReached()`<Badge type="feature" text="New in 5.17+" /> {#issubmissionlimitreached}
+
+Returns whether the effective submission cap is reached, using the builder settings or template overrides. Also accessible as `form.submissionLimitReached`. Returns `false` when no limit applies or when editing an existing submission. See [Limit Submissions](../../submissions/limiting-submissions.mdx).
+
+### `submissionLimitCount`<Badge type="feature" text="New in 5.17+" />
+
+Returns the stored submission count for the effective limit period, excluding spam and deleted submissions. Uses the all-time count when no limit applies. Unlike `freeform.submissionCount(form)`, this respects a configured calendar period.
+
+### `submissionLimitMessage`<Badge type="feature" text="New in 5.17+" />
+
+Returns the translated builder **Limit Reached Message**, or a `submissionLimitMessage` template override. Without the builder feature enabled, the default is “Submission limit reached”. This is the configured message, even before the cap is reached; check `form.isSubmissionLimitReached()` before displaying it manually. Treat it as plain text.
 
 ### `scheduleMessage`<Badge type="feature" text="New in 5.17+" />
 

@@ -10,8 +10,8 @@ Use render helpers when your layout needs more control than an assigned formatti
 
 Start with [Creating a Custom Formatting Template](../../guides/guide/custom-formatting-templates.mdx) when adapting a bundled template. For most styling changes, [Template Overrides](./overrides.mdx) are enough.
 
-:::info Scheduled forms
-In Freeform 5.17+, wrap a manually rendered form in a `form.isAvailable()` check and use `form.scheduleMessage` for its pending or expired message. Tag helpers do not hide an unavailable form automatically. Custom formatting templates called through `form.render()` already receive the schedule check. See [Form Scheduling](../../submissions/form-scheduling.mdx#rendering-in-twig) for a complete example.
+:::info Scheduled or full forms
+In Freeform 5.17+, wrap a manually rendered form in a `form.isAvailable()` check to respect schedules and enabled builder submission caps. Use `form.render()` in the unavailable branch to display the appropriate message. Tag helpers do not hide an unavailable form automatically. Custom formatting templates called through `form.render()` already receive these checks. See [Limit Submissions](../../submissions/limiting-submissions.mdx#rendering-in-twig) and [Form Scheduling](../../submissions/form-scheduling.mdx#rendering-in-twig) for complete examples.
 :::
 
 ## Render a Form with Helpers {#code-your-form-directly-in-the-template}

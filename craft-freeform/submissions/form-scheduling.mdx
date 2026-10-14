@@ -78,13 +78,14 @@ When calling `form.renderTag()` and field helpers directly in a page template, c
             </div>
         {% endfor %}
         {{ form.renderClosingTag() }}
-    {% elseif form.scheduleMessage %}
-        <p role="status">{{ form.scheduleMessage|nl2br }}</p>
+    {% else %}
+        {# Let Freeform choose the schedule or submission-limit message. #}
+        {{ form.render() }}
     {% endif %}
 {% endif %}
 ```
 
-The form query still returns the form outside its schedule. Opening and closing tag helpers do not hide it automatically. A custom formatting template called through `form.render()` already benefits from the automatic schedule check.
+The unavailable branch uses `form.render()` to preserve message priority and blank-message behavior, including when [Limit Submissions](./limiting-submissions.mdx) is also enabled. The form query still returns the form outside its schedule. Opening and closing tag helpers do not hide it automatically. A custom formatting template called through `form.render()` already benefits from the automatic schedule check.
 
 </TabItem>
 </Tabs>
@@ -93,13 +94,13 @@ The form query still returns the form outside its schedule. Opening and closing 
 
 | Twig expression | Returns |
 | --- | --- |
-| `form.isAvailable()` | Whether the schedule currently permits the form to be displayed. Also accessible as `form.available`. |
+| `form.isAvailable()` | Whether the schedule and enabled builder submission limit permit the form to be displayed. Also accessible as `form.available`. |
 | `form.scheduleMessage` | The translated pending or expired message, or an empty string while available. |
 | `form.settings.scheduleEnabled` | Whether scheduling is enabled. |
 | `form.settings.startSubmissionsAt` | The start date and time, or `null`. |
 | `form.stopSubmissionsAfter` | The end date and time, or `null`. Also available as `form.settings.stopSubmissionsAfter`. |
 
-Availability here refers to the schedule. [Duplicate checks and submission totals](./overview.mdx#submission-limits) are separate restrictions.
+`form.isAvailable()` also accounts for an enabled builder [submission cap](./limiting-submissions.mdx). Visitor [duplicate checks](./overview.mdx#duplicate-check) remain separate.
 
 ## Submission Validation and Headless Forms
 

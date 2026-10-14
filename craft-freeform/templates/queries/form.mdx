@@ -102,6 +102,20 @@ Once [Template Overrides](../formatting/overrides.mdx) have been implemented, yo
 }).render() }}
 ```
 
+### `submissionLimit` {#submissionlimit}
+
+Overrides the builder's **Limit Submissions** cap. A numeric value defaults to an all-time cap, even if the builder uses a calendar period. Pass `submissionLimitPeriod` with `total`, `day`, `week`, `month`, or `year` to choose the period explicitly. An explicit `submissionLimit: null` disables the cap for this form instance; `0` closes it. `submissionLimitMessage` overrides the message.
+
+```twig
+{{ freeform.form('registration', {
+    submissionLimit: 100,
+    submissionLimitPeriod: 'month',
+    submissionLimitMessage: 'Registration is full for this month.',
+}).render() }}
+```
+
+These options also work with `form.render()`. When the builder toggle is enabled, automatic rendering hides a full form. Template-only limits retain the original display behavior and require an explicit check to hide it. See [Limit Submissions](../../submissions/limiting-submissions.mdx#template-overrides-and-existing-examples) for details and compatibility with existing examples.
+
 ### `returnUrl`
 
 Overrides the return URL for the form. You can also override the return URL manually with a field input named `formReturnUrl`, allowing for a more dynamic return URL dependent on the user's choice or action, as long as you hash the value.

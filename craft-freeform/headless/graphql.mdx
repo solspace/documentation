@@ -106,6 +106,12 @@ Forms configured with **Scope by Field** enforce the same duplicate check in Gra
 
 See [Scoped Duplicate Checking](../submissions/scoped-duplicate-checking.mdx) for supported fields, storage requirements, and examples.
 
+### Limit Submissions<Badge type="feature" text="New in 5.17+" />
+
+An enabled builder submission cap also applies to new headless submissions in **Lite** and **Pro**. Freeform rejects submissions once the total or current calendar-period limit is reached, using the normal submission error response. Stored submissions are required; spam and deleted submissions are excluded, and edits to existing submissions do not consume another slot.
+
+Manifest requests still return form configuration. Handle the full-form display in your frontend; Twig's automatic limit-message rendering does not run for API requests. See [Limit Submissions](../submissions/limiting-submissions.mdx) for counting rules and periods.
+
 ### Form Scheduling<Badge type="feature" text="New in 5.17+" />
 
 The form's schedule also applies to GraphQL submission validation in **Lite** and **Pro**. Submissions outside the opening and expiry times are rejected. Manifest queries still return form configuration; custom frontends must handle their own availability display. See [Form Scheduling](../submissions/form-scheduling.mdx).

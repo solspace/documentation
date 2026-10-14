@@ -120,7 +120,15 @@ These settings apply to the form you are editing. Open **Settings** in the form 
   - Dates and times use the timezone shown beneath the controls. If both are set, the end must be after the start.
   - See [Form Scheduling](../../submissions/form-scheduling.mdx) for rendering, custom Twig layouts, and API behavior.
 
-Please see the [Submission Limits](../../submissions/overview.mdx#submission-limits) documentation for more information about available options, including setting limits for the entire form.
+- **Limit Submissions** <span className="badge-group"><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></span><Badge type="feature" text="New in 5.17+" />
+  - Set a cap on stored submissions. Requires **Store Submitted Data** to be enabled.
+  - **Number of Submissions** - a whole number greater than zero; defaults to `50`.
+  - **Limit Period** - **Total**, **Per day**, **Per week**, **Per month**, or **Per year**. Calendar periods use Craft's timezone and configured week start; **Total** never resets.
+  - **Limit Reached Message** - shown instead of the form when full. Defaults to “Submission limit reached”; leave blank to hide the form without a message.
+  - Spam and deleted submissions do not count. Editing an existing submission does not use another slot.
+  - Template-level `submissionLimit` overrides take precedence. See [Limit Submissions](../../submissions/limiting-submissions.mdx) for counting rules, rendering, and compatibility with existing Twig examples.
+
+See [Submission Limits](../../submissions/overview.mdx#submission-limits) to compare total caps, duplicate checks, and scheduling.
 
 
 ## Embed Form<Badge type="feature" text="New in 5.17+" />

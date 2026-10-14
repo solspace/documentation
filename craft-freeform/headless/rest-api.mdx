@@ -108,6 +108,12 @@ The form's **Duplicate Check** and **Scope by Field** settings also apply to hea
 
 For cookie-based modes, load the form before the first submission and retain the visitor cookie across requests. Cross-origin clients must send credentials and use matching CORS and cookie settings. Without the same cookie, requests cannot be recognized as the same guest browser. See [Scoped Duplicate Checking](../submissions/scoped-duplicate-checking.mdx) for configuration and limitations.
 
+### Limit Submissions<Badge type="feature" text="New in 5.17+" />
+
+An enabled builder submission cap also applies to new headless submissions in **Lite** and **Pro**. Freeform rejects submissions once the total or current calendar-period limit is reached, using the normal submission error response. Stored submissions are required; spam and deleted submissions are excluded, and edits to existing submissions do not consume another slot.
+
+Manifest requests still return form configuration. Handle the full-form display in your frontend; Twig's automatic limit-message rendering does not run for API requests. See [Limit Submissions](../submissions/limiting-submissions.mdx) for counting rules and periods.
+
 ### Form Scheduling<Badge type="feature" text="New in 5.17+" />
 
 Forms using **Schedule Form** reject submissions before their start or after their end time, including submissions from a form loaded while it was still open. The response uses the normal validation error structure. Scheduling is available in **Lite** and **Pro**.

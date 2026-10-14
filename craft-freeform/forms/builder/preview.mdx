@@ -1,0 +1,61 @@
+---
+title: Preview
+sidebar_position: 5
+description: Preview a saved Freeform form with its formatting template, device widths, page selection, and additional CSS and JavaScript assets.
+---
+
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+import { Badge } from '@site/src/components/utils';
+
+# Preview<Badge type="feature" text="New in 5.17+" />
+
+The **Preview** tab, at the end of the form builder's tabs, shows your saved form using its selected [formatting template](../../templates/formatting/index.mdx). Use it to check styling and layout at different widths without leaving the builder.
+
+## Preview a Form
+
+<VerticalStepWrapper>
+<StepMarkdown>
+Choose a **Formatting Template** in **Settings → General**, then save the form. Preview uses the saved version, including its fields, settings, and template selection.
+</StepMarkdown>
+<StepMarkdown>
+Open **Preview**. Choose **Desktop**, **Tablet**, or **Mobile** from **Viewport** to change the frame width. Desktop fills the available space; Tablet uses `768px` and Mobile uses `375px`.
+</StepMarkdown>
+<StepMarkdown>
+For a multi-page form, use **Page** to inspect each page. Make further changes in the builder, save, then click **Refresh Preview** to load them.
+</StepMarkdown>
+</VerticalStepWrapper>
+
+Preview renders the form inside an isolated frame. It works without enabling public [HTML embeds](../../templates/html-embeds.mdx). A notice identifies forms that are currently unavailable.
+
+The [Layout tab's preview](./layout.mdx#preview) remains the editing canvas for arranging fields. Use the **Preview** tab to see the formatting template's rendered appearance.
+
+## Additional Preview Assets
+
+Bundled Bootstrap, Foundation, Tailwind, and daisyUI templates automatically receive their framework assets. Custom templates need any stylesheets and scripts that your site layout would normally load. A custom template with the same filename as a bundled sample is still treated as custom.
+
+A Craft administrator can add these files under **Additional Preview Assets**:
+
+| Field | What to enter |
+| --- | --- |
+| **Stylesheet URLs (CSS)** | Direct absolute HTTPS URLs to CSS files, one per line. |
+| **Script URLs (JavaScript)** | Direct absolute HTTPS URLs to JavaScript files, one per line, in loading order. |
+
+For example, enter `https://example.com/assets/site.css` in the CSS field and `https://example.com/assets/site.js` in the JavaScript field. Enter file URLs rather than a webpage URL. Each field accepts up to 20 URLs; URLs cannot contain credentials or fragments.
+
+Save the form, then click **Refresh Preview** to apply asset changes. These settings are stored per form and affect only Preview. Your frontend still loads its assets through your normal site templates.
+
+### If Styles or Scripts Do Not Load
+
+External assets must allow anonymous cross-origin requests (**CORS**), even when hosted on your own site. Public static assets can use an `Access-Control-Allow-Origin: *` response header. Files that require a login or cookies will not load in the isolated frame.
+
+The frame also blocks external data requests and restricts other resources. Scripts that depend on browser storage, dynamic script imports, inline event handlers, or `eval()` may not work. Some imported stylesheets, remote images, and web fonts may be blocked. Check the browser console for the asset URL and the reason it was blocked.
+
+If the preview itself fails to load, confirm that the selected formatting template exists and that the asset URLs are valid, then save and refresh.
+
+## What to Test on Your Site
+
+Preview is for checking presentation. Submissions, uploads, payments, notifications, and integrations are disabled. For multi-page forms, use the page selector rather than the form's submit or back buttons.
+
+Test the actual embedded form on your site to verify validation, conditional behavior, page transitions, uploads, CAPTCHA and payment widgets, notifications, integrations, and success behavior. Preview does not reproduce your site's surrounding layout or every browser interaction.
+
+Use trusted assets and sample values in Preview. Scripts allowed into the frame can read values entered there. Custom Twig templates also execute on the server as they do on the frontend, so keep secrets and real submission data out of their rendered markup.

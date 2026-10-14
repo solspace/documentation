@@ -124,6 +124,12 @@ Outputs the option chosen for the **Duplicate Check** setting. You can run a con
 - `once_per_user_or_cookie`: _Anyone — once per user or cookie_
 - `once_per_user_or_ip_cookie`: _Anyone — once per user, IP, or cookie_
 
+### `submissionLimitEnabled` / `submissionLimit` / `submissionLimitPeriod` / `submissionLimitMessage`<Badge type="feature" text="New in 5.17+" /> {#submission-limits}
+
+The saved builder submission-limit settings, available as `form.settings.submissionLimitEnabled`, `form.settings.submissionLimit`, `form.settings.submissionLimitPeriod`, and `form.settings.submissionLimitMessage`. Defaults are `false`, `50`, `total`, and “Submission limit reached”. Period values are `total`, `day`, `week`, `month`, or `year`.
+
+These are the saved settings, rather than the effective values after template overrides. Use `form.isSubmissionLimitReached()`, `form.submissionLimitCount`, and `form.submissionLimitMessage` for runtime checks and translated output. See [Limit Submissions](../../submissions/limiting-submissions.mdx).
+
 ### `scheduleEnabled`<Badge type="feature" text="New in 5.17+" />
 
 Whether **Schedule Form** is enabled. Access as `form.settings.scheduleEnabled`. When disabled, saved start and end dates do not restrict availability.
