@@ -107,20 +107,24 @@ For **Singles**, the handles are:
 
 ### Template Overrides<Badge type="feature" text="New in 5.0+" />
 
-The form and each field have the ability to control **attributes**, **values** and more at the template level. Each one of them is entirely optional. There are several namespaces:
+Template overrides let you customize form and field attributes, values, and rendering. All overrides are optional.
 
-- `attributes` - whatever you specify here will be set as an attribute on the form.
-- `buttons` - controls the output of the [Submit button(s)](../../forms/fields.mdx#submit-buttons).
-- `fields` - controls the output of all [Fields](../../forms/fields.mdx).
-- `captchas` - add attributes to the main Captcha wrapper automatically inserted by Freeform when using [reCAPTCHA](../../integrations/recaptcha.mdx) or [hCaptcha](../../integrations/hcaptcha.mdx).
-- `tag` - a special attribute that allows you to change the default HTML tag for fields and form markup. [Learn more...](../formatting/index.mdx#overriding-html-tags)<Badge type="feature" text="New in 5.10+" />
+| Option | Purpose |
+|---|---|
+| `attributes` | Controls form-tag, row, and banner attributes. |
+| `buttons` | Controls [Submit button](../../forms/fields.mdx#submit-buttons) output. |
+| `fields` | Controls [field](../../forms/fields.mdx) values, attributes, and rendering. |
+| `captchas` | Adds attributes to the CAPTCHA wrapper automatically inserted by Freeform. |
+| `tag` | Changes supported HTML tags. [Learn more](../formatting/index.mdx#overriding-html-tags).<Badge type="feature" text="New in 5.10+" /> |
 
 :::info
-Please see the [Template Overrides](../../templates/formatting/index.mdx#template-overrides) documentation for detailed instructions.
+See [Template Overrides](../formatting/index.mdx#template-overrides) for syntax and examples.
+
+In Freeform 5.17+, the default AJAX renderer also uses banner attributes and field-error styling from compatible formatting templates. JavaScript overrides remain available for additional customization. See [AJAX Forms](../ajax.mdx) for details.
 :::
 
 :::tip
-[Need to pass a custom property to a formatting template, e.g. toggle display of the form title, etc?](../../guides/guide/passing-custom-property-to-formatting-template.mdx)
+Need to pass a custom value to your formatting template, such as whether to display the form title? See [Passing a Custom Property to a Formatting Template](../../guides/guide/passing-custom-property-to-formatting-template.mdx).
 :::
 
 ## Usage in Templates

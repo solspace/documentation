@@ -201,9 +201,15 @@ The single **Checkbox** field type has an additional `renderSingleInput()` metho
 
 If instructions are present for the field, this renders only the field's instructions inside HTML.
 
-### `renderErrors()`
+### `renderErrors()`<Badge type="feature" text="Improved in 5.17+" />
 
-If errors are present for the field, this renders only the field's error message block inside HTML.
+Renders the field's validation error block when errors are present.
+
+:::info
+In Freeform 5.17+, the default AJAX renderer can reuse styling from the matching field-error block rendered by the formatting template. JavaScript overrides remain available for additional customization.
+
+See [AJAX Forms](../ajax.mdx) for styling behavior and override examples.
+:::
 
 ### `isValid()`
 

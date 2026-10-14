@@ -392,9 +392,9 @@ Here's a breakdown:
           - `input` - applied to `<input>` (and `<select>`, etc) for all fields.
           - `label` - applied to `<label>` for all fields.
           - `instructions` - applied to instructions `<div>` for all fields.
-          - `errors` - applied to errors `<div>` for all fields.
+          - `error` - applied to the field's validation error block.
       - `":required"` - applied to all fields that are set to be required.
-      - `":errors"` - applied to all fields that trigger an error upon submit of the form (non-AJAX only).
+      - `":errors"` - applied to fields with validation errors. In Freeform 5.17+, the default AJAX renderer also mirrors supported error-state classes from the formatting template onto field containers, labels, and inputs.
       - `"@fieldtypename"` - applied to all fields of this type. Use the field type name prefixed with an `@` symbol. Specify multiples with a comma, e.g. `"@checkboxes, @radios"`.
         - `attributes`
           - `container` - applied to field wrapper `<div>` for all fields of this type.
@@ -403,7 +403,7 @@ Here's a breakdown:
           - `optionLabel` - applied to `<label>` for all options in _Checkboxes_, _Radios_, _Rating_ and _Opinion Scale_ fields.<Badge type="feature" text="New in 5.10+" />
           - `option` - applied to `<option>` for all options in _Dropdown_ and _Multi-Select_ fields.<Badge type="feature" text="New in 5.10+" />
           - `instructions` - applied to instructions `<div>` for all fields of this type.
-          - `errors` - applied to errors `<div>` for all fields of this type.
+          - `error` - applied to the field's validation error block.
         - `value` - override the default value for the specified field type(s).
         - `label` - override the field label for the specified field type(s).
         - `instructions` - override the field instructions for the specified field type(s).
@@ -418,7 +418,7 @@ Here's a breakdown:
           - `optionLabel` - applied to `<label>` for this specific field's options (applies to _Checkboxes_, _Radios_, _Rating_ and _Opinion Scale_ fields).<Badge type="feature" text="New in 5.10+" />
           - `option` - applied to `<option>` for this specific field's options (applies to _Dropdown_ and _Multi-Select_ fields).<Badge type="feature" text="New in 5.10+" />
           - `instructions` - applied to instructions `<div>` for this specific field handle.
-          - `errors` - applied to errors `<div>` for this specific field handle.
+          - `error` - applied to the field's validation error block.
         - `value` - override the default value for the specified field.
         - `label` - override the field label for the specified field.
         - `instructions` - override the field instructions for the specified field type.
@@ -685,8 +685,8 @@ The example below shows the hierarchy and behavior of each option.
 
 
 
-← Apply attributes to the success and error
-  banners (will not affect AJAX forms).
+← Apply attributes to the success and error banners.
+  Also used by the default AJAX renderer in 5.17+.
 
 
 
@@ -733,8 +733,8 @@ The example below shows the hierarchy and behavior of each option.
 
 
 
-← Apply attributes to fields when an error
-  is triggered for them. (affects non-AJAX forms).
+← Apply overrides to fields with validation errors.
+  Supported error-state classes also apply to AJAX in 5.17+.
 
 
 ← Target fields by interfaces they implement:
