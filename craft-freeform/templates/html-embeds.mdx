@@ -19,7 +19,7 @@ The HTML page and the selected Craft site must use the **same origin**: the same
 
 For example, a page at `https://example.com/landing.html` can embed a form served by `https://example.com`. A page on `https://www.example.com`, another subdomain, a different port, or an HTTP version of that site uses a different origin and cannot use this embed.
 
-Serve the HTML page through your website. Opening an HTML file directly from your computer does not meet this requirement. You do not need to enable Freeform’s headless API.
+Serve the HTML page through your website. Opening an HTML file directly from your computer does not meet this requirement. You do not need to enable Freeform's headless API.
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/cp/embed-html.jpg')}
@@ -86,7 +86,7 @@ Publish the page on the same origin as the selected Craft site, then load it in 
 
 The embed displays the form in an iframe and adjusts its height as the form changes. The surrounding page's styles do not automatically apply inside the iframe. Craft renders the form using its selected **Formatting Template**. The bundled Bootstrap, Foundation, and Tailwind templates load their corresponding framework assets in the embedded page.
 
-See [Formatting Templates](./templates/formatting/) and [Creating a Custom Formatting Template](../guides/guide/custom-formatting-templates/) for customization options.
+See [Formatting Templates](./formatting/index.mdx) and [Creating a Custom Formatting Template](../guides/guide/custom-formatting-templates.mdx) for customization options.
 
 :::warning
 Custom formatting templates do not receive framework assets automatically, regardless of their filename. You may need to include the styles and scripts directly in a custom template, and test it in the embed.
@@ -96,7 +96,7 @@ Custom formatting templates do not receive framework assets automatically, regar
 
 Embedded forms use AJAX submission automatically, including forms whose **Use AJAX** setting is otherwise disabled. Craft handles the form's validation, CSRF protection, and configured spam controls inside the iframe.
 
-For the smoothest experience, choose **Reload form with banner** or **Replace with success message** under **Settings → Success & Errors**. See [Success Return on Forms](../guides/guide/success-return-on-forms/) for the available options.
+For the smoothest experience, choose **Reload form with banner** or **Replace with success message** under **Settings → Success & Errors**. See [Success Return on Forms](../guides/guide/success-return-on-forms.mdx) for the available options.
 
 :::info
 If you choose a redirect, it will open *inside* the embedded form rather than navigating the whole HTML page.
@@ -110,7 +110,7 @@ For a page rendered by Craft, you can use the separate **Twig code** provided in
 {{ freeform.form("contact").render() }}
 ```
 
-Replace `contact` with your form's handle. Twig rendering does not require **Allow HTML Embeds** to be enabled and renders the form directly in your page. Use [Template Overrides](./templates/formatting/#template-overrides) when you need to customize a Twig placement or pass values to it.
+Replace `contact` with your form's handle. Twig rendering does not require **Allow HTML Embeds** to be enabled and renders the form directly in your page. Use [Template Overrides](./formatting/index.mdx#template-overrides) when you need to customize a Twig placement or pass values to it.
 
 ## Disable an Embed
 
@@ -161,7 +161,7 @@ If you're experiencing any issues, please check out the diagnostic steps below.
   <details>
     <summary>A submission fails</summary>
     <AnswerCard>
-      Check the browser console and network responses, then follow [Troubleshooting Form Issues](../guides/guide/troubleshooting-form-issues/).
+      Check the browser console and network responses, then follow [Troubleshooting Form Issues](../guides/guide/troubleshooting-form-issues.mdx).
     </AnswerCard>
   </details>
 </div>
