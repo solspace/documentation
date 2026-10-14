@@ -1828,6 +1828,12 @@ The following is a basic example of what your formatting template can look like 
 
 Form formatting can also be extremely manual, if that is something you prefer. Here's an example of different levels of manual you can use:
 
+:::info
+When customizing the surrounding markup, use `field.renderInput()` to retain Freeform's generated control and feature attributes. This supports features such as searchable selects, international phone input, character counts, auto-growing textareas, email suggestions, password toggles, upload requirements, and live summaries.
+
+If you write the control markup yourself, those features require their corresponding attributes and structure. See each field's **Templating** and customization sections in the [Fields documentation](../../forms/fields.mdx).
+:::
+
 ```twig showLineNumbers
 {% set form = freeform.form("myForm") %}
 

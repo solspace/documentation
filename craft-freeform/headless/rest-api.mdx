@@ -231,6 +231,32 @@ If the profile sets `requiresSignedToken: true`, include a non-empty token via:
 
 Cryptographic verification of that token is planned; until then Freeform **requires the token to be present** so the flag is not a silent no-op.
 
+## Field Configuration<Badge type="feature" text="Improved in 5.17+" />
+
+The manifest includes field-specific settings under `fields.{handle}.frontend.config`. The official React and Vue renderers use these settings to provide the corresponding controls.
+
+| Field or feature | Configuration keys | Purpose |
+|---|---|---|
+| Range Slider | `min`, `max`, `step` | Slider bounds and increment. Its starting value is provided separately as `field.defaultValue`. |
+| Summary | `fields`, `hideEmpty`, `emptyValue`, `checkedLabel`, `uncheckedLabel`, `filesLabel` | Source field handles, empty-answer behavior, and translated display labels. |
+| Searchable Dropdown and Multiple Select | `searchable` | An object containing `enabled`, `placeholder`, `noResults`, `toggleLabel`, `resultsLabel`, and `removeLabel`. |
+| Text and Textarea character counts | `showCharacterCount`, `characterCountMessages` | Enables the counter and supplies translated `count` and `limit` messages. The character limit is provided as `field.validation.maxLength`. |
+| Auto-growing Textarea | `autoGrow`, `autoGrowMaxHeight` | Enables automatic resizing and optionally limits its height in pixels. |
+| Email suggestions | `suggestEmailCorrections`, `emailSuggestionLabels` | Enables suggestions and supplies translated `message` and `action` labels. |
+| Password toggle | `showPasswordToggle`, `passwordToggleLabels` | Enables the visibility toggle and supplies translated `show` and `hide` labels. |
+| International Phone | `international`, `defaultCountry`, `allowedCountries`, `examples`, `labels` | Enables international input and supplies the initial country, an array of allowed country codes, example numbers, and translated country-selector labels. |
+| File Upload and File Upload Drag & Drop | `uploadRequirements` | Translated requirements text, included when **Show Upload Requirements** is enabled. |
+
+Optional feature keys may be omitted when the feature is disabled or its setting is unset. Custom renderers must implement the behavior represented by these settings.
+
+Browser autofill is provided separately as `fields.{handle}.attributes.input.autocomplete`. A custom `autocomplete` input attribute takes precedence over the **Browser Autofill** setting.
+
+:::info
+Headless forms use their own themes and renderers. Twig formatting-template styling and JavaScript Plugin overrides do not automatically apply.
+
+The form builder's processing overlay and focus-first-error settings are not currently included in the headless manifest. Implement these behaviors in your front end when needed.
+:::
+
 ## CORS and credentials
 
 Browser apps that call Craft on another origin must:
@@ -260,7 +286,8 @@ Manifests include:
 }
 ```
 
-`pluginVersion` matches Freeform. `minimumClientVersion` is the oldest npm client line the plugin expects to work with.
+- `pluginVersion` matches Freeform.
+- `minimumClientVersion` identifies the oldest compatible npm client version. Use that version or newer.
 
 ## Next steps
 

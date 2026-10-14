@@ -64,6 +64,10 @@ The field name of the Opt-in Checkbox, if applicable.
 
 A bool variable, which will be `1` if the form has the built-in AJAX setting enabled.
 
+### `focusFirstError`<Badge type="feature" text="New in 5.17+" />
+
+A boolean indicating whether **Focus First Error After Submit** is enabled. After validation fails, Freeform focuses the first visible field with an error, or the error banner when no field can be focused.
+
 ### `showProcessingSpinner`<Badge type="feature" text="Renamed in 5.0+" />
 
 A bool variable, which will be `1` if the form has the **Show Processing Indicator on Submit** setting enabled.
@@ -72,17 +76,22 @@ A bool variable, which will be `1` if the form has the **Show Processing Indicat
 
 A bool variable, which will be `1` if the form has the **Show Processing Text** setting enabled.
 
-### `processingText`<Badge type="feature" text="Renamed in 5.0+" />
+### `showProcessingOverlay`<Badge type="feature" text="New in 5.17+" />
 
-Outputs the custom processing text configured for your form inside the form builder, e.g. `Processing...`.
+A boolean indicating whether **Show Processing Overlay on Submit** is enabled. The overlay dims the form and displays a centered spinner and processing message while the submission is being processed.
 
-### `successBehavior`
+### `processingText`<Badge type="feature" text="Improved in 5.17+" />
+
+The processing message configured in the form builder. Used by the submit button when **Show Processing Text on Submit** is enabled and by the overlay when **Show Processing Overlay on Submit** is enabled.
+
+### `successBehavior`<Badge type="feature" text="Improved in 5.15+" />
 
 The chosen behavior to happen after handling the successful submit of the form. Options are:
 
 - `reload` - Reload form with banner
 - `load-success-template` - Replace with success message
 - `redirect-return-url` - Redirect to another URL
+- `redirect-entry` — Redirect to a Craft entry.<Badge type="feature" text="New in 5.15+" />
 
 ### `returnUrl`
 

@@ -1783,6 +1783,30 @@ Default labels are translatable. Manually rendered selects can provide custom wo
 
 Keep `{count}` in the results message. The original select remains responsible for submitted values. Custom templates must load Freeform's JavaScript and searchable-select styles.
 </details>
+<details className="hidden-heading">
+<summary>Templating<Badge type="feature" text="New in 5.17+" /></summary>
+
+| Property | Description |
+|---|---|
+| `field.enableSearch` | Whether **Enable Search** is enabled for the field. |
+| `field.searchableConfig` | The search configuration, including its enabled state and translated interface labels. |
+
+The `searchableConfig` object contains:
+
+| Key | Description |
+|---|---|
+| `enabled` | Whether the searchable control is enabled. |
+| `placeholder` | Placeholder text for the search input. |
+| `noResults` | Message displayed when no options match. |
+| `toggleLabel` | Accessible label for the button that opens the options. |
+| `resultsLabel` | Results announcement containing the `{count}` placeholder. |
+| `removeLabel` | Label for removing a selected option in Multiple Select fields, containing the `{label}` placeholder. |
+
+Use `field.render()` or `field.renderInput()` to generate the `data-freeform-searchable` configuration automatically when search is enabled.
+
+The underlying select remains responsible for submitted values. When manually rendering a Multiple Select field, preserve its `multiple` attribute and array-style input name.
+
+</details>
 
 ## Email<Badge type="feature" text="Revised in 5.0+, Improved in 5.17+" />
 
@@ -1837,7 +1861,14 @@ The generated elements use `.freeform-email-suggestion` and `.freeform-email-sug
 <details className="hidden-heading">
 <summary>Templating</summary>
 
-- `notificationId` (the ID of the assigned email notification template)
+| Property | Description |
+|---|---|
+| `field.notificationId` | The ID of the assigned email notification template. |
+| `field.browserAutofill`<Badge type="feature" text="New in 5.17+" /> | The configured HTML `autocomplete` value. An empty string uses the browser default. |
+| `field.suggestEmailCorrections`<Badge type="feature" text="New in 5.17+" /> | Whether **Suggest Email Corrections** is enabled. |
+| `field.emailSuggestionLabels`<Badge type="feature" text="New in 5.17+" /> | Translated interface labels: `message`, containing the `{suggestion}` placeholder, and `action`, the label for accepting a suggestion. |
+
+Use `field.render()` or `field.renderInput()` to generate the attributes needed for browser autofill and email suggestions automatically. Suggested corrections only change the address when the visitor accepts them.
 
 </details>
 
@@ -1875,12 +1906,28 @@ A regular file upload field, using [Craft Assets](https://craftcms.com/docs/5.x/
 
 </details>
 <details className="hidden-heading">
-<summary>Templating</summary>
+<summary>Templating<Badge type="feature" text="Improved in 5.17+" /></summary>
 
-- `fileKinds` (an array of allowed file kinds, e.g. `image`, `document`, `audio`, etc.)
-- `maxFileSizeKB` (the numeric representation of the upload limit in kilobytes.)
-- `fileCount` (the maximum number of allowed files to be uploaded.)
-  - A number larger than `1` will allow multiple files to be uploaded at the same time.
+| Property | Description |
+|---|---|
+| `field.fileKinds` | An array of allowed file kinds, such as `image`, `document`, or `audio`. |
+| `field.maxFileSizeKB` | The maximum permitted size of each file, in kilobytes. |
+| `field.fileCount` | The maximum number of files allowed. A value greater than `1` permits multiple files. |
+| `field.showUploadRequirements`<Badge type="feature" text="New in 5.17+" /> | Whether **Show Upload Requirements** is enabled. |
+| `field.uploadRequirementsText`<Badge type="feature" text="New in 5.17+" /> | The translated requirements text, including allowed file kinds, maximum file count, and maximum size per file. Returns an empty string when requirements are disabled. |
+
+The `field.renderUploadRequirements()` method renders the requirements as an HTML block.
+
+By default, `field.render()` and `field.renderInput()` include this block automatically when **Show Upload Requirements** is enabled.
+
+To position the requirements separately, disable their automatic placement and render the block where needed:
+
+```twig
+{{ field.renderInput({ uploadRequirementsInInput: false }) }}
+{{ field.renderUploadRequirements() }}
+```
+
+Keep **Show Upload Requirements** enabled. The generated input retains its `aria-describedby` reference to the requirements block.
 
 </details>
 <details className="hidden-heading">
@@ -1983,12 +2030,28 @@ An advanced premium javascript-based file uploading field, using [Craft Assets](
 
 </details>
 <details className="hidden-heading">
-<summary>Templating</summary>
+<summary>Templating<Badge type="feature" text="Improved in 5.17+" /></summary>
 
-- `fileKinds` (an array of allowed file kinds, e.g. `image`, `document`, `audio`, etc.)
-- `maxFileSizeKB` (the numeric representation of the upload limit in kilobytes.)
-- `fileCount` (the maximum number of allowed files to be uploaded.)
-  - A number larger than `1` will allow multiple files to be uploaded at the same time.
+| Property | Description |
+|---|---|
+| `field.fileKinds` | An array of allowed file kinds, such as `image`, `document`, or `audio`. |
+| `field.maxFileSizeKB` | The maximum permitted size of each file, in kilobytes. |
+| `field.fileCount` | The maximum number of files allowed. A value greater than `1` permits multiple files. |
+| `field.showUploadRequirements`<Badge type="feature" text="New in 5.17+" /> | Whether **Show Upload Requirements** is enabled. |
+| `field.uploadRequirementsText`<Badge type="feature" text="New in 5.17+" /> | The translated requirements text, including allowed file kinds, maximum file count, and maximum size per file. Returns an empty string when requirements are disabled. |
+
+The `field.renderUploadRequirements()` method renders the requirements as an HTML block.
+
+By default, `field.render()` and `field.renderInput()` include this block automatically when **Show Upload Requirements** is enabled.
+
+To position the requirements separately, disable their automatic placement and render the block where needed:
+
+```twig
+{{ field.renderInput({ uploadRequirementsInInput: false }) }}
+{{ field.renderUploadRequirements() }}
+```
+
+Keep **Show Upload Requirements** enabled. The generated input retains its `aria-describedby` reference to the requirements block.
 
 </details>
 <details className="hidden-heading">
@@ -2330,6 +2393,30 @@ Default labels are translatable. Manually rendered selects can provide custom wo
 Keep `{label}` in the removal label and `{count}` in the results message. Preserve the `multiple` attribute and the field's expected input name. Custom templates must load Freeform's JavaScript and searchable-select styles.
 
 </details>
+<details className="hidden-heading">
+<summary>Templating<Badge type="feature" text="New in 5.17+" /></summary>
+
+| Property | Description |
+|---|---|
+| `field.enableSearch` | Whether **Enable Search** is enabled for the field. |
+| `field.searchableConfig` | The search configuration, including its enabled state and translated interface labels. |
+
+The `searchableConfig` object contains:
+
+| Key | Description |
+|---|---|
+| `enabled` | Whether the searchable control is enabled. |
+| `placeholder` | Placeholder text for the search input. |
+| `noResults` | Message displayed when no options match. |
+| `toggleLabel` | Accessible label for the button that opens the options. |
+| `resultsLabel` | Results announcement containing the `{count}` placeholder. |
+| `removeLabel` | Label for removing a selected option in Multiple Select fields, containing the `{label}` placeholder. |
+
+Use `field.render()` or `field.renderInput()` to generate the `data-freeform-searchable` configuration automatically when search is enabled.
+
+The underlying select remains responsible for submitted values. When manually rendering a Multiple Select field, preserve its `multiple` attribute and array-style input name.
+
+</details>
 
 ## Number
 
@@ -2488,6 +2575,18 @@ The **Show password** and **Hide password** labels are translatable and used for
 ```
 
 </details>
+<details className="hidden-heading">
+<summary>Templating<Badge type="feature" text="New in 5.17+" /></summary>
+
+| Property | Description |
+|---|---|
+| `field.browserAutofill` | The configured HTML `autocomplete` value, such as `current-password` or `new-password`. An empty string uses the browser default. |
+| `field.showPasswordToggle` | Whether **Show Password Toggle** is enabled. |
+| `field.passwordToggleLabels` | Translated toggle labels: `show` for revealing the password and `hide` for concealing it. |
+
+Use `field.render()` or `field.renderInput()` to generate the attributes needed for browser autofill and the password visibility toggle automatically.
+
+</details>
 <details>
 <summary>View Important Notes...</summary>
 
@@ -2523,9 +2622,25 @@ Valid numbers are saved in **E.164 format**, including the country code—for ex
 
 </details>
 <details className="hidden-heading">
-<summary>Templating</summary>
+<summary>Templating<Badge type="feature" text="New in 5.17+" /></summary>
 
-- `pattern`
+| Property | Description |
+|---|---|
+| `field.browserAutofill` | The configured HTML `autocomplete` value. An empty string uses the browser default. |
+| `field.international` | Whether **Use International Phone Input** is enabled. |
+| `field.defaultCountry` | The configured default country code, such as `US` or `CA`. |
+| `field.allowedCountries` | The configured comma-separated country codes. An empty string allows all supported countries. |
+| `field.allowedCountryCodes` | An array of supported country codes after normalizing and filtering the configured list. |
+| `field.initialCountryCode` | The default country if allowed, otherwise the first allowed country. Returns `null` if no valid countries remain. |
+| `field.internationalConfig` | Configuration for the international phone control, including the initial country, allowed countries, example numbers, and translated interface labels. |
+| `field.pattern` | The translated validation pattern, or `null` when no pattern is configured or international mode is enabled. |
+| `field.useJsMask` | Whether built-in JavaScript pattern masking is enabled. Always returns `false` in international mode. |
+
+Use `field.render()` or `field.renderInput()` to generate the attributes needed for browser autofill, international phone input, or pattern masking automatically.
+
+:::info
+International phone input replaces pattern validation and masking. Its `internationalConfig` object contains `international`, `defaultCountry`, `allowedCountries`, `examples`, and `labels`. The translated label keys are `country`, `search`, and `empty`.
+:::
 
 </details>
 <details className="hidden-heading">
@@ -2974,6 +3089,32 @@ For more control over label and instruction placement:
 ```
 
 The render helpers retain the Summary data attributes and standard field container attributes needed for live updates and conditional visibility. Add custom styling through CSS rather than replacing the generated answer markup.
+
+</details>
+<details className="hidden-heading">
+<summary>Templating</summary>
+
+| Property | Description |
+|---|---|
+| `field.sourceFields` | An array of supported field objects preceding the Summary, filtered by **Included Field Handles** and kept in form order. |
+| `field.summaryConfig` | The Summary configuration, including source field handles, empty-answer behavior, and translated display labels. |
+
+The `summaryConfig` object contains:
+
+| Key | Description |
+|---|---|
+| `fields` | An array of source field handles. |
+| `hideEmpty` | Whether **Hide Empty Fields** is enabled. |
+| `emptyValue` | The translated text for unanswered fields, normally `Not answered`. |
+| `checkedLabel` | The translated text for checked checkboxes, normally `Yes`. |
+| `uncheckedLabel` | The translated text for unchecked checkboxes, normally `No`. |
+| `filesLabel` | The translated label for uploaded files, normally `Files`. |
+
+Use `field.render()` or `field.renderInput()` to generate the Summary markup and data attributes needed for live updates.
+
+:::info
+`field.sourceFields` lists eligible source fields before conditional visibility and empty-answer filtering. Use Freeform's generated Summary output to apply those rules when displaying answers.
+:::
 
 </details>
 <details>
@@ -3564,6 +3705,18 @@ The default messages `{count} characters` and `{count} / {limit} characters` are
 Keep `{count}` and `{limit}` as placeholders; Freeform replaces them with the current values. The over-limit color applies when the count **exceeds** the maximum, rather than when it reaches it.
 
 </details>
+<details className="hidden-heading">
+<summary>Templating<Badge type="feature" text="New in 5.17+" /></summary>
+
+| Property | Description |
+|---|---|
+| `field.browserAutofill` | The configured HTML `autocomplete` value, such as `given-name` or `email`. An empty string means use the browser default. |
+| `field.showCharacterCount` | Whether the live character count is enabled. |
+| `field.characterCountMessages` | An object containing the translated `count` and `limit` message formats, including their `{count}` and `{limit}` placeholders. |
+
+Use `field.render()` or `field.renderInput()` to generate the attributes needed by Freeform's JavaScript automatically.
+
+</details>
 
 ## Textarea<Badge type="feature" text="Improved in 5.17+" />
 
@@ -3626,6 +3779,20 @@ The default messages `{count} characters` and `{count} / {limit} characters` are
 ```
 
 Keep `{count}` and `{limit}` as placeholders; Freeform replaces them with the current values. The over-limit color applies when the count **exceeds** the maximum, rather than when it reaches it.
+
+</details>
+<details className="hidden-heading">
+<summary>Templating<Badge type="feature" text="New in 5.17+" /></summary>
+
+| Property | Description |
+|---|---|
+| `field.browserAutofill` | The configured HTML `autocomplete` value. An empty string means use the browser default. |
+| `field.showCharacterCount` | Whether the live character count is enabled. |
+| `field.characterCountMessages` | An object containing the translated `count` and `limit` message formats, including their `{count}` and `{limit}` placeholders. |
+| `field.autoGrow` | Whether the textarea automatically grows to fit its contents. |
+| `field.autoGrowMaxHeight` | The maximum automatic height in pixels, or `null` when no limit is configured. |
+
+Use `field.render()` or `field.renderInput()` to generate the attributes needed for character counting and automatic height adjustment.
 
 </details>
 

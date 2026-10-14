@@ -1,86 +1,146 @@
 ---
 sidebar_position: 6
 title: Demo Templates
-description: Quickly install Freeform demo templates in Craft CMS to explore real-world examples, get a fully functioning demo area, and learn template code faster.
+description: Install Freeform demo templates in Craft CMS to preview forms, compare layouts, explore submissions, and learn from working examples.
 ---
 
-import Player from 'react-player';
-import { Photo, Badge, BadgeGroup } from '@site/src/components/utils';
+import { Photo, Badge } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
 # Demo Templates<Badge type="feature" text="Improved in 5.17+" />
 
-Freeform includes a complete set of demo templates. These demo templates let you have a fully functioning area on your website with just a couple clicks! Further to this, it allows you to see real world examples of the template code in action, which will help you get acquainted with Freeform quicker.
+Freeform includes demo templates you can install on your site to preview existing forms, compare formatting templates, explore submissions, and try customization examples.
 
-:::tip
-[Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.
-](../guides/guide/troubleshooting-form-issues.mdx)
-:::
-
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/demo-templates.jpg')}
-  alt="Demo Templates"
-/>
-
-:::youtube[bxJtIZNAIoU]
+:::info
+In Freeform 5.17+, the demos feature refreshed navigation and styling, including Tailwind 4, Bootstrap 5, and daisyUI 5 layouts.
 :::
 
 ## Installing the Demo Templates
 
-To install the Demo Templates, simply visit the **Settings** page for Freeform and click on the **Demo Templates** nav item (**Freeform → Settings → Demo Templates**).
+<VerticalStepWrapper>
+  <StepMarkdown>
+    Open **Freeform → Settings → Demo Templates**.
+  </StepMarkdown>
+  <StepMarkdown>
+    Enter an **Install Path**, or keep the default `freeform-demo`.
+  </StepMarkdown>
+  <StepMarkdown>
+    Click **Install**.
+  </StepMarkdown>
+  <StepMarkdown>
+    Visit your site's `/freeform-demo/` URL, replacing `freeform-demo` with your chosen path.
+  </StepMarkdown>
+</VerticalStepWrapper>
 
-By default, the Demo Templates page will have **freeform-demo** as the _Install Path_ for your template path. You can change this to whatever you like. So for example, if you set the _Install Path_ value as `freeform-demo`, the demo templates will be installed to `site.com/freeform-demo/`.
+The installer copies the bundled templates and assets and creates the routes needed by the demos.
 
-During installation of demo templates, Freeform will copy the template folders and files (as shown on page) to the Craft **/templates/** directory. So using the above example, your templates would be located at `/templates/freeform-demo/`.
+With the default install path, the locations are:
 
-Freeform will also look for an **assets** folder in your **public** directory and attempt to load files such as CSS, JS, fonts and image files (as shown on page) to a folder inside that, named `freeform-demo` (using the example above). If an **/assets/** directory does not exist, Freeform will attempt to create that directory as well.
+| Item | Location |
+|---|---|
+| Twig templates | `templates/freeform-demo/` |
+| Public assets | `assets/freeform-demo/` inside your site's public directory |
+| Demo URL | `https://example.com/freeform-demo/` |
 
-And lastly, Freeform will create several template routes for you (as shown on page) for the demo templates to work correctly.
+Freeform creates the asset directory if it does not already exist. The installation page lists the files and routes it will install.
 
-If you ever want to refresh the demo templates back to what they were by default (or if there's been an update to them in a new version), you can simply reinstall the Demo Templates and use the same _Install Path_ value. Freeform will then overwrite the files and only add new routes (if applicable), rather than installing duplicate routes.
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/configuration/demo-templates.jpg')}
+  alt="Freeform Demo Templates installation page"
+/>
 
-If you encounter any issues while attempting to install the demo templates, please see the [Troubleshooting](#troubleshooting) guide below.
+## Exploring the Demos
+
+Select a form and formatting template to preview your existing forms in different layouts.
+
+| Section | Purpose |
+|---|---|
+| **Forms** | Preview forms using the bundled formatting templates. |
+| **Submissions** | Explore examples of displaying submission data. |
+| **Custom** | Preview a form using its assigned formatting template. |
+| **Extras** | Try examples of custom rendering, AJAX behavior, and other template techniques. |
+
+The installed Twig files provide working examples you can inspect and adapt for your own site.
 
 :::tip
-[How do I completely uninstall / remove the demo templates when done?](../guides/guide/remove-demo-templates.mdx)
+Having trouble with a form's appearance, behavior, or submission? See [Troubleshooting Form Issues](../guides/guide/troubleshooting-form-issues.mdx).
 :::
+
+## Updating or Reinstalling
+
+After upgrading Freeform, reinstall the demos using the same **Install Path** to receive the latest demo files. The installer replaces existing demo files and adds any missing routes.
+
+:::warning
+Back up any changes you have made to the installed demo files before reinstalling.
+:::
+
+To remove the demos when you no longer need them, follow [Removing Demo Templates](../guides/guide/remove-demo-templates.mdx).
 
 ## Troubleshooting
 
-If you encounter any issues trying to install the demo templates, it's likely that your database user does not have sufficient privileges or your server configuration does not allow some or all of the actions.
+If installation fails, check the error displayed on the installation page. Common causes include:
 
-If you cannot change or adjust your permissions or configuration, you can install the demo templates manually. To install them manually, refer to the [Manual Install](#manual-install) instructions below.
+- The server cannot write to the Craft template directory or public asset directory.
+- Your Craft configuration prevents administrative changes.
+- Craft cannot save the required routes.
+
+Resolve the relevant permissions or configuration issue, then retry installation. If automatic installation is unavailable, use the [Manual Install](#manual-install) instructions below.
 
 ## Manual Install
 
-To install the demo templates manually, just follow the instructions below:
+These instructions use `demo` as the template folder, asset folder, and URL prefix.
 
-1. Inside the `/vendor/solspace/craft-freeform/packages/plugin/src/codepack/` directory, copy the **templates** folder into the Craft `/templates/` directory, and rename the Freeform **templates** folder to **demo** (so it should now be located at `/templates/demo/`).
-2. In your root public directory, create a directory called **assets** if it does not already exist.
-3. Inside the `/vendor/solspace/craft-freeform/packages/plugin/src/codepack/` directory, copy the **assets** folder into the public `/assets/` directory, and rename the Freeform **assets** folder to **demo** (so it should now be located at `/assets/demo/`).
-4. Copy and paste the following routes into your _routes.php_ configuration file (`/config/routes.php`):
+<VerticalStepWrapper>
+  <StepMarkdown>
+    ### Copy the Templates and Assets
 
-```php showLineNumbers
-'demo/templates/<*:[^\/]+>' => ['template' => 'demo/templates'],
-'demo/templates/<*:[^\/]+>/<*:[^\/]+>' => ['template' => 'demo/templates/form'],
-'demo/templates/<*:[^\/]+>/<*:[^\/]+>/edit/<*:[^\/]+>' => ['template' => 'demo/templates/form'],
-'demo/submissions/<*:[^\/]+>' => ['template' => 'demo/submissions'],
-'demo/submissions/<*:[^\/]+>/spam' => ['template' => 'demo/submissions'],
-'demo/submissions/<*:[^\/]+>/<*:[^\/]+>' => ['template' => 'demo/submissions/view'],
-'demo/submissions/<*:[^\/]+>/<*:[^\/]+>/spam' => ['template' => 'demo/submissions/view'],
-'demo/submissions/delete/<*:[^\/]+>/<*:[^\/]+>' => ['template' => 'demo/submissions/delete'],
-'demo/custom' => ['template' => 'demo/custom'],
-'demo/custom/<*:[^\/]+>' => ['template' => 'demo/custom/form'],
-'demo/extras/suppress-edit-submissions/edit/<token\w+>' => ['template' => 'demo/extras/suppress-edit-submissions'],
-```
+    Locate Freeform's bundled `src/codepack/` directory. In the monorepo layout, it is located at:
 
-Visit your demo templates at: **yoursite.com/demo**
+    ```text
+    vendor/solspace/craft-freeform/packages/plugin/src/codepack/
+    ```
+
+    Copy its contents as follows:
+
+    | Bundled folder | Destination |
+    |---|---|
+    | `codepack/templates/` | Your Craft template directory, as `templates/demo/` |
+    | `codepack/assets/` | Your public asset directory, as `assets/demo/` |
+
+    Create the public `assets` directory if it does not already exist.
+
+    In the copied files, replace any `%prefix%` placeholders with `demo`. In particular, update the placeholder in `templates/demo/_layout.twig` so the navigation and asset URLs resolve correctly.
+  </StepMarkdown>
+  <StepMarkdown>
+    ### Add the Routes
+
+    Add the following entries to the array returned by `config/routes.php`, preserving any existing routes:
+
+    ```php
+    'demo/forms/<*:[^\/]+>' => ['template' => 'demo/forms'],
+    'demo/forms/<*:[^\/]+>/<*:[^\/]+>' => ['template' => 'demo/forms/form'],
+    'demo/forms/<*:[^\/]+>/<*:[^\/]+>/edit/<*:[^\/]+>' => ['template' => 'demo/forms/form'],
+    'demo/submissions/<*:[^\/]+>' => ['template' => 'demo/submissions'],
+    'demo/submissions/<*:[^\/]+>/spam' => ['template' => 'demo/submissions'],
+    'demo/submissions/<*:[^\/]+>/<*:[^\/]+>' => ['template' => 'demo/submissions/view'],
+    'demo/submissions/<*:[^\/]+>/<*:[^\/]+>/spam' => ['template' => 'demo/submissions/view'],
+    'demo/submissions/delete/<*:[^\/]+>/<*:[^\/]+>' => ['template' => 'demo/submissions/delete'],
+    'demo/custom' => ['template' => 'demo/custom'],
+    'demo/custom/<*:[^\/]+>' => ['template' => 'demo/custom/form'],
+    'demo/extras/suppress-edit-submissions/edit/<token:\w+>' => ['template' => 'demo/extras/suppress-edit-submissions'],
+    ```
+  </StepMarkdown>
+  <StepMarkdown>
+    Visit `https://example.com/demo/` to open the demos.
+  </StepMarkdown>
+</VerticalStepWrapper>
 
 ## Live Demo
 
-The demo below is a live [demo site](https://demo.solspace.com/freeform-demo/) that shows most of what the Demo Templates include (some sections and data has been limited).
+Explore the [hosted Freeform demo](https://demo.solspace.com/freeform-demo/) below or open it in a separate tab. Some sections and data are limited.
 
 <iframe
-  title="App Demo"
+  title="Freeform Live Demo"
   id="app-demo"
   src="https://demo.solspace.com/freeform-demo/"
   scrolling="yes"

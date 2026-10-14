@@ -65,7 +65,9 @@ See Craft's [`allowedGraphqlOrigins`](https://craftcms.com/docs/5.x/reference/co
 
 ### Manifest query
 
-Returns the same manifest object as REST `GET /freeform/api/forms/{handle}/manifest` (the `data` payload).
+Returns the same manifest object as REST `GET /freeform/api/forms/{handle}/manifest`, including the field configuration used by the official React and Vue renderers.
+
+See [Field Configuration](./rest-api.mdx#field-configuration) for Freeform 5.17 feature settings.
 
 ```graphql
 query {
@@ -146,6 +148,8 @@ The [Freeform Headless React Demo](https://github.com/solspace/freeform-headless
 ## Legacy GraphQL (form queries and submission mutations)
 
 The sections below document Freeform's original GraphQL form layout queries and per-form `save_{handle}_Submission` mutations.
+
+Legacy field queries use a separate GraphQL schema and do not expose the headless manifest's `frontend.config` object. Use `freeformHeadlessManifest` when your front end needs the configuration for Freeform 5.17 field features.
 
 ## Demos
 
