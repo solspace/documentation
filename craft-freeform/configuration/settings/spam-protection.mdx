@@ -4,7 +4,7 @@ sidebar_position: 6
 description: "Global spam behavior, retention, throttling, and submission timing."
 ---
 
-import { Badge, Photo } from '@site/src/components/utils';
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
 import { SettingMeta } from '@site/src/components/docs';
 
 # Spam Protection Settings
@@ -16,6 +16,8 @@ This settings page is read-only when Craft's `allowAdminChanges` setting is `fal
 :::
 
 For individual CAPTCHA services and spam-blocking tools, see [Spam Protection](../../forms/spam-protection.mdx).
+
+<Photo img={require('@site/static/img/craft/freeform/v5/configuration/spam.jpg')} alt="Spam Protection Settings" />
 
 ## Spam Handling
 
@@ -39,7 +41,7 @@ Save rejected submissions in the Spam Folder instead of discarding them. For CAP
 
 The Spam Folder does not recover submissions discarded before it was enabled.
 
-### Automatically Purge Spam Submissions<Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /> {#purgable-spam-age-in-days}
+### Automatically Purge Spam Submissions<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup> {#purgable-spam-age-in-days}
 
 Set how many days to retain spam submissions before automatically deleting them. Leave this empty to disable automatic spam purging.
 
@@ -68,12 +70,5 @@ Require a minimum number of seconds between loading and submitting a form. Faste
 Set how many minutes a user has to submit a form before it expires. Keep this below the applicable Craft CSRF token and PHP session lifetime.
 
 <SettingMeta configKey="formSubmitExpiration" defaultValue={"Not set"} />
-
-<details>
-<summary>View the control panel settings</summary>
-
-<Photo img={require('@site/static/img/craft/freeform/v5/configuration/spam.jpg')} alt="Spam Protection Settings" />
-
-</details>
 
 See [Settings](./index.mdx) for other configuration areas and [Project Config](../project-config.mdx) for configuration examples.
