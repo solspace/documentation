@@ -108,6 +108,12 @@ The form's **Duplicate Check** and **Scope by Field** settings also apply to hea
 
 For cookie-based modes, load the form before the first submission and retain the visitor cookie across requests. Cross-origin clients must send credentials and use matching CORS and cookie settings. Without the same cookie, requests cannot be recognized as the same guest browser. See [Scoped Duplicate Checking](../submissions/scoped-duplicate-checking.mdx) for configuration and limitations.
 
+### Form Scheduling<Badge type="feature" text="New in 5.17+" />
+
+Forms using **Schedule Form** reject submissions before their start or after their end time, including submissions from a form loaded while it was still open. The response uses the normal validation error structure. Scheduling is available in **Lite** and **Pro**.
+
+Manifest requests still return form configuration outside the schedule; they do not automatically hide your frontend or run Twig's message rendering. Handle the availability display in your custom frontend. See [Form Scheduling](../submissions/form-scheduling.mdx) for setup, messages, and timezone behavior.
+
 ### Submit `context` allow-list
 
 Client-supplied `context` is restricted to:

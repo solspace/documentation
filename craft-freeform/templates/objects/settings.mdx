@@ -124,6 +124,18 @@ Outputs the option chosen for the **Duplicate Check** setting. You can run a con
 - `once_per_user_or_cookie`: _Anyone — once per user or cookie_
 - `once_per_user_or_ip_cookie`: _Anyone — once per user, IP, or cookie_
 
+### `scheduleEnabled`<Badge type="feature" text="New in 5.17+" />
+
+Whether **Schedule Form** is enabled. Access as `form.settings.scheduleEnabled`. When disabled, saved start and end dates do not restrict availability.
+
+### `startSubmissionsAt`<Badge type="feature" text="New in 5.17+" />
+
+The **Schedule Start Date**, including the time, or `null` for immediate availability. Access as `form.settings.startSubmissionsAt`.
+
 ### `stopSubmissionsAfter`
 
-The date in which this form will no longer accept new submissions, if configured, e.g. `08/17/2023`.
+The **Schedule End Date**, including the time, or `null` for no expiry. Access as `form.settings.stopSubmissionsAfter` or `form.stopSubmissionsAfter`. In Freeform versions before 5.17, this was labeled **Stop Submissions After Date**. Existing date-only cutoffs keep their end-of-day behavior.
+
+### `schedulePendingMessage` / `scheduleExpiredMessage`<Badge type="feature" text="New in 5.17+" />
+
+The configured pending and expired message text. For the translated message that applies right now, use `form.scheduleMessage`. See [Form Scheduling](../../submissions/form-scheduling.mdx) for defaults and examples.

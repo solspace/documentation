@@ -106,6 +106,12 @@ Forms configured with **Scope by Field** enforce the same duplicate check in Gra
 
 See [Scoped Duplicate Checking](../submissions/scoped-duplicate-checking.mdx) for supported fields, storage requirements, and examples.
 
+### Form Scheduling<Badge type="feature" text="New in 5.17+" />
+
+The form's schedule also applies to GraphQL submission validation in **Lite** and **Pro**. Submissions outside the opening and expiry times are rejected. Manifest queries still return form configuration; custom frontends must handle their own availability display. See [Form Scheduling](../submissions/form-scheduling.mdx).
+
+The legacy Form interface retains `stopSubmissionsAfter` for the end date, now labeled **Schedule End Date** in the builder. The Twig scheduling helpers are not additional fields on that GraphQL interface.
+
 ### File uploads
 
 Multipart / File Drag & Drop uploads remain on the **REST** endpoints. Use GraphQL for JSON values; upload files via REST (or the official React / Vue packages on REST).
@@ -555,7 +561,7 @@ These are the fields available for the `FreeformFormInterface`:
 | `disableSubmit`                                                      | `Boolean`                                                                      | Should the form's submit button be disabled when the form is submitted |
 | `disableReset`                                                       | `Boolean`                                                                      | Should the form's submit button be disabled state be reset             |
 | `duplicateCheck`<Badge type="feature" text="New in 5.9.6+" />        | `String`                                                                       | The form's duplicate check rule                                        |
-| `stopSubmissionsAfter`<Badge type="feature" text="New in 5.9.6+" />  | `String`                                                                       | The form's stop submissions after date                                 |
+| `stopSubmissionsAfter`<Badge type="feature" text="New in 5.9.6+" />  | `String`                                                                       | The form's schedule end date (property name retained in 5.17+)                                 |
 | `enctype`                                                            | `String`                                                                       | The form's enctype                                                     |
 | `rules`                                                              | [`FreeformRulesInterface`](#rules-interface)                                   | The form's rules                                                       |
 | `postForwarding`<Badge type="feature" text="New in 5.9.5+" />        | [`FreeformPostForwardingInterface`](#post-forwarding-interface)                | The Post Forwarding integration for this form                          |

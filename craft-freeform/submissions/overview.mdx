@@ -36,7 +36,7 @@ Similar to Craft Entries, every time a user submits a form, we refer to those as
     },
     {
       title: 'Submission Limits',
-      description: 'Set limits such as once per user or close date for forms.',
+      description: 'Limit repeat submissions and schedule form availability.',
       icon: Icons.StopIcon,
       fullCardLink: '#submission-limits',
     },
@@ -177,11 +177,11 @@ If you need to set limits on the number of submissions a form may receive or who
       fullCardLink: '#total-submissions-per-form',
     },
     {
-      title: 'Stop After Date',
+      title: 'Form Scheduling',
       description:
-        'Prevent new submissions of the form after a specified date.',
+        'Set when a form opens and expires, with custom messages.',
       icon: Icons.HourglassIcon,
-      fullCardLink: '#stop-after-date',
+      fullCardLink: '#form-scheduling',
     },
   ]}
 />
@@ -260,10 +260,12 @@ The key is applying the `submissionLimit` parameter to the [Form query](../templ
 {% endif %}
 ```
 
-### Stop After Date
+### Form Scheduling<Badge type="feature" text="New in 5.17+" /> {#form-scheduling}
 
-Inside the [Settings → Limits](../forms/builder.mdx#settings) area in the [form builder](../forms/builder.mdx), a **Stop Submissions After Date** setting exists to allow you to prevent new submissions of the form after the specified date.
+<span id="stop-after-date" />
 
-:::warning
-This date will be validated against when [editing](#submission-editing) submissions as well.
-:::
+In **Settings → Limits**, enable **Schedule Form** to set an opening date, an expiry date, or both. Scheduling is available in **Lite** and **Pro**. The start and end include a time; either may be left blank.
+
+The standard `form.render()` method shows the configured **Pending Message** or **Expired Message** instead of the form outside its scheduled period. Freeform also rejects submissions outside that period, including when editing existing submissions.
+
+**Schedule End Date** replaces the former **Stop Submissions After Date** setting. Existing cutoffs preserve the entire final day. See [Form Scheduling](./form-scheduling.mdx) for setup, timezone behavior, custom Twig layouts, APIs, and caching.

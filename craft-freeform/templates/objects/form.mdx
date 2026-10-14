@@ -72,15 +72,29 @@ A bool variable, which will be `true` if the form has the **Duplicate Check** se
 
 In Freeform 5.17+, a form using **Scope by Field** checks for a duplicate of the current item's value. Populate the scope field before reading this property. See [Scoped Duplicate Checking](../../submissions/scoped-duplicate-checking.mdx#twig-examples) for examples. Email-based checks also need the email value before they can identify a duplicate.
 
-### `stopSubmissionsAfter`<Badge type="feature" text="New in 5.11.8+" />
+### `isAvailable()`<Badge type="feature" text="New in 5.17+" /> {#isavailable}
 
-Returns the date specified in the **Stop Submissions After Date** setting for the form. Can be used as a conditional to hide the form and/or show a message to the user if the form has passed its close date.
+Returns whether the form is currently available according to its [schedule](../../submissions/form-scheduling.mdx). Also accessible as `form.available`. Returns `true` when scheduling is disabled or no schedule boundary currently prevents availability. This does not check duplicate or total submission limits.
 
 ```twig
-{% if form.stopSubmissionsAfter|date >= now|date %}
-  <p>The deadline to submit this form was {{ form.stopSubmissionsAfter|date }}.</p>
+{% if form.isAvailable() %}
+    {{ form.render() }}
+{% elseif form.scheduleMessage %}
+    <p role="status">{{ form.scheduleMessage|nl2br }}</p>
 {% endif %}
 ```
+
+`form.render()` handles the schedule automatically. Use this explicit check when writing your own layout with `form.renderTag()` and field helpers.
+
+### `scheduleMessage`<Badge type="feature" text="New in 5.17+" />
+
+Returns the translated **Pending Message** before the scheduled start or **Expired Message** after the end. Returns an empty string while available, or when the corresponding message was left blank. Treat it as plain text when rendering it yourself.
+
+### `stopSubmissionsAfter`<Badge type="feature" text="New in 5.11.8+" />
+
+Returns the form's configured end date and time, or `null`. In Freeform 5.17+, this is labeled **Schedule End Date** in the form builder; the property name remains unchanged. Access the start with `form.settings.startSubmissionsAt`.
+
+Use `form.isAvailable()` for availability checks so that the schedule toggle and both boundaries are respected. See [Form Scheduling](../../submissions/form-scheduling.mdx) for examples and compatibility with older date-only cutoffs.
 
 ### `isIntegrationEnabled`<Badge type="feature" text="New in 5.6+" />
 
