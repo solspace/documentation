@@ -102,6 +102,12 @@ JSON body shape (simplified):
 | `validate` | Validate without completing |
 | `saveDraft` | Save progress (token + key returned in `draft`) |
 
+### Scoped Duplicate Checking<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.17+" />
+
+The form's **Duplicate Check** and **Scope by Field** settings also apply to headless submissions. Include the scope field in `values`, for example `"values": { "productId": "123", "email": "jane@example.com" }`. Keep submission storage enabled; a missing scope value or a duplicate is returned as a validation error.
+
+For cookie-based modes, load the form before the first submission and retain the visitor cookie across requests. Cross-origin clients must send credentials and use matching CORS and cookie settings. Without the same cookie, requests cannot be recognized as the same guest browser. See [Scoped Duplicate Checking](../submissions/scoped-duplicate-checking.mdx) for configuration and limitations.
+
 ### Submit `context` allow-list
 
 Client-supplied `context` is restricted to:

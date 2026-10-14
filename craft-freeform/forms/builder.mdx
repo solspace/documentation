@@ -136,6 +136,12 @@ The left column lists all available fields and field types to use for the form. 
     alt="Field Attributes Editor"
   />
 
+### Content Editors<Badge type="feature" text="Improved in 5.17+" />
+
+HTML, Rich Text, Cards, and Table fields show a preview in the property editor. Open the preview to edit the content in a native Craft slideout with more room to work. Choose **Finish & Close** to keep your changes in the form builder, or **Cancel** to discard the changes made during that editing session. Save the form to persist your changes.
+
+The bulk options editor also opens in a slideout, where you can prepare labels and values before applying them to the field.
+
 ### Preview
 
 The right column is where you position the form fields for the form.
@@ -412,6 +418,11 @@ This is where you configure all settings and behaviors for the form.
       - This will check any _Email_ field type for a matching email address (across all Email fields if using more than one in the same form).
     - _Anyone — once per user or cookie_
     - _Anyone — once per user, IP, or cookie_
+
+- **Scope by Field**<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.17+" />
+  - For a once-only **Duplicate Check** mode, limit repeat submissions to the same value of a selected field, such as a product or entry ID.
+  - Leave blank for the existing form-wide restriction. Requires stored submissions and a nonempty scope value.
+  - See [Scoped Duplicate Checking](../submissions/scoped-duplicate-checking.mdx) for supported fields, examples, and cookie behavior.
 
 - **Stop Submissions After Date** <span className="badge-group"><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></span>
   - Allows you to prevent new submissions of the form after the set date.

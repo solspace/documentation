@@ -1,0 +1,119 @@
+---
+title: Scoped Duplicate Checking
+sidebar_position: 4
+description: Allow one Freeform submission per product, article, or event using a field value to scope duplicate checks in Craft CMS.
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { Badge } from '@site/src/components/utils';
+
+# Scoped Duplicate Checking<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.17+" />
+
+Use the same form for multiple products, articles, or events while allowing each visitor to submit only once for each item. For example, a visitor can rate Product A and Product B, but cannot rate Product A twice.
+
+The **Duplicate Check** setting determines how Freeform recognizes the visitor. **Scope by Field** determines which item they are submitting for. Leaving the scope blank keeps the existing form-wide restriction.
+
+## Setup
+
+1. Add a [Hidden](../forms/fields/hidden.mdx) field with the handle `productId`, or another supported field that identifies the item.
+2. Open the form's **Settings → Limits** and choose a once-only **Duplicate Check** option.
+3. Select your field under **Scope by Field**.
+4. Keep **Store Submitted Data for this Form** enabled under **Settings → Data Storage**. If storage requires the visitor to opt in, they must opt in to submit this form.
+5. Populate the scope field with the item's identifier when rendering or submitting the form.
+
+| Duplicate Check | With a scope field selected |
+| --- | --- |
+| Logged-in users — once per form | One submission per item for each logged-in user. Login is required. |
+| Anyone — once per email | One submission per item for each matching email address, checked across the form's Email fields. At least one nonempty email address is required. |
+| Anyone — once per user or cookie | One submission per item, checked against the logged-in user or browser cookie. |
+| Anyone — once per user, IP, or cookie | The same checks, plus the IP address when **Collect IP Addresses** is enabled. |
+
+Scope is available for these four once-only modes. **No restrictions** and **Logged-in users — unlimited** do not use a scope field.
+
+## Twig Examples
+
+These examples use a form with the handle `productRating` and a Hidden field with the handle `productId`. Enable AJAX when displaying multiple instances on one page.
+
+<Tabs>
+<TabItem value="single" label="Single Product" default>
+
+On a Craft Entry page, pass the entry ID into `values` before checking `form.duplicate`:
+
+```twig showLineNumbers
+{% set form = freeform.form('productRating', {
+    values: { productId: entry.id },
+}) %}
+
+{% if form %}
+    {% if form.duplicate %}
+        <p>You have already rated this product.</p>
+    {% else %}
+        {{ form.render() }}
+    {% endif %}
+{% endif %}
+```
+
+</TabItem>
+<TabItem value="list" label="Product List">
+
+For entries in a `products` section, give each form instance and its HTML IDs unique values:
+
+```twig showLineNumbers
+{% for product in craft.entries().section('products').all() %}
+    {% set instanceId = 'product-rating-' ~ product.id %}
+    {% set form = freeform.form('productRating', {
+        values: { productId: product.id },
+        attributes: { id: instanceId },
+        fieldIdPrefix: instanceId ~ '-',
+    }, instanceId) %}
+
+    <h2>{{ product.title }}</h2>
+    {% if form %}
+        {% if form.duplicate %}
+            <p>You have already rated this product.</p>
+        {% else %}
+            {{ form.render() }}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+```
+
+See [Multiple Instances of the Same Form](../guides/guide/multiple-instances-of-same-form.mdx) for details, including non-AJAX forms.
+
+</TabItem>
+</Tabs>
+
+Hiding the form is optional. Freeform validates the scope and rejects duplicate submissions on the server, including AJAX, REST, and GraphQL submissions. An email-based check can only identify a duplicate once the email address is available.
+
+To also attach submissions to a Craft Entry's **Freeform Submissions** field, use the [`relations` parameter](./relations.mdx). Relations and duplicate scope are configured separately.
+
+## Supported Fields and Values
+
+The scope must be a top-level field that stores a single value: **Hidden**, **Invisible**, **Text**, **Textarea**, **Number**, **Range Slider**, **Email**, **Phone**, **Website**, **Regex**, **Dropdown**, **Radios**, **Rating**, or **Opinion Scale**. Nested fields, Table columns, and fields containing multiple values are excluded.
+
+- A nonempty scope value is required when submitting. `0` is valid.
+- On multi-page forms, a scope field on a later page is required when that page is submitted, and always at final submission.
+- Text values match exactly, including case and whitespace. Numeric fields use their normalized values. Encrypted scope and Email fields are supported.
+- Spam and deleted submissions do not count. Editing an existing submission retains the existing editing behavior.
+- The check depends on stored submissions. Deleting or purging a matching submission removes it from future scoped checks.
+
+:::note Validate the item identifier
+The scope checks whether a value has already been submitted; it does not verify that the product exists or that the visitor may rate it. A Hidden field can be changed by the visitor. Validate item identifiers on the server using your site's rules. Use a Number field or server-side normalization if `1` and `01` should identify the same item.
+:::
+
+## Browser Cookies and Headless Forms
+
+Cookie-based modes use one signed, HTTP-only cookie per form, named `freeform_voter_{formId}`, with a one-year lifetime. Freeform stores a hash of the visitor identifier with the submission. It does not create a separate cookie for every product.
+
+Headless clients must retain cookies between loading and submitting the form. For cross-origin clients, configure permitted origins, credentials, and cookie settings. See the [REST API](../headless/rest-api.mdx#scoped-duplicate-checking) and [GraphQL](../headless/graphql.mdx#scoped-duplicate-checking) references.
+
+Clearing cookies or using another browser allows another guest submission. For a limit tied to an account, use **Logged-in users — once per form** with a scope selected.
+
+## Updating Existing Forms
+
+Run Freeform's pending migrations, such as `php craft up`, before using this feature. Freeform 5.17 adds a nullable `duplicateCheckIdentity` column and a form/identity index to the existing submissions table; it does not create a new table.
+
+Existing submissions can be matched by user, email, or IP when they contain the same scope value. Guest browser tracking starts with scoped submissions: old form-wide cookies cannot identify which items a guest submitted for.
+
+Freeform rechecks for duplicates immediately before saving and uses Craft's mutex to coordinate simultaneous submissions. On installations with multiple application nodes, configure a shared mutex backend.

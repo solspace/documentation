@@ -236,6 +236,18 @@ relations: {
 
 The above would map the posted submission to the Elements with ID's `55`, `106` and `251`. More specifically, adding the submission to the field with handle `myFreeformSubmissionsFieldHandle` for elements with ID's `55` and `106` and one to the field with handle `myOtherFreeformSubmissionFieldHandle` for element with ID `251`.
 
+### `values`
+
+Populate fields by handle, for example with an entry ID:
+
+```twig
+{% set form = freeform.form('productRating', {
+    values: { productId: entry.id },
+}) %}
+```
+
+For [Scoped Duplicate Checking](../../submissions/scoped-duplicate-checking.mdx), pass the scope value here before reading `form.duplicate`. This lets Freeform check the current item before the form is rendered.
+
 ### `fieldIdPrefix`
 
 Adds a prefix value to the `id` attribute on field labels and inputs. This is helpful when you have multiple forms on the same template that share the same field handles.

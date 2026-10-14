@@ -100,6 +100,12 @@ mutation {
 | `context` | Allow-listed submit context only (`draftToken`, `draftKey`, `stateToken`, `sourceUrl`, `token`) — see [REST API](./rest-api.mdx#submit-context-allow-list) |
 | `csrfToken` | Optional; when omitted, cookie CSRF is skipped (schema token is the gate) |
 
+### Scoped Duplicate Checking<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.17+" />
+
+Forms configured with **Scope by Field** enforce the same duplicate check in GraphQL submissions. Pass the scope field in `values`, such as `productId: "123"`, along with the other field values. Cookie-based restrictions require the same visitor cookie on form-loading and submission requests; a schema token alone does not identify the visitor. For cross-origin cookie handling, follow [Cross-origin GraphQL (CORS)](#cross-origin-graphql-cors).
+
+See [Scoped Duplicate Checking](../submissions/scoped-duplicate-checking.mdx) for supported fields, storage requirements, and examples.
+
 ### File uploads
 
 Multipart / File Drag & Drop uploads remain on the **REST** endpoints. Use GraphQL for JSON values; upload files via REST (or the official React / Vue packages on REST).

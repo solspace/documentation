@@ -156,7 +156,7 @@ OR
 }) %}
 ```
 
-## Submission Limits<Badge type="pro" text="Pro" />
+## Submission Limits
 
 If you need to set limits on the number of submissions a form may receive or who can submit the form, a few options are available:
 
@@ -198,9 +198,15 @@ Inside the [Settings → Limits](../forms/builder.mdx#settings) area in the [for
 - _Anyone — once per user or cookie_
 - _Anyone — once per user, IP, or cookie_
 
+#### Scope by Field<Badge type="feature" text="New in 5.17+" />
+
+For any once-only mode, select **Scope by Field** to allow one submission for each distinct value of a field, such as `productId`. A visitor can submit for Product A and Product B, while a second submission for Product A is rejected. Leave the scope blank to keep the form-wide restriction.
+
+Scoped checks require stored submissions and a nonempty value in a supported field. See [Scoped Duplicate Checking](./scoped-duplicate-checking.mdx) for setup, Twig examples, and browser/API behavior.
+
 #### Templating
 
-Freeform includes validation to prevent duplicate submissions (when the user tries to submit the form again), but if you wish to prevent users from even being able to see the form (and display an error/notice in its place), you can use `duplicate` ([form object](../templates/objects/form.mdx)) as a conditional. It's a bool variable, which will be `true` if the form has the **Duplicate Check** setting enabled and the user has already submitted the form.
+Freeform includes validation to prevent duplicate submissions (when the user tries to submit the form again), but if you wish to prevent users from even being able to see the form (and display an error/notice in its place), you can use `duplicate` ([form object](../templates/objects/form.mdx)) as a conditional. It's a bool variable, which will be `true` if the form has the **Duplicate Check** setting enabled and the user has already submitted the form. When using a scope, pass the item's value through the Form query's `values` parameter before reading `form.duplicate`; see the [scoped example](./scoped-duplicate-checking.mdx#twig-examples).
 
 ```twig showLineNumbers {4-5}
 {# Replace 'myForm' with your form handle. #}

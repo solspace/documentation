@@ -70,6 +70,8 @@ Returns the current [Page object](./page.mdx) containing its label and index.
 
 A bool variable, which will be `true` if the form has the **Duplicate Check** setting enabled ([duplicate submission check](../../submissions/overview.mdx#submission-limits)) and the user has already submitted the form.
 
+In Freeform 5.17+, a form using **Scope by Field** checks for a duplicate of the current item's value. Populate the scope field before reading this property. See [Scoped Duplicate Checking](../../submissions/scoped-duplicate-checking.mdx#twig-examples) for examples. Email-based checks also need the email value before they can identify a duplicate.
+
 ### `stopSubmissionsAfter`<Badge type="feature" text="New in 5.11.8+" />
 
 Returns the date specified in the **Stop Submissions After Date** setting for the form. Can be used as a conditional to hide the form and/or show a message to the user if the form has passed its close date.
