@@ -1,0 +1,361 @@
+---
+title: "Fields"
+toc_max_heading_level: 3
+description: "Browse Freeform field types and find settings, customization examples, and template references."
+slug: /forms/fields
+---
+
+import Player from 'react-player';
+import { FieldCards } from '@site/src/components/docs';
+import { Badge } from '@site/src/components/utils';
+import FieldReferenceRedirect from '@site/src/components/docs/FieldReferenceRedirect';
+import legacyAnchors from './legacy-anchors.json';
+
+# Fields
+
+<FieldReferenceRedirect targets={legacyAnchors} />
+
+Choose a field type below to learn how it works and explore its settings, styling options, and Twig examples. Fields are configured separately for each form, but you can save common configurations as favorites to reuse across forms.
+
+<FieldCards
+  catalog
+  items={[
+    {
+      link: './text/',
+      title: 'Text',
+      category: 'Basic fields',
+      description: 'Single-line answers',
+      icon: 'text',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './textarea/',
+      title: 'Textarea',
+      category: 'Basic fields',
+      description: 'Longer written answers',
+      icon: 'textarea',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './email/',
+      title: 'Email',
+      category: 'Basic fields',
+      description: 'Email addresses',
+      icon: 'email',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './number/',
+      title: 'Number',
+      category: 'Basic fields',
+      description: 'Numeric values',
+      icon: 'number',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './phone/',
+      proOnly: true,
+      title: 'Phone',
+      category: 'Basic fields',
+      description: 'Telephone numbers',
+      icon: 'phone',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './date-time/',
+      proOnly: true,
+      title: 'Date & Time',
+      category: 'Basic fields',
+      description: 'Dates and times',
+      icon: 'date-time',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './website/',
+      proOnly: true,
+      title: 'Website',
+      category: 'Basic fields',
+      description: 'Website URLs',
+      icon: 'website',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './regex/',
+      proOnly: true,
+      title: 'Regex',
+      category: 'Basic fields',
+      description: 'Custom pattern validation',
+      icon: 'regex',
+      color: 'bg-sky-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './dropdown/',
+      title: 'Dropdown',
+      category: 'Choice fields',
+      description: 'One choice from a list',
+      icon: 'dropdown',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './checkbox/',
+      title: 'Checkbox',
+      category: 'Choice fields',
+      description: 'A single on/off choice',
+      icon: 'checkbox',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './checkboxes/',
+      title: 'Checkboxes',
+      category: 'Choice fields',
+      description: 'Multiple checked choices',
+      icon: 'checkboxes',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './radios/',
+      title: 'Radios',
+      category: 'Choice fields',
+      description: 'One visible choice',
+      icon: 'radios',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './multiple-select/',
+      title: 'Multiple Select',
+      category: 'Choice fields',
+      description: 'Several choices from a list',
+      icon: 'multi-select',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './opinion-scale/',
+      proOnly: true,
+      title: 'Opinion Scale',
+      category: 'Choice fields',
+      description: 'Survey scales and opinions',
+      icon: 'opinion-scale',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './range-slider/',
+      proOnly: true,
+      title: 'Range Slider',
+      category: 'Choice fields',
+      description: 'Numeric values on a slider',
+      icon: 'range',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './rating/',
+      proOnly: true,
+      title: 'Rating',
+      category: 'Choice fields',
+      description: 'Star ratings',
+      icon: 'rating',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './cards/',
+      proOnly: true,
+      title: 'Cards',
+      category: 'Choice fields',
+      description: 'Visual choice cards',
+      icon: 'cards',
+      color: 'bg-purple-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './file-upload/',
+      title: 'File Upload',
+      category: 'File uploads',
+      description: 'Single or multiple file uploads',
+      icon: 'file-upload',
+      color: 'bg-yellow-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './file-drag-drop/',
+      proOnly: true,
+      title: 'File Drag & Drop',
+      category: 'File uploads',
+      description: 'Drag-and-drop file uploads',
+      icon: 'file-upload-drag-drop',
+      color: 'bg-yellow-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './group/',
+      proOnly: true,
+      titleBadge: 'New!',
+      title: 'Group',
+      category: 'Advanced fields',
+      description: 'Related fields in a group',
+      icon: 'group',
+      color: 'bg-green-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './table/',
+      proOnly: true,
+      title: 'Table',
+      category: 'Advanced fields',
+      description: 'Repeating rows of data',
+      icon: 'table',
+      color: 'bg-green-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './confirm/',
+      proOnly: true,
+      title: 'Confirm',
+      category: 'Advanced fields',
+      description: 'Retype and match another field',
+      icon: 'confirm',
+      color: 'bg-green-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './password/',
+      proOnly: true,
+      title: 'Password',
+      category: 'Advanced fields',
+      description: 'Password input',
+      icon: 'password',
+      color: 'bg-green-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './calculation/',
+      proOnly: true,
+      titleBadge: 'New!',
+      title: 'Calculation',
+      category: 'Advanced fields',
+      description: 'Calculations using field values',
+      icon: 'calculation',
+      color: 'bg-green-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './signature/',
+      proOnly: true,
+      title: 'Signature',
+      category: 'Advanced fields',
+      description: 'Drawn signatures',
+      icon: 'signature',
+      color: 'bg-green-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './summary/',
+      proOnly: true,
+      title: 'Summary',
+      category: 'Advanced fields',
+      description: 'Review answers before submitting',
+      icon: 'summary',
+      color: 'bg-green-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './html/',
+      title: 'HTML Block',
+      category: 'Content blocks',
+      description: 'Custom HTML and Twig',
+      icon: 'html',
+      color: 'bg-pink-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './rich-text/',
+      proOnly: true,
+      title: 'Rich Text Block',
+      category: 'Content blocks',
+      description: 'Formatted text in your form',
+      icon: 'rich-text',
+      color: 'bg-pink-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './image/',
+      proOnly: true,
+      title: 'Image',
+      category: 'Content blocks',
+      description: 'Images in your form',
+      icon: 'image',
+      color: 'bg-pink-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './hidden/',
+      title: 'Hidden',
+      category: 'Hidden fields',
+      description: 'Hidden input values',
+      icon: 'hidden',
+      color: 'bg-slate-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './invisible/',
+      proOnly: true,
+      title: 'Invisible',
+      category: 'Hidden fields',
+      description: 'Values kept out of rendered HTML',
+      icon: 'invisible',
+      color: 'bg-slate-500/50',
+      filterIcon: true,
+    },
+    {
+      link: './stripe-payment/',
+      proOnly: true,
+      title: 'Stripe Payments',
+      category: 'Payments & AI',
+      description: 'Payments through Stripe',
+      icon: 'stripe',
+      color: 'bg-black/5 dark:bg-white/5',
+    },
+    {
+      link: './ai/',
+      proOnly: true,
+      title: 'AI',
+      category: 'Payments & AI',
+      description: 'AI-generated responses',
+      icon: 'ai',
+      color: 'bg-black/5 dark:bg-white/5',
+    },
+  ]}
+/>
+
+## Working with Fields
+
+- [Standard Settings](./standard-settings.mdx) — labels, handles, validation, autofill, and attributes.
+- [Favorite Fields](./favorite-fields.mdx) — save and reuse field configurations.
+- [Populating Field Options](./populating-options.mdx) — predefined lists and Craft Element sources.
+- [Field Encryption](./field-encryption.mdx) — encrypt stored submission values.
+- [Custom Field Types](../../developer/field-types.mdx) — create your own field types.
+
+## Rendering Fields
+
+Use Freeform's render helpers to retain the markup and attributes required by each field's enabled features. See [Field Object](../../templates/objects/field.mdx), [Formatting Templates](../../templates/formatting/index.mdx), and the individual field's **Templating** section.
+
+For React and Vue implementations, start with [Headless Forms](../../headless/index.mdx).
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/builder-feature.mp4').default}
+  muted loop playing width="100%" height="100%"
+/>

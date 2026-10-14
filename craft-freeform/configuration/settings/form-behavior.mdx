@@ -1,0 +1,94 @@
+---
+title: "Form Behavior"
+sidebar_position: 2
+description: "Submission behavior, scripts, CSRF tokens, and saved form progress."
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+import { SettingMeta } from '@site/src/components/docs';
+
+# Form Behavior
+
+Submission behavior, scripts, CSRF tokens, and saved form progress. Open **Freeform → Settings → Form Behavior** to configure these options.
+
+:::info
+This settings page is read-only when Craft's `allowAdminChanges` setting is `false`.
+:::
+
+<Photo img={require('@site/static/img/craft/freeform/v5/configuration/form-behavior.jpg')} alt="Form Behavior settings" />
+
+## Submission Behavior
+
+### Disable Submit Button on Form Submit {#form-submit-disable}
+
+Disable the submit button while a submission is being processed to reduce accidental double submissions.
+
+<SettingMeta configKey="formSubmitDisable" defaultValue={"true"} />
+
+### Automatically Scroll to Form on Errors and Multipage forms {#auto-scroll-to-errors}
+
+Scroll to the form when validation fails or a multipage form advances to its next page. You can customize this behavior with [Autoscroll Events](../../developer/js-plugin.mdx#autoscroll-events).
+
+<SettingMeta configKey="autoScrollToErrors" defaultValue={"true"} />
+
+### Automatically Scroll to top of the Form on AJAX submit {#auto-scroll}
+
+Scroll to the top of the form after an AJAX submission so success messages and errors remain visible.
+
+<SettingMeta configKey="autoScroll" defaultValue={"true"} />
+
+### Remember the Page Order in Multi-page forms<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup> {#remember-page-submit-order}
+
+Make the **Previous** button follow the pages the user actually visited, including pages skipped by conditional rules.
+
+<SettingMeta configKey="rememberPageSubmitOrder" defaultValue={"true"} />
+
+### Prevent Duplicate Submissions (Idempotency Keys)<Badge type="feature" text="New in 5.13+" /> {#use-idempotency-key}
+
+Generate an idempotency key for each form instance so repeated submissions of the same instance do not trigger duplicate processing. This is useful for payments, integrations, and AI actions.
+
+<SettingMeta configKey="useIdempotencyKey" defaultValue={"false"} />
+
+## Scripts & CSRF
+
+### CSRF Token Refresh Method<Badge type="feature" text="New in 5.11+" /> {#csrf-refresh}
+
+When Craft's `asyncCsrfInputs` setting is enabled, choose when to refresh CSRF tokens: **Once** (`once`, recommended), **Always** (`always`), or **None** (`none`).
+
+<SettingMeta configKey="csrfRefresh" defaultValue={"once"} />
+
+### Script Insert Location {#script-insert-location}
+
+Choose where Freeform inserts its JavaScript: **Page Footer** (`footer`, recommended), **Page Header** (`header`), **Inside Form** (`form`), or **None** (`manual`). For manual insertion, follow the [JavaScript loading guide](../../developer/js-plugin.mdx#loading-freeform-js-manually).
+
+<SettingMeta configKey="scriptInsertLocation" defaultValue={"footer"} />
+
+### Script Insert Type<Badge type="feature" text="Improved in 5.3+" /> {#script-insert-type}
+
+Insert Freeform JavaScript as **Asset Bundles** (`files`, recommended) or **Inline** (`inline`).
+
+<SettingMeta configKey="scriptInsertType" defaultValue={"files"} />
+
+## Save & Continue Later
+
+### Number of Days to Keep Saved Form Data (Save & Continue Later)<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup> {#save-form-ttl}
+
+Set how many days Freeform keeps saved progress for [Save & Continue Later](../../forms/save-continue-later.mdx) before clearing it.
+
+<SettingMeta configKey="saveFormTtl" defaultValue={"30 days"} />
+
+### Maximum Number of Saved Forms Per Session<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup> {#save-form-session-limit}
+
+Limit how many saved forms can be associated with one session for Save & Continue Later.
+
+<SettingMeta configKey="saveFormSessionLimit" defaultValue={"10"} />
+
+## Freeform Session Context<Badge type="deprecated" text="Deprecated in 5.0+" />
+
+Freeform uses an encrypted payload to carry context between submissions. This stores no session context in PHP sessions or a database table and supports cached pages.
+
+<SettingMeta configKey="sessionContext" defaultValue="payload" />
+
+The legacy `session` and `database` modes can still be configured through Project Config in Freeform 5. PHP sessions can expire or be cleared by garbage collection; database context requires storage and cleanup. Both legacy modes are deprecated. Use `payload` for new implementations.
+
+See [Settings](./index.mdx) for other configuration areas and [Project Config](../project-config.mdx) for configuration examples.

@@ -1,0 +1,54 @@
+---
+title: "Number"
+sidebar_position: 27
+toc_max_heading_level: 3
+description: "Number field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# Number {#number}
+
+
+<span id="number" />
+A single-line `number` type input field that is validated to contain certain numbers only. The `field.type` property value is `number` (for conditionals).
+
+<Photo
+  scale={40}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/number.png')}
+  alt="Number field type"
+/>
+
+## Settings
+
+- Choose if validation should allow negative numbers.
+- Optionally set Min/Max values.
+  - You can set both, just one or neither.
+- Optionally set Min/Max character length.
+  - You can set both, just one or neither.
+- Optionally set the number of decimals allowed.
+- Set the `step` number to set default increments when a user uses the browser up/down arrows to increase/decrease the value.
+
+## Templating
+
+<div className="field-properties">
+
+| Property | Description |
+|---|---|
+| `field.minLength` | The minimum permitted length of the value. |
+| `field.maxLength` | The maximum permitted length of the value. |
+| `field.minValue` | The minimum permitted numeric value, or `null` when unset. |
+| `field.maxValue` | The maximum permitted numeric value, or `null` when unset. |
+| `field.decimalCount` | The configured number of decimal places. |
+| `field.allowNegative` | Whether negative values are permitted. |
+| `field.step` | The increment used by the number input. |
+
+</div>
+
+## Resources
+
+- [Want to display a Number field as a range slider?](../../guides/guide/range-slider-number.mdx)
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

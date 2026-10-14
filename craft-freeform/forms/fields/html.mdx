@@ -1,0 +1,48 @@
+---
+title: "HTML"
+sidebar_position: 23
+toc_max_heading_level: 3
+description: "HTML field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import { Photo } from '@site/src/components/utils';
+
+# HTML {#html}
+
+
+<span id="html" />
+A special field type that allows you include HTML and Twig inside your form layout in the form builder. The `field.type` property value is `html` (for conditionals).
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/html-rich-text.png')}
+  alt="HTML field type"
+/>
+
+## Behavior & Limitations
+
+- The Property Editor will load an HTML area for you to type or paste your code into.
+- The Layout column in the form builder will live parse your HTML (Twig will not be parse inside the form builder).
+- All HTML is allowed here.
+- To enable Twig inside this field, turn on the [Allow Twig to be Enabled for each HTML block?](../../configuration/settings/form-builder.mdx#defaults-twig-in-html) setting (and decide if you need to enable to the **Render HTML block Twig in isolated mode?** setting as well). Then, you will see an **Allow Twig** checkbox in the property editor column. Check that to allow this HTML block to parse Twig code.
+
+## Examples
+
+### Display Submission Data from Previous Pages {#display-submission-data-from-previous-pages}
+
+If you'd like to display submission data from previous pages, you can do this by using an HTML block field with Twig code that might look something like this:
+
+```twig
+<ul>
+    <li>Name: {{ form.get('firstName').value }} {{ form.get('lastName').value }}</li>
+    <li>Email: {{ form.get('email').valueAsString }}</li>
+    <li>Home Phone: {{ form.get('homePhone').value }}</li>
+    <li>My Radio Field: {{ form.get('myRadioField').value }}</li>
+</ul>
+```
+
+## Resources
+
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

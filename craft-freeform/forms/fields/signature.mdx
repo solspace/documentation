@@ -1,0 +1,44 @@
+---
+title: "Signature"
+sidebar_position: 36
+toc_max_heading_level: 3
+description: "Signature field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Signature<Badge type="pro" text="Pro" /> {#signature}
+
+
+<span id="signature" />
+A field that allows users to handwrite signatures with their mouse inside your form. The `field.type` property value is `signature` (for conditionals).
+
+<Photo
+  scale={50}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/signature.png')}
+  alt="Signature field type"
+/>
+
+## Settings
+
+- Set the dimensions of the field writing/drawing area.
+- Set the border and background colors.
+- Set the pen dot size (in pixels) and the color.
+- To include ability for a user to click a button to erase their signature and start over, check off the **Show 'Clear' button?** checkbox.
+
+## Behavior & Limitations
+
+- Signatures are stored as an image datapoint value.
+- Signatures can be downloaded as JPG or PNG files (from control panel).
+- Signatures are excluded from regular exports and the `allFields` loop in email notification templates (since it would just hold an image datapoint value string).
+- Signatures can be edited when the form is in edit mode.
+- The _Clear_ button can be styled inside the form builder with **Input attributes** area inside the property editor.
+- The Signature field, due to it's complexness, cannot easily be manually generated in a form, and is best done with render helpers, e.g. `field.render`.
+- There's currently no way to make the signature pad area "responsive" (like setting it to 100% width), as this would be quite difficult to account for with the need to display the signature image in various places, etc.
+
+## Resources
+
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

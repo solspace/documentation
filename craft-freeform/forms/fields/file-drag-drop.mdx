@@ -1,0 +1,209 @@
+---
+title: "File Upload Drag & Drop"
+sidebar_position: 20
+toc_max_heading_level: 3
+description: "File Upload Drag & Drop field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { Photo, Badge } from '@site/src/components/utils';
+
+# File Upload Drag & Drop<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.17+" /> {#file-upload-drag--drop}
+
+
+<span id="file-upload-drag--drop" />
+An advanced premium javascript-based file uploading field, using [Craft Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html). The `field.type` property value is `file-dnd` (for conditionals).
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/file-upload-drag-drop.png')}
+  alt="File Upload Drag & Drop field type"
+/>
+
+## Settings
+
+- Can control the placeholder wording, e.g. `Drag and drop files here, or click to upload`.
+- Can control the wording of the confirmation to remove a file, e.g. `Are you sure you want to remove this file?`.<Badge type="feature" text="New in 5.11.8+" />
+- Choose a default style/theme, e.g. `Light` or `Dark`.
+- Choose an accent color (this affects the default color for the field border and delete button).
+- Must have a [Craft Asset](https://craftcms.com/docs/5.x/reference/element-types/assets.html) Source location where the file will be uploaded to.
+  - Does NOT work with [Image Transforms](https://craftcms.com/docs/5.x/reference/element-types/assets.html#image-transforms).
+  - **Upload Location Subfolder** (optional) - the subfolder path that files should be uploaded to. May contain `form.handle` or `form.id` variables or something like `currentUser.id` for folders based on user ID's or `"now"|date("Y/m")` to dynamically generate folders based on dates as well.
+- Specify the number of files allowed to upload.
+- Define maximum file size **per file** (in KB). Default is 2048 KB (2MB). Is subject to:
+  - Craft's [maxUploadFileSize](https://docs.craftcms.com/api/v5/craft-config-generalconfig.html#property-maxuploadfilesize) setting
+  - PHP [memory_limit](http://us3.php.net/manual/en/ini.core.php#ini.memory-limit)
+  - PHP [post_max_size](http://us3.php.net/manual/en/ini.core.php#ini.post-max-size)
+  - PHP [upload_max_filesize](http://us3.php.net/manual/en/ini.core.php#ini.upload-max-filesize)
+- Select which file types can be uploaded.
+  - Leaving all options unchecked will allow ALL file types.
+- Can use your own custom dialog element.<Badge type="feature" text="New in 5.11.8+" />
+- **Show Upload Requirements**<Badge type="feature" text="New in 5.17+" />
+  - Displays the allowed file kinds, maximum number of files, and maximum size per file beneath the upload field. The text is generated automatically from the field's settings.
+
+## Behavior & Limitations
+
+- Unlike the regular [File Upload](./file-upload.mdx#file-upload) field, the **File Upload Drag & Drop** field will remember files that have been uploaded to it regardless of the context: errors upon submission, [multi-page forms](../builder.mdx#multi-page-forms), returning to edit the submission later.
+  - If the form is never completed, incomplete submissions are stored for 3hrs, and then are removed (along with the files) after that.
+- While files are uploading, Freeform will disable the **Submit** button so that the form has time to finish uploading the files. If the form is submitted while files are still uploading, any that are incomplete will not be saved.
+- If you're handling sensitive files, you may wish to choose an Asset volume without public URL's (**Assets in this volume have public URLs** toggle is off). However, please note that image file thumbnails will only be present directly after initial upload. Afterward (error when submitting, multi-page forms, returning to edit) the image thumbnails will no longer be accessible to Freeform.
+
+## Styling & Customization
+
+The form builder includes some options for controlling basic styling, but you can also customize the appearance of the Drag and Drop File Upload field by using your own CSS. To avoid name collision and have maximum flexibility, the CSS class names use [BEM](http://getbem.com/introduction/) methodology. You will also likely need to specify `!important` for each override to ensure it takes effect.
+
+<Tabs>
+<TabItem value="file-drag-drop-class-names" label="Class Names" default>
+
+Below is a list of all class names listed in SCSS: <Badge type="feature" text="Renamed in 5.0+" />
+
+```css showLineNumbers
+.freeform-file-dnd__input {
+  &__placeholder {
+  }
+  &__messages {
+  }
+  &__preview-zone {
+    &__file-preview {
+      &__filename {
+      }
+      &__filesize {
+      }
+      &__thumbnail {
+        &__extension-label {
+        }
+        &__remove-button {
+        }
+        &__errors {
+        }
+        &__progress {
+        }
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+<TabItem value="file-drag-drop-scss-example" label="SCSS Example">
+
+Below is an example with SCSS:
+
+```css showLineNumbers
+.freeform-file-dnd__input {
+  background: blue;
+
+  &__preview-zone {
+    &__file-preview {
+      border: 3px solid grey;
+
+      &__thumbnail {
+        border: 1px solid black;
+        padding: 5px;
+
+        &__remove-button {
+          border-radius: 0;
+        }
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+<TabItem value="file-drag-drop-css-example" label="CSS Example">
+
+Below is an example with regular CSS:
+
+```css
+.freeform-file-dnd__input {
+  background: blue !important;
+  border: 1px solid red !important;
+}
+.freeform-file-dnd__placeholder {
+  font-size: 12px !important;
+}
+.freeform-file-dnd__preview-zone__file-preview__thumbnail {
+  border: 3px solid yellow !important;
+}
+.freeform-file-dnd__preview-zone__file-preview__thumbnail__remove-button {
+  border-radius: 0 !important;
+}
+```
+
+</TabItem>
+</Tabs>
+
+### Customize Upload Requirements<Badge type="feature" text="New in 5.17+" /> {#customize-upload-requirements}
+
+### Appearance {#appearance-2}
+
+Style the generated text using `.freeform-upload-requirements`:
+
+```css
+.freeform-upload-requirements {
+  color: #6b7280;
+  font-size: 0.8125rem !important;
+  margin-top: 0.5rem !important;
+}
+```
+
+The text also inherits the field's instruction classes. Some default spacing and typography are applied inline, so overrides may require `!important`.
+
+### Placement in Custom Templates {#placement-in-custom-templates-1}
+
+Requirements normally appear automatically after the upload control. To position them separately, suppress that output and render it where needed:
+
+```twig
+{{ field.renderInput({ uploadRequirementsInInput: false }) }}
+
+{# Other field markup… #}
+
+{{ field.renderUploadRequirements }}
+{% do field.setParameters({ uploadRequirementsInInput: true }) %}
+```
+
+Keep **Show Upload Requirements** enabled. The generated markup preserves the description linked to the upload control for accessibility.
+
+### Wording and Custom Markup {#wording-and-custom-markup-1}
+The file-kind labels and requirement messages are translatable. To use your own markup while retaining the automatically generated text:
+
+```twig
+{% if field.showUploadRequirements %}
+  <p
+    id="{{ field.idAttribute }}-upload-requirements"
+    class="my-upload-requirements"
+  >
+    {{ field.uploadRequirementsText }}
+  </p>
+{% endif %}
+```
+
+Use this instead of `field.renderUploadRequirements` and suppress the automatic output as shown above. Preserve the element's ID so the upload control's accessible description remains connected.
+
+## Templating
+
+<div className="field-properties">
+
+| Property | Description |
+|---|---|
+| `field.fileKinds` | An array of allowed file kinds, such as `image`, `document`, or `audio`. |
+| `field.maxFileSizeKB` | The maximum permitted size of each file, in kilobytes. |
+| `field.fileCount` | The maximum number of files allowed. A value greater than `1` permits multiple files. |
+| `field.showUploadRequirements`<Badge type="feature" text="New in 5.17+" /> | Whether **Show Upload Requirements** is enabled. |
+| `field.uploadRequirementsText`<Badge type="feature" text="New in 5.17+" /> | The translated requirements text, including allowed file kinds, maximum file count, and maximum size per file. Returns an empty string when requirements are disabled. |
+
+</div>
+
+The `field.renderUploadRequirements()` method renders the requirements as an HTML block. See [Styling & Customization](#styling--customization) for custom placement and markup examples.
+
+By default, `field.render()` and `field.renderInput()` include this block automatically when **Show Upload Requirements** is enabled.
+
+## Resources
+
+- [Allowing Additional File Extensions](../../guides/guide/allow-additional-file-extensions.mdx)
+- [Custom File Removal Dialogs](../../guides/guide/file-upload-custom-delete-dialog.mdx)
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

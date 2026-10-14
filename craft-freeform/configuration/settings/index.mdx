@@ -1,0 +1,67 @@
+---
+title: Settings
+sidebar_position: 1
+slug: /configuration/settings
+description: Find Freeform control panel settings, configuration references, and related setup guides.
+---
+
+import { SettingsCards } from '@site/src/components/docs';
+import LegacyReferenceRedirect from '@site/src/components/docs/LegacyReferenceRedirect';
+import legacyAnchors from './legacy-anchors.json';
+
+# Settings
+
+<LegacyReferenceRedirect targets={legacyAnchors} />
+
+Configure Freeform through **Freeform → Settings** or **Craft Settings → Plugins → Freeform**. Choose an area below to find its settings, configuration keys, defaults, and related guides.
+
+Sections marked **Pro** require Freeform Pro. Other sections identify edition requirements for individual settings where applicable.
+
+## Core settings
+
+<SettingsCards
+  items={[
+    {"title": "General Settings", "description": "Plugin behavior, sites, exports, and cleanup", "icon": "config-page", "link": "./general/"},
+    {"title": "Form Behavior", "description": "Submission behavior, scripts, and saved progress", "icon": "computer", "link": "./form-behavior/"},
+    {"title": "Form Builder", "description": "Defaults for forms, fields, and notifications", "icon": "widgets", "link": "./form-builder/"},
+    {"title": "Queue Processing", "description": "Background tasks and automatic queue pinging", "icon": "queue", "link": "./queue-processing/"},
+  ]}
+/>
+
+## Templates & content
+
+<SettingsCards
+  items={[
+    {"title": "Template Manager", "description": "Formatting, email, and success templates", "icon": "code", "link": "./template-manager/"},
+    {"title": "PDF Templates", "description": "Generate PDF attachments for notifications", "icon": "pdf", "link": "./pdf-templates/", "proOnly": true},
+    {"title": "Statuses", "description": "Create and manage submission statuses", "icon": "category", "link": "./statuses/"},
+  ]}
+/>
+
+## Access & connections
+
+<SettingsCards
+  items={[
+    {"title": "Limited Users", "description": "Simplify the builder for users and groups", "icon": "padlock", "link": "../limited-users/", "proOnly": true},
+    {"title": "Integrations", "description": "Connect forms to services and Craft Elements", "icon": "cloud-api", "link": "../../integrations/"},
+    {"title": "Spam Protection", "description": "Spam handling, throttling, and retention", "icon": "carrot", "link": "./spam-protection/"},
+  ]}
+/>
+
+## Maintenance
+
+<SettingsCards
+  items={[
+    {"title": "Demo Templates", "description": "Install examples and explore Freeform", "icon": "starter-templates", "link": "../demo-templates/"},
+    {"title": "Notices & Alerts", "description": "Updates, email alerts, and weekly digests", "icon": "email-report", "link": "../notices-alerts/"},
+    {"title": "Logs", "description": "Troubleshoot errors, integrations, and emails", "icon": "review", "link": "./logs/"},
+  ]}
+/>
+
+## Managing Configuration
+
+Use [Project Config](../project-config.mdx) to manage Freeform settings across environments. Defaults in the reference pages describe a new installation; settings already saved on your site may differ.
+
+Craft's `allowAdminChanges` setting makes most configuration screens read-only. The individual references explain exceptions for integrations, PDF templates, statuses, and log viewers.
+
+For access control and environment checks, see [Permissions](../permissions.mdx) and [Diagnostics](../diagnostics.mdx).

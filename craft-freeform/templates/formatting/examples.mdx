@@ -1,0 +1,484 @@
+---
+title: Examples & Recipes
+sidebar_position: 12
+description: Focused Twig examples for form attributes, field styling, buttons, captcha wrappers, and initial values.
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Formatting Examples & Recipes
+
+These examples assume a `form` or `field` object is already available. Replace field handles, classes, and paths with your own. See [Template Overrides](./overrides.mdx) for the complete reference.
+
+Use the **Template Code** and **Output** tabs to compare each change. Output examples show the relevant markup; Freeform's additional IDs, hidden inputs, ARIA attributes, and other generated attributes are omitted where they do not help explain the override. Exact markup depends on your formatting template and field settings.
+
+## On Form tag and Rows
+
+Set attributes on the form and row wrappers.
+
+<Tabs>
+  <TabItem value="template-code" label="Template Code" default>
+
+```twig
+{{ form.render({
+  attributes: {
+    novalidate: true,
+    "data-my-form": true,
+    class: "my-form-class",
+    row: {
+      class: "row",
+      "data-row": true,
+    },
+  }
+}) }}
+```
+
+  </TabItem>
+  <TabItem value="output" label="Output">
+
+The relevant form and row attributes look like this:
+
+```html
+<form novalidate data-my-form class="my-form-class">
+  <div class="row" data-row>
+    <!-- Rendered fields -->
+  </div>
+</form>
+```
+
+  </TabItem>
+</Tabs>
+
+## On All Fields
+
+Use `@global` for shared attributes, then add more specific selectors.
+
+<Tabs>
+  <TabItem value="template-code" label="Template Code" default>
+
+```twig
+{{ form.render({
+  attributes: {
+    novalidate: true,
+    row: {
+      class: "row",
+    },
+  },
+  fields: {
+    "@global": {
+      attributes: {
+        input: {
+          class: "input-class",
+        },
+        container: {
+          "data-container": true,
+        },
+        label: {
+          class: "label-class",
+        },
+      },
+    },
+    "@dropdown": {
+      attributes: {
+        input: {
+          class: "select fullwidth",
+        },
+        container: {
+          "data-select-container": true,
+        },
+      },
+    },
+    "@checkboxes, @multiple-select": {
+      instructions: "Select all that apply.",
+    },
+    "myFieldHandle": {
+      label: "My Field Label Override",
+      instructions: "My field instructions override.",
+      value: "my field value override",
+      attributes: {
+        container: {
+          "data-my-input-container": true,
+        },
+        input: {
+          class: "big-text",
+        },
+      },
+    },
+  },
+}) }}
+```
+
+  </TabItem>
+  <TabItem value="output" label="Output">
+
+Assuming two Text fields and a Dropdown, shared attributes are combined with the matching overrides:
+
+```html
+<form novalidate>
+  <div class="row">
+    <div data-container data-my-input-container>
+      <label class="label-class" for="form-input-myFieldHandle">My Field Label Override</label>
+      <input name="myFieldHandle" id="form-input-myFieldHandle"
+        class="input-class big-text" value="my field value override" />
+    </div>
+  </div>
+  <div class="row">
+    <div data-container>
+      <label class="label-class" for="form-input-secondTextField">Second Text Field</label>
+      <input name="secondTextField" id="form-input-secondTextField"
+        class="input-class" value="" />
+    </div>
+  </div>
+  <div class="row">
+    <div data-container data-select-container>
+      <label class="label-class" for="form-input-myDropdown">Department</label>
+      <select name="myDropdown" id="form-input-myDropdown" class="input-class select fullwidth">
+        <option value="sales">Sales</option>
+        <option value="support">Support</option>
+      </select>
+    </div>
+  </div>
+</form>
+```
+
+  </TabItem>
+</Tabs>
+
+## On Field Containers
+
+Add attributes to a field wrapper. See [Overriding HTML Tags](./overrides.mdx#overriding-html-tags) for accessible choice-group markup.
+
+<Tabs>
+  <TabItem value="template-code" label="Template Code" default>
+
+```twig
+{{ field.render({
+  attributes: {
+    container: {
+      tag: "div",
+      class: "certain-class",
+      "data-container": true,
+    },
+  },
+}) }}
+```
+
+  </TabItem>
+  <TabItem value="output" label="Output">
+
+For a Text field, the attributes are placed on its surrounding container:
+
+```html
+<div class="certain-class" data-container>
+  <label for="form-input-myField">My Field</label>
+  <input name="myField" id="form-input-myField" value="" />
+</div>
+```
+
+  </TabItem>
+</Tabs>
+
+## On All Parts of the Fields
+
+Override a field's label, instructions, initial value, and attribute locations together.
+
+<Tabs>
+  <TabItem value="template-code" label="Template Code" default>
+
+```twig
+{{ field.render({
+  label: "My Field Label Override",
+  instructions: "My field instructions override.",
+  value: "my field value override",
+  attributes: {
+    container: {
+      class: "container",
+    },
+    input: {
+      "data-field": true,
+      class: "input-element",
+    },
+    label: {
+      class: "label",
+    },
+    instructions: {
+      class: "instructions",
+    },
+    error: {
+      class: "error-block",
+    },
+  }
+}) }}
+```
+
+  </TabItem>
+  <TabItem value="output" label="Output">
+
+For a Text field with a validation error, each location receives its own attributes:
+
+```html
+<div class="container">
+  <label class="label" for="form-input-myField">My Field Label Override</label>
+  <div class="instructions">My field instructions override.</div>
+  <input type="text" name="myField" id="form-input-myField"
+    class="input-element" data-field value="my field value override" />
+  <ul class="error-block">
+    <li>This field is required.</li>
+  </ul>
+</div>
+```
+
+  </TabItem>
+</Tabs>
+
+## On Submit Buttons
+
+Set button wrapper attributes and labels. For placement or custom markup, see [Submit Button Customization](./rendering.mdx#submit-button-customization).
+
+<Tabs>
+  <TabItem value="template-code" label="Template Code" default>
+
+```twig
+{{ form.render({
+  buttons: {
+    attributes: {
+      container: {
+        style: "border: 1px solid red;",
+      },
+      column: {
+        style: "background: #ccc;",
+      },
+      buttonWrapper: {
+        style: "padding: 0 5px;",
+      },
+      submit: {
+        class: "btn btn-primary",
+      },
+      back: {
+        class: "btn btn-secondary",
+      },
+      save: {
+        class: "btn btn-secondary",
+      }
+    },
+    submitLabel: "Send",
+    backLabel: "Previous",
+    saveLabel: "Save",
+  },
+}) }}
+```
+
+  </TabItem>
+  <TabItem value="output" label="Output">
+
+Assuming a multipage form with Back enabled, the wrapper and button overrides produce markup like this:
+
+```html
+<div data-freeform-controls style="border: 1px solid red;">
+  <div style="background: #ccc;">
+    <div style="padding: 0 5px;">
+      <button type="submit" data-freeform-action="back" class="btn btn-secondary">Previous</button>
+    </div>
+  </div>
+  <div style="background: #ccc;">
+    <div style="padding: 0 5px;">
+      <button type="submit" data-freeform-action="submit" class="btn btn-primary">Send</button>
+    </div>
+  </div>
+</div>
+```
+
+  </TabItem>
+</Tabs>
+
+## On Captcha Wrapper
+
+Add attributes to automatically inserted captcha wrappers. For placement, see [Captcha Placement](./rendering.mdx#captcha-placement).
+
+<Tabs>
+  <TabItem value="template-code" label="Template Code" default>
+
+```twig
+{{ form.render({
+  captchas: {
+    class: ["custom-class", "another-class"],
+    "data-test": true,
+  }
+}) }}
+```
+
+  </TabItem>
+  <TabItem value="output" label="Output">
+
+For a reCAPTCHA wrapper, the relevant attributes look like this:
+
+```html
+<div class="custom-class another-class" data-test data-freeform-recaptcha-container>
+  <div class="g-recaptcha"><!-- Captcha widget --></div>
+</div>
+```
+
+  </TabItem>
+</Tabs>
+
+## Override Field Values
+
+Prepopulate text fields or select configured option values. These are initial values, not a way to enforce trusted submitted data. Set these before rendering your fields, and keep `renderTag()` paired with `renderClosingTag()` in the complete template. See [Passing Dynamic Data to Forms](../../guides/guide/passing-dynamic-data-to-forms.mdx) for more patterns.
+
+<Tabs>
+  <TabItem value="template-code" label="Template Code" default>
+
+```twig
+{% set entry = craft.entries.slug(craft.app.request.getSegment(2)).one() %}
+
+{{ form.renderTag({
+  fields: {
+    "entryTitle": {
+      value: entry ? entry.title : ''
+    },
+    "stateSelect": {
+      value: "AZ"
+    },
+    "availability": {
+      value: ["tue", "thu"]
+    },
+    "firstName": {
+      value: currentUser ? currentUser.name : ''
+    },
+  }
+}) }}
+```
+
+  </TabItem>
+  <TabItem value="output" label="Output">
+
+Assuming the queried entry is “Summer Workshop”, the logged-in user is “Alex Morgan”, and the form has a Dropdown and Multiple Select with these option values:
+
+```html
+<input name="entryTitle" value="Summer Workshop" />
+
+<select name="stateSelect">
+  <option value="AZ" selected>Arizona</option>
+  <option value="CA">California</option>
+</select>
+
+<select name="availability[]" multiple>
+  <option value="mon">Monday</option>
+  <option value="tue" selected>Tuesday</option>
+  <option value="thu" selected>Thursday</option>
+</select>
+
+<input name="firstName" value="Alex Morgan" />
+```
+
+  </TabItem>
+</Tabs>
+
+## Array Values & Conditionals
+
+Use arrays to assemble classes or other attribute values. Empty, false, or null array entries are omitted.
+
+<Tabs>
+  <TabItem value="template-code" label="Template Code" default>
+
+```twig
+{{ field.render({
+  attributes: {
+    label: {
+      id: "label-for-" ~ field.handle,
+      class: [
+        "form-control-label",
+        field.hasErrors ? "is-invalid has-validation",
+        field.required ? "required",
+        field.type == "checkbox" ? "checkbox" : "non-checkbox",
+      ],
+    },
+  },
+}) }}
+```
+
+  </TabItem>
+  <TabItem value="output" label="Output">
+
+For a required Checkbox with handle `myField` and no validation errors, the label attributes include:
+
+```html
+<label id="label-for-myField" class="form-control-label required checkbox"></label>
+```
+
+  </TabItem>
+</Tabs>
+
+## Boolean Values
+
+A standalone attribute is rendered for `true` or `null`; `false` omits it.
+
+<Tabs>
+  <TabItem value="template-code" label="Template Code" default>
+
+```twig
+{{ field.render({
+  attributes: {
+    label: {
+      "data-required": false,
+      "data-is-blue": true,
+      "data-is-some-data": null,
+    }
+  }
+}) }}
+```
+
+  </TabItem>
+  <TabItem value="output" label="Output">
+
+The `false` attribute is omitted; the `true` and `null` attributes render without values:
+
+```html
+<label data-is-blue data-is-some-data></label>
+```
+
+  </TabItem>
+</Tabs>
+
+## Populate Freeform Field Data
+
+For dynamic option sources, first check [Populating Field Options](../../forms/fields/populating-options.mdx). When custom template code is necessary, follow [Populate Field Options at Template Level](../../guides/guide/populate-field-options-at-template-level.mdx). The code below belongs inside a field-rendering loop and assumes a Text field configured with the handle `myFieldHandle`.
+
+<Tabs>
+  <TabItem value="template-code" label="Template Code" default>
+
+```twig
+{% if field.handle == 'myFieldHandle' %}
+  {{ field.renderLabel() }}
+  <select name="{{ field.handle }}" id="{{ field.idAttribute }}">
+  {% for entry in craft.entries.section('news').limit(10).all() %}
+    <option value="{{ entry.id }}"{% if field.value == entry.id %} selected{% endif %}>
+      {{ entry.title }}
+    </option>
+  {% endfor %}
+  </select>
+  {{ field.renderErrors() }}
+{% else %}
+  {{ field.render() }}
+{% endif %}
+```
+
+  </TabItem>
+  <TabItem value="output" label="Output">
+
+Assuming two queried entries with IDs `101` and `102`, and a current field value of `101`:
+
+```html
+<label for="form-input-myFieldHandle">Choose an article</label>
+<select name="myFieldHandle" id="form-input-myFieldHandle">
+  <option value="101" selected>Summer Workshop</option>
+  <option value="102">Autumn Workshop</option>
+</select>
+```
+
+  </TabItem>
+</Tabs>
+
+
+For complete row-and-field rendering patterns, see [Rendering Forms Manually](./rendering.mdx).

@@ -13,7 +13,7 @@ import Icons from '@site/static/icons/cards';
 
 # Form Builder<Badge type="feature" text="Improved in 5.0+" />
 
-What makes Freeform different from other form plugins is that it gives you full control to create simple or complex multi-page forms, and everything is at your fingertips in our elegant form builder. It has been expertly designed to minimize mouse movement and clicks. Freeform also features a long list of its own set of robust [field types](./fields.mdx).
+What makes Freeform different from other form plugins is that it gives you full control to create simple or complex multi-page forms, and everything is at your fingertips in our elegant form builder. It has been expertly designed to minimize mouse movement and clicks. Freeform also features a long list of its own set of robust [field types](./fields/index.mdx).
 
 <FlexCards
   navCards
@@ -100,7 +100,7 @@ The form builder is divided into 5 sections:
 
 ## Layout<Badge type="feature" text="Improved in 5.0+" />
 
-This is where you set up [fields](./fields.mdx) and [pages](#multi-page-forms), as well as design and configure the overall layout of the form.
+This is where you set up [fields](./fields/index.mdx) and [pages](#multi-page-forms), as well as design and configure the overall layout of the form.
 
 <Player
   url={require('@site/static/videos/craft/freeform/v5/builder-overview.mp4').default}
@@ -173,7 +173,7 @@ In the **Recipients** area, add any email address(es) you'd like to receive an e
 
 ### User Select<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Renamed & Improved for 5.0+" />
 
-Email notifications can be sent to one or more pre-defined admin email addresses that are selected by the user filling out the form using any [Dropdown](./fields.mdx#dropdown), [Checkboxes](./fields.mdx#checkboxes), [Radios](./fields.mdx#radios), [Multi-Select](./fields.mdx#multiple-select) field types. For example, you might have a **Dropdown** field that contains different departments for the user to address the email to.
+Email notifications can be sent to one or more pre-defined admin email addresses that are selected by the user filling out the form using any [Dropdown](./fields/dropdown.mdx#dropdown), [Checkboxes](./fields/checkboxes.mdx#checkboxes), [Radios](./fields/radios.mdx#radios), [Multi-Select](./fields/multiple-select.mdx#multiple-select) field types. For example, you might have a **Dropdown** field that contains different departments for the user to address the email to.
 
 In the **Recipient Mapping** area, add email address(es) for each corresponding option. If you need to specify more than one email address for an option, hit _Enter_ and additional email inputs will appear.
 
@@ -185,13 +185,13 @@ Be sure to set up your option fields as usual, and do not set email addresses as
 
 ### Email Fields
 
-Email notifications can be sent to the user submitting the form as long as you're using the [Email](./fields.mdx#email) field type. This is often used to send an email confirmation for the user.
+Email notifications can be sent to the user submitting the form as long as you're using the [Email](./fields/email.mdx#email) field type. This is often used to send an email confirmation for the user.
 
 :::warning
-If you currently don't have any **Email** fields, please add one to your form layout. If you are using a regular [Text](./fields.mdx#text) field to hold the email address, please switch it to an [Email](./fields.mdx#email) field type first.
+If you currently don't have any **Email** fields, please add one to your form layout. If you are using a regular [Text](./fields/text.mdx#text) field to hold the email address, please switch it to an [Email](./fields/email.mdx#email) field type first.
 :::
 
-You can also enable "tell-a-friend" type forms by including additional [Email](./fields.mdx#email) fields in your form. This would then allow the submitter of the form to specify a friend's email address and have them receive an email notification as well.
+You can also enable "tell-a-friend" type forms by including additional [Email](./fields/email.mdx#email) fields in your form. This would then allow the submitter of the form to specify a friend's email address and have them receive an email notification as well.
 
 ## Conditional Rules<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.0+" />
 
@@ -216,14 +216,14 @@ For added convenience, Freeform includes a field map along with visual cues. Thi
 Configuring rules for fields, groups and pages is straightforward:
 
 - To set rules for a field, click on the field name in the left column.
-- To set rules for a [Group](./fields.mdx#group) field, click on the group field name in the left column.
+- To set rules for a [Group](./fields/group.mdx#group) field, click on the group field name in the left column.
 - To set rules for a page, click on the page name in the left column.
 
 Please see the [Conditional Rules](./conditional-rules.mdx) documentation for more information about this feature.
 
 ## Integrations<Badge type="feature" text="Improved in 5.0+" />
 
-This is where you can configure various types of integrations for your form. It will only show integrations that have been configured/setup in the [Freeform Settings](../configuration/settings.mdx) area.
+This is where you can configure various types of integrations for your form. It will only show integrations that have been configured/setup in the [Freeform Settings](../configuration/settings/index.mdx) area.
 
 <Player
   url={require('@site/static/videos/craft/freeform/v5/builder-integrations.mp4').default}
@@ -255,9 +255,9 @@ Add conditional logic to your Element integrations to control **when** submissio
 
 ### Payments<Badge type="pro" text="Pro" />
 
-If the **Stripe Payments** integration is available, click on it in the left column. Once loaded in the right column, toggle the **Use integration for this form** switch ON and proceed to configuring settings and field mapping as necessary. You will also need to add a [Stripe Payments](./fields.mdx#stripe-payment) special field to the form layout.
+If the **Stripe Payments** integration is available, click on it in the left column. Once loaded in the right column, toggle the **Use integration for this form** switch ON and proceed to configuring settings and field mapping as necessary. You will also need to add a [Stripe Payments](./fields/stripe-payment.mdx#stripe-payment) special field to the form layout.
 
-Please see the [Stripe Payments](./fields.mdx#stripe-payment) documentation guide for further instruction.
+Please see the [Stripe Payments](./fields/stripe-payment.mdx#stripe-payment) documentation guide for further instruction.
 
 ### Elements<Badge type="pro" text="Pro" />
 
@@ -336,15 +336,15 @@ This is where you configure all settings and behaviors for the form.
 <summary>Data Storage</summary>
 
 - **Store Submitted Data for this Form** - allows you to specify whether the submission data for this form should be stored in the database.
-  - Typical use cases for not storing submission data on your site would be if you just wanted the [email notification](./email-notifications.mdx) and/or wanted the data submitted over to an [Email Marketing](../integrations/index.mdx) or [CRM](../integrations/index.mdx) integration.
+  - Typical use cases for not storing submission data on your site would be if you just wanted the [email notification](email-notifications/index.mdx) and/or wanted the data submitted over to an [Email Marketing](../integrations/index.mdx) or [CRM](../integrations/index.mdx) integration.
   - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../configuration/gdpr-compliance.mdx) for more information.
 - **Default Status** - the default status to be used when users submit the form, unless overwritten at template level.
-  - See [Statuses](../configuration/settings.mdx#statuses) documentation for managing statuses.
+  - See [Statuses](../configuration/settings/statuses.mdx) documentation for managing statuses.
 - **Collect IP Addresses** - allows you to specify whether or not the form should collect IP addresses from submitters.
   - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../configuration/gdpr-compliance.mdx) for more information.
 - **Allow Users to Opt-in** - if enabled, it allows the submitter to choose whether or not they want their submission data stored on your site.
   - **Opt-in Checkbox** - select a **Checkbox** fieldtype you want to be the designated opt-in field.
-  - If the user does NOT opt-in, Freeform will still send off data to [integrations](../integrations/index.mdx) and [email notifications](./email-notifications.mdx).
+  - If the user does NOT opt-in, Freeform will still send off data to [integrations](../integrations/index.mdx) and [email notifications](email-notifications/index.mdx).
   - It's important to note that this likely isn't a complete solution for [GDPR Compliance](../configuration/gdpr-compliance.mdx) if that is why you are using this feature. Please read our official [Guide to GDPR Compliance with Freeform](../configuration/gdpr-compliance.mdx) for more information.
 
 </details>
@@ -381,7 +381,7 @@ This is where you configure all settings and behaviors for the form.
     - **Replace with success message**
       - Upon successful submit of the form, Freeform will stay on the same page but replace the form contents with the contents of the _Success Template_ that you specify. Please note that this will not work when manually rendering form formatting directly inside a regular template (not using a [Formatting Template](../templates/formatting/index.mdx)).
       - **Success Template**
-        - Specify which [Success Template](../configuration/settings.mdx#template-manager) you'd like to be used for this form.
+        - Specify which [Success Template](../configuration/settings/template-manager.mdx) you'd like to be used for this form.
     - **Redirect to another URL**
       - Upon successful submit of the form, Freeform will redirect the user to the URL specified in the _Return URL_ setting.
       - **Return URL**
@@ -478,13 +478,13 @@ Freeform allows for _multi-page_ forms (a POST submit per page). When editing fo
 - Multi-page forms work with the [built-in AJAX](../templates/ajax.mdx) feature.
   - **Editing** existing submissions via the front end in multi-page AJAX forms will currently not work correctly.
 - To allow users to stop and return at a later time to complete the form, it will require use of the [Save & Continue Later](../forms/save-continue-later.mdx) feature. Otherwise, the process has to be a continuous one, but the user has 3 hours before the form will timeout the submission.
-- If an earlier page contains file upload field(s), files will actually be uploaded before the form is officially submitted. - After 3 hours (by default), Freeform will automatically remove any uploaded files if the form isn't finished being submitted. - If you require a longer period of time, we recommend using the [File Upload Drag & Drop](./fields.mdx#file-upload-drag--drop) field and the [Save & Continue Later](../forms/save-continue-later.mdx) feature.
+- If an earlier page contains file upload field(s), files will actually be uploaded before the form is officially submitted. - After 3 hours (by default), Freeform will automatically remove any uploaded files if the form isn't finished being submitted. - If you require a longer period of time, we recommend using the [File Upload Drag & Drop](./fields/file-drag-drop.mdx#file-upload-drag--drop) field and the [Save & Continue Later](../forms/save-continue-later.mdx) feature.
 
 </details>
 
 ### Manual Submit Buttons in Multi-page Forms
 
-When manually building submit buttons in multi-page forms, please refer to the [Submit buttons](./fields.mdx#submit-buttons) guide for available options.
+When manually building submit buttons in multi-page forms, please refer to the [Submit buttons](./fields/submit-buttons.mdx#submit-buttons) guide for available options.
 
 ## Form Types<Badge type="pro" text="Pro" />
 

@@ -1,0 +1,160 @@
+---
+title: Twig Reference
+sidebar_position: 2
+description: Reference the variables available in notification templates, field values, file metadata, and template-based recipients.
+---
+
+# Notification Twig Reference
+
+Use this reference when adding Twig to an email body, configuring a global template file, or supplying recipients from the Twig template that displays a form. For visual editing and token insertion, see [Notification Templates](./templates.mdx).
+
+## Available Variables {#templating-guide}
+
+| Variable | Use |
+| --- | --- |
+| `form` | The form object, including `form.name`, `form.id`, and `form.handle`. |
+| A field handle, such as `firstName` | The field object for a field available in the notification context. |
+| `allFields` | Fields eligible for automated email output. |
+| `allFieldsAndBlocks` | The same email fields, plus HTML and Rich Text blocks. |
+| `dateCreated` | The date/time provided to the notification template; format it with Twig's `date` filter. |
+| `submission` | Submission data, when available. Check for a non-null value before using it. |
+| `element` | Data added by an Elements integration, when available. |
+
+See the [Form object](../../templates/objects/form.mdx) and [Submission object](../../templates/objects/submission.mdx) for their full references.
+
+### Field Values & Labels
+
+A field handle refers to a field object. Use string helpers when inserting its data into a message, and raw values when you need to loop through or query with the underlying data.
+
+| Expression | Result |
+| --- | --- |
+| `firstName.valueAsString` | Submitted value as a string. Multiple values are joined into a string. |
+| `interests.labelsAsString` | Selected option labels as a string, such as `Apples, Oranges`. |
+| `interests.value` | Raw submitted value or values, such as `apples` or an array. |
+| `interests.labels` | Raw selected option labels, which may be an array. |
+| `firstName.label` | The field's label. |
+| `firstName.handle` | Its handle. |
+| `firstName.instructions` | Its instructions. |
+| `firstName.placeholder` | Its placeholder, where supported by the field type. |
+
+```twig
+<p>Name: {{ firstName.valueAsString }}</p>
+<p>Interests: {{ interests.labelsAsString }}</p>
+```
+
+The short form `{{ firstName }}` renders the field's string value. Prefer the explicit helpers when writing reusable examples. Printing `.value` or `.labels` directly can fail when the result is an array; iterate over them or join them instead.
+
+### Automated Field Output {#all-fields}
+
+Use `allFields` to iterate over ordinary email-visible fields. Select option labels for option fields and string values for other fields:
+
+```twig
+{% for field in allFields %}
+  <p>
+    {{ field.label }}:
+    {% if field.implements('options') %}
+      {{ field.labelsAsString }}
+    {% else %}
+      {{ field.valueAsString }}
+    {% endif %}
+  </p>
+{% endfor %}
+```
+
+Fields hidden by conditional rules are excluded. File Upload and Signature fields are also excluded from this list; use the [upload](./examples.mdx#including-file-upload-data) and [signature](./examples.mdx#including-signatures) recipes to display their data explicitly. Password values are not stored with submissions or exposed in notification output.
+
+HTML and Rich Text blocks require `allFieldsAndBlocks`. Use `field.content` for their markup, as shown in the [blocks recipe](./examples.mdx#include-html-and-rich-text-blocks).
+
+### Submission & Elements Data
+
+Use `submission` for stored submission data and guard against it being unavailable:
+
+```twig
+{% if submission is not null %}
+  <p>Submission: {{ submission.id }}</p>
+{% endif %}
+```
+
+An [Elements integration](../../integrations/elements.mdx) can expose properties of the created element through `element`, such as `element.id`, `element.title`, or `element.username`. When the form creates several elements, iterate over the collection or access a specific item, such as `element[0].id`.
+
+```twig
+{% if element is defined %}
+  {% if element is iterable %}
+    {% for item in element %}
+      <p>Created element: {{ item.id }}</p>
+    {% endfor %}
+  {% else %}
+    <p>Created element: {{ element.id }}</p>
+  {% endif %}
+{% endif %}
+```
+
+## Global Template Files {#configuration}
+
+Create files in the [email template directory](../../configuration/settings/template-manager.mdx#email-template-directory). Metadata comments configure the message; the remaining template supplies its body.
+
+This complete example uses field handles `email`, `firstName`, and `lastName`. Replace those handles with the ones on your form. The wrapper, asset, and PDF lines are optional; use IDs from your site or remove them.
+
+```twig showLineNumbers
+{# subject: New submission from {{ form.name }} #}
+{# fromEmail: {{ craft.app.projectConfig.get('email.fromEmail') }} #}
+{# fromName: {{ craft.app.projectConfig.get('email.fromName') }} #}
+{# replyToEmail: {{ email.valueAsString }} #}
+{# replyToName: {{ firstName.valueAsString }} {{ lastName.valueAsString }} #}
+{# cc: team@example.com #}
+{# bcc: #}
+{# includeAttachments: true #}
+{# presetAssets: 42,67 #}
+{# pdfTemplates: 3 #}
+{# wrapperId: 1 #}
+{# templateName: Team notification #}
+{# description: Notify the team of a new submission. #}
+
+<h2>New submission from {{ form.name }}</h2>
+<p>Name: {{ firstName.valueAsString }} {{ lastName.valueAsString }}</p>
+<p>Email: {{ email.valueAsString }}</p>
+```
+
+### Metadata Keys
+
+| Key | Purpose |
+| --- | --- |
+| `subject` | Email subject. |
+| `fromEmail`, `fromName` | Sending address and display name. |
+| `replyToEmail`, `replyToName` | Reply address and display name; fall back to the sender when empty. |
+| `cc`, `bcc` | Comma-separated copy recipients. |
+| `includeAttachments` | Use `true` to attach files uploaded with the form. |
+| `presetAssets` | Comma-separated Craft asset IDs or Twig that returns IDs; Pro. |
+| `pdfTemplates` | Comma-separated Freeform PDF template IDs; Pro. |
+| `wrapperId` | ID of a notification template wrapper. |
+| `templateName` | Display name shown in the control panel. |
+| `description` | Description shown in the control panel. |
+
+The file name identifies a file-based template; include its extension when selecting it through `dynamicNotification`. See [Notification Templates](./templates.mdx) for storage and editing settings.
+
+### Plain-text Body
+
+For a custom plain-text body, use `{# text #}` and `{# /text #}` around that part of the file. Otherwise, file-based templates use an automatically generated text alternative. See the [plain-text recipe](./examples.mdx#include-a-text-only-version).
+
+## Template-based Notifications
+
+Set `dynamicNotification` in the **site Twig template that displays the form**, rather than in the notification's email body. It supplies recipients and a global notification template for that form instance:
+
+```twig
+{% set form = freeform.form('contact', {
+  dynamicNotification: {
+    recipients: ['admin@example.com', 'support@example.com'],
+    template: 'team-notification.twig'
+  }
+}) %}
+
+{{ form.render() }}
+```
+
+`recipients` accepts a single address or an array of addresses. Use the file name with its extension for file-based templates, or the handle for database templates.
+
+You can pass resolved values from a Craft Entry or another trusted source. The recipient strings are literal addresses and are not rendered as Twig a second time. For notifications configured in the builder, see [Twig in Recipient Settings](./index.mdx#recipient-twig).
+
+See the [Form query reference](../../templates/queries/form.mdx#dynamicnotification) for the query parameter, and [Notifications for Certain Scenarios](../../guides/guide/email-notifications-certain-scenarios.mdx) for a contextual example.
+
+Continue to [Examples & Recipes](./examples.mdx) for customization patterns, or return to [Email Notifications](./index.mdx) for setup.

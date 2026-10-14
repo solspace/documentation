@@ -1,0 +1,327 @@
+---
+title: "Populating Field Options"
+sidebar_position: 4
+toc_max_heading_level: 3
+description: "Populating Field Options for Freeform fields in Craft CMS."
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { Badge, BadgeGroup } from '@site/src/components/utils';
+
+# Populating Field Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.0+, 5.17+" /> {#populating-field-options}
+
+
+<span id="populating-field-options" />
+All multi-option field types (such as Dropdown, Checkboxes, etc) can have their option labels and values automatically populated with Craft Elements or Pre-defined list options. This allows you to quickly build forms by having fields auto-generated.
+
+:::tip
+[Need more control over populating field options dynamically at template level, such as from a Craft Entry or some other Twig code in your template? Check out how to populate field options at template level.](../../guides/guide/populate-field-options-at-template-level.mdx)
+:::
+
+## Applicable Field Types {#applicable-field-types}
+
+The following field types can be auto-populated:
+
+- [Dropdown](./dropdown.mdx#dropdown)
+  - Optional **Empty Option Label** to have first option be something like `Please select...`
+- [Multiple Select](./multiple-select.mdx#multiple-select)
+- [Checkboxes](./checkboxes.mdx#checkboxes)
+- [Radios](./radios.mdx#radios)
+
+## Available Options<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup> {#available-options}
+
+The following Freeform _Predefined Options_ and _Craft Elements_ can be fed to the above [field types](#applicable-field-types):
+
+:::tip
+[Need to build your own custom Predefined Options list? Check out the guide.](../../developer/predefined-options.mdx)
+:::
+
+<Tabs>
+<TabItem value="predefined-options-Dates" label="Dates/Times" default>
+
+### Months {#months}
+
+- All 12 months of the year.
+- **Option Label** and **Option Value** choices:
+  - Full, e.g. `September`
+  - Full (translated), e.g. `Septembre`<Badge type="feature" text="New in 5.14.12+" />
+  - Abbreviated (Capitalized 3 letters), e.g. `Sep`
+  - Single Number, e.g. `9`
+  - 2-digit Number, e.g. `09`
+
+### Days {#days}
+
+- List of days `1` to `31`.
+- **Option Label** and **Option Value** choices:
+  - Single Number, e.g. `3`
+  - 2-digit Number, e.g. `03`
+
+### Days of Week {#days-of-week}
+
+- List of all days of week.
+- **Option Label** and **Option Value** choices:
+  - Full, e.g. `Thursday`
+  - Full (translated), e.g. `Donderdag`<Badge type="feature" text="New in 5.14.12+" />
+  - Abbreviated (Capitalized 3 letters), e.g. `Thu`
+  - Single Number, e.g. `4`
+
+### Timezones<Badge type="feature" text="New in 5.15.17+" /> {#timezones}
+
+- All world timezones
+- **Option Label** and **Option Value** choices:
+  - UTC Label, e.g. `(UTC-04:00) New York`
+  - Identifier, e.g. `America/New_York`
+
+### Time Intervals<Badge type="feature" text="New in 5.17+" /> {#time-intervals}
+
+Generates a list of times using these settings:
+
+- **Start Time:** The first time, entered in 24-hour `HH:MM` format.
+- **End Time:** The final boundary, on the same day and at or after the start time.
+- **Interval:** Spacing of **15**, **30**, or **60 minutes**.
+- **Time Label Format:** Display times using **12-hour** or **24-hour** notation.
+
+For example, `09:00` to `10:00` at 30-minute intervals produces `09:00`, `09:30`, and `10:00`. The end time is included when it falls on an interval.
+
+Stored values always use 24-hour `HH:MM` format, regardless of the label format. These options provide a time list; they do not check availability or prevent duplicate bookings.
+
+</TabItem>
+<TabItem value="predefined-options-Ranges" label="Ranges">
+
+### Numbers <span>(range)</span> {#numbers-range}
+
+- A custom range of numbers
+- **Range Start** and **Range End**
+  - E.g. `60` - `65` would return list: `60, 61, 62, 63, 64, 65`
+
+### Years <span>(range)</span> {#years-range}
+
+- A custom range of years
+- **Range Start** - number of years in PAST from current year
+- **Range End** - number of years in FUTURE from current year
+  - E.g. `5` (start) - `0` (end) would return list: `2018, 2017, 2016, 2015, 2014, 2013`
+- **Sort Direction**:
+  - Ascending
+  - Descending
+
+</TabItem>
+<TabItem value="predefined-options-Regions" label="Regions">
+
+### States {#states}
+
+- Official USA states
+- **Option Label** and **Option Value** choices:
+  - Full, e.g. `California`
+  - Full (translated), e.g. `Californië`<Badge type="feature" text="New in 5.14.12+" />
+  - Abbreviated (upper case 2 letters)
+
+### States & Territories {#states--territories}
+
+- Official USA states and territories
+- **Option Label** and **Option Value** choices:
+  - Full, e.g. `California`
+  - Full (translated), e.g. `Californië`<Badge type="feature" text="New in 5.14.12+" />
+  - Abbreviated (upper case 2 letters)
+
+### Canadian Provinces {#canadian-provinces}
+
+- Official Canadian provinces and territories
+- **Provinces - English**
+  - Canadian Provinces and territories in English
+- **Provinces - French**
+  - Canadian Provinces and territories in French
+- **Provinces - Bilingual**
+  - Bilingual list of Canadian Provinces and territories
+  - **Option Label** and **Option Value** choices:
+    - Full, e.g. `British Columbia`
+    - Full (translated), e.g. `Colombie-Britannique`<Badge type="feature" text="New in 5.14.12+" />
+    - Abbreviated (upper case 2 letters)
+
+### Countries {#countries}
+
+- All world countries
+- **Option Label** and **Option Value** choices:
+  - Full, e.g. `France`
+  - Full (translated), e.g. `Frankrijk`<Badge type="feature" text="New in 5.14.12+" />
+  - Abbreviated (upper case 2 letters)
+
+### Regional Subdivisions<Badge type="feature" text="New in 5.17+" /> {#regional-subdivisions}
+
+Generates options for the subdivisions of a selected country. Choose from:
+- **Australia**: States and territories
+- **Germany**: Federal states
+- **France**: Regions
+- **Italy**: Regions
+- **Netherlands**: Provinces
+- **United Kingdom**: Constituent countries—England, Northern Ireland, Scotland, and Wales
+
+The **Country** setting determines which list is displayed. When **Option Value** is set to **Identifier**, values include the country prefix, such as `AU-NSW` for _New South Wales_ or `GB-ENG` for _England_.
+
+### Continents<Badge type="feature" text="New in 5.17+" /> {#continents}
+
+Provides seven continent options with these identifiers:
+
+- **Africa** / `AF`
+- **Antarctica** / `AN`
+- **Asia** / `AS`
+- **Europe** / `EU`
+- **North America** / `NA`
+- **Oceania** / `OC`
+- **South America** / `SA`
+
+</TabItem>
+<TabItem value="predefined-options-Languages" label="Languages">
+
+### World Languages {#world-languages}
+
+- All world languages
+- **Option Label** and **Option Value** choices:
+  - Full, e.g. `Spanish`
+  - Full (translated), e.g. `Español`<Badge type="feature" text="New in 5.14.12+" />
+  - Abbreviated (lower case 2 letters)
+
+</TabItem>
+<TabItem value="predefined-options-Demographics" label="Demographics">
+
+### Age Ranges<Badge type="feature" text="New in 5.17+" /> {#age-ranges}
+Provides these age groups for surveys and demographic questions:
+
+- **Under 18** / `under-18`
+- **18-24** / `18-24`
+- **25-34** / `25-34`
+- **35-44** / `35-44`
+- **45-54** / `45-54`
+- **55-64** / `55-64`
+- **65 or older** / `65-plus`
+- **Prefer not to say** / `prefer-not-to-say`
+
+### Company Sizes<Badge type="feature" text="New in 5.17+" /> {#company-sizes}
+Useful for business inquiries, lead qualification, and organizational surveys. Groups companies by employee count:
+
+- **1 employee** / `1`
+- **2-10** / `2-10`
+- **11-50** / `11-50`
+- **51-200** / `51-200`
+- **201-500** / `201-500`
+- **501-1,000** / `501-1,000`
+- **1,001-5,000** / `1,001-5,000`
+- **5,001 or more employees** / `5001-plus`
+
+### Industries<Badge type="feature" text="New in 5.17+" /> {#industries}
+Provides 20 broad industry categories:
+
+- **Agriculture, Forestry and Fishing**
+- **Arts and Entertainment**
+- **Construction**
+- **Education**
+- **Energy and Utilities**
+- **Finance and Insurance**
+- **Government and Public Administration**
+- **Healthcare and Social Assistance** / `healthcare`
+- **Hospitality and Food Services**
+- **Information Technology** / `information-technology`
+- **Manufacturing; Media and Communications**
+- **Mining and Extraction**
+- **Nonprofit and Charitable Organizations**
+- **Professional and Business Services**
+- **Real Estate**
+- **Retail**
+- **Transportation and Logistics**
+- **Wholesale**
+- **Other** / `other`
+
+### Employment Statuses<Badge type="feature" text="New in 5.17+" /> {#employment-statuses}
+Useful for demographic and registration forms. Provides these employment categories:
+
+- **Employed full-time** / `full-time`
+- **Employed part-time** / `part-time`
+- **Self-employed** / `self-employed`
+- **Unemployed** / `unemployed`
+- **Student** / `student`
+- **Retired** / `retired`
+- **Homemaker** / `homemaker`
+- **Unable to work** / `unable-to-work`
+- **Other** / `other`
+- **Prefer not to say** / `prefer-not-to-say`
+
+### Survey Scales<Badge type="feature" text="New in 5.17+" /> {#survey-scales}
+Provides five-point response scales for surveys and feedback forms. Use the **Survey Scale** setting to choose:
+
+- **Agreement** / _Strongly disagree_, _Disagree_, _Neither agree nor disagree_, _Agree_, _Strongly agree_
+- **Satisfaction** / _Very dissatisfied_, _Dissatisfied_, _Neither satisfied nor dissatisfied_, _Satisfied_, _Very satisfied_
+- **Frequency** / _Never_, _Rarely_, _Sometimes_, _Often_, _Always_
+- **Importance** / _Not at all important_, _Slightly important_, _Moderately important_, _Very important_, _Extremely important_
+- **Likelihood** / _Very unlikely_, _Unlikely_, _Neither likely nor unlikely_, _Likely_, _Very likely_
+
+With **Option Value** set to **Identifier**, responses are stored as scores from `1` to `5`.
+
+</TabItem>
+<TabItem value="predefined-options-Elements" label="Craft Elements">
+
+### [Craft Entries](https://craftcms.com/docs/5.x/reference/element-types/entries.html) {#craft-entries}
+
+- Filter down by:
+  - **Site ID**
+  - **Section**
+  - **Status**<Badge type="feature" text="New in 5.12+" />
+- **Option Label** and **Option Value** choices:
+  - ID, Title, Slug, URI, Fields (simple values)
+
+### [Craft Users](https://craftcms.com/docs/5.x/reference/element-types/users.html) {#craft-users}
+
+- Filter down by:
+  - **Group**
+  - **Status**<Badge type="feature" text="New in 5.12+" />
+- **Option Label** and **Option Value** choices:
+  - ID, Username, Email, First Name, Last Name, Full Name, Fields (simple values)
+
+### [Craft Categories](https://craftcms.com/docs/5.x/reference/element-types/categories.html) {#craft-categories}
+
+- Filter down by:
+  - **Site ID**
+  - **Group**
+  - **Status**<Badge type="feature" text="New in 5.12+" />
+- **Option Label** and **Option Value** choices:
+  - ID, Title, Slug, URI, Fields (simple values)
+
+### [Craft Tags](https://craftcms.com/docs/5.x/reference/element-types/tags.html) {#craft-tags}
+
+- Filter down by:
+  - **Site ID**
+  - **Group**
+  - **Status**<Badge type="feature" text="New in 5.12+" />
+- **Option Label** and **Option Value** choices:
+  - ID, Title, Slug, URI, Fields (simple values)
+
+### [Craft Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html) {#craft-assets}
+
+- Filter down by:
+  - **Asset Source**
+- **Option Label** and **Option Value** choices:
+  - Filename, ID, Fields (simple values)
+
+### [Craft Commerce Products](https://craftcms.com/docs/commerce/5.x/system/products-variants.html) {#craft-commerce-products}
+
+- Filter down by:
+  - **Site ID**
+  - **Product Type**
+  - **Status**<Badge type="feature" text="New in 5.12+" />
+- **Option Label** and **Option Value** choices:
+  - ID, Title, Slug, URI, SKU, Price, Fields (simple values)
+
+</TabItem>
+</Tabs>
+
+## Convert to Custom Options<Badge type="feature" text="New in 5.0+" /> {#convert-to-custom-options}
+
+Sometimes you need a little more control over the populated data generated by the _Element_ or _Predefined_ options. You can click the **Convert to Custom Options** button at any time to have the generated option data converted to _Custom_ options that can then have its options edited, removed, added, renamed, and reordered.
+
+:::danger
+There are potentially negative implications with using this feature:
+
+- Your options data can become out of sync when new elements (e.g. Entries) are added after the fact.
+- If you apply this when there are already existing submissions, renaming option values will orphan submissions relying on the old value name.
+- Be very careful if you attempt to redo this process (e.g. changing back to _Element_ source and grabbing a fresh list of Craft Entries, then converting back to _Custom_). If any existing submissions are relying on old or modified option values, they can become orphaned in the process.
+
+:::

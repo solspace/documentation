@@ -1,0 +1,118 @@
+---
+title: "File Upload"
+sidebar_position: 19
+toc_max_heading_level: 3
+description: "File Upload field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# File Upload<Badge type="feature" text="Improved in 5.17+" /> {#file-upload}
+
+
+<span id="file-upload" />
+A regular file upload field, using [Craft Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html). The `field.type` property value is `file` (for conditionals).
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/file-upload.png')}
+  alt="File Upload field type"
+/>
+
+## Settings
+
+- Must have a [Craft Asset](https://craftcms.com/docs/5.x/reference/element-types/assets.html) Source location where the file will be uploaded to.
+  - Does NOT work with [Image Transforms](https://craftcms.com/docs/5.x/reference/element-types/assets.html#image-transforms).
+  - **Upload Location Subfolder** (optional) - the subfolder path that files should be uploaded to. May contain `form.handle` or `form.id` variables or something like `currentUser.id` for folders based on user ID's or `"now"|date("Y/m")` to dynamically generate folders based on dates as well.
+- Define maximum file size (in KB). Default is 2048 KB (2MB). Is subject to:
+  - Craft's [maxUploadFileSize](https://docs.craftcms.com/api/v5/craft-config-generalconfig.html#property-maxuploadfilesize) setting
+  - PHP [memory_limit](http://us3.php.net/manual/en/ini.core.php#ini.memory-limit)
+  - PHP [post_max_size](http://us3.php.net/manual/en/ini.core.php#ini.post-max-size)
+  - PHP [upload_max_filesize](http://us3.php.net/manual/en/ini.core.php#ini.upload-max-filesize)
+- Can allow a single file or multiple files to be uploaded.
+  - Specify a number larger than `1` in the **File Count** setting to allow multiple files to be uploaded at the same time.
+  - When collecting multiple files, a single input is still displayed, but allows multiple files to be uploaded (applies `multiple` attribute to the single file upload input).
+- Select which file types can be uploaded.
+  - Leaving all options unchecked will allow ALL file types.
+- **Show Upload Requirements**<Badge type="feature" text="New in 5.17+" />
+  - Displays the allowed file kinds, maximum number of files, and maximum size per file beneath the upload field. The text is generated automatically from the field's settings.
+
+## Behavior & Limitations
+
+- In [multi-page forms](../builder.mdx#multi-page-forms), if an earlier page contains file upload field(s), files will actually be uploaded before the form is officially submitted.
+  - If the form is never completed, incomplete submissions are stored for 3hrs, and then are removed (along with the files) after that.
+- If you're handling sensitive files, you may wish to choose an Asset volume without public URL's (**Assets in this volume have public URLs** toggle is off).
+
+## Styling & Customization
+
+### Upload Requirements<Badge type="feature" text="New in 5.17+" /> {#upload-requirements}
+
+### Appearance {#appearance-1}
+
+Style the generated text using `.freeform-upload-requirements`:
+
+```css
+.freeform-upload-requirements {
+  color: #6b7280;
+  font-size: 0.8125rem !important;
+  margin-top: 0.5rem !important;
+}
+```
+
+The text also inherits the field's instruction classes. Some default spacing and typography are applied inline, so overrides may require `!important`.
+
+### Placement in Custom Templates {#placement-in-custom-templates}
+
+Requirements normally appear automatically after the upload control. To position them separately, suppress that output and render it where needed:
+
+```twig
+{{ field.renderInput({ uploadRequirementsInInput: false }) }}
+
+{# Other field markup… #}
+
+{{ field.renderUploadRequirements }}
+{% do field.setParameters({ uploadRequirementsInInput: true }) %}
+```
+
+Keep **Show Upload Requirements** enabled. The generated markup preserves the description linked to the upload control for accessibility.
+
+### Wording and Custom Markup {#wording-and-custom-markup}
+The file-kind labels and requirement messages are translatable. To use your own markup while retaining the automatically generated text:
+
+```twig
+{% if field.showUploadRequirements %}
+  <p
+    id="{{ field.idAttribute }}-upload-requirements"
+    class="my-upload-requirements"
+  >
+    {{ field.uploadRequirementsText }}
+  </p>
+{% endif %}
+```
+
+Use this instead of `field.renderUploadRequirements` and suppress the automatic output as shown above. Preserve the element's ID so the upload control's accessible description remains connected.
+
+## Templating
+
+<div className="field-properties">
+
+| Property | Description |
+|---|---|
+| `field.fileKinds` | An array of allowed file kinds, such as `image`, `document`, or `audio`. |
+| `field.maxFileSizeKB` | The maximum permitted size of each file, in kilobytes. |
+| `field.fileCount` | The maximum number of files allowed. A value greater than `1` permits multiple files. |
+| `field.showUploadRequirements`<Badge type="feature" text="New in 5.17+" /> | Whether **Show Upload Requirements** is enabled. |
+| `field.uploadRequirementsText`<Badge type="feature" text="New in 5.17+" /> | The translated requirements text, including allowed file kinds, maximum file count, and maximum size per file. Returns an empty string when requirements are disabled. |
+
+</div>
+
+The `field.renderUploadRequirements()` method renders the requirements as an HTML block. See [Styling & Customization](#styling--customization) for custom placement and markup examples.
+
+By default, `field.render()` and `field.renderInput()` include this block automatically when **Show Upload Requirements** is enabled.
+
+## Resources
+
+- [Allowing Additional File Extensions](../../guides/guide/allow-additional-file-extensions.mdx)
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

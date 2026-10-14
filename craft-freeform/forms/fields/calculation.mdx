@@ -1,0 +1,354 @@
+---
+title: "Calculation"
+sidebar_position: 11
+toc_max_heading_level: 3
+description: "Calculation field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Calculation<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.1+" /> {#calculation}
+
+
+<span id="calculation" />
+The Calculation field type lets you perform dynamic calculations based on user-input values in your forms. It also supports a wide variety of operators.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/calculation.png')}
+  alt="Calculation field configuration"
+/>
+
+:::warning
+For the Calculation field to work as a dynamic amount with the [Stripe Payments](../../integrations/stripe-payments.mdx) integration, the **Input Type** setting should be set to _Regular Text Input_ or _Plain Text_. If set to _Hidden_, the Calculation field should be within a multipage setup where it is on a page _before_ the page with the Stripe Payment Element field.
+:::
+
+## Settings
+
+The following additional settings are available to this field type:
+
+### Decimal Count<Badge type="feature" text="New in 5.6+" /> {#decimal-count}
+
+The _Decimal Count_ setting allows you to set the maximum number of decimal places the calculated result should have. Leave blank if you don't want to limit the decimal places. If you'd like to have no decimals (whole numbers only), enter a value of `0`.
+
+## Behavior & Limitations
+
+### Supported Field Types
+
+The following fields can be accessed within field calculation formulas:
+
+- [Dropdown](./dropdown.mdx#dropdown)
+- [Hidden](./hidden.mdx#hidden)
+- [Invisible](./invisible.mdx#invisible)
+- [Number](./number.mdx#number)
+- [Opinion Scale](./opinion-scale.mdx#opinion-scale)
+- [Radios](./radios.mdx#radios)
+- [Rating](./rating.mdx#rating)
+- [Regex](./regex.mdx#regex)
+- [Text](./text.mdx#text)
+- [Textarea](./textarea.mdx#textarea)
+
+### Supported Operators
+
+Utilizing [Symfony Expression Syntax](https://symfony.com/doc/current/reference/formats/expression_language.html), the Calculation field type empowers users to create sophisticated calculations effortlessly. From fundamental arithmetic to complex logical operations, users can employ an array of operators and functions to achieve desired outcomes.
+
+Click on the tabs below to learn more about each operator:
+
+<Tabs>
+<TabItem value="calculation-operators-arithmetic" label="Arithmetic" default>
+
+| Operator | Description |
+| -------- | -------------- |
+| `+` | Addition |
+| `-` | Subtraction |
+| `*` | Multiplication |
+| `/` | Division |
+| `sqrt()` | Square Root<Badge type="feature" text="New in 5.9.3+" /> |
+
+#### Example {#example}
+
+<Tabs>
+<TabItem value="Formula" label="Formula" default>
+
+```
+(field1 - field2) + field3
+```
+
+</TabItem>
+
+<TabItem value="Values" label="Values">
+
+```
+(12 - 3) + 45
+```
+
+</TabItem>
+
+<TabItem value="Output" label="Output">
+
+```
+54
+```
+
+</TabItem>
+</Tabs>
+
+</TabItem>
+<TabItem value="calculation-operators-comparison" label="Comparison">
+
+| Operator | Description |
+| --------- | ------------------------ |
+| `==` | Equal |
+| `===` | Identical |
+| `!=` | Not equal |
+| `!==` | Not identical |
+| `<` | Less than |
+| `>` | Greater than |
+| `<=` | Less than or equal to |
+| `>=` | Greater than or equal to |
+| `matches` | Regex match |
+
+#### Example {#example-1}
+
+<Tabs>
+<TabItem value="Formula" label="Formula" default>
+
+```
+field1 >= field2
+```
+
+</TabItem>
+
+<TabItem value="Values" label="Values">
+
+```
+40 >= 50
+```
+
+</TabItem>
+
+<TabItem value="Output" label="Output">
+
+```
+false
+```
+
+</TabItem>
+</Tabs>
+
+</TabItem>
+<TabItem value="calculation-operators-logical" label="Logical">
+
+| Operator | Description |
+| -------------- | ----------- |
+| `!` or `not` | Not |
+| `&&` or `and` | And |
+| `\|\|` or `or` | Or |
+
+#### Example {#example-2}
+
+<Tabs>
+<TabItem value="Formula" label="Formula" default>
+
+```
+field1 > field2 || field1 < field3
+```
+
+</TabItem>
+
+<TabItem value="Values" label="Values">
+
+```
+10 > 10 || 10 < 20
+```
+
+</TabItem>
+
+<TabItem value="Output" label="Output">
+
+```
+true
+```
+
+</TabItem>
+</Tabs>
+
+</TabItem>
+<TabItem value="calculation-operators-string" label="String">
+
+| Operator | Description |
+| -------- | ------------- |
+| `~` | Concatenation |
+
+#### Example 1 {#example-1-1}
+
+<Tabs>
+<TabItem value="Formula" label="Formula" default>
+
+```
+'Hello ' ~ firstName ~ ', ' ~ 'Welcome!'
+```
+
+</TabItem>
+
+<TabItem value="Values" label="Values">
+
+```
+'Hello ' ~ 'Bob' ~ ', ' ~ 'Welcome!'
+```
+
+</TabItem>
+
+<TabItem value="Output" label="Output">
+
+```
+Hello Bob, Welcome!
+```
+
+</TabItem>
+</Tabs>
+
+#### Example 2 {#example-2-1}
+
+<Tabs>
+<TabItem value="Formula" label="Formula" default>
+
+```
+nameTitle ~ ' ' ~ firstName ~ ' ' ~ lastName
+```
+
+</TabItem>
+
+<TabItem value="Values" label="Values">
+
+```
+'Dr.' ~ ' ' ~ 'Sarah' ~ ' ' ~ 'Connor'
+```
+
+</TabItem>
+
+<TabItem value="Output" label="Output">
+
+```
+Dr. Sarah Connor
+```
+
+</TabItem>
+</Tabs>
+
+</TabItem>
+<TabItem value="calculation-operators-array" label="Array">
+
+| Operator | Description |
+| -------- | ---------------- |
+| `in` | Contains |
+| `not in` | Does not contain |
+
+#### Example {#example-3}
+
+<Tabs>
+<TabItem value="Formula" label="Formula" default>
+
+```
+field1 in ['apple', 'orange', 'banana']
+```
+
+</TabItem>
+
+<TabItem value="Values" label="Values">
+
+```
+'banana' in ['apple', 'orange', 'banana']
+```
+
+</TabItem>
+
+<TabItem value="Output" label="Output">
+
+```
+true
+```
+
+</TabItem>
+</Tabs>
+
+</TabItem>
+<TabItem value="calculation-operators-numeric" label="Numeric">
+
+| Operator | Description |
+| -------- | ----------- |
+| `..` | Range |
+
+#### Example {#example-4}
+
+<Tabs>
+<TabItem value="Formula" label="Formula" default>
+
+```
+field1 in 50..100
+```
+
+</TabItem>
+
+<TabItem value="Values" label="Values">
+
+```
+75 in 50..100
+```
+
+</TabItem>
+
+<TabItem value="Output" label="Output">
+
+```
+true
+```
+
+</TabItem>
+</Tabs>
+
+</TabItem>
+<TabItem value="calculation-operators-ternary" label="Ternary">
+
+| Operator | Description |
+| -------- | ---------------------------------- |
+| `?` | Operator that takes three operands |
+
+#### Example {#example-5}
+
+<Tabs>
+<TabItem value="Formula" label="Formula" default>
+
+```
+field1 == 5 ? 'yes' : 'no'
+```
+
+</TabItem>
+
+<TabItem value="Values" label="Values">
+
+```
+5 == 5 ? 'yes' : 'no'
+```
+
+</TabItem>
+
+<TabItem value="Output" label="Output">
+
+```
+yes
+```
+
+</TabItem>
+</Tabs>
+
+</TabItem>
+</Tabs>
+
+## Resources
+
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

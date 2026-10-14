@@ -3,6 +3,7 @@ import Link from '@docusaurus/Link';
 import Image from '@theme/IdealImage';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { SimpleTextLink, Badge } from '@site/src/components/utils';
+import fieldStyles from './FieldCards.module.css';
 
 interface CardProps {
   fullCardLink?: string;
@@ -24,6 +25,8 @@ interface FieldProps {
   icon?: string;
   color?: string;
   filterIcon?: boolean;
+  category?: string;
+  proOnly?: boolean;
 }
 
 interface IntegrationLogoProps {
@@ -41,6 +44,8 @@ interface IntegrationProps {
   icon: string;
   link: string;
   filterIcon?: boolean;
+  description?: string;
+  proOnly?: boolean;
 }
 
 interface IntegrationCardsProps {
@@ -57,6 +62,8 @@ interface CardSectionProps {
 
 interface FieldCardsProps {
   items: FieldProps[];
+  catalog?: boolean;
+  headingLevel?: 3 | 4;
 }
 
 interface GuideCardsProps {
@@ -371,7 +378,73 @@ const IntroCards: React.FC<CardSectionProps> = ({ items, layout }) => {
   );
 };
 
-const FieldCards: React.FC<FieldCardsProps> = ({ items }) => {
+interface CatalogCardProps extends FieldProps {
+  iconDirectory?: 'fields' | 'integrations' | 'cards';
+}
+
+const CatalogCard: React.FC<CatalogCardProps> = ({ iconDirectory = 'fields', ...item }) => {
+  const iconSrc = useBaseUrl(`/icons/${iconDirectory}/${item.icon}.svg`);
+
+  return (
+    <Link to={item.link} className={`${fieldStyles.card} bg-slate-500/5 hover:bg-slate-500/10`}>
+      {item.icon && (
+        <span className={`${iconDirectory !== 'fields' ? fieldStyles.integrationIcon : fieldStyles.icon} ${item.color || ''}`}>
+          <img
+            src={iconSrc}
+            alt=""
+            className={item.filterIcon ? 'filter-icons' : undefined}
+          />
+        </span>
+      )}
+      <span className={fieldStyles.copy}>
+        <span className={fieldStyles.heading}>
+          <span className={fieldStyles.title}>{item.title}</span>
+          {item.proOnly && (
+            <span className={fieldStyles.proBadge} aria-label="Available in Freeform Pro only">
+              Pro
+            </span>
+          )}
+        </span>
+        <span className={fieldStyles.description}>{item.description}</span>
+      </span>
+    </Link>
+  );
+};
+
+const FieldCards: React.FC<FieldCardsProps> = ({ items, catalog = false, headingLevel = 3 }) => {
+  const id = useId();
+  const CategoryHeading = headingLevel === 4 ? 'h4' : 'h3';
+
+  if (catalog) {
+    const categories = new Map<string, FieldProps[]>();
+    items.forEach((item) => {
+      const category = item.category || 'Fields';
+      const group = categories.get(category) || [];
+      group.push(item);
+      categories.set(category, group);
+    });
+
+    return (
+      <div className={fieldStyles.catalog}>
+        {Array.from(categories, ([category, fields], index) => (
+          <section
+            key={category}
+            className={fieldStyles.section}
+            aria-labelledby={`${id}-${index}`}
+          >
+            <CategoryHeading id={`${id}-${index}`} className={fieldStyles.category}>
+              {category}
+            </CategoryHeading>
+            <div className={fieldStyles.grid}>
+              {fields.map((item) => (
+                <CatalogCard key={item.link} {...item} />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-wrap justify-center rounded-lg">
@@ -402,7 +475,34 @@ const FieldCards: React.FC<FieldCardsProps> = ({ items }) => {
   );
 };
 
+const SettingsCards: React.FC<FieldCardsProps> = ({ items }) => (
+  <div className={fieldStyles.catalog}>
+    <div className={fieldStyles.grid}>
+      {items.map((item) => (
+        <CatalogCard key={item.link} {...item} iconDirectory="cards" />
+      ))}
+    </div>
+  </div>
+);
+
 const IntegrationCards: React.FC<IntegrationCardsProps> = ({ items, layout }) => {
+
+  if (layout === 'catalog') {
+    return (
+      <div className={fieldStyles.catalog}>
+        <div className={fieldStyles.grid}>
+          {items.map((item) => (
+            <CatalogCard
+              key={`${item.link}-${item.title}`}
+              {...item}
+              description={item.description || ''}
+              iconDirectory="integrations"
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   if (layout === 'large') {
     return (
@@ -580,6 +680,7 @@ export {
   FlexCards,
   IntroCards,
   FieldCards,
+  SettingsCards,
   ReviewCards,
   FaqCards,
   GuideCards,

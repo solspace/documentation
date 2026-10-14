@@ -1,0 +1,37 @@
+---
+title: Logs
+sidebar_position: 9
+description: Use Freeform logs to troubleshoot errors, integrations, and email notifications.
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+
+# Logs
+
+Freeform records errors and processing details in Craft's `storage/logs` directory. Set the [Logging Level](./general.mdx#logging-level) to control how much detail is recorded.
+
+The log viewers remain accessible when Craft's `allowAdminChanges` setting is `false`.
+
+:::warning
+Use **Info** and **Debug** logging while investigating an issue, then return to **Errors**. Detailed logs can contain sensitive submission data.
+:::
+
+<Photo img={require('@site/static/img/craft/freeform/v5/configuration/email-log.jpg')} alt="Email Log" />
+
+## Error Log
+
+View **Freeform → Settings → Error Log** to inspect failures recorded in `storage/logs/freeform.log`. The file may not exist until an error has been recorded.
+
+<Photo img={require('@site/static/img/craft/freeform/v5/configuration/error-log.jpg')} alt="Error Log" />
+
+## Integrations Log<Badge type="feature" text="New in 5.9+" />
+
+When logging is set to **Info** or **Debug**, Freeform writes integration activity to `storage/logs/freeform-integrations.log`. Open the Integrations Log viewer in Freeform's control panel to inspect it.
+
+<Photo img={require('@site/static/img/craft/freeform/v5/configuration/integrations-log.jpg')} alt="Integrations Log" />
+
+## Email Log<Badge type="feature" text="New in 5.9.7+" />
+
+When logging is set to **Info** or **Debug**, Freeform writes notification activity to `storage/logs/freeform-email.log`. Open **Freeform → Settings → Email Log** to inspect it.
+
+For environment checks and a support report, see [Diagnostics](../diagnostics.mdx).

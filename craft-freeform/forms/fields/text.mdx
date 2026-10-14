@@ -1,0 +1,83 @@
+---
+title: "Text"
+sidebar_position: 41
+toc_max_heading_level: 3
+description: "Text field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Text<Badge type="feature" text="Improved in 5.17+" /> {#text}
+
+
+<span id="text" />
+A single-line text input field. The `field.type` property value is `text` (for conditionals).
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/text.png')}
+  alt="Text field type"
+/>
+
+## Settings
+
+- **Show Character Count**<Badge type="feature" text="New in 5.17+" />
+  - Displays a live character count below the field. If a maximum length is set, the count also shows that limit. Disabled by default.
+
+## Styling & Customization
+
+### Customize the Character Count<Badge type="feature" text="New in 5.17+" /> {#customize-the-character-count}
+Set the normal and over-limit colors using CSS properties:
+
+```css
+.freeform-form {
+  --ff-character-count-color: #6b7280;
+  --ff-character-count-error: #dc3545;
+}
+```
+
+Target `.freeform-character-count` to adjust its appearance:
+
+```css
+.freeform-character-count {
+  text-align: start;
+  font-size: 0.8125rem;
+  margin-top: 0.375rem;
+}
+```
+
+The default messages `{count} characters` and `{count} / {limit} characters` are translatable. Manually rendered fields can provide custom wording through input attributes:
+
+```html
+<input
+  type="text"
+  name="subject"
+  maxlength="100"
+  data-freeform-character-count
+  data-character-count-message="{count} characters entered"
+  data-character-count-limit-message="{count} of {limit} characters"
+>
+```
+
+Keep `{count}` and `{limit}` as placeholders; Freeform replaces them with the current values. The over-limit color applies when the count **exceeds** the maximum, rather than when it reaches it.
+
+## Templating
+
+<div className="field-properties">
+
+| Property | Description |
+|---|---|
+| `field.browserAutofill` | The configured HTML `autocomplete` value, such as `given-name` or `email`. An empty string means use the browser default. |
+| `field.showCharacterCount` | Whether the live character count is enabled. |
+| `field.characterCountMessages` | An object containing the translated `count` and `limit` message formats, including their `{count}` and `{limit}` placeholders. |
+
+</div>
+
+Use `field.render()` or `field.renderInput()` to generate the attributes needed by Freeform's JavaScript automatically.
+
+## Resources
+
+- [Want to display a Text input as a Color Picker?](../../guides/guide/color-picker-text.mdx)
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

@@ -24,7 +24,7 @@ All saved form progress submissions are stored in a separate encrypted database 
 
 ## Configuration
 
-The **Save** feature can be enabled or disabled for each form page by toggling the **Save** setting inside the [Submit button](./fields.mdx#submit-buttons), and can each have separate configuration including button label and email notification template. For example, you can optionally choose different return paths/email notification templates that could be customized based on the progress on the form (e.g. _"Thanks for starting your application!"_, _"You're almost done..."_, _"Thanks for completing the first 3 steps..."_, etc).
+The **Save** feature can be enabled or disabled for each form page by toggling the **Save** setting inside the [Submit button](./fields/submit-buttons.mdx#submit-buttons), and can each have separate configuration including button label and email notification template. For example, you can optionally choose different return paths/email notification templates that could be customized based on the progress on the form (e.g. _"Thanks for starting your application!"_, _"You're almost done..."_, _"Thanks for completing the first 3 steps..."_, etc).
 
 :::info
 Submit buttons are handled automatically by Freeform. They are automatically inserted at the end of your form in the form builder.
@@ -34,7 +34,7 @@ Submit buttons are handled automatically by Freeform. They are automatically ins
 - **Return URL** - where the user should be returned to if they click the **Save** button.
   - Special `token` and `key` variables are available to include in the return path.
   - The return URL would be wherever you like, and fully customizable. This is where you'd include instructions to the user including a URL for where to return to complete the form later.
-- **Target Email field** (optional) - the [Email](./fields.mdx#email) field that will contain the user's email address in order to send the email notification.
+- **Target Email field** (optional) - the [Email](./fields/email.mdx#email) field that will contain the user's email address in order to send the email notification.
   - If the user hasn't yet filled out an email address and the field is NOT required, the email notification attempt will be suppressed. If the email address field is marked as required, the form will run through regular field validation until it contains a valid value. A good way around this would be to have the first page include basic info like _name_ and _email_ and/or no option to save the form until the second page.
   - **Email Notification Template** - the email notification sent to the user if they click the **Save** button.
     - Choose a special Freeform email notification template.
@@ -52,7 +52,7 @@ There are also 2 general settings specific to the _Save & Continue Later_ featur
 
 ### Templating
 
-Controlling the format for submit buttons is now done through the new `buttons` namespace available in the [Template Overrides](../templates/formatting/index.mdx#template-overrides) feature.
+Controlling the format for submit buttons is now done through the new `buttons` namespace available in the [Template Overrides](../templates/formatting/overrides.mdx) feature.
 
 ```twig {2,9,13} showLineNumbers
 {{ form.render({
@@ -268,7 +268,7 @@ When a user attempts to **Save** a form:
 Some features have limitations when using **Save & Continue Later**.
 
 - 🟢 **Uploaded Files**
-  - Only the [File Upload Drag & Drop](./fields.mdx#file-upload-drag--drop) field type fully supports saved forms.
+  - Only the [File Upload Drag & Drop](./fields/file-drag-drop.mdx#file-upload-drag--drop) field type fully supports saved forms.
   - Standard file inputs cannot restore previously selected files due to browser restrictions.
   - When using saved forms, uploaded files are preserved until the saved form expires based on the **Number of Days to Keep Saved Form Data** setting.
   :::warning

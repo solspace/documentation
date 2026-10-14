@@ -8,7 +8,7 @@ import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
 # TinyMCE Rich Text Editor on Textarea field
 
-A rich text editor such as [TinyMCE](https://www.tiny.cloud/tinymce/) can easily be added to your form. You simply target a specific [Textarea](../../forms/fields.mdx#textarea) field and the editor's JS will take over that field and handle the rest.
+A rich text editor such as [TinyMCE](https://www.tiny.cloud/tinymce/) can easily be added to your form. You simply target a specific [Textarea](../../forms/fields/textarea.mdx#textarea) field and the editor's JS will take over that field and handle the rest.
 
 :::info
 The process is likely similar if there's a different editor you'd like to add support for.
@@ -102,7 +102,7 @@ Here's a list of the steps needed to do this:
     />
   </StepMarkdown>
   <StepMarkdown>
-    Anything submitted through the editor will store the data as HTML. By default, Freeform will not parse the HTML in [Submissions queries](../../templates/queries/submissions.mdx) or [Email Notification](../../forms/email-notifications.mdx) templates. To parse the HTML, be sure to apply the `|raw` filter to the textarea.
+    Anything submitted through the editor will store the data as HTML. By default, Freeform will not parse the HTML in [Submissions queries](../../templates/queries/submissions.mdx) or [Email Notification](../../forms/email-notifications/index.mdx) templates. To parse the HTML, be sure to apply the `|raw` filter to the textarea.
 
     In the Submissions query in front end, this could be done by applying `|raw` to `submission[field.handle]`, like this:
     ```twig {11-12}

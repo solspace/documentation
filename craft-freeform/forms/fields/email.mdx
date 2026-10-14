@@ -1,0 +1,80 @@
+---
+title: "Email"
+sidebar_position: 18
+toc_max_heading_level: 3
+description: "Email field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Email<Badge type="feature" text="Revised in 5.0+, Improved in 5.17+" /> {#email}
+
+
+<span id="email" />
+A single-line text input field that includes additional validation to expect a valid email address as well as the possibility of attaching an email notification to it. Pair this with the [Confirm](./confirm.mdx#confirm) special field type if you wish to have the user enter their email address twice. The `field.type` property value is `email` (for conditionals).
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/email.jpg')}
+  alt="Email field type"
+/>
+
+:::warning
+It is required to use the **Email** field type if you wish for your users to receive an email notification when submitting the form and/or you're using an Email Marketing API integration.
+:::
+
+## Settings
+
+- Optionally choose an email notification template (see [Email Notifications](../email-notifications/index.mdx#email-fields) documentation) to be used to send to the submitter of the form (or the email address entered in this field).
+  - Users/groups need to have permissions for **Notifications** to create new formatting templates inside the form builder.
+- **Suggest Email Corrections**
+  - Suggests corrections for common email domain typos when the visitor leaves the field. The address only changes if they accept the suggestion. Disabled by default.
+
+## Behavior & Limitations
+
+### Suggest Email Corrections<Badge type="feature" text="New in 5.17+" /> {#suggest-email-corrections}
+
+When enabled, Freeform suggests corrections for common email domain typos after the visitor leaves the field—for example, `gmial.com` → `gmail.com`. A **Did you mean…?** message appears with a **Use suggestion** button. The address changes only when the visitor accepts it.
+
+### Correction Logic {#correction-logic}
+- Uses a predefined list of known typos for Gmail, Hotmail, Outlook, Yahoo, and iCloud, plus common `.com` misspellings for these providers, AOL, and Proton.
+- Checks domains without regard to capitalization and preserves everything before `@`, including capitalization and `+tags`.
+- Leaves unrecognized, custom, and regional domains unchanged.
+- Dismisses suggestions when the address is edited. Skips read-only, disabled, and multiple-address inputs, and corrections exceeding the field's maximum length.
+
+Suggestions do not verify mailbox existence or change normal email validation.
+
+## Styling & Customization
+
+The message and **Use suggestion** label are translatable. Customize their colors with these CSS properties:
+
+```css
+.freeform-form {
+  --ff-email-suggestion-color: #6b7280;
+  --ff-email-suggestion-action: #4f46e5;
+}
+```
+
+The generated elements use `.freeform-email-suggestion` and `.freeform-email-suggestion-action`. The correction list is maintained in code and cannot currently be configured in the form builder.
+
+## Templating
+
+<div className="field-properties">
+
+| Property | Description |
+|---|---|
+| `field.browserAutofill`<Badge type="feature" text="New in 5.17+" /> | The configured HTML `autocomplete` value. An empty string uses the browser default. |
+| `field.suggestEmailCorrections`<Badge type="feature" text="New in 5.17+" /> | Whether **Suggest Email Corrections** is enabled. |
+| `field.emailSuggestionLabels`<Badge type="feature" text="New in 5.17+" /> | Translated interface labels: `message`, containing the `{suggestion}` placeholder, and `action`, the label for accepting a suggestion. |
+
+</div>
+
+Use `field.render()` or `field.renderInput()` to generate the attributes needed for browser autofill and email suggestions automatically. Suggested corrections only change the address when the visitor accepts them.
+
+## Resources
+
+- [Email Notifications](../email-notifications/index.mdx)
+- [Restricting Email Addresses](../../guides/guide/preventing-email-addresses.mdx)
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)
