@@ -1,0 +1,193 @@
+---
+title: "Summary"
+sidebar_position: 37
+toc_max_heading_level: 3
+description: "Summary field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Summary<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.17+" /> {#summary}
+
+
+<span id="summary" />
+The Summary field displays a live read-only review of answers entered before it in the form layout. Place it at the bottom of a single-page form or on the final page of a multi-page form. It does not store a duplicate answer, participate in validation, or add content to email notifications or the submission GraphQL schema.
+
+The `field.type` property value is `summary` (for conditionals).
+
+<Photo
+  scale={70}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/summary.png')}
+  alt="Summary field type"
+/>
+
+## Settings
+
+- **Included Field Handles**
+  - Leave blank for all supported preceding fields, or enter comma-separated handles (for example `name, email, interests`). The summary follows form order. Unknown handles, fields after the Summary, and unsupported field types are ignored. Update this setting if you rename a selected field handle.
+- **Hide Empty Fields**
+  - Enabled by default. Disable to show _Not answered_ for empty answers and _No_ for unchecked checkboxes. Numeric zero is an answer.
+- The normal label, instructions, translations, conditional rules, and input attributes apply.
+
+## Behavior & Limitations
+
+### Display {#display--styling}
+
+- **Included Fields**: Text, email, number, phone, website, regex, date/time, multi-choice fields, cards, ratings, opinion scales, calculations, uploads, and tables are supported.
+  - Multi-choice field types display comma-separated option labels.
+  - Checkboxes show `Yes` or `No`.
+  - Uploads show a file count, without exposing asset IDs, URLs, or file contents.
+  - Tables display one line per row with column labels; file cells also show a count.
+  - Groups are traversed in layout order.
+- **Excluded Fields**: Hidden/invisible fields, hidden calculations, passwords, confirmations, payment fields, signatures, decorative fields, and unrecognized custom field types are excluded, even when their handle is explicitly selected.
+  - Conditional fields and children of hidden groups are omitted.
+  - Answers are escaped text, never executable HTML.
+- **Twig rendering** includes a server-rendered `<dl>` with `data-freeform-summary`.
+  - Freeform's standard JavaScript updates current-page answers on input, choice changes, calculations, uploads, table edits, and reset.
+  - Completed pages use the server's form state and are refreshed when navigating or submitting.
+  - Back navigation uses Freeform's existing Back button; this field does not introduce page-jump links.
+  - Without JavaScript, the server-rendered review remains available and updates on page requests.
+- For **custom styling**, target `[data-freeform-summary]`, its `dt`/`dd` elements, or `[data-summary-field="handle"]`.
+  - Custom templates must render the field's input and retain the standard `data-field-container`/`data-hidden` attributes for live conditional visibility.
+
+## Styling & Customization
+
+The Summary field renders a definition list (`<dl>`). Each answer appears inside a row containing a label (`<dt>`) and value (`<dd>`).
+
+You can target the following elements with CSS:
+
+| Selector | Element |
+|---|---|
+| `[data-freeform-summary]` | Summary list |
+| `[data-summary-field]` | Individual answer row |
+| `[data-freeform-summary] dt` | Field labels |
+| `[data-freeform-summary] dd` | Answer values |
+| `[data-summary-field="email"]` | Answer row for a specific field handle |
+
+### Responsive Review Panel {#responsive-review-panel}
+
+To style a particular Summary field, add a `class` attribute with the value `custom-summary` under **Attributes → Input** in the field's property editor. For Summary fields, Input attributes apply to the `<dl>` element.
+
+Add the following CSS to your site's stylesheet. It places labels beside answers on larger screens and stacks them on smaller screens:
+
+```css showLineNumbers
+.custom-summary[data-freeform-summary] {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid #dbe2ea;
+  border-radius: 0.75rem;
+  background: #f8fafc;
+  color: #1e293b;
+}
+
+.custom-summary[data-freeform-summary] > [data-summary-field] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 0.5rem 1.5rem;
+  padding: 0.875rem 0;
+}
+
+.custom-summary[data-freeform-summary] > [data-summary-field]
+  + [data-summary-field] {
+  border-top: 1px solid #dbe2ea;
+}
+
+.custom-summary[data-freeform-summary] dt {
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.custom-summary[data-freeform-summary] dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  .custom-summary[data-freeform-summary] > [data-summary-field] {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+  }
+}
+```
+
+### Styling Individual Answers {#styling-individual-answers}
+
+Use the source field's handle to target a particular row. For example, this emphasizes the answer from a field with the handle `total`:
+
+```css
+.custom-summary[data-freeform-summary]
+  > [data-summary-field="total"] dd {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #166534;
+}
+```
+
+### Custom Formatting Templates {#custom-formatting-templates}
+
+Keep Freeform's generated Summary markup so its JavaScript can continue updating answers. Inside your formatting template's field loop, you can render it normally:
+
+```twig
+{{ field.render }}
+```
+
+For more control over label and instruction placement:
+
+```twig
+{{ field.renderContainerOpeningTag }}
+  {{ field.renderLabel }}
+  {{ field.renderInstructions }}
+  {{ field.renderInput }}
+{{ field.renderContainerClosingTag }}
+```
+
+The render helpers retain the Summary data attributes and standard field container attributes needed for live updates and conditional visibility. Add custom styling through CSS rather than replacing the generated answer markup.
+
+## Templating
+
+<div className="field-properties">
+
+| Property | Description |
+|---|---|
+| `field.sourceFields` | An array of supported field objects preceding the Summary, filtered by **Included Field Handles** and kept in form order. |
+| `field.summaryConfig` | The Summary configuration, including source field handles, empty-answer behavior, and translated display labels. |
+
+</div>
+
+The `summaryConfig` object contains:
+
+| Key | Description |
+|---|---|
+| `fields` | An array of source field handles. |
+| `hideEmpty` | Whether **Hide Empty Fields** is enabled. |
+| `emptyValue` | The translated text for unanswered fields, normally `Not answered`. |
+| `checkedLabel` | The translated text for checked checkboxes, normally `Yes`. |
+| `uncheckedLabel` | The translated text for unchecked checkboxes, normally `No`. |
+| `filesLabel` | The translated label for uploaded files, normally `Files`. |
+
+Use `field.render()` or `field.renderInput()` to generate the Summary markup and data attributes needed for live updates.
+
+:::info
+`field.sourceFields` lists eligible source fields before conditional visibility and empty-answer filtering. Use Freeform's generated Summary output to apply those rules when displaying answers.
+:::
+
+## Headless
+
+- The manifest uses renderer `summary` and provides `frontend.config.fields`, `hideEmpty`, and translated display labels.
+  - The built-in React and Vue renderers derive the review from current runtime values and conditional visibility, including hidden parent groups.
+  - No extension or `allowRawHtml` is needed.
+  - Custom renderers can call `getSummaryEntries(field, form)` from `@solspace/freeform-core`.
+- Summary entries contain untrusted text, not sanitized HTML. The built-in headless renderers display labels and answers literally, including any markup.
+  - Custom renderers must use escaped text interpolation or `textContent` for both `entry.label` and `entry.text`, never `innerHTML`, `v-html`, or `dangerouslySetInnerHTML`.
+
+## Resources
+
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

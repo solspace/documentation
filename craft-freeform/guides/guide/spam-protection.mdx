@@ -23,7 +23,7 @@ Freeform offers the following measures:
 - [Keyword Blocking](../../forms/spam-protection.mdx#spam-blocking)
 - [Captchas](../../forms/spam-protection.mdx#captchas)
 - [Throttling](../../forms/spam-protection.mdx#throttling)
-- [Min/Max Submit Time](../../configuration/settings.mdx#minimum-submit-time)
+- [Min/Max Submit Time](../../configuration/settings/spam-protection.mdx#minimum-submit-time)
 
 You can use all or any combination of these. In many cases, using a combination of just the **Honeypot** and **Keyword Blocking** is sufficient. If you want a no-nonsense approach, you should go straight to using **reCAPTCHA** (specifically **v3**).
 
@@ -91,12 +91,12 @@ href*
 
 Freeform includes its own built-in **Spam Folder** which allows you to review blocked submissions and retrieve legitimate ones that have fallen through the cracks. This feature is enabled by default, but if not, make sure you [enable it](../../forms/spam-protection.mdx#spam-folder). If you have the _Spam Folder_ disabled, any submissions flagged as spam will never be stored in the database and can never ever be retrieved.
 
-The Spam Folder will hold every single flagged submission indefinitely until action is taken. We recommend you check on the submissions in this area at least every once in a while, but also set the [Automatically Purge Spam Submissions](../../configuration/settings.mdx#automatically-purge-spam-submissions) to something like every **30 days**. Once the submission has been purged, it's gone forever.
+The Spam Folder will hold every single flagged submission indefinitely until action is taken. We recommend you check on the submissions in this area at least every once in a while, but also set the [Automatically Purge Spam Submissions](../../configuration/settings/spam-protection.mdx#purgable-spam-age-in-days) to something like every **30 days**. Once the submission has been purged, it's gone forever.
 
 </StepMarkdown>
 <StepMarkdown stepTitle="Spam Protection Behavior">
 
-Inside the **Spam Settings** area, you'll see an setting called [Spam Protection Behavior](../../configuration/settings.mdx#spam-protection-behavior). This allows you to select the behavior you'd like Freeform to take when it detects a submission as being spam. You have the following options:
+Inside the **Spam Settings** area, you'll see an setting called [Spam Protection Behavior](../../configuration/settings/spam-protection.mdx#spam-protection-behavior). This allows you to select the behavior you'd like Freeform to take when it detects a submission as being spam. You have the following options:
 
 - **Simulate Success**<Badge type="recommended" text="Recommended" />
   - This will appear to the user that the submission went through successfully. The benefit of this is that spam bots will not detect that their attempt failed, and may help you in the long run (as they may not try other approaches). The downside of this is that legitimate form submitters (though this would theoretically be rare) will believe their submission went through without any issue. As long as you have the **Spam Folder** enabled and review it periodically, you should be okay here.
@@ -153,7 +153,7 @@ The absolute shortest and fastest way to some amount of spam protection that wou
 1. Go to Freeform Spam Settings (_Freeform_ → _Settings_ → _Spam Settings_).
 2. Enable Honeypot and do not enable Javascript Test.
 3. Enable the Spam Folder built into Freeform.
-4. Set the [Spam Protection Behavior](../../configuration/settings.mdx#spam-protection-behavior) setting to **Simulate Success**.
+4. Set the [Spam Protection Behavior](../../configuration/settings/spam-protection.mdx#spam-protection-behavior) setting to **Simulate Success**.
 
 Keep an eye on the Spam Folder over the next couple of weeks to see if anything is incorrectly being flagged as spam. If you are still receiving spam, look for patterns of keywords and consider adding them to the **Block Keywords** and/or **Block Email addresses** settings. Any time you start blocking keywords, be sure to monitor the Spam Folder for a little while to see if the keywords you used are a little too aggressive.
 

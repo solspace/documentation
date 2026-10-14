@@ -1,0 +1,58 @@
+---
+title: "Queue Processing"
+sidebar_position: 3
+description: "Background processing and the Form Monitor queue pinging service."
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+import { SettingMeta } from '@site/src/components/docs';
+
+# Queue Processing
+
+Background processing and the Form Monitor queue pinging service. Open **Freeform → Settings → Queue Processing** to configure these options.
+
+:::info
+This settings page is read-only when Craft's `allowAdminChanges` setting is `false`.
+:::
+
+Queue processing moves work out of the submission request. A queue runner must still process the jobs.
+
+<Photo img={require('@site/static/img/craft/freeform/v5/configuration/queue-processing.jpg')} alt="Queue Processing settings" />
+
+## Background Tasks
+
+### Use Queue for AI Processing<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.13+" /> {#use-queue-for-ai-fields}
+
+Process AI fields through Craft's queue instead of during the submission request.
+
+<SettingMeta configKey="useQueueForAiFields" defaultValue={"false"} />
+
+### Use Queue for Email Notifications<Badge type="feature" text="New in 5.4+" /> {#use-queue-for-email-notifications}
+
+Send email notifications through Craft's queue instead of during the submission request.
+
+<SettingMeta configKey="useQueueForEmailNotifications" defaultValue={"false"} />
+
+### Use Queue for Integrations<Badge type="feature" text="New in 5.4+" /> {#use-queue-for-integrations}
+
+Process CRM and email marketing integrations through Craft's queue instead of during the submission request.
+
+<SettingMeta configKey="useQueueForIntegrations" defaultValue={"false"} />
+
+## Automated Queue Pinging Service<Badge type="pro" text="Pro" />
+
+The free [Form Monitor](../../monitoring/index.mdx) service can keep the queue active by pinging your site at a regular interval. This is useful when the control panel receives little traffic and avoids needing to configure your own scheduled queue trigger. Activate Form Monitor before enabling pinging.
+
+### Use Queue Pinging Service<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.14+" /> {#managed-pinger-enabled}
+
+Use the Form Monitor service to ping your site and trigger Craft's queue at the configured interval. Form Monitor must be activated for the site.
+
+<SettingMeta configKey="managedPingerEnabled" defaultValue={"false"} />
+
+### Pinging Interval<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.14+" /> {#queue-ping-min-interval-seconds}
+
+Choose how often Form Monitor pings your site. The control panel displays this interval in minutes; the configuration value is stored in seconds. The minimum interval is five minutes.
+
+<SettingMeta configKey="queuePingMinIntervalSeconds" defaultValue={"600 seconds (10 minutes)"} />
+
+See [Settings](./index.mdx) for other configuration areas and [Project Config](../project-config.mdx) for configuration examples.

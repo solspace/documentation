@@ -51,7 +51,7 @@ Freeform allows you to connect and map Freeform submission data to other Craft E
 
 ## Overview
 
-Freeform includes the ability to map submission data to create and [edit](#editing-elements) other Craft elements, including [Craft Entries](#craft-entries), [Craft Users](#craft-users) and [Calendar Events](#calendar-events). Since Freeform already includes various other functionality such as [spam protection](../forms/spam-protection.mdx), [integrations](../integrations/index.mdx), [email notifications](../forms/email-notifications.mdx), [Stripe payments](./stripe-payments.mdx) and much more, this allows you to quickly create very powerful forms.
+Freeform includes the ability to map submission data to create and [edit](#editing-elements) other Craft elements, including [Craft Entries](#craft-entries), [Craft Users](#craft-users) and [Calendar Events](#calendar-events). Since Freeform already includes various other functionality such as [spam protection](../forms/spam-protection.mdx), [integrations](../integrations/index.mdx), [email notifications](../forms/email-notifications/index.mdx), [Stripe payments](./stripe-payments.mdx) and much more, this allows you to quickly create very powerful forms.
 
 To use this feature, you set up integration(s) inside the Freeform settings area, and then configure them individually for each form you wish to use them on.
 
@@ -85,7 +85,7 @@ This integration allows you to map Freeform submission data to [Craft Entries](h
   <summary>Setup Instructions</summary>
   <VerticalStepWrapper>
     <StepMarkdown stepTitle="Create the Integration">
-      - Go to the [Integrations](../configuration/settings.mdx#integrations) section in Freeform Settings (**Freeform** → **Integrations**).
+      - Go to the [Integrations](index.mdx#control-panel-settings) section in Freeform Settings (**Freeform** → **Integrations**).
       - Find _Entry_ in the list of **service providers**.
       - Choose a section and entry type from the **Entry Type** select dropdown.
         - This will only be the default value when configuring the integration in the form builder later.
@@ -132,7 +132,7 @@ This feature requires a **Craft Pro** license in order to work, as Users are a C
   <summary>Setup Instructions</summary>
   <VerticalStepWrapper>
     <StepMarkdown stepTitle="Create the Integration">
-      - Go to the [Element section in Freeform Settings](../configuration/settings.mdx#integrations) (**Freeform → Settings → Elements**).
+      - Go to the [Element section in Freeform Settings](index.mdx#control-panel-settings) (**Freeform → Settings → Elements**).
       - Click the **New Integration** button at the top right.
       - Select _User_ from the **Service Provider** select dropdown.
       - Enter a name and handle for the integration. e.g. `My User Integration`.
@@ -161,7 +161,7 @@ This feature requires a **Craft Pro** license in order to work, as Users are a C
         - Toggle whether the new user account should **Take Over Inactive Accounts** or not.<Badge type="feature" text="New in 5.9.14+" />
           - If this feature is enabled and the submitted email belongs to an "Inactive" user on this site, the new registration will take over that account. We strongly recommend disabling the "Activate Users" setting when using this feature.
         - The **Attribute Mapping** table allows you to map standard Craft User fields.
-          - You will need to use the special [Password](../forms/fields.mdx#password) field for mapping passwords to User passwords. The Freeform **Password** field will NOT save any password data in the Freeform database tables. It is designed specifically for this purpose.
+          - You will need to use the special [Password](../forms/fields/password.mdx#password) field for mapping passwords to User passwords. The Freeform **Password** field will NOT save any password data in the Freeform database tables. It is designed specifically for this purpose.
         - The **Field Mapping** table is where you map Freeform fields to the Craft User fields as needed.
 
       See [Mapping Guidelines](#mapping-guidelines) for more info.
@@ -177,7 +177,7 @@ This integration supports mapping to Solspace Calendar Events, providing you hav
   <summary>Setup Instructions</summary>
   <VerticalStepWrapper>
     <StepMarkdown stepTitle="Create the Integration">
-      - Go to the [Element section in Freeform Settings](../configuration/settings.mdx#integrations) (**Freeform → Settings → Elements**).
+      - Go to the [Element section in Freeform Settings](index.mdx#control-panel-settings) (**Freeform → Settings → Elements**).
       - Click the **New Integration** button at the top right.
       - Select _Calendar Events_ from the **Service Provider** select dropdown.
       - Enter a name and handle for the integration. e.g. `My Calendar Integration`.
@@ -198,7 +198,7 @@ This integration supports mapping to Solspace Calendar Events, providing you hav
         - Toggle whether **all** new events created through Freeform should be considered **All Day** or not.
           - To have users only choose a Start date and End date for ALL events (and not worry about selecting times), toggle this ON.
           - To have users specify times in addition to dates of their events, leave this toggled OFF.
-          - To offer the ability for users to set that an event is "all day", leave this toggled OFF and then map a Freeform [Checkbox](../forms/fields.mdx#checkbox) field to the **All Day** field in the field mapping table.
+          - To offer the ability for users to set that an event is "all day", leave this toggled OFF and then map a Freeform [Checkbox](../forms/fields/checkbox.mdx#checkbox) field to the **All Day** field in the field mapping table.
         - The **Attribute Mapping** table allows you to map standard Calendar Event fields.
         - The **Field Mapping** table is where you map Freeform fields to the Calendar Event fields as needed.
 
@@ -327,7 +327,7 @@ If you already have a Freeform form to handle creating Craft elements (e.g. User
       You can share a single integration for both creation of **new** elements and **editing existing** elements, e.g. _User Account Registration_ and _Edit Account_ forms.
       :::
 
-      - Go to the [Element section in Freeform Settings](../configuration/settings.mdx#integrations) (**Freeform → Settings → Elements**).
+      - Go to the [Element section in Freeform Settings](index.mdx#control-panel-settings) (**Freeform → Settings → Elements**).
       - Click the **New Integration** button at the top right.
       - Select the element type from the **Service Provider** select dropdown.
       - Enter a name and handle for the integration. e.g. `My User Integration`.

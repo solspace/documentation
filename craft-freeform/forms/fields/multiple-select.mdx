@@ -1,0 +1,126 @@
+---
+title: "Multiple Select"
+sidebar_position: 26
+toc_max_heading_level: 3
+description: "Multiple Select field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Multiple Select<Badge type="feature" text="Improved in 5.17+" /> {#multiple-select}
+
+
+<span id="multiple-select" />
+A multiple-select field. The `field.type` property value is `multiple-select` (for conditionals).
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/multi-select.jpg')}
+  alt="Multiple Select field type"
+/>
+
+## Settings
+
+- Can specify labels (with values assumed) or labels and values (that differ).
+- Supports `<optgroup>`'s. To use this, enable the toggle under the **Optgroup** column for the applicable row.<Badge type="feature" text="New in 5.13+" />
+- Can be automatically populated with select [Craft Elements or Pre-defined list options](./populating-options.mdx#populating-field-options).
+- Can be used as a [User Select](../email-notifications/index.mdx#user-select) email notification.
+- **Enable Search**<Badge type="feature" text="New in 5.17+" />
+  - Lets visitors filter the available options by typing, making longer lists easier to navigate. Selected options become tags above the input. Disabled by default.
+
+## Styling & Customization
+
+### Customize Searchable Multiple Selects<Badge type="feature" text="New in 5.17+" /> {#customize-searchable-multiple-selects}
+
+When **Enable Search** is enabled, selected options appear as removable pills above the search input.
+
+### Appearance {#appearance-3}
+
+Wrap the field in a container such as `.my-multiple-select`, then customize its colors and selected-option pills:
+
+```css showLineNumbers
+.my-multiple-select .ff-searchable {
+  --ff-searchable-bg: #fff !important;
+  --ff-searchable-menu-bg: #fff !important;
+  --ff-searchable-color: #1f2937 !important;
+  --ff-searchable-border: #d1d5db !important;
+  --ff-searchable-radius: 6px !important;
+}
+
+.my-multiple-select .ff-searchable__pills {
+  gap: 0.5rem;
+}
+
+.my-multiple-select .ff-searchable button.ff-searchable__remove {
+  background: #eef2ff;
+  color: #4338ca;
+  border-color: #c7d2fe;
+  border-radius: 999px;
+}
+
+.my-multiple-select .ff-searchable__list {
+  max-height: 12rem;
+}
+```
+
+The CSS properties require `!important` to override Freeform's automatically derived theme values.
+
+### Search and Removal Labels {#search-and-removal-labels}
+
+Default labels are translatable. Manually rendered selects can provide custom wording:
+
+```html showLineNumbers
+<div class="my-multiple-select">
+  <select
+    name="interests[]"
+    multiple
+    data-freeform-searchable='{
+      "enabled": true,
+      "placeholder": "Search interests...",
+      "noResults": "No matching interests.",
+      "removeLabel": "Remove {label}",
+      "toggleLabel": "Show interests",
+      "resultsLabel": "{count} interests available."
+    }'
+  >
+    <option value="design">Design</option>
+    <option value="development">Development</option>
+    <option value="marketing">Marketing</option>
+  </select>
+</div>
+```
+
+Keep `{label}` in the removal label and `{count}` in the results message. Preserve the `multiple` attribute and the field's expected input name. Custom templates must load Freeform's JavaScript and searchable-select styles.
+
+## Templating
+
+<div className="field-properties">
+
+| Property | Description |
+|---|---|
+| `field.enableSearch` | Whether **Enable Search** is enabled for the field. |
+| `field.searchableConfig` | The search configuration, including its enabled state and translated interface labels. |
+
+</div>
+
+The `searchableConfig` object contains:
+
+| Key | Description |
+|---|---|
+| `enabled` | Whether the searchable control is enabled. |
+| `placeholder` | Placeholder text for the search input. |
+| `noResults` | Message displayed when no options match. |
+| `toggleLabel` | Accessible label for the button that opens the options. |
+| `resultsLabel` | Results announcement containing the `{count}` placeholder. |
+| `removeLabel` | Label for removing a selected option in Multiple Select fields, containing the `{label}` placeholder. |
+
+Use `field.render()` or `field.renderInput()` to generate the `data-freeform-searchable` configuration automatically when search is enabled.
+
+The underlying select remains responsible for submitted values. When manually rendering a Multiple Select field, preserve its `multiple` attribute and array-style input name.
+
+## Resources
+
+- [Need to populate field options at template level? Check out the guide for workaround options.](../../guides/guide/populate-field-options-at-template-level.mdx)
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

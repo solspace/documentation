@@ -1,0 +1,48 @@
+---
+title: "Regex"
+sidebar_position: 34
+toc_max_heading_level: 3
+description: "Regex field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Regex<Badge type="pro" text="Pro" /> {#regex}
+
+
+<span id="regex" />
+An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`). The `field.type` property value is `regex` (for conditionals).
+
+<Photo
+  scale={50}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/regex.png')}
+  alt="Regex field type"
+/>
+
+## Settings
+
+- Specify a required pattern for values to match, e.g. `/^[a-zA-Z0-9]*$/`.
+  - When needing to use `{}` for attributes in **Regex** fields (such as `pattern`), you will need to specify them differently, as Freeform is built to allow Twig rendering and it'll choke. So for example, if you need to use `[0-9]{4,5}`, change it to:
+    ```twig
+    [0-9]{{ '{' }}4,5{{ '}' }}
+    ```
+- Set the error message a user will see if an incorrect value is supplied.
+  - Any occurrences of `{pattern}` will be replaced with specified regex pattern inside the error message, if any are found.
+
+## Templating
+
+<div className="field-properties">
+
+| Property | Description |
+|---|---|
+| `field.pattern` | The translated regular expression used to validate the value. |
+| `field.message` | The translated validation error message. |
+
+</div>
+
+## Resources
+
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

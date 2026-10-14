@@ -1,0 +1,79 @@
+---
+title: "Date & Time"
+sidebar_position: 16
+toc_max_heading_level: 3
+description: "Date & Time field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Date & Time<Badge type="pro" text="Pro" /> {#date--time}
+
+
+<span id="date--time" />
+A complex date and/or time field. Can be used as Date only, Time only, or both. Many configuration and validation options available as well. The `field.type` property value is `datetime` (for conditionals).
+
+<Photo
+  scale={40}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/date-time.png')}
+  alt="Date & Time field type"
+/>
+
+## Settings
+
+- May contain a default date value.
+  - You may use `now`, `today`, `5 days ago`, `2017-01-01 20:00:00`, etc, which will format the default value according to the chosen format as a localized value.
+- The default Freeform datepicker can be disabled and you can load your own manually in the template if you wish.
+  - Freeform will automatically insert javascript in the footer/inside form (depending on settings) of the page for this fieldtype.
+- Choose to have your own placeholder or have Freeform generate a placeholder based on the settings below.
+- Set the date order formatting you'd like:
+  - `year month day`, `month day year`, `day month year`
+- Select if the year should be displayed/validated as 4 digits.
+- Select if the day and month numbers should have a leading `0` for single digit values (e.g. August will display as `08` instead of `8`).
+- Choose the date separator character used between each year, month, day value:
+  - None, Space (` `), `/`, `-`, `.`
+- Select if time and datepicker should use 24 hour clock.
+- Choose the clock separator character used to separate hours and minutes:
+  - None, Space (` `), `:`, `-`, `.`
+- Choose if placeholder should separate AM/PM with a space (for 12hr clock).
+- Select the Min and Max dates for the date picker and validation (optional). Use static dates (e.g. `2018-11-01`, `2018-11-30`) or relative date strings (e.g. `-10 days`, `+3 months`).
+
+## Behavior & Limitations
+
+For **localization** reference:
+
+- The _Flatpickr_ date picker will automatically localize according to the locale set for your site. Locales available are only 2-letter codes like `fr`, `de`, etc. In the event you're using a locale like `fr-CA` or `es-US`, etc, Freeform will just look at the first 2 letters and use that as the locale.
+- To translate the formatting syntax error message, be sure to translate the following strings:
+  - `"{value}" does not conform to "{format}" format.`
+  - To translate the `{format}` rendered value to match the current locale, be sure to also translate whatever the rendered string is in the error message. For example, if you're using `fr` locale, and wish to have the default English `DD/MM/YYYY` show up as `JJ/MM/AAAA`, create a static translation for this manually.
+
+To customize the date picker appearance and behavior, please see [Date Picker Events](../../developer/datepicker.mdx) documentation.
+
+## Templating
+
+<div className="field-properties">
+
+| Property | Description |
+|---|---|
+| `field.initialValue` | The translated initial date or time expression. |
+| `field.dateTimeType` | The configured mode: `date`, `time`, or `both`. |
+| `field.generatePlaceholder` | Whether the placeholder is generated from the configured format. |
+| `field.dateOrder` | The date component order, such as `ymd`. |
+| `field.date4DigitYear` | Whether the year uses four digits. |
+| `field.dateLeadingZero` | Whether date components use leading zeroes. |
+| `field.dateSeparator` | The separator between date components. |
+| `field.clock24h` | Whether times use a 24-hour clock. |
+| `field.clockSeparator` | The separator between hours and minutes. |
+| `field.clockAMPMSeparate` | Whether a space separates the time from AM or PM. |
+| `field.useDatepicker` | Whether Freeform uses its JavaScript date picker. Returns `false` when native input types are enabled. |
+| `field.minDate` | The translated minimum date expression, or `null` when unset. |
+| `field.maxDate` | The translated maximum date expression, or `null` when unset. |
+
+</div>
+
+## Resources
+
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

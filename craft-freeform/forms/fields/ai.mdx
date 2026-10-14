@@ -1,0 +1,68 @@
+---
+title: "AI"
+sidebar_position: 10
+toc_max_heading_level: 3
+description: "AI field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { Badge } from '@site/src/components/utils';
+
+# AI<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.12+" /> {#ai}
+
+
+<span id="ai" />
+Once you enable and configure an [AI integration](../../integrations/index.mdx#ai), the **AI** field becomes available in your forms. Use it to provide a system prompt with instructions for how the model should process submission data (e.g., categorization, summarization, sentiment analysis, content generation). Specify the exact output format you need.
+
+:::info
+This field is invisible to the user on the front end.
+:::
+
+## Settings
+
+The following additional settings are available to this field type:
+
+- **System Prompt**
+  - Instructions for the AI on how to process the form data. You can use this for categorization, summarization, sentiment analysis, content generation, or any other AI task. Be specific about the desired output format.
+- **Fields to Process**
+  - Select which form fields to send to the AI for processing. Use the dropdown or type `@` to search for fields.
+- **Include Field Labels**
+  - When enabled, field labels will be included in the content sent to AI (e.g., `Name: John Doe` instead of just `John Doe`).
+- **Max Tokens Override**
+  - Leave empty to use integration settings. Override only if you need different Max Tokens for this field.
+- **Temperature Override**
+  - Leave empty to use integration settings. Override only if you need different temperature for this field. Enter a value between `0.0` and `1.0`.
+
+## Examples
+
+Some examples of how to use this field:
+
+<Tabs>
+  <TabItem value="ai-field-prompt-categorize" label="Categorize" default>
+
+    If you'd like to have AI categorize the submission, which you can then set conditional notifications on, etc, you might specify something like this:
+
+    > Analyze the specified fields and categorize this submission into one of these categories: Pre-sales Questions, Support Issue, Account Help. Respond with only the category name.
+
+    If the submission seemed like it was an issue about getting help with their account, it would label it as `Account Help`. You might then want to use [Conditional Notifications](../email-notifications/index.mdx#conditional) to send these requests to a different email address.
+
+  </TabItem>
+
+  <TabItem value="ai-field-prompt-summarize" label="Summarize">
+
+    If you'd like to have AI provide a summary of the overall submission data, you might specify something like this:
+
+    > Analyze the specified fields and provide a 2-3 sentence summary of the submission data.
+
+    This will generate a summary of the submission that gives you the gist of what is being requested or said. This can be helpful if you have long forms or fields that may contain long messages. You could then have this field's summary placed at the top of an email notification so the recipient can get the gist of the submission contents.
+
+  </TabItem>
+</Tabs>
+
+## Resources
+
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

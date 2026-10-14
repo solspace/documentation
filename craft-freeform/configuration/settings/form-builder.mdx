@@ -1,0 +1,75 @@
+---
+title: "Form Builder"
+sidebar_position: 4
+description: "Default form settings, field properties, and builder preview options."
+---
+
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+import { SettingMeta } from '@site/src/components/docs';
+import Player from 'react-player';
+
+# Form Builder
+
+Default form settings, field properties, and builder preview options. Open **Freeform → Settings → Form Builder** to configure these options.
+
+:::info
+This settings page is read-only when Craft's `allowAdminChanges` setting is `false`.
+:::
+
+Defaults apply when creating forms and fields. Locked values cannot be changed by form authors.
+
+<Player url={require('@site/static/videos/craft/freeform/v5/builder-defaults.mp4').default} controls width="100%" height="100%" />
+
+## Builder Defaults
+
+### Live Render HTML Markup {#defaults-preview-html}
+
+Render HTML in field labels, option labels, and HTML blocks in the builder preview. Disable this if your markup interferes with the builder interface.
+
+<SettingMeta configKey="defaults.previewHtml" defaultValue={"true"} />
+
+### Allow Twig to be enabled in HTML blocks {#defaults-twig-in-html}
+
+Show the option to enable Twig in HTML block fields.
+
+<SettingMeta configKey="defaults.twigInHtml" defaultValue={"true"} />
+
+### Render HTML block Twig in Isolated Mode {#defaults-twig-isolation}
+
+Limit HTML block Twig to Freeform's `form` and `fields` variables. Disable isolation to make Craft's variables available as well.
+
+<SettingMeta configKey="defaults.twigIsolation" defaultValue={"true"} />
+
+### Include Freeform's Sample Formatting Templates {#defaults-include-sample-templates}
+
+Include Freeform's sample formatting templates among the choices offered in the form builder.
+
+<SettingMeta configKey="defaults.includeSampleTemplates" defaultValue={"true"} />
+
+### Rich Text Field Toolbar Configuration<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.10.14+" /> {#defaults-rich-text-field-toolbar-configuration}
+
+Choose which native TinyMCE controls appear in the Rich Text field toolbar and their order. Separate toolbar groups with `|`.
+
+<SettingMeta configKey="defaults.richTextFieldToolbarConfiguration" defaultValue={"blocks bold italic underline forecolor backcolor | align numlist bullist | link image table | removeformat code"} />
+
+## Form & Field Defaults
+
+### Form Builder Notifications tab<Badge type="feature" text="New in 5.0+" /> {#defaults-notifications}
+
+Choose default templates for each notification type. Lock a value when it should not be changed by form authors.
+
+<SettingMeta configKey="defaults.notifications" defaultValue={"Varies by notification type"} />
+
+### Form Builder Settings tab<Badge type="feature" text="New in 5.0+" /> {#defaults-settings}
+
+Choose initial values for form settings, such as the submission title and default status. Values can also be locked for form authors.
+
+<SettingMeta configKey="defaults.settings" defaultValue={"Varies by setting"} />
+
+### Field Properties<Badge type="feature" text="New in 5.13+" /> {#defaults-props}
+
+Choose initial property values for each field type and optionally lock them.
+
+<SettingMeta configKey="defaults.props" defaultValue={"Varies by field type"} />
+
+See [Settings](./index.mdx) for other configuration areas and [Project Config](../project-config.mdx) for configuration examples.

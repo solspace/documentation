@@ -1,0 +1,75 @@
+---
+title: "Opinion Scale"
+sidebar_position: 28
+toc_max_heading_level: 3
+description: "Opinion Scale field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Opinion Scale<Badge type="pro" text="Pro" /><Badge type="feature" text="Revised in 5.0+" /> {#opinion-scale}
+
+
+<span id="opinion-scale" />
+A special field that allows for flexible opinion scoring using Freeform's built in CSS. The `field.type` property value is `opinion-scale` (for conditionals). This field type is included automatically with the _Pro_ edition of Freeform.
+
+<Photo
+  scale={60}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/opinion-scale.png')}
+  alt="Opinion Scale field type"
+/>
+
+## Settings
+
+- Set the field's option values and optional corresponding labels.
+- Optionally add legends to correspond to with choice options (e.g. _Less Satisfied_, _More Satisfied_).
+
+## Styling & Customization
+
+To manually render an Opinion Scale field to use your own styles, your code might look something like this:
+
+```twig showLineNumbers
+{% set field = form.get("opinionScale") %}
+
+<ul style="border: 1px dashed gray; padding: 5px;">
+    {% for scale in field.scales %}
+        <li>
+            <input type="radio" name="{{ field.handle }}"
+                value="{{ scale.value }}"
+                id="{{ field.idAttribute }}-{{ loop.index }}"
+                {{ field.value == scale.value ? "checked" }}
+                class="hidden"
+            />
+            <label for="{{ field.idAttribute }}-{{ loop.index }}">
+                {{ scale.label ?: scale.value }}
+            </label>
+        </li>
+    {% endfor %}
+</ul>
+
+{% if field.legends %}
+    <ul>
+        {% for legend in field.legends %}
+            <li>{{ legend }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+```
+
+## Templating
+
+<div className="field-properties">
+
+| Property | Description |
+|---|---|
+| `field.scales` | The configured scale options, including translated labels. |
+| `field.legends` | The configured legend objects, including translated labels. |
+
+</div>
+
+## Resources
+
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

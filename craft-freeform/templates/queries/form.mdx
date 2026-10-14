@@ -14,7 +14,7 @@ import { Photo, Badge } from '@site/src/components/utils';
 The Form query returns a [Form object](../objects/form.mdx) containing its metadata and field objects. From there you can either render the form using the pre-selected formatting template by calling `form.render()` or take control of it by iterating over its fields and using `form.renderTag` and `form.renderClosingTag` methods.
 
 :::info
-Freeform will automatically insert javascript in the footer of the page for features such as [Spam Protection](../../forms/spam-protection.mdx), Submit disable on click, and other special field types. If you prefer to have this load inside the `<form></form>` tags, you can adjust the [Script Insert Location](../../configuration/settings.mdx#script-insert-location) setting.
+Freeform will automatically insert javascript in the footer of the page for features such as [Spam Protection](../../forms/spam-protection.mdx), Submit disable on click, and other special field types. If you prefer to have this load inside the `<form></form>` tags, you can adjust the [Script Insert Location](../../configuration/settings/form-behavior.mdx#script-insert-location) setting.
 :::
 
 :::tip
@@ -31,10 +31,10 @@ Freeform will automatically insert javascript in the footer of the page for feat
 
 ## Parameters
 
-The `Form` query is always constructed the same way. The first assumed parameter should contain the form handle or ID, and the second parameter (optional) contains [Template Overrides](../../templates/formatting/index.mdx#template-overrides) and other available settings, typically used for applying a class globally to specific types of inputs, etc.
+The `Form` query is always constructed the same way. The first assumed parameter should contain the form handle or ID, and the second parameter (optional) contains [Template Overrides](../formatting/overrides.mdx) and other available settings, typically used for applying a class globally to specific types of inputs, etc.
 
 :::info
-Please see the [Template Overrides](../../templates/formatting/index.mdx#template-overrides) documentation for detailed instructions.
+Please see the [Template Overrides](../formatting/overrides.mdx) documentation for detailed instructions.
 :::
 
 A basic implementation of the `Form` query would look like this:
@@ -43,7 +43,7 @@ A basic implementation of the `Form` query would look like this:
 {{ freeform.form("myFormHandle").render() }}
 ```
 
-Once [Template Overrides](../../templates/formatting/index.mdx#template-overrides) have been implemented, your code might look something like this:
+Once [Template Overrides](../formatting/overrides.mdx) have been implemented, your code might look something like this:
 
 ```twig showLineNumbers
 {{ freeform.form("myFormHandle", {
@@ -194,10 +194,10 @@ formattingTemplate: 'template-name.twig'
 
 Allows you to disable email notifications, API integrations and [Element integrations](../../integrations/elements.mdx) for a form by passing an object of items you wish to disable, typically used for [editing submissions](../../submissions/overview.mdx#submission-editing), e.g.:
 
-- `adminNotifications: true` - disable [Admin](../../forms/email-notifications.mdx#admin) notifications
-- `conditionalNotifications: true`<Badge type="feature" text="New in 5.0+" /> - disable [Conditional](../../forms/email-notifications.mdx#conditional) notifications
-- `userSelectNotifications: true`<Badge type="feature" text="Renamed in 5.0+" /> - disable [User Select](../../forms/email-notifications.mdx#user-select) notifications
-- `emailFieldNotifications: true`<Badge type="feature" text="Renamed in 5.0+" /> - disable [Email Fields](../../forms/email-notifications.mdx#email-fields) notifications
+- `adminNotifications: true` - disable [Admin](../../forms/email-notifications/index.mdx#admin) notifications
+- `conditionalNotifications: true`<Badge type="feature" text="New in 5.0+" /> - disable [Conditional](../../forms/email-notifications/index.mdx#conditional) notifications
+- `userSelectNotifications: true`<Badge type="feature" text="Renamed in 5.0+" /> - disable [User Select](../../forms/email-notifications/index.mdx#user-select) notifications
+- `emailFieldNotifications: true`<Badge type="feature" text="Renamed in 5.0+" /> - disable [Email Fields](../../forms/email-notifications/index.mdx#email-fields) notifications
 - `api: true` - disable any **CRM** and **Email Marketing** [integrations](../../integrations/index.mdx)
 - `elements: true`<Badge type="feature" text="Renamed in 5.0+" /> - disable any [Element](../../integrations/elements.mdx) integrations
   :::warning
@@ -208,7 +208,7 @@ Allows you to disable email notifications, API integrations and [Element integra
 - `captchas: true`<Badge type="feature" text="New in 5.0+" /> - disable any Captchas
 - `honeypots: true`<Badge type="feature" text="New in 5.0+" /> - disable the Honeypot
 - `javascriptTest: true`<Badge type="feature" text="New in 5.0+" /> - disable the Javascript Test
-- `submitButtons`<Badge type="feature" text="New in 5.0+" /> - disable the automatic insertion of [Submit buttons](../../forms/fields.mdx#submit-buttons)
+- `submitButtons`<Badge type="feature" text="New in 5.0+" /> - disable the automatic insertion of [Submit buttons](../../forms/fields/submit-buttons.mdx#submit-buttons)
 
 You can also just set this to `true` (`disable: true`) to disable all items (except `submitButtons`) at once.
 
@@ -289,13 +289,13 @@ Template overrides let you customize form and field attributes, values, and rend
 | Option | Purpose |
 |---|---|
 | `attributes` | Controls form-tag, row, and banner attributes. |
-| `buttons` | Controls [Submit button](../../forms/fields.mdx#submit-buttons) output. |
-| `fields` | Controls [field](../../forms/fields.mdx) values, attributes, and rendering. |
+| `buttons` | Controls [Submit button](../../forms/fields/submit-buttons.mdx#submit-buttons) output. |
+| `fields` | Controls [field](../../forms/fields/index.mdx) values, attributes, and rendering. |
 | `captchas` | Adds attributes to the CAPTCHA wrapper automatically inserted by Freeform. |
-| `tag` | Changes supported HTML tags. [Learn more](../formatting/index.mdx#overriding-html-tags).<Badge type="feature" text="New in 5.10+" /> |
+| `tag` | Changes supported HTML tags. [Learn more](../formatting/overrides.mdx#overriding-html-tags).<Badge type="feature" text="New in 5.10+" /> |
 
 :::info
-See [Template Overrides](../formatting/index.mdx#template-overrides) for syntax and examples.
+See [Template Overrides](../formatting/overrides.mdx) for syntax and examples.
 
 In Freeform 5.17+, the default AJAX renderer also uses banner attributes and field-error styling from compatible formatting templates. JavaScript overrides remain available for additional customization. See [AJAX Forms](../ajax.mdx) for details.
 :::
