@@ -15,9 +15,7 @@ import legacyAnchors from './legacy-anchors.json';
 
 <FieldReferenceRedirect targets={legacyAnchors} />
 
-Choose a field to see its settings, behavior, styling options, and Twig reference. Fields belong to individual forms; save frequently used configurations as favorites to reuse them.
-
-## Field Types
+Choose a field type below to learn how it works and explore its settings, styling options, and Twig examples. Fields are configured separately for each form, but you can save common configurations as favorites to reuse across forms.
 
 <FieldCards
   catalog
@@ -342,49 +340,6 @@ Choose a field to see its settings, behavior, styling options, and Twig referenc
     },
   ]}
 />
-
-:::info
-You can change a field's type in the builder. Switching between incompatible types can result in data loss.
-:::
-
-### Compare Field Types and Editions
-
-| Name | `field.type` | Description | <span className="edition-express no-margin">Express</span> | <span className="edition-lite no-margin">Lite</span> | <span className="edition-pro no-margin">Pro</span> |
-| --------------------------------------------------------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------: | :--------------------------------------------------: | :------------------------------------------------: |
-| [AI](./ai.mdx#ai)<Badge type="feature" text="New in 5.12+" /> | `ai` | Have AI analyze the submission data and output a response using an [AI integration](../../integrations/index.mdx#ai). | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Calculation](./calculation.mdx#calculation)<Badge type="feature" text="New in 5.1+" /> | `calculation` | Perform dynamic calculations based on user-input values within forms. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Cards](./cards.mdx#cards)<Badge type="feature" text="New in 5.12+" /> | `cards` | Option field with images, descriptions and other metadata. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Checkbox](./checkbox.mdx#checkbox)<Badge type="feature" text="Improved in 5.10+" /> | `checkbox` | A single checkbox field. | <span className="edition-express">✓</span> | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
-| [Checkboxes](./checkboxes.mdx#checkboxes)<Badge type="feature" text="Improved in 5.10+" /> | `checkboxes` | A group of checkboxes. | <span className="edition-express">✓</span> | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
-| [Confirm](./confirm.mdx#confirm) | `confirm` | A text input field that targets another similar field and ensures the values match. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Date & Time](./date-time.mdx#date--time) | `datetime` | A complex date and/or time field. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Dropdown](./dropdown.mdx#dropdown)<Badge type="feature" text="Improved in 5.17+" /> | `dropdown` | A select dropdown menu field. | <span className="edition-express">✓</span> | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
-| [Email](./email.mdx#email)<Badge type="feature" text="Improved in 5.17+" /> | `email` | A text input field that includes additional email validation and possibility for attaching an email notification to it. | <span className="edition-express">✓</span> | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
-| [File Upload](./file-upload.mdx#file-upload)<Badge type="feature" text="Improved in 5.17+" /> | `file` | A regular file upload field. | <span className="edition-express">✓</span> | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
-| [File Upload Drag & Drop](./file-drag-drop.mdx#file-upload-drag--drop)<Badge type="feature" text="Improved in 5.17+" /> | `file-dnd` | An advanced javascript-based file uploading field. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Group](./group.mdx#group)<Badge type="feature" text="New in 5.0+" /> | `group` | A field that contains other fields within it. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Hidden](./hidden.mdx#hidden) | <span className="compare-none">N/A</span> | A hidden input field. | <span className="edition-express">✓</span> | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
-| [HTML](./html.mdx#html) | `html` | A block that allows you to insert HTML into areas of your form. | <span className="edition-express">✓</span> | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
-| [Image](./image.mdx#image)<Badge type="feature" text="New in 5.13+" /> | `image` | Allows you to add Asset images into your form layout. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Invisible](./invisible.mdx#invisible) | <span className="compare-none">N/A</span> | A field that allows you to collect hidden data in form submissions without a hidden field being present in the template source code. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Multiple Select](./multiple-select.mdx#multiple-select)<Badge type="feature" text="Improved in 5.17+" /> | `multiple-select` | A multiple-select field. | <span className="edition-express">✓</span> | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
-| [Number](./number.mdx#number) | `number` | A `number` type input field that is validated to contain certain numbers only. | <span className="edition-express">✓</span> | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
-| [Opinion Scale](./opinion-scale.mdx#opinion-scale) | `opinion-scale` | A special field that allows for flexible opinion scoring. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Password](./password.mdx#password)<Badge type="feature" text="Improved in 5.17+" /> | `password` | A text input field that collects sensitive passwords but does not store them. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Phone](./phone.mdx#phone)<Badge type="feature" text="Improved in 5.17+" /> | `phone` | A `tel` type input field that is validated to contain phone numbers only, based on a configured pattern. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Radios](./radios.mdx#radios) | `radios` | A group of radio options. | <span className="edition-express">✓</span> | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
-| [Range Slider](./range-slider.mdx#range-slider)<Badge type="feature" text="New in 5.17+" /> | `range` | Users select a numeric value by dragging a slider. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Rating](./rating.mdx#rating) | `rating` | A special field that allows for star ratings. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Regex](./regex.mdx#regex) | `regex` | An input field that is validated based on the specified regex pattern (e.g. `/^[a-zA-Z0-9]*$/`). | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Rich Text](./rich-text.mdx#rich-text)<Badge type="feature" text="Improved in 5.10+" /> | `rich-text` | A block that allows you to insert rich text into areas of your form (headings, descriptions, etc). | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Signature](./signature.mdx#signature) | `signature` | A field that allows users to handwrite signatures inside your form. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Summary](./summary.mdx#summary)<Badge type="feature" text="New in 5.17+" /> | `summary` | Allows users to review their answers before submitting the form. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Stripe Payment](./stripe-payment.mdx#stripe-payment)<Badge type="feature" text="Improved in 5.0+" /> | `stripe` | A set of input fields to allow the validation of credit cards and other payment options for [Stripe Payment](../../integrations/stripe-payments.mdx) implementations. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Submit buttons](./submit-buttons.mdx#submit-buttons) | <span className="compare-none">N/A</span> | Handles the submit button(s), including **Save** option for the form. | <span className="edition-express">✓</span> | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
-| [Table](./table.mdx#table)<Badge type="feature" text="Improved in 5.8, 5.14.12+" /> | `table` | A field that allows you to collect and handle repeating data. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
-| [Text](./text.mdx#text)<Badge type="feature" text="Improved in 5.17+" /> | `text` | A single-line text input field. | <span className="edition-express">✓</span> | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
-| [Textarea](./textarea.mdx#textarea)<Badge type="feature" text="Improved in 5.17+" /> | `textarea` | A multi-line text input field. | <span className="edition-express">✓</span> | <span className="edition-lite">✓</span> | <span className="edition-pro">✓</span> |
-| [Website](./website.mdx#website) | `website` | A `url` type input field that checks to see if the URL specified has valid syntax. | <span className="compare-none">✕</span> | <span className="compare-none">✕</span> | <span className="edition-pro">✓</span> |
 
 ## Working with Fields
 
