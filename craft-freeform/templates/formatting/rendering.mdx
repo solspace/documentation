@@ -1,0 +1,221 @@
+---
+title: Rendering Forms Manually
+sidebar_position: 11
+description: Render form tags, rows, fields, buttons, and captchas while preserving Freeform behavior and generated attributes.
+---
+
+# Rendering Forms Manually
+
+Use render helpers when your layout needs more control than an assigned formatting template provides. You can write this markup directly in a Craft page template or save it as a reusable custom formatting template.
+
+Start with [Creating a Custom Formatting Template](../../guides/guide/custom-formatting-templates.mdx) when adapting a bundled template. For most styling changes, [Template Overrides](./overrides.mdx) are enough.
+
+## Render a Form with Helpers {#code-your-form-directly-in-the-template}
+
+In a page template, query the form first. Inside a formatting template loaded by `form.render()`, the `form` object is already supplied.
+
+```twig
+{% set form = freeform.form('contact') %}
+{{ form.renderTag() }}
+
+{% if form.hasErrors %}
+  <div{{ form.attributes.errors|raw }} role="alert">
+    {{ form.errorMessage|t('freeform') }}
+  </div>
+{% endif %}
+
+{% for row in form %}
+  <div class="field-row">
+    {% for field in row %}
+      {{ field.render() }}
+    {% endfor %}
+  </div>
+{% endfor %}
+
+{{ form.renderClosingTag() }}
+```
+
+The opening and closing helpers retain Freeform's form context, hidden inputs, and automatic controls. `field.render()` produces the field's container, label, input, instructions, and errors.
+
+## Customize Individual Fields {#manual-formatting-template}
+
+Prefer `field.renderInput()` when you only need to change the surrounding layout. It retains the generated control markup and feature attributes for searchable selects, international phone inputs, character counts, auto-growing textareas, password toggles, upload requirements, and other field features.
+
+```twig
+{% set form = freeform.form('contact') %}
+{{ form.renderTag() }}
+
+{% set email = form.get('email') %}
+<div{{ email.attributes.container|raw }}>
+  {{ email.renderLabel() }}
+  {{ email.renderInstructions() }}
+  {{ email.renderInput() }}
+  {{ email.renderErrors() }}
+</div>
+
+{{ form.renderClosingTag() }}
+```
+
+This intentionally renders only the Email field; add helpers for every field you want displayed. If you write an input or select yourself, retain the field's name, ID, submitted value, generated attributes, and label associations. Each field's [Templating section](../../forms/fields/index.mdx) covers its requirements.
+
+For a manually written Dropdown, compare against that Dropdown's value:
+
+```twig
+{% set dropdown = form.get('department') %}
+{{ dropdown.renderLabel() }}
+<select name="{{ dropdown.handle }}" id="{{ dropdown.idAttribute }}"{{ dropdown.attributes.input|raw }}>
+  {% for option in dropdown.options %}
+    <option value="{{ option.value }}"{% if option.value == dropdown.value %} selected{% endif %}>
+      {{ option.label }}
+    </option>
+  {% endfor %}
+</select>
+{{ dropdown.renderErrors() }}
+```
+
+Options must correspond to the field's configured values. Use the [dynamic options guide](../../guides/guide/populate-field-options-at-template-level.mdx) for the Text-field workaround when you need options generated entirely in Twig.
+
+## Submit Button Customization
+
+Freeform normally inserts buttons automatically. Disable that insertion when rendering them yourself:
+
+```twig
+{{ form.renderTag({ disable: ['submitButtons'] }) }}
+
+{# Render your fields here. #}
+
+{% set button = form.currentPage.buttons %}
+{{ button.renderSubmit() }}
+{% if button.back %}
+  {{ button.renderBack() }}
+{% endif %}
+{% if button.save %}
+  {{ button.renderSave() }}
+{% endif %}
+
+{{ form.renderClosingTag() }}
+```
+
+### Custom Button Markup
+
+Use the property helpers to preserve the button's action and required attributes:
+
+```twig
+{% set button = form.currentPage.buttons %}
+<button{{ button.submitRenderProps({ class: 'button-primary' }) }}>
+  {{ button.submitLabel }}
+</button>
+{% if button.back %}
+  <button{{ button.backRenderProps() }}>{{ button.backLabel }}</button>
+{% endif %}
+{% if button.save %}
+  <button{{ button.saveRenderProps() }}>{{ button.saveLabel }}</button>
+{% endif %}
+```
+
+Use this between `form.renderTag({ disable: ['submitButtons'] })` and `form.renderClosingTag()`. Render Back and Save buttons only when those features are enabled. If you intentionally use trusted HTML in button labels, apply `raw` to the relevant label.
+
+## Captcha Placement
+
+For a visible captcha, such as reCAPTCHA v2 Checkbox or Turnstile, call `form.renderCaptchas()` before your manually placed buttons:
+
+```twig
+{{ form.renderTag({ disable: ['submitButtons'] }) }}
+
+{% for row in form %}
+  <div{{ form.attributes.row|raw }}>
+    {% for field in row %}
+      {{ field.render() }}
+    {% endfor %}
+  </div>
+{% endfor %}
+
+{{ form.renderCaptchas() }}
+{{ form.currentPage.buttons.renderSubmit() }}
+{{ form.renderClosingTag() }}
+```
+
+Without an explicit placement, Freeform inserts visible captchas automatically near the end of the form. Add Back and Save buttons here if needed, using the helpers above.
+
+## Reusable Row Rendering {#automated-formatting-template}
+
+A custom formatting template can loop over rows and recurse into Group fields. This example assumes `form` is supplied by Freeform and that your CSS defines the row, column, and group classes.
+
+```twig
+{{ form.renderTag({
+  attributes: {
+    row: { class: 'form-row' },
+    success: { class: 'form-success', role: 'status' },
+    errors: { class: 'form-errors', role: 'alert' }
+  },
+  fields: {
+    '@global': {
+      attributes: {
+        container: { class: 'form-column' },
+        input: { class: 'form-input' },
+        label: { class: 'form-label' },
+        instructions: { class: 'form-instructions' },
+        error: { class: 'field-errors' }
+      }
+    }
+  }
+}) }}
+
+{% if not form.settings.ajax %}
+  {% if form.submittedSuccessfully %}
+    <div{{ form.attributes.success|raw }}>
+      {{ form.successMessage|t('freeform') }}
+    </div>
+  {% endif %}
+  {% if form.hasErrors %}
+    <div{{ form.attributes.errors|raw }}>
+      <p>{{ form.errorMessage|t('freeform') }}</p>
+      {% if form.errors|length %}
+        <ul>
+        {% for error in form.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endif %}
+
+{% if form.pages|length > 1 %}
+  <ol class="form-progress">
+  {% for page in form.pages %}
+    <li{% if form.currentPage.index == page.index %} aria-current="step"{% endif %}>
+      {{ page.label }}
+    </li>
+  {% endfor %}
+  </ol>
+{% endif %}
+
+{% macro renderRows(form, rows) %}
+  {% for row in rows %}
+    {% set width = 12 / (row|length) %}
+    <div{{ form.attributes.row|raw }}>
+    {% for field in row %}
+      {% do field.setParameters({
+        attributes: { container: { class: 'form-column-' ~ width } }
+      }) %}
+      {% if field.type == 'group' %}
+        <fieldset{{ field.attributes.container|raw }}>
+          <legend{{ field.attributes.label|raw }}>{{ field.label }}</legend>
+          {{ _self.renderRows(form, field.layout) }}
+        </fieldset>
+      {% else %}
+        {{ field.render() }}
+      {% endif %}
+    {% endfor %}
+    </div>
+  {% endfor %}
+{% endmacro %}
+
+{{ _self.renderRows(form, form.rows) }}
+{{ form.renderClosingTag() }}
+```
+
+Treat this as a starting point. Preserve [accessibility attributes](./index.mdx#accessibility), handle hidden or conditional fields through the render helpers, and test your form's AJAX, multipage, and field-specific behavior after customizing.
+
+For complete framework implementations, use the [bundled sample templates](./index.mdx#sample-templates). See the [Form object](../objects/form.mdx), [Row object](../objects/row.mdx), and [Field object](../objects/field.mdx) references for method details.

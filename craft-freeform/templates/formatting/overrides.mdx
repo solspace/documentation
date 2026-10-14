@@ -1,0 +1,237 @@
+---
+title: Template Overrides
+sidebar_position: 10
+description: Customize form and field attributes, labels, initial values, selectors, and HTML tags without replacing your formatting template.
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+
+# Template Overrides
+
+Overrides customize a form instance while retaining its formatting template. Pass them to a [Form query](../queries/form.mdx), `form.render()`, or `form.renderTag()` when rendering your own markup.
+
+## Override Namespaces
+
+| Namespace | Controls |
+| --- | --- |
+| `attributes` | The form tag, rows, and success/error banners. |
+| `fields` | Field properties and attributes, selected by handle, type, state, or interface. |
+| `buttons` | Submit, Back, and Save labels and attributes. |
+| `captchas` | Attributes on automatically inserted captcha wrappers. |
+
+```twig
+{{ freeform.form('contact').render({
+  attributes: { class: 'contact-form' },
+  fields: {
+    '@global': {
+      attributes: { input: { class: 'form-control' } }
+    },
+    email: {
+      instructions: 'We will reply to this address.'
+    }
+  },
+  buttons: { submitLabel: 'Send message' }
+}) }}
+```
+
+## Field Selectors
+
+| Selector | Targets |
+| --- | --- |
+| `@global` | All fields. |
+| `email` | A field with that handle. |
+| `@dropdown` | All fields of that type. Prefix the field type with `@`. |
+| `:required` | Fields marked required. |
+| `:errors` | Fields with validation errors. |
+| `:options` | Fields implementing the options interface. |
+| `:fileUpload` | File upload fields. |
+| `:multiValue` | Fields with multiple values. |
+| `:noStorage` | Fields whose values are not stored, such as HTML, Rich Text, and Password. |
+| `:placeholder` | Fields supporting placeholders. |
+
+Combine selectors with commas, such as `'@checkboxes, @radios'` or `'@text, firstName'`. A field matches when any listed selector matches. Multiple matching entries are applied in the order supplied, so place shared defaults before more specific overrides.
+
+In Freeform 5.17+, the default AJAX renderer also mirrors supported `:errors` classes from the formatting template onto field containers, labels, and inputs.
+
+## Attribute Locations
+
+### Form Attributes
+
+| Path | Applied to |
+| --- | --- |
+| `attributes.class`, `attributes.id`, or other attributes | The opening form tag. |
+| `attributes.row` | Row wrappers rendered by the formatting template. |
+| `attributes.success` | Success banner wrapper. |
+| `attributes.errors` | Form error banner wrapper. |
+
+Custom formatting templates need to output the corresponding attribute collections. In Freeform 5.17+, the default AJAX renderer also uses the success and error banner settings.
+
+### Field Attributes
+
+Inside a selector, use `attributes` with these keys:
+
+| Key | Applied to |
+| --- | --- |
+| `container` | Field wrapper. |
+| `input` | Input, select, textarea, or other control. |
+| `label` | Field label or question. |
+| `instructions` | Instruction block. |
+| `error` | Field validation error block. |
+| `optionLabel` | Individual option labels in supported choice fields. |
+| `option` | Options in Dropdown and Multiple Select fields. |
+
+Use singular **`error`** for field errors and plural **`errors`** for the form banner. Field selectors can also override `value`, `label`, and `instructions`; values for option fields must match their configured option values.
+
+### Button Attributes
+
+Use `buttons.attributes` with `container`, `column`, `buttonWrapper`, `submit`, `back`, and `save`. Set `submitLabel`, `backLabel`, and `saveLabel` directly inside `buttons`.
+
+To change placement or supply your own button markup, see [Submit Button Customization](./rendering.mdx#submit-button-customization).
+
+### Captcha Attributes
+
+Use `captchas` to add attributes to the automatically inserted wrapper, for example `class` or a `data-*` attribute. See the [captcha wrapper recipe](./examples.mdx#on-captcha-wrapper) and [captcha placement](./rendering.mdx#captcha-placement).
+
+## Behavior Syntax
+
+Without a prefix, an attribute uses append behavior. Quote attribute names that begin with a modifier:
+
+| Syntax | Behavior |
+| --- | --- |
+| `class: 'field'` or `'+class': 'field'` | Add to existing values. |
+| `'-class': 'field'` | Remove from existing values. |
+| `'=class': 'field'` | Replace existing values. |
+
+The modifiers also work with custom attribute names.
+
+```twig
+{{ form.render({
+  fields: {
+    '@global': {
+      attributes: { input: { class: 'form-input form-text' } }
+    },
+    '@dropdown': {
+      attributes: {
+        input: { '-class': 'form-text', '+class': 'form-select' }
+      }
+    },
+    '@checkbox': {
+      attributes: { input: { '=class': 'form-check' } }
+    }
+  }
+}) }}
+```
+
+Relative to these shared defaults, Dropdown inputs keep `form-input`, remove `form-text`, and add `form-select`. Checkbox inputs replace the shared classes with `form-check`.
+
+## Overriding HTML Tags<Badge type="feature" text="New in 5.10+" />
+
+The reserved `tag` key changes the wrapper tag for `attributes.row` and for a field's `container`, `label`, `optionLabel`, or `instructions`. It does not replace the input control's tag.
+
+For accessible choice groups, use a `fieldset` and `legend`:
+
+```twig
+{{ form.render({
+  fields: {
+    '@checkboxes, @radios': {
+      attributes: {
+        container: { tag: 'fieldset' },
+        label: { tag: 'legend' },
+        optionLabel: { tag: 'label', class: 'option-label' }
+      }
+    }
+  }
+}) }}
+```
+
+Newer bundled templates already use this structure for supported fields. See [Accessibility](./index.mdx#accessibility) before changing labels or containers.
+
+## How to Set Attributes
+
+At form level, use selectors under `fields`. At field level, supply the attribute locations directly:
+
+```twig
+{{ field.renderInput({
+  attributes: { input: { class: 'custom-input' } }
+}) }}
+```
+
+To set parameters before rendering:
+
+```twig
+{% do field.setParameters({
+  attributes: { container: { class: 'custom-container' } }
+}) %}
+{{ field.render() }}
+```
+
+### Field Attributes Editor
+
+Set attributes on an individual field inside the form builder's Field Attributes editor. These are combined with template overrides using the same add/remove/replace behavior. Use `@global` for shared form-level defaults.
+
+<details>
+<summary>View the Field Attributes editor</summary>
+
+<Photo img={require('@site/static/img/craft/freeform/v5/cp/builder-field-attributes.png')} alt="Field Attributes editor" />
+<Photo img={require('@site/static/img/craft/freeform/v5/formatting/builder-attributes.png')} alt="Configured field attributes" />
+
+</details>
+
+## Accessing Attribute Properties
+
+Render a collection of generated attributes with `raw`, or retrieve one value with `get()`:
+
+```twig
+<div{{ form.attributes.success|raw }} role="status">
+  {{ form.successMessage|t('freeform') }}
+</div>
+```
+
+```twig
+{{ form.attributes.success.get('class') }}
+{{ field.attributes.input.get('class') }}
+```
+
+The collection outputs attributes such as `class="form-success"`; `get('class')` returns only their value. Use `raw` for Freeform's generated attribute collections, and keep user-supplied content escaped.
+
+## Full Example
+
+This example combines shared field defaults, a required-field marker, a specific field, button labels, and captcha attributes:
+
+```twig
+{{ form.render({
+  attributes: {
+    class: 'contact-form',
+    row: { class: 'form-row' },
+    success: { class: 'form-success', role: 'status' },
+    errors: { class: 'form-errors', role: 'alert' }
+  },
+  fields: {
+    '@global': {
+      attributes: {
+        container: { class: 'form-field' },
+        input: { class: 'form-input' },
+        label: { class: 'form-label' },
+        instructions: { class: 'form-instructions' },
+        error: { class: 'field-errors' }
+      }
+    },
+    ':required': {
+      attributes: { label: { '+class': 'required' } }
+    },
+    email: {
+      instructions: 'We will reply to this address.',
+      attributes: { input: { autocomplete: 'email' } }
+    }
+  },
+  buttons: {
+    attributes: { submit: { class: 'button-primary' } },
+    submitLabel: 'Send',
+    backLabel: 'Previous',
+    saveLabel: 'Save for later'
+  },
+  captchas: { class: 'captcha-container', 'data-captcha': true }
+}) }}
+```
+
+Continue to [Examples & Recipes](./examples.mdx) for individual patterns, or [Rendering Forms Manually](./rendering.mdx) for custom markup.
