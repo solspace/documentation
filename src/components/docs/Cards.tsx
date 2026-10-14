@@ -26,6 +26,7 @@ interface FieldProps {
   color?: string;
   filterIcon?: boolean;
   category?: string;
+  proOnly?: boolean;
 }
 
 interface IntegrationLogoProps {
@@ -390,7 +391,14 @@ const FieldCatalogCard: React.FC<FieldProps> = (item) => {
         </span>
       )}
       <span className={fieldStyles.copy}>
-        <span className={fieldStyles.title}>{item.title}</span>
+        <span className={fieldStyles.heading}>
+          <span className={fieldStyles.title}>{item.title}</span>
+          {item.proOnly && (
+            <span className={fieldStyles.proBadge} aria-label="Available in Freeform Pro only">
+              Pro
+            </span>
+          )}
+        </span>
         <span className={fieldStyles.description}>{item.description}</span>
       </span>
     </Link>
