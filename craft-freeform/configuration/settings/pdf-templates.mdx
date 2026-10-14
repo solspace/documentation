@@ -1,0 +1,54 @@
+---
+title: PDF Templates
+sidebar_position: 7
+description: Create and attach PDF templates to Freeform email notifications.
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+
+# PDF Templates<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.7+" />
+
+Create custom PDFs from HTML and Twig, then attach them to email notifications. Open **Freeform → Settings → PDF Templates** to manage them.
+
+:::info
+PDF templates remain editable when Craft's `allowAdminChanges` setting is `false`.
+:::
+
+## Template Fields
+
+- **Name** — identify the template in the control panel.
+- **Description** — explain what the template generates.
+- **File Name** — the name of the generated PDF; Twig variables are supported.
+- **PDF Body** — the HTML and Twig used to generate the document.
+
+Both the file name and body can use the [email notification template variables](../../forms/email-notifications.mdx#template-options).
+
+## Attach a PDF to a Notification
+
+Edit an [Email Notification](../../forms/email-notifications.mdx) template and select the PDF templates to attach. You can attach more than one template to a notification.
+
+## Loading Images
+
+When using images in your PDF template, it's important to use `dataUrl(asset)` to create an _inline Base64 image_ to avoid PDF image loading issues.
+
+```twig
+<div class="ticket-image">
+  {% set image = craft.assets.id(123).one() %}
+  {% if image %}
+    <img src="{{ dataUrl(image) }}" alt="{{ image.alt ?? image.title }}" />
+  {% endif %}
+</div>
+```
+
+## Examples
+
+See [PDF Template Examples](../../guides/guide/pdf-template-examples.mdx) for a complete event-ticket template and its output.
+
+<details>
+<summary>View the PDF template editor</summary>
+
+<Photo img={require('@site/static/img/craft/freeform/v5/configuration/pdf-templates.jpg')} alt="Create a PDF template" />
+
+</details>
+
+See [Settings](./index.mdx) for other configuration areas.

@@ -1,0 +1,110 @@
+---
+title: "Template Manager"
+sidebar_position: 5
+description: "Formatting, email, and success template directories and storage options."
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+import { SettingMeta } from '@site/src/components/docs';
+
+# Template Manager
+
+Formatting, email, and success template directories and storage options. Open **Freeform → Settings → Template Manager** to configure these options.
+
+:::info
+This settings page is read-only when Craft's `allowAdminChanges` setting is `false`.
+:::
+
+See [Email Notifications](../../forms/email-notifications.mdx) for notification setup and Twig variables.
+
+## Formatting Templates
+
+### Directory Path {#form-template-directory}
+
+Set the directory containing your custom Twig formatting templates. Relative paths are resolved from Craft's site templates directory, for example `_freeform/formatting/`. Use **Add a sample template** for a starting point. See [Formatting Templates](../../templates/formatting/index.mdx).
+
+<SettingMeta configKey="formTemplateDirectory" defaultValue={"Not set"} example={"formTemplateDirectory: _freeform/formatting/"} />
+
+## Email Templates
+
+### Template Method<Badge type="feature" text="New in 5.11+" /> {#email-template-method}
+
+Choose **Form-specific** (`form`), **Global** (`global`), or **Both** (`all`) email notification templates.
+
+<SettingMeta configKey="emailTemplateMethod" defaultValue={"form"} />
+
+### Template Storage Type {#email-template-storage-type}
+
+Store global email templates as **Files** (`files`), in the **Database** (`database`), or as **Both** (`files_database`).
+
+<SettingMeta configKey="emailTemplateStorageType" defaultValue={"files_database"} />
+
+### Allow New Templates to be created inside the Form Builder<Badge type="feature" text="New in 5.10.8+" /> {#allow-builder-template-creation}
+
+Allow administrators to create email notification templates while editing a form.
+
+<SettingMeta configKey="allowBuilderTemplateCreation" defaultValue={"true"} />
+
+### New Template Type for Form Builder<Badge type="deprecated" text="Deprecated in 5.11+" /> {#email-template-default}
+
+Choose the storage method for new global templates created from the builder. This setting is deprecated in Freeform 5.11+.
+
+<SettingMeta configKey="emailTemplateDefault" defaultValue={"database"} />
+
+### Allow File-based Email Templates to be managed inside the Notifications area {#allow-file-template-edit}
+
+Allow file-based email templates to be created or edited from the Notifications area. Review whether this fits your deployment workflow.
+
+<SettingMeta configKey="allowFileTemplateEdit" defaultValue={"true"} />
+
+### File Directory Path {#email-template-directory}
+
+Set the directory containing file-based email notification templates, relative to Craft's site templates directory. Create the directory before configuring it, for example `_freeform/emails/`. Use **Add a sample template** for a starting point.
+
+<SettingMeta configKey="emailTemplateDirectory" defaultValue={"Not set"} example={"emailTemplateDirectory: _freeform/emails/"} />
+
+Keep shared layouts and partials outside the email template directory. Freeform treats every template file in that directory as a complete notification template.
+
+### Default From Email for New Templates<Badge type="feature" text="New in 5.4+" /> {#default-from-email}
+
+Set the initial **From Email** for new email notification templates. By default, this uses Craft's system email address.
+
+<SettingMeta configKey="defaultFromEmail" defaultValue={"{{ general.systemEmail }}"} />
+
+### Default From Name for New Templates<Badge type="feature" text="New in 5.4+" /> {#default-from-name}
+
+Set the initial **From Name** for new email notification templates. By default, this uses Craft's system name.
+
+<SettingMeta configKey="defaultFromName" defaultValue={"{{ general.systemName }}"} />
+
+### Convert Database Email Templates
+
+To migrate global database templates to files and update the forms that reference them, follow [Convert Email Templates to Files](../../guides/guide/converting-email-templates.mdx).
+
+## Success Templates
+
+### Directory Path {#success-template-directory}
+
+Set the directory containing success templates, relative to Craft's site templates directory, for example `_freeform/success/`. Choose **Load Success Template** as the form's **Success Behavior** to display one after a successful submission.
+
+<SettingMeta configKey="successTemplateDirectory" defaultValue={"Not set"} example={"successTemplateDirectory: _freeform/success/"} />
+
+### Success Template Example
+
+```twig
+<div id="freeform-success">
+    <h3>Thank you!</h3>
+    <p>We have successfully received your submission.</p>
+</div>
+```
+
+Success templates can also use `form.id`, `form.handle`, and `form.name`. See [Success Return on Forms](../../guides/guide/success-return-on-forms.mdx) for the available success behaviors.
+
+<details>
+<summary>View the control panel settings</summary>
+
+<Photo img={require('@site/static/img/craft/freeform/v5/configuration/template-manager.jpg')} alt="Template Manager settings" />
+
+</details>
+
+See [Settings](./index.mdx) for other configuration areas and [Project Config](../project-config.mdx) for configuration examples.

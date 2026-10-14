@@ -1,0 +1,79 @@
+---
+title: "Spam Protection Settings"
+sidebar_position: 6
+description: "Global spam behavior, retention, throttling, and submission timing."
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+import { SettingMeta } from '@site/src/components/docs';
+
+# Spam Protection Settings
+
+Global spam behavior, retention, throttling, and submission timing. Open **Freeform → Settings → Spam Protection** to configure these options.
+
+:::info
+This settings page is read-only when Craft's `allowAdminChanges` setting is `false`.
+:::
+
+For individual CAPTCHA services and spam-blocking tools, see [Spam Protection](../../forms/spam-protection.mdx).
+
+## Spam Handling
+
+### Spam Protection Behavior<Badge type="feature" text="Renamed in 5.0+" /> {#spam-protection-behavior}
+
+Choose what happens when spam is detected: **Simulate Success** (`simulate_success`, recommended) or **Display Errors** (`display_errors`, useful while debugging).
+
+<SettingMeta configKey="spamProtectionBehavior" defaultValue={"simulate_success"} />
+
+### Bypass All Spam Checks for Logged in Users {#bypass-spam-check-on-logged-in-users}
+
+Skip all spam protection measures for logged-in users when enabled.
+
+<SettingMeta configKey="bypassSpamCheckOnLoggedInUsers" defaultValue={"false"} />
+
+### Use Spam Folder {#spam-folder-enabled}
+
+Save rejected submissions in the Spam Folder instead of discarding them. For CAPTCHA failures, also select **Send to Freeform Spam Folder** in the CAPTCHA integration's **Failure Behavior** setting.
+
+<SettingMeta configKey="spamFolderEnabled" defaultValue={"true"} />
+
+The Spam Folder does not recover submissions discarded before it was enabled.
+
+### Automatically Purge Spam Submissions<Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /> {#purgable-spam-age-in-days}
+
+Set how many days to retain spam submissions before automatically deleting them. Leave this empty to disable automatic spam purging.
+
+<SettingMeta configKey="purgableSpamAgeInDays" defaultValue={"Not set (purging disabled)"} example={"purgableSpamAgeInDays: '14'"} />
+
+:::warning
+Saving a retention age enables automatic deletion. Purging runs periodically, and deleted submissions cannot be restored.
+:::
+
+## Submission Timing
+
+### Form Submission Throttling {#submission-throttling-count}
+
+Limit the total number of submissions across all forms within a time window. Configure both the count and time unit (`m` for minutes or `s` for seconds). This limit applies globally, not per visitor.
+
+<SettingMeta configKey="submissionThrottlingCount, submissionThrottlingTimeFrame" defaultValue={"Not set (throttling disabled)"} />
+
+### Minimum Submit Time {#minimum-submit-time}
+
+Require a minimum number of seconds between loading and submitting a form. Faster submissions are treated as spam.
+
+<SettingMeta configKey="minimumSubmitTime" defaultValue={"Not set"} />
+
+### Form Submit Expiration {#form-submit-expiration}
+
+Set how many minutes a user has to submit a form before it expires. Keep this below the applicable Craft CSRF token and PHP session lifetime.
+
+<SettingMeta configKey="formSubmitExpiration" defaultValue={"Not set"} />
+
+<details>
+<summary>View the control panel settings</summary>
+
+<Photo img={require('@site/static/img/craft/freeform/v5/configuration/spam.jpg')} alt="Spam Protection Settings" />
+
+</details>
+
+See [Settings](./index.mdx) for other configuration areas and [Project Config](../project-config.mdx) for configuration examples.

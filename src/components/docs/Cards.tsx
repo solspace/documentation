@@ -379,7 +379,7 @@ const IntroCards: React.FC<CardSectionProps> = ({ items, layout }) => {
 };
 
 interface CatalogCardProps extends FieldProps {
-  iconDirectory?: 'fields' | 'integrations';
+  iconDirectory?: 'fields' | 'integrations' | 'cards';
 }
 
 const CatalogCard: React.FC<CatalogCardProps> = ({ iconDirectory = 'fields', ...item }) => {
@@ -388,7 +388,7 @@ const CatalogCard: React.FC<CatalogCardProps> = ({ iconDirectory = 'fields', ...
   return (
     <Link to={item.link} className={`${fieldStyles.card} bg-slate-500/5 hover:bg-slate-500/10`}>
       {item.icon && (
-        <span className={`${iconDirectory === 'integrations' ? fieldStyles.integrationIcon : fieldStyles.icon} ${item.color || ''}`}>
+        <span className={`${iconDirectory !== 'fields' ? fieldStyles.integrationIcon : fieldStyles.icon} ${item.color || ''}`}>
           <img
             src={iconSrc}
             alt=""
@@ -474,6 +474,16 @@ const FieldCards: React.FC<FieldCardsProps> = ({ items, catalog = false, heading
     </div>
   );
 };
+
+const SettingsCards: React.FC<FieldCardsProps> = ({ items }) => (
+  <div className={fieldStyles.catalog}>
+    <div className={fieldStyles.grid}>
+      {items.map((item) => (
+        <CatalogCard key={item.link} {...item} iconDirectory="cards" />
+      ))}
+    </div>
+  </div>
+);
 
 const IntegrationCards: React.FC<IntegrationCardsProps> = ({ items, layout }) => {
 
@@ -670,6 +680,7 @@ export {
   FlexCards,
   IntroCards,
   FieldCards,
+  SettingsCards,
   ReviewCards,
   FaqCards,
   GuideCards,

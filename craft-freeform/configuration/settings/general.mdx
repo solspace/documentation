@@ -1,0 +1,137 @@
+---
+title: "General Settings"
+sidebar_position: 1
+description: "Plugin naming, sites, exports, submission data, and automatic cleanup."
+---
+
+import { Badge, Photo } from '@site/src/components/utils';
+import { SettingMeta } from '@site/src/components/docs';
+
+# General Settings
+
+Plugin naming, sites, exports, submission data, and automatic cleanup. Open **Freeform → Settings → General Settings** to configure these options.
+
+:::info
+This settings page is read-only when Craft's `allowAdminChanges` setting is `false`.
+:::
+
+## Plugin Interface
+
+### Custom Plugin Name<Badge type="pro" text="Pro" /> {#plugin-name}
+
+Replace the Freeform name shown in the control panel. Leave this empty to use the standard plugin name.
+
+<SettingMeta configKey="pluginName" defaultValue={"Not set"} example={"pluginName: 'Forms'"} />
+
+### Default view {#default-view}
+
+Choose whether clicking Freeform in the control panel navigation opens **Forms** (`forms`) or **Submissions** (`submissions`).
+
+<SettingMeta configKey="defaultView" defaultValue={"forms"} />
+
+### Plugin Badge {#badge-type}
+
+Choose what contributes to Freeform's navigation badge: updates and logged errors, updates only, errors only, submissions, or spam submissions. You can also hide the badge.
+
+<SettingMeta configKey="badgeType" defaultValue={"all"} />
+
+## Sites & Access
+
+### Site-Aware Forms<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.2+, Improved in 5.7+" /> {#sites-enabled}
+
+Make forms site-aware so they can be assigned to Craft sites and have translated labels and messages. See [Site-Aware Forms](../sites.mdx).
+
+<SettingMeta configKey="sitesEnabled" defaultValue={"false"} />
+
+### Restrict Form options in Form Field Type to User permissions {#form-field-show-only-allowed-forms}
+
+Limit the forms offered by the Form Element field type to those the user has permission to manage.
+
+<SettingMeta configKey="formFieldShowOnlyAllowedForms" defaultValue={"false"} />
+
+## Processing & Logging
+
+### Queue Job Priority<Badge type="feature" text="New in 5.5.6+" /> {#queue-priority}
+
+Set the priority of Freeform background jobs. Lower numbers run first. Leave this empty to use Craft's normal queue priority.
+
+<SettingMeta configKey="queuePriority" defaultValue={"Not set"} example={"queuePriority: 20"} />
+
+### Logging Level<Badge type="feature" text="New in 5.9+" /> {#logging-level}
+
+Choose **Errors** (`error`), **Info** (`info`), or **Debug** (`debug`). Errors records failures; Info adds processing information; Debug includes more detailed activity. See [Logs](./logs.mdx).
+
+<SettingMeta configKey="loggingLevel" defaultValue={"error"} />
+
+## Exporting
+
+### Remove Newlines from Textareas for Exporting {#remove-newlines}
+
+Remove line breaks from textarea values when exporting submissions.
+
+<SettingMeta configKey="removeNewlines" defaultValue={"false"} />
+
+### Use Option Labels when Exporting {#export-labels}
+
+Export the labels selected in option fields instead of their stored values.
+
+<SettingMeta configKey="exportLabels" defaultValue={"false"} />
+
+### Use Field Handles for Headings when Exporting {#export-handles-as-names}
+
+Use field handles as export column headings instead of field labels.
+
+<SettingMeta configKey="exportHandlesAsNames" defaultValue={"false"} />
+
+### Include Tracked URL Parameters when Exporting<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.14.16+" /> {#export-tracked-url-parameters}
+
+Include captured URL parameters, such as UTM campaign values, when exporting submissions. Configure which parameters to capture in [URL Parameter Tracking](../../integrations/url-parameter-tracking.mdx).
+
+<SettingMeta configKey="exportTrackedUrlParameters" defaultValue={"false"} />
+
+## Submission Data
+
+### Fill Form Values from the GET Query String {#fill-with-get}
+
+Populate fields from matching query-string parameters. For example, `?firstName=Bob&myRatingField=3` fills fields with those handles.
+
+<SettingMeta configKey="fillWithGet" defaultValue={"false"} />
+
+### Enable Search Index Updating on New Submissions {#update-search-indexes}
+
+Have Craft update its search indexes when a new submission is created.
+
+<SettingMeta configKey="updateSearchIndexes" defaultValue={"true"} />
+
+## Cleanup
+
+### Automatically Purge Submission Data<Badge type="pro" text="Pro" /> {#purgable-submission-age-in-days}
+
+Set how many days to keep submission data before it becomes eligible for automatic deletion. Leave the age empty to disable automatic submission purging.
+
+<SettingMeta configKey="purgableSubmissionAgeInDays" defaultValue={"Not set (purging disabled)"} example={"purgableSubmissionAgeInDays: '365'"} />
+
+:::warning
+Saving a retention age enables automatic deletion. Purging runs periodically, and deleted submissions cannot be restored.
+:::
+
+### Automatically Purge Unfinalized Assets<Badge type="feature" text="New in 5.9+" /> {#purge-assets}
+
+Automatically delete unfinalized uploaded assets after the retention period below. These are uploads that were not finalized with a completed submission.
+
+<SettingMeta configKey="purgeAssets" defaultValue={"true"} />
+
+### Time to Wait Before Purging Assets {#purgable-unfinalized-asset-age-in-minutes}
+
+Set how many minutes to retain unfinalized uploaded assets before they can be purged.
+
+<SettingMeta configKey="purgableUnfinalizedAssetAgeInMinutes" defaultValue={"180 minutes"} />
+
+<details>
+<summary>View the control panel settings</summary>
+
+<Photo img={require('@site/static/img/craft/freeform/v5/configuration/general.jpg')} alt="General Settings" />
+
+</details>
+
+See [Settings](./index.mdx) for other configuration areas and [Project Config](../project-config.mdx) for configuration examples.
