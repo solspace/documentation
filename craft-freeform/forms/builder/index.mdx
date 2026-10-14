@@ -1,0 +1,60 @@
+---
+title: Form Builder
+sidebar_position: 1
+slug: /forms/builder
+description: Find your way around the Freeform builder, then follow focused guides for layout, settings, integrations, and managing forms.
+---
+
+import Player from 'react-player';
+import { SettingsCards, VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+import { Badge } from '@site/src/components/utils';
+import LegacyReferenceRedirect from '@site/src/components/docs/LegacyReferenceRedirect';
+import legacyAnchors from './legacy-anchors.json';
+
+# Form Builder
+
+<LegacyReferenceRedirect targets={legacyAnchors} />
+
+Build simple or multi-page forms by arranging fields, choosing how submissions are handled, and connecting the services you use. Fields, notifications, rules, integrations, and per-form settings are configured together in the form builder.
+
+## Explore the Builder
+
+<SettingsCards items={[
+  { title: 'Layout & Pages', description: 'Fields, property editors, undo history, and multi-page forms', icon: 'pages', link: './layout/' },
+  { title: 'Form Settings', description: 'Storage, processing, success behavior, limits, scheduling, and embedding', icon: 'config-page', link: './settings/' },
+  { title: 'Connecting Integrations', description: 'Enable connections, map fields, and control when data is sent', icon: 'crm', link: './integrations/' },
+  { title: 'Managing Forms', description: 'Cards, list views, groups, archiving, form types, and AI creation', icon: 'dashboard', link: './managing-forms/' },
+  { title: 'Email Notifications', description: 'Recipients, notification types, templates, and delivery testing', icon: 'email', link: '../email-notifications/' },
+  { title: 'Conditional Rules', description: 'Show or hide fields and groups, skip pages, or submit early', icon: 'logic', link: '../conditional-rules/', proOnly: true },
+  { title: 'Field Reference', description: 'Settings, behavior, styling, and Twig reference for each field type', icon: 'field-text', link: '../fields/' },
+]} />
+
+## Overview
+
+Use these areas as you configure a form:
+
+| Area | What you configure |
+| --- | --- |
+| [Layout](./layout.mdx) | Add fields, edit their properties, and arrange rows and pages. The final front-end appearance comes from the formatting template. |
+| [Notifications](../email-notifications/index.mdx) | Send to administrators, selected recipients, or addresses entered in Email fields. Four builder notification types are available, plus template-based notifications. |
+| [Rules](../conditional-rules.mdx)<Badge type="pro" text="Pro" /> | Show or hide fields and groups, skip pages, or submit the form based on field values. |
+| [Integrations](./integrations.mdx) | Enable configured connections and map form data to services or Craft elements. |
+| [Settings](./settings.mdx) | Set the form's identity, data storage, submission behavior, limits, and schedule. |
+
+<Player url={require('@site/static/videos/craft/freeform/v5/builder-sections.mp4').default} controls width="100%" height="100%" />
+
+## Build and Publish a Form
+
+<VerticalStepWrapper>
+<StepMarkdown>
+Open **Freeform → Forms**, then create or open a form. See [Managing Forms](./managing-forms.mdx) for dashboard controls and [creating forms with AI](./managing-forms.mdx#create-forms-with-ai).
+</StepMarkdown>
+<StepMarkdown>
+Arrange fields and pages in **Layout**, then select a field to edit its settings. Configure notifications, rules, integrations, and form settings as needed. See [Layout & Pages](./layout.mdx) for the complete editing workflow and multi-page limitations.
+</StepMarkdown>
+<StepMarkdown>
+Save the form, then use the [Embed Form guidance](./settings.mdx#embed-form) to display it on your site. Submit the actual form to test validation, notifications, integrations, and the success behavior.
+</StepMarkdown>
+</VerticalStepWrapper>
+
+<Player url={require('@site/static/videos/craft/freeform/v5/builder-feature.mp4').default} controls width="100%" height="100%" />

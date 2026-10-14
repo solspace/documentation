@@ -6,6 +6,7 @@ description: Allow one Freeform submission per product, article, or event using 
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 import { Badge } from '@site/src/components/utils';
 
 # Scoped Duplicate Checking<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.17+" />
@@ -16,11 +17,23 @@ The **Duplicate Check** setting determines how Freeform recognizes the visitor. 
 
 ## Setup
 
-1. Add a [Hidden](../forms/fields/hidden.mdx) field with the handle `productId`, or another supported field that identifies the item.
-2. Open the form's **Settings → Limits** and choose a once-only **Duplicate Check** option.
-3. Select your field under **Scope by Field**.
-4. Keep **Store Submitted Data for this Form** enabled under **Settings → Data Storage**. If storage requires the visitor to opt in, they must opt in to submit this form.
-5. Populate the scope field with the item's identifier when rendering or submitting the form.
+<VerticalStepWrapper>
+<StepMarkdown>
+Add a [Hidden](../forms/fields/hidden.mdx) field with the handle `productId`, or another supported field that identifies the item.
+</StepMarkdown>
+<StepMarkdown>
+Open the form's **Settings → Limits** and choose a once-only **Duplicate Check** option.
+</StepMarkdown>
+<StepMarkdown>
+Select your field under **Scope by Field**.
+</StepMarkdown>
+<StepMarkdown>
+Keep **Store Submitted Data for this Form** enabled under **Settings → Data Storage**. If storage requires the visitor to opt in, they must opt in to submit this form.
+</StepMarkdown>
+<StepMarkdown>
+Populate the scope field with the item's identifier when rendering or submitting the form.
+</StepMarkdown>
+</VerticalStepWrapper>
 
 | Duplicate Check | With a scope field selected |
 | --- | --- |
