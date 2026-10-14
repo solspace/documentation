@@ -12,7 +12,7 @@ These examples use Twig in the email body. Replace field handles and template pa
 
 Display each email-visible field, using option labels where available:
 
-```twig
+```twig showLineNumbers
 <p>New submission from {{ form.name }}.</p>
 <ul>
 {% for field in allFields %}
@@ -34,7 +34,7 @@ For a date, use `{{ dateCreated|date('Y-m-d H:i') }}`. For the original submissi
 
 Use specific field handles when you want to control the order and wording:
 
-```twig
+```twig showLineNumbers
 <p>New contact request</p>
 <ul>
   <li>Name: {{ firstName.valueAsString }} {{ lastName.valueAsString }}</li>
@@ -116,7 +116,7 @@ Use `raw` for the trusted HTML or Rich Text block content. Keep submitted values
 
 Render a Table field's rows and columns as an HTML table:
 
-```twig
+```twig showLineNumbers
 {% for field in allFields %}
   {% if field.type == 'table' %}
     <h3>{{ field.label }}</h3>
