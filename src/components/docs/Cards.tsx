@@ -44,6 +44,8 @@ interface IntegrationProps {
   icon: string;
   link: string;
   filterIcon?: boolean;
+  description?: string;
+  proOnly?: boolean;
 }
 
 interface IntegrationCardsProps {
@@ -376,13 +378,17 @@ const IntroCards: React.FC<CardSectionProps> = ({ items, layout }) => {
   );
 };
 
-const FieldCatalogCard: React.FC<FieldProps> = (item) => {
-  const iconSrc = useBaseUrl(`/icons/fields/${item.icon}.svg`);
+interface CatalogCardProps extends FieldProps {
+  iconDirectory?: 'fields' | 'integrations';
+}
+
+const CatalogCard: React.FC<CatalogCardProps> = ({ iconDirectory = 'fields', ...item }) => {
+  const iconSrc = useBaseUrl(`/icons/${iconDirectory}/${item.icon}.svg`);
 
   return (
     <Link to={item.link} className={`${fieldStyles.card} bg-slate-500/5 hover:bg-slate-500/10`}>
       {item.icon && (
-        <span className={`${fieldStyles.icon} ${item.color || ''}`}>
+        <span className={`${iconDirectory === 'integrations' ? fieldStyles.integrationIcon : fieldStyles.icon} ${item.color || ''}`}>
           <img
             src={iconSrc}
             alt=""
@@ -431,7 +437,7 @@ const FieldCards: React.FC<FieldCardsProps> = ({ items, catalog = false, heading
             </CategoryHeading>
             <div className={fieldStyles.grid}>
               {fields.map((item) => (
-                <FieldCatalogCard key={item.link} {...item} />
+                <CatalogCard key={item.link} {...item} />
               ))}
             </div>
           </section>
@@ -470,6 +476,23 @@ const FieldCards: React.FC<FieldCardsProps> = ({ items, catalog = false, heading
 };
 
 const IntegrationCards: React.FC<IntegrationCardsProps> = ({ items, layout }) => {
+
+  if (layout === 'catalog') {
+    return (
+      <div className={fieldStyles.catalog}>
+        <div className={fieldStyles.grid}>
+          {items.map((item) => (
+            <CatalogCard
+              key={`${item.link}-${item.title}`}
+              {...item}
+              description={item.description || ''}
+              iconDirectory="integrations"
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   if (layout === 'large') {
     return (
