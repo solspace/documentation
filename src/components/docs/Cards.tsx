@@ -3,6 +3,7 @@ import Link from '@docusaurus/Link';
 import Image from '@theme/IdealImage';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { SimpleTextLink, Badge } from '@site/src/components/utils';
+import fieldStyles from './FieldCards.module.css';
 
 interface CardProps {
   fullCardLink?: string;
@@ -24,6 +25,7 @@ interface FieldProps {
   icon?: string;
   color?: string;
   filterIcon?: boolean;
+  category?: string;
 }
 
 interface IntegrationLogoProps {
@@ -57,6 +59,8 @@ interface CardSectionProps {
 
 interface FieldCardsProps {
   items: FieldProps[];
+  catalog?: boolean;
+  headingLevel?: 3 | 4;
 }
 
 interface GuideCardsProps {
@@ -371,7 +375,62 @@ const IntroCards: React.FC<CardSectionProps> = ({ items, layout }) => {
   );
 };
 
-const FieldCards: React.FC<FieldCardsProps> = ({ items }) => {
+const FieldCatalogCard: React.FC<FieldProps> = (item) => {
+  const iconSrc = useBaseUrl(`/icons/fields/${item.icon}.svg`);
+
+  return (
+    <Link to={item.link} className={fieldStyles.card}>
+      {item.icon && (
+        <span className={`${fieldStyles.icon} ${item.color || ''}`}>
+          <img
+            src={iconSrc}
+            alt=""
+            className={item.filterIcon ? 'filter-icons' : undefined}
+          />
+        </span>
+      )}
+      <span className={fieldStyles.copy}>
+        <span className={fieldStyles.title}>{item.title}</span>
+        <span className={fieldStyles.description}>{item.description}</span>
+      </span>
+    </Link>
+  );
+};
+
+const FieldCards: React.FC<FieldCardsProps> = ({ items, catalog = false, headingLevel = 3 }) => {
+  const id = useId();
+  const CategoryHeading = headingLevel === 4 ? 'h4' : 'h3';
+
+  if (catalog) {
+    const categories = new Map<string, FieldProps[]>();
+    items.forEach((item) => {
+      const category = item.category || 'Fields';
+      const group = categories.get(category) || [];
+      group.push(item);
+      categories.set(category, group);
+    });
+
+    return (
+      <div className={fieldStyles.catalog}>
+        {Array.from(categories, ([category, fields], index) => (
+          <section
+            key={category}
+            className={fieldStyles.section}
+            aria-labelledby={`${id}-${index}`}
+          >
+            <CategoryHeading id={`${id}-${index}`} className={fieldStyles.category}>
+              {category}
+            </CategoryHeading>
+            <div className={fieldStyles.grid}>
+              {fields.map((item) => (
+                <FieldCatalogCard key={item.link} {...item} />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-wrap justify-center rounded-lg">
