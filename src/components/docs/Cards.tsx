@@ -380,7 +380,7 @@ const FieldCatalogCard: React.FC<FieldProps> = (item) => {
   const iconSrc = useBaseUrl(`/icons/fields/${item.icon}.svg`);
 
   return (
-    <Link to={item.link} className={fieldStyles.card}>
+    <Link to={item.link} className={`${fieldStyles.card} bg-slate-500/5 hover:bg-slate-500/10`}>
       {item.icon && (
         <span className={`${fieldStyles.icon} ${item.color || ''}`}>
           <img
