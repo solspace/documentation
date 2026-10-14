@@ -1,0 +1,38 @@
+---
+title: "Standard Settings"
+sidebar_position: 2
+toc_max_heading_level: 3
+description: "Standard Settings for Freeform fields in Craft CMS."
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Standard Settings {#standard-settings}
+
+
+<span id="standard-settings" />
+The builder provides these shared settings where applicable. Individual field pages describe additional settings and exceptions. Twig property names and HTML attributes are listed separately below.
+
+| Setting | Twig Property / HTML Attribute | Description |
+| -------------------------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Label** | `field.label` | The label for the field. This can be changed per form if you wish. |
+| **Handle** | `field.handle` | How the field may be called in templates, if necessary. You may also override this value per form if you wish. |
+| **Required** | `field.required` | Toggle if the field requires a value to submit the form successfully. |
+| **Custom&nbsp;Validation&nbsp;Error**<Badge type="feature" text="New in 5.7+" /> | | Visible when **Required** is toggled on. If this field is left empty upon submit, show this error message. |
+| **Instructions** | `field.instructions` | Specify instructions for the field if you wish. |
+| **Default Value** | `field.defaultValue` | For applicable fields, you can set a default value or selected option for the field. |
+| **Placeholder** | `field.placeholder` | Specify placeholder text for the field, if applicable. |
+| **Browser Autofill**<Badge type="feature" text="New in 5.17+" /> | `field.browserAutofill` / `autocomplete` | Tells browsers what information the field collects so they can offer saved details. Choose a purpose such as Given name, Email address, or Postal code, select On or Off, or leave it at **Use browser default**. |
+| **Maximum&nbsp;Length** | `field.maxLength` / `maxlength` | The maximum number of characters for the field's value. <details><summary>Applicable to the following Field types</summary><ul><li>[Confirm](./confirm.mdx#confirm)</li><li>[Date & Time](./date-time.mdx#date--time)</li><li>[Email](./email.mdx#email)</li><li>[Hidden](./hidden.mdx#hidden)</li><li>[Invisible](./invisible.mdx#invisible)</li><li>[Number](./number.mdx#number)</li><li>[Password](./password.mdx#password)</li><li>[Phone](./phone.mdx#phone)</li><li>[Regex](./regex.mdx#regex)</li><li>[Text](./text.mdx#text)</li><li>[Textarea](./textarea.mdx#textarea)</li><li>[Website](./website.mdx#website)</li></ul></details> |
+| **Attribute Editor** | | Apply any kind of attribute on the input, label, error, instruction in Freeform's automated rendering of the form. |
+| **Options** | `options`<ul><li>`field.label`</li><li>`value`</li></ul> | Specify the option labels and values for applicable field types. <details><summary>Applicable to the following Field types</summary><ul><li>[Checkboxes](./checkboxes.mdx#checkboxes)</li><li>[Dropdown](./dropdown.mdx#dropdown)</li><li>[Multiple Select](./multiple-select.mdx#multiple-select)</li><li>[Radios](./radios.mdx#radios)</li></ul></details> |
+
+:::info
+All field types conveniently include the ability to set attributes for their **labels**, **inputs**, **errors** and **instructions** directly inside the form builder property editor.
+
+- This allows you to keep your hands clean of being inside formatting templates and specify one-off exceptions for fields such as `readonly` and `autocomplete="off"`, etc.
+- To use single attributes like `novalidate`, just enter the attribute in the **Attribute** column and leave the **Value** column empty.
+- You can use anything inside the [Form](../../templates/objects/form.mdx) and [Field](../../templates/objects/field.mdx) objects as well, e.g.:
+  - `field.id` to access Field ID.
+  - `form.handle` to access form handle.
+    :::

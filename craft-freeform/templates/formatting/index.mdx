@@ -349,8 +349,8 @@ These improvements provide a stronger starting point for accessible forms. The f
 The form and each field have the ability to control **attributes**, **values** and more at the template level. Each one of them is entirely optional. There are several namespaces:
 
 - `attributes` - whatever you specify here will be set as an attribute on the form.
-- `buttons` - controls the output of the [Submit button(s)](../../forms/fields.mdx#submit-buttons).
-- `fields` - controls the output of all [Fields](../../forms/fields.mdx).
+- `buttons` - controls the output of the [Submit button(s)](../../forms/fields/submit-buttons.mdx#submit-buttons).
+- `fields` - controls the output of all [Fields](../../forms/fields/index.mdx).
 - `captchas` - add attributes to the main Captcha wrapper automatically inserted by Freeform when using [reCAPTCHA](../../integrations/recaptcha.mdx) or [hCaptcha](../../integrations/hcaptcha.mdx).
 - `tag` - a special attribute that allows you to change the default HTML tag for fields and form markup. [See examples](#overriding-html-tags)<Badge type="feature" text="New in 5.10+" />
 
@@ -977,11 +977,11 @@ It is not possible to override the `input` tag at this time.
 
     In the below example:
 
-    - All fields of the [Checkboxes](../../forms/fields.mdx#checkboxes) and [Radios](../../forms/fields.mdx#radios) type will have their:
+    - All fields of the [Checkboxes](../../forms/fields/checkboxes.mdx#checkboxes) and [Radios](../../forms/fields/radios.mdx#radios) type will have their:
       - Field wrapper switched from the default tag of `div` to `fieldset` and a class of `container`.
       - Field label switched from the default tag of `label` to `legend` and a class of `label`.
       - Field options' labels given a tag of `label` and a class of `option-label`.
-    - All fields of the [HTML](../../forms/fields.mdx#html) type will have their:
+    - All fields of the [HTML](../../forms/fields/html.mdx#html) type will have their:
       - Field wrapper switched from the default tag of `div` to `p`.
 
     ```twig showLineNumbers
@@ -1831,7 +1831,7 @@ Form formatting can also be extremely manual, if that is something you prefer. H
 :::info
 When customizing the surrounding markup, use `field.renderInput()` to retain Freeform's generated control and feature attributes. This supports features such as searchable selects, international phone input, character counts, auto-growing textareas, email suggestions, password toggles, upload requirements, and live summaries.
 
-If you write the control markup yourself, those features require their corresponding attributes and structure. See each field's **Templating** and customization sections in the [Fields documentation](../../forms/fields.mdx).
+If you write the control markup yourself, those features require their corresponding attributes and structure. See each field's **Templating** and customization sections in the [Fields documentation](../../forms/fields/index.mdx).
 :::
 
 ```twig showLineNumbers

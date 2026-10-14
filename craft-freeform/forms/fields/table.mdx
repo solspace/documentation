@@ -1,0 +1,326 @@
+---
+title: "Table"
+sidebar_position: 40
+toc_max_heading_level: 3
+description: "Table field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Table<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.8+, 5.14+, 5.15+" /> {#table}
+
+
+<span id="table" />
+A field that allows you to collect and handle repeating data. The `field.type` property value is `table` (for conditionals).
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/table.png')}
+  alt="Table field type"
+/>
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/table-builder.png')}
+  alt="Table field type in form builder"
+/>
+
+## Settings
+
+- **Limit Rows** - set limits on the number of rows, including minimum, maximum, exact number, or range.<Badge type="feature" text="New in 5.14.12+" />
+  - _Minimum number of rows_ - set the minimum number of rows. At least this many rows will be shown by default; rows cannot be removed below this count.
+  - _Maximum number of rows_ - set the maximum number of rows that can be added to the table.
+  - _Exact number of rows_ - set the exact number of rows. This many rows will be shown with no option to add or remove.
+- Use the Table Layout area to create columns for the table. Options are:
+  - Text
+  - Textarea<Badge type="feature" text="New in 5.8+" />
+  - Number<Badge type="feature" text="New in 5.15.27+" />
+  - Checkbox
+  - Dropdown<Badge type="feature" text="Improved in 5.8+" />
+  - Radios<Badge type="feature" text="New in 5.8+" />
+  - File Upload<Badge type="feature" text="New in 5.15+" />
+- Enable **Use built-in JavaScript for adding and removing rows** to let visitors add or remove rows within the configured limits.
+
+## Styling & Customization
+
+For **manual** rendering of the Table field inside your form for full customizability, your code might look something like this:
+
+```twig showLineNumbers
+<table class="table">
+    <thead>
+        <tr>
+        {% for column in field.tableLayout %}
+            <th>{{ column.label }}</th>
+        {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+    {% if field.value is empty %}
+        <tr>
+        {% for index, column in field.tableLayout %}
+            {% set colName = field.handle ~ "[0][" ~ index ~ "]" %}
+            <td>
+            {% switch column.type|default("text") %}
+                {% case "dropdown" %}
+                    <select name="{{ colName }}">
+                    {% for option in column.value|default("")|split(";") %}
+                        <option value="{{ option }}">{{ option }}</option>
+                    {% endfor %}
+                    </select>
+                {% case "checkbox" %}
+                    <input type="checkbox" name="{{ colName }}" value="{{ column.value|default("Yes") }}" />
+                {% default %}
+                    <input type="text" name="{{ colName }}" value="{{ column.value|default("") }}" />
+            {% endswitch %}
+            </td>
+        {% endfor %}
+        </tr>
+    {% else %}
+        {% for rowIndex, row in field.value %}
+            <tr>
+            {% for index, column in field.tableLayout %}
+                {% set colName = field.handle ~ "[" ~ rowIndex ~ "][" ~ index ~ "]" %}
+                {% set colValue = row[index]|default("") %}
+                <td>
+                    {% switch column.type|default("text") %}
+                    {% case "dropdown" %}
+                        <select name="{{ colName }}">
+                        {% for option in colValue|default("")|split(";") %}
+                            <option value="{{ option }}"{{ option == colValue ? " selected" }}>{{ option }}</option>
+                        {% endfor %}
+                        </select>
+                    {% case "checkbox" %}
+                        <input type="checkbox" name="{{ colName }}" value="{{ column.value|default("Yes") }}" {{ colValue ? "checked" }} />
+                    {% default %}
+                        <input type="text" name="{{ colName }}" value="{{ colValue }}" />
+                    {% endswitch %}
+                </td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endif %}
+    </tbody>
+</table>
+```
+
+## Templating
+
+The Table field type includes various parameter options to override labels and finer control of classes and attributes on each part of the Table field.
+
+Here's how you can use `field.render` for an automated approach to render your Table field inside your formatting templates:
+
+<Tabs>
+<TabItem value="bootstrap5" label="Bootstrap 5" default>
+
+```twig showLineNumbers
+{{ field.render({
+    addButtonLabel: "Add +",
+    removeButtonLabel: "X",
+    tableAttributes: {
+        table: { class: "table table-sm table-borderless" },
+        input: { class: "form-control" },
+        textarea: { class: "form-control" },
+        dropdown: { class: "form-control form-select" },
+        radios: { class: "form-check-input" },
+        checkbox: { class: "form-check-input" },
+        fileUpload: { class: "form-control" },
+        removeButton: { class: "btn btn-sm btn-danger" },
+        addButton: { class: "btn btn-sm btn-success" },
+    },
+}) }}
+```
+
+</TabItem>
+<TabItem value="tailwind3" label="Tailwind 3">
+
+```twig showLineNumbers
+{% set tableColumnCount = field.tableLayout|length %}
+
+{{ field.render({
+    tableAttributes: {
+        table: { class: "table" },
+        row: { class: "table-row" },
+        column: {
+            class: [
+                tableColumnCount in [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] ? "w-1/" ~ tableColumnCount,
+                tableColumnCount == 1 ? "w-full",
+                "table-col pb-1"
+            ]
+        },
+        label: { class: "text-left" },
+        input: {
+            class: [
+                field.attributes.input.get("class"),
+                "mr-5 w-11/12 block"
+            ]
+        },
+        textarea: {
+            class: [
+                field.attributes.input.get("class"),
+                "mr-5"
+            ]
+        },
+        dropdown: {
+            class: [
+                field.attributes.input.get("class"),
+                "mr-5 w-11/12 block"
+            ]
+        },
+        radios: {
+            class: [
+                field.attributes.input.get("class"),
+                "w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 rounded mr-2 font-normal text-slate-600",
+                "freeform-table-radios"
+            ]
+        },
+        checkbox: {
+            class: [
+                field.attributes.input.get("class"),
+                "w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 rounded"
+            ]
+        },
+        removeButton: { class: "bg-red-500 hover:bg-red-700 text-white font-normal py-1 px-3 rounded" },
+        addButton: { class: "bg-green-500 hover:bg-green-700 text-white font-normal py-1 px-3 rounded mt-2" },
+    },
+}) }}
+```
+
+</TabItem>
+</Tabs>
+
+## Examples
+
+### Submission Data
+
+<Tabs>
+<TabItem value="table-submission-basic" label="Basic Example" default>
+
+Here's how to render a Table field's data inside the [Submission object](../../templates/objects/submission.mdx):
+
+```twig showLineNumbers
+<table class="table">
+    <thead>
+        <tr>
+        {% for column in field.tableLayout %}
+            <th>{{ column.label|default("-") }}</th>
+        {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for row in submission[field.handle].value %}
+        <tr>
+        {% for index, column in field.tableLayout %}
+            <td>
+                {% set cell = row[index] ?? null %}
+                {% if cell is iterable %}
+                    {{ cell|join(', ') }}
+                {% else %}
+                    {{ cell }}
+                {% endif %}
+            </td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+```
+
+</TabItem>
+<TabItem value="table-submission-complete" label="Complete Example" default>
+
+A complete example might look like:
+
+```twig showLineNumbers
+{% for field in submission %}
+    <td>
+    {% if field.type == "table" %}
+        <table class="table">
+            <thead>
+                <tr>
+                {% for column in field.tableLayout %}
+                    <th>{{ column.label|default("-") }}</th>
+                {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+            {% for row in submission[field.handle].value %}
+                <tr>
+                {% for index, column in field.tableLayout %}
+                    <td>
+                        {% set cell = row[index] ?? null %}
+                        {% if cell is iterable %}
+                            {{ cell|join(', ') }}
+                        {% else %}
+                            {{ cell }}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        {{ submission[field.handle] }}
+    {% endif %}
+    </td>
+{% endfor %}
+```
+
+</TabItem>
+</Tabs>
+
+### Email Notification Template
+
+By default, Table field data will be rendered as comma separated values in [email notifications](../email-notifications.mdx), which is not ideal. To account for Table fields in your email notification template, you can use the template code below:
+
+```twig showLineNumbers
+<p>The following submission came in on {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}.</p>
+<p>Here are the details:</p>
+<ul>
+{% for field in allFields %}
+  <li>
+    {{ field.label }}: 
+    {% if field.implements('options') %}
+      {{ field.labelsAsString }}
+    // highlight-start
+    {% elseif field.type == "table" %}
+      <table>
+        <thead>
+          <tr>
+          {% for column in field.tableLayout %}
+            <th>{{ column.label|default("-") }}</th>
+          {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+        {% for row in field.value %}
+          <tr>
+          {% for index, column in field.tableLayout %}
+            <td>
+              {% set cell = row[index] ?? null %}
+              {% if cell is iterable %}
+                {{ cell|join(', ') }}
+              {% else %}
+                {{ cell }}
+              {% endif %}
+            </td>
+          {% endfor %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    // highlight-end
+    {% else %}
+      {{ field.valueAsString }}
+    {% endif %}
+  </li>
+{% endfor %}
+</ul>
+```
+
+## Resources
+
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

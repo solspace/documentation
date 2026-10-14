@@ -109,7 +109,7 @@ Email notifications can be conditionally sent to one or more admin email address
 
 ### User Select<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Renamed & Improved for 5.0+" />
 
-Email notifications can be sent to one or more pre-defined admin email addresses that are selected by the user filling out the form using any [Dropdown](./fields.mdx#dropdown), [Checkbox](./fields.mdx#checkbox), [Checkboxes](./fields.mdx#checkboxes), [Radios](./fields.mdx#radios), [Multi-Select](./fields.mdx#multiple-select) field types. For example, you might have a **Dropdown** field that contains different departments for the user to address the email to.
+Email notifications can be sent to one or more pre-defined admin email addresses that are selected by the user filling out the form using any [Dropdown](./fields/dropdown.mdx#dropdown), [Checkbox](./fields/checkbox.mdx#checkbox), [Checkboxes](./fields/checkboxes.mdx#checkboxes), [Radios](./fields/radios.mdx#radios), [Multi-Select](./fields/multiple-select.mdx#multiple-select) field types. For example, you might have a **Dropdown** field that contains different departments for the user to address the email to.
 
 :::info
 Be sure to set up your option fields as usual, and do not set email addresses as their options. That part is done inside the **Notifications** tab.
@@ -128,9 +128,9 @@ Be sure to set up your option fields as usual, and do not set email addresses as
       _New_ button beside the **User Select** menu.
     </StepMarkdown>
     <StepMarkdown>
-      Choose any [Dropdown](./fields.mdx#dropdown), [Checkbox](./fields.mdx#checkbox),
-      [Checkboxes](./fields.mdx#checkboxes), [Radios](./fields.mdx#radios) or
-      [Multi-Select](./fields.mdx#multiple-select) field in the **Target field**
+      Choose any [Dropdown](./fields/dropdown.mdx#dropdown), [Checkbox](./fields/checkbox.mdx#checkbox),
+      [Checkboxes](./fields/checkboxes.mdx#checkboxes), [Radios](./fields/radios.mdx#radios) or
+      [Multi-Select](./fields/multiple-select.mdx#multiple-select) field in the **Target field**
       setting.
     </StepMarkdown>
     <StepMarkdown>
@@ -158,7 +158,7 @@ Be sure to set up your option fields as usual, and do not set email addresses as
 
 ### Email Fields<Badge type="feature" text="Revised for 5.0+" />
 
-Email notifications can be sent to the user submitting the form as long as you're using the [Email](./fields.mdx#email) field type. This is often used to send an email confirmation for the user.
+Email notifications can be sent to the user submitting the form as long as you're using the [Email](./fields/email.mdx#email) field type. This is often used to send an email confirmation for the user.
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/cp/builder-notification-email-field.png')}
@@ -172,7 +172,7 @@ Email notifications can be sent to the user submitting the form as long as you'r
     In the form builder, click on the **Notifications** tab. Then click the _New_ button beside the **Email Fields** menu.
     </StepMarkdown>
     <StepMarkdown>
-      Choose any [Email](./fields.mdx#email) field in the **Target field** setting. If you currently don't have any, please add one to your form layout. If you are using a regular [Text](./fields.mdx#text) field to hold the email address, please switch it to an [Email](./fields.mdx#email) field type first.
+      Choose any [Email](./fields/email.mdx#email) field in the **Target field** setting. If you currently don't have any, please add one to your form layout. If you are using a regular [Text](./fields/text.mdx#text) field to hold the email address, please switch it to an [Email](./fields/email.mdx#email) field type first.
 
       When the form submitter enters their email address in this field, Freeform will use that email address to send the email notification.
     </StepMarkdown>
@@ -184,7 +184,7 @@ Email notifications can be sent to the user submitting the form as long as you'r
 
 ### User-Defined
 
-You can enable "tell-a-friend" type forms by including additional [Email](./fields.mdx#email) fields in your form. This would then allow the submitter of the form to specify a friend's email address and have them receive an email notification as well. This essentially works the same way as [Email Field](#email-fields) notifications above.
+You can enable "tell-a-friend" type forms by including additional [Email](./fields/email.mdx#email) fields in your form. This would then allow the submitter of the form to specify a friend's email address and have them receive an email notification as well. This essentially works the same way as [Email Field](#email-fields) notifications above.
 
 :::warning
 This feature could potentially be abused by spammers.
@@ -197,7 +197,7 @@ This feature could potentially be abused by spammers.
       In the form builder, click on the **Notifications** tab. Then click the _New_ button beside the **Email Fields** menu.
     </StepMarkdown>
     <StepMarkdown>
-      Choose any [Email](./fields.mdx#email) field in the **Target field** setting. If you currently don't have one, please add one to your form layout. If you are using a regular [Text](./fields.mdx#text) field to hold the email address, please switch it to an [Email](./fields.mdx#email) field type first.
+      Choose any [Email](./fields/email.mdx#email) field in the **Target field** setting. If you currently don't have one, please add one to your form layout. If you are using a regular [Text](./fields/text.mdx#text) field to hold the email address, please switch it to an [Email](./fields/email.mdx#email) field type first.
     </StepMarkdown>
     <StepMarkdown>
       Create a new notification template or choose an existing one from the **Notification Template** setting.
@@ -704,7 +704,7 @@ If you wish to include HTML and Rich Text blocks in the output, use the `allFiel
 
 ### Format Table fields
 
-By default, [Table field](./fields.mdx#table) data will be rendered as comma separated values, which is not ideal. To account for Table fields, you can use the template code below:
+By default, [Table field](./fields/table.mdx#table) data will be rendered as comma separated values, which is not ideal. To account for Table fields, you can use the template code below:
 
 ```twig
 <p>The following submission came in on {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}.</p>
@@ -833,7 +833,7 @@ And then in your Freeform email notification template, something like:
 
 ### Including File Upload Data
 
-[File Upload](./fields.mdx#file-upload) field data is excluded from automated rendering in `allFields` variable. You may of course include files as attachments, but if you wish to include an uploaded image rendered into the notification or just show a URL link to the file uploaded, you can do that by retrieving the Asset ID from the [Submission object](../templates/objects/submission.mdx), and then using the [Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html) query:
+[File Upload](./fields/file-upload.mdx#file-upload) field data is excluded from automated rendering in `allFields` variable. You may of course include files as attachments, but if you wish to include an uploaded image rendered into the notification or just show a URL link to the file uploaded, you can do that by retrieving the Asset ID from the [Submission object](../templates/objects/submission.mdx), and then using the [Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html) query:
 
 ```twig {9-15} showLineNumbers
 <p>The following submission came in on {{ dateCreated|date('l, F j, Y \\a\\t g:ia') }}.</p>

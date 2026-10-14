@@ -1,0 +1,53 @@
+---
+title: "Checkbox"
+sidebar_position: 13
+toc_max_heading_level: 3
+description: "Checkbox field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Checkbox<Badge type="feature" text="Improved in 5.10+" /> {#checkbox}
+
+
+<span id="checkbox" />
+A single checkbox field. The `field.type` property value is `checkbox` (for conditionals).
+
+<Photo
+  scale={40}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/checkbox.png')}
+  alt="Checkbox"
+/>
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-checkbox-rich-text.png')}
+  alt="Checkbox with Rich Text editor"
+/>
+
+## Settings
+
+- The **Label** setting allows rich text to be added. <Badge type="feature" text="New in 5.10+" />
+  - This allows you to easily bold and italicize options or even add links (perfect for agreeing to terms and conditions).
+- Specify a value (e.g. `y` or `yes`, etc).
+  - Has a default value of **Yes**, which can be overwritten with any value you want. No matter what value is set manually on the front end, Freeform will interpret it as checked and record the value specified in the form builder.
+- May be checked by default.
+- Can be used as a [User Select](../email-notifications.mdx#user-select) email notification.
+
+## Templating
+
+<div className="field-properties">
+
+| Property | Description |
+|---|---|
+| `field.checkedByDefault` | Whether the checkbox is selected by default. |
+
+</div>
+
+## Resources
+
+- [Need to display basic HTML (`<b>`, `<i>`, `<a>`, etc) in your option labels to add emphasis or display a link?](../../guides/guide/parsing-html-in-field-options.mdx)
+- [Styling a Checkbox as a Toggle Switch](../../guides/guide/toggle-switch-checkbox.mdx)
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

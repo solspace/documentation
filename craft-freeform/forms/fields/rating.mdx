@@ -1,0 +1,56 @@
+---
+title: "Rating"
+sidebar_position: 33
+toc_max_heading_level: 3
+description: "Rating field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Rating<Badge type="pro" text="Pro" /> {#rating}
+
+
+<span id="rating" />
+A special field that allows for star ratings using Freeform's built-in CSS. The `field.type` property value is `rating` (for conditionals).
+This field type is included automatically with the _Pro_ edition of Freeform.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/rating.png')}
+  alt="Rating field type"
+/>
+
+## Settings
+
+- Set the field's number of stars (`3`-`10`).
+- Style the color of the stars for the _unselected_, _hover_ and _selected_ states.
+
+## Styling & Customization
+
+To manually render a Rating field using your own styles, your code might look something like this:
+
+```twig
+{% for i in 1..field.maxValue %}
+    <label for="rating-{{ i }}">whatever {{ i }}</label>
+    <input type="radio" id="rating-{{ i }}" value="{{ i }}" name="{{ field.handle }}">
+{% endfor %}
+```
+
+## Templating
+
+<div className="field-properties">
+
+| Property | Description |
+|---|---|
+| `field.colorIdle` | The color of unselected rating icons. |
+| `field.colorHover` | The color used when hovering over a rating icon. |
+| `field.colorSelected` | The color of selected rating icons. |
+| `field.maxValue` | The maximum rating value. |
+
+</div>
+
+## Resources
+
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

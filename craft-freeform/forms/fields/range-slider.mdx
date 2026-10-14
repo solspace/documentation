@@ -1,0 +1,125 @@
+---
+title: "Range Slider"
+sidebar_position: 32
+toc_max_heading_level: 3
+description: "Range Slider field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+import { Photo, Badge } from '@site/src/components/utils';
+
+# Range Slider<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.17+" /> {#range-slider}
+
+
+<span id="range-slider" />
+The Range Slider field lets users select a numeric value by dragging a slider. Use it for quantities, budgets, scores, percentages, or other values within a defined range.
+
+The `field.type` property value is `range` (for conditionals).
+
+<Photo
+  scale={70}
+  img={require('@site/static/img/craft/freeform/v5/forms/fields/range-slider.jpg')}
+  alt="Range Slider field type"
+/>
+
+## Settings
+
+| Setting | Description | Default |
+|---|---|---|
+| Minimum value | The lowest available value. Supports negative numbers and decimals. | `0` |
+| Maximum value | The highest available value. | `100` |
+| Step | The increment between available values, starting from the minimum. Must be greater than zero. | `1` |
+| Default value | The initially selected value. Leave blank to start at the minimum. Values are adjusted to fit the range and align with an available step. | Minimum value |
+
+For example, a **Budget** slider could use:
+
+- **Minimum value:** `500`
+- **Maximum value:** `5000`
+- **Step:** `250`
+- **Default value:** `1500`
+
+Users can select `500`, `750`, `1000`, and so on, up to `5000`.
+
+For decimal values, use a decimal step such as `0.5` or `0.25`. Steps are calculated from the minimum: a minimum of `1` with a step of `2` provides `1`, `3`, `5`, etc. Choose a maximum that aligns with your step if you want the endpoint to be selectable.
+
+## Behavior & Limitations
+
+- The field uses a native HTML range input, supporting mouse, touch, and keyboard interaction.
+- The minimum and maximum values appear below the slider.
+- Freeform's JavaScript displays the selected value and updates it as the slider moves.
+- Without JavaScript, the slider remains usable, but the separate selected-value display stays hidden.
+- Submitted values must be numeric, within the configured range, and aligned with the configured step.
+- A slider starts with a selected value. Making it required does not require the user to move it before submitting.
+
+## Styling & Customization
+
+The following styling hooks are available:
+
+| Selector | Element |
+|---|---|
+| `.ff-range` | Slider wrapper |
+| `.ff-range-input` | Range input |
+| `.ff-range-values` | Minimum, selected value, and maximum |
+| `.ff-range-value` | Selected-value output |
+| `input[data-freeform-range]` | Input used by Freeform's slider JavaScript |
+
+To customize one slider, add a `class` attribute with the value `budget-slider` under **Attributes → Container** in its property editor.
+
+```css
+.budget-slider {
+  --ff-range-accent: #2563eb;
+  --ff-range-error: #dc2626;
+}
+
+.budget-slider .ff-range-values {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.budget-slider .ff-range-value {
+  font-weight: 700;
+}
+```
+
+The bundled styles use `--ff-range-accent` for the slider color and `--ff-range-error` for its validation outline. The final appearance depends on the browser and formatting template.
+
+Keep the generated range input, wrapper, and output markup when customizing the field so Freeform can continue updating the selected-value display.
+
+## Templating
+
+The following properties are available in Twig:
+
+<div className="field-properties">
+
+| Property | Description |
+|---|---|
+| `field.minValue` | Minimum value |
+| `field.maxValue` | Maximum value |
+| `field.step` | Increment between values |
+| `field.defaultValue` | Effective starting value |
+| `field.value` | Current field value |
+
+</div>
+
+Render the field normally inside your formatting template’s field loop:
+
+```twig
+{{ field.render }}
+```
+
+For separate control over its label, instructions, and input:
+
+```twig
+{{ field.renderContainerOpeningTag }}
+  {{ field.renderLabel }}
+  {{ field.renderInstructions }}
+  {{ field.renderInput }}
+  {{ field.renderErrors }}
+{{ field.renderContainerClosingTag }}
+```
+
+## Resources
+
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

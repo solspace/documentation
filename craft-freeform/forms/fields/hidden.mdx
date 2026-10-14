@@ -1,0 +1,32 @@
+---
+title: "Hidden"
+sidebar_position: 22
+toc_max_heading_level: 3
+description: "Hidden field settings, behavior, customization, and templating for Freeform in Craft CMS."
+---
+
+# Hidden {#hidden}
+
+
+<span id="hidden" />
+A hidden input field.
+
+:::info
+Freeform will load fields of this type at the beginning of the form, regardless of where they are placed in the form builder layout.
+:::
+
+:::info
+To access hidden fields in GraphQL queries you have to loop through the `form > fields` as they are not added to `form > pages > rows > fields`.
+:::
+
+## Settings
+
+- Can only include text strings at this time (no variables allowed).
+  - If you need you pass a value to your hidden field dynamically, you can do so with the `values` parameter. E.g. `values: { myFieldName: "myvalue" }`
+
+## Resources
+
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)
