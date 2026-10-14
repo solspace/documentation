@@ -1,0 +1,271 @@
+---
+title: Examples & Recipes
+sidebar_position: 3
+description: Customize notification bodies with field loops, uploads, signatures, tables, translations, and reusable layouts.
+---
+
+# Notification Examples & Recipes
+
+These examples use Twig in the email body. Replace field handles and template paths with your own. For the full list of variables and template file metadata, see the [Twig Reference](./twig-reference.mdx).
+
+## Basic Automated Email Body
+
+Display each email-visible field, using option labels where available:
+
+```twig
+<p>New submission from {{ form.name }}.</p>
+<ul>
+{% for field in allFields %}
+  <li>
+    {{ field.label }}:
+    {% if field.implements('options') %}
+      {{ field.labelsAsString }}
+    {% else %}
+      {{ field.valueAsString }}
+    {% endif %}
+  </li>
+{% endfor %}
+</ul>
+```
+
+For a date, use `{{ dateCreated|date('Y-m-d H:i') }}`. For the original submission timestamp when resending, use `submission.dateCreated` when the submission is available.
+
+## Manual Email Body
+
+Use specific field handles when you want to control the order and wording:
+
+```twig
+<p>New contact request</p>
+<ul>
+  <li>Name: {{ firstName.valueAsString }} {{ lastName.valueAsString }}</li>
+  <li>Email: {{ email.valueAsString }}</li>
+  <li>Home phone: {{ homePhone.valueAsString }}</li>
+  {% if cellPhone.valueAsString != '' %}
+    <li>Cell phone: {{ cellPhone.valueAsString }}</li>
+  {% endif %}
+  <li>
+    Services:
+    <ul>
+    {% for value in interestedIn.value %}
+      <li>{{ value }}</li>
+    {% endfor %}
+    </ul>
+  </li>
+  <li>Message:<br />{{ message.valueAsString|nl2br }}</li>
+</ul>
+```
+
+The loop assumes `interestedIn` is a field with multiple values. Use `interestedIn.labelsAsString` when you want a single line of option labels.
+
+## Basic Notification Template File
+
+For a complete file with subject, sender, reply-to, and body configuration, use the [global template file example](./twig-reference.mdx#configuration). The body examples on this page can replace its HTML body.
+
+## Include a Text-only Version
+
+In a file-based template, add this block after the HTML body. Keep the metadata comments at the top of the file; they apply to both bodies.
+
+```twig
+{# text #}
+New submission from {{ form.name }}.
+
+{% for field in allFields %}
+{{ field.label }}: {% if field.implements('options') %}{{ field.labelsAsString }}{% else %}{{ field.valueAsString }}{% endif %}
+{% endfor %}
+{# /text #}
+```
+
+For database templates, enter the plain-text body in the Text-Only Body setting after disabling automatic text generation.
+
+## Only Parse Fields with Data
+
+Skip empty string values while retaining values such as `0`:
+
+```twig
+<ul>
+{% for field in allFields|filter(field => field.valueAsString != '') %}
+  <li>
+    {{ field.label }}:
+    {% if field.implements('options') %}
+      {{ field.labelsAsString }}
+    {% else %}
+      {{ field.valueAsString }}
+    {% endif %}
+  </li>
+{% endfor %}
+</ul>
+```
+
+## Include HTML and Rich Text Blocks
+
+Use `allFieldsAndBlocks` and output a block's configured content instead of its submitted value:
+
+```twig
+{% for field in allFieldsAndBlocks %}
+  {% if field.type == 'html' or field.type == 'rich-text' %}
+    {{ field.content|raw }}
+  {% else %}
+    <p>{{ field.label }}: {{ field.valueAsString }}</p>
+  {% endif %}
+{% endfor %}
+```
+
+Use `raw` for the trusted HTML or Rich Text block content. Keep submitted values escaped.
+
+## Format Table Fields
+
+Render a Table field's rows and columns as an HTML table:
+
+```twig
+{% for field in allFields %}
+  {% if field.type == 'table' %}
+    <h3>{{ field.label }}</h3>
+    <table>
+      <thead>
+        <tr>
+        {% for column in field.tableLayout %}
+          <th>{{ column.label|default('-') }}</th>
+        {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+      {% for row in field.value %}
+        <tr>
+        {% for index, column in field.tableLayout %}
+          {% set cell = row[index] ?? null %}
+          <td>{{ cell is iterable ? cell|join(', ') : cell }}</td>
+        {% endfor %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>
+      {{ field.label }}:
+      {% if field.implements('options') %}
+        {{ field.labelsAsString }}
+      {% else %}
+        {{ field.valueAsString }}
+      {% endif %}
+    </p>
+  {% endif %}
+{% endfor %}
+```
+
+See the [Table field reference](../fields/table.mdx) for its data structure.
+
+## Translatable Notifications
+
+With [Site-Aware Forms](../../configuration/sites.mdx), field labels translated in the builder appear in `allFields` for the submission's site. Translate the surrounding email text inside the template:
+
+```twig
+{% if currentSite.language == 'de' %}
+  <p>Vielen Dank, dass Sie uns kontaktiert haben!</p>
+{% elseif currentSite.language == 'fr' %}
+  <p>Merci de nous avoir contactés!</p>
+{% else %}
+  <p>Thank you for contacting us!</p>
+{% endif %}
+```
+
+Use language codes that match your sites, including regional codes if configured. See [form translations](../../configuration/sites.mdx#translations) for label setup.
+
+## Using Submission Object
+
+Stored submission data can be read from the [Submission object](../../templates/objects/submission.mdx). Guard against an unavailable submission:
+
+```twig
+{% if submission is not null %}
+  <h3>{{ submission.id }}: {{ submission.title }}</h3>
+  <ul>
+  {% for field in submission %}
+    <li>{{ field.label }}: {{ attribute(submission, field.handle) }}</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+```
+
+For ordinary email output, `allFields` and its string helpers are usually the simpler choice. For saved submission data, enable [Store Submitted Data](../builder.mdx#settings).
+
+## Using Layouts
+
+For file-based notification templates, you can use Twig's `extends` and blocks to share a layout. Create the layout outside the configured email template directory, for example `templates/_layouts/email.twig`:
+
+```twig
+<html>
+  <body>
+    <h1>{{ form.name }}</h1>
+    {% block content %}{% endblock %}
+  </body>
+</html>
+```
+
+In the notification file, keep its metadata comments at the top, then extend the layout:
+
+```twig
+{% extends '_layouts/email.twig' %}
+
+{% block content %}
+  {% for field in allFields %}
+    <p>{{ field.label }}: {{ field.valueAsString }}</p>
+  {% endfor %}
+{% endblock %}
+```
+
+Freeform treats each file in the email template directory as a complete notification template. Keep layouts and partials elsewhere. For a shared design managed in the control panel, use [Template Wrappers](./templates.mdx#template-wrappers).
+
+## Including File Upload Data
+
+File Upload fields are excluded from `allFields`. To display uploaded file links, read their asset IDs from a stored submission. This example assumes an upload field with handle `uploadFieldHandle`:
+
+```twig
+{% if submission is not null %}
+  {% set assetIds = submission.uploadFieldHandle.value ?? [] %}
+  {% if assetIds %}
+    <ul>
+    {% for asset in craft.assets.id(assetIds).all() %}
+      <li><a href="{{ asset.url }}">{{ asset.title }}</a></li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endif %}
+```
+
+For an uploaded image, render `<img src="{{ asset.url }}" alt="{{ asset.alt ?? asset.title }}" />` inside the asset loop. Email clients must be able to access that URL. To send the files as attachments instead, enable [Include Attachments](./templates.mdx#uploaded-files).
+
+## Including Signatures
+
+Signature fields are excluded from `allFields`. To embed a saved signature in the email body, use its value from the submission. Replace `signature` with your field handle:
+
+```twig
+{% if submission is not null and submission.signature.value %}
+  <img src="{{ submission.signature.value }}" alt="Signature" />
+{% endif %}
+```
+
+Rendering an inline signature depends on the email client's support for its image format.
+
+## Passing Freeform Data to Another Template Query
+
+Pass the field's `.value` to Craft queries, rather than passing the field object:
+
+```twig
+{% set entry = craft.entries.section('resources').id(resourceId.value).one() %}
+{% if entry %}
+  <p>{{ entry.title }}</p>
+{% endif %}
+```
+
+The same approach works with user queries, such as `craft.users.id(userId.value).one()`.
+
+## Show Textarea Line Breaks in Email Notifications
+
+Use `nl2br` to turn newline characters into HTML line breaks:
+
+```twig
+{{ coverLetter.valueAsString|nl2br }}
+```
+
+See [Line Breaks in Textarea Fields](../../guides/guide/line-breaks-in-textarea-fields.mdx) for a reusable field-loop example.
+
+Return to [Email Notifications](./index.mdx) for setup or [Notification Templates](./templates.mdx) for template settings.

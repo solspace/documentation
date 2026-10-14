@@ -47,22 +47,16 @@ Freeform uses its own set of [field types](../forms/fields/index.mdx). The form 
 
 ## Email Notifications
 
-[Email notification templates](../forms/email-notifications.mdx) are global and can be reused for multiple forms, saving you time when managing many forms. Email templates can be managed within the control panel (saved to the database) or as template files. All notification templates can be created and customized at **Freeform → Notifications** (or if using files, you can edit them in your favorite editor, etc).
+Create email notification templates inside the form builder for a single form, or use global templates that can be shared across forms. Global templates can be stored in the database or as Twig files. See [Notification Templates](../forms/email-notifications/templates.mdx) to choose an approach.
 
-Freeform allows you to send email notifications upon submittal of a form 6 different ways, each with its content/template:
+Configure recipients in the form builder's **Notifications** tab:
 
-- [Admin](../forms/email-notifications.mdx#admin)
-  - Specify the email address(es) you'd like to be notified of the successful submission of the form.
-- [Conditional](../forms/email-notifications.mdx#conditional)
-  - Specify the email address(es) you'd like to be notified of the successful submission of the form.
-- [User Select](../forms/email-notifications.mdx#user-select)
-  - Allow the user to choose from a predefined list of options to be emailed via select dropdown/radios/checkboxes field.
-- [Template-based](../forms/email-notifications.mdx#template-based)
-  - At the template level with the `dynamicNotification` parameter in the [Form query](../templates/queries/form.mdx).
-- [Email Fields](../forms/email-notifications.mdx#email-fields)
-  - To the user submitting the form, with the email addresses specified/selected in the [Email](../forms/fields/email.mdx#email) field type.
-- [User-Defined](../forms/email-notifications.mdx#user-defined)
-  - To a user-defined email address (e.g. Tell-a-Friend form), with the email addresses specified/selected in the [Email](../forms/fields/email.mdx#email) field type.
+- [Admin](../forms/email-notifications/index.mdx#admin) — notify your team after a successful submission.
+- [Conditional](../forms/email-notifications/index.mdx#conditional) — notify configured recipients when field values match your rules (Pro).
+- [User Select](../forms/email-notifications/index.mdx#user-select) — route notifications by a selected option, such as a department (Lite and Pro).
+- [Email Fields](../forms/email-notifications/index.mdx#email-fields) — send to an address entered in an Email field, such as a submitter confirmation or tell-a-friend message.
+
+You can also supply recipients in the Twig template displaying a form using [template-based notifications](../forms/email-notifications/twig-reference.mdx#template-based-notifications). Follow [Send Your First Notification](../forms/email-notifications/index.mdx#send-your-first-notification) for a quick setup.
 
 <Player
   url={require('@site/static/videos/craft/freeform/v5/email-notifications.mp4').default}

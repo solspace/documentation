@@ -1,0 +1,179 @@
+---
+title: Email Notifications
+sidebar_position: 1
+slug: /forms/email-notifications
+description: Send email notifications to your team or form submitters, route recipients by field values, and test delivery.
+---
+
+import Player from 'react-player';
+import { SettingsCards } from '@site/src/components/docs';
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+import LegacyReferenceRedirect from '@site/src/components/docs/LegacyReferenceRedirect';
+import legacyAnchors from './legacy-anchors.json';
+
+# Email Notifications
+
+<LegacyReferenceRedirect targets={legacyAnchors} />
+
+Send an email to your team, confirm a submission with the person who filled out the form, or route a notification based on their answers. Configure notifications in the form builder's **Notifications** tab.
+
+## Send Your First Notification
+
+1. Open a form and select **Notifications**.
+2. Click **New** beside **Admin** to notify your team, or **Email Fields** to notify the submitter.
+3. Create a notification template or select an existing one. Set the subject, sender, and email body.
+4. For **Admin**, add your team's addresses under **Recipients**. For **Email Fields**, select the form's Email field under **Target field**.
+5. Save the form and submit it on your site to test the complete workflow.
+
+Use your site's sending address for **From Email**. To reply to the submitter, put their email field token or `{{ email }}` in **Reply-To Email**, replacing `email` with your field's handle. See the [Reply-to setup guide](../../guides/guide/admin-notifications-replyto-submitter.mdx).
+
+<details>
+<summary>Watch the notification builder walkthrough</summary>
+
+<Player url={require('@site/static/videos/craft/freeform/v5/builder-notifications.mp4').default} controls width="100%" height="100%" />
+
+</details>
+
+## Choose a Notification Type {#types}
+
+Each notification can use its own template. Add more than one notification when a form needs to notify several audiences.
+
+| Type | Use it for | Available in |
+| --- | --- | --- |
+| [Admin](#admin) | Sending to configured team addresses | All editions |
+| [Conditional](#conditional) | Sending only when field values match your rules | Pro |
+| [User Select](#user-select) | Routing to a department or team based on selected options | Lite and Pro |
+| [Email Fields](#email-fields) | Sending to an address entered in an Email field | All editions |
+
+You can also configure a [template-based notification](#template-based) in the Twig template that displays the form.
+
+### Admin
+
+Notify one or more administrators or team members after a successful submission.
+
+1. Click **New** beside **Admin** in the Notifications tab.
+2. Create or select a **Notification Template**.
+3. Add addresses under **Recipients**. Press **Enter** to add another recipient.
+
+<details>
+<summary>View the Admin notification settings</summary>
+
+<Photo img={require('@site/static/img/craft/freeform/v5/cp/builder-notification-admin.png')} alt="Admin notification settings" />
+
+</details>
+
+### Conditional<Badge type="pro" text="Pro" />
+
+Send to configured recipients only when the submission matches a set of conditions. For example, notify sales when a visitor requests a quote.
+
+1. Click **New** beside **Conditional**.
+2. Create or select a **Notification Template** and add **Recipients**.
+3. Configure the conditions in **Rules**.
+4. Add another Conditional notification if you need a separate set of rules, recipients, or a different template.
+
+See [Conditional Rules](../conditional-rules.mdx) for rule behavior.
+
+<details>
+<summary>View the Conditional notification settings</summary>
+
+<Photo img={require('@site/static/img/craft/freeform/v5/cp/builder-notification-conditional.png')} alt="Conditional notification settings" />
+
+</details>
+
+### User Select<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+
+Route notifications using the value selected in a Dropdown, Checkbox, Checkboxes, Radios, or Multiple Select field. A department selector, for example, can send to sales or support.
+
+1. Add the option field to the form using ordinary option values, such as `sales` and `support`.
+2. Click **New** beside **User Select** and choose the **Target field**.
+3. Create or select the **Default Notification Template**.
+4. In **Recipient Mapping**, add recipients for each option. You can also assign a different template to an option.
+5. Set **Default Recipients** if you want a fallback when a selected value has no recipient mapping or its mapping has no recipients. Leave this empty if you do not need a fallback.
+
+For fields that allow several selections, each selected value is processed separately. Press **Enter** to add more recipients to an option.
+
+:::info
+Configure recipients in the Notifications tab instead of putting email addresses in the field's options. This keeps the recipient addresses out of the rendered form.
+:::
+
+<details>
+<summary>View the User Select notification settings</summary>
+
+<Photo img={require('@site/static/img/craft/freeform/v5/cp/builder-notification-user-select.png')} alt="User Select notification settings" />
+
+</details>
+
+### Email Fields
+
+Send a confirmation or other notification to an address entered in an [Email field](../fields/email.mdx).
+
+1. Add an Email field to the form. A Text field containing an address cannot be used as the target.
+2. Click **New** beside **Email Fields**.
+3. Select the **Target field** and create or select a **Notification Template**.
+
+Freeform uses the address entered in the selected field as the recipient.
+
+<details>
+<summary>View the Email Fields notification settings</summary>
+
+<Photo img={require('@site/static/img/craft/freeform/v5/cp/builder-notification-email-field.png')} alt="Email Fields notification settings" />
+
+</details>
+
+#### Tell-a-Friend Forms {#user-defined}
+
+To let a submitter notify another person, add a separate Email field and configure an Email Fields notification for it. This uses the same setup as a submitter confirmation.
+
+:::warning
+Allowing visitors to choose recipients can be abused. Configure [spam protection](../spam-protection.mdx) before using this approach on a public form.
+:::
+
+### Template-based
+
+Use `dynamicNotification` when the Twig template displaying the form should supply its recipients and a global notification template. See the [template-based setup](./twig-reference.mdx#template-based-notifications) for a complete example.
+
+### Twig in Recipient Settings {#recipient-twig}
+
+Configured Admin and Conditional recipients, and configured User Select recipient mappings, can use Twig with `form`, `allFields`, and field handles. For example, `{{ email.valueAsString }}` uses the value of the `email` field. This context is isolated from Craft's global variables.
+
+Addresses submitted through Email Fields or supplied to `dynamicNotification` are treated as literal addresses. Resolve dynamic values in your form's Twig template before passing them to `dynamicNotification`; do not pass Twig expressions as recipient strings.
+
+## Templates & Customization
+
+<SettingsCards items={[
+  { title: 'Notification Templates', description: 'Template methods, sender settings, wrappers, and attachments', icon: 'email', link: './templates/' },
+  { title: 'Twig Reference', description: 'Variables, field values, and template file configuration', icon: 'code', link: './twig-reference/' },
+  { title: 'Examples & Recipes', description: 'Ready-to-adapt examples for common email customizations', icon: 'config-page', link: './examples/' },
+]} />
+
+## Testing & Troubleshooting
+
+A template preview or test email helps check the message's appearance. Submit the actual form as well to verify recipient routing, conditional rules, and attachments.
+
+If notifications do not arrive:
+
+1. Check Craft's email settings and test the configured mail transport.
+2. Check the notification's target field or recipients and whether its conditions match the submission.
+3. Review Freeform's [Email Log](../../configuration/settings/logs.mdx#email-log) and [Error Log](../../configuration/settings/logs.mdx#error-log).
+4. If [email queue processing](../../configuration/settings/queue-processing.mdx#use-queue-for-email-notifications) is enabled, confirm that Craft's queue is running.
+
+For local development, follow the [Mailtrap setup guide](../../guides/guide/email-testing-mailtrap.mdx). For broader troubleshooting, see [Common Issues](../../guides/common-issues.mdx).
+
+Configure [Email Alerts](../../configuration/notices-alerts.mdx) to receive an alert when a notification cannot be delivered.
+
+## Extra Notifications
+
+### Resending Email Notifications<Badge type="pro" text="Pro" />
+
+To retry notifications after fixing a delivery or template problem, select the affected submissions in **Freeform → Submissions** and choose **Resend Notifications** from the actions menu.
+
+### Send Additional Notification<Badge type="pro" text="Pro" />
+
+To send a separate message, select the submissions and choose **Send Additional Notification**. Choose a template and enter the recipients. This message is independent of the notifications configured on the form.
+
+<details>
+<summary>Watch the extra notifications walkthrough</summary>
+
+<Player url={require('@site/static/videos/craft/freeform/v5/extra-notifications.mp4').default} controls width="100%" height="100%" />
+
+</details>
