@@ -1,0 +1,101 @@
+---
+title: Create Forms with AI
+sidebar_position: 6
+description: Generate editable Freeform forms from a text prompt, PDF, or image using a configured AI integration, then review the fields and layout in the builder.
+---
+
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+import { Badge } from '@site/src/components/utils';
+
+# Create Forms with AI<Badge type="pro" text="Pro" />
+
+Use **Create with AI** to build an editable Freeform form from a description. In **Freeform 5.17+**, you can also attach PDFs, images, or screenshots of an existing form and ask AI to recreate its structure with native Freeform fields.
+
+The generator uses an enabled [AI integration](../../integrations/index.mdx#ai) already configured in Freeform. **SolspaceAI** uses its existing authorization and credits and chooses the model automatically. Other providers use the credentials and model configured on their integration. Text-based generation remains available when an integration does not support reference files.
+
+## Before You Start
+
+- Configure and enable an AI integration. Freeform's built-in AI integrations require **Pro**.
+- For reference files, choose a compatible integration and model from the [compatibility guidance](#integration-compatibility) below.
+- Your control-panel user needs **Create Forms** and **Access Integrations** permissions, along with access to the Forms area.
+
+## Create a Form
+
+<VerticalStepWrapper>
+<StepMarkdown>
+Open **Freeform → Forms** and click **Create with AI**.
+</StepMarkdown>
+<StepMarkdown>
+Choose an **AI Integration**. For OpenAI, Anthropic, and Gemini, the dialog shows the configured model beneath the reference-file controls. SolspaceAI selects its model automatically.
+</StepMarkdown>
+<StepMarkdown>
+To recreate a form, choose or drop files under **Reference form (optional)**. Use the up/down buttons to arrange multiple files in reading order, or remove any you do not want included. For a form created entirely from a prompt, leave this area empty and fill in **Describe your form**.
+</StepMarkdown>
+<StepMarkdown>
+When files are attached, use **Additional instructions (optional)** to explain what to include, omit, or change. You can generate from files alone. Enter a **Form name (optional)** if you want to suggest a name.
+</StepMarkdown>
+<StepMarkdown>
+Click **Generate form**. The new form opens in the builder for review and editing. Configure its settings and behavior, then preview and test it before publishing.
+</StepMarkdown>
+</VerticalStepWrapper>
+
+For example, a text prompt could be:
+
+> Create an event registration form with name, email, dietary requirements, and a choice of morning or afternoon session.
+
+With a reference attached, additional instructions could be:
+
+> Recreate pages 1–2. Omit the office-use section and add an email field after the applicant's name.
+
+## Reference File Requirements<Badge type="feature" text="New in 5.17+" />
+
+| Requirement | Limit |
+| --- | --- |
+| **Formats** | PDF, PNG, and JPEG (`.pdf`, `.png`, `.jpg`, `.jpeg`), subject to the selected model's capabilities. |
+| **Number of files** | Up to **5**, processed in the order shown. |
+| **Combined upload size** | Up to **10 MB** total. Files must not be empty. |
+| **PDFs** | Complete files without encryption or password protection. |
+| **Images** | At most **20 megapixels**, with neither side exceeding **10,000 pixels**. |
+| **Generated output** | Up to **20 pages** and **200 fields**. |
+
+Your server's upload/request limits and the AI provider's document, context, account, and quota limits may be lower. The output limits refer to the generated Freeform form; the provider separately controls which source documents it can process.
+
+## Integration Compatibility
+
+SolspaceAI supports references without a separate provider key or model selection. For other providers, reference support depends on the **configured model**, not just the provider name. The dialog enables attachments only when the selected integration and model report support for them.
+
+| Integration | Reference support |
+| --- | --- |
+| [SolspaceAI](../../integrations/solspace-ai.mdx) | PDF, PNG, and JPEG using the existing authorized integration and credit balance. The hosted service selects the model. |
+| [OpenAI](../../integrations/openai.mdx) | PDF, PNG, and JPEG with recognized document/vision-capable models. |
+| [Anthropic](../../integrations/anthropic.mdx) | PDF, PNG, and JPEG with compatible Claude models. The original Claude 3 Haiku, Sonnet, and Opus models accept images only. |
+| [Gemini](../../integrations/gemini.mdx) | PDF, PNG, and JPEG with recognized compatible Gemini models. |
+| [xAI](../../integrations/xai.mdx) | Text-based form generation. Reference uploads are not currently enabled for this integration. |
+
+Text-only models, specialized audio or image-generation models, and unrecognized/custom model identifiers may not enable attachments. Even when Freeform recognizes a model, your provider account must support the requested file type and document size. For providers with a configurable model, edit the integration to change it, then reopen **Create with AI**.
+
+## Review the Generated Form
+
+AI attempts to preserve labels, choices, required indicators, headings, page order, and rows of up to four fields. Headings and larger fields use their own rows. The result is a starting point that you can edit in [Layout & Pages](./layout.mdx).
+
+- Check field types, labels, choices, required settings, dates, and page/column layout against the source.
+- Review copied text and remove any filled-in answers or personal details. The generator is instructed to omit completed answers and signatures, and generated default answers are cleared.
+- Configure formatting, branding, logos, notifications, integrations, conditional rules, and calculations separately.
+- Use [Preview](./preview.mdx) to check presentation and flow, then submit the actual embedded form on your site to verify validation and behavior.
+
+The generator does not reproduce the document's exact appearance. Clear scans and screenshots give it more useful information; complex forms may work better when recreated in smaller sections.
+
+## Reference Files and Data Handling
+
+References are sent to the selected AI provider using your integration's existing credentials. Use files appropriate for that provider's data-handling policies.
+
+Freeform reads the temporary request uploads without creating Craft assets or storing permanent reference copies. PHP removes temporary uploads at the end of the request. If generation fails, the selected files remain in the open dialog so you can adjust the instructions or integration and retry.
+
+## Troubleshooting
+
+- **Attachments are unavailable:** choose an integration and configured model that support references. You can still generate from a text prompt.
+- **The selected model cannot read a file:** remove the incompatible file or choose a compatible integration. For example, an original Claude 3 image-only model cannot process a PDF.
+- **Upload fails:** check the file limits above, PHP's `upload_max_filesize`, `post_max_size`, and `max_file_uploads`, and any proxy/request limits.
+- **PDF is rejected:** attach a complete, unencrypted copy without password protection.
+- **No usable fields are found:** use a clearer reference, attach a smaller section, or add instructions describing the form.
+- **Provider request fails:** check the integration's authorization, configured model, account access, quotas, and document limits before retrying.
