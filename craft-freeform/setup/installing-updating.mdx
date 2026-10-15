@@ -55,7 +55,7 @@ import Icons from '@site/static/icons/cards';
     },
     {
       title: 'Troubleshooting',
-      description: 'Common problems encountered when purchasing / upgrading.',
+      description: 'Resolve installation, update, and licensing issues.',
       icon: Icons.QuestionSignIcon,
       fullCardLink: '#troubleshooting',
     },
@@ -65,6 +65,10 @@ import Icons from '@site/static/icons/cards';
 ## Requirements
 
 Freeform 5.x supports both [Craft 5.x](https://craftcms.com/docs/5.x/requirements.html) and [Craft 4.x](https://craftcms.com/docs/4.x/requirements.html). It meets mostly the same requirements as listed on the Craft Requirements page.
+
+:::warning Craft 4 dependency limitations
+Craft 4 has reached end of life. Composer may block installation or updates because of security advisories affecting Craft 4's required dependencies. Freeform's compatibility with Craft 4 does not resolve those upstream vulnerabilities. See [Craft 4: Composer security advisory errors](#craft-4-composer-security-advisories) for upgrade guidance and a temporary workaround for isolated local testing.
+:::
 
 <details className="hidden-heading">
   <summary>View full requirement details...</summary>
@@ -208,6 +212,8 @@ Freeform can be installed one of two ways:
 
 
 ## Updating
+
+On **Craft 4**, review the [Composer security advisory guidance](#craft-4-composer-security-advisories) if installation or updates are blocked.
 
 :::warning
 **If you're upgrading from Freeform 4.x**, please see the special [upgrade guide here](./updating-freeform-4.mdx).
@@ -592,7 +598,58 @@ Your final `composer.json` file might have something like this:
 
 ## Troubleshooting
 
-Third-party plugin licenses are managed and validated entirely by Craft. Some issues may require that you contact the Craft Team directly if issues persist. The following troubleshooting tips account for the most common issues we've seen our customers report to us:
+The following sections cover common installation, update, and licensing issues. Third-party plugin licenses are managed and validated by Craft; persistent licensing issues may require help from the Craft team.
+
+### Craft 4: Composer security advisories
+
+Composer may refuse to install or update Freeform on Craft 4 with an error such as:
+
+```nix
+craftcms/cms requires twig/twig ~3.19.0
+... these were not loaded, because they are affected by security advisories
+```
+
+This error identifies a conflict between Craft 4's dependency requirements and Composer's security policy. Updating Freeform alone cannot resolve it. Other dependencies required by Craft 4 may also trigger advisory errors.
+
+Craft 4's official security support [ended on April 30, 2026](https://craftcms.com/knowledge-base/supported-versions). Its [Twig constraint](https://github.com/craftcms/cms/blob/4.x/composer.json) allows the 3.19 patch series, while [Twig 3.20 and later](https://github.com/twigphp/Twig/blob/3.x/CHANGELOG) require PHP 8.1 or later, including the newer releases containing these security fixes. Craft 4 supports PHP 8.0.2, so accepting newer Twig versions would change that compatibility. Updating your site's PHP version alone does not remove Craft's Twig constraint.
+
+#### Recommended: upgrade to Craft 5
+
+For production sites, plan an upgrade to a supported Craft version using [Craft's upgrade guide](https://craftcms.com/docs/5.x/upgrade.html). Review its PHP, database, plugin, and template requirements, and test the upgrade on a local copy before deploying. Freeform 5 supports both Craft 4 and Craft 5, but that compatibility does not extend Craft 4's security support.
+
+#### Temporary workaround for isolated local testing
+
+:::danger This bypass does not fix vulnerabilities
+Use the following commands only in an isolated local development environment for compatibility testing or upgrade preparation. They allow dependencies with known security advisories to be installed. Do not use this workaround on production or publicly accessible test sites, and do not deploy the resulting dependency set as a security fix.
+:::
+
+In your local Craft project's directory, check your Composer version with `composer --version`. With **Composer 2.10 or later**, rerun the update with advisory blocking disabled for that command only:
+
+```nix
+COMPOSER_POLICY_ADVISORIES_BLOCK=0 composer update -W
+```
+
+For a new Freeform installation in the same isolated environment, use:
+
+```nix
+COMPOSER_POLICY_ADVISORIES_BLOCK=0 composer require solspace/craft-freeform -W
+```
+
+These examples use Bash/Zsh syntax. The environment variable applies only to the command it prefixes and does not change `composer.json` or your global Composer configuration. Capital `-W` allows dependencies to change, including root requirements; the update command can update the entire project's dependency set within its configured version constraints.
+
+For **Composer 2.9.2 through 2.9.x**, the equivalent update command is:
+
+```nix
+composer update -W --no-security-blocking
+```
+
+On Composer 2.10+, prefer the advisory-specific environment variable above. Do not permanently disable security blocking, downgrade Composer to avoid it, or override Craft's Twig constraint without verifying compatibility. See [Composer's command-line documentation](https://getcomposer.org/doc/03-cli.md#composer-policy-advisories-block) for the current options.
+
+After a successful update, continue with the [normal migration steps](#updating) and run `composer audit` to review the remaining advisories. A successful dependency update or passing Freeform tests does not mean those vulnerabilities have been resolved.
+
+### Licensing issues
+
+Third-party plugin licenses are managed and validated by Craft. The following tips cover common licensing problems:
 
 <details className="hidden-heading">
   <summary>Error: 'This license is tied to another Craft install'</summary>
