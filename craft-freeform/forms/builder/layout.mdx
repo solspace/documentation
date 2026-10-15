@@ -1,0 +1,129 @@
+---
+title: "Layout & Pages"
+sidebar_position: 1
+description: "Arrange fields and pages, edit field properties, use content editors and undo history, and understand multi-page form behavior."
+---
+
+import Player from 'react-player';
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
+# Layout & Pages
+
+Use **Layout** in the form builder to add [fields](../fields/index.mdx) and [pages](#multi-page-forms), then arrange the rows and columns of the form.
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/builder-overview.mp4').default}
+  controls width="100%" height="100%"
+/>
+
+## Fields
+
+The left column lists all available fields and field types to use for the form. Simply drag and drop any of these fields into the field layout in the right column.
+
+- **Search** - you can search in Favorite fields and other forms to reuse existing fields.
+- **Favorites** - includes all fields that have been saved to favorites, allowing you to quickly set up forms with common fields.
+- **Field Types** - displays all available field types for the form (will differ between editions of Freeform). These can then be added to forms indefinitely.
+- **Property Editor** - when you click on any field in the Layout (right column), a property editor will slide into the left column.
+  - To close the property editor, it can be done one of three ways:
+    - Press the `esc` key on your keyboard
+    - Click the `x` at the top right
+    - Click anywhere else on the page
+- **Bulk Insert Options**<Badge type="feature" text="New in 5.5+" /> - paste in large lists of options into a textarea for options-based field types such as Checkboxes and Dropdowns.
+  - **Separator** - specify a separator (if applicable) used to separate the option label and value when using custom values for option labels. Options are: _Pipe_, _Comma_, _Semicolon_, _Arrow_ and _Space_.
+  - **Append Values** - whether the options you're adding should add to the existing options configured or replace them.
+  - **Bulk Editor** - enter bulk values separated by new lines. If using custom values for option labels, you can provide a label and a value separated by a separator. For example, if you used `|` you would write: `Label|value` and set the **Separator** setting to _Pipe_.
+    {' '}
+    <Photo
+      img={require('@site/static/img/craft/freeform/v5/cp/bulk-insert-options.png')}
+      alt="Build Insert Options"
+    />
+- **Attributes Editor** - add any attributes for the field and its container here, e.g. `data-my-attribute`, `id`, etc.
+  {' '}
+  {' '}
+  <Photo
+    img={require('@site/static/img/craft/freeform/v5/cp/field-attribute-editor.png')}
+    alt="Field Attributes Editor"
+  />
+
+## Content Editors<Badge type="feature" text="Improved in 5.17+" />
+
+HTML, Rich Text, Cards, and Table fields show a preview in the property editor. Open the preview to edit the content in a native Craft slideout with more room to work. Choose **Finish & Close** to keep your changes in the form builder, or **Cancel** to discard the changes made during that editing session. Save the form to persist your changes.
+
+The bulk options editor also opens in a slideout, where you can prepare labels and values before applying them to the field.
+
+## Layout Preview {#preview}
+
+The right column is where you position the form fields for the form. To see the saved form rendered with its formatting template, use the separate [Preview tab](./preview.mdx).
+
+- **Page Tabs** - if you need to build a [multi-page form](#multi-page-forms), you can add and rename page tabs here.
+  - Pages can be renamed, re-arranged, and deleted.
+  - If you wish to move a field from one page to another, you can drag and drop the field onto the page tab of the page it should be moved to.
+- **Preview** - this is where you will actively see a layout preview of what your form will look like (roughly - ultimately the form styling and appearance is up to your [formatting template](../../templates/formatting/index.mdx)).
+  - Fields can be dragged and dropped from the left column anywhere into the Layout (right column).
+  - Freeform will automatically build rows and columns when you insert and rearrange fields.
+  - To configure fields, simply click on them and the **property editor** will slide into the left column.
+  - To remove a field from the layout, hover over the field and click the delete icon (_trash_) to the right.
+  - To duplicate a field in the form's layout, hover over the field and click the clone icon (_pages_) to the right. <Badge type="feature" text="New in 5.14+" />
+
+## Undo & Redo<Badge type="feature" text="New in 5.17+" />
+
+Use the **Undo** and **Redo** buttons beside **Save** to step backward or forward through changes to your form's layout, fields, settings, rules, notifications, and integrations.
+
+- **Undo:** `⌘Z` on Mac or `Ctrl+Z` on Windows.
+- **Redo:** `⌘Shift+Z` on Mac or `Ctrl+Shift+Z` / `Ctrl+Y` on Windows.
+
+While typing in an input, these shortcuts use the input's normal undo/redo behavior. Builder history clears after successfully saving or reloading the form.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-undo-redo.jpg')}
+  alt="Undo & Redo in Form Builder"
+/>
+
+## Multi-Page Forms<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+
+Multi-page forms submit each page through `POST`. Use the page tabs above the layout to organize the form:
+
+<VerticalStepWrapper>
+<StepMarkdown>
+Add a page tab and give it a name. Pages can also be renamed or deleted from the layout.
+</StepMarkdown>
+<StepMarkdown>
+Drag the page tabs to change their order.
+</StepMarkdown>
+<StepMarkdown>
+To move a field to another page, drag it onto that page's tab. It appears at the top of the destination page; drag it into its final position there.
+</StepMarkdown>
+</VerticalStepWrapper>
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/builder-pages.mp4').default}
+  controls width="100%" height="100%"
+/>
+
+:::tip
+
+### User Guides
+
+- [Need to display submission data from previous pages as a confirmation screen, etc?](../../guides/guide/displaying-submission-data-from-previous-pages.mdx)
+- [Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](../../guides/guide/troubleshooting-form-issues.mdx)
+:::
+
+<details>
+<summary>Important Notes</summary>
+
+- Each page is submitted through `POST`.
+- There is no unique URI segment per page at this time.
+- Users cannot jump ahead to different pages, only forward and backward (if enabled) 1 page.
+- Multi-page forms work with the [built-in AJAX](../../templates/ajax.mdx) feature.
+  - **Editing** existing submissions via the front end in multi-page AJAX forms will currently not work correctly.
+- To let users stop and return later, use [Save & Continue Later](../save-continue-later.mdx). Without it, progress depends on the active form context. Legacy session or database context can expire; see [Freeform Session Context](../../configuration/settings/form-behavior.mdx#freeform-session-context).
+- If an earlier page contains file upload field(s), files will actually be uploaded before the form is officially submitted.
+- Unfinalized uploaded files are eligible for cleanup after 3 hours by default. This is controlled by [Time to Wait Before Purging Assets](../../configuration/settings/general.mdx#purgable-unfinalized-asset-age-in-minutes), independently of the form context.
+- If you require a longer period of time, we recommend using the [File Upload Drag & Drop](../fields/file-drag-drop.mdx#file-upload-drag--drop) field and the [Save & Continue Later](../../forms/save-continue-later.mdx) feature.
+
+</details>
+
+### Manual Submit Buttons in Multi-page Forms
+
+When manually building submit buttons in multi-page forms, please refer to the [Submit buttons](../fields/submit-buttons.mdx#submit-buttons) guide for available options.

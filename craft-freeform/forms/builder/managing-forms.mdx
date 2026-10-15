@@ -1,0 +1,105 @@
+---
+title: "Managing Forms"
+sidebar_position: 4
+description: "Manage form cards, list views, groups, archiving, notices, specialized form types, and AI-assisted form creation."
+---
+
+import Player from 'react-player';
+import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
+import { FlexCards, VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+import Icons from '@site/static/icons/cards';
+
+# Managing Forms
+
+The Forms dashboard page offers extensive customization options. You can choose to display forms as cards or in a list table, customize the color of each form, set the display order of forms, create groups to organize forms, and archive forms that you don't want to appear on the dashboard.
+
+- [Form Cards](#form-cards)
+- [Form List](#form-list)
+- [Form Groups](#form-groups)
+- [Archiving Forms](#archiving-forms)
+- [Errors & Update Notices](#errors--update-notices)
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/form-dashboard.mp4').default}
+  controls width="100%" height="100%"
+/>
+
+## Form Cards<Badge type="feature" text="Improved in 5.9+" />
+
+Forms can be displayed as cards, and you can manage, reorder, and group them.
+
+Each form card will display the form name, handle, and description, along with the statistics showing the number of submissions, the number of spam submissions, number of [saved forms](../save-continue-later.mdx) (if applicable) and a color-coded chart at the bottom of the card indicating submission counts over the past 30 days. Additionally, you will have the ability to reorder, archive, duplicate, or delete the form.
+
+### Reordering Cards<Badge type="feature" text="Improved in 5.17+" />
+
+In **Lite** and **Pro**, users with permission to manage forms can reorder cards directly on the Forms dashboard. **Pro** also supports moving cards between groups, including **Other** and empty groups.
+
+<VerticalStepWrapper>
+<StepMarkdown>
+Switch the Forms dashboard to **cards** view.
+</StepMarkdown>
+<StepMarkdown>
+Use a card's **Move this Form Card** handle to drag it to a new position. In Pro, drop it into another group to change its group assignment.
+</StepMarkdown>
+<StepMarkdown>
+Release the card. The new position and group assignment save automatically, with a **“Form position saved.”** Craft notification. If saving fails, the previous arrangement is restored and an error notification appears.
+</StepMarkdown>
+</VerticalStepWrapper>
+
+For keyboard control, focus the card's move handle and use **Up/Down** to reorder within its group or **Left/Right** to move to an adjacent group. Moving to another group places the card at the end of that group. The dashboard and Form Group Manager use the same saved arrangement.
+
+## Form List<Badge type="feature" text="New in 5.6+" />
+
+Forms can also be displayed as a table list, showing them in alphabetical order. The list view does not include the [form groups](#form-groups) feature.
+
+Each row in the list will display the form name, handle, and description, along with the statistics showing the number of submissions, the number of spam submissions, and a color-coded chart indicating submission counts over the past 30 days. Additionally, you will have the ability to archive, duplicate, or delete the form.
+
+## Form Groups<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.6+" />
+
+Click **Manage Form Groups** beside the cards/list view controls at the top of the Forms dashboard to open the **Form Group Manager**. This control requires permission to manage forms.
+
+Use the manager to create groups and rearrange both groups and forms. You can also [move cards directly on the dashboard](#reordering-cards), including into empty groups. Forms that are not assigned to a group appear under **Other** at the bottom.
+
+## Archiving Forms<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="New in 5.5+" />
+
+Archive old or unused forms with the Archive action on a form card or list row. Archiving removes the form from the active dashboard display; the form remains active on your website and can still be viewed and edited in the builder.
+
+In cards view, expand **Archived Forms** at the bottom of the dashboard. Its count badge shows how many archived forms are available. The panel displays form details and localized archive dates, with **Restore** and delete actions.
+
+Choose **Restore** to return a form to the active dashboard. Deleting a form is separate from archiving and also deletes its submissions.
+
+## Errors & Update Notices
+
+The top of the **Forms** dashboard page will conveniently let you know if something is wrong by displaying a banner indicating the number of errors that Freeform logged, if available, as well as [Update Notices](../../configuration/notices-alerts.mdx) to keep you informed about issues that may specifically affect your site.
+
+:::info
+We respect your privacy, so this feature only pulls update notices from the Solspace.com site and **does not and cannot send any information back**. Solspace collects **no** information at all. The comparison check happens on your Freeform site environment, not on the Solspace site. This feature can also be disabled in the plugin settings.
+:::
+
+## Form Types<Badge type="pro" text="Pro" />
+
+<FlexCards
+  navCards
+  items={[
+    {
+      title: 'Surveys & Polls',
+      description:
+        'Add customizable results reporting to Survey and Poll type forms.',
+      icon: Icons.FreeformSurveyIcon,
+      fullCardLink: '../../types/surveys-polls/',
+    },
+  ]}
+/>
+
+## Create Forms with AI<Badge type="feature" text="New in 5.15+" />
+
+Describe the form you need, or in **Freeform 5.17+**, attach PDFs, images, or screenshots for AI to recreate with editable native fields. Generation uses an enabled AI integration; reference-file support depends on the provider and model.
+
+Generation runs through Craft's queue, with progress checks that can be resumed by reopening **Create with AI** in the same browser tab. Supported fillable PDFs also supply embedded dropdown choices to help recreate select fields accurately.
+
+See [Create Forms with AI](./create-with-ai.mdx) for the workflow, supported integrations and file limits, queue setup, and what to review before publishing.
+
+<Player
+  url={require('@site/static/videos/craft/freeform/v5/form-ai-generation.mp4').default}
+  controls width="100%" height="100%"
+/>

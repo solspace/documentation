@@ -15,6 +15,10 @@ Freeform Relations become a suitable replacement for Comments, Ratings, Product 
 
 Freeform allows you to intuitively relate form submissions to any other Craft (or third party) Element. This is done by feeding the Craft Element ID to Freeform's `relations` parameter in the [Form query](../templates/queries/form.mdx), thus allowing you to use Freeform forms to do anything such as allow users to submit comments on [Craft Entries](https://craftcms.com/docs/5.x/reference/element-types/entries.html), post ratings and reviews for Entries or [Commerce Products](https://craftcms.com/docs/commerce/2.x/products.html), relate submissions to [Users](https://craftcms.com/docs/5.x/reference/element-types/users.html) and more!
 
+:::tip One submission per product or entry
+In Freeform 5.17 Pro, [Scoped Duplicate Checking](./scoped-duplicate-checking.mdx) lets you limit each visitor to one submission per item. Populate a scope field such as `productId` in addition to configuring `relations`: relating a submission to an entry does not itself restrict repeat submissions.
+:::
+
 ## How it Works
 
 When pairing the [Freeform Submissions element field type](../submissions/fieldtype.mdx) with the `relations` parameter in the [Form query](../templates/queries/form.mdx), you can automate attaching/relating of Freeform submissions to other Craft elements when the form is submitted. The submission(s) are then attached to the other element and appear visually in those elements the same way as [Assets](https://craftcms.com/docs/5.x/reference/element-types/assets.html) do in the control panel, and more importantly, can then be used to easily display those submissions tied to the Craft Element inside your templates.

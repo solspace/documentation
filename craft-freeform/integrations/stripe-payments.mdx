@@ -154,14 +154,14 @@ The Freeform Stripe integration has the following requirements:
   - You can forego **webhooks** testing if you like, however, and use a non-public local dev site.
   - When using on a local dev site, you will need to use a domain extension like `.test` in order for Stripe to recognize it.
   - If using a local dev machine, you can work around this by using a service like **[ngrok](https://ngrok.com/product)**. You can still access your site via the local dev URL, as long as the public version is working and Stripe is aware of it.
-- When using [multi-page](../forms/builder.mdx#multi-page-forms) forms, the Stripe Element field should be placed on the last page of the form.
-- The built-in [Success Behavior](../forms/builder.mdx#success-errors) setting will be ignored, as a **Success** and **Fail** Redirect URL path will need to be specified.
+- When using [multi-page](../forms/builder/layout.mdx#multi-page-forms) forms, the Stripe Element field should be placed on the last page of the form.
+- The built-in [Success Behavior](../forms/builder/settings.mdx#success--errors) setting will be ignored, as a **Success** and **Fail** Redirect URL path will need to be specified.
 
 ## Best Practices<Badge type="recommended" text="Recommended" />
 
 ### Place Stripe field on Last Page
 
-_Stripe_ makes some strong recommendations and assumptions that the _Stripe Payment Element_ will only be displayed once the payment amount is determined and payment is ready to be made (on the last page of a multi-page form). Therefore, it works best when its placed on the last page inside of a [multi-page](../forms/builder.mdx#multi-page-forms) form.
+_Stripe_ makes some strong recommendations and assumptions that the _Stripe Payment Element_ will only be displayed once the payment amount is determined and payment is ready to be made (on the last page of a multi-page form). Therefore, it works best when its placed on the last page inside of a [multi-page](../forms/builder/layout.mdx#multi-page-forms) form.
 
 :::warning
 #### Single Page forms & other Deviations
@@ -329,7 +329,7 @@ Setting up your form to collect payments will generally consist of the following
       - _Successful Payment Redirect_ - specify a URL to be redirected to upon successful payment.
       - _Failed Payment Redirect_ - specify a URL to be redirected to upon failed payment.
         :::info
-        The built-in [Success Behavior](../forms/builder.mdx#success-errors) setting will be ignored, as a **Success** and **Fail** Redirect URL path will need to be specified in these settings.
+        The built-in [Success Behavior](../forms/builder/settings.mdx#success--errors) setting will be ignored, as a **Success** and **Fail** Redirect URL path will need to be specified in these settings.
         :::
       - _Theme_ - choose from `Default`, `Dark`, or `Minimal`.
         - This can be used as a starting point. Check out the style guide to make further adjustments to the styles.

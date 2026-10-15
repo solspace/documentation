@@ -14,6 +14,8 @@ import { Badge } from '@site/src/components/utils';
 
 Forms and pages can be cached in a variety of ways, but you need to ensure that your [CSRF token](https://craftcms.com/docs/5.x/reference/twig/functions.html#csrfinput) is being refreshed in order for the form to continue working.
 
+For [scheduled forms](../submissions/form-scheduling.mdx), also render the form dynamically or refresh the cached page at its opening and expiry times. Refreshing CSRF tokens alone will not replace a cached pending message or remove an expired form. Server-side schedule validation still rejects submissions outside the scheduled period.
+
 Here are some solutions, depending on your caching approach:
 
 <FlexCards

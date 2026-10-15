@@ -70,15 +70,35 @@ Returns the current [Page object](./page.mdx) containing its label and index.
 
 A bool variable, which will be `true` if the form has the **Duplicate Check** setting enabled ([duplicate submission check](../../submissions/overview.mdx#submission-limits)) and the user has already submitted the form.
 
+In Freeform 5.17+, a form using **Scope by Field** checks for a duplicate of the current item's value. Populate the scope field before reading this property. See [Scoped Duplicate Checking](../../submissions/scoped-duplicate-checking.mdx#twig-examples) for examples. Email-based checks also need the email value before they can identify a duplicate.
+
+### `isAvailable()`<Badge type="feature" text="New in 5.17+" /> {#isavailable}
+
+Returns whether the form can be displayed according to its [schedule](../../submissions/form-scheduling.mdx) and enabled builder [submission limit](../../submissions/limiting-submissions.mdx). Also accessible as `form.available`. This does not check visitor duplicates. A template-only cap with the builder toggle off does not change this value; use `form.isSubmissionLimitReached()` for that check.
+
+`form.render()` handles schedules and enabled builder submission caps automatically. Use the availability check when writing your own layout with `form.renderTag()` and field helpers. Calling `form.render()` in the unavailable branch preserves the appropriate message, including intentionally blank messages. See the [custom layout example](../../submissions/limiting-submissions.mdx#rendering-in-twig).
+
+### `isSubmissionLimitReached()`<Badge type="feature" text="New in 5.17+" /> {#issubmissionlimitreached}
+
+Returns whether the effective submission cap is reached, using the builder settings or template overrides. Also accessible as `form.submissionLimitReached`. Returns `false` when no limit applies or when editing an existing submission. See [Limit Submissions](../../submissions/limiting-submissions.mdx).
+
+### `submissionLimitCount`<Badge type="feature" text="New in 5.17+" />
+
+Returns the stored submission count for the effective limit period, excluding spam and deleted submissions. Uses the all-time count when no limit applies. Unlike `freeform.submissionCount(form)`, this respects a configured calendar period.
+
+### `submissionLimitMessage`<Badge type="feature" text="New in 5.17+" />
+
+Returns the translated builder **Limit Reached Message**, or a `submissionLimitMessage` template override. Without the builder feature enabled, the default is “Submission limit reached”. This is the configured message, even before the cap is reached; check `form.isSubmissionLimitReached()` before displaying it manually. Treat it as plain text.
+
+### `scheduleMessage`<Badge type="feature" text="New in 5.17+" />
+
+Returns the translated **Pending Message** before the scheduled start or **Expired Message** after the end. Returns an empty string while available, or when the corresponding message was left blank. Treat it as plain text when rendering it yourself.
+
 ### `stopSubmissionsAfter`<Badge type="feature" text="New in 5.11.8+" />
 
-Returns the date specified in the **Stop Submissions After Date** setting for the form. Can be used as a conditional to hide the form and/or show a message to the user if the form has passed its close date.
+Returns the form's configured end date and time, or `null`. In Freeform 5.17+, this is labeled **Schedule End Date** in the form builder; the property name remains unchanged. Access the start with `form.settings.startSubmissionsAt`.
 
-```twig
-{% if form.stopSubmissionsAfter|date >= now|date %}
-  <p>The deadline to submit this form was {{ form.stopSubmissionsAfter|date }}.</p>
-{% endif %}
-```
+Use `form.isAvailable()` for availability checks so that the schedule toggle and both boundaries are respected. See [Form Scheduling](../../submissions/form-scheduling.mdx) for examples and compatibility with older date-only cutoffs.
 
 ### `isIntegrationEnabled`<Badge type="feature" text="New in 5.6+" />
 
