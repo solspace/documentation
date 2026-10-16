@@ -1,7 +1,7 @@
 ---
 title: 'Console Commands'
 sidebar_position: 11
-description: Freeform 5.x console commands for Craft CMS — generate fake submissions, purge data, resave submissions, fix table names, migrate titles, convert handles, and more.
+description: Freeform 5.x console commands for Craft CMS — check database integrity, clean orphaned data, repair foreign keys, generate fake submissions, purge data, and more.
 ---
 
 import Tabs from '@theme/Tabs';
@@ -20,6 +20,7 @@ Freeform includes several console commands to allow you to run cleanup tasks and
   - [Purge Unfinalized Assets](#purge-unfinalized-assets)
 - [Cleanup Utilities](#cleanup-utilities)
   - [Check Database Integrity](#check-database-integrity)
+  - [Delete Orphaned Data](#delete-orphaned-data)
   - [Repair Database Foreign Keys](#repair-database-foreign-keys)
   - [Resave Submissions](#resave-submissions)
   - [Fix Submission Database Table Names](#fix-submission-database-table-names)
@@ -151,6 +152,49 @@ This checks Freeform's database structure and relationships, along with orphaned
 
 The command is read-only and does not change your database. If it reports an issue, the results can help your developer identify the next steps. Checks may take some time on larger sites.
 
+### Delete Orphaned Data<Badge type="feature" text="5.17.0+" />
+
+The `freeform/database/delete-orphans` command cleans up orphaned Freeform records that can prevent missing foreign keys from being restored. It checks Freeform's expected relationships, including per-form submission content tables and dependent records whose parents are also orphaned.
+
+Start with a preview from your Craft project directory:
+
+```nix
+php craft freeform/database/delete-orphans --dry-run=1
+```
+
+Running the command without options also performs a dry run. The results show the rows to delete and broken references to clear for each table. Deleted rows are counted once per table, even if more than one parent is missing. Cleared references are counted per relationship, so one retained row can have multiple references cleared.
+
+Valid nullable references are preserved. If a broken relationship is defined to become `NULL` when its parent is deleted, cleanup clears the reference and keeps the owning record. For example, a form whose creator no longer exists is kept, with its creator reference cleared.
+
+:::warning
+Applying cleanup permanently deletes orphaned Freeform data and its dependent rows. Review the preview and take a database backup first. Pause site writes, queue workers, and scheduled purges while applying cleanup and repairing keys.
+:::
+
+Apply the cleanup after reviewing the preview:
+
+```nix
+php craft freeform/database/delete-orphans --apply=1
+```
+
+Then run the existing [foreign-key repair command](#repair-database-foreign-keys) to restore missing keys:
+
+```nix
+php craft freeform/database/repair-foreign-keys --apply=1
+```
+
+Cleanup and foreign-key repair are separate commands. Cleanup does not restore keys, and repair does not delete orphaned data. If no orphaned records block restoration, you can run the repair command directly.
+
+#### Options
+
+- `--dry-run=1`
+  - Previews cleanup without changing data. This is the default behavior. If supplied with `--apply=1`, the command still performs a dry run.
+- `--apply=1`
+  - Permanently deletes orphaned rows and clears broken references defined as `SET NULL`.
+
+Cleanup checks the schema before writing and applies its changes in a transaction. If an operation fails, cleanup changes are rolled back. Missing tables or columns, conflicting keys, or unsupported relationships require developer review before cleanup can proceed. Duplicate records and other structural issues also require separate review.
+
+A preview exits with status `1` if cleanup work is found and `0` if there is nothing to clean. An applied cleanup exits with status `0` when successful. Errors return status `1`.
+
 ### Repair Database Foreign Keys<Badge type="feature" text="5.16.6+" />
 
 Freeform uses foreign keys to maintain relationships between database records and help remove related data when submissions or forms are deleted. If Diagnostics reports missing foreign keys, you can inspect and restore them with the `freeform/database/repair-foreign-keys` command.
@@ -161,7 +205,7 @@ First, check the relationships and any orphaned records without making changes:
 php craft freeform/database/repair-foreign-keys --dry-run=1
 ```
 
-Running the command without options also performs a dry run. The results show which keys are missing and whether they can be restored.
+Running the command without options also performs a dry run. The results show which keys are missing and whether they can be restored. If orphaned records block restoration, [preview and apply orphan cleanup](#delete-orphaned-data) before retrying the repair. Orphan counts from the repair command are per relationship and can include the same row more than once.
 
 To restore missing keys, review the results and take a database backup. Run the repair while site writes, queue workers, and scheduled purges are paused:
 
