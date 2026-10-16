@@ -224,6 +224,12 @@ const config: Config = {
             path: 'v5',
             badge: false,
           },
+          v6: {
+            label: '6.x',
+            path: 'v6',
+            banner: 'unreleased',
+            badge: false,
+          },
           v4: {
             label: '4.x',
             path: 'v4',
