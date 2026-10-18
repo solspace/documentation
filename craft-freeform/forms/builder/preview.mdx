@@ -5,11 +5,17 @@ description: Preview saved Freeform forms, try sample formatting templates and v
 ---
 
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
-import { Badge } from '@site/src/components/utils';
+import { Badge, Photo } from '@site/src/components/utils';
 
 # Preview<Badge type="feature" text="New in 5.17+" />
 
 The **Preview** tab, at the end of the form builder's tabs, shows your saved form inside an isolated frame. Check its styling, layout, and conditional flow, or try bundled [formatting templates](../../templates/formatting/index.mdx) at different viewport sizes without leaving the builder.
+
+<Photo
+  style={{ width: 1000, maxWidth: '100%', height: 'auto' }}
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-preview-tablet-5.17.webp')}
+  alt="Builder Preview with saved template selection, Tablet viewport controls, and the rendered feedback form"
+/>
 
 ## Preview a Form
 
@@ -69,6 +75,10 @@ Answers are retained across page changes, **Refresh Preview**, and sample-templa
 - File uploads, nested Table answers, and oversized values are not carried between pages.
 - Custom formatting templates must retain Freeform's form, field-container, and button attributes for interactive behavior. See [Conditional Rules templating](../conditional-rules.mdx#templating) for the field-container requirements.
 
+### Sample Field Defaults<Badge type="feature" text="New in 5.17.2+" />
+
+Saved [sample data settings](./sample-data.mdx) can populate generated defaults, random option selections, and sample files in the rendered form. The Layout canvas can also show sample values while you edit. These settings belong to the form; they are separate from the temporary answers entered only in Preview.
+
 ## Additional Preview Assets
 
 Bundled Bootstrap, Foundation, Tailwind, and daisyUI templates automatically receive their framework assets. Custom templates need any stylesheets and scripts that your site layout would normally load. A custom template with the same filename as a bundled sample is still treated as custom.
@@ -79,6 +89,12 @@ A Craft administrator can add these files under **Additional Preview Assets**:
 | --- | --- |
 | **Stylesheet URLs (CSS)** | Direct absolute HTTPS URLs to CSS files, one per line. |
 | **Script URLs (JavaScript)** | Direct absolute HTTPS URLs to JavaScript files, one per line, in loading order. |
+
+<Photo
+  style={{ width: 300, maxWidth: '100%', height: 'auto' }}
+  img={require('@site/static/img/craft/freeform/v5/cp/preview-assets-5.17.webp')}
+  alt="Expanded Additional Preview Assets panel with separate CSS and JavaScript URL fields"
+/>
 
 For example, enter `https://example.com/assets/site.css` in the CSS field and `https://example.com/assets/site.js` in the JavaScript field. Enter file URLs rather than a webpage URL. Each field accepts up to 20 URLs; URLs cannot contain credentials or fragments.
 

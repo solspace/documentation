@@ -59,7 +59,7 @@ When choosing a model, consider that AI processing can potentially hold up form 
 
 ---
 
-- Configure the Max Tokens setting. This can be overrided per form.
+- Configure **Reasoning Effort** and **Max Tokens** as needed; see [Reasoning Effort](#reasoning-effort) below.
 - Click the **Save** button.
 
 </StepMarkdown>
@@ -86,6 +86,14 @@ To use this integration on your form(s), you'll need to configure each form indi
 
 </StepMarkdown>
 </VerticalStepWrapper>
+
+## Reasoning Effort<Badge type="feature" text="New in 5.17.2+" /> {#reasoning-effort}
+
+The integration's **Reasoning Effort** setting offers **Model default**, **Low**, **Medium**, **High**, **Extra high**, and **Maximum**. **Model default** leaves the choice to OpenAI. An explicit level requires a model that supports it; a higher setting can take longer and use more tokens.
+
+**Max Tokens** sets the response allowance, including reasoning and generated content. Large generated forms or higher reasoning levels may need a larger allowance. If form generation reports that the response was cut short, increase this limit or generate a smaller section.
+
+Compatible OpenAI models use [resumable background generation](../forms/builder/create-with-ai.mdx#resumable-openai-generation) for **Create with AI**. Reopen the dialog in the same browser tab to check progress and retrieve the result. This form-creation workflow is separate from processing AI fields during a visitor's submission.
 
 ## Add an AI Field
 

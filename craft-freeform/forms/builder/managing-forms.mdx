@@ -13,6 +13,7 @@ import Icons from '@site/static/icons/cards';
 
 The Forms dashboard page offers extensive customization options. You can choose to display forms as cards or in a list table, customize the color of each form, set the display order of forms, create groups to organize forms, and archive forms that you don't want to appear on the dashboard.
 
+- [Creating a Form](#creating-a-form)
 - [Form Cards](#form-cards)
 - [Form List](#form-list)
 - [Form Groups](#form-groups)
@@ -22,6 +23,23 @@ The Forms dashboard page offers extensive customization options. You can choose 
 <Player
   url={require('@site/static/videos/craft/freeform/v5/form-dashboard.mp4').default}
   controls width="100%" height="100%"
+/>
+
+## Creating a Form<Badge type="feature" text="Improved in 5.17.2+" />
+
+Click **Add new form** and choose how to start:
+
+- **[Guided setup](./guided-setup.mdx):** choose a purpose and configure fields, appearance, behavior, and emails through a seven-step wizard.
+- **[Create with AI](./create-with-ai.mdx)**<Badge type="pro" text="Pro" />: describe the form or recreate one from compatible reference files using an enabled AI integration.
+- **Quick setup:** enter the form details and choose a blank form or a suggested starting point, then continue in the builder.
+
+Administrators control these choices in [Form Creation Options](../../configuration/settings/general.mdx#form-creation-options). When only one method is enabled, **Add new form** opens it directly. AI availability also depends on the edition, permissions, and integration setup; an unavailable AI option can offer setup guidance to users who can configure integrations.
+
+
+<Photo
+  style={{ width: 1021, maxWidth: '100%', height: 'auto' }}
+  img={require('@site/static/img/craft/freeform/v5/cp/form-creation-options-5.17.2.webp')}
+  alt="Add new form chooser with Guided setup, Create with AI, and Quick setup"
 />
 
 ## Form Cards<Badge type="feature" text="Improved in 5.9+" />
@@ -56,7 +74,7 @@ Each row in the list will display the form name, handle, and description, along 
 
 ## Form Groups<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.6+" />
 
-Click **Manage Form Groups** beside the cards/list view controls at the top of the Forms dashboard to open the **Form Group Manager**. This control requires permission to manage forms.
+Click **Form Groups** beside the cards/list view controls at the top of the Forms dashboard to open the **Form Group Manager**. This control requires permission to manage forms.
 
 Use the manager to create groups and rearrange both groups and forms. You can also [move cards directly on the dashboard](#reordering-cards), including into empty groups. Forms that are not assigned to a group appear under **Other** at the bottom.
 
@@ -95,7 +113,7 @@ We respect your privacy, so this feature only pulls update notices from the Sols
 
 Describe the form you need, or in **Freeform 5.17+**, attach PDFs, images, or screenshots for AI to recreate with editable native fields. Generation uses an enabled AI integration; reference-file support depends on the provider and model.
 
-Generation runs through Craft's queue, with progress checks that can be resumed by reopening **Create with AI** in the same browser tab. Supported fillable PDFs also supply embedded dropdown choices to help recreate select fields accurately.
+Generation runs in the background, with progress checks that can be resumed by reopening **Add new form → Create with AI** in the same browser tab. When it finishes, choose **Open form** to review the saved result. Supported fillable PDFs also supply embedded dropdown choices to help recreate select fields accurately.
 
 See [Create Forms with AI](./create-with-ai.mdx) for the workflow, supported integrations and file limits, queue setup, and what to review before publishing.
 

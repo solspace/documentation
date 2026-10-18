@@ -38,6 +38,7 @@ The left column lists all available fields and field types to use for the form. 
       img={require('@site/static/img/craft/freeform/v5/cp/bulk-insert-options.png')}
       alt="Build Insert Options"
     />
+- **Sample Data**<Badge type="feature" text="New in 5.17.2+" /> - use the dice controls in supported field properties to generate default values, select random options, or show sample files. See [Sample Data](./sample-data.mdx) for what is saved and how the values behave on your website.
 - **Attributes Editor** - add any attributes for the field and its container here, e.g. `data-my-attribute`, `id`, etc.
   {' '}
   {' '}
@@ -52,6 +53,12 @@ HTML, Rich Text, Cards, and Table fields show a preview in the property editor. 
 
 The bulk options editor also opens in a slideout, where you can prepare labels and values before applying them to the field.
 
+<Photo
+  style={{ width: 1000, maxWidth: '100%', height: 'auto' }}
+  img={require('@site/static/img/craft/freeform/v5/cp/table-layout-editor-5.17.webp')}
+  alt="Native Table Layout content editor with configurable columns and Finish and Close and Cancel actions"
+/>
+
 ## Layout Preview {#preview}
 
 The right column is where you position the form fields for the form. To see the saved form rendered with its formatting template, use the separate [Preview tab](./preview.mdx).
@@ -65,6 +72,27 @@ The right column is where you position the form fields for the form. To see the 
   - To configure fields, simply click on them and the **property editor** will slide into the left column.
   - To remove a field from the layout, hover over the field and click the delete icon (_trash_) to the right.
   - To duplicate a field in the form's layout, hover over the field and click the clone icon (_pages_) to the right. <Badge type="feature" text="New in 5.14+" />
+
+## Bulk Edit Labels<Badge type="feature" text="New in 5.17.2+" />
+
+Click **Edit labels** above the layout to open **Bulk edit labels**. Choose **Entire form** or **Current page**, then configure the changes:
+
+- **Capitalization:** keep existing capitalization, use Sentence case or Title Case, or convert to UPPERCASE or lowercase. Sentence and title case can preserve common acronyms such as ID, URL, and PDF.
+- **Trailing colons:** keep, add, or remove them. Adding colons preserves labels ending in a question mark or exclamation mark.
+- **Clean up spacing:** trim surrounding spaces and collapse repeated spaces.
+- **Find and replace:** replace matching text, optionally using **Match case**.
+- **Field types:** include only the types you want to update.
+
+Review **Preview changes**, which highlights the differences, and deselect any individual labels you want to keep. Apply and confirm the selected changes, then save the form. The changes can be undone together with the builder's **Undo** action before saving.
+
+Field handles remain unchanged. Labels containing HTML, Twig, or encoded entities are skipped, as are hidden and content-only fields. For translated forms, translatable labels follow the site selected in the builder; review the indicated site before applying changes.
+
+
+<Photo
+  style={{ width: 1031, maxWidth: '100%', height: 'auto' }}
+  img={require('@site/static/img/craft/freeform/v5/cp/bulk-edit-labels-5.17.2.webp')}
+  alt="Bulk edit labels dialog with formatting controls and a highlighted preview of label changes"
+/>
 
 ## Undo & Redo<Badge type="feature" text="New in 5.17+" />
 
