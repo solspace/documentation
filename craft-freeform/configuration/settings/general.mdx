@@ -1,7 +1,7 @@
 ---
 title: "General Settings"
 sidebar_position: 1
-description: "Plugin naming, sites, exports, submission data, and automatic cleanup."
+description: "Plugin naming, form creation methods, default AI integration, sites, exports, submission data, and automatic cleanup."
 ---
 
 import { Badge, BadgeGroup, Photo } from '@site/src/components/utils';
@@ -30,6 +30,20 @@ Replace the Freeform name shown in the control panel. Leave this empty to use th
 Choose whether clicking Freeform in the control panel navigation opens **Forms** (`forms`) or **Submissions** (`submissions`).
 
 <SettingMeta configKey="defaultView" defaultValue={"forms"} />
+
+### Form Creation Options<Badge type="feature" text="New in 5.17.2+" /> {#form-creation-options}
+
+Choose which methods appear under **Add new form**: **Guided setup**, **Create with AI (Pro only)**, and **Quick setup**. Select at least one. If only one method is selected, it opens directly without the chooser. AI still requires a suitable edition, user permissions, and integration setup.
+
+<SettingMeta configKey="formCreationOptions" defaultValue={"['wizard', 'ai', 'blank']"} example={"formCreationOptions: ['wizard', 'blank']"} />
+
+### Default AI Integration for Form Creation<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.17.2+" /> {#default-ai-integration}
+
+Preselect an enabled AI integration when creating forms with **Create with AI**. Users can choose another integration in the dialog. With **No default — choose when creating a form**, or if the configured integration becomes unavailable, users must select an integration themselves.
+
+This setting applies to form generation. Spam protection and other AI features retain their own integration settings.
+
+<SettingMeta configKey="defaultAiIntegration" defaultValue={"Not set"} example={"defaultAiIntegration: 'your-integration-uid'"} />
 
 ### Plugin Badge {#badge-type}
 

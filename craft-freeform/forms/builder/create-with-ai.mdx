@@ -5,7 +5,7 @@ description: Generate editable Freeform forms from a text prompt, PDF, or image 
 ---
 
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
-import { Badge } from '@site/src/components/utils';
+import { Badge, Photo } from '@site/src/components/utils';
 
 # Create Forms with AI<Badge type="pro" text="Pro" />
 
@@ -18,16 +18,16 @@ The generator uses an enabled [AI integration](../../integrations/index.mdx#ai) 
 - Configure and enable an AI integration. Freeform's built-in AI integrations require **Pro**.
 - For reference files, choose a compatible integration and model from the [compatibility guidance](#integration-compatibility) below.
 - Your control-panel user needs **Create Forms** and **Access Integrations** permissions, along with access to the Forms area.
-- Craft needs a working asynchronous queue runner. See [Background Generation](#background-generation) for setup and recovery.
+- Some integrations require a working asynchronous Craft queue runner. Compatible OpenAI models use resumable background requests instead. See [Background Generation](#background-generation) for setup and recovery.
 
 ## Create a Form
 
 <VerticalStepWrapper>
 <StepMarkdown>
-Open **Freeform → Forms** and click **Create with AI**.
+Open **Freeform → Forms → Add new form → Create with AI**. If AI is the only enabled creation method, **Add new form** opens it directly. Administrators choose the available methods in [General Settings](../../configuration/settings/general.mdx#form-creation-options).
 </StepMarkdown>
 <StepMarkdown>
-Choose an **AI Integration**. For OpenAI, Anthropic, and Gemini, the dialog shows the configured model beneath the reference-file controls. SolspaceAI selects its model automatically.
+Choose an **AI Integration**, or keep the [default integration](../../configuration/settings/general.mdx#default-ai-integration) preselected by your administrator. Without an available default, select an integration explicitly. For OpenAI, Anthropic, and Gemini, the dialog shows the configured model. SolspaceAI selects its model automatically.
 </StepMarkdown>
 <StepMarkdown>
 To recreate a form, choose or drop files under **Reference form (optional)**. Use the up/down buttons to arrange multiple files in reading order, or remove any you do not want included. For a form created entirely from a prompt, leave this area empty and fill in **Describe your form**.
@@ -36,7 +36,7 @@ To recreate a form, choose or drop files under **Reference form (optional)**. Us
 When files are attached, use **Additional instructions (optional)** to explain what to include, omit, or change. You can generate from files alone. Enter a **Form name (optional)** if you want to suggest a name.
 </StepMarkdown>
 <StepMarkdown>
-Click **Generate form**. Freeform queues generation and checks its progress, then opens the completed form in the builder. Review the fields, configure its settings and behavior, then preview and test it before publishing.
+Click **Generate form**. Freeform shows progress and elapsed time while generation runs in the background. When **Your form is ready** appears, the form has been saved. Choose **Open form** when you are ready to review its fields and settings in the builder.
 </StepMarkdown>
 </VerticalStepWrapper>
 
@@ -44,11 +44,23 @@ For example, a text prompt could be:
 
 > Create an event registration form with name, email, dietary requirements, and a choice of morning or afternoon session.
 
+<Photo
+  style={{ width: 640, maxWidth: '100%', height: 'auto' }}
+  img={require('@site/static/img/craft/freeform/v5/cp/create-ai-prompt-5.17.2.webp')}
+  alt="Create with AI dialog with a text-only event registration prompt, selected AI integration, and Generate form action"
+/>
+
 With a reference attached, additional instructions could be:
 
-> Recreate pages 1–2. Omit the office-use section and add an email field after the applicant's name.
+> Recreate both pages using native Freeform fields. Preserve the section headings and dropdown choices.
 
-You can close the dialog while generation continues. Reopen **Create with AI** in the **same browser tab** to resume checking progress. Closing the dialog does not cancel the queued job, and reopening does not restore local file selections.
+<Photo
+  style={{ width: 640, maxWidth: '100%', height: 'auto' }}
+  img={require('@site/static/img/craft/freeform/v5/cp/create-ai-reference-5.17.2.webp')}
+  alt="Create with AI dialog with the boat insurance PDF attached, additional instructions, and a suggested form name"
+/>
+
+You can close the dialog and keep working without being redirected when generation finishes. Reopen **Add new form → Create with AI** in the **same browser tab** to resume checking progress and open the result. Closing the dialog does not cancel generation, and reopening does not restore local file selections.
 
 ## Reference File Requirements<Badge type="feature" text="New in 5.17+" />
 
@@ -85,7 +97,23 @@ Images and flattened PDFs rely on visual recognition. Embedded-field extraction 
 
 ## Background Generation
 
-Generation runs through **Craft's queue**, so the upload request does not wait for the AI response or for the form to save. Freeform checks progress and reconnects to the same request if the initial response is lost, rather than automatically starting another generation.
+Generation runs in the background. Freeform checks progress and reconnects to the same request if a response is lost, rather than automatically starting another generation.
+
+<Photo
+  style={{ width: 640, maxWidth: '100%', height: 'auto' }}
+  img={require('@site/static/img/craft/freeform/v5/cp/create-ai-progress-5.17.2.webp')}
+  alt="AI form generation in progress with the form name, selected integration, reference PDF, and elapsed time"
+/>
+
+### Resumable OpenAI Generation<Badge type="feature" text="New in 5.17.2+" />
+
+For compatible OpenAI models, Freeform starts a background request and checks it through short control-panel requests. This path does not require a Craft queue worker. If you close the dialog, OpenAI can continue processing; reopen it in the same browser tab so Freeform can retrieve the completed result and save the form.
+
+The integration's [Reasoning Effort and Max Tokens](../../integrations/openai.mdx#reasoning-effort) settings affect the request. If the output limit is reached, increase **Max Tokens** or generate a smaller section. Known truncated responses are rejected before saving.
+
+### Queue-Based Generation
+
+Other providers and OpenAI models that do not use the resumable background path run through **Craft's queue**. The initial generation request returns before AI processing and form creation finish.
 
 Craft's normal control-panel queue runner is triggered when automatic queue processing is enabled. If generation stays queued, check **Craft → Utilities → Queue Manager**. For local development, including Herd, run the following from your **Craft project directory** in another terminal:
 
@@ -95,7 +123,7 @@ php craft queue/listen
 
 Keep that worker running while generating. Production sites should use their usual supervised CLI queue worker. A CLI worker also avoids web-request time limits on the queue runner itself. Custom synchronous queue drivers are unsuitable. Web and worker processes must share Craft's private storage and security key so the worker can read the queued references.
 
-The provider request still has a **120-second timeout**, and provider or hosted-service limits apply independently. Fewer reference pages or a faster compatible model can help with those limits.
+Queue-based provider requests retain a **120-second timeout**. The resumable OpenAI path uses separate short requests to start generation and retrieve its progress, so the full generation is not tied to that timeout. Provider and hosted-service limits still apply independently.
 
 If progress cannot be confirmed, use **Check progress** and inspect the Forms list and Queue Manager before choosing **Start a new request**. Starting a new request does not cancel the previous job. Freeform retries status checks, but does not automatically repeat AI provider calls or regenerate a form when an interrupted job is retried.
 
@@ -103,9 +131,15 @@ If progress cannot be confirmed, use **Check progress** and inspect the Forms li
 
 AI attempts to preserve labels, choices, required indicators, headings, page order, and rows of up to four fields. Headings and larger fields use their own rows. The result is a starting point that you can edit in [Layout & Pages](./layout.mdx).
 
+<Photo
+  style={{ width: 1000, maxWidth: '100%', height: 'auto' }}
+  img={require('@site/static/img/craft/freeform/v5/cp/create-ai-builder-5.17.2.webp')}
+  alt="Generated boat insurance quote form in the Freeform builder, with two pages and editable Preferred Contact dropdown options"
+/>
+
 - Check field types, labels, choices, required settings, dates, and page/column layout against the source.
 - Review copied text and remove any filled-in answers or personal details. The generator is instructed to omit completed answers and signatures, and generated default answers are cleared.
-- Configure formatting, branding, logos, notifications, integrations, conditional rules, and calculations separately.
+- The generated form starts with the configured default formatting template. Review that selection, then configure branding, logos, notifications, integrations, conditional rules, and calculations as needed.
 - Use [Preview](./preview.mdx) to check presentation and flow, then submit the actual embedded form on your site to verify validation and behavior.
 
 The generator does not reproduce the document's exact appearance. Clear scans and screenshots give it more useful information; complex forms may work better when recreated in smaller sections.
@@ -116,7 +150,7 @@ Known provider responses cut short by output limits are rejected before saving, 
 
 References are sent to the selected AI provider using your integration's existing credentials. Use files appropriate for that provider's data-handling policies.
 
-To support background generation, Freeform temporarily stores the prompt and reference data encrypted with Craft's security key in private `storage/runtime/freeform-ai-generation` files. No Craft assets are created. Queue payloads and browser session storage contain only opaque request identifiers. Only the authenticated user who started generation can check its status, and that user's permissions and site access are rechecked by the worker.
+To support background generation, Freeform temporarily stores the prompt and reference data encrypted with Craft's security key in private `storage/runtime/freeform-ai-generation` files. No Craft assets are created. Queue payloads and browser session storage contain only opaque request identifiers. Resumable OpenAI requests also retain a provider response identifier in private server-side status data. Freeform requests stored background responses from OpenAI so it can retrieve a result after the dialog is closed. Only the authenticated user who started generation can check its status, and that user's permissions and site access are rechecked before generation or import proceeds.
 
 Reference inputs are deleted after normal completion or failure. Unstarted requests expire after **30 minutes**. Abandoned encrypted inputs and status files older than **one hour** are removed on later generation starts or during Craft garbage collection; those cleanup processes must run to remove them. If generation fails, selected browser files remain available while the dialog stays open.
 
@@ -132,5 +166,5 @@ Local PDF extraction reads choice definitions without executing PDF scripts, act
 - **Dropdowns become text fields or have missing choices:** check whether the PDF has supported embedded choice fields. For flattened PDFs and images, include visible choices in the reference or describe them in the instructions. Review and complete the generated options manually where needed.
 - **Generation stays queued:** check Queue Manager and start an asynchronous queue worker as described under [Background Generation](#background-generation).
 - **A gateway error appears or progress stops:** reopen the dialog in the same browser tab and use **Check progress**. Inspect the Forms list and Queue Manager before starting another request. A CLI worker can avoid nginx/PHP-FPM limits on web-based queue processing; AI provider limits still apply.
-- **The response reaches an output limit:** generate fewer pages or a smaller section. Freeform rejects known truncated responses before saving; still review successful forms for omitted fields.
+- **The response reaches an output limit:** generate fewer pages or a smaller section. For OpenAI, review **Max Tokens** and **Reasoning Effort** in the integration. Freeform rejects known truncated responses before saving; still review successful forms for omitted fields.
 - **Provider request fails:** check the integration's authorization, configured model, account access, quotas, and document limits before retrying.

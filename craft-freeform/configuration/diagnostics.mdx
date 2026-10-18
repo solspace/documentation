@@ -68,9 +68,13 @@ See the [database integrity console commands](./console-commands.mdx#check-datab
 
 Finds submissions whose Craft element or Freeform form no longer exists. Displays the number of submissions checked and the number of orphaned submissions found.
 
+If orphaned records are found, ask your developer to [preview orphan cleanup](./console-commands.mdx#delete-orphaned-data). In Freeform 5.17.1+, the cleanup command can remove those records and their dependent Freeform data before the existing foreign-key repair command restores missing keys. The Diagnostics check itself remains read-only.
+
 ### Related Data Integrity
 
 Checks Freeform's related records for missing parent records and duplicate data. Results identify affected tables and columns, along with orphan or duplicate counts. Checks that could not be completed are reported separately.
+
+The [orphan cleanup command](./console-commands.mdx#delete-orphaned-data) can address orphaned related rows. Duplicate records require separate developer review; the cleanup command does not merge or delete duplicates.
 
 ### Uploaded File Integrity
 
