@@ -1,60 +1,112 @@
 ---
 title: 'Date Picker Events'
 sidebar_position: 10
-description: Date Picker events reference for Freeform 5.x in Craft CMS, covering how to customize the built-in flatpickr instance before and after initialization via the Freeform JS plugin.
+description: Configure Freeform's built-in Flatpickr date picker, enable its dark theme, and customize colors and behavior with CSS variables and JavaScript events.
 ---
+
+import { Badge } from '@site/src/components/utils';
 
 # Date Picker Events
 
-The Freeform [Date & Time](../forms/fields/date-time.mdx) field comes packed with a built-in, optional [flatpickr](https://flatpickr.js.org/) instance. The _flatpickr_ instance can be customized via the following events available through the [Freeform JS Plugin](./js-plugin.mdx):
+The [Date & Time](../forms/fields/date-time.mdx) field includes an optional [Flatpickr](https://flatpickr.js.org/) picker. Use the theme attribute below to control its appearance, or the [Freeform JS Plugin](./js-plugin.mdx) events to customize its options and rendered calendar.
 
-:::info
-To get started with what's available for Flatpickr overrides, check out the available [Flatpickr Config Options documentation](https://flatpickr.js.org/options/) as well as the [Flatpickr Examples documentation](https://flatpickr.js.org/examples/).
-:::
+These examples apply to Freeform's built-in picker. Browser-native date inputs and date pickers initialized by your own JavaScript use their own styling and configuration.
 
-## Before initialization event
+## Dark Picker Theme<Badge type="feature" text="New in 5.17.3+" />
 
-This event is fired right before a [flatpickr](https://flatpickr.js.org/) instance is created, allowing you to extend the options that are being passed to the flatpickr instance:
+Freeform's bundled **Basic Dark**, **Bootstrap 5 Dark**, **Tailwind 3 Dark**, **Tailwind 4 Dark**, and **daisyUI 5 Dark** formatting templates automatically use a dark picker. This covers date-only, combined date/time, and time-only pickers. Other forms keep the default light picker.
+
+The theme styles are included in Freeform's frontend CSS. If you [load Freeform assets manually](./js-plugin.mdx#loading-freeform-js-manually), include the CSS as well as the JavaScript; `freeform.loadFreeformPluginCss()` loads the main stylesheet.
+
+### Enable the Dark Picker Manually
+
+For a custom or light formatting template, add `data-freeform-theme="dark"` to the form or a surrounding element. For example, wrap the rendered form in your Twig template:
+
+```twig
+<div data-freeform-theme="dark">
+  {{ freeform.form('contact').render() }}
+</div>
+```
+
+Replace `contact` with your form handle. The attribute selects the picker theme; style the rest of the form with your own CSS or formatting template.
+
+In a custom formatting template, you can instead add the attribute to the existing `form.renderTag()` options:
+
+```twig
+{{ form.renderTag({
+  attributes: {
+    form: {
+      'data-freeform-theme': 'dark',
+    },
+  },
+}) }}
+```
+
+Merge this attribute into your existing options and keep the rest of the template's fields, buttons, and closing form tag.
+
+The nearest `data-freeform-theme` attribute to the date input takes precedence. Set it to `light` to force a light picker, including inside a dark form. The bundled dark templates set the attribute on the form itself, so an override must be on that form or a closer wrapper around the field. Freeform checks the theme when the picker initializes and whenever it opens, allowing a site theme switcher to update the attribute at runtime.
+
+Copies of older dark templates are also recognized through `data-freeform-basic-dark`, `data-freeform-bootstrap-dark`, `data-freeform-tailwind-dark`, or the combination of `data-freeform-daisyui` and `data-theme="dark"`. An explicit `dark` or `light` value takes precedence over these markers.
+
+### Customize the Dark Picker Colors
+
+Freeform adds `freeform-datepicker-dark` to each dark calendar. Load your overrides after Freeform's frontend stylesheet and target that calendar directly:
+
+```css
+.flatpickr-calendar.freeform-datepicker-dark {
+  --ff-datepicker-surface: #171b24;
+  --ff-datepicker-text: #edf2f7;
+  --ff-datepicker-muted: #a3afbf;
+  --ff-datepicker-disabled: #667085;
+  --ff-datepicker-border: #475467;
+  --ff-datepicker-hover: #293244;
+  --ff-datepicker-accent: #93c5fd;
+  --ff-datepicker-accent-text: #0b2545;
+  --ff-datepicker-range: #263954;
+
+  border-radius: 10px;
+}
+```
+
+These variables control the calendar background, text, inactive dates, borders, hover and selected states, and date-range highlights. The time controls use the same palette. Choose colors with readable text and clear focus and selected states.
+
+Flatpickr normally appends the calendar to `body`, outside the form. A selector such as `.my-form .flatpickr-calendar` will not reach that detached popup. Set the variables on the calendar selector above, rather than only on the form or `:root`.
+
+To customize one form's pickers, use the [ready event](#on-flatpickr-instance-ready-event) to add a class to its calendars, then include that class in your CSS selector.
+
+## Before Initialization Event
+
+`flatpickr-before-init` fires before each picker is created. Modify `event.options` to change its [Flatpickr configuration](https://flatpickr.js.org/options/). Register the listener before Freeform initializes the form, so it also handles pickers created after AJAX page changes.
+
+For example, this configures the pickers belonging to a form with the handle `booking`:
 
 ```js showLineNumbers
 document.addEventListener('flatpickr-before-init', (event) => {
-  // event.options object contains the whole options object that will be
-  // passed to the flatpickr instance
+  if (event.form.dataset.handle !== 'booking') return;
 
-  event.options.static = true;
-  event.options.clickOpens = false;
-  event.options.defaultHour = 8; // starts the time picker at 8:00 am
-  event.options.minuteIncrement = 15; // moves the time picker in 15 minute increments instead of 1
-  event.options.disable = [
-    // disables Sundays and Saturdays from being available options in datepicker
-    function (date) {
-      return date.getDay() === 0 || date.getDay() === 6;
-    },
-  ];
-  flatpickr.l10ns.default.firstDayOfWeek = 1; // sets first day of week to Monday
+  event.options.defaultHour = 8;
+  event.options.minuteIncrement = 15;
+  event.options.position = 'auto center';
 });
 ```
 
-## On flatpickr instance ready event
+`defaultHour` and `minuteIncrement` affect pickers with a time control. Keep the date format aligned with the field's settings so Freeform can validate the submitted value. Changing picker options does not change server-side validation rules.
 
-This event is called right after the [flatpickr](https://flatpickr.js.org/) instance is created. You can access it via the `event.flatpickr` property of the `event` object:
+## On Flatpickr Instance Ready Event
+
+`flatpickr-ready` fires after Freeform creates and themes the picker. Access the [Flatpickr instance](https://flatpickr.js.org/instance-methods-properties-elements/) through `event.flatpickr`; `event.form` identifies the owning form.
+
+For example, add a class only to calendars belonging to the `booking` form:
 
 ```js showLineNumbers
 document.addEventListener('flatpickr-ready', (event) => {
-  // Get the flatpickr instance
-  var instance = event.flatpickr;
+  if (event.form.dataset.handle !== 'booking') return;
 
-  // Get the input field
-  var input = instance.input;
-
-  // Add bootstrap css classes to the parent element
-  // to be able to use "static: true" flatpickr config option
-  input.parentNode.classList.add('form-control');
-  input.classList.remove('form-control');
-  input.style.border = 'none';
-  input.style.margin = '0px';
-  input.style.padding = '0px';
-  input.style.width = '100%';
-  input.style.outline = 'none';
+  const instance = event.flatpickr;
+  instance.calendarContainer.classList.add('booking-datepicker');
 });
 ```
+
+To limit the color overrides above to this form, change their selector to `.flatpickr-calendar.freeform-datepicker-dark.booking-datepicker`. This example adds a class to the existing picker; it does not create another instance.
+
+Register ready listeners before Freeform initializes. Listen on `document` for all forms and filter with `event.form`, as above, or attach the listener directly to one form. For more behavior options and callbacks, see the [Flatpickr examples](https://flatpickr.js.org/examples/) and [events and hooks](https://flatpickr.js.org/events/).
