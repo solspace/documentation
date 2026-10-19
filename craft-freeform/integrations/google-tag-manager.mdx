@@ -1,15 +1,17 @@
 ---
 title: 'Google Tag Manager'
 sidebar_position: 16
-description: Google Tag Manager integration for Freeform 5.x in Craft CMS.
+description: Track successful AJAX submissions and map Freeform field values to Google Tag Manager event parameters.
 ---
 
-import { Photo } from '@site/src/components/utils';
+import { Badge, Photo } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
 # Google Tag Manager
 
-Freeform includes built-in support for [Google Tag Manager](https://tagmanager.google.com/) (GTM) if you wish to use that with your forms. This guide assumes you are familiar with GTM. We cannot provide any assistance with setting this up, aside from the basics.
+Freeform's [Google Tag Manager](https://tagmanager.google.com/) (GTM) integration pushes an event to the website's data layer after a completed, successful **AJAX submission**. You can map selected form fields to event parameters without writing JavaScript.
+
+Freeform pushes the data-layer event; a tag and trigger configured in GTM send it to Google Analytics or another destination.
 
 ## Setup Instructions
 
@@ -17,101 +19,113 @@ Freeform includes built-in support for [Google Tag Manager](https://tagmanager.g
 <StepMarkdown>
 ### Enable Google Tag Manager inside Freeform
 
-- Go to the [Integrations](index.mdx#control-panel-settings) section in Freeform Settings (**Freeform** → **Integrations**).
-- Find _Google Tag Manager_ in the list of **service providers**.
-- If you'd like GTM to be enabled for all forms by default, toggle on the **Enabled by default** setting.
-- If you wish to have Freeform insert its own scripts, enter your GTM ID (`GTM-XXXXXX`) in the **Container ID** setting and a custom event name (if applicable) in the **Event Name** setting.
-- Click the **Save** button.
+- Visit **Freeform → Integrations** and select **Google Tag Manager**.
+- Turn on **Enabled by default** if you want the integration enabled on forms by default. You can also enable it only on individual forms.
+- Leave **Container ID** blank if GTM is already installed on your website. Otherwise, enter your container ID, such as `GTM-XXXXXX`, to have Freeform load it. Freeform avoids loading the same container again when it is already present.
+- Set a default **Event Name**, if desired, and save the integration.
 
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/integrations/gtm-1.png')}
-  alt="Google Tag Manager settings in Freeform"
-/>
+Use your website's existing tracking installation; you do not need to install another Google tag.
 
 </StepMarkdown>
 <StepMarkdown>
 ### Configure the Form
 
-To use this integration on your form(s), you'll need to configure each form individually. If you toggled on the **Enabled by default** setting in the Freeform Settings, it will automatically be ON for all forms. You can disable them for each form as necessary.
+- Open your form in the builder and enable AJAX submissions.
+- Visit **Integrations → Google Tag Manager** and turn on **Enabled**.
+- Set **Event Name** to the event you want GTM to receive, such as `generate_lead`. If left empty, Freeform uses `form-submission`.
 
-- Visit the form inside the form builder.
-- Click on the **Integrations** tab.
-- Click on **Google Tag Manager** in the list of available integrations.
-- On the right side of the page:
-  - Enable (or disable) the integration.
-  - Adjust any of the settings as needed.
-- Save the form.
+The main integration supplies defaults for the container and event name. Field mappings are configured separately for each form because each form has its own fields.
+
+</StepMarkdown>
+<StepMarkdown>
+### Map Event Parameters<Badge type="feature" text="New in 5.17.2+" /> {#map-event-parameters}
+
+Under **Event Parameters**, click **Add parameter**, enter a parameter name, and select the form field whose submitted value should be included. Repeat for additional parameters, then save the form.
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/integrations/gtm-2.png')}
-  alt="Google Tag Manager settings in the form builder"
+  img={require('@site/static/img/craft/freeform/v5/integrations/gtm-event-mappings.webp')}
+  alt="Google Tag Manager form settings with generate_lead and mappings from insurance_type to Insurance Type and office_location to Office Location"
+  style={{ width: 1000, maxWidth: '100%', height: 'auto' }}
 />
 
-</StepMarkdown>
-<StepMarkdown>
-### Customizing
+`form_name` is included automatically using the form's configured name; you do not need to add a mapping for it. Mappings stay connected when a field handle changes.
 
-To customize what gets sent to the events, you can write your own JS and add an event listener in your template, like this:
+The field selector supports Dropdown, Multiple Select, Radios, Checkbox, Checkboxes, Cards, Opinion Scale, Rating, Range, Number, and Hidden fields. Multiple selections are joined with a comma and space. String values are limited to 100 characters, and missing or unsupported fields are omitted.
 
-```js
-document.addEventListener('freeform-gtm-data-layer-push', function (event) {
-  event.payload.myCustomValue = 'something_here';
-  event.payload.otherCustomValue = 'other_value';
-});
-```
+You can add up to **24 custom parameters**. Names must be unique, start with a letter, contain only letters, numbers, or underscores, and be no longer than 40 characters. Reserved names such as `form_name`, `event`, `form`, and `submission`, and the prefixes `google_`, `ga_`, `firebase_`, and `gtm_`, cannot be used.
 
-This would then attach whatever you add to the payload to the event that is being pushed to GTM.
+:::warning Personal data
+Only map non-personal values. Never send names, email addresses, phone numbers, property addresses, message contents, or other personal information to Google. Freeform excludes free-text and contact fields from the selector, but option values and hidden fields can still contain personal data. Check the values of every field you map.
+:::
 
-To dynamically map a value from a Freeform field to GTM, your code might look something like this:
-
-```js
-document.addEventListener('freeform-gtm-data-layer-push', function (event) {
-  const form = event.form;
-  const element = form.querySelector('input[name="myFieldHandle"]');
-
-  event.payload.myFieldHandle = element.value;
-});
-```
+Freeform uses the submitted server-side values, including values from earlier pages of a multi-page form. It does not read form controls after they have been reset.
 
 </StepMarkdown>
 <StepMarkdown>
-### Submit a Test Submission
+### Configure Google Tag Manager
 
-- Visit your form on your site.
-- Fill out the form and submit it.
-- The data should have been pushed to GTM using the specified event name.
+For a GA4 event such as `generate_lead`:
 
-:::info
-The success of this is not observable on your site, as this event goes to GTM via some sockets, so there's nothing in the network tab.
+- Create a **Custom Event** trigger matching the Freeform **Event Name**.
+- Create **Data Layer Variables** for `form_name` and your mapped parameter names, such as `insurance_type` and `office_location`.
+- Create a **Google Analytics: GA4 Event** tag using your existing Google tag's GA4 destination. Set its event name and attach the Custom Event trigger.
+- In the tag's event parameters, connect each parameter name to its matching Data Layer Variable.
+
+See Google's guides to [data-layer events and triggers](https://developers.google.com/tag-platform/tag-manager/datalayer) and [GA4 Event tags](https://support.google.com/tagmanager/answer/13034206?hl=en) for the GTM configuration steps. Test the workspace before publishing its changes.
+
+:::info Sites using gtag.js directly
+This integration pushes to GTM's `dataLayer`; it does not call `gtag('event', ...)` directly. A site with only a direct Google tag installation needs its own event listener or a GTM setup to send these events to GA4.
 :::
 
 </StepMarkdown>
 <StepMarkdown>
-### Submit a Test Submission
+### Test Successful and Failed Submissions
 
-- Visit your form on your site.
-- Fill out the form and submit it.
-- The data should have been pushed to GTM using the specified event name.
+Open GTM **Preview** and connect to your form using **Tag Assistant**.
 
-:::info
-The success of this is not observable on your site, as this event goes to GTM via some sockets, so there's nothing in the network tab.
-:::
+- Submit a valid form. Confirm exactly one matching data-layer event and one firing of your GA4 Event tag, with the expected parameter values.
+- Submit with a validation error. Confirm that no completion event or GA4 tag fires.
+- For multi-page forms, confirm that moving between pages does not fire the event; only the completed submission should fire it.
 
-</StepMarkdown>
-<StepMarkdown>
-### Check Google Tag Manager
-
-To see if your test worked correctly, visit the [Google Tag Manager](https://tagmanager.google.com/) website and open your project workspace. Then click on the **Preview** button near the top right side of the page.
-
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/integrations/gtm-3.png')}
-  alt="Google Tag Manager"
-/>
-</StepMarkdown>
-<StepMarkdown>
-### Troubleshooting
-
-Google offers a [Tag Assistant](https://tagassistant.google.com/) tool along with a [Tag Assistant Companion](https://chrome.google.com/webstore/detail/tag-assistant-companion/jmekfmbnaedfebfnmakmokmlfpblbfdm) Chrome extension. These help troubleshoot installation of `gtag.js` and **Google Tag Manager**. When the Chrome extension is present, it enables additional features for Tag Assistant including debugging iframes and debugging multiple windows from the same debug session.
+You can also inspect GA4 collection requests in the browser's Network panel or use GA4 **DebugView** when debugging is enabled. Check for existing Submit-click listeners or other tracking scripts that could send additional events.
 
 </StepMarkdown>
 </VerticalStepWrapper>
+
+## Submission Timing and Event Data<Badge type="feature" text="Improved in 5.17.2+" /> {#submission-timing-and-event-data}
+
+Freeform emits the event only after the server confirms a completed, successful AJAX submission. Validation errors, failed requests, intermediate pages, pending actions, duplicate submissions, and submissions identified as spam do not produce the completion event.
+
+Repeated notifications for the same submission are deduplicated within the page, including when legacy and current Freeform tracking handlers are both present. This does not deduplicate events sent independently by other scripts or tags.
+
+For example, the mappings above produce an object like this in `window.dataLayer`:
+
+```json
+{
+  "event": "generate_lead",
+  "form": {
+    "handle": "getAQuote",
+    "finished": true,
+    "multipage": false,
+    "success": true
+  },
+  "submission": { "id": 123 },
+  "form_name": "Get a Quote",
+  "insurance_type": "Home",
+  "office_location": "Sidney"
+}
+```
+
+The submission ID is included when available. Submission tokens are not included, and Freeform does not copy all form answers into the data layer. Previously mapped parameters that are absent from the next tracked submission are cleared with `null` to avoid reusing earlier values.
+
+## Customizing
+
+For additional non-personal values, the `freeform-gtm-data-layer-push` JavaScript event remains available. It runs once for an eligible submission, before Freeform pushes to the data layer:
+
+```js
+document.addEventListener('freeform-gtm-data-layer-push', function (event) {
+  event.payload.campaign = 'summer';
+});
+```
+
+Use the native field mappings for submitted selections rather than reading controls that may already have been reset. Calling `event.preventDefault()` suppresses Freeform's data-layer push for that submission.

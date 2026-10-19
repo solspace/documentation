@@ -11,7 +11,7 @@ import Icons from '@site/static/icons/cards';
 
 # Managing Forms
 
-The Forms dashboard page offers extensive customization options. You can choose to display forms as cards or in a list table, customize the color of each form, set the display order of forms, create groups to organize forms, and archive forms that you don't want to appear on the dashboard.
+The Forms dashboard page offers extensive customization options. You can choose to display forms as cards or in a list table, customize the color and icon of each form, set the display order of forms, create groups to organize forms, and archive forms that you don't want to appear on the dashboard.
 
 - [Creating a Form](#creating-a-form)
 - [Form Cards](#form-cards)
@@ -33,6 +33,8 @@ Click **Add new form** and choose how to start:
 - **[Create with AI](./create-with-ai.mdx)**<Badge type="pro" text="Pro" />: describe the form or recreate one from compatible reference files using an enabled AI integration.
 - **Quick setup:** enter the form details and choose a blank form or a suggested starting point, then continue in the builder.
 
+On Craft 5, choosing one of the 12 starting points in **Guided setup** or **Quick setup** also assigns a matching default [Form Icon](./settings.mdx#general). You can change or remove it in **Settings → General** after creation. Blank forms start without an icon.
+
 Administrators control these choices in [Form Creation Options](../../configuration/settings/general.mdx#form-creation-options). When only one method is enabled, **Add new form** opens it directly. AI availability also depends on the edition, permissions, and integration setup; an unavailable AI option can offer setup guidance to users who can configure integrations.
 
 
@@ -47,6 +49,8 @@ Administrators control these choices in [Form Creation Options](../../configurat
 Forms can be displayed as cards, and you can manage, reorder, and group them.
 
 Each form card will display the form name, handle, and description, along with the statistics showing the number of submissions, the number of spam submissions, number of [saved forms](../save-continue-later.mdx) (if applicable) and a color-coded chart at the bottom of the card indicating submission counts over the past 30 days. Additionally, you will have the ability to reorder, archive, duplicate, or delete the form.
+
+On Craft 5, forms with a [Form Icon](./settings.mdx#general) also show a tinted icon badge beside the form name, matching the form’s color.
 
 ### Reordering Cards<Badge type="feature" text="Improved in 5.17+" />
 
@@ -64,19 +68,45 @@ Release the card. The new position and group assignment save automatically, with
 </StepMarkdown>
 </VerticalStepWrapper>
 
-For keyboard control, focus the card's move handle and use **Up/Down** to reorder within its group or **Left/Right** to move to an adjacent group. Moving to another group places the card at the end of that group. The dashboard and Form Group Manager use the same saved arrangement.
+For keyboard control, focus the card's move handle and use **Up/Down** to reorder within its group or **Left/Right** to move to an adjacent group. Moving to another group places the card at the end of that group. The dashboard and **Form groups** slideout use the same saved arrangement. Dashboard card moves save automatically; changes made inside the slideout require **Save changes**.
 
 ## Form List<Badge type="feature" text="New in 5.6+" />
 
-Forms can also be displayed as a table list, showing them in alphabetical order. The list view does not include the [form groups](#form-groups) feature.
+Forms can also be displayed as a table list, showing them in alphabetical order. The list does not display group headings or the custom card order. You can still open [Form groups](#form-groups) from the dashboard controls to manage assignments, then switch to cards view to see the groups.
 
 Each row in the list will display the form name, handle, and description, along with the statistics showing the number of submissions, the number of spam submissions, and a color-coded chart indicating submission counts over the past 30 days. Additionally, you will have the ability to archive, duplicate, or delete the form.
 
-## Form Groups<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.6+" />
+On Craft 5, the first column displays the [Form Icon](./settings.mdx#general) in the form’s color, with no visible column heading. Forms without an icon have an empty cell. Craft 4 does not show this column.
 
-Click **Form Groups** beside the cards/list view controls at the top of the Forms dashboard to open the **Form Group Manager**. This control requires permission to manage forms.
+## Form Groups<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.17.3+" /> {#form-groups}
 
-Use the manager to create groups and rearrange both groups and forms. You can also [move cards directly on the dashboard](#reordering-cards), including into empty groups. Forms that are not assigned to a group appear under **Other** at the bottom.
+Click **Form groups** beside the cards/list view controls at the top of the Forms dashboard to open the **Form groups** slideout. This control requires Pro and permission to manage forms.
+
+### Create and Rename Groups
+
+Click **Add group** to create an empty group and enter its name. To rename an existing group, click its name or pencil icon. Press **Enter** or click outside the input to finish editing; **Escape** restores the previous name.
+
+Each group shows a count of its forms. Empty groups display **Drop forms here** so you can add forms immediately.
+
+### Move Forms and Reorder Groups
+
+- **Move or reorder forms:** drag a form row within its group or into another group. You can also drop it into the **Unassigned** section to remove its group assignment.
+- **Move without dragging:** open the ellipsis button on a form row and choose a destination under **Move to**. This moves the form to the end of the selected group. Forms already in a group also offer **Unassigned** as a destination.
+- **Reorder groups:** drag a group's move handle. For keyboard control, focus that handle and use **Up/Down**, or **Home/End** to move the group to the beginning or end.
+
+The **Unassigned** section is collapsible and shows a count of forms without a group. Archived forms are excluded from the slideout. On the cards dashboard, unassigned forms appear under **Other** when groups are present.
+
+You can also [move cards directly on the dashboard](#reordering-cards), including into empty groups.
+
+### Remove a Group
+
+Click the group's trash icon, then choose **Remove group** in the confirmation. Its forms move to **Unassigned**; removing a group does not delete its forms or submissions. Choose **Keep group** to cancel the removal.
+
+### Save or Discard Changes
+
+Click **Save changes** to apply group names, group order, form order, and assignments to the dashboard. The button becomes available when there are changes to save. **Cancel** or closing the slideout discards unsaved edits.
+
+If saving fails, the slideout keeps your edits so you can retry. Unlike [dashboard card moves](#reordering-cards), changes inside this slideout do not save automatically.
 
 ## Archiving Forms<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="New in 5.5+" />
 

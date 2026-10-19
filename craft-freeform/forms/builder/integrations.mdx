@@ -79,21 +79,25 @@ Add conditional logic to your Element integrations to control **when** submissio
   alt="Integration Conditional Rules settings in the form builder"
 />
 
-## Google Tag Manager<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+## Google Tag Manager<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.17.2+" /></BadgeGroup> {#google-tag-manager}
 
-This allows you to enable [Google Tag Manager](../../integrations/google-tag-manager.mdx) to push successful form submission events to the data layer (when AJAX is enabled).
+Enable [Google Tag Manager](../../integrations/google-tag-manager.mdx) to push an event to the data layer once after a completed, successful **AJAX submission**. Validation errors, failed submissions, intermediate pages, and submissions identified as spam do not trigger it.
 
-- **Event Name** - specify a custom event name that you wish to assign to a successful form submission.
-- **GTM Account ID** - add this to the main integration settings if you want Google Tag Manager scripts added to your page by Freeform. Leave blank if you are adding your own GTM scripts.
-
-:::tip
-[Need to customize what gets sent to the events? You can write your own JS and add an event listener in your template.](../../integrations/google-tag-manager.mdx#customizing)
-:::
+- **Event Name** - the event pushed to the data layer, such as `generate_lead`. If empty, Freeform uses `form-submission`.
+- **Event Parameters**<Badge type="feature" text="New in 5.17.2+" /> - click **Add parameter** to map a custom parameter name to a non-personal choice, numeric, or hidden field value. Mappings are specific to each form. `form_name` is included automatically.
+- **Container ID** - set this in the main integration settings only if you want Freeform to load GTM. Leave it blank when your website already loads GTM.
 
 <Photo
-  img={require('@site/static/img/craft/freeform/v5/integrations/gtm-2.png')}
-  alt="Google Tag Manager settings in the form builder"
+  img={require('@site/static/img/craft/freeform/v5/integrations/gtm-event-mappings.webp')}
+  alt="Google Tag Manager form settings with insurance_type and office_location field mappings"
+  style={{ width: 1000, maxWidth: '100%', height: 'auto' }}
 />
+
+:::warning Personal data
+Never map names, contact details, addresses, message contents, or other personal data, including values stored in hidden fields or options.
+:::
+
+Configure a matching Custom Event trigger and GA4 Event tag in GTM using your existing Google tag. See the [GTM setup guide](../../integrations/google-tag-manager.mdx) for mapping limits, tag configuration, success/failure testing, and [JavaScript customization](../../integrations/google-tag-manager.mdx#customizing).
 
 ## POST Forwarding<Badge type="pro" text="Pro" />
 
