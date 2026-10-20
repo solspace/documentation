@@ -235,15 +235,15 @@ For an uploaded image, render `<img src="{{ asset.url }}" alt="{{ asset.alt ?? a
 
 ## Including Signatures
 
-Signature fields are excluded from `allFields`. To embed a saved signature in the email body, use its value from the submission. Replace `signature` with your field handle:
+Signature fields are excluded from `allFields`. In **5.17.3+**, use `imageDataUrl` to embed only validated inline PNG or JPEG data from the submission. It returns `null` for an empty or invalid value. Replace `signature` with your field handle:
 
 ```twig
-{% if submission is not null and submission.signature.value %}
-  <img src="{{ submission.signature.value }}" alt="Signature" />
+{% if submission is not null and submission.signature.imageDataUrl %}
+  <img src="{{ submission.signature.imageDataUrl }}" alt="Signature" />
 {% endif %}
 ```
 
-Rendering an inline signature depends on the email client's support for its image format.
+For earlier Freeform versions, the raw image data is available as `submission.signature.value`. Rendering an inline signature depends on the email client's support for data-URL images. To send it as a file instead, enable [Include Attachments](./templates.mdx#signatures). Newly drawn signatures in 5.17.3+ contain black ink on a transparent background; existing saved images retain their original appearance.
 
 ## Passing Freeform Data to Another Template Query
 

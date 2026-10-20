@@ -34,6 +34,27 @@ These settings apply to the form you are editing. Open **Settings** in the form 
 - **Form tag Attributes** - add any `<form>` tag attributes for the form here, e.g. `novalidate`, `data-my-attribute` and `autocomplete="on"`.
 
 
+<Photo
+  style={{ width: 620, maxWidth: '100%', height: 'auto' }}
+  img={require('@site/static/img/craft/freeform/v5/cp/form-icon-5.17.3.jpg')}
+  alt="Form Color and Form Icon settings with a pen icon and matching Change and Remove controls"
+/>
+
+### Displaying a Form Icon in Twig<Badge type="feature" text="New in 5.17.3+" />
+
+Use `form.icon` for the configured Craft icon name and `form.iconSvg` to render its SVG. Both properties are available on forms returned by `freeform.form()` and `freeform.forms()`:
+
+```twig
+{% for form in freeform.forms %}
+  {% if form.iconSvg %}
+    <span aria-hidden="true">{{ form.iconSvg }}</span>
+  {% endif %}
+  {{ form.name }}
+{% endfor %}
+```
+
+`form.iconSvg` returns safe SVG markup without needing `|raw`, or `null` when no icon can be resolved, including on Craft 4. SVGs are resolved only when requested and cached by icon name. Add your own dimensions and color styles to suit your layout. See the [Form object reference](../../templates/objects/form.mdx#iconsvg) for details.
+
 ## Data Storage
 
 - **Store Submitted Data for this Form** - allows you to specify whether the submission data for this form should be stored in the database.

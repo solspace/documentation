@@ -306,6 +306,8 @@ For **table** fields: enable the field in Freeform as usual. Row limits and requ
 
 For **signature** fields: visitors draw on the canvas; the value is stored as a PNG data URL. Clear resets the pad.
 
+**Signature updates**<Badge type="feature" text="Improved in 5.17.3+" /> - the field manifest includes `frontend.config.customizeAppearance` and `frontend.config.showPenCursor`. The built-in renderer honors these settings and saves newly drawn ink as black on a transparent background, independently of display colors. Required validation rejects blank taps without a drawn stroke, and form resets restore the canvas value. Existing valid PNG and JPEG signatures can still be loaded and cleared. See [Signature](../forms/fields/signature.mdx) for appearance settings and saved-image behavior.
+
 ## Payments
 
 <Tabs>

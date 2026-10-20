@@ -7,7 +7,7 @@ description: Install Freeform demo templates in Craft CMS to preview forms, comp
 import { Photo, Badge } from '@site/src/components/utils';
 import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
-# Demo Templates<Badge type="feature" text="Improved in 5.17+" />
+# Demo Templates<Badge type="feature" text="Improved in 5.17.3+" />
 
 :::info
 This settings page is read-only when Craft's `allowAdminChanges` setting is `false`.
@@ -16,7 +16,7 @@ This settings page is read-only when Craft's `allowAdminChanges` setting is `fal
 Freeform includes demo templates you can install on your site to preview existing forms, compare formatting templates, explore submissions, and try customization examples.
 
 :::info
-In Freeform 5.17+, the demos feature refreshed navigation and styling, including Tailwind 4, Bootstrap 5, and daisyUI 5 layouts.
+In Freeform 5.17.3+, the demos include searchable Cards and List views, a responsive navigation menu, clearer formatting-template previews, and redesigned submission and example pages. Reinstall the demos after upgrading to receive these files.
 :::
 
 ## Installing the Demo Templates
@@ -59,12 +59,39 @@ Select a form and formatting template to preview your existing forms in differen
 
 | Section | Purpose |
 |---|---|
-| **Forms** | Preview forms using the bundled formatting templates. |
-| **Submissions** | Explore examples of displaying submission data. |
-| **Custom** | Preview a form using its assigned formatting template. |
-| **Extras** | Try examples of custom rendering, AJAX behavior, and other template techniques. |
+| **Forms** | Search existing forms and preview them with bundled templates or **Form default**. |
+| **Submissions** | Browse submitted data and spam, open individual entries, and try the editing and deletion examples. |
+| **Examples** | Browse examples of custom rendering, AJAX behavior, and other template techniques. |
 
-The installed Twig files provide working examples you can inspect and adapt for your own site.
+### Find and Preview Forms<Badge type="feature" text="New in 5.17.3+" />
+
+Use **Search forms** to filter by name or description, and switch between **Cards** and **List** views. Form colors and available Craft 5 form icons help identify each form; submission and spam counts link to its entries. The demos render icons with [`form.iconSvg`](../templates/objects/form.mdx#iconsvg); use `form.icon` when you need the configured icon name.
+
+<Photo
+  style={{ width: 1460, maxWidth: '100%', height: 'auto' }}
+  img={require('@site/static/img/craft/freeform/v5/configuration/demo-form-browser-5.17.3.jpg')}
+  alt="Refreshed demo form browser with form icons, submission and spam counts, search, Cards and List controls, and template navigation"
+/>
+
+In **Forms**, use the formatting-template menu to compare the available layouts. **Form default** uses the template assigned in the form builder. The preview identifies the assigned template and loads known framework assets for bundled samples. Custom templates may need your site's CSS and JavaScript; the demo provides a **Preview with Basic Light** link as an alternative. Choosing a demo layout does not change the form's saved template.
+
+Older `/custom` demo URLs remain aliases for the form's assigned-template preview.
+
+### Browse Submissions<Badge type="feature" text="Improved in 5.17.3+" />
+
+Open **Submissions** for a form to switch between its **Submissions** and **Spam** tabs. The table shows submission details and field values, with pagination and a **Search this page** filter. This filter searches only the entries loaded on the current page.
+
+Open an entry to see field answers, uploaded files, Table values, Signature images, and submission metadata. In Pro, regular submissions offer editing and deletion actions; deletion opens a confirmation page.
+
+<Photo
+  style={{ width: 1504, maxWidth: '100%', height: 'auto' }}
+  img={require('@site/static/img/craft/freeform/v5/configuration/demo-submissions-5.17.3.jpg')}
+  alt="Demo submission browser for Signature example with Submissions and Spam tabs, Search this page, a Signature thumbnail, and Edit and Delete links"
+/>
+
+### Explore Examples<Badge type="feature" text="Improved in 5.17.3+" />
+
+**Examples** (the `/extras` section) includes an example browser, setup guidance, and links to working examples of rendering, AJAX success handling, validation, and submission behavior. The installed Twig files provide working examples you can inspect and adapt for your own site.
 
 For a quick styling or conditional-flow check inside the control panel, use the builder's [Preview tab](../forms/builder/preview.mdx). Its sample-template selector does not change the saved template, and Preview does not submit forms. Use the installed demos or your site's embedded forms to test real submissions and integrations.
 

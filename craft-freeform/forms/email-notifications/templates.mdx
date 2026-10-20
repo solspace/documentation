@@ -114,6 +114,12 @@ For a traditional Twig layout using `extends`, see [Using Layouts](./examples.md
 
 Enable **Include Attachments** to attach files uploaded with the form. To include file links or images in the message body, use the [file upload recipe](./examples.mdx#including-file-upload-data).
 
+### Signatures<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.17.3+" /> {#signatures}
+
+**Include Attachments** also attaches Signature field images. Freeform validates inline PNG and JPEG data and attaches the decoded image as `signature.png` or `signature.jpg`, matching its format. Empty or invalid values are skipped; file paths and URLs are not treated as signature attachments.
+
+To place a signature in the email body instead, see [Including Signatures](./examples.mdx#including-signatures).
+
 ### Predefined Assets<Badge type="pro" text="Pro" />
 
 Select Craft assets to attach to every email using the template, such as an instructions document or a brochure. The setting also supports Twig for selecting assets dynamically.
