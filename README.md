@@ -8,6 +8,18 @@ This website is built using [Docusaurus](https://docusaurus.io/), a modern stati
 $ pnpm install
 ```
 
+### Dependency security
+
+Run `pnpm audit` to check the lockfile for known vulnerabilities. Security overrides in
+`pnpm-workspace.yaml` keep Docusaurus's transitive dependencies on patched releases;
+retain them until the upstream dependency ranges include those fixes.
+
+`braces` 3.0.3 remains affected by
+[GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm), which has no
+published patched release as of October 19, 2026. It is pulled in by file-matching
+and development-server tooling. Avoid untrusted glob patterns in these tools and
+keep this advisory visible in audits until an upstream fix is available.
+
 ### Local Development
 
 ```
