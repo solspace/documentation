@@ -10,6 +10,12 @@ import PrismLight from './src/utils/prismLight';
 import PrismDark from './src/utils/prismDark';
 
 const config: Config = {
+  future: {
+    faster: true,
+    v4: {
+      removeLegacyPostBuildHeadAttribute: true,
+    },
+  },
   title: 'Solspace',
   tagline: 'Clients need Solspace when websites are complex.',
   favicon: 'img/favicon.ico',
