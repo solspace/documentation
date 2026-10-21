@@ -8,11 +8,7 @@ description: Review the Freeform 5.x for Craft CMS changelog, including new feat
 
 import { TitleDate } from '@site/src/components/docs'
 
-## 5.17.3
-
-:::info
-These notes cover the upcoming 5.17.3 release.
-:::
+## 5.17.3<TitleDate date="2026-10-21" />
 
 ### Added
 - Added live search to the Forms dashboard across form names, handles, and descriptions in Cards and List views, including archived forms.
@@ -24,7 +20,6 @@ These notes cover the upcoming 5.17.3 release.
 
 ### Changed
 - Replaced **Usage in Elements** with **Usage & Stats** in the form builder, with selectable submission and spam charts, configuration summaries, and copyable support diagnostics. Element usage remains available on Craft 5.
-- Updated the official React/Vue frontend packages and themes to **1.2.1**, refining choice fields, dropdown arrows, searchable selects, upload styling, and required indicators. Added a `requiredMark` theme class slot.
 - Improved Forms dashboard toolbar spacing and mobile layout.
 - Improved **Form groups** with inline renaming, keyboard reordering, and menus for moving forms. Removing a group requires confirmation and moves its forms to **Unassigned**, with clearer handling of unsaved changes.
 - Updated searchable multi-select field previews in the **form builder layout** to show selection tags and a search control.
@@ -44,7 +39,9 @@ These notes cover the upcoming 5.17.3 release.
 - Google Tag Manager events now fire once after a completed, successful AJAX submission. Mapped values come from the server response and survive resets and multi-page navigation.
 
 ### Fixed
-- Fixed frontend extension cleanup during remounts, including React StrictMode, so an earlier mount cannot clear a newer drag-and-drop upload control.
+- Fixed Freeform imports silently completing without importing data on hosting with multiple PHP instances. Uploaded bundles now use the Craft cache, and missing or expired import data reports an error.
+- Fixed saved field settings displaying old values when reopening a form through control panel links or browser history.
+- Conditional email notifications now require at least one configured condition, with a validation error shown in the form builder when none is selected.
 - Fixed form-builder fields becoming stuck in a dimmed dragging state after rerenders or interrupted drags.
 - Fixed Date & Time field instructions suggesting translated date expressions that cannot be parsed. Examples remain in English in every control panel language. Native time-only inputs no longer receive stale date constraints.
 - Fixed Signature initialization on pages with multiple forms and clearing and restoring signatures after resets, including resets during an active stroke.
@@ -59,6 +56,7 @@ These notes cover the upcoming 5.17.3 release.
 - Fixed duplicate Google Tag Manager container loading and improved tracking for dynamically inserted forms.
 
 ### Security
+- Updated Vite and transitive dependencies to address command injection, source-map denial of service, and redirect credential disclosure advisories.
 - Hardened Signature previews by validating inline PNG/JPEG images and escaping image markup.
 - Restricted Signature email attachments to validated image data, preventing submitted values from being treated as file paths or URLs.
 - Removed submission tokens from the Google Tag Manager data layer. Submission IDs and customization hooks remain available.
