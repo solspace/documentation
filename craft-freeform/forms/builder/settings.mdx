@@ -1,7 +1,7 @@
 ---
 title: "Form Settings"
 sidebar_position: 2
-description: "Per-form settings reference for general options, data storage, processing, success behavior, limits, scheduling, embedding, and element usage."
+description: "Per-form settings reference for storage, processing, success behavior, limits, embedding, submission statistics, element usage, and support diagnostics."
 ---
 
 import Player from 'react-player';
@@ -167,6 +167,24 @@ See [Submission Limits](../../submissions/overview.mdx#submission-limits) to com
 />
 
 
-## Usage in Elements<Badge type="feature" text="New in 5.7.2+" />
+## Usage & Stats<Badge type="feature" text="New in 5.17.3+" /> {#usage-and-stats}
 
-The **Usage in Elements** tab displays a list of other Craft elements that use that form in the [Freeform Form element field type](../fieldtype.mdx) (Craft 5 only).
+Open **Settings → Usage & Stats** to review activity, configuration, and support diagnostics. Save new forms before viewing submission statistics or element usage.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-usage-stats.jpg')}
+  alt="Form Usage & Stats"
+/>
+
+- **Totals and Submission Activity**
+  - Summary cards show submission and spam totals, fields, enabled rules, notifications, and integrations. Use **View submissions** or **Review spam** to open the form's entries.
+  - Choose an activity period from **Last 7 days** to **Last year**, with **Last 90 days** selected by default. Click the legend to hide or show each line.
+  - Statistics cover stored data across all sites, excluding drafts, hidden submissions, and deleted submissions. Chart dates use UTC. When spam storage is disabled, the **Spam** card shows blocked attempts, while the chart includes only stored spam.
+- **Form Configuration**
+  - Review notifications, integrations, field types, pages, and sites. Status dots indicate enabled and disabled items. Use **Show disabled** to reveal hidden items.
+  - Configuration reflects current builder settings and may include unsaved changes.
+- **Usage in Elements**<Badge type="feature" text="New in 5.7.2+" />
+  - On **Craft 5**, view elements that reference the form through the [Freeform Form field type](../fieldtype.mdx). Click a title to open the element, or **Show more** to load additional results. Twig calls and headless embeds are not included.
+- **Copy Diagnostics**
+  - Click **Copy diagnostics** to copy a support report containing the form's details, software versions, configuration, and statistics. You can also share a screenshot of this page.
+  - For installation-wide information and health checks, use [Settings → Diagnostics](../../configuration/diagnostics.mdx).

@@ -27,6 +27,12 @@ Import the default theme CSS once in your app entry:
 import '@solspace/freeform-theme-default/styles.css';
 ```
 
+### Package Update for Freeform 5.17.3
+
+Update the installed `@solspace/freeform-*` packages together to **1.2.1** for the latest React/Vue renderer and theme improvements. These npm package versions are separate from the **5.17.3** Craft plugin version.
+
+Version 1.2.1 refines checkbox required indicators, Opinion Scale option layouts, dropdown arrows, searchable selects, and file-upload styling across the Default, Tailwind, and Bootstrap themes. It also fixes extension cleanup during remounts, including React StrictMode, so an older mount cannot clear a newer drag-and-drop upload control.
+
 ## Render with `<Freeform />`<Badge type="recommended" text="Recommended" />
 
 The easiest path — Freeform loads the manifest, manages state, renders fields, handles CSRF, and submits:
@@ -85,6 +91,20 @@ import '@solspace/freeform-theme-default/styles.css';
 ```
 
 By default the theme follows the visitor’s OS preference (`system`).
+
+### Required Indicator Styling
+
+In **1.2.1+**, set `classNames.requiredMark` to style the required indicator independently of the label:
+
+```tsx
+import { createTheme } from '@solspace/freeform-theme-default';
+
+const theme = createTheme({
+  classNames: { requiredMark: 'my-required-mark' },
+});
+```
+
+Define `.my-required-mark` in your app's CSS and pass `theme` to `<Freeform />`. The slot applies to standard field labels and required single-checkbox labels. Custom Label renderers receive it as `requiredMarkClassName`.
 
 ## Tailwind Theme
 

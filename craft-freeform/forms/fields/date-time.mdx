@@ -22,7 +22,7 @@ A complex date and/or time field. Can be used as Date only, Time only, or both. 
 ## Settings
 
 - May contain a default date value.
-  - You may use `now`, `today`, `5 days ago`, `2017-01-01 20:00:00`, etc, which will format the default value according to the chosen format as a localized value.
+  - Use an English date expression such as `now`, `today`, `5 days ago`, or `2025-01-01 20:00:00`. Freeform formats the result using the configured display format and locale.
 - The default Freeform datepicker can be disabled and you can load your own manually in the template if you wish.
   - Freeform will automatically insert javascript in the footer/inside form (depending on settings) of the page for this fieldtype.
 - Choose to have your own placeholder or have Freeform generate a placeholder based on the settings below.
@@ -37,6 +37,12 @@ A complex date and/or time field. Can be used as Date only, Time only, or both. 
   - None, Space (` `), `:`, `-`, `.`
 - Choose if placeholder should separate AM/PM with a space (for 12hr clock).
 - Select the Min and Max dates for the date picker and validation (optional). Use static dates (e.g. `2018-11-01`, `2018-11-30`) or relative date strings (e.g. `-10 days`, `+3 months`).
+
+### Date Expressions and Native Inputs<Badge type="feature" text="Improved in 5.17.3+" />
+
+Keep **Initial value**, **Minimum date**, and **Maximum date** expressions in **English**, regardless of the control panel language. For example, enter `today` or `+3 months` even in a French or German control panel. In 5.17.3+, the builder's examples remain in English to avoid suggesting translated expressions that cannot be parsed. The displayed date and picker interface can still be localized.
+
+When **Use native input types** is enabled, date fields render as `date`, time fields as `time`, and combined fields as `datetime-local`. Native date and combined inputs receive configured minimum and maximum date constraints in the browser's required format. Native **time-only** inputs omit those date constraints, so dates left over from a field's previous mode cannot block time entry.
 
 ## Behavior & Limitations
 
@@ -55,7 +61,7 @@ For **localization** reference:
 
 | Property | Description |
 |---|---|
-| `field.initialValue` | The translated initial date or time expression. |
+| `field.initialValue` | The initial date or time expression for the current language. Date expressions must remain in English. |
 | `field.dateTimeType` | The configured mode: `date`, `time`, or `both`. |
 | `field.generatePlaceholder` | Whether the placeholder is generated from the configured format. |
 | `field.dateOrder` | The date component order, such as `ymd`. |
@@ -66,8 +72,8 @@ For **localization** reference:
 | `field.clockSeparator` | The separator between hours and minutes. |
 | `field.clockAMPMSeparate` | Whether a space separates the time from AM or PM. |
 | `field.useDatepicker` | Whether Freeform uses its JavaScript date picker. Returns `false` when native input types are enabled. |
-| `field.minDate` | The translated minimum date expression, or `null` when unset. |
-| `field.maxDate` | The translated maximum date expression, or `null` when unset. |
+| `field.minDate` | The minimum date expression for the current language, or `null` when unset. Date expressions must remain in English. |
+| `field.maxDate` | The maximum date expression for the current language, or `null` when unset. Date expressions must remain in English. |
 
 </div>
 

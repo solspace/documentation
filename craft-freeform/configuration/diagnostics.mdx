@@ -56,69 +56,53 @@ Checks run only when requested and do not change your data. Progress and totals 
   alt="Freeform Diagnostics Health Checks"
 />
 
-### Database Integrity
+All checks are read-only. Notification and integration checks review saved settings without rendering Twig, sending emails, or contacting external services.
 
-Checks expected foreign keys, tables, columns, and indexes. Missing or incorrect relationships can prevent related submission data from being removed correctly.
-
-This check examines database structure. Use the submission and related-data scans below to check the records themselves. A clean orphan scan does not mean all expected foreign keys are present.
-
-See the [database integrity console commands](./console-commands.mdx#check-database-integrity) and [foreign-key repair instructions](./console-commands.mdx#repair-database-foreign-keys) for investigation and repair options. The foreign-key repair utility restores foreign keys; other structural issues require developer review.
-
-### Orphaned Submissions
-
-Finds submissions whose Craft element or Freeform form no longer exists. Displays the number of submissions checked and the number of orphaned submissions found.
-
-If orphaned records are found, ask your developer to [preview orphan cleanup](./console-commands.mdx#delete-orphaned-data). In Freeform 5.17.1+, the cleanup command can remove those records and their dependent Freeform data before the existing foreign-key repair command restores missing keys. The Diagnostics check itself remains read-only.
-
-### Related Data Integrity
-
-Checks Freeform's related records for missing parent records and duplicate data. Results identify affected tables and columns, along with orphan or duplicate counts. Checks that could not be completed are reported separately.
-
-The [orphan cleanup command](./console-commands.mdx#delete-orphaned-data) can address orphaned related rows. Duplicate records require separate developer review; the cleanup command does not merge or delete duplicates.
-
-### Uploaded File Integrity
-
-Checks saved upload references, including uploads in Table fields, for missing Craft assets or stored files.
-
-Encrypted values are decrypted in memory when possible. Values that cannot be decrypted are reported as informational findings, while unavailable storage is reported as unchecked. The scan does not remove files, assets, or submission references.
-
-### Notification Readiness
-
-Checks enabled notifications on active forms for missing templates, recipient fields, rule references, and invalid email settings.
-
-This checks saved configuration only. It does not render Twig, send test messages, or verify email delivery.
-
-### Integration Readiness
-
-Checks enabled integrations and their active form connections for missing required settings, unavailable credentials, OAuth token configuration, and broken field references.
-
-This checks saved configuration only. It does not contact external services, validate credentials remotely, or render Twig.
-
-### Queue Health
-
-Checks jobs in the configured Craft queue, including jobs from other plugins. Flags failed jobs, jobs past their allowed run time, and jobs that have been ready to run for at least an hour. Scheduled delays are respected.
-
-The check does not run, retry, or delete jobs. Custom queue drivers may require developer review.
+- **Database Integrity** - Checks expected tables, columns, indexes, and foreign keys. See the [console checks](./console-commands.mdx#check-database-integrity) and [foreign-key repair instructions](./console-commands.mdx#repair-database-foreign-keys). Structural issues beyond foreign keys require developer review.
+- **Orphaned Submissions** - Finds submissions whose Craft element or Freeform form no longer exists. Ask your developer to [preview cleanup](./console-commands.mdx#delete-orphaned-data) if orphans are found.
+- **Related Data Integrity** - Finds related records with missing parents or duplicate data. The [cleanup command](./console-commands.mdx#delete-orphaned-data) handles orphans. Duplicates require separate developer review.
+- **Uploaded File Integrity** - Checks upload references, including Table fields, for missing assets or files. Unreadable values and unavailable storage are reported separately.
+- **Notification Readiness** - Checks enabled notifications on active forms for missing templates, recipient fields, rule references, and invalid email settings. It does not verify delivery.
+- **Integration Readiness** - Checks enabled integrations and active form connections for missing settings, credential and OAuth configuration issues, and broken field references.
+- **Queue Health** - Flags failed jobs, overdue jobs, and jobs waiting to run for at least an hour, including jobs from other plugins. Scheduled delays are respected. Custom queue drivers may require developer review.
 
 ### Understanding Results
 
 | Status | Meaning |
 |---|---|
-| Not checked | The check has not been run in the current page session. |
-| Running | The check is in progress. |
-| Passed | The check completed without reported issues or unchecked items. |
-| Needs attention | Issues were found, or some items could not be checked. |
-| Information | The scan produced informational findings, such as encrypted upload values it could not inspect. |
-| Incomplete | The scan could not finish. Any displayed results may be partial. |
+| <span className="docs-diagnostic-status" data-status="idle">Not checked</span> | Not run in this page session. |
+| <span className="docs-diagnostic-status" data-status="running">Running</span> | The check is in progress. |
+| <span className="docs-diagnostic-status" data-status="passed">Passed</span> | No issues or unchecked items were found. |
+| <span className="docs-diagnostic-status" data-status="warning">Needs attention</span> | Issues were found, or some items could not be checked. |
+| <span className="docs-diagnostic-status" data-status="info">Information</span> | Informational findings, such as upload values that could not be inspected. |
+| <span className="docs-diagnostic-status" data-status="error">Incomplete</span> | The check did not finish. Results may be partial. |
 
-Detailed findings are grouped under **Issues**, **Unchecked**, and **Information**, where applicable. Some scans display only the first 100 findings, while their totals include all findings.
+Findings appear under **Issues**, **Unchecked**, or **Information**. Some checks show only the first 100 findings, but totals include all results.
 
-Where available, action links take you to the affected submission, form, notification template, integration, queue manager, or related integrity check. Available links depend on your permissions. Review the findings, make the appropriate changes, and run the check again.
+Use the available action links to review affected items, make corrections, and run the check again. Links depend on your permissions.
+
+## Form Diagnostics<Badge type="feature" text="New in 5.17.3+" />
+
+For diagnostics about a specific form, open its builder and go to **Settings → Usage & Stats**. This page shows submission activity, form configuration, and troubleshooting details. Click **Copy diagnostics** to copy a support report, or share a screenshot.
+
+See the [Usage & Stats documentation](../forms/builder/settings.mdx#usage-and-stats) for more information.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-usage-stats.jpg')}
+  alt="Form Usage & Stats showing activity, configuration, and diagnostics"
+/>
 
 ## Sharing Results with Support
 
-Click **Copy Support Report** to copy a plain-text report of the Overview information. You can also expand **Support Report** to view and manually copy its contents.
+Click **Copy Support Report** to copy the installation-wide Overview report. You can also expand **Support Report** to view and manually copy its contents. Run **Database Integrity** before copying to include its results.
 
-Running **Database Integrity** adds its results to the report. For other health checks, include the relevant result messages or screenshots with your support request.
+For an issue affecting a specific form, also include its **Copy diagnostics** report from **Settings → Usage & Stats**. This reflects the current builder settings, including any unsaved changes.
 
-When contacting Solspace Support, provide the report alongside a description of the problem and steps to reproduce it. Support staff may also ask for screenshots of the Overview or individual health-check results.
+Send the reports with a description of the problem, steps to reproduce it, and any relevant health-check messages or screenshots.
+
+:::info Contact Support
+
+- [Private support ticket](/support/#support-form) - Get help with your site and share diagnostic reports or screenshots privately.
+- [GitHub Issues](https://github.com/solspace/craft-freeform/issues/new/choose) - Report reproducible bugs or suggest features publicly, without sharing private site or customer details.
+
+:::

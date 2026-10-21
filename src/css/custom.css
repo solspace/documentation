@@ -134,6 +134,20 @@
   border-color: var(--ifm-color-primary) !important;
 }
 
+/* Keep inline TOCs separate from sidebar TOC styling and regular article lists. */
+.markdown .table-of-contents {
+  margin-inline-start: 0.5rem;
+}
+.markdown .table-of-contents,
+.markdown .table-of-contents ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.markdown .table-of-contents a {
+  border-left: 0;
+  padding: 0;
+}
+
 .alert {
   font-size: 0.9rem;
   line-height: 1.5;
@@ -373,8 +387,9 @@ html[data-theme='dark'] blockquote p {
   margin-right: 5px;
 }
 
-/* Markdown body links only (.doc-md-inline-link from swizzled MDXComponents/A) */
+/* Markdown body links and inline TOC links */
 .docs-doc-page .theme-doc-markdown a.doc-md-inline-link,
+.docs-doc-page .theme-doc-markdown .table-of-contents a,
 .external-link {
   border-bottom: 1px solid #058ffe;
   transition: border-color 0.5s, color 0.5s;
@@ -382,6 +397,7 @@ html[data-theme='dark'] blockquote p {
 }
 
 .docs-doc-page .theme-doc-markdown a.doc-md-inline-link:hover,
+.docs-doc-page .theme-doc-markdown .table-of-contents a:hover,
 .external-link:hover {
   border-bottom: 1px solid #ff6624;
 }
@@ -1356,6 +1372,42 @@ html[data-theme='light'] .guide a:hover {
 
 .guide p {
   margin-bottom: 0 !important;
+}
+
+/* Status labels in the Diagnostics documentation. */
+.docs-diagnostic-status {
+  color: #5a6875;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.docs-diagnostic-status[data-status='passed'] {
+  color: #087c70;
+}
+.docs-diagnostic-status[data-status='running'],
+.docs-diagnostic-status[data-status='info'] {
+  color: #0b69d5;
+}
+.docs-diagnostic-status[data-status='warning'] {
+  color: #a16207;
+}
+.docs-diagnostic-status[data-status='error'] {
+  color: #d52817;
+}
+[data-theme='dark'] .docs-diagnostic-status {
+  color: #9aa5b5;
+}
+[data-theme='dark'] .docs-diagnostic-status[data-status='passed'] {
+  color: #39c6b7;
+}
+[data-theme='dark'] .docs-diagnostic-status[data-status='running'],
+[data-theme='dark'] .docs-diagnostic-status[data-status='info'] {
+  color: #55b5ff;
+}
+[data-theme='dark'] .docs-diagnostic-status[data-status='warning'] {
+  color: #e8bd59;
+}
+[data-theme='dark'] .docs-diagnostic-status[data-status='error'] {
+  color: #ff8b7f;
 }
 
 /* Table Syles */

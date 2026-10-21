@@ -113,11 +113,18 @@ This feature is not guaranteed to catch every possible email failure. There migh
 
 ## Weekly & Daily Digests<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
-The Freeform _Weekly or Daily Digest_ email notifications will keep you in the loop about your website's Freeform form performance and status. It includes a snapshot of the previous week's performance and any logged errors and upgrade notices (if enabled).
+Weekly or Daily Digest emails report on the previous period's form performance. Configure them in **Freeform → Settings → Notices & Alerts → Digest Email Notifications**:
 
-Paired with the [Update Notices](#update-notices--announcements) system, this is a powerful feature that allows you to keep your finger on the pulse of your website without logging in and checking every once in a while. It allows you to routinely catch issues sooner and minimize site issues and lost valuable form submission data, etc.
+- **Developer Digest Email** - enter comma-separated recipient addresses for submission and spam statistics, logged errors, and applicable [Update Notices](#update-notices--announcements).
+- **Stats Digest Email** - enter recipients who should receive only the performance statistics.
+- Choose each digest's **Email Frequency** independently: **Daily** or **Weekly** on a selected weekday.
+- Enable **Send Notifications on Live Environment only** to send digests only when the Craft environment is set to `production`.
 
-To enable this feature, go to the **Freeform CP → Settings → Notices & Alerts** settings page. Add the email address(es) you'd like to receive alerts in the **Weekly Digest Email** setting.
+### Email Layout<Badge type="feature" text="Improved in 5.17.3+" />
+
+Digests use a responsive layout with light and dark-mode styling and a dedicated plain-text version. Submission and spam totals appear above the per-form performance table. Form names and counts link to the corresponding control panel submissions or spam pages.
+
+Developer digests also include compact **Errors and warnings** and **Updates and notices** sections. Severity labels and colors distinguish critical items, warnings, and informational notices; empty sections explain when there is nothing to report. Stats digests contain only the performance section.
 
 ### How It Works
 
@@ -126,8 +133,3 @@ Each week on the chosen weekday (or every day if _Daily_ chosen), Freeform will 
 :::warning
 This feature requires any activity to happen on your site (e.g. someone visiting your site, an admin viewing CP, or a cron job to refresh cache) for Craft's cache (usually 3hrs) to be refreshed. If for any reason your site doesn't receive any activity for an extended period of time, this feature may not be triggered on time.
 :::
-
-<Photo
-  img={require('@site/static/img/craft/freeform/v5/configuration/digest.png')}
-  alt="Email Digest preview"
-/>
