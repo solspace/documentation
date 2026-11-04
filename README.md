@@ -26,6 +26,12 @@ Keep the patch until a verified upstream fix replaces it. Package audits and
 Dependabot may continue flagging version 4.3.1 because they do not evaluate local
 patches; the advisory is not suppressed or dismissed.
 
+The `minimatch` override uses the patched 11.x API. The pnpm patch for
+`serve-handler` updates its import to that API so Docusaurus preview routes,
+rewrites and glob-based headers keep working. `pnpm test:security` also checks
+that cross-origin redirects strip credentials and that Joi email validation
+handles long whitespace inputs without blocking.
+
 The previous `braces` advisory,
 [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm), was withdrawn
 on October 23, 2026, and is no longer reported by the package audit.
