@@ -58,18 +58,44 @@ import Icons from '@site/static/icons/cards';
 
 ## Requirements
 
-AI Assistant 1.x supports [Craft 5.x](https://craftcms.com/docs/5.x/requirements.html). It meets mostly the same requirements as listed on the Craft Requirements page.
+AI Assistant 1.x supports both [Craft 5.x](https://craftcms.com/docs/5.x/requirements.html) and [Craft 4.x](https://craftcms.com/docs/4.x/requirements.html). It meets mostly the same requirements as listed on the Craft Requirements page. The same 1.x version works on Craft 5.x, Craft 4.x, and [Craft Cloud](https://craftcms.com/cloud).
 
-- **Craft 5.0.0+**
-- PHP 8.2.0+
-- MySQL 8.0.17+ using InnoDB, MariaDB 10.4.6+, or PostgreSQL 13+
-- 256MB+ of memory allocated to PHP
-- Active/Valid API key(s) for one or more configured providers:
-  - OpenAI
-  - Google Gemini
-  - Anthropic
-  - xAI
-  - Replicate
+<Tabs>
+  <TabItem value="requirements-craft-5" label="Craft 5.x" default>
+
+    - **Craft 5.0.0+**
+    - PHP 8.2.0+
+    - MySQL 8.0.17+ using InnoDB, MariaDB 10.4.6+, or PostgreSQL 13+
+    - 256MB+ of memory allocated to PHP
+    - Active/Valid API key(s) for one or more configured providers:
+      - OpenAI
+      - Google Gemini
+      - Anthropic
+      - xAI
+      - Replicate
+      - SolspaceAI
+
+  </TabItem>
+  <TabItem value="requirements-craft-4" label="Craft 4.x">
+
+    - **Craft 4.0.0+**
+    - PHP 8.0.2+
+    - MySQL 5.7.8+ using InnoDB, MariaDB 10.2.7+, or PostgreSQL 10+
+    - 256MB+ of memory allocated to PHP
+    - Active/Valid API key(s) for one or more configured providers:
+      - OpenAI
+      - Google Gemini
+      - Anthropic
+      - xAI
+      - Replicate
+      - SolspaceAI
+
+  </TabItem>
+</Tabs>
+
+:::note Craft 4 asset action menu
+On **Craft 5**, image assets can include an **AI Assistant** item in the element action menu. That menu API is Craft 5-only, so this shortcut is not available on Craft 4. Inline field buttons, prompts, integrations, image generation from fields/widgets, and SolspaceAI remain available on both Craft 4 and Craft 5.
+:::
 
 ## Installation
 
