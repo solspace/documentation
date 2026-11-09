@@ -77,6 +77,7 @@ export const integrationGroups: Record<string, Integration[]> = {
     { title: 'URL Parameter Tracking', description: 'Capture UTM and tracking parameters', icon: 'url-parameter-tracking', link: './url-parameter-tracking/', proOnly: true },
   ],
   other: [
+    { title: 'Google Places', description: 'Autocomplete addresses in Location fields', icon: 'google-places', link: './google-places/', proOnly: true },
     { title: 'Google Sheets', description: 'Add submissions to spreadsheets', icon: 'google-sheets', link: './google-sheets/', proOnly: true },
     { title: 'Jira', description: 'Create Jira cards', icon: 'jira', link: './jira/', proOnly: true },
     { title: 'Supabase', description: 'Store submissions in database tables', icon: 'supabase', link: './supabase/', proOnly: true },
