@@ -43,6 +43,7 @@ export default {
   CreditsIcon: 'credits',
   CreditCardIcon: 'credit-card',
   CrmIcon: 'crm',
+  DarkModeIcon: 'dark-mode',
   DashboardIcon: 'dashboard',
   DataManageIcon: 'data-manage',
   DatabaseIcon: 'database',

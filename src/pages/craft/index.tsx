@@ -39,6 +39,12 @@ export default function Craft(): JSX.Element {
                   icon: Icons.AIAssistantIcon,
                   fullCardLink: '/craft/ai-assistant/v1',
                 },
+                {
+                  title: 'Dark Mode',
+                  titleBadge: 'Beta',
+                  icon: Icons.DarkModeIcon,
+                  fullCardLink: '/craft/dark-mode/v1',
+                },
               ]}
             />
             <h2 className="mt-8">Why Solspace</h2>

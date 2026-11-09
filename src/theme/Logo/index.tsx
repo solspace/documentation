@@ -42,6 +42,14 @@ const logos: LogoItem[] = [
     src: 'logos/icons/ai.png',
   },
   {
+    pathname: '/craft/dark-mode',
+    latestVersionSlug: '/craft/dark-mode/v1',
+    title: 'Dark Mode',
+    logoLine: 'for Craft',
+    logoLineShort: '',
+    src: 'logos/icons/dark-mode.svg',
+  },
+  {
     pathname: 'https://discontinued-docs.solspace.com/express-forms/',
     title: 'Express Forms',
     logoLine: 'for Craft',
