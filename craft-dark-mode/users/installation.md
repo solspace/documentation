@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 title: Installation & Updates
-description: Requirements and instructions for installing, updating, disabling, and removing Dark Mode for Craft CMS 5.
+description: Requirements and instructions for installing, updating, disabling, and removing darkMode for Craft CMS 5.
 slug: /setup/installation
 ---
 
@@ -16,31 +16,31 @@ import Icons from '@site/static/icons/cards';
   items={[
     {
       title: 'Requirements',
-      description: 'Check what your site needs to run Dark Mode.',
+      description: 'Check what your site needs to run darkMode.',
       icon: Icons.ClipboardIcon,
       fullCardLink: '#requirements',
     },
     {
       title: 'Installation',
-      description: 'Install Dark Mode through Composer or the Plugin Store.',
+      description: 'Install darkMode through Composer or the Plugin Store.',
       icon: Icons.BoxIcon,
       fullCardLink: '#installation',
     },
     {
       title: 'Updating',
-      description: 'Update to the latest release of Dark Mode 1.x.',
+      description: 'Update to the latest release of darkMode 1.x.',
       icon: Icons.UpdateArrowsIcon,
       fullCardLink: '#updating',
     },
     {
       title: 'Disabling',
-      description: 'Temporarily turn off Dark Mode for your site.',
+      description: 'Temporarily turn off darkMode for your site.',
       icon: Icons.StopIcon,
       fullCardLink: '#disabling',
     },
     {
       title: 'Uninstalling',
-      description: 'Remove Dark Mode from your site.',
+      description: 'Remove darkMode from your site.',
       icon: Icons.RecycleIcon,
       fullCardLink: '#uninstalling',
     },
@@ -49,18 +49,18 @@ import Icons from '@site/static/icons/cards';
 
 ## Requirements
 
-Dark Mode 1.x requires:
+darkMode 1.x requires:
 
-- **Craft CMS 5.x**
+- **Craft CMS 5.9 or later within 5.x**
 - **PHP 8.2 or later within PHP 8.x**
 
 Your site must also meet [Craft 5’s system requirements](https://craftcms.com/docs/5.x/requirements.html). Use a current version of Chrome, Edge, Firefox, or Safari.
 
-Dark Mode is free and open source. There are no paid editions or license purchases.
+darkMode is free and open source. There are no paid editions or license purchases.
 
 ## Installation
 
-Install Dark Mode using Composer or the Craft Plugin Store.
+Install darkMode using Composer or the Craft Plugin Store.
 
 <Tabs>
   <TabItem value="install-cli" label="Composer (CLI)" default>
@@ -75,7 +75,7 @@ Install Dark Mode using Composer or the Craft Plugin Store.
         ```
 
       </StepMarkdown>
-      <StepMarkdown stepTitle="Get Dark Mode">
+      <StepMarkdown stepTitle="Get darkMode">
         <Tabs>
           <TabItem value="install-latest" label="Latest Version" default>
 
@@ -93,12 +93,12 @@ Install Dark Mode using Composer or the Craft Plugin Store.
           </TabItem>
         </Tabs>
       </StepMarkdown>
-      <StepMarkdown stepTitle="Install Dark Mode">
+      <StepMarkdown stepTitle="Install darkMode">
         <Tabs>
           <TabItem value="activate-cli" label="CLI" default>
 
             ```sh
-            php craft plugin/install dark-mode
+            php craft plugin/install darkmode
             ```
 
           </TabItem>
@@ -107,7 +107,7 @@ Install Dark Mode using Composer or the Craft Plugin Store.
             To finish installation in the Craft control panel:
 
             1. Go to **Settings → Plugins**.
-            2. Open Dark Mode’s action menu.
+            2. Open darkMode’s action menu.
             3. Choose **Install**.
 
           </TabItem>
@@ -117,14 +117,14 @@ Install Dark Mode using Composer or the Craft Plugin Store.
   </TabItem>
   <TabItem value="install-cp" label="Control Panel">
     <VerticalStepWrapper>
-      <StepMarkdown stepTitle="Find Dark Mode">
+      <StepMarkdown stepTitle="Find darkMode">
 
-        Open the **Plugin Store** in your Craft control panel and search for **Dark Mode** by Solspace.
+        Open the **Plugin Store** in your Craft control panel and search for **darkMode** by Solspace.
 
       </StepMarkdown>
       <StepMarkdown stepTitle="Install the plugin">
 
-        Open Dark Mode’s product page and click **Install**.
+        Open darkMode’s product page and click **Install**.
 
       </StepMarkdown>
     </VerticalStepWrapper>
@@ -135,7 +135,7 @@ Once installed, click the appearance icon beside your account avatar to [choose 
 
 ## Updating
 
-Dark Mode has no content tables or database migrations. You can update it using Craft’s updater, Composer, or the control panel.
+darkMode has no content tables or database migrations. You can update it using Craft’s updater, Composer, or the control panel.
 
 <Tabs>
   <TabItem value="update-cli" label="Craft Update (CLI)" default>
@@ -157,19 +157,19 @@ Dark Mode has no content tables or database migrations. You can update it using 
         ```
 
       </StepMarkdown>
-      <StepMarkdown stepTitle="Update Dark Mode">
+      <StepMarkdown stepTitle="Update darkMode">
         <Tabs>
           <TabItem value="update-latest" label="Latest Version" default>
 
             ```sh
-            php craft update dark-mode
+            php craft update darkmode
             ```
 
           </TabItem>
           <TabItem value="update-specific" label="Specific Version">
 
             ```sh
-            php craft update dark-mode:1.1.0
+            php craft update darkmode:1.1.0
             ```
 
           </TabItem>
@@ -179,14 +179,14 @@ Dark Mode has no content tables or database migrations. You can update it using 
   </TabItem>
   <TabItem value="update-composer" label="Composer (CLI)">
 
-    Use Composer to update Dark Mode within the version allowed by your project.
+    Use Composer to update darkMode within the version allowed by your project.
 
     <VerticalStepWrapper>
       <StepMarkdown stepTitle="Update composer.json">
         <Tabs>
           <TabItem value="composer-latest" label="Latest Versions" default>
 
-            Use `^1.0.0` to allow updates within Dark Mode 1.x:
+            Use `^1.0.0` to allow updates within darkMode 1.x:
 
             ```json {4}
             {
@@ -233,23 +233,23 @@ Dark Mode has no content tables or database migrations. You can update it using 
     <VerticalStepWrapper>
       <StepMarkdown stepTitle="Check for updates">
 
-        Open **Utilities → Updates** in the Craft control panel and review the available Dark Mode update.
+        Open **Utilities → Updates** in the Craft control panel and review the available darkMode update.
 
       </StepMarkdown>
       <StepMarkdown stepTitle="Run the update">
 
-        Click **Update** for Dark Mode and follow Craft’s prompts to finish the update.
+        Click **Update** for darkMode and follow Craft’s prompts to finish the update.
 
       </StepMarkdown>
     </VerticalStepWrapper>
   </TabItem>
 </Tabs>
 
-Check your team’s main screens after updating Dark Mode or another plugin. See [Plugin Compatibility](compatibility.md) for supported versions.
+Check your team’s main screens after updating darkMode or another plugin. See [Plugin Compatibility](compatibility.md) for supported versions.
 
-## Disable Dark Mode {#disabling}
+## Disable darkMode {#disabling}
 
-Disable Dark Mode to temporarily turn it off for everyone without uninstalling it. To change only your own appearance, [choose Light](index.md#choose-your-appearance) instead.
+Disable darkMode to temporarily turn it off for everyone without uninstalling it. To change only your own appearance, [choose Light](index.md#choose-your-appearance) instead.
 
 <Tabs>
   <TabItem value="disable-cli" label="CLI" default>
@@ -261,10 +261,10 @@ Disable Dark Mode to temporarily turn it off for everyone without uninstalling i
         ```
 
       </StepMarkdown>
-      <StepMarkdown stepTitle="Disable Dark Mode">
+      <StepMarkdown stepTitle="Disable darkMode">
 
         ```sh
-        php craft plugin/disable dark-mode
+        php craft plugin/disable darkmode
         ```
 
       </StepMarkdown>
@@ -279,7 +279,7 @@ Disable Dark Mode to temporarily turn it off for everyone without uninstalling i
       </StepMarkdown>
       <StepMarkdown>
 
-        Click the **Cog button** for Dark Mode.
+        Click the **Cog button** for darkMode.
 
       </StepMarkdown>
       <StepMarkdown>
@@ -291,11 +291,11 @@ Disable Dark Mode to temporarily turn it off for everyone without uninstalling i
   </TabItem>
 </Tabs>
 
-To turn it back on, choose **Enable** from the same menu or run `php craft plugin/enable dark-mode`.
+To turn it back on, choose **Enable** from the same menu or run `php craft plugin/enable darkmode`.
 
-## Uninstall Dark Mode {#uninstalling}
+## Uninstall darkMode {#uninstalling}
 
-Uninstalling Dark Mode returns Craft to its normal appearance. It does not affect your site’s content, and you can reinstall it at any time.
+Uninstalling darkMode returns Craft to its normal appearance. It does not affect your site’s content, and you can reinstall it at any time.
 
 <Tabs>
   <TabItem value="uninstall-cli" label="CLI" default>
@@ -307,10 +307,10 @@ Uninstalling Dark Mode returns Craft to its normal appearance. It does not affec
         ```
 
       </StepMarkdown>
-      <StepMarkdown stepTitle="Uninstall Dark Mode">
+      <StepMarkdown stepTitle="Uninstall darkMode">
 
         ```sh
-        php craft plugin/uninstall dark-mode
+        php craft plugin/uninstall darkmode
         ```
 
       </StepMarkdown>
@@ -327,9 +327,9 @@ Uninstalling Dark Mode returns Craft to its normal appearance. It does not affec
   </TabItem>
   <TabItem value="uninstall-cp" label="Control Panel">
     <VerticalStepWrapper>
-      <StepMarkdown stepTitle="Uninstall Dark Mode">
+      <StepMarkdown stepTitle="Uninstall darkMode">
 
-        Go to **Settings → Plugins**, open Dark Mode’s action menu, and choose **Uninstall**.
+        Go to **Settings → Plugins**, open darkMode’s action menu, and choose **Uninstall**.
 
       </StepMarkdown>
       <StepMarkdown stepTitle="Remove the package">

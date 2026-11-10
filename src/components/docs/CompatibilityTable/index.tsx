@@ -110,7 +110,7 @@ export default function CompatibilityTable({ rows }: { rows: CompatibilityRow[] 
       </p>
       <div className={styles.scroll} role="region" aria-label="Compatibility results" tabIndex={0}>
         <table id={`${id}-table`} className={styles.table}>
-          <caption className={styles.srOnly}>Plugins, developers, and Dark Mode compatibility</caption>
+          <caption className={styles.srOnly}>Plugins, developers, and darkMode compatibility</caption>
           <thead><tr>
             <th scope="col" className={styles.iconCell}><span className={styles.srOnly}>Plugin icon</span></th>
             <SortHeader sortKey="plugin" label="Plugin" sort={sort} onSort={toggleSort} />
@@ -118,7 +118,7 @@ export default function CompatibilityTable({ rows }: { rows: CompatibilityRow[] 
             <th scope="col">Version checked</th>
             <th scope="col" className={styles.center}>Compatible</th>
             <th scope="col" className={styles.center}>Adapter included</th>
-            <th scope="col" title="First compatible Dark Mode release">Supported since</th>
+            <th scope="col" title="First compatible darkMode release">Supported since</th>
             <th scope="col">Last checked</th>
           </tr></thead>
           {sortGroups(Array.from(groups), sort).map(([name, versions]) => {

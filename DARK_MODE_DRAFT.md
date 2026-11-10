@@ -1,4 +1,4 @@
-# Dark Mode documentation draft
+# darkMode documentation draft
 
 Local review branch: `codex/dark-mode-docs`, based on `feat/fc_5.18`.
 
@@ -21,7 +21,7 @@ Seven pages following a standard getting-started and developer flow:
 - **Getting Started:** choosing an appearance, installation/update/removal for site admins, and a dated compatibility table. Technical integration details stay out of the user guide.
 - **Developer:** concrete native-control, semantic-color, icon, and state examples; optional chart/editor and asset-bundle integration; a short release checklist.
 
-The compatibility dates/versions come from the Dark Mode repository’s 2026-11-07 local QA record, cross-checked against the QA site's Composer lockfile. This documentation edit is not a fresh plugin audit. Compatibility and adapter requirements are separate columns. Each checked build has its own result; versions with different adapter needs should have separate rows. At the user’s request, Calendar 6.x is shown as the compatible parent row without an adapter to preview the version hierarchy. It is an unreleased, assumed-compatible draft entry, not a completed QA result; its check date is intentionally blank. Calendar 5.0.33 is the indented earlier-version row with its included adapter and recorded date. Verify Calendar 6 and replace the placeholder version/date before publication.
+The compatibility dates/versions come from the darkMode repository’s 2026-11-07 local QA record, cross-checked against the QA site's Composer lockfile. This documentation edit is not a fresh plugin audit. Compatibility and adapter requirements are separate columns. Each checked build has its own result; versions with different adapter needs should have separate rows. At the user’s request, Calendar 6.x is shown as the compatible parent row without an adapter to preview the version hierarchy. It is an unreleased, assumed-compatible draft entry, not a completed QA result; its check date is intentionally blank. Calendar 5.0.33 is the indented earlier-version row with its included adapter and recorded date. Verify Calendar 6 and replace the placeholder version/date before publication.
 
 ## Before publication
 
@@ -29,7 +29,7 @@ The compatibility dates/versions come from the Dark Mode repository’s 2026-11-
 - Review the beta API examples against the release tag.
 - Confirm supported plugin versions with recorded workflow checks; the current table is an adapter inventory, not a version certification.
 - Keep the opt-in comparison helper out of public documentation; its environment flag is documented only in the plugin’s development notes.
-- Replace the generic Solspace social image if a Dark Mode social asset is available.
+- Replace the generic Solspace social image if a darkMode social asset is available.
 - Configure and run the hosted search crawler for `docs-craft-dark-mode-current`; adding the tag mapping does not create an Algolia index.
 - Review the full branch against its base before merging into the publication branch. No remote changelog fetch was added for the unpublished package.
 

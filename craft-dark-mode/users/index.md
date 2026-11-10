@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: Using Dark Mode
+title: Using darkMode
 description: Choose your appearance and know what to expect.
 slug: /users
 ---
@@ -19,11 +19,11 @@ Click the appearance icon beside your account avatar in Craft’s top bar. Each 
 
 Your choice applies immediately and saves to your Craft account. It also stays in sync across open tabs on the same site. You can change it any time, and it does not affect anyone else’s preference.
 
-If you do not see the icon, ask your site administrator to [install Dark Mode](installation.md).
+If you do not see the icon, ask your site administrator to [install darkMode](installation.md).
 
 ## What to expect
 
-Craft’s layout and controls stay familiar. Dark Mode adjusts their colors, along with supported plugin interfaces. Any included compatibility adjustments load automatically; there is nothing extra for you to configure.
+Craft’s layout and controls stay familiar. darkMode adjusts their colors, along with supported plugin interfaces. Any included compatibility adjustments load automatically; there is nothing extra for you to configure.
 
 Your public website, uploaded images, and authored content keep their own styling. A website or email preview may therefore look different from the surrounding control panel.
 
@@ -34,8 +34,8 @@ See [Plugin Compatibility](compatibility.md) for the versions last checked.
 <FaqCards
   items={[
     {
-        "title": "Does Dark Mode change Craft’s regular Light appearance?",
-        "description": "<strong>No.</strong> Light uses Craft’s regular appearance, without Dark Mode’s color overrides. You can switch back to Light at any time."
+        "title": "Does darkMode change Craft’s regular Light appearance?",
+        "description": "<strong>No.</strong> Light uses Craft’s regular appearance, without darkMode’s color overrides. You can switch back to Light at any time."
     },
     {
         "title": "Does my choice affect anyone else?",
@@ -43,7 +43,7 @@ See [Plugin Compatibility](compatibility.md) for the versions last checked.
     },
     {
         "title": "Will it change my website, images, or content?",
-        "description": "No. Dark Mode changes the control panel’s appearance. It does not recolor your uploaded images or change your website’s design or saved content."
+        "description": "No. darkMode changes the control panel’s appearance. It does not recolor your uploaded images or change your website’s design or saved content."
     },
     {
         "title": "Why are some previews still light?",
@@ -58,12 +58,12 @@ See [Plugin Compatibility](compatibility.md) for the versions last checked.
         "description": "<strong>Auto</strong> follows your computer’s light or dark appearance. Choose <strong>Light</strong> or <strong>Dark</strong> to keep the control panel in that appearance instead."
     },
     {
-        "title": "Will Dark Mode slow down my control panel?",
-        "description": "Dark Mode adds some browser rendering work. Our current rough estimate is about <strong>50 ms (0.05 seconds)</strong> of additional initial rendering time. This is not a verified average or an upper limit. The overhead varies with the page, installed plugins, browser, and hardware, and complex pages can take longer. This refers to initial rendering, rather than total page-load time."
+        "title": "Will darkMode slow down my control panel?",
+        "description": "darkMode adds some browser rendering work. Our current rough estimate is about <strong>50 ms (0.05 seconds)</strong> of additional initial rendering time. This is not a verified average or an upper limit. The overhead varies with the page, installed plugins, browser, and hardware, and complex pages can take longer. This refers to initial rendering, rather than total page-load time."
     },
     {
-        "title": "Is Dark Mode free?",
-        "description": "Yes. Dark Mode is free and open source under the MIT license."
+        "title": "Is darkMode free?",
+        "description": "Yes. darkMode is free and open source under the MIT license."
     }
 ]}
 />

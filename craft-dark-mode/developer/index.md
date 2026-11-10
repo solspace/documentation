@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
-title: Supporting Dark Mode
-description: Concrete changes that reduce the need for a Dark Mode adapter.
+title: Supporting darkMode
+description: Concrete changes that reduce the need for a darkMode adapter.
 slug: /developer
 ---
 
@@ -119,7 +119,7 @@ Literal colors can leave a white card in Dark, or make secondary text and links 
 | Focus indicator | `--focus-ring-color` |
 | Status message | Matching `--fg-success` / `--bg-success`, warning, error, or notice roles |
 
-Use the roles available in your supported Craft versions. Keep Dark Mode’s internal `--dm-*` palette out of your plugin’s public styling contract.
+Use the roles available in your supported Craft versions. Keep darkMode’s internal `--dm-*` palette out of your plugin’s public styling contract.
 
 ## Make icons and states adapt too
 

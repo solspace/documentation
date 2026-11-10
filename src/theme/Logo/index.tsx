@@ -44,7 +44,7 @@ const logos: LogoItem[] = [
   {
     pathname: '/craft/dark-mode',
     latestVersionSlug: '/craft/dark-mode/v1',
-    title: 'Dark Mode',
+    title: 'darkMode',
     logoLine: 'for Craft',
     logoLineShort: '',
     src: 'logos/icons/dark-mode.svg',

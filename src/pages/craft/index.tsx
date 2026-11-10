@@ -40,7 +40,7 @@ export default function Craft(): JSX.Element {
                   fullCardLink: '/craft/ai-assistant/v1',
                 },
                 {
-                  title: 'Dark Mode',
+                  title: 'darkMode',
                   titleBadge: 'Beta',
                   icon: Icons.DarkModeIcon,
                   fullCardLink: '/craft/dark-mode/v1',

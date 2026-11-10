@@ -458,7 +458,7 @@ const config: Config = {
               to: `/craft/calendar/v5`,
             },
             {
-              label: 'Dark Mode',
+              label: 'darkMode',
               to: '/craft/dark-mode/v1',
             },
             {

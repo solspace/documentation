@@ -9,7 +9,7 @@ import CompatibilityTable from '@site/src/components/docs/CompatibilityTable';
 import compatibility from './_compatibility.json';
 
 
-Dark Mode includes adapters for plugins that needed styling adjustments during compatibility testing. Adapters load automatically and require no configuration. The **Adapter included** column shows which versions use one.
+darkMode includes adapters for plugins that needed styling adjustments during compatibility testing. Adapters load automatically and require no configuration. The **Adapter included** column shows which versions use one.
 
 <CompatibilityTable rows={compatibility} />
 

@@ -16,7 +16,7 @@ const stores = [
   },
   {
     pathname: '/craft/dark-mode',
-    title: 'Get Dark Mode',
+    title: 'Get darkMode',
     link: '/craft/dark-mode/v1/setup/installation/',
   },
   {
@@ -65,7 +65,7 @@ export function PluginStore(): React.JSX.Element | null {
       className="hidden md:block"
       items={[
         { label: 'Installation & Updates', to: '/craft/dark-mode/v1/setup/installation/' },
-        { label: 'Using Dark Mode', to: '/craft/dark-mode/v1/users/' },
+        { label: 'Using darkMode', to: '/craft/dark-mode/v1/users/' },
         { label: 'Plugin Compatibility', to: '/craft/dark-mode/v1/compatibility/' },
         { label: 'Plugin Development', to: '/craft/dark-mode/v1/developer/' },
       ]}

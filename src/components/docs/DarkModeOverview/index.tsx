@@ -218,7 +218,7 @@ export function ControlPanelTour() {
     <video key={source} ref={videoRef} className={styles.tourVideo}
     width="1666" height="986" poster={poster} preload="none"
     muted loop playsInline role="button" tabIndex={0}
-    aria-label={`${playing ? 'Pause' : 'Play'} the Dark Mode control panel tour`}
+    aria-label={`${playing ? 'Pause' : 'Play'} the darkMode control panel tour`}
     onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
     onClick={togglePlayback}
     onKeyDown={event => {
@@ -228,7 +228,7 @@ export function ControlPanelTour() {
       }
     }}>
     <source src={source} type="video/mp4" />
-    <a href={source}>Watch the Dark Mode control panel tour</a>
+    <a href={source}>Watch the darkMode control panel tour</a>
     </video>
   </div>;
 }

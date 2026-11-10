@@ -4,26 +4,26 @@ import styles from './styles.module.css';
 
 const screenshots = [
   { name: 'dashboard', label: 'Dashboard', height: 1770,
-    alt: 'The Northstar dashboard in Dark Mode, with submission charts, recent submissions, and Commerce widgets.',
-    caption: 'Your dashboard, comfortably dark.' },
+    alt: 'The Northstar dashboard in darkMode, with submission charts, recent submissions, and Commerce widgets.',
+    caption: 'Your dashboard, after dark.' },
   { name: 'entry-list', label: 'Entries', height: 1878,
-    alt: 'Craft’s Entries screen in Dark Mode, with content titles, statuses, sections, dates, and authors.',
-    caption: 'Browse your entries in Dark Mode.' },
+    alt: 'Craft’s Entries screen in darkMode, with content titles, statuses, sections, dates, and authors.',
+    caption: 'Browse your entries in darkMode.' },
   { name: 'entry-detail', label: 'Entry editor', height: 1216,
-    alt: 'The Side Quest Coffee entry editor in Dark Mode, with project data, table fields, assets, and publishing settings.',
-    caption: 'Author your content in Dark Mode.' },
+    alt: 'The Side Quest Coffee entry editor in darkMode, with project data, table fields, assets, and publishing settings.',
+    caption: 'Author your content in darkMode.' },
   { name: 'assets', label: 'Assets', height: 1394,
-    alt: 'Craft’s Assets screen in Dark Mode, with the Northstar folder, image thumbnails, file details, and a selected asset.',
-    caption: 'Manage your assets in Dark Mode.' },
+    alt: 'Craft’s Assets screen in darkMode, with the Northstar folder, image thumbnails, file details, and a selected asset.',
+    caption: 'Manage your assets in darkMode.' },
   { name: 'freeform', label: 'Freeform', height: 1849,
-    alt: 'Freeform’s Project estimate form builder in Dark Mode, with field types and a two-column form layout.',
-    caption: 'Dark Mode support for Freeform.' },
+    alt: 'Freeform’s Project estimate form builder in darkMode, with field types and a two-column form layout.',
+    caption: 'darkMode support for Freeform.' },
   { name: 'formie', label: 'Formie', height: 1856,
-    alt: 'Formie’s Product enquiries form builder in Dark Mode, with the Dropdown field editor and its options open.',
-    caption: 'Dark Mode support for Formie.' },
+    alt: 'Formie’s Product enquiries form builder in darkMode, with the Dropdown field editor and its options open.',
+    caption: 'darkMode support for Formie.' },
   { name: 'commerce', label: 'Commerce', height: 1879,
-    alt: 'A Craft Commerce order in Dark Mode, showing customer details, addresses, line items, and payment status.',
-    caption: 'Manage your Commerce orders in Dark Mode.' },
+    alt: 'A Craft Commerce order in darkMode, showing customer details, addresses, line items, and payment status.',
+    caption: 'Manage your Commerce orders in darkMode.' },
 ];
 
 export default function ScreenshotShowcase() {
@@ -115,7 +115,7 @@ export default function ScreenshotShowcase() {
     }
   };
 
-  return <section ref={rootRef} className={styles.showcase} aria-label="Dark Mode screenshots"
+  return <section ref={rootRef} className={styles.showcase} aria-label="darkMode screenshots"
     aria-roledescription="carousel" data-paused={paused || !inView || !pageVisible || modalOpen}
     onPointerEnter={event => { if (event.pointerType === 'mouse') setHovered(true); }}
     onPointerLeave={() => { cancelHover(); setHovered(false); lastHover.current = null; }}

@@ -8,7 +8,7 @@ Use this guide for charts, embedded editors, shadow roots, or a component that c
 
 ## Read the actual appearance
 
-Dark Mode sets these attributes on the document’s `html` element:
+darkMode sets these attributes on the document’s `html` element:
 
 | Attribute | Values |
 | --- | --- |
@@ -64,7 +64,7 @@ if (class_exists(DarkMode::class)) {
 }
 ```
 
-Use Craft’s `RegisterComponentTypesEvent`, appending your asset-bundle class to `types`. The guard keeps Dark Mode optional.
+Use Craft’s `RegisterComponentTypesEvent`, appending your asset-bundle class to `types`. The guard keeps darkMode optional.
 
 In your own plugin, create a bundle with a sibling `resources` directory:
 
@@ -88,16 +88,16 @@ final class DarkModeCompatibilityAsset extends AssetBundle
 }
 ```
 
-The dependency loads Dark Mode’s assets first. This hook runs in both appearances, so dark-only rules still need a selector such as `html[data-dark-mode="dark"] .acme-widget`.
+The dependency loads darkMode’s assets first. This hook runs in both appearances, so dark-only rules still need a selector such as `html[data-dark-mode="dark"] .acme-widget`.
 
-For ordinary semantic CSS, use your existing [Craft asset bundle](https://craftcms.com/docs/5.x/extend/asset-bundles.html); no Dark Mode hook is necessary. Never edit vendor files or replace Craft’s core templates. Review adapters separately for major plugin releases—Calendar 5’s adapter, for example, is not enabled for Calendar 6.
+For ordinary semantic CSS, use your existing [Craft asset bundle](https://craftcms.com/docs/5.x/extend/asset-bundles.html); no darkMode hook is necessary. Never edit vendor files or replace Craft’s core templates. Review adapters separately for major plugin releases—Calendar 5’s adapter, for example, is not enabled for Calendar 6.
 
 ## Keep compatibility assets focused
 
-Dark Mode loads built-in adapters only for enabled plugins. Adapters can also be limited to a release range or control-panel section. Calendar 5 uses an adapter, while Freeform 5.18 and later provide their own appearance integration.
+darkMode loads built-in adapters only for enabled plugins. Adapters can also be limited to a release range or control-panel section. Calendar 5 uses an adapter, while Freeform 5.18 and later provide their own appearance integration.
 
 Keep assets for embedded fields and dashboard widgets separate from styles used only on your plugin’s pages. Load page-only rules in the relevant section so they do not add styling work elsewhere in Craft. Use your own plugin’s version and route checks when registering an optional bundle.
 
 Freeform’s legacy adapter illustrates this split. Its 5.0 through 5.17 widget and chart adjustments are available across the control panel, while its builder and editor assets load only on Freeform pages. All Freeform adapters stop before 5.18, including 5.18 prereleases.
 
-These integration APIs are available in Dark Mode 1.0.0.
+These integration APIs are available in darkMode 1.0.0.
