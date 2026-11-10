@@ -11,7 +11,7 @@ import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
 
 # _Form_ Element Field Type<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
-Freeform includes a _Freeform Form_ field type (and [Freeform Submissions](../submissions/fieldtype.mdx)), which allows you to assign/relate forms to other element types such as Craft Entries.
+Freeform includes a _Freeform Form_ field type (and [Freeform Submissions](../submissions/fieldtype.mdx)), which allows you to assign/relate forms to other element types such as Craft Entries. On Craft 5, you can also select forms inside [Craft Link, Hyper, and Linkit fields](#link-fields).
 
 <Photo
   img={require('@site/static/img/craft/freeform/v5/forms/fieldtype.png')}
@@ -140,3 +140,97 @@ For example, if you want to pass the title of an entry to a Freeform field, and 
 }) }}
 
 ```
+
+
+## Form Selection in Link Fields {#link-fields}
+
+:::info Upcoming release
+The link field integrations and `formFromLink()` helper are currently available in Freeform's unreleased `v5` development branch. They require **Craft 5.9+**.
+:::
+
+Freeform adds a **Freeform Form** option to these link fields:
+
+| Field type | Supported version | Where to enable Freeform Form |
+| --- | --- | --- |
+| Craft's native **Link** | Craft 5.9+ | Select **Freeform Form** under **Allowed Link Types**. |
+| **Hyper** | Hyper 2.x and 3.x for Craft 5 | Add or enable **Freeform Form** in the field's link types. In Hyper 3, edit the field's **Custom** settings or its shared **Link Type Config**. |
+| **Linkit** | Linkit 5 | Enable **Freeform Form** in the field's link type settings. |
+
+To set up a field:
+
+1. Go to **Settings → Fields** and create or edit a field with **Link**, **Hyper**, or **Linkit** as its field type.
+2. Enable **Freeform Form** using the settings above.
+3. Use **Available Forms** to offer all forms or limit the choices to specific forms.
+4. Save the field and add it to the element's field layout if it is not already present.
+5. Edit the entry or other element, choose **Freeform Form** as the link type, select a form, and save.
+
+The picker uses the current site's forms and excludes archived forms. When [Restrict Form options in Form Field Type to User permissions](../configuration/settings/general.mdx#form-field-show-only-allowed-forms) is enabled, it also limits the choices to forms the author can manage.
+
+### Form References and URLs
+
+Selecting a form stores a **form reference**, rather than a public URL. It does not create a page for the form or output a clickable link. To display the form, resolve the reference with [`craft.freeform.formFromLink()`](../templates/queries/form.mdx#form-from-link) and render the returned Form object.
+
+If you want a link to an existing page that contains a form, use an **Entry** link to that page instead.
+
+### Craft Link Example
+
+For a native Link field with the handle `contactLink`:
+
+```twig showLineNumbers
+{% set form = craft.freeform.formFromLink(entry.contactLink) %}
+
+{% if form %}
+    {{ form.render() }}
+{% endif %}
+```
+
+Native Craft LinkData's `value` property contains its rendered URL, which is empty for a form reference. Pass the complete link value to `formFromLink()` rather than passing `entry.contactLink.value` to `craft.freeform.form()`.
+
+### Hyper Examples
+
+Hyper returns a collection, even when the field allows only one link. Pass an individual link to the helper. Twig's `first` filter works with both Hyper 2 and Hyper 3:
+
+```twig showLineNumbers
+{% set link = entry.contentLinks|first %}
+{% set form = craft.freeform.formFromLink(link) %}
+
+{% if form %}
+    {{ form.render() }}
+{% endif %}
+```
+
+In Hyper 3, you can also retrieve the first link with `entry.contentLinks.first()`.
+
+For a field that allows multiple links, check each link before deciding how to render it:
+
+```twig showLineNumbers
+{% for link in entry.contentLinks %}
+    {% set form = craft.freeform.formFromLink(link) %}
+
+    {% if form %}
+        {{ form.render() }}
+    {% elseif link.url %}
+        {{ link.getLink() }}
+    {% endif %}
+{% endfor %}
+```
+
+### Linkit Example
+
+For a Linkit 5 field with the handle `contactLink`, use the same helper as the native Craft Link example:
+
+```twig showLineNumbers
+{% set form = craft.freeform.formFromLink(entry.contactLink) %}
+
+{% if form %}
+    {{ form.render() }}
+{% endif %}
+```
+
+An individual Hyper or Linkit form link also exposes the selected Form object as `link.form`. The helper is useful when your template handles more than one link field type.
+
+### Empty or Unavailable Selections
+
+`formFromLink()` returns `null` for an empty selection, an unrelated link type, or a deleted or archived form. Always check the result before rendering it.
+
+An existing selection that is no longer offered by the picker appears as **Unavailable form**. Choose an available form or explicitly clear the selection before saving. Freeform stores these references in the field's content; they are not Craft element relations and do not appear in **Usage in Elements**, which tracks the standalone Freeform Form field.

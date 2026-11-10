@@ -29,6 +29,38 @@ Freeform will automatically insert javascript in the footer of the page for feat
   alt="Basic Dark Example"
 />
 
+## Forms Selected in Link Fields {#form-from-link}
+
+Use `craft.freeform.formFromLink(link, properties = null)` to retrieve the form selected in a native Craft Link, Hyper, or Linkit 5 field. This helper requires Craft 5 and is part of the upcoming Freeform release. See [Form Selection in Link Fields](../../forms/fieldtype.mdx#link-fields) for availability, field setup, and examples for each field type.
+
+The first argument is a **single link value**. The helper returns a [Form object](../objects/form.mdx), or `null` when the link is empty, uses another link type, or references a deleted or archived form:
+
+```twig showLineNumbers
+{% set form = craft.freeform.formFromLink(entry.contactLink) %}
+
+{% if form %}
+    {{ form.render() }}
+{% endif %}
+```
+
+For a Hyper field, pass an individual link from its collection, for example `entry.contentLinks|first`, or call the helper for each link in a loop. Hyper 3 also supports `entry.contentLinks.first()`. Passing the whole collection returns `null`.
+
+The optional second argument accepts the same [Template Overrides](../formatting/overrides.mdx) as `craft.freeform.form()`:
+
+```twig showLineNumbers
+{% set form = craft.freeform.formFromLink(entry.contactLink, {
+    attributes: {
+        class: 'contact-form',
+    },
+}) %}
+
+{% if form %}
+    {{ form.render() }}
+{% endif %}
+```
+
+Form links are references and have no public URL. In particular, native Craft LinkData's `value` property is a rendered URL, not a form ID. Pass the entire link to this helper instead of using `craft.freeform.form(link.value)`.
+
 ## Parameters
 
 The `Form` query is always constructed the same way. The first assumed parameter should contain the form handle or ID, and the second parameter (optional) contains [Template Overrides](../formatting/overrides.mdx) and other available settings, typically used for applying a class globally to specific types of inputs, etc.
