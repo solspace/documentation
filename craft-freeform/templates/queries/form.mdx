@@ -354,6 +354,25 @@ Then in your formatting template, use:
 If displaying the exact same form more than once in a single template, some of the `<form>` tag attributes set on one form may carry over to other ones. To work around this, you can unset the attribute on the other forms (unless they have their own attributes set). For example, if one form has `class: 'something'`, it may end up applying to other instances of the form, but you can add `class: null` to those others to work around it.
 :::
 
+### Forms Selected in Link Fields<Badge type="feature" text="New in 5.18+" /> {#form-from-link}
+
+Use `craft.freeform.formFromLink(link, properties = null)` to retrieve a form selected in a Craft Link, Hyper, or Linkit field, or a Navigation node. Available in **Freeform 5.18.2+** on **Craft 5**. See [Content Integrations](../../configuration/content-integrations.mdx#form-links) for setup and supported versions.
+
+The first argument is a single link value or Navigation node. The helper returns a [Form object](../objects/form.mdx), or `null` for an empty selection, unrelated link type, or deleted or archived form. The optional second argument accepts [Template Overrides](../formatting/overrides.mdx):
+
+```twig
+{% set form = craft.freeform.formFromLink(entry.contactLink, {
+    attributes: {class: 'contact-form'},
+}) %}
+{% if form %}
+    {{ form.render() }}
+{% endif %}
+```
+
+For Hyper, pass `entry.contentLinks|first` or loop through individual links. Passing the whole collection returns `null`.
+
+Form selections store references rather than public URLs. Native Craft LinkData's `value` property is a rendered URL, not a form ID. Pass the complete field value to this helper instead of using `craft.freeform.form(link.value)`.
+
 ## Usage in Templates
 
 Render the form using its formatting template:

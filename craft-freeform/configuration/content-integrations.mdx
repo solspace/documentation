@@ -1,0 +1,526 @@
+---
+title: Content Integrations
+sidebar_position: 5
+toc_max_heading_level: 3
+description: Embed Freeform forms in CKEditor, Vizy, Navigation, Craft Link, Hyper, Linkit, Matrix, Neo, and Content Block fields.
+---
+
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs'
+
+import { Badge } from '@site/src/components/utils'
+
+# Content Integrations<Badge type="feature" text="New in 5.18.2+" />
+
+Embed forms in editors, link fields, menus, and content blocks. These integrations
+require **Craft 5** and do not support **Craft 4**.
+Freeform's [Craft field type](../forms/fieldtype.mdx) requires **Lite or Pro**.
+Other plugins may have their own edition requirements.
+
+## Content Integrations settings
+
+Open **Freeform → Settings → Content Integrations** to enable or disable the
+CKEditor, Vizy, Navigation, Craft Link, Hyper, and Linkit integrations. Supported
+integrations are enabled by default. Turning one off hides its form insertion
+controls without affecting saved selections or frontend rendering.
+
+Use **Integration Icon** to choose a Craft icon for the toolbar controls and form
+pickers, or keep the Freeform logo.
+
+## Supported plugins and content types
+
+| Integration | Supported versions | Form selection | Rendering |
+| --- | --- | --- | --- |
+| <span className="nowrap">[Craft Link](https://craftcms.com/docs/5.x/reference/field-types/link.html)</span> | Built into Craft 5.3+ | **Freeform Form** link type | `craft.freeform.formFromLink()` |
+| <span className="nowrap">[Hyper](https://plugins.craftcms.com/hyper)</span> | 2.x and 3.x | **Freeform Form** link type | `formFromLink()` or `link.form` |
+| <span className="nowrap">[Linkit](https://plugins.craftcms.com/linkit)</span> | 5.x | **Freeform Form** link type | `formFromLink()` or `link.form` |
+| <span className="nowrap">[CKEditor](https://plugins.craftcms.com/ckeditor)</span> | 5.9+ | **Freeform Form** toolbar button | `craft.freeform.renderContent(entry.body)` |
+| <span className="nowrap">[Vizy](https://plugins.craftcms.com/vizy)</span> | 4.x | **Freeform Form** node | `entry.body.render()` |
+| <span className="nowrap">[Vizy content blocks](https://plugins.craftcms.com/vizy)</span> | 3.x and 4.x | Freeform Craft field in a block type | `freeform-integrations/vizy` partial |
+| <span className="nowrap">[Navigation](https://plugins.craftcms.com/navigation)</span> | 3.x and 4.x | **Freeform Form** node type | `formFromLink()` in a custom menu template |
+| <span className="nowrap">[Matrix](https://craftcms.com/docs/5.x/reference/field-types/matrix.html)</span> | Built into Craft 5 | Freeform Craft field in a nested entry type | `freeform-integrations/_form` partial |
+| <span className="nowrap">[Neo](https://plugins.craftcms.com/neo)</span> | 5.x | Freeform Craft field in a block type | `freeform-integrations/_form` partial |
+| <span className="nowrap">[Content Block](https://craftcms.com/docs/5.x/reference/field-types/content-block.html)</span> | Built into Craft 5.8+ | Freeform Craft field in its field layout | `freeform-integrations/_form` partial |
+
+The `freeform-integrations` template partials are included with Freeform. You do
+not need to copy them into your project. They create a separate form instance
+for each embed and render nothing for empty, archived, or deleted selections.
+Forms use their own formatting templates, so load the required CSS in your site
+layout.
+
+## Matrix, Neo, and Content Block fields
+
+These containers use the **Freeform Form** Craft field and do not need a toggle
+on the Content Integrations settings page.
+
+### Set up the field
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Create a **Freeform Form** field, for example `selectedForm`. Use **Available
+Forms** to choose which forms authors can select.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Add the field to the appropriate layout:
+
+- **Matrix:** a nested entry type allowed by the Matrix field.
+- **Neo:** a Neo block type.
+- **Content Block:** the Content Block field's own field layout.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Add the container field to your entry layout. Authors can then select a form
+inside it.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+### Render the selection
+
+For a Matrix or Neo field named `pageBlocks` with a `form` entry or block type:
+
+```twig
+{% for block in entry.pageBlocks.all() %}
+    {% if block.type.handle == 'form' %}
+        {% include 'freeform-integrations/_form' with {
+            selectedForm: block.selectedForm,
+            instanceId: 'block-' ~ entry.id ~ '-' ~ block.id,
+            renderProperties: {},
+        } only %}
+    {% endif %}
+{% endfor %}
+```
+
+For a Content Block field named `formBlock`:
+
+```twig
+{% include 'freeform-integrations/_form' with {
+    selectedForm: entry.formBlock.selectedForm,
+    instanceId: 'content-block-' ~ entry.id,
+    renderProperties: {},
+} only %}
+```
+
+Give each occurrence a unique `instanceId` if you render the same block more than
+once on a page. Use `renderProperties` for Freeform render options, such as a
+formatting template override.
+
+## Native editor controls
+
+Both editors show a non-interactive form preview. Your site renders the actual
+form using the examples below.
+
+### CKEditor 5.9+
+
+Add **Freeform Form** (`freeformForm`) to the CKEditor field's toolbar. Authors
+can use the button to insert a form or change the form in a selected block.
+
+Render the field with Freeform's helper:
+
+```twig
+{{ craft.freeform.renderContent(entry.body) }}
+```
+
+To override the formatting template for embedded forms:
+
+```twig
+{{ craft.freeform.renderContent(entry.body, {
+    formattingTemplate: 'bootstrap-5/index.twig'
+}) }}
+```
+
+Use this helper instead of `{{ entry.body }}`, which leaves form placeholders
+empty. Keep the Freeform toolbar control enabled when editing fields containing
+these blocks.
+
+### Vizy 4
+
+Enable the **Freeform Form** node in the field's Editor Config and add its control
+to the toolbar. Authors can insert a form or select an existing node to change
+its form. No custom block type or Craft field is needed.
+
+Render the field normally:
+
+```twig
+{{ entry.body.render() }}
+```
+
+Existing nested entries and content blocks remain supported. They are not
+converted to native editor blocks automatically.
+
+## Optional CKEditor nested-entry recipe
+
+To use CKEditor's nested entries instead of the toolbar integration:
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Create a **Freeform Form** Craft field with the handle `freeformForm`. Choose
+which forms authors can select in its settings.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Create an entry type named **Freeform Form**, with the handle `freeformForm`, and
+add the field to its layout. If authors do not need a title, disable the title
+field and set the title format to `Form`.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Allow that entry type in your CKEditor field and add the **+** toolbar menu.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Create `templates/_partials/entry/freeformForm.twig`:
+
+```twig
+{% include 'freeform-integrations/ckeditor' %}
+```
+
+</StepMarkdown>
+<StepMarkdown>
+
+In an entry, use **+ → Freeform Form**, select a form, and save. Render the
+CKEditor field normally with `{{ entry.body }}`.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+If your entry type has a different handle, use it as the partial's filename.
+For a different field handle or render options:
+
+```twig
+{% include 'freeform-integrations/ckeditor' with {
+    freeformFieldHandle: 'contactForm',
+    renderProperties: {formattingTemplate: 'bootstrap-5/index.twig'},
+} %}
+```
+
+## Vizy content blocks (3.x and 4.x) {#vizy-3x-and-4x-on-craft-5}
+
+To embed forms in Vizy content blocks:
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Create a **Freeform Form** Craft field with the handle `freeformForm`.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Create a **Freeform Form** Vizy block type and add the field to its layout.
+In Vizy 3, create the block type in your Vizy field. In Vizy 4, create it under
+**Settings → Vizy → Block Types**, then allow it in the field's Block
+Configuration.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Set the block type's **Template** to `freeform-integrations/vizy`.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Insert the block, choose a form, and save the entry. Render the Vizy field with
+`{{ entry.body.render() }}`.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+For a different field handle or render options, assign your own wrapper template
+to the block type:
+
+```twig
+{% include 'freeform-integrations/vizy' with {
+    freeformFieldHandle: 'contactForm',
+    renderProperties: {formattingTemplate: 'bootstrap-5/index.twig'},
+} %}
+```
+
+## Navigation (3.x and 4.x) {#navigation-3x-and-4x-on-craft-5}
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Allow **Freeform Form** nodes in your menu, then add one and choose a form.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Enter a title. In Navigation 4, you can leave it blank to use the form name.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+Forms do not have a public URL. Use `formFromLink()` in a custom navigation
+template to decide how they appear in your menu:
+
+```twig
+{% set nodes = craft.navigation.nodes('mainMenu').all() %}
+<ul>
+{% nav node in nodes %}
+    <li>
+        {% set form = craft.freeform.formFromLink(node) %}
+        {% if form %}
+            {% include 'freeform-integrations/navigation' %}
+        {% elseif node.url %}
+            {{ node.link }}
+        {% else %}
+            <span>{{ node.title }}</span>
+        {% endif %}
+        {% ifchildren %}<ul>{% children %}</ul>{% endifchildren %}
+    </li>
+{% endnav %}
+</ul>
+```
+
+The included partial displays the form in a `<details>` disclosure. You can
+instead use your own markup to show it inline or in a modal. Navigation's
+automatic menu renderer does not handle form display.
+
+<details className="hidden-heading">
+<summary>Open forms in a modal</summary>
+
+This example renders each selected form with the page and opens it in a native
+[`<dialog>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog).
+It does not need a modal library or a separate endpoint to fetch the form.
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Use this menu template. Replace `mainMenu` with your Navigation handle. Give
+`menuInstance` a different value for each placement, such as `header-menu` or
+`footer-menu`.
+
+```twig
+{% set menuInstance = 'header-menu' %}
+{% set nodes = craft.navigation.nodes('mainMenu').all() %}
+<ul>
+{% nav node in nodes %}
+    <li>
+        {% set form = craft.freeform.formFromLink(node) %}
+        {% if form %}
+            {% set instanceId = menuInstance ~ '-' ~ node.uid %}
+            {% set dialogId = 'freeform-modal-' ~ instanceId %}
+
+            <button type="button" data-freeform-modal-open
+                aria-controls="{{ dialogId }}" aria-haspopup="dialog">
+                {{ node.title }}
+            </button>
+
+            <dialog id="{{ dialogId }}" class="freeform-navigation-modal"
+                aria-labelledby="{{ dialogId }}-title">
+                <button type="button" data-freeform-modal-close autofocus>Close</button>
+                <h2 id="{{ dialogId }}-title">{{ node.title }}</h2>
+                {% include 'freeform-integrations/_form' with {
+                    selectedForm: form,
+                    instanceId: instanceId,
+                    renderProperties: {},
+                } only %}
+            </dialog>
+        {% elseif node.url %}
+            {{ node.link }}
+        {% else %}
+            <span>{{ node.title }}</span>
+        {% endif %}
+        {% ifchildren %}<ul>{% children %}</ul>{% endifchildren %}
+    </li>
+{% endnav %}
+</ul>
+```
+
+</StepMarkdown>
+<StepMarkdown>
+
+Add these styles to your site's stylesheet, alongside your form template's CSS:
+
+```css
+.freeform-navigation-modal {
+  box-sizing: border-box;
+  width: min(36rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  overflow: auto;
+  padding: 1.5rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #1f2937;
+  box-shadow: 0 1rem 3rem rgb(0 0 0 / 25%);
+}
+
+.freeform-navigation-modal::backdrop {
+  background: rgb(0 0 0 / 60%);
+}
+
+.freeform-navigation-modal [data-freeform-modal-close] {
+  display: block;
+  margin: 0 0 1rem auto;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  background: #f3f4f6;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+```
+
+</StepMarkdown>
+<StepMarkdown>
+
+Add this script once in your site's JavaScript or after the menu markup:
+
+```js
+document.addEventListener('click', (event) => {
+  if (!(event.target instanceof Element)) return
+
+  const opener = event.target.closest('[data-freeform-modal-open]')
+  if (opener) {
+    const dialog = document.getElementById(opener.getAttribute('aria-controls'))
+    if (dialog instanceof HTMLDialogElement && !dialog.open) {
+      dialog.showModal()
+    }
+  }
+
+  const closer = event.target.closest('[data-freeform-modal-close]')
+  if (closer) {
+    closer.closest('dialog')?.close()
+  }
+})
+```
+
+</StepMarkdown>
+<StepMarkdown>
+
+Enable **Use AJAX** under **Settings → Processing** in the form builder. Choose
+**Reload form with banner** or **Replace with success message** as the success
+behavior to keep feedback inside the modal. See [AJAX Forms](../templates/ajax.mdx).
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+The **Close** button and **Escape** dismiss the modal. The browser returns focus
+to the button that opened it.
+
+</details>
+
+## Form Links {#form-links}
+
+### Set up a link field
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Under **Settings → Fields**, create or edit a **Link**, **Hyper**, or **Linkit** field.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Enable **Freeform Form** in the field's link types:
+
+- **Craft Link:** select it under **Allowed Link Types**.
+- **Hyper:** enable it in the field's link types. In Hyper 3, edit the field's
+  **Custom** settings or its shared
+  [Link Type Config](https://verbb.io/craft-plugins/hyper/docs/v3/feature-tour/link-type-configs).
+- **Linkit:** enable it in the link type settings.
+
+Use **Available Forms** in the Freeform Form type's settings to offer all forms
+or limit the choices.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Save the field and add it to your element's field layout.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Edit the entry or other element, choose **Freeform Form** as the link type,
+select a form, and save.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+### Render the selected form
+
+For Craft Link and Linkit, pass the complete field value to
+[`formFromLink()`](../templates/queries/form.mdx#form-from-link):
+
+```twig
+{% set form = craft.freeform.formFromLink(entry.myLinkField) %}
+{% if form %}
+    {{ form.render() }}
+{% endif %}
+```
+
+For Craft Link, its `value` property is a URL, not a form ID. Pass the field value
+directly to the helper. To link to a page containing a form, choose an **Entry**
+link to that page instead.
+
+### Hyper fields
+
+Hyper returns a collection, even for a single-link field. Pass one link to the
+helper. Twig's `first` filter works with both Hyper 2 and Hyper 3:
+
+```twig
+{% set link = entry.myHyperField|first %}
+{% set form = craft.freeform.formFromLink(link) %}
+{% if form %}
+    {{ form.render() }}
+{% endif %}
+```
+
+Hyper and Linkit also expose the selected form as `link.form`.
+
+<details className="hidden-heading">
+<summary>Mix forms and regular links in a Hyper field</summary>
+
+Check each link before rendering it. The included partial gives each form its
+own instance, so the same form can appear more than once:
+
+```twig
+{% for link in entry.myHyperField %}
+    {% set form = craft.freeform.formFromLink(link) %}
+    {% if form %}
+        {% include 'freeform-integrations/_form' with {
+            selectedForm: form,
+            instanceId: 'hyper-' ~ entry.id ~ '-' ~ loop.index,
+            renderProperties: {},
+        } only %}
+    {% elseif link.url %}
+        {{ link.getLink() }}
+    {% endif %}
+{% endfor %}
+```
+
+Use a different instance prefix if you render this field in multiple places
+on the same page.
+
+</details>
+
+### Render options and unavailable forms
+
+You can pass render options to the helper:
+
+```twig
+{% set form = craft.freeform.formFromLink(link, {id: 'footer-contact-form'}) %}
+```
+
+The helper returns `null` for empty selections, unrelated link types, and deleted
+or archived forms. Always check the result before rendering.
+
+Pickers show the current site's forms and exclude archived forms. The
+[permission setting](./settings/general.mdx#form-field-show-only-allowed-forms)
+can also limit choices to forms the author can manage. Saved selections that are
+no longer available appear as **Unavailable form**. Choose another form or clear
+the selection before saving.
+
+Selections are stored in the field's content, not as Craft element relations.
+They do not appear in **Usage in Elements**, which tracks the standalone
+**Freeform Form** field.

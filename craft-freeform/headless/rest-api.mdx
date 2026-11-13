@@ -4,6 +4,8 @@ sidebar_position: 2
 description: Freeform headless REST API for manifests, submissions, CSRF, CORS, file uploads, and payment routes in Craft CMS.
 ---
 
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { Badge, BadgeGroup } from '@site/src/components/utils';
@@ -249,7 +251,7 @@ If the profile sets `requiresSignedToken: true`, include a non-empty token via:
 
 Cryptographic verification of that token is planned; until then Freeform **requires the token to be present** so the flag is not a silent no-op.
 
-## Field Configuration<Badge type="feature" text="Improved in 5.17+" />
+## Field Configuration<Badge type="feature" text="Improved in 5.17+ & 5.18+" />
 
 The manifest includes field-specific settings under `fields.{handle}.frontend.config`. The official React and Vue renderers use these settings to provide the corresponding controls.
 
@@ -265,6 +267,29 @@ The manifest includes field-specific settings under `fields.{handle}.frontend.co
 | International Phone | `international`, `defaultCountry`, `allowedCountries`, `examples`, `labels` | Enables international input and supplies the initial country, an array of allowed country codes, example numbers, and translated country-selector labels. |
 | File Upload and File Upload Drag & Drop | `uploadRequirements` | Translated requirements text, included when **Show Upload Requirements** is enabled. |
 
+In **5.18+**, the manifest also provides **Date & Time** picker settings (`picker`, `minuteStep`, `pickerMinDate`, `pickerMaxDate`, `referenceDate`, `referenceTimestamp`, `minDateOffset`, `maxDateOffset`, and localized `labels`) alongside the existing date format, clock, and native-input settings. See [Picker Choices](../forms/fields/date-time.mdx#picker-choices).
+
+The **Location** field supplies its autocomplete/manual-entry setup and structured address configuration. Submit an object as the field value, using its handle in `values`:
+
+```json
+{
+  "values": {
+    "address": {
+      "search": "123 Main Street",
+      "line1": "123 Main Street",
+      "line2": "",
+      "city": "Winnipeg",
+      "state": "MB",
+      "postalCode": "R3C 1A3",
+      "country": "CA"
+    }
+  }
+}
+```
+
+This is the address portion of the normal submission payload. Country and state values must match the field's configured full-name/code format. Use the official React/Vue renderers for the configured input UI, or implement the behavior in a custom renderer. See [Location](../forms/fields/location.mdx) and [Google Places](../integrations/google-places.mdx).
+
+
 Optional feature keys may be omitted when the feature is disabled or its setting is unset. Custom renderers must implement the behavior represented by these settings.
 
 Browser autofill is provided separately as `fields.{handle}.attributes.input.autocomplete`. A custom `autocomplete` input attribute takes precedence over the **Browser Autofill** setting.
@@ -279,8 +304,18 @@ The form builder's processing overlay and focus-first-error settings are not cur
 
 Browser apps that call Craft on another origin must:
 
-1. List that origin in `headless.allowedOrigins` (or per-form / per-profile overrides)
-2. Send requests with credentials (`credentials: "include"`) so CSRF cookies work
+<VerticalStepWrapper>
+<StepMarkdown>
+
+List that origin in `headless.allowedOrigins` (or per-form / per-profile overrides)
+
+</StepMarkdown>
+<StepMarkdown>
+
+Send requests with credentials (`credentials: "include"`) so CSRF cookies work
+
+</StepMarkdown>
+</VerticalStepWrapper>
 
 **Recommended:** proxy `/freeform/*` through your frontend (Next.js rewrites, Vite proxy, etc.) so the browser stays same-origin.
 
@@ -291,6 +326,11 @@ Set explicit origins. A misconfigured fallback to GraphQL’s `*` is unsafe for 
 ## Security metadata
 
 The manifest includes `security` for honeypot, javascript test, and captcha site keys. Official clients fill `meta` automatically. For public forms, enable a captcha integration in Freeform — honeypot / JS test alone are soft signals for direct API callers.
+
+### reCAPTCHA Enterprise<Badge type="feature" text="New in 5.18+" />
+
+**Google Cloud** setup verifies tokens through the Enterprise API for Score-based or Checkbox keys. Existing integrations retain **Legacy** verification. Use a compatible Freeform CAPTCHA extension, or generate a fresh token and include `meta.captcha.name` and `meta.captcha.value`. The name is `g-recaptcha-response`. For GraphQL use the `captcha` input's name/value fields. See [reCAPTCHA](../integrations/recaptcha.mdx) for action matching, exact hostname allowlists, and custom token handling. Keep server credentials in Craft.
+
 
 ## Compatibility headers
 

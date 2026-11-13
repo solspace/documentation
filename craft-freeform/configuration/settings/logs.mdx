@@ -1,37 +1,87 @@
 ---
-title: Logs
+title: Logging & Activity Log
+sidebar_label: Logging & Activity Log
 sidebar_position: 9
-description: Use Freeform logs to troubleshoot errors, integrations, and email notifications.
+description: Configure Activity Logging, review submission timelines, resolve errors, export events, and use classic Freeform log files.
 ---
 
-import { Badge, Photo } from '@site/src/components/utils';
+import { Badge } from '@site/src/components/utils';
+import { SettingMeta } from '@site/src/components/docs';
 
-# Logs
+# Logging<Badge type="feature" text="Improved in 5.18+" />
 
-Freeform records errors and processing details in Craft's `storage/logs` directory. Set the [Logging Level](./general.mdx#logging-level) to control how much detail is recorded.
+Choose how to record activity under **Freeform → Settings → Logging**, then review events under **Freeform → Activity Log**. Switching styles keeps existing logs and each style's settings.
 
-The log viewers remain accessible when Craft's `allowAdminChanges` setting is `false`.
+## Logging Style
 
-:::warning
-Use **Info** and **Debug** logging while investigating an issue, then return to **Errors**. Detailed logs can contain sensitive submission data.
-:::
+| Style | Records |
+| --- | --- |
+| **Activity Logging** | Structured events in Craft's database, with filters, submission timelines, and storage limits. |
+| **Classic Logging** | Technical files in Craft's `storage/logs` directory, using Errors, Info, or Debug. |
+| **None** | Stops new Activity events and Classic log files. Existing history remains available. |
 
-<Photo img={require('@site/static/img/craft/freeform/v5/configuration/email-log.jpg')} alt="Email Log" />
+<SettingMeta configKey="loggingStyle" defaultValue={"activity"} />
 
-## Error Log
+New sites default to **Standard** recording and upgraded sites to **Minimal**. Previously configured Activity Log settings are preserved.
 
-View **Freeform → Settings → Error Log** to inspect failures recorded in `storage/logs/freeform.log`. The file may not exist until an error has been recorded.
+## Activity Recording
 
-<Photo img={require('@site/static/img/craft/freeform/v5/configuration/error-log.jpg')} alt="Error Log" />
+| Mode | Included events |
+| --- | --- |
+| **Minimal** | System, email, and integration errors. |
+| **Standard** | Errors, warnings, saved submissions, spam, email handoffs and cancellations, and key integration outcomes. |
+| **Detailed** | All supported event types, including validation failures, integration attempts and responses, and form saves. |
+| **Custom** | Choose event types, starting with Standard's selection. Saved choices are kept. |
 
-## Integrations Log<Badge type="feature" text="New in 5.9+" />
+<SettingMeta configKey="activityMode" defaultValue={"standard (new installs), minimal (upgrades)"} />
 
-When logging is set to **Info** or **Debug**, Freeform writes integration activity to `storage/logs/freeform-integrations.log`. Open the Integrations Log viewer in Freeform's control panel to inspect it.
+Recording changes apply to future events. Freeform records up to 100 events per request or background job.
 
-<Photo img={require('@site/static/img/craft/freeform/v5/configuration/integrations-log.jpg')} alt="Integrations Log" />
+### Retention and Storage
 
-## Email Log<Badge type="feature" text="New in 5.9.7+" />
+**Keep events for** accepts 1–365 days and defaults to **30**. Expired events are hidden immediately and deleted during background cleanup. **Event storage limit** accepts 1,000–1,000,000 events and defaults to **100,000**. Cleanup removes the oldest records above the limit, so counts may exceed it temporarily.
 
-When logging is set to **Info** or **Debug**, Freeform writes notification activity to `storage/logs/freeform-email.log`. Open **Freeform → Settings → Email Log** to inspect it.
+<SettingMeta configKey="activityRetentionDays" defaultValue={"30"} />
+<SettingMeta configKey="activityMaxRows" defaultValue={"100000"} />
 
-For environment checks and a support report, see [Diagnostics](../diagnostics.mdx).
+Retention and storage limits apply to existing history even when recording is paused or another style is selected.
+
+## Reviewing Activity
+
+Choose **By submission** for grouped timelines or **Individual events** for a chronological list. Search event types or submission IDs, and filter by form, activity category, outcome, or resolution. Select a record to inspect related events and sanitized diagnostics. Links to submissions, forms, and integrations require the corresponding permissions.
+
+**Email accepted by mail transport** confirms a handoff, not inbox delivery. An integration response or completed processing event does not guarantee the external action succeeded. Check related outcomes when investigating failures.
+
+### Resolve and Reopen
+
+Users with activity management permission can resolve or reopen errors and operational warnings. Resolving acknowledges the event without rerunning processing or changing the submission. Open errors and warnings contribute to Activity alerts.
+
+### Export and Clear History
+
+Export **CSV** or **JSON** containing individual events matching the current filters, up to the latest **10,000 events**. Exported dates use **UTC**. Review diagnostics before sharing: form answers and message bodies are excluded, email addresses and recognized keys are masked, and passwords and authorization headers are removed, but sanitization is best effort.
+
+**Clear activity history** removes recorded history in the background, including events hidden by the current filters. It keeps submissions, technical log files, and events recorded after the clear action's cutoff. Clearing history cannot be undone.
+
+### Permissions
+
+**Access Activity** or access to Freeform settings allows viewing. **Clear Activity** controls resolution and clearing. Configuring logging requires settings access and an environment that allows admin changes. Log viewers remain accessible when Craft's `allowAdminChanges` is `false`.
+
+## Classic Logging {#classic-logging}
+
+Choose **Classic Logging** and a **Logging Level**: **Errors** (`error`), **Info** (`info`), or **Debug** (`debug`). Info and Debug add processing details. Return to Errors after troubleshooting. Technical files can contain sensitive submission data.
+
+<SettingMeta configKey="loggingLevel" defaultValue={"error"} />
+
+### Error Log {#error-log}
+
+Open **Freeform → Settings → Error Log** to inspect `storage/logs/freeform.log`. Email and integration failures are recorded here as well. The file may not exist until an error occurs.
+
+### Integrations Log {#integrations-log}
+
+With Info or Debug selected, the Integrations Log viewer shows processing activity from `storage/logs/freeform-integrations.log`.
+
+### Email Log {#email-log}
+
+With Info or Debug selected, **Freeform → Settings → Email Log** shows notification activity from `storage/logs/freeform-email.log`.
+
+Dashboard alerts, diagnostics, and digests follow the selected logging style. Critical error emails remain independent of Activity recording. See [Notices & Alerts](../notices-alerts.mdx) and [Diagnostics](../diagnostics.mdx).

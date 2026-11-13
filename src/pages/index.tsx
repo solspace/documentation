@@ -41,6 +41,12 @@ export default function Home(): JSX.Element {
                   icon: Icons.AIAssistantIcon,
                   fullCardLink: 'craft/ai-assistant/v1',
                 },
+                {
+                  title: 'darkMode',
+                  titleBadge: 'Beta',
+                  icon: Icons.DarkModeIcon,
+                  fullCardLink: 'craft/dark-mode/v1',
+                },
               ]}
             />
 

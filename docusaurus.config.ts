@@ -275,6 +275,25 @@ const config: Config = {
     [
       '@docusaurus/plugin-content-docs',
       {
+        id: 'craft-dark-mode',
+        path: 'craft-dark-mode',
+        routeBasePath: '/craft/dark-mode',
+        editUrl: 'https://github.com/solspace/documentation/edit/main',
+        sidebarPath: './sidebars.ts',
+        sidebarCollapsed: false,
+        lastVersion: 'current',
+        versions: {
+          current: {
+            label: '1.x',
+            path: 'v1',
+            badge: false,
+          },
+        },
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
         id: 'ee-freeform',
         path: 'ee-freeform',
         routeBasePath: '/expressionengine/freeform',
@@ -350,6 +369,10 @@ const config: Config = {
       {
         redirects: [
           {
+            from: '/craft/freeform/v5/integrations/pardot/',
+            to: '/craft/freeform/v5/integrations/salesforce-account-engagement-pardot/',
+          },
+          {
             from: '/craft/freeform/v5/guides/database-integrity/',
             to: '/craft/freeform/v5/configuration/console-commands/#repair-database-foreign-keys',
           },
@@ -400,6 +423,11 @@ const config: Config = {
         },
         {
           type: 'docsVersionDropdown',
+          docsPluginId: 'craft-dark-mode',
+          position: 'left',
+        },
+        {
+          type: 'docsVersionDropdown',
           docsPluginId: 'ee-freeform',
           position: 'left',
         },
@@ -432,6 +460,10 @@ const config: Config = {
             {
               label: 'Calendar',
               to: `/craft/calendar/v5`,
+            },
+            {
+              label: 'darkMode',
+              to: '/craft/dark-mode/v1',
             },
             {
               label: 'Express Forms',

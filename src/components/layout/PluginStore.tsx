@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import { useLocation } from '@docusaurus/router';
+import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 
 const stores = [
   {
@@ -12,6 +13,11 @@ const stores = [
     pathname: '/craft/calendar',
     title: 'Buy Now',
     link: 'https://plugins.craftcms.com/calendar',
+  },
+  {
+    pathname: '/craft/dark-mode',
+    title: 'Get darkMode',
+    link: '/craft/dark-mode/v1/setup/installation/',
   },
   {
     pathname: '/craft/ai-assistant',
@@ -43,14 +49,26 @@ export function PluginStore(): React.JSX.Element | null {
     return null;
   }
 
-  return (
+  const isDarkModeIntro = /^\/craft\/dark-mode\/v1\/?$/.test(pathname);
+
+  return (<>
     <Link
-      className="hidden lg:inline-block bg-[#ff6624] text-white text-md font-bold rounded-2xl px-2 py-1 ml-5 hover:text-white hover:opacity-90 plugin-store-link"
+      className={`hidden lg:inline-block bg-[#ff6624] text-white text-md font-bold rounded-2xl px-2 py-1 ml-5 hover:text-white hover:opacity-90 plugin-store-link${isDarkModeIntro ? ' dark-mode-store-link' : ''}`}
       to={matchedStore.link}
-      target="_blank"
-      rel="noopener noreferrer"
+      target={matchedStore.link.startsWith('https://') ? '_blank' : undefined}
+      rel={matchedStore.link.startsWith('https://') ? 'noopener noreferrer' : undefined}
     >
       <span>{matchedStore.title}</span>
     </Link>
-  );
+    {isDarkModeIntro && <DropdownNavbarItem
+      label="Docs"
+      className="hidden md:block"
+      items={[
+        { label: 'Installation & Updates', to: '/craft/dark-mode/v1/setup/installation/' },
+        { label: 'Using darkMode', to: '/craft/dark-mode/v1/users/' },
+        { label: 'Plugin Compatibility', to: '/craft/dark-mode/v1/compatibility/' },
+        { label: 'Plugin Development', to: '/craft/dark-mode/v1/developer/' },
+      ]}
+    />}
+  </>);
 }

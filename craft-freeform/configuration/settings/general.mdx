@@ -63,6 +63,8 @@ Make forms site-aware so they can be assigned to Craft sites and have translated
 
 Limit the forms offered by the Form Element field type to those the user has permission to manage.
 
+This also limits form choices in [Craft Link, Hyper, and Linkit fields](../content-integrations.mdx#form-links).
+
 <SettingMeta configKey="formFieldShowOnlyAllowedForms" defaultValue={"false"} />
 
 ## Processing & Logging
@@ -75,9 +77,19 @@ Set the priority of Freeform background jobs. Lower numbers run first. Leave thi
 
 ### Logging Level<Badge type="feature" text="New in 5.9+" /> {#logging-level}
 
-Choose **Errors** (`error`), **Info** (`info`), or **Debug** (`debug`). Errors records failures; Info adds processing information; Debug includes more detailed activity. See [Logs](./logs.mdx).
+In 5.18+, open **Freeform → Settings → Logging** and choose **Classic Logging** to use **Errors** (`error`), **Info** (`info`), or **Debug** (`debug`). Activity Logging has its own recording modes and retention settings. See [Logging & Activity Log](./logs.mdx).
 
 <SettingMeta configKey="loggingLevel" defaultValue={"error"} />
+
+## Upload Destinations
+
+### Allowed Upload Volumes<Badge type="feature" text="New in 5.18+" /> {#allowed-upload-volumes}
+
+Choose which asset volumes are available for File Upload, File Drag & Drop, and Table upload columns. All volumes are allowed by default. Existing forms keep their saved destinations, so review them separately after changing this setting.
+
+Use `'*'` for all volumes, `'none'` for no choices, or an array of **volume handles**, such as `['formUploads']`, in configuration.
+
+<SettingMeta configKey="allowedUploadVolumes" defaultValue={"* (all volumes)"} />
 
 ## Exporting
 

@@ -4,6 +4,8 @@ sidebar_position: 5
 description: Build headless Freeform forms with the official Vue packages for Craft CMS.
 ---
 
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
 import { Badge, BadgeGroup } from '@site/src/components/utils';
 
 # Vue.js<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.16+" />
@@ -295,10 +297,34 @@ function onSuccess(response: {
 
 **Customer Flow**
 
-1. Enable Save in Freeform → set Save label (Redirect URL optional).
-2. Visitor clicks **Save** → your app stores `token` + `key` in the URL.
-3. Visitor returns via that URL → pass `draftToken` / `draftKey` → fields restore.
-4. Visitor clicks **Submit** → real submission; draft is removed.
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Enable Save in Freeform and set its label. A Redirect URL is optional.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Visitor clicks **Save** → your app stores `token` + `key` in the URL.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Visitor returns via that URL → pass `draftToken` / `draftKey` → fields restore.
+
+</StepMarkdown>
+<StepMarkdown>
+
+On **Submit**, Freeform submits the form and removes the draft.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+## Freeform 5.18 Fields and CAPTCHA
+
+Freeform 5.18 adds structured **Location** fields, expanded date/time picker configuration, consistent Number precision, and Website URL normalization. Update compatible core, renderer, extension, and theme packages together when using these features. Craft plugin and npm package versions are separate.
+
+[Location](../forms/fields/location.mdx) supports manual address inputs or Google Places autocomplete. **reCAPTCHA** can use Google Cloud Enterprise verification for Score-based and Checkbox keys, while Invisible v2 retains Legacy verification. See [Field Configuration](./rest-api.mdx#field-configuration) and [reCAPTCHA setup](../integrations/recaptcha.mdx) for manifest and token details.
 
 ## Captchas and Advanced Fields
 
