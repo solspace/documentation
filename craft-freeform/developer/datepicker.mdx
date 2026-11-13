@@ -1,16 +1,22 @@
 ---
 title: 'Date Picker Events'
 sidebar_position: 10
-description: Configure Freeform's built-in Flatpickr date picker, enable its dark theme, and customize colors and behavior with CSS variables and JavaScript events.
+description: Choose Freeform or Classic date pickers and customize Classic Flatpickr themes and JavaScript events.
 ---
 
 import { Badge } from '@site/src/components/utils';
 
 # Date Picker Events
 
-The [Date & Time](../forms/fields/date-time.mdx) field includes an optional [Flatpickr](https://flatpickr.js.org/) picker. Use the theme attribute below to control its appearance, or the [Freeform JS Plugin](./js-plugin.mdx) events to customize its options and rendered calendar.
+In **5.18+**, new [Date & Time](../forms/fields/date-time.mdx#picker-choices) fields default to the **Freeform** picker. Choose **Classic** in the field's Date picker setting to use [Flatpickr](https://flatpickr.js.org/) and the events below. Existing fields retain their configured picker after upgrading.
 
-These examples apply to Freeform's built-in picker. Browser-native date inputs and date pickers initialized by your own JavaScript use their own styling and configuration.
+The Flatpickr events and `.flatpickr-calendar` CSS examples on this page apply to **Classic** only. They do not configure the new Freeform picker, Browser controls, or a picker initialized by your own code.
+
+## Freeform Picker<Badge type="feature" text="New in 5.18+" />
+
+Configure the searchable calendar and time list through the field's **Date picker**, **Time interval**, format, and minimum/maximum settings. Use `data-freeform-theme="dark"` on the form or a surrounding element to select the dark appearance in custom templates. Bundled dark formatting templates supply this attribute.
+
+The popup uses `.ff-datetime-picker` and its own variables: `--ff-picker-bg`, `--ff-picker-header`, `--ff-picker-text`, `--ff-picker-muted`, `--ff-picker-border`, `--ff-picker-hover`, `--ff-picker-selected`, and `--ff-picker-focus`. Apply overrides to the popup selector in a stylesheet loaded after Freeform's CSS. Flatpickr's `--ff-datepicker-*` variables remain specific to Classic.
 
 ## Dark Picker Theme<Badge type="feature" text="New in 5.17.3+" />
 

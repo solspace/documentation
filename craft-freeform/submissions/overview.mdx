@@ -64,6 +64,18 @@ Freeform also includes a chart that gives you a quick visual of how many form su
   alt="Edit Submissions"
 />
 
+### Status, Spam, and Undo<Badge type="feature" text="New in 5.18+" />
+
+Change a submission's status directly from the list. The Spam list offers inline approval and deletion, and its status filter includes configured submission statuses as well as **All** and **Trashed**. These actions require the corresponding submission management permissions.
+
+Use **Undo** to reverse supported individual or bulk status changes, spam approvals, and deletions from the current session. The session retains up to **20 operations** for **30 minutes** each, with the most recent operation undone first. Undo is session history, rather than a permanent audit or backup. Undoing a spam approval does not recall emails or reverse integrations that already ran.
+
+### Send Notifications<Badge type="feature" text="New in 5.18+" />
+
+Use **Send Notifications** on a saved submission to choose recipients and configured or shared email templates, or add email addresses. Review your selections before sending. **Quick Resend** sends immediately using the configured notification setup.
+
+Each notification is a new send attempt. Check the [Activity Log](../configuration/settings/logs.mdx) for outcomes. Mail transport acceptance does not confirm inbox delivery.
+
 ### Editing Field Values<Badge type="feature" text="Improved in 5.17.3+" />
 
 Open a submission to edit its answers, then save the submission to persist your changes.
@@ -86,7 +98,7 @@ For more information about this, please visit the [Submissions query](../templat
 
 ## Submission Editing<Badge type="pro" text="Pro" />
 
-Freeform allows you to edit submissions via the front end templates as well. Currently, this feature has no user/author check, and requires you use/provide the `submission.token` to work (as opposed to the ID). <secret>A future version will likely include ability to check on authors, etc.</secret>
+Freeform allows you to edit submissions via the front end templates as well. Currently, this feature has no user/author check, and requires you use/provide the `submission.token` to work (as opposed to the ID). <span className="secret">A future version will likely include ability to check on authors, etc.</span>
 
 The editing uses the same [Form query](../templates/queries/form.mdx), but knows you're in **edit mode** when you feed the `submissionToken` parameter a valid value.
 

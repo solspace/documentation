@@ -1080,13 +1080,15 @@ html[data-theme='light'] .icon-cards a:hover {
   }
 }
 
-secret {
+secret,
+.secret {
   display: inline;
   color: #9778f1;
   animation: secret-glow 2s infinite alternate;
 }
 
-secret:before {
+secret:before,
+.secret:before {
   content: '\1F48E';
   margin-right: 5px;
 }
@@ -1726,6 +1728,13 @@ html[class*='docs-doc-id-setup/changelog'] h3[id^='security'] + ul li:before {
 }
 
 /* Step styles */
+.step-content > div > :is(p, ul, ol):last-child {
+  margin-bottom: 0;
+}
+.step-content > div > p:has(+ :is(ul, ol)) {
+  margin-bottom: 8px;
+}
+
 .step,
 .step-active .step-content h3,
 .step-active .step-number,
@@ -2247,6 +2256,23 @@ details.hidden-heading {
 details.hidden-heading > div > div {
   border: 0;
   margin-top: 0;
+  padding-top: 24px;
+}
+details.hidden-heading > div > div > h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-top: 16px;
+}
+details.hidden-heading > div > div > h3:first-child {
+  border-top: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+details.hidden-heading > div > div > h3 .custom-anchor-link {
+  top: calc(50% + 8px);
+}
+details.hidden-heading > div > div > h3:first-child .custom-anchor-link {
+  top: 50%;
 }
 details.hidden-heading summary {
   font-size: 1.3rem;
@@ -2261,6 +2287,9 @@ details.hidden-heading p,
 details.hidden-heading li {
   font-size: 1rem;
 }
+details.hidden-heading > div > div > :is(p, ul, ol) + :is(p, ul, ol) {
+  margin-top: var(--ifm-paragraph-margin-bottom);
+}
 details.hidden-heading a {
   color: #058ffe !important;
   border-color: #058ffe !important;
@@ -2268,7 +2297,8 @@ details.hidden-heading a {
 details.hidden-heading ul:last-of-type {
   margin-bottom: 0 !important;
 }
-details.hidden-heading p + .steps-wrapper {
+details.hidden-heading p + .steps-wrapper,
+details.hidden-heading .steps-wrapper + p {
   margin-top: 25px;
 }
 details.hidden-heading .step {

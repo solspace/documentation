@@ -285,3 +285,7 @@ Some features have limitations when using **Save & Continue Later**.
 - 🔴 **Editing Submissions**
   - Saving progress is **not supported when editing existing submissions**.
   - Attempting this will create a **duplicate submission**.
+
+## Cleanup Events<Badge type="feature" text="New in 5.17.7+" />
+
+Custom modules can listen for saved-form records removed by TTL or session-limit cleanup, including headless drafts. The event supplies deleted record IDs and a cleanup reason. It cannot cancel deletion. See [Saved-Form Cleanup](../developer/events/form.mdx#saved-form-cleanup) for registration, batching, and delivery limitations.

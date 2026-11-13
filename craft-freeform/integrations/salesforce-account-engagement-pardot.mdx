@@ -1,0 +1,168 @@
+---
+title: "Salesforce Account Engagement (Pardot)"
+id: pardot
+slug: /integrations/salesforce-account-engagement-pardot/
+sidebar_position: 30
+description: Connect Freeform to Salesforce Account Engagement (Pardot) using OAuth and map submissions to prospects.
+---
+
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs'
+
+import { Badge } from '@site/src/components/utils'
+
+# Salesforce Account Engagement (Pardot)<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.18+" />
+
+Create prospects with standard and custom fields in **Salesforce Marketing Cloud
+Account Engagement**, formerly Pardot. Freeform uses Salesforce OAuth and version
+4 of the Account Engagement API.
+
+Existing connections and mappings still work. Salesforce menus, permissions,
+and API URLs may still use the Pardot name.
+
+<span id="setup-instructions" />
+
+## Connect your account
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Copy Freeform's **OAuth Callback URL**. Follow the app setup instructions below.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Enter the app's consumer key as **Client ID** and consumer secret as **Client Secret**.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Enter your **Business Unit ID**. Find it under **Business Unit Setup** in
+Salesforce Setup, or ask your administrator. Use the 18-character ID starting
+with `0Uv`.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Keep the default **Salesforce login options** unless your administrator
+specifies another login server.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Save the integration and click **Authorize**. Sign in with a Salesforce user who
+has Account Engagement access and approve the requested permissions.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+<details className="hidden-heading">
+<summary>Set up a Salesforce app</summary>
+
+Use an **External Client App** for new connections. See
+[Salesforce's Account Engagement quick start](https://developer.salesforce.com/docs/marketing/pardot/guide/getting-started.html).
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+In Salesforce Setup, search for **External Client Apps** and open the app manager.
+Create an app for Freeform and enable OAuth.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Paste Freeform's exact **OAuth Callback URL** into the callback URL field.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Add these OAuth scopes:
+
+- `pardot_api` for Account Engagement. Salesforce may call it **Manage Pardot
+  services** or **Access Pardot services**.
+- `api` for Salesforce API access.
+- `refresh_token` to keep the connection authorized. It may appear alongside
+  `offline_access`.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Enable the authorization code / web server flow with PKCE and a client secret.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Save the app and copy its consumer key and secret from the OAuth settings
+into Freeform.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+Your organization's policies must allow the user to access the app. New apps
+can take up to 15 minutes to become available. See
+[Salesforce's OAuth settings guide](https://help.salesforce.com/s/articleView?id=sf.configure_external_client_app_oauth_settings.htm&language=en_US&type=5).
+
+</details>
+
+<details className="hidden-heading">
+<summary>Use an existing Connected App</summary>
+
+You can keep a working **Connected App**. In Salesforce **App Manager**, check
+that OAuth is enabled, the callback URL matches Freeform's, and the scopes above
+are included. Use the consumer key and secret as **Client ID** and **Client Secret**.
+
+Use an External Client App for new connections. See
+[Salesforce's Connected App guidance](https://help.salesforce.com/s/articleView?id=sf.connected_app_create_api_integration.htm&language=en_US).
+
+</details>
+
+<details className="hidden-heading">
+<summary>Choose a Salesforce login server</summary>
+
+Under **Salesforce login options**, choose where to authorize the connection:
+
+- **Standard login:** leave both options off to use `https://login.salesforce.com`.
+- **Use Salesforce sandbox login:** use `https://test.salesforce.com`.
+- **Use custom Salesforce login URL:** enter a full URL in **Salesforce login URL**,
+  such as `https://mycompany.my.salesforce.com`. This overrides the sandbox option.
+
+These options change the login server only. Account Engagement API requests
+use the production endpoint at `https://pi.pardot.com/api`.
+
+</details>
+
+## Map your form
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+In the form builder, open **Integrations** and choose **Salesforce Account
+Engagement (Pardot)** or the name you gave the connection.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Enable the integration and **Map to Prospect**.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Map the form's email field and other prospect fields. Enable **Map to Custom**
+for custom prospect fields, then save the form.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+<details className="hidden-heading">
+<summary>Troubleshoot authorization</summary>
+
+- Match the Salesforce callback URL exactly to Freeform's **OAuth Callback URL**.
+- Use the app's consumer key and secret, not a Salesforce username and password.
+- Check that the Business Unit ID belongs to the business unit you want to use.
+- Give the user Account Engagement access and permission to authorize the app.
+- When moving to production, update the callback URL and authorize the
+  connection on the production site.
+
+See [Salesforce's authentication guide](https://developer.salesforce.com/docs/marketing/pardot/guide/authentication)
+for Account Engagement requirements.
+
+</details>

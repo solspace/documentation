@@ -1,127 +1,294 @@
 ---
-title: 'reCAPTCHA'
+title: reCAPTCHA
 sidebar_position: 29
-description: reCAPTCHA integration for Freeform 5.x in Craft CMS.
+description: Configure Legacy or Google Cloud Enterprise reCAPTCHA, credentials, hostname checks, failure behavior, and headless tokens for Freeform.
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
-import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs'
 
-# reCAPTCHA<Badge type="feature" text="Improved in 5.0+" />
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+import { Badge } from '@site/src/components/utils'
 
-Freeform includes an integration for Google [reCAPTCHA](https://www.google.com/recaptcha/). The options below are compatible with the Enterprise API and the Classic legacy keys.
+# reCAPTCHA<Badge type="feature" text="Improved in 5.18+" />
 
-## Overview
+Freeform can load reCAPTCHA and verify submissions with Google in all editions.
+Enterprise API verification requires **5.18+**. Invisible v2 requires **Legacy** setup.
 
-All **reCAPTCHA** offerings will be automatically loaded and handled by Freeform (when enabled for the form). The **reCAPTCHA v2 Checkbox** field will be automatically inserted above the Submit button(s).
+For existing integrations, keep **Setup → Legacy** and your current keys, even
+if Google has moved them to Cloud. See Google's
+[migration guidance](https://docs.cloud.google.com/recaptcha/docs/migration-overview).
 
-Each _reCAPTCHA_ integration is managed inside the _Captchas_ area under Settings and then further configurable per form inside the form builder. Every integration is a little bit different, so please follow the detailed instructions for setting up the integration below.
+## Setup Instructions {#setup-instructions}
 
-## Supported Types
+<VerticalStepWrapper>
+  <StepMarkdown>
+    Choose **Setup**:
+    - **Google Cloud** uses the Enterprise API. For a new setup, use a site key,
+      Google Cloud project ID, and Google Cloud API key.
+    - **Legacy** uses your existing site key and secret key, including keys
+      managed in Google Cloud.
+  </StepMarkdown>
+  <StepMarkdown>
+    Choose the **Captcha Type** that matches your Google key:
+    - **Score-based** checks a risk score on submission without a checkbox or puzzle.
+    - **Invisible** may show a puzzle on submission. Available with Legacy only.
+    - **Checkbox** shows a checkbox and may ask the visitor to solve a puzzle.
+  </StepMarkdown>
+  <StepMarkdown>
+    Enter your credentials. See the key instructions below if you need them.
+  </StepMarkdown>
+  <StepMarkdown>
+    Set **Enabled by default** and click **Save**.
+  </StepMarkdown>
+  <StepMarkdown>
+    In the form builder, open **Integrations → Captchas → reCAPTCHA**. Enable the
+    integration, review its settings, and save the form.
+  </StepMarkdown>
+  <StepMarkdown>
+    Submit a test entry on your website.
+  </StepMarkdown>
+</VerticalStepWrapper>
 
-Below is a list of the _reCAPTCHA_ integrations supported by Freeform and how each of them work. These are each compatible with the Enterprise API and the Classic legacy keys.
+Changing **Captcha Type** in Freeform does not change your Google key. Their
+types must match.
 
-:::info
-In Freeform 5.9+, all captcha options became available to all editions of Freeform.
-:::
+## Setup help and settings
 
-### reCAPTCHA v2 Checkbox
+<details className="hidden-heading">
+  <summary>Get keys for Google Cloud</summary>
+  <VerticalStepWrapper>
+    <StepMarkdown>
+      Select or create a project in the
+      [Google Cloud console](https://console.cloud.google.com/) and enable the
+      **reCAPTCHA Enterprise API**.
+    </StepMarkdown>
+    <StepMarkdown>
+      [Create a website key](https://docs.cloud.google.com/recaptcha/docs/create-key-website)
+      for Score-based or Checkbox. Add your form's domains and keep Google's
+      domain verification enabled.
+    </StepMarkdown>
+    <StepMarkdown>
+      [Create an API key](https://docs.cloud.google.com/docs/authentication/api-keys)
+      in the same project. Restrict it to the reCAPTCHA Enterprise API and your
+      server's outbound IP addresses. Do not use website referrer restrictions.
+    </StepMarkdown>
+    <StepMarkdown>
+      In Freeform, choose **Setup → Google Cloud** and enter the **Site Key**,
+      **Google Cloud Project ID**, and **Google Cloud API Key**. Use the project
+      ID, not its display name or number.
+    </StepMarkdown>
+  </VerticalStepWrapper>
 
-All users submitting your form must check off the reCAPTCHA checkbox, and in some cases, users will be presented the puzzle to solve to submit the form successfully.
+  Keep the API key private. Freeform uses it only on the server. Credentials
+  can use environment variables, such as `$RECAPTCHA_API_KEY`.
 
-### Challenge - Invisible (v2)
+  Check [Google's billing information](https://docs.cloud.google.com/recaptcha/docs/billing-information)
+  for allowances, billing requirements, and quotas before enabling Enterprise verification.
 
-Most users will not even know it's automatically validating them, but like the Challenge Checkbox (v2) described above, some users will be presented a modal on the page with the puzzle to solve when they click the submit button.
+  Only Score-based and Checkbox keys are supported. Universal keys, policy-based
+  challenge keys, service-account JSON files, and OAuth credentials are not supported.
+</details>
 
-### Score Based (v3)
+<details className="hidden-heading">
+<summary>Find keys for Legacy</summary>
 
-Users are never presented any puzzle to solve, etc. Instead, users are automatically validated by Google based on a score assigned to them. You have control over that score threshold inside Freeform settings. We suggest starting with something like `0.5` and see how that goes (where a `0.0` score means that it's almost certain a bot and a `1.0` score means it's a user). If the user does not pass this threshold, the submission will follow the behavior you set out for it in the settings (send to spam folder / reject it entirely / show an error to the user, etc). The user has no ability to validate themselves like in **Challenge (v2)** reCAPTCHAs.
-
-## Setup Instructions
+Choose **Setup → Legacy** and enter your **Site Key** and **Secret Key**.
+To find a secret key managed in Google Cloud:
 
 <VerticalStepWrapper>
 <StepMarkdown>
 
-### Set up App on reCAPTCHA site
-
-- Go to the [reCAPTCHA admin site](https://www.google.com/recaptcha/admin) and log into your account.
-- If you don't already have an app created, click on the **+** icon button at the top right.
-  - Enter a name for it in the **Label** setting.
-  - Choose a type in the **reCAPTCHA Type** setting.
-  - In the **Domains** section, enter in any domain(s) you plan on using the captcha for, e.g. `mysite.net`.
-  - Click the **Submit** button.
-  - On the next page, you'll be presented a **Site Key** and **Secret Key**. Copy both of these.
-- If you have already created an app, select it from the dropdown at the top left and click on the **cog** settings icon at the top right.
-  - In the **Domains** section, enter in any domain(s) you plan on using the captcha for, e.g. `mysite.net`.
-  - Click on the **reCAPTCHA Keys** area above and copy the **Site Key** and **Secret Key** values.
-  - If you have made any changes to this app, scroll to the bottom and click **Save** button.
-- Leave this page open and open a new tab...
+Open the key's details in Google Cloud and select **Integration**.
 
 </StepMarkdown>
 <StepMarkdown>
 
-### Set up Integration on your site
-
-- Go to the [Integrations](index.mdx#control-panel-settings) section in Freeform Settings (**Freeform** → **Integrations**).
-- Find _reCAPTCHA_ in the list of **service providers**.
-- Choose a reCAPTCHA version and type from the **Captcha Type** select dropdown. These are each compatible with the Enterprise API and the Classic legacy keys.
-- In the **Site Key** and **Secret Key** settings, paste in the **Site Key** and **Secret Key** values from the reCAPTCHA site.
+Click **Use legacy key** or **Integrate with a third-party service or plugin**.
 
 </StepMarkdown>
 <StepMarkdown>
 
-### Additional Configuration
-
-- Complete the rest of the following optional fields (these will only be the default value when configuring the integration in the form builder later):
-  - **Only load Captcha scripts once the user interacts with the form?**
-  - **Failure Behavior** - set to `Display Error Message` or `Send to Spam Folder`.
-    - **Error Message** - set a custom error message if using `Display Error Message` failure behavior.
-  - If using **Score Based (v3)**, set the defaults for the following:
-    - **Score Threshold** - the minimum score (between `0.0` and `1.0`) required for the Captcha to pass validation.
-    - **Action** - the action to use when validating the Captcha, e.g. `submit`.
-  - If using **reCAPTCHA v2 Checkbox**, set the defaults for the following:
-    - **Theme** - set to `Light` or `Dark`.
-    - **Size** - set to `Normal` or `Compact`.
-- Click the **Save** button.
-
-</StepMarkdown>
-<StepMarkdown>
-
-### Configure the Form
-
-To use this integration on your form(s), you'll need to configure each form individually.
-
-- Visit the form inside the form builder.
-- Click on the **Integrations** tab.
-- Click on **reCAPTCHA** in the list of available integrations.
-- On the right side of the page:
-  - Enable the integration.
-  - Adjust any of the settings as needed.
+Copy the legacy secret into Freeform's **Secret Key** field.
 
 </StepMarkdown>
 </VerticalStepWrapper>
 
-## Behavior & Overrides
+Use the legacy secret, not a Google Cloud API key. See
+[Google's legacy-secret instructions](https://docs.cloud.google.com/recaptcha/docs/create-key-website#find-key).
 
-The following options are available for adjusting the behavior of _reCAPTCHA_ and overriding at the template-level.
+Legacy supports Score-based v3, Invisible v2, and Checkbox v2 through Google's
+`siteverify` API, including compatible migrated keys. Keep the secret private.
+Freeform uses it only on the server.
 
-### Only load Captcha scripts once the user interacts with the form
+</details>
 
-If you'd like to have the associated Captcha scripts load only once a user begins filling out the form, enable the corresponding setting inside the **Captchas** settings page. If you'd like your forms to be ready to go at page load, disable this setting.
+<details className="hidden-heading">
+<summary>Choose score and failure settings</summary>
 
-### Disabling Captchas
+**Score Threshold** is the minimum score required to pass Score-based
+verification. Start with **0.5** and review your results in Google before adjusting it.
 
-To disable Captchas per form at template level, add the `disable: { captchas: true }` parameter to the [Form query](../templates/queries/form.mdx#disable).
+- Lower values toward **0.0** are less strict and flag fewer submissions.
+- Higher values toward **1.0** are stricter and may also flag real visitors.
+
+**Failure Behavior** determines what happens when verification fails:
+
+- **Send to Spam Folder** marks the submission as spam.
+- **Display Error Message** lets the visitor retry. Set the text in **Error Message**.
+
+New integrations default to **Send to Spam Folder** for Score-based and
+**Display Error Message** for both v2 types. Existing integrations keep their
+saved behavior. Changing Captcha Type also preserves your choice.
+
+Missing tokens and service errors always show an error so the visitor can retry.
+
+</details>
+
+<details className="hidden-heading">
+<summary>Loading and advanced settings</summary>
+
+Most sites can keep the defaults.
+
+**Only load Captcha scripts once the user interacts with the form** delays
+loading until the visitor starts filling out or submits the form. Disable it
+to load scripts when the page opens. Your site's consent settings still apply.
+
+Delayed loading still requires server-side verification. Disabling the
+integration for a form disables verification too.
+
+Open **Advanced settings** for these options:
+
+### JavaScript setup
+
+Keep **Managed by Freeform** unless your code loads reCAPTCHA and generates
+tokens. See **Custom JavaScript and headless forms** below.
+
+### reCAPTCHA domain
+
+Use **google.com**, or **recaptcha.net** if Google is blocked for your visitors.
+Consent settings apply to either domain.
+
+### Allowed website domains
+
+Leave blank to use Google's domain verification. If you disable it in Google,
+enter the allowed hostnames here, one per line, without `https://`, paths, ports,
+or wildcards:
+
+```text
+example.com
+www.example.com
+forms.example.com
+```
+
+Hostnames must match exactly, apart from letter case and trailing dots.
+`example.com` does not include `www.example.com`. For headless sites, use the
+frontend hostname where reCAPTCHA runs.
+
+### Checkbox theme and size
+
+Choose a light or dark theme. Use **Compact** for narrow forms.
+
+### Google action name
+
+For Score-based keys, keep `submit` unless you need another action. Tokens
+generated by your JavaScript must use the same action. Names allow letters,
+numbers, underscores, and slashes.
+
+### reCAPTCHA language
+
+Leave blank to use the current Craft site language. Headless frontends let
+Google choose. To set a language, enter a Google language code such as `en`,
+`fr`, or `de`.
+
+</details>
+
+<details className="hidden-heading">
+<summary>Custom JavaScript and headless forms</summary>
+
+### Using Freeform's headless packages
+
+Keep **JavaScript setup → Managed by Freeform** when using Freeform's reCAPTCHA
+extension. It loads reCAPTCHA and supplies a token for each submission. Use
+compatible core and extensions packages that support your Google setup.
+
+### Providing your own token
+
+Choose **JavaScript setup → Custom JavaScript** to handle script loading and
+tokens yourself. Freeform adds no reCAPTCHA container or scripts, and its
+extension leaves token handling to your code. Server verification still runs.
+
+For regular forms, submit a fresh token in `g-recaptcha-response`. For
+Score-based keys, use `grecaptcha.execute()` with Legacy or
+`grecaptcha.enterprise.execute()` with Google Cloud. The action must match
+**Google action name**. For Checkbox or Invisible, obtain the token through
+Google's challenge flow.
+
+For headless JSON submissions, add this to your submission payload, replacing
+`TOKEN` with Google's token:
+
+```json
+{
+  "meta": {
+    "captcha": {
+      "name": "g-recaptcha-response",
+      "value": "TOKEN"
+    }
+  }
+}
+```
+
+For GraphQL, use the `captcha` input's `name` and `value` fields.
+
+Tokens are single-use and expire after two minutes. Generate one when submitting
+and get a fresh token after a failed or expired challenge. See
+[Google's assessment guide](https://docs.cloud.google.com/recaptcha/docs/create-assessment-website).
+
+Google Cloud uses `enterprise.js` and `grecaptcha.enterprise`. Legacy uses
+`api.js` and `grecaptcha`. The **reCAPTCHA domain** also applies to Legacy server
+verification. Google Cloud verification always uses `recaptchaenterprise.googleapis.com`.
+
+</details>
+
+<details className="hidden-heading">
+<summary>Troubleshooting</summary>
+
+- **Invalid credentials:** Check that Setup and Captcha Type match your key.
+  For Google Cloud, enable the API and use credentials from the same project.
+- **Missing reCAPTCHA or token:** Check whether consent tools, content blockers,
+  or your Content Security Policy block Google's scripts. With Custom JavaScript,
+  your code must supply the token.
+- **Unexpected domain or action:** Check **Allowed website domains** and
+  **Google action name** against the hostname and token action.
+- **Quota exceeded:** Review Google Cloud usage and billing. Quota errors show
+  an error to the visitor instead of marking the submission as spam.
+- **Testing while logged in:** If **Bypass All Spam Checks for Logged in Users**
+  is enabled in Freeform's spam settings, test while signed out.
+
+Freeform logs failures without recording tokens, credentials, or raw Google
+responses. Network failures, invalid credentials, incomplete responses, and
+quota errors are treated as service errors.
+
+If Legacy verification returns a fixed score because the project exceeded its
+free allowance without billing, Freeform detects Google's quota warning and
+shows an error. See [Google's quota behavior](https://docs.cloud.google.com/recaptcha/quotas#quota_limit).
+
+</details>
+
+## Behavior & Overrides {#behavior--overrides}
+
+Disable CAPTCHA in a template with `disable: { captchas: true }` in the
+[Form query](../templates/queries/form.mdx#disable). For manual token generation,
+choose **Custom JavaScript** and follow the instructions above.
 
 ### Manual Placement<Badge type="feature" text="New in 5.7+" />
 
-If you need full control over the placement of the visible _reCAPTCHA v2 Checkbox_, please see the [Captcha Placement](../templates/formatting/rendering.mdx#captcha-placement) guide.
+To position a visible reCAPTCHA v2 Checkbox yourself, see
+[Captcha Placement](../templates/formatting/rendering.mdx#captcha-placement).
 
 ### Add Attributes to Wrapper<Badge type="feature" text="New in 5.1+" />
 
-You can add attributes to the main Captcha wrapper that is automatically inserted by Freeform.
+Add attributes to Freeform's Captcha wrapper:
 
 <Tabs>
   <TabItem value="wrapper" label="Template Code" default>
@@ -144,41 +311,3 @@ You can add attributes to the main Captcha wrapper that is automatically inserte
     ```
     </TabItem>
 </Tabs>
-
-### Load reCAPTCHA JS Manually
-
-If you're loading an entire form via AJAX, you'll need to load the reCAPTCHA JS yourself, since it's considered insecure otherwise and the browser blocks it. You should add this script tag anywhere on your page, preferably the footer:
-
-```html
-<script
-  type="text/javascript"
-  src="https://www.google.com/recaptcha/api.js?render=explicit"
-></script>
-```
-
-### Set the Action for Score Based (v3)
-
-To set the action of Score Based (v3), add `recaptchaAction: "myaction"` to your `form.renderTag`, like this:
-
-```twig
-{{ form.renderTag({ recaptchaAction: "myaction" }) }}
-```
-
-### Hiding the reCAPTCHA floating badge
-
-_Challenge - Invisible (v2)_ and _Score Based (v3)_ will automatically load a reCAPTCHA icon in the bottom right corner of your site containing the form. This is required by Google's terms of service. There are CSS workarounds if you wish to locate the icon to the left side of the browser page, etc.
-
-If you'd like to hide the reCAPTCHA floating badge (bottom right for _v2 Invisible_ and _v3_), you are allowed to do so as along as you provide reference to reCAPTCHA in the user flow. Quote and example from the [Google reCAPTCHA docs](https://developers.google.com/recaptcha/docs/faq#id-like-to-hide-the-recaptcha-badge.-what-is-allowed):
-
-> You are allowed to hide the badge as long as you include the reCAPTCHA branding visibly in the user flow. Please include the following text:
->
-> ```twig
-> This site is protected by reCAPTCHA and the Google
-> <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.
-> ```
->
-> Note: if you choose to hide the badge, please use:
->
-> ```twig
-> .grecaptcha-badge { visibility: hidden; }
-> ```

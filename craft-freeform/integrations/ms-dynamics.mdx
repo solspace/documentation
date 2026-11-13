@@ -17,20 +17,48 @@ This integration requires Freeform Pro and a Dynamics 365 commercial cloud envir
 
 ## Setup Instructions
 
-<VerticalStepWrapper>
-<StepMarkdown>
 
 ### Create the Microsoft connection
 
 An administrator of the customer's Microsoft tenant and Dynamics environment should complete these steps:
 
-1. In **Microsoft Entra ID → App registrations**, create a registration for Freeform. Select **Accounts in this organizational directory only**. This server-to-server connection does not need a redirect URI or interactive user sign-in.
-2. Copy the **Application (client) ID** and **Directory (tenant) ID** from the registration overview.
-3. Under **Certificates & secrets**, create a client secret. Copy its **Value**, not its ID, before leaving the page. Record the expiry date so the secret can be replaced before it expires.
-4. In the **Power Platform admin center**, select the Dynamics environment, then **Settings → Users + permissions → Application users**. Create an application user associated with the app registration and select its business unit.
-5. Assign a security role appropriate for the integration. It must allow creation of Leads and/or Contacts and access to the metadata used for field discovery. Additional permissions can be required by secured fields or custom server-side logic. Have the Dynamics administrator configure these permissions; do not assign System Administrator as the permanent integration role.
-6. Copy the environment URL, such as `https://yourorg.crm.dynamics.com`. Regional hosts such as `https://yourorg.crm4.dynamics.com` and the corresponding `.api.crm4.dynamics.com` host are supported. Do not include `/api/data/v9.2` or other paths.
-7. In **Freeform → Settings → CRM Integrations**, create a **Microsoft Dynamics 365** integration. Enter the environment URL, tenant ID, client ID and client secret value, then save and check the connection.
+<VerticalStepWrapper>
+<StepMarkdown>
+
+In **Microsoft Entra ID → App registrations**, create a registration for Freeform. Select **Accounts in this organizational directory only**. This server-to-server connection does not need a redirect URI or interactive user sign-in.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Copy the **Application (client) ID** and **Directory (tenant) ID** from the registration overview.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Under **Certificates & secrets**, create a client secret. Copy its **Value**, not its ID, before leaving the page. Record the expiry date so the secret can be replaced before it expires.
+
+</StepMarkdown>
+<StepMarkdown>
+
+In the **Power Platform admin center**, select the Dynamics environment, then **Settings → Users + permissions → Application users**. Create an application user associated with the app registration and select its business unit.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Ask your Dynamics administrator to assign a role that can create the Leads and Contacts you map and read field metadata. Secured fields and custom server logic may need more permissions. Do not use System Administrator as the permanent integration role.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Copy the environment URL, such as `https://yourorg.crm.dynamics.com`. Regional hosts such as `https://yourorg.crm4.dynamics.com` and the corresponding `.api.crm4.dynamics.com` host are supported. Do not include `/api/data/v9.2` or other paths.
+
+</StepMarkdown>
+<StepMarkdown>
+
+In **Freeform → Settings → CRM Integrations**, create a **Microsoft Dynamics 365** integration. Enter the environment URL, tenant ID, client ID and client secret value, then save and check the connection.
+
+</StepMarkdown>
+</VerticalStepWrapper>
 
 All four connection settings support environment variables. The client secret is stored using Freeform's encrypted-setting support. Use the same environment host for authentication and API access. Credentials are obtained using OAuth client credentials; no delegated `user_impersonation` permission or refresh token is required for this flow.
 
@@ -38,23 +66,41 @@ All four connection settings support environment variables. The client secret is
 Microsoft's [server-to-server setup guide](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/use-single-tenant-server-server-authentication) and [application user guide](https://learn.microsoft.com/en-us/power-platform/admin/manage-application-users) provide additional setup details. A successful connection check verifies the application identity, not permission to create every record or populate every field.
 :::
 
-</StepMarkdown>
-<StepMarkdown>
 
 ### Configure the Form
 
-1. Open the form's Integrations tab and enable the Dynamics integration.
-2. Enable **Map to Leads**, **Map to Contacts**, or both.
-3. Map the appropriate fields. Supported writable standard and custom fields are loaded automatically from the selected environment. Use **Refresh** after changing Dynamics fields or choices.
-4. Include all fields required by the customer's setup. Typical mappings include `firstname`, `lastname`, `emailaddress1`, and the Lead topic (`subject`). Freeform displays the required status reported by Dynamics; custom business logic may impose additional requirements.
-5. Configure Freeform's integration rules if records should only be sent for certain submissions, such as when an opt-in checkbox is selected.
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Open the form's Integrations tab and enable the Dynamics integration.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Enable **Map to Leads**, **Map to Contacts**, or both.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Map the appropriate fields. Supported writable standard and custom fields are loaded automatically from the selected environment. Use **Refresh** after changing Dynamics fields or choices.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Map required fields, typically `firstname`, `lastname`, `emailaddress1`, and the Lead topic (`subject`). Freeform shows the requirements reported by Dynamics. Custom business logic may require additional fields.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Configure Freeform's integration rules if records should only be sent for certain submissions, such as when an opt-in checkbox is selected.
+
+</StepMarkdown>
+</VerticalStepWrapper>
 
 :::info
 The integration creates a new record for each enabled category with a nonempty mapping. If both are enabled, the Lead and Contact are independent records; they are not linked or converted into one another. A category with no mapped values is skipped.
 :::
 
-</StepMarkdown>
-</VerticalStepWrapper>
 
 ## Duplicates and Errors
 

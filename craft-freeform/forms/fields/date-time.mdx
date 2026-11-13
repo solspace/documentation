@@ -23,7 +23,7 @@ A complex date and/or time field. Can be used as Date only, Time only, or both. 
 
 - May contain a default date value.
   - Use an English date expression such as `now`, `today`, `5 days ago`, or `2025-01-01 20:00:00`. Freeform formats the result using the configured display format and locale.
-- The default Freeform datepicker can be disabled and you can load your own manually in the template if you wish.
+- Choose a **Date picker**: Freeform, Classic (Flatpickr), Browser, or None. See [Picker Choices](#picker-choices).
   - Freeform will automatically insert javascript in the footer/inside form (depending on settings) of the page for this fieldtype.
 - Choose to have your own placeholder or have Freeform generate a placeholder based on the settings below.
 - Set the date order formatting you'd like:
@@ -38,11 +38,26 @@ A complex date and/or time field. Can be used as Date only, Time only, or both. 
 - Choose if placeholder should separate AM/PM with a space (for 12hr clock).
 - Select the Min and Max dates for the date picker and validation (optional). Use static dates (e.g. `2018-11-01`, `2018-11-30`) or relative date strings (e.g. `-10 days`, `+3 months`).
 
+### Picker Choices<Badge type="feature" text="New in 5.18+" /> {#picker-choices}
+
+| Date picker | Behavior |
+| --- | --- |
+| **Freeform** | Searchable month and year menus, calendar and time list, and keyboard navigation. The default for new fields. |
+| **Classic** | Flatpickr, including existing Flatpickr JavaScript customization events. |
+| **Browser** | Device-native `date`, `time`, or `datetime-local` controls. |
+| **None** | Text input without an automatically loaded picker, for manual entry or your own JavaScript picker. |
+
+Existing fields and saved defaults retain their configured picker when upgrading. Choose **Classic** if your template depends on Flatpickr events or instance options.
+
+For Freeform time and combined fields, **Time interval** offers **1**, **5**, **10**, **15**, **30**, or **60 minutes**, defaulting to **30**. Visitors can also type a time between the suggestions. The picker respects the field's 12/24-hour clock and display format.
+
+The redesigned settings show date-format previews and calendar controls while still accepting English date expressions. Minimum and maximum expressions retain their time component for combined date/time fields, such as `12 hours ago`. A date-only maximum includes the whole day.
+
 ### Date Expressions and Native Inputs<Badge type="feature" text="Improved in 5.17.3+" />
 
 Keep **Initial value**, **Minimum date**, and **Maximum date** expressions in **English**, regardless of the control panel language. For example, enter `today` or `+3 months` even in a French or German control panel. In 5.17.3+, the builder's examples remain in English to avoid suggesting translated expressions that cannot be parsed. The displayed date and picker interface can still be localized.
 
-When **Use native input types** is enabled, date fields render as `date`, time fields as `time`, and combined fields as `datetime-local`. Native date and combined inputs receive configured minimum and maximum date constraints in the browser's required format. Native **time-only** inputs omit those date constraints, so dates left over from a field's previous mode cannot block time entry.
+With **Date picker → Browser** (or the legacy **Use native input types** setting), date fields render as `date`, time fields as `time`, and combined fields as `datetime-local`. Native date and combined inputs receive configured minimum and maximum date constraints in the browser's required format. Native **time-only** inputs omit those date constraints, so dates left over from a field's previous mode cannot block time entry.
 
 ## Behavior & Limitations
 
@@ -71,7 +86,9 @@ For **localization** reference:
 | `field.clock24h` | Whether times use a 24-hour clock. |
 | `field.clockSeparator` | The separator between hours and minutes. |
 | `field.clockAMPMSeparate` | Whether a space separates the time from AM or PM. |
-| `field.useDatepicker` | Whether Freeform uses its JavaScript date picker. Returns `false` when native input types are enabled. |
+| `field.picker` | Picker choice: `freeform`, `flatpickr`, `browser`, or `none`. |
+| `field.minuteStep` | Suggested time interval in minutes for the Freeform picker. |
+| `field.useDatepicker` | Compatibility property indicating whether a JavaScript picker is enabled. |
 | `field.minDate` | The minimum date expression for the current language, or `null` when unset. Date expressions must remain in English. |
 | `field.maxDate` | The maximum date expression for the current language, or `null` when unset. Date expressions must remain in English. |
 

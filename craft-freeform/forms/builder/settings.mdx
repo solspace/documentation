@@ -118,10 +118,15 @@ Use `form.icon` for the configured Craft icon name and `form.iconSvg` to render 
   - The text to be shown at the top of the form if there are any errors upon submit (AJAX), or load in your template with `form.errorMessage`.
 
 
+### Custom Success and Error Colors<Badge type="feature" text="New in 5.18+" />
+
+Enable **Custom Success and Error Colors** under **Success & Errors** to override the formatting template's colors. Choose **Success Color**, **Error Color**, and a **Banner Style**: **Soft** uses a tinted background and **Bold** uses a solid color. Error Color also applies to invalid field borders and validation messages.
+
+Existing forms keep their template colors until this option is enabled. Administrators can set defaults in [Form Builder settings](../../configuration/settings/form-builder.mdx), lock them, and control access through [Limited Users](../../configuration/limited-users.mdx). Custom templates should preserve Freeform's rendering and error hooks to use the configured presentation.
+
 ## Limits
 
 - **Duplicate Check**<Badge type="pro" text="Pro" />
-
   - Allows you to limit the number of times a user can submit the form.
   - Options are:
     - _No restrictions_ (default)
@@ -131,12 +136,10 @@ Use `form.icon` for the configured Craft icon name and `form.iconSvg` to render 
       - This will check any _Email_ field type for a matching email address (across all Email fields if using more than one in the same form).
     - _Anyone — once per user or cookie_
     - _Anyone — once per user, IP, or cookie_
-
 - **Scope by Field**<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.17+" />
   - For a once-only **Duplicate Check** mode, limit repeat submissions to the same value of a selected field, such as a product or entry ID.
   - Leave blank for the existing form-wide restriction. Requires stored submissions and a nonempty scope value.
   - See [Scoped Duplicate Checking](../../submissions/scoped-duplicate-checking.mdx) for supported fields, examples, and cookie behavior.
-
 - **Schedule Form** <span className="badge-group"><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></span><Badge type="feature" text="New in 5.17+" />
   - Enable an opening date, an expiry date, or both. Turning this off ignores the saved dates without clearing them.
   - **Schedule Start Date** - when the form becomes available, including the time. Leave blank for immediate availability.
@@ -144,7 +147,6 @@ Use `form.icon` for the configured Craft icon name and `form.iconSvg` to render 
   - **Pending Message** / **Expired Message** - the text shown instead of the form outside its scheduled period. Leave a message blank to hide the form without displaying text.
   - Dates and times use the timezone shown beneath the controls. If both are set, the end must be after the start.
   - See [Form Scheduling](../../submissions/form-scheduling.mdx) for rendering, custom Twig layouts, and API behavior.
-
 - **Limit Submissions** <span className="badge-group"><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></span><Badge type="feature" text="New in 5.17+" />
   - Set a cap on stored submissions. Requires **Store Submitted Data** to be enabled.
   - **Number of Submissions** - a whole number greater than zero; defaults to `50`.

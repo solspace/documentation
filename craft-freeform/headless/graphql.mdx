@@ -384,6 +384,13 @@ The following arguments are available when querying single or multiple forms:
 | `siteIds`<Badge type="feature" text="New in 5.13.6+" />     | `[Int]`    | Narrow the queried forms by one or more site IDs     |
 | `siteHandles`<Badge type="feature" text="New in 5.13.6+" /> | `[String]` | Narrow the queried forms by one or more site handles |
 
+In **5.18.3+**, `orderBy` accepts a supported column name, such as `name`, `handle`, `order`, `dateCreated`, or `dateUpdated`. Bare names refer to form columns. Supported qualified columns are:
+
+- `forms.id`, `forms.uid`, `forms.type`, `forms.name`, `forms.handle`, `forms.order`, `forms.metadata`, `forms.spamBlockCount`, `forms.createdByUserId`, `forms.dateCreated`, `forms.updatedByUserId`, `forms.dateUpdated`, and `forms.dateArchived`.
+- `sites.id`, `sites.uid`, `sites.handle`, `sites.name`, and `sites.sortOrder`.
+
+Use `sort` for direction. SQL expressions and unknown columns are rejected.
+
 ```graphql showLineNumbers
 query {
   freeform {
@@ -1112,7 +1119,9 @@ fields {
 | `clock24h`            | `Boolean` | Should the clock use a 24h format                               |
 | `clockSeparator`      | `String`  | Clock separator                                                 |
 | `clockAMPMSeparate`   | `Boolean` | Should the AM/PM be separated from the time by a space          |
-| `useDatepicker`       | `Boolean` | Should the built-in datepicker be used                          |
+| `useDatepicker`       | `Boolean` | Whether a JavaScript picker is enabled. |
+| `picker` | `String` | In 5.18+: `freeform`, `flatpickr`, `browser`, or `none`. |
+| `minuteStep` | `Int` | In 5.18+: interval between Freeform picker time suggestions. |
 | `minDate`             | `String`  | Specifies the minimum allowed date that can be picked           |
 | `maxDate`             | `String`  | Specifies the maximum allowed date that can be picked           |
 
@@ -1130,6 +1139,8 @@ fields {
     clockSeparator
     clockAMPMSeparate
     useDatepicker
+    picker
+    minuteStep
     minDate
     maxDate
   }

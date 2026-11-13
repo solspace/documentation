@@ -5,6 +5,8 @@ toc_max_heading_level: 3
 description: "Set up Google Places address autocomplete for the Freeform Location field in Craft CMS."
 ---
 
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
 import { Badge } from '@site/src/components/utils';
 
 # Google Places<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.18+" />
@@ -15,17 +17,53 @@ Google Places adds street-address autocomplete to the [Location field](../forms/
 
 Your existing **Google Cloud account is enough**. Google Maps Platform uses Google Cloud projects, billing, and API keys; you do not need a separate Maps Platform account. Use an existing project or create a dedicated project for your website. Google's [getting-started guide](https://developers.google.com/maps/get-started) covers the account and project setup.
 
-1. Sign in to the [Google Cloud console](https://console.cloud.google.com/) and select or create your project using the project selector at the top.
-2. Link a billing account to that project. **Billing must be enabled even if your usage stays within Google's free allowances.** See [Places API billing requirements](https://developers.google.com/maps/documentation/places/web-service/usage-and-billing).
-3. In **APIs & Services → Library**, enable both **Maps JavaScript API** and **Places API (New)** in the same project. Use the current Places API, rather than the legacy API. See [Google's API setup guide](https://developers.google.com/maps/get-started).
-4. In **Google Maps Platform → Credentials**, choose **Create credentials → API key**. See [API key setup](https://developers.google.com/maps/documentation/javascript/get-api-key). Edit the key and set its application restriction to **Websites (HTTP referrers)**, adding your website domains, including any development or staging domains that need autocomplete. Restrict its API access to **Maps JavaScript API** and **Places API (New)**. See [Google's key restriction guidance](https://developers.google.com/maps/api-security-best-practices). This is a browser key and is intentionally visible in frontend HTML; do not use an unrestricted or server-only key.
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Select or create a project in the [Google Cloud console](https://console.cloud.google.com/).
+
+</StepMarkdown>
+<StepMarkdown>
+
+Link a billing account to that project. **Billing must be enabled even if your usage stays within Google's free allowances.** See [Places API billing requirements](https://developers.google.com/maps/documentation/places/web-service/usage-and-billing).
+
+</StepMarkdown>
+<StepMarkdown>
+
+In **APIs & Services → Library**, enable both **Maps JavaScript API** and **Places API (New)** in the same project. Use the current Places API, rather than the legacy API. See [Google's API setup guide](https://developers.google.com/maps/get-started).
+
+</StepMarkdown>
+<StepMarkdown>
+
+[Create an API key](https://developers.google.com/maps/documentation/javascript/get-api-key) under **Google Maps Platform → Credentials**. Restrict it to **Websites (HTTP referrers)** and add your domains, including development and staging sites that use autocomplete. Allow only **Maps JavaScript API** and **Places API (New)**. This key is visible in frontend HTML, so use a restricted browser key. See [Google's key restriction guidance](https://developers.google.com/maps/api-security-best-practices).
+
+</StepMarkdown>
+</VerticalStepWrapper>
 
 ## Connect Freeform
 
-1. Install **Google Places** under **Freeform → Integrations → Other**.
-2. Enter your browser API key in **Browser API Key**, or enter an environment variable containing it, and save the integration.
-3. In the form builder, enable the integration under the form's **Integrations** tab.
-4. Add a **Location** field and select the integration under **Google Places Integration**. Choose whether to include address inputs or map components to existing fields.
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Install **Google Places** under **Freeform → Integrations → Other**.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Enter your browser API key in **Browser API Key**, or enter an environment variable containing it, and save the integration.
+
+</StepMarkdown>
+<StepMarkdown>
+
+In the form builder, enable the integration under the form's **Integrations** tab.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Add a **Location** field and select the integration under **Google Places Integration**. Choose whether to include address inputs or map components to existing fields.
+
+</StepMarkdown>
+</VerticalStepWrapper>
 
 Freeform loads Google Maps only when a visitor types at least three characters in a configured Location field, reuses an existing Maps loader, and requests only address components after selection. Each completed selection starts a new autocomplete session. Manual entry does not require a Google account or API key and makes no Google API requests.
 

@@ -369,6 +369,10 @@ const config: Config = {
       {
         redirects: [
           {
+            from: '/craft/freeform/v5/integrations/pardot/',
+            to: '/craft/freeform/v5/integrations/salesforce-account-engagement-pardot/',
+          },
+          {
             from: '/craft/freeform/v5/guides/database-integrity/',
             to: '/craft/freeform/v5/configuration/console-commands/#repair-database-foreign-keys',
           },
