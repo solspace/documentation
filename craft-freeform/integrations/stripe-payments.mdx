@@ -223,6 +223,14 @@ The Stripe Payment Element includes built-in support for Apple Pay and Google Pa
 
 The following instructions assume you already have a Stripe account. You can add the Stripe integration by doing the following:
 
+:::info Live secret API keys
+Starting November 20, 2026, existing live-mode secret API key values can no longer be revealed in the Stripe Dashboard. Existing keys continue working, so this change alone does not require a Freeform update, reauthorization, or key rotation. Test-mode keys are unaffected.
+
+If you need an existing live secret key for a new or reconfigured integration, retrieve its saved value from your authorized secrets manager or server configuration. If the value is unavailable, create an additional secret key for that setup. Do not rotate, expire, or delete a key used by a working integration just to obtain a key for another setup. If replacement is necessary, update and verify every integration using the old key before retiring it. Rotate exposed or compromised keys immediately.
+
+This policy concerns secret API keys (`sk_live_...`), not publishable keys (`pk_live_...`) or webhook signing secrets (`whsec_...`). See [Stripe's API key documentation](https://docs.stripe.com/keys) and [security guidance](https://docs.stripe.com/keys-best-practices).
+:::
+
 <VerticalStepWrapper>
   <StepMarkdown stepTitle="Prepare Freeform">
     - Go to the [Integrations](index.mdx#control-panel-settings) section in Freeform Settings (**Freeform** → **Integrations**).
@@ -231,7 +239,7 @@ The following instructions assume you already have a Stripe account. You can add
   <StepMarkdown stepTitle="Prepare Stripe">
     Open up another browser tab and go to your Stripe account:
 
-    - On the top menu, click on the **Developers** button. On the next page click **API Keys**.
+    - Open the [API keys](https://dashboard.stripe.com/apikeys) page in your Stripe Dashboard.
 
     :::info
     Stripe can be run in **Live** mode or **Test** mode. To toggle between Live and Test mode, click the **Test mode** toggle at the top of the page. When doing this, the _Publishable key_ and _Secret key_ will switch between live and test as well. We strongly recommend switching Stripe to **Test** mode first, and testing your site with those keys instead.
@@ -247,8 +255,14 @@ The following instructions assume you already have a Stripe account. You can add
     - Copy the token (click _Reveal test key_ button to reveal) for **Secret key** (e.g. `sk_test_af7fa7gfdo78g6ddfg6d8d87`) and paste into the **Secret Key** field inside Freeform.
 
     :::info
-    Consider using an **Environment Variable** for these settings instead. Then, store _Live_ keys on production and _Test_ keys on local dev environments.
+    Consider using an **Environment Variable** for these settings instead. Store _Live_ keys on production and _Test_ keys on local dev environments. Retain live secret keys in an access-controlled secrets manager and supply them to the server securely. Keep secret keys out of templates, browser code (including frontend environment variables), source control, logs, email, and support requests.
     :::
+
+    When you are ready to accept live payments:
+
+    - Select **Live mode** on Stripe's API keys page and copy the **Publishable key** (`pk_live_...`) into Freeform's **Public Key** setting.
+    - For Freeform's **Secret Key** setting, use a securely saved live secret key (`sk_live_...`) from the same Stripe account. If you need a new key, choose **Create secret key**, give it a descriptive name, and complete Stripe's prompts. Copy and securely retain the value immediately when displayed; newly created live secret keys are shown only once.
+    - Freeform uses the same **Public Key** and **Secret Key** settings for test or live credentials. For production, replace the test values with live values, or supply the live values through the environment variables referenced by those settings. Use a live-mode webhook endpoint and its signing secret when completing the webhook steps below, then save and authorize the integration.
   </StepMarkdown>
   <StepMarkdown stepTitle="Configure the Stripe Webhook">
     - Click on the **Webhooks** tab inside the Stripe **Developers** page.
