@@ -104,6 +104,14 @@ To fully test or use the **webhooks** part of Stripe payment gateway (Payments s
 
 The following instructions assume you already have a Stripe account. You can add the Stripe integration by doing the following:
 
+:::info Live secret API keys
+Starting November 20, 2026, existing live-mode secret API key values can no longer be revealed in the Stripe Dashboard. Existing keys continue working, so this change alone does not require a Freeform update, reauthorization, or key rotation. Test-mode keys are unaffected.
+
+If you need an existing live secret key for a new or reconfigured integration, retrieve its saved value from your authorized secrets manager or server configuration. If the value is unavailable, create an additional secret key for that setup. Do not rotate, expire, or delete a key used by a working integration just to obtain a key for another setup. If replacement is necessary, update and verify every integration using the old key before retiring it. Rotate exposed or compromised keys immediately.
+
+This policy concerns secret API keys (`sk_live_...`), not publishable keys (`pk_live_...`) or webhook signing secrets (`whsec_...`). See [Stripe's API key documentation](https://docs.stripe.com/keys) and [security guidance](https://docs.stripe.com/keys-best-practices).
+:::
+
 <VerticalStepWrapper>
 <StepMarkdown>
 
@@ -115,12 +123,12 @@ The following instructions assume you already have a Stripe account. You can add
 
 Open up another browser tab and go to your Stripe account:
 
-- On the left nav menu, click on **Developer**, then click **API Keys**.
+- Open the [API keys](https://dashboard.stripe.com/apikeys) page in your Stripe Dashboard and select **Live mode**.
 - Copy the LIVE token for **Publishable key** (e.g. `pk_live_fs7f6f8g8dfg68g68d76dgd8`) and paste into the **Public Key (Live)** field inside Freeform.
-- Copy the LIVE token (click _Reveal live key token_ button to reveal) for **Secret key** (e.g. `sk_live_af7fa7gfdo78g6ddfg6d8d87`) and paste into the **Secret Key (Live)** field inside Freeform.
-- Toggle the _View test data_ link at the bottom left corner in Stripe account area (or top right in API Key page) to allow testing your setup. Stripe will provide you with a **different** set of keys for testing mode.
+- For **Secret Key (Live)**, enter a securely saved live secret key (`sk_live_...`) from the same Stripe account. If you need a new key, choose **Create secret key**, give it a descriptive name, and complete Stripe's prompts. Copy the value when first displayed; newly created live secret keys are shown only once. Store it immediately in an access-controlled secrets manager, then paste it into Freeform. Keep secret keys out of templates, browser code, source control, logs, email, and support requests.
+- Switch Stripe to **Test mode** to test your setup. Stripe provides a **different** set of keys for testing.
 - Copy the TEST token for **Publishable key** (e.g. `pk_test_fs7f6f8g8dfg68g68d76dgd8`) and paste into the **Public Key (Test)** field inside Freeform.
-- Copy the TEST token (click _Reveal live key token_ button to reveal) for **Secret key** (e.g. `sk_test_af7fa7gfdo78g6ddfg6d8d87`) and paste into the **Secret Key (Test)** field inside Freeform.
+- Copy the TEST **Secret key** (`sk_test_...`), revealing it in test mode if needed, and paste it into the **Secret Key (Test)** field inside Freeform. Test-mode secret keys remain revealable.
 - Enable the _LIVE mode_ toggle whenever you are ready to have your Payment forms go live. Freeform Payments will then switch to using the LIVE Stripe API tokens.
 
 </StepMarkdown>
