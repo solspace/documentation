@@ -70,6 +70,10 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 
 ### Update Changelogs
 
+Fetch the configured plugins' `CHANGELOG.md` files from GitHub and regenerate their
+documentation changelogs, including darkMode 1.x from `solspace/craft-dark-mode`'s
+`v1` branch into `craft-dark-mode/users/changelog.mdx`:
+
 ```
 $ pnpm fetch-github-remote-content
 ```
