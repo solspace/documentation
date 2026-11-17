@@ -42,6 +42,7 @@ export default {
   ShoppingBagIcon: 'shopping-bag',
   SirenIcon: 'siren',
   SocketIcon: 'socket',
+  SolspaceAiIcon: 'solspace-ai',
   StackExchangeIcon: 'stack-exchange',
   StarIcon: 'star',
   StreetIcon: 'street',
