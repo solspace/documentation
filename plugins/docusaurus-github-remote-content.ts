@@ -92,6 +92,12 @@ function transformer(content: Content, data: string): string {
     caution: 'danger',
   };
 
+  // Normalize legacy bold warning labels to GitHub-style alerts.
+  filteredData = filteredData.replace(
+    /^>\s*\*\*(Warning|Important|Note|Tip|Caution):\*\*\s*/gm,
+    (_, type) => `> [!${type.toUpperCase()}]\n> `
+  );
+
   // Wrap specific warning and important messages with [!TYPE]
   filteredData = filteredData.replace(
     />\s*\[!(WARNING|IMPORTANT|NOTE|TIP|CAUTION)\][\s\S]*?(\n\n|$)/g,
@@ -128,7 +134,7 @@ function transformer(content: Content, data: string): string {
 
   // Add TitleDate component to version titles
   filteredData = filteredData.replace(
-    /^(## \d+\.\d+\.\d+(?:\.\d+)?)( - (\d{4}-\d{2}-\d{2}))?$/gm,
+    /^(## \d+\.\d+\.\d+(?:\.\d+)?(?:-[\da-zA-Z.-]+)?)( - (\d{4}-\d{2}-\d{2}))?$/gm,
     (match, version, _, date) => {
       if (date) {
         return `${version}<TitleDate date="${date}" />`;

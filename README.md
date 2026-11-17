@@ -72,7 +72,13 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 
 Fetch the configured plugins' `CHANGELOG.md` files from GitHub and regenerate their
 documentation changelogs, including darkMode 1.x from `solspace/craft-dark-mode`'s
-`v1` branch into `craft-dark-mode/users/changelog.mdx`:
+`v1` branch into `craft-dark-mode/users/changelog.mdx`.
+
+Freeform for ExpressionEngine 1.x, 2.x, and 3.x use the complete
+`solspace/ee-freeform` changelog on the `v3` branch. The fetcher filters releases by
+major version and writes `ee-freeform_versioned_docs/version-v1/setup/changelog.mdx`,
+`ee-freeform_versioned_docs/version-v2/setup/changelog.mdx`, and
+`ee-freeform/setup/changelog.mdx`, respectively:
 
 ```
 $ pnpm fetch-github-remote-content
