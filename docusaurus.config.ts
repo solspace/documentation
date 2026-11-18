@@ -1,5 +1,6 @@
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import type {} from 'webpack-dev-server';
 
 import tailwind from './plugins/tailwind-config.cjs';
 import docusaurusGithubRemoteContent from './plugins/docusaurus-github-remote-content';
@@ -92,6 +93,25 @@ const config: Config = {
   ],
 
   plugins: [
+    () => ({
+      name: 'support-form-proxy',
+      configureWebpack: () => ({
+        devServer: {
+          proxy: [
+            {
+              context: [
+                '/freeform/tokens',
+                '/freeform/api/forms/support',
+                '/freeform/payments/stripe/payment-intents',
+                '/freeform/payments/stripe/callback',
+              ],
+              target: 'https://support.solspace.com',
+              changeOrigin: true,
+            },
+          ],
+        },
+      }),
+    }),
     [
       docusaurusGithubRemoteContent,
       {

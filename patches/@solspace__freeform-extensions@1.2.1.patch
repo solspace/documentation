@@ -1,0 +1,40 @@
+diff --git a/dist/payments/stripe/index.d.ts b/dist/payments/stripe/index.d.ts
+index 4137c6f7d6742d0a763609179ecea78dee3250ec..e22f5eadc4bea52dcf9c2e10b356ee649e847f16 100644
+--- a/dist/payments/stripe/index.d.ts
++++ b/dist/payments/stripe/index.d.ts
+@@ -1,4 +1,5 @@
+ import type { FreeformExtension } from "@solspace/freeform-core";
++import type { Appearance } from "@stripe/stripe-js";
+ /**
+  * Stripe Payment Element bridge.
+  *
+@@ -9,7 +10,7 @@ import type { FreeformExtension } from "@solspace/freeform-core";
+  * - dynamic amounts (server amount update before confirm)
+  * - multipage (payment only runs on final submit intent)
+  */
+-export declare function createStripePaymentExtension(): FreeformExtension;
++export declare function createStripePaymentExtension(appearanceOverrides?: Appearance): FreeformExtension;
+ export declare class StripePaymentRedirectError extends Error {
+     readonly url: string;
+     constructor(url: string);
+diff --git a/dist/payments/stripe/index.js b/dist/payments/stripe/index.js
+index 62fe39edf0f75181c7ea0386ddeeb86c15967ac2..f6e0373d5bdf8a1e7c121fa56a16aafdcffbf822 100644
+--- a/dist/payments/stripe/index.js
++++ b/dist/payments/stripe/index.js
+@@ -85,7 +85,7 @@ async function updatePaymentAmount(state, values) {
+  * - dynamic amounts (server amount update before confirm)
+  * - multipage (payment only runs on final submit intent)
+  */
+-export function createStripePaymentExtension() {
++export function createStripePaymentExtension(appearanceOverrides = {}) {
+     return {
+         name: "payment.stripe",
+         version: PACKAGE_VERSION,
+@@ -138,6 +138,7 @@ export function createStripePaymentExtension() {
+                 appearance: {
+                     theme: options.theme ?? "stripe",
+                     labels: options.floatingLabels ? "floating" : "above",
++                    ...appearanceOverrides,
+                 },
+             });
+             const paymentElement = elements.create("payment", {

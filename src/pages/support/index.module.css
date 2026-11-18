@@ -1,0 +1,370 @@
+.supportForm {
+  container-type: inline-size;
+}
+
+.supportForm :global(.ff-form) {
+  --ff-color-text: #fff;
+  --ff-color-text-muted: #9ca3af;
+  --ff-color-placeholder: #9ca3af;
+  --ff-color-surface: rgb(255 255 255 / 5%);
+  --ff-color-border: rgb(255 255 255 / 10%);
+  --ff-color-border-focus: oklch(0.623 0.214 259.815);
+  --ff-color-primary: oklch(0.623 0.214 259.815);
+  --ff-color-primary-hover: oklch(0.707 0.165 254.624);
+  --ff-color-primary-contrast: #fff;
+  --ff-color-danger: #ff8b82;
+  --ff-radius: 6px;
+  color-scheme: dark;
+  font: 16px/24px sans-serif;
+}
+
+.supportForm :global(.ff-row) {
+  display: flex;
+  gap: 16px 24px;
+  margin: 0 0 16px;
+}
+
+.supportForm :global(.ff-row):not(:has(> :global(.ff-field):not(:global(.ff-field--hidden)))) {
+  display: none;
+}
+
+.supportForm :global(.ff-row) > :global(.ff-field) {
+  flex: 1 0 100%;
+  min-width: 0;
+  padding: 0;
+}
+
+@container (min-width: 768px) {
+  .supportForm :global(.ff-row) > :global(.ff-field) {
+    flex: 1 1 0;
+  }
+}
+
+.supportForm :global(.ff-field__label) {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.supportForm :global(.ff-field__label):has(+ :global(.ff-field__instructions)) {
+  margin-bottom: 0;
+}
+
+.supportForm :global(.ff-field__label) > span[aria-hidden="true"],
+.supportForm :global(.ff-field--checkbox) label span[aria-hidden="true"] {
+  margin-inline-start: 3px;
+}
+
+.supportForm :global(.ff-field__instructions) {
+  margin: 0 0 4px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.supportForm:global(#support-form) :global(.ff-field) :is(input[type="text"], input[type="email"], select, textarea) {
+  padding: 5px 11px;
+  font: inherit;
+  line-height: 24px;
+}
+
+@container (min-width: 640px) {
+  .supportForm:global(#support-form) :global(.ff-field) :is(input[type="text"], input[type="email"], select, textarea) {
+    font-size: 14px;
+  }
+}
+
+.supportForm:global(#support-form) :global(.ff-field) select:not([multiple]) {
+  padding-inline-end: 32px;
+  background-position: right 10px center;
+}
+
+.supportForm :global(.ff-field) select option {
+  background: #1e242d;
+  color: #fff;
+}
+
+.supportForm :global(.ff-field) textarea {
+  min-height: 132px;
+}
+
+.supportForm :global(.ff-field) :is(input[type="text"], input[type="email"], select, textarea):focus {
+  outline: 2px solid var(--ff-color-border-focus);
+  outline-offset: -2px;
+}
+
+.supportForm:global(#support-form) :global(.ff-field--has-errors) :is(input:not([type="radio"]), select, textarea),
+.supportForm :global(.ff-field--has-errors) .supportLevel {
+  border-color: var(--ff-color-danger);
+  outline-color: var(--ff-color-danger);
+}
+
+.errorSummary,
+.supportForm:global(#support-form) :global(.ff-form) > :global(.ff-field__errors) {
+  padding: 15px 16px;
+  margin: 0 0 24px;
+  border: 1px solid rgb(255 112 104 / 38%);
+  border-radius: 6px;
+  background: rgb(255 89 82 / 15%);
+  color: #ffe8e5;
+  font-weight: 400;
+}
+
+.errorSummary {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.errorSummary svg {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  color: var(--ff-color-danger);
+}
+
+.supportForm :global(.ff-form) > :global(.ff-field__errors) :global(.ff-field__error) {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+}
+
+.supportForm :global(.ff-field--support-level) > :global(.ff-field__label) {
+  display: none;
+}
+
+.supportLevels {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 4px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+@container (min-width: 640px) {
+  .supportLevels {
+    flex-flow: row wrap;
+    gap: 20px;
+  }
+}
+
+.supportLevel {
+  --support-level-color: 5 143 254;
+  --support-price-selected: #006dc5;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 42px;
+  padding: 8px 16px;
+  border: 1px solid rgb(var(--support-level-color) / 40%);
+  border-radius: 6px;
+  background: rgb(var(--support-level-color) / 10%);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.supportLevel[data-level="priority"] {
+  --support-level-color: 255 102 36;
+  --support-price-selected: #f14f09;
+}
+
+.supportLevel:has(input:checked),
+.supportLevel:active {
+  border-color: rgb(var(--support-level-color));
+  background: rgb(var(--support-level-color));
+}
+
+.supportLevel:has(input:focus-visible) {
+  outline: 2px solid var(--ff-color-primary);
+  outline-offset: 2px;
+}
+
+.supportLevel input[type="radio"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.selectedIcon {
+  display: none;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  margin-inline-end: 3px;
+}
+
+.supportLevel:has(input:checked) .selectedIcon {
+  display: block;
+}
+
+.supportPrice {
+  padding: 2px 4px;
+  border-radius: 3px;
+  background: rgb(var(--support-level-color) / 10%);
+  font-family: var(--ifm-font-family-monospace);
+  line-height: 16px;
+}
+
+.supportLevel:has(input:checked) .supportPrice {
+  background: var(--support-price-selected);
+}
+
+.supportForm :global(.ff-field--checkbox) > label {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  align-items: start;
+  gap: 8px;
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.supportForm:global(#support-form) :global(.ff-field--checkbox) input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin: 4px 0 0;
+  border: 1px solid var(--ff-color-border);
+  border-radius: 4px;
+  background: var(--ff-color-surface);
+}
+
+.supportForm:global(#support-form) :global(.ff-field--checkbox) input[type="checkbox"]:checked {
+  border-color: var(--ff-color-primary);
+  background: var(--ff-color-primary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 8 6 11 11 3.5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 14px no-repeat;
+}
+
+.supportForm:global(#support-form) :global(.ff-field--checkbox) input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--ff-color-primary);
+  outline-offset: 2px;
+}
+
+.supportForm :global(.ff-form__buttons) {
+  margin-top: 0;
+}
+
+.supportForm :global(.ff-button) {
+  min-height: 40px;
+  padding: 8px 20px;
+  border: 0;
+  font: 600 16px/24px sans-serif;
+}
+
+.supportForm :global(.ff-field--stripe) [data-freeform-stripe] {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.supportForm :global(.ff-form):has([data-freeform-stripe]) :global(.ff-form__buttons) {
+  gap: 16px;
+}
+
+.supportForm :global(.ff-form):has([data-freeform-stripe]) :global(.ff-button--back) {
+  color: #fff;
+  background: #374151;
+}
+
+.supportForm :global(.ff-form):has([data-freeform-stripe]) :global(.ff-button--back):hover:not(:disabled) {
+  color: #fff;
+  background: #4b5563;
+}
+
+.supportForm :global(.ff-field--html) [class*="border-l-4"] {
+  --notice-accent: #3b82f6;
+  --notice-text: #93c5fd;
+  padding: 16px;
+  border-inline-start: 4px solid var(--notice-accent);
+  border-radius: 0 6px 6px 0;
+  background: color-mix(in srgb, var(--notice-accent) 10%, transparent);
+  color: var(--notice-text);
+}
+
+.supportForm :global(.ff-field--html) [class*="border-yellow-500"] {
+  --notice-accent: #eab308;
+  --notice-text: #fde047;
+}
+
+.supportForm :global(.ff-field--html) [class*="border-l-4"] :is(p, a) {
+  margin: 0;
+  color: inherit;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.supportForm :global(.ff-field--html) [class*="border-l-4"] svg {
+  width: 20px;
+  height: 20px;
+  vertical-align: top;
+}
+
+.supportForm :global(.ff-field--priority-support) :global(.ff-field__content) > div {
+  border-radius: 8px;
+  outline: 1px solid #ff6624;
+  outline-offset: -1px;
+  background: rgb(255 102 36 / 10%);
+  color: #d1d5db;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.supportForm :global(.ff-field--priority-support) :global(.ff-field__content) > div > div {
+  padding: 20px 16px;
+}
+
+.supportForm :global(.ff-field--priority-support) h3 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #fff;
+  font: 600 16px/24px sans-serif;
+}
+
+.supportForm :global(.ff-field--priority-support) :global(.ff-field__content) > div > div > h3 {
+  font: 600 18px/28px sans-serif;
+}
+
+.supportForm :global(.ff-field--priority-support) h3 + div {
+  max-width: 56rem;
+  margin-top: 12px;
+}
+
+.supportForm :global(.ff-field--priority-support) p {
+  margin: 0;
+}
+
+.supportForm :global(.ff-field--priority-support) div:has(> section) {
+  margin-top: 24px;
+}
+
+.supportForm :global(.ff-field--priority-support) section + section {
+  margin-top: 24px;
+}
+
+.supportForm :global(.ff-field--priority-support) ul {
+  margin: 8px 0 0;
+  padding-inline-start: 20px;
+  list-style: disc;
+}
+
+.supportForm :global(.ff-field--priority-support) li + li {
+  margin-top: 8px;
+}
+
+@container (min-width: 640px) {
+  .supportForm :global(.ff-field--priority-support) :global(.ff-field__content) > div > div {
+    padding: 24px;
+  }
+}
