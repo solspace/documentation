@@ -10,6 +10,8 @@ type CompatibilityRow = {
   url: string;
   icon?: string;
   version: string;
+  compatibleSince?: string;
+  compatibleVersions?: string;
   compatible: boolean;
   adapter: boolean;
   checked: string | null;
@@ -115,7 +117,7 @@ export default function CompatibilityTable({ rows }: { rows: CompatibilityRow[] 
             <th scope="col" className={styles.iconCell}><span className={styles.srOnly}>Plugin icon</span></th>
             <SortHeader sortKey="plugin" label="Plugin" sort={sort} onSort={toggleSort} />
             <SortHeader sortKey="developer" label="Developer" sort={sort} onSort={toggleSort} />
-            <th scope="col">Version checked</th>
+            <th scope="col" className={styles.version}>Latest checked</th>
             <th scope="col" className={styles.center}>Compatible</th>
             <th scope="col" className={styles.center}>Adapter included</th>
             <th scope="col" title="First compatible darkMode release">Supported since</th>
@@ -149,8 +151,14 @@ export default function CompatibilityTable({ rows }: { rows: CompatibilityRow[] 
                     </button>}
                   </th>}
                   <td className={styles.developer}>{row.parent ? null : row.developer}</td>
-                  <td>
+                  <td className={styles.version}>
                     {row.version}
+                    {row.compatibleSince && <small className={styles.versionHistory}>
+                      Since {row.compatibleSince}
+                    </small>}
+                    {row.compatibleVersions && <small className={styles.versionHistory}>
+                      <span className={styles.srOnly}>Known compatible versions </span>{row.compatibleVersions}
+                    </small>}
                   </td>
                   <td className={styles.center}>{row.compatible ? <Check label="Compatible" /> : '—'}</td>
                   <td className={styles.center}>{row.adapter ? <Check label="Adapter included" neutral /> : '—'}</td>
