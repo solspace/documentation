@@ -43,7 +43,6 @@ export default function Home(): JSX.Element {
                 },
                 {
                   title: 'darkMode',
-                  titleBadge: 'Beta',
                   icon: Icons.DarkModeIcon,
                   fullCardLink: 'craft/dark-mode/v1',
                 },
