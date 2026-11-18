@@ -1,6 +1,110 @@
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
+import type { ComponentProps } from 'react';
+import { createStripePaymentExtension, recommendedExtensions } from '@solspace/freeform-extensions';
+import { builtinComponents, type ReactFieldRendererProps } from '@solspace/freeform-react';
+import { darkTheme } from '@solspace/freeform-theme-default';
+import DocsFreeform from '@site/src/components/forms/DocsFreeform';
 import { Footer, LeftNav } from '@site/src/components/layout';
+import styles from './index.module.css';
+
+function SupportForm({ children, ...props }: ComponentProps<typeof builtinComponents.Form>) {
+  const { fieldErrors, formErrors, pageErrors } = props.form;
+  const showSummary = !formErrors.length &&
+    (pageErrors.length > 0 || Object.values(fieldErrors).some((errors) => errors.length > 0));
+
+  return (
+    <builtinComponents.Form {...props}>
+      {showSummary && (
+        <p className={styles.errorSummary} role="alert">
+          <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM7.47 7.47a.75.75 0 0 1 1.06 0L10 8.94l1.47-1.47a.75.75 0 0 1 1.06 1.06L11.06 10l1.47 1.47a.75.75 0 0 1-1.06 1.06L10 11.06l-1.47 1.47a.75.75 0 0 1-1.06-1.06L8.94 10 7.47 8.53a.75.75 0 0 1 0-1.06Z" />
+          </svg>
+          Please review the highlighted fields and try again.
+        </p>
+      )}
+      {children}
+    </builtinComponents.Form>
+  );
+}
+
+function SupportLevel(props: ReactFieldRendererProps) {
+  const labelMarkup = document.createElement('template');
+  const { field, form, value } = props;
+
+  return (
+    <fieldset className={styles.supportLevels}>
+      <legend className="sr-only">{field.label}</legend>
+      {field.options?.map((option) => {
+        labelMarkup.innerHTML = option.label;
+        const price = labelMarkup.content.querySelector('.font-mono');
+        price?.remove();
+
+        return (
+          <label className={styles.supportLevel} data-level={option.value} key={option.value}>
+            <input
+              type="radio"
+              name={field.handle}
+              value={option.value}
+              checked={String(value ?? '') === option.value}
+              disabled={!form.isFieldEnabled(field.handle)}
+              onChange={() => form.setValue(field.handle, option.value)}
+            />
+            <svg className={styles.selectedIcon} aria-hidden="true" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" />
+            </svg>
+            <span>{labelMarkup.content.textContent?.trim()}</span>
+            {price && <span className={styles.supportPrice}>{price.textContent}</span>}
+          </label>
+        );
+      })}
+    </fieldset>
+  );
+}
+
+const supportRenderers = { handles: { supportLevel: SupportLevel } };
+const supportTheme = { ...darkTheme, renderers: { components: { Form: SupportForm } } };
+const supportStripeExtension = createStripePaymentExtension({
+  variables: {
+    colorPrimary: '#3b82f6',
+    colorBackground: '#1e242b',
+    colorText: '#ffffff',
+    colorTextSecondary: '#d1d5db',
+    colorTextPlaceholder: '#9ca3af',
+    colorDanger: '#ff8b82',
+    fontFamily: 'sans-serif',
+    fontSizeBase: '16px',
+    spacingUnit: '4px',
+    borderRadius: '6px',
+    gridColumnSpacing: '16px',
+    gridRowSpacing: '16px',
+  },
+  rules: {
+    '.Label': { fontSize: '14px', fontWeight: '500', marginBottom: '4px' },
+    '.Input': {
+      padding: '6px 12px',
+      lineHeight: '22px',
+      border: '1px solid #353b42',
+      boxShadow: 'none',
+    },
+    '.Input:focus': {
+      borderColor: '#3b82f6',
+      boxShadow: '0 0 0 1px #3b82f6',
+    },
+    '.Input--invalid': {
+      borderColor: '#ff8b82',
+      boxShadow: 'none',
+    },
+    '.Block': {
+      border: '1px solid #353b42',
+      backgroundColor: '#1e242b',
+      boxShadow: 'none',
+    },
+  },
+});
+const supportExtensions = recommendedExtensions.map((extension) =>
+  extension.name === supportStripeExtension.name ? supportStripeExtension : extension,
+);
 
 const Support: React.FC = () => {
   return (
@@ -10,8 +114,8 @@ const Support: React.FC = () => {
     >
       <div className="flex">
         <LeftNav />
-        <div className="flex flex-col gap-3 md:ml-72 p-8">
-          <main className="max-w-6xl m-auto my-3">
+        <div className="flex min-w-0 flex-1 flex-col gap-3 md:ml-72 p-8">
+          <main className="w-full max-w-6xl m-auto my-3">
             <span className="page-section">Support</span>
             <h1>Software Support</h1>
             <p>
@@ -56,11 +160,11 @@ const Support: React.FC = () => {
               </div>
             </div>
             <div className="mt-10">
-              <div className="flex gap-1">
+              <div className="flex flex-wrap gap-1">
                 <h2 className="leading-0 !m-0 px-6 py-4 bg-[#058ffe] rounded-t-md support-tab">
                   Private Ticket
                 </h2>
-                <div className="flex gap-1 items-end">
+                <div className="flex flex-wrap gap-1 items-end">
                   <Link
                     className="px-6 py-2 bg-teal-600 rounded-t-md text-white font-bold hover:text-white hover:bg-[#ff6624] support-tab-urgent"
                     href="/support/custom-development"
@@ -90,15 +194,25 @@ const Support: React.FC = () => {
                   purchase, or simply want to get in touch, please fill out the
                   form below.
                 </p>
-                <iframe
-                  title="Support Form"
-                  id="support-form"
-                  src="https://support.solspace.com/software/support"
-                  scrolling="yes"
-                  height="850px"
-                  width="100%"
-                  frameBorder="0"
-                ></iframe>
+                <div id="support-form" className={styles.supportForm}>
+                  <DocsFreeform
+                    handle="support"
+                    theme={supportTheme}
+                    extensions={supportExtensions}
+                    renderers={supportRenderers}
+                    // The support team's conditional notices and Priority Support terms contain HTML.
+                    allowRawHtml
+                    fallback={(
+                      <iframe
+                        title="Support Form"
+                        src="https://support.solspace.com/software/support"
+                        height="850"
+                        width="100%"
+                        className="block border-0"
+                      />
+                    )}
+                  />
+                </div>
               </div>
             </div>
           </main>
