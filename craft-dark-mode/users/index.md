@@ -29,6 +29,23 @@ Your public website, uploaded images, and authored content keep their own stylin
 
 See [Plugin Compatibility](compatibility.md) for the versions last checked.
 
+## Customize dark-mode accents
+
+Site admins can use the Control Panel CSS plugin to change accents across the control panel. In **Settings → Control Panel CSS**, paste this example into **Additional CSS** and save. It gives links and primary buttons a purple accent.
+
+```css
+html:root[data-dark-mode="dark"] {
+  --dm-link: #c4b5fd;
+  --primary-button-bg: #6d28d9;
+  --primary-button-bg--hover: #6023c4;
+  --primary-button-bg--active: #5220a8;
+}
+```
+
+The colors apply when **Dark** is active, including when **Auto** resolves to Dark. Light mode keeps its usual colors. The CSS applies to everyone using Dark on the site. Plugins with their own accent styles may need separate rules.
+
+![Control Panel CSS settings in Dark mode, showing the accent overrides, a lavender link, and a purple Save button](/img/craft/dark-mode/v1/custom-accents.png)
+
 ## Frequently asked questions
 
 <FaqCards

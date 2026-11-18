@@ -87,6 +87,11 @@ export default function CompatibilityTable({ rows }: { rows: CompatibilityRow[] 
     groups.set(name, [...(groups.get(name) ?? []), row]);
   }
 
+  const pluginNames = new Set(rows.map(row => row.parent ?? row.name));
+  pluginNames.delete('Craft CMS');
+  const pluginCount = pluginNames.size;
+  const matchedPluginCount = groups.size - Number(groups.has('Craft CMS'));
+
   return (
     <section aria-label="Plugin compatibility" className={styles.root}>
       <div className={styles.controls}>
@@ -108,7 +113,8 @@ export default function CompatibilityTable({ rows }: { rows: CompatibilityRow[] 
         </div>
       </div>
       <p className={styles.count} role="status" aria-live="polite" aria-atomic="true">
-        {filtered.length === rows.length ? `${rows.length} versions` : `${filtered.length} of ${rows.length} versions`}
+        {filtered.length === rows.length ? pluginCount : `${matchedPluginCount} of ${pluginCount}`}{' '}
+        {pluginCount === 1 ? 'plugin' : 'plugins'}
       </p>
       <div className={styles.scroll} role="region" aria-label="Compatibility results" tabIndex={0}>
         <table id={`${id}-table`} className={styles.table}>
