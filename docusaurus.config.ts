@@ -94,6 +94,22 @@ const config: Config = {
 
   plugins: [
     () => ({
+      name: 'support-ticket-routes',
+      contentLoaded({ actions: { addRoute } }) {
+        const component = '@site/src/components/support/SupportPage';
+        // Keep the ticket form mounted when switching support levels.
+        addRoute({
+          path: '/support/',
+          component,
+          exact: false,
+          routes: [
+            { path: '/support/', component, exact: true },
+            { path: '/support/priority/', component, exact: true },
+          ],
+        });
+      },
+    }),
+    () => ({
       name: 'support-form-proxy',
       configureWebpack: () => ({
         devServer: {
@@ -102,6 +118,7 @@ const config: Config = {
               context: [
                 '/freeform/tokens',
                 '/freeform/api/forms/support',
+                '/freeform/api/forms/customDevelopment',
                 '/freeform/payments/stripe/payment-intents',
                 '/freeform/payments/stripe/callback',
               ],
