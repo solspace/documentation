@@ -16,31 +16,6 @@ import {
 
 import versionsBadge from '@site/versionsBadge.json';
 
-const badgeObj = {
-  Latest: (
-    <div className="inline-block relative bg-green-100 text-green-800 text-[9px] font-medium me-2 px-2 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-      ✓ Latest
-    </div>
-  ),
-  Retired: (
-    <div className="inline-block relative bg-gray-200 text-gray-800 text-[9px] font-medium me-2 px-2 py-0.5 rounded-full dark:bg-gray-800 dark:text-gray-300">
-      Retired
-    </div>
-  ),
-  Discontinued: (
-    <div className="inline-block relative bg-red-100 text-red-800 text-[9px] font-medium me-2 px-2 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
-      Discontinued
-    </div>
-  ),
-};
-
-const LabelWithBadge = ({ version, badge }) => (
-  <div className="flex items-center gap-2">
-    {version.label}
-    {badgeObj[badge]}
-  </div>
-);
-
 const getVersionMainDoc = (version: GlobalVersion) =>
   version.docs.find((doc) => doc.id === version.mainDocId)!;
 
@@ -53,14 +28,14 @@ export default function DocsVersionDropdownNavbarItem({
   ...props
 }: Props): React.JSX.Element {
   const activeDocContext = useActiveDocContext(docsPluginId);
+  const { search, hash, pathname } = useLocation();
+  const versions = useVersions(docsPluginId);
+  const { savePreferredVersionName } = useDocsPreferredVersion(docsPluginId);
+  const [dropdownVersion] = useDocsVersionCandidates(docsPluginId);
 
   if (!activeDocContext.activeVersion) {
     return null;
   }
-
-  const { search, hash, pathname } = useLocation();
-  const versions = useVersions(docsPluginId);
-  const { savePreferredVersionName } = useDocsPreferredVersion(docsPluginId);
 
   // Get version badges from the JSON file based on the current pathname
   const versionData = Object.keys(versionsBadge).find((key) =>
@@ -73,20 +48,23 @@ export default function DocsVersionDropdownNavbarItem({
       activeDocContext.alternateDocVersions[version.name] ??
       getVersionMainDoc(version);
 
-    // Find the matching version badge
-    const versionBadge = versionBadgeList.find(
+    const isActive = version === activeDocContext.activeVersion;
+    const status = versionBadgeList.find(
       (v) => v.version === version.name
-    );
+    )?.badge;
 
     return {
       label: (
-        <LabelWithBadge
-          version={version}
-          badge={versionBadge ? versionBadge.badge : null}
-        />
+        <span className="navbar-version-option">
+          <span>{version.label}</span>
+          <span className="navbar-version-status" data-status={status?.toLowerCase()}>
+            {status}
+          </span>
+          {isActive && <span className="navbar-version-check" aria-hidden="true" />}
+        </span>
       ),
       to: `${versionDoc.path}${search}${hash}`,
-      isActive: () => version === activeDocContext.activeVersion,
+      isActive: () => isActive,
       onClick: () => savePreferredVersionName(version.name),
     };
   });
@@ -97,23 +75,24 @@ export default function DocsVersionDropdownNavbarItem({
     ...dropdownItemsAfter,
   ];
 
-  const dropdownVersion = useDocsVersionCandidates(docsPluginId)[0];
-
+  const currentStatus = versionBadgeList.find(
+    (v) => v.version === dropdownVersion.name
+  )?.badge;
+  const versionClass = currentStatus
+    ? `navbar-version navbar-version--${currentStatus.toLowerCase()}`
+    : 'navbar-version';
   const dropdownLabel =
-    mobile && items.length > 1 ? (
-      translate({
+    mobile && items.length > 1
+      ? translate({
         id: 'theme.navbar.mobileVersionsDropdown.label',
         message: 'Versions',
       })
-    ) : (
-      <LabelWithBadge
-        version={dropdownVersion}
-        badge={
-          versionBadgeList.find((v) => v.version === dropdownVersion.name)
-            ?.badge || null
-        }
-      />
-    );
+      : (
+        <>
+          {dropdownVersion.label}
+          {currentStatus && <span className="sr-only"> {currentStatus}</span>}
+        </>
+      );
 
   const dropdownTo =
     mobile && items.length > 1
@@ -128,21 +107,20 @@ export default function DocsVersionDropdownNavbarItem({
         label={dropdownLabel}
         to={dropdownTo}
         isActive={dropdownActiveClassDisabled ? () => false : undefined}
+        className={versionClass}
       />
     );
   }
 
   return (
-    <div className="version">
-      <DropdownNavbarItem
-        {...props}
-        mobile={mobile}
-        label={dropdownLabel}
-        to={dropdownTo}
-        items={items}
-        isActive={dropdownActiveClassDisabled ? () => false : undefined}
-        className="flex items-center"
-      />
-    </div>
+    <DropdownNavbarItem
+      {...props}
+      mobile={mobile}
+      label={dropdownLabel}
+      to={dropdownTo}
+      items={items}
+      isActive={dropdownActiveClassDisabled ? () => false : undefined}
+      className={versionClass}
+    />
   );
 }

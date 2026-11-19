@@ -2,8 +2,10 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import type {} from 'webpack-dev-server';
 
+import allPlugins from './allPlugins.json';
 import tailwind from './plugins/tailwind-config.cjs';
 import docusaurusGithubRemoteContent from './plugins/docusaurus-github-remote-content';
+import searchDescriptions from './plugins/search-descriptions';
 
 import type { Options as IdealImageOptions } from '@docusaurus/plugin-ideal-image';
 
@@ -93,6 +95,7 @@ const config: Config = {
   ],
 
   plugins: [
+    searchDescriptions,
     () => ({
       name: 'support-ticket-routes',
       contentLoaded({ actions: { addRoute } }) {
@@ -527,62 +530,42 @@ const config: Config = {
           position: 'left',
         },
         {
-          type: 'custom-pluginStore',
+          type: 'custom-platformMark',
+          position: 'left',
+        },
+        {
+          type: 'custom-landingDocs',
           position: 'right',
         },
         {
           type: 'dropdown',
           position: 'right',
           label: 'Plugins',
-          id: 'plugin_products-list',
-          items: [
+          className: 'navbar-plugins',
+          items: allPlugins.flatMap((platform) => [
             {
-              label: 'Craft',
-              to: `/craft`,
-              activeBaseRegex: '/craft',
-              className: 'craft',
-              id: 'craft-products',
+              label: platform.name,
+              to: platform.slug,
+              exact: true,
+              className: 'navbar-platform',
             },
-            {
-              label: 'Freeform',
-              to: `/craft/freeform/v5`,
-            },
-            {
-              label: 'Calendar',
-              to: `/craft/calendar/v5`,
-            },
-            {
-              label: 'darkMode',
-              to: '/craft/dark-mode/v1',
-            },
-            {
-              label: 'Express Forms',
-              to: `https://discontinued-docs.solspace.com/express-forms`,
-            },
-            {
-              label: 'ExpressionEngine',
-              to: `/expressionengine`,
-              className: 'expressionengine',
-              id: 'expressionengine-products',
-              activeBaseRegex: '/expressionengine',
-            },
-            {
-              label: 'Freeform',
-              to: `/expressionengine/freeform/v3`,
-            },
-            {
-              label: 'Calendar',
-              to: `/expressionengine/calendar/v5`,
-            },
-          ],
-        },
-        {
-          type: 'custom-productsList',
-          position: 'right',
+            ...platform.items.map((plugin) => ({
+              label: plugin.name,
+              to: plugin.latestVersionSlug,
+              activeBasePath: plugin.slug,
+              className: `navbar-plugin-link navbar-plugin-link--${plugin.slug.split('/').at(-1)}`,
+            })),
+          ]),
         },
         {
           to: '/support/',
+          activeBasePath: '/support/',
           label: 'Support',
+          className: 'navbar-support',
+          position: 'right',
+        },
+        {
+          type: 'custom-pluginStore',
           position: 'right',
         },
         {

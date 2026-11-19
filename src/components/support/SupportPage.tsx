@@ -16,6 +16,7 @@ import allPlugins from '@site/allPlugins.json';
 import DevelopmentServices from './DevelopmentServices';
 import SupportSelect from './SupportSelect';
 import { isVersionHintField, SupportHtmlNotice, SupportVersionField } from './SupportNotices';
+import landingStyles from '@site/src/components/layout/LandingPage.module.css';
 import styles from './SupportPage.module.css';
 
 const priorityUrl = '/support/priority/';
@@ -453,7 +454,7 @@ export default function SupportPage({ view = 'ticket' }: { view?: 'ticket' | 'de
       title={isDevelopment ? 'Custom Development Services' : 'Software Support'}
       description="Get help with Solspace plugins, ask a question before purchasing, or talk to us about custom development."
     >
-      <div className={styles.supportShell}>
+      <div className={landingStyles.shell}>
         <main className={styles.supportPage}>
           <header className={styles.intro}>
             <h1>Software Support</h1>

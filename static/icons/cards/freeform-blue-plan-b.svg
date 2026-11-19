@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="art" viewBox="0 0 82 82" width="82" height="82">
+  <style>
+    #art:target .tile, #art:target .pencil { display: none; }
+    #art:target .fields { stroke-width: 1.2; }
+    #art:target .fields [mask] { mask: none; }
+    #art:target .submit { fill: none; stroke: #fff; stroke-width: 1.2; }
+    #art:not(:target) .art-accent { display: none; }
+  </style>
+  <defs>
+    <linearGradient id="tile" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop stop-color="#3babff"/>
+      <stop offset="1" stop-color="#195bd6"/>
+    </linearGradient>
+    <path id="pencil" d="M0 0 8-4h26a3 3 0 0 1 3 3v2a3 3 0 0 1-3 3H8Z" transform="translate(42 49.5) rotate(-49)"/>
+    <mask id="fields" maskUnits="userSpaceOnUse" x="0" y="0" width="82" height="82">
+      <rect width="82" height="82" fill="#fff"/>
+      <use href="#pencil" fill="#000" stroke="#000" stroke-width="8.3" stroke-linejoin="round"/>
+    </mask>
+    <mask id="upper-field" maskUnits="userSpaceOnUse" x="0" y="0" width="82" height="82">
+      <rect width="82" height="82" fill="#fff"/>
+      <use href="#pencil" fill="#000" stroke="#000" stroke-width="11.3" stroke-linejoin="round"/>
+    </mask>
+    <mask id="eraser" maskUnits="userSpaceOnUse" x="0" y="0" width="82" height="82">
+      <rect width="82" height="82" fill="#fff"/>
+      <path d="M28-7v14" transform="translate(42 49.5) rotate(-49)" stroke="#000" stroke-width="2.4"/>
+    </mask>
+  </defs>
+  <path class="tile" fill="url(#tile)" d="m41 0c-33.498 0-41 .316-41 41s7.502 41 41 41 41-.316 41-41c0-40.684-7.502-41-41-41z"/>
+  <g fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+    <g class="fields">
+      <g mask="url(#upper-field)">
+        <rect x="19" y="15" width="42" height="16" rx="5"/>
+        <path d="M28 23h13"/>
+      </g>
+      <rect x="19" y="38" width="42" height="18" rx="5" mask="url(#fields)"/>
+    </g>
+    <use class="pencil" href="#pencil" fill="#ffad63" stroke="#ffad63" stroke-width="3.3" mask="url(#eraser)"/>
+  </g>
+  <circle cx="28" cy="47" r="1.8" fill="#fff"/>
+  <circle cx="35" cy="47" r="1.8" fill="#fff"/>
+  <rect class="submit" x="18" y="63" width="21" height="7" rx="3.5" fill="#fff"/>
+  <g class="art-accent" fill="none" stroke="#fff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity=".5">
+    <rect x="5" y="29" width="10" height="10" rx="2"/>
+    <path d="m7.5 34 1.8 1.8 3.2-3.6M6 57h7m-7 4h4"/>
+    <path d="M51 9l2.5-4h12v4H53.5L51 9zm10-4v4" transform="rotate(-18 57 7)"/>
+  </g>
+</svg>

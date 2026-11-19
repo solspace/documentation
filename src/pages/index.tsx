@@ -1,105 +1,107 @@
 import type { JSX } from 'react';
+import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import Layout from '@theme/Layout';
-import { LeftNav, Footer } from '@site/src/components/layout';
-import { FlexCards } from '@site/src/components/docs';
-import Icons from '@site/static/icons/cards';
+import { Footer } from '@site/src/components/layout';
+import { WhySolspace } from '@site/src/components/layout/WhySolspace';
+import { craftPlugins, expressionEngineAddOns } from '@site/src/components/layout/pluginListingData';
+import landingStyles from '@site/src/components/layout/LandingPage.module.css';
+import listingStyles from '@site/src/components/layout/PluginListingPage.module.css';
+import styles from './Home.module.css';
+
+const platforms = [
+  {
+    id: 'craft',
+    name: 'Craft CMS',
+    heading: 'Craft CMS plugins',
+    path: '/craft/',
+    items: craftPlugins,
+  },
+  {
+    id: 'expressionengine',
+    name: 'ExpressionEngine',
+    heading: 'ExpressionEngine add-ons',
+    path: '/expressionengine/',
+    items: expressionEngineAddOns,
+  },
+];
 
 export default function Home(): JSX.Element {
+  const iconBase = useBaseUrl('/icons/cards');
+
   return (
     <Layout
       title="Documentation"
-      description="The most dependable and user-friendly forms plugin for Craft CMS."
+      description="Browse Solspace documentation for Craft CMS plugins and ExpressionEngine add-ons."
     >
-      <div className="flex">
-        <LeftNav />
-        <div className="flex flex-col gap-3 md:ml-72 p-8">
-          <main className="max-w-6xl m-auto my-3">
-            <h1>Software Documentation</h1>
+      <div className={landingStyles.shell}>
+        <main className={landingStyles.page}>
+          <header className={landingStyles.intro}>
+            <h1>Software documentation</h1>
             <p>
-              Solspace builds high quality plugins and add-ons to extend{' '}
-              <a className="external-link" rel="noopener noreferrer" target="_blank" href="https://craftcms.com">Craft CMS</a>{' '}and{' '}
-              <a className="external-link" rel="noopener noreferrer" target="_blank" href="https://expressionengine.com">ExpressionEngine</a>.
-              Our offerings push the boundaries of Craft CMS and ExpressionEngine with creative
-              thinking to help you create ambitious websites.
+              Find guides and product documentation for Solspace’s{' '}
+              <Link to="https://craftcms.com">Craft CMS</Link> plugins and{' '}
+              <Link to="https://expressionengine.com">ExpressionEngine</Link> add-ons.
             </p>
+          </header>
 
-            <h2 className="mt-12">Craft CMS Plugins</h2>
-            <FlexCards
-              items={[
-                {
-                  title: 'Freeform',
-                  icon: Icons.FreeformIcon,
-                  fullCardLink: 'craft/freeform/v5',
-                },
-                {
-                  title: 'Calendar',
-                  icon: Icons.CalendarIcon,
-                  fullCardLink: 'craft/calendar/v5',
-                },
-                {
-                  title: 'AI Assistant',
-                  icon: Icons.AIAssistantIcon,
-                  fullCardLink: 'craft/ai-assistant/v1',
-                },
-                {
-                  title: 'darkMode',
-                  icon: Icons.DarkModeIcon,
-                  fullCardLink: 'craft/dark-mode/v1',
-                },
-              ]}
-            />
+          <div className={styles.platforms}>
+            {platforms.map((platform) => (
+              <section
+                key={platform.id}
+                id={platform.id}
+                className={styles.platform}
+                aria-labelledby={`${platform.id}-heading`}
+              >
+                <header className={styles.platformHeader}>
+                  <h2 id={`${platform.id}-heading`}>{platform.heading}</h2>
+                  <Link
+                    className={styles.platformLink}
+                    to={platform.path}
+                    aria-label={`View all ${platform.heading}`}
+                  >
+                    View all
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M4 10h12m-5-5 5 5-5 5" />
+                    </svg>
+                  </Link>
+                </header>
 
-            <h2 className="mt-8">ExpressionEngine Add-ons</h2>
-            <FlexCards
-              items={[
-                {
-                  title: 'Freeform',
-                  icon: Icons.FreeformIcon,
-                  fullCardLink: 'expressionengine/freeform/v3',
-                },
-                {
-                  title: 'Calendar',
-                  icon: Icons.CalendarIcon,
-                  fullCardLink: 'expressionengine/calendar/v5',
-                },
-              ]}
-            />
+                <div className={styles.cards}>
+                  {platform.items.map(({ id, name, icon = id, headline, summary = headline, path }) => {
+                    const summaryId = `${platform.id}-${id}-summary`;
 
-            <h2 className="mt-8">Why Solspace</h2>
-            <p>
-              Rest assured the team behind Solspace plugins are committed to
-              providing you with the level of quality and support that you
-              expect and deserve.
-            </p>
-            <FlexCards
-              items={[
-                {
-                  title: 'Top Notch Support',
-                  icon: Icons.SupportIcon,
-                  description:
-                    'Our commitment to providing top-notch customer support is well-known in the Craft CMS community. We always aim to deliver the best and most dependable assistance to our valued customers.',
-                  linkWithDescription: '/support/',
-                },
-                {
-                  title: '25+ Years Experience',
-                  icon: Icons.HourglassIcon,
-                  description:
-                    'For over 25 years, Solspace has been creating, maintaining, and providing support for software to more than 30,000 customers. In total, over 500,000 plugins have been sold or downloaded for free.',
-                  linkWithDescription: 'https://solspace.com',
-                },
-                {
-                  title: 'Active Development',
-                  icon: Icons.DevelopmentIcon,
-                  description:
-                    'Solspace builds some of the most popular plugins for Craft CMS and boasts an impressive track record of continuous development, including numerous feature upgrades, enhancements, and bug fixes.',
-                },
-              ]}
-            />
-          </main>
-        </div>
+                    return (
+                      <Link
+                        key={id}
+                        className={`${listingStyles.palette} ${styles.card}`}
+                        data-plugin={id}
+                        to={path}
+                        aria-label={`${name} for ${platform.name}`}
+                        aria-describedby={summaryId}
+                      >
+                        <span className={styles.watermark} aria-hidden="true">
+                          <img src={`${iconBase}/${icon}.svg#art`} alt="" width={144} height={144} />
+                        </span>
+                        <img className={styles.icon} src={`${iconBase}/${icon}.svg`} alt="" width={36} height={36} />
+                        <h3>{name}</h3>
+                        <svg className={styles.cardArrow} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M4 10h12m-5-5 5 5-5 5" />
+                        </svg>
+                        <p id={summaryId}>{summary}</p>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </section>
+            ))}
+          </div>
+
+          <WhySolspace />
+        </main>
       </div>
       <footer className="docusaurus-mt-lg docs-footer">
-        <Footer />
+        <Footer showDeveloperSupport={false} />
       </footer>
     </Layout>
   );

@@ -1,18 +1,22 @@
 import type { JSX } from 'react';
 import Layout from '@theme/Layout';
-import { LeftNav, Footer } from '@site/src/components/layout';
+import { Footer } from '@site/src/components/layout';
+import landingStyles from '@site/src/components/layout/LandingPage.module.css';
+import styles from './LicenseAgreement.module.css';
 
-export default function LincenseAgreement(): JSX.Element {
+export default function LicenseAgreement(): JSX.Element {
   return (
     <Layout
       title="License Agreement"
-      description="The most dependable and user-friendly forms plugin for Craft CMS."
+      description="License terms for Solspace plugins and add-ons."
     >
-      <div className="flex">
-        <LeftNav />
-        <div className="flex flex-col gap-3 md:ml-72 p-8">
-          <main className="max-w-6xl m-auto my-3">
-            <h1>License Agreement</h1>
+      <div className={landingStyles.shell}>
+        <main className={`${landingStyles.page} ${landingStyles.readingPage}`}>
+          <header className={landingStyles.intro}>
+            <h1 id="license-agreement-title">License Agreement</h1>
+          </header>
+
+          <article className={`${landingStyles.readingPanel} ${styles.agreement}`} aria-labelledby="license-agreement-title">
             <p>
               This license is a legal agreement between you and Solspace, Inc.
               for the use of Solspace Software (the "Software"). By downloading
@@ -20,12 +24,11 @@ export default function LincenseAgreement(): JSX.Element {
               terms and conditions of this license. Solspace, Inc. reserves the
               right to alter this agreement at any time, for any reason, without
               notice.
-              <br />
-              <i>Revised on: October 16, 2017</i>
             </p>
-
-            <h2 className="mt-12">License Agreement</h2>
-            <h3 className="mt-8">Permitted Use</h3>
+            <p className={styles.revision}>
+              Revised on: <time dateTime="2017-10-16">October 16, 2017</time>
+            </p>
+            <h2>Permitted Use</h2>
             <p>
               One license grants the right to perform one installation of the
               Software on a live/production website. Development, staging and
@@ -34,7 +37,7 @@ export default function LincenseAgreement(): JSX.Element {
               live/production website requires an additional purchased license.
             </p>
 
-            <h3 className="mt-4">Restrictions</h3>
+            <h2>Restrictions</h2>
             <p>
               Unless you have been granted prior, written consent from Solspace,
               Inc., you may not:
@@ -55,20 +58,20 @@ export default function LincenseAgreement(): JSX.Element {
               </li>
             </ul>
 
-            <h3 className="mt-8">Display of Copyright Notices</h3>
+            <h2>Display of Copyright Notices</h2>
             <p>
               All copyright and proprietary notices and logos in the Control
               Panel and within the Software files must remain intact.
             </p>
 
-            <h3 className="mt-8">Making Copies</h3>
+            <h2>Making Copies</h2>
             <p>
               You may make copies of the Software for back-up purposes, provided
               that you reproduce the Software in its original form and with all
               proprietary notices on the back-up copy.
             </p>
 
-            <h3 className="mt-8">Software Modification</h3>
+            <h2>Software Modification</h2>
             <p>
               You may alter, modify, or extend the Software for your own use, or
               commission a third-party to perform modifications for you, but you
@@ -78,7 +81,7 @@ export default function LincenseAgreement(): JSX.Element {
               other programs without prior written consent from Solspace, Inc.
             </p>
 
-            <h3 className="mt-8">Technical Support</h3>
+            <h2>Technical Support</h2>
             <p>
               Technical support is available only through Solspace, Inc. No
               warranty is provided and no liability is assumed by Solspace, Inc.
@@ -87,7 +90,7 @@ export default function LincenseAgreement(): JSX.Element {
               questions are answered.
             </p>
 
-            <h3 className="mt-8">Refunds</h3>
+            <h2>Refunds</h2>
             <p>
               Solspace offers refunds on software within 30 days of purchase.
               Contact{' '}
@@ -97,7 +100,7 @@ export default function LincenseAgreement(): JSX.Element {
               for assistance.
             </p>
 
-            <h3 className="mt-8">Indemnity</h3>
+            <h2>Indemnity</h2>
             <p>
               You agree to indemnify and hold harmless Solspace, Inc. for any
               third-party claims, actions or suits, as well as any related
@@ -106,7 +109,7 @@ export default function LincenseAgreement(): JSX.Element {
               this license.
             </p>
 
-            <h3 className="mt-8">Disclaimer of Warranty</h3>
+            <h2>Disclaimer of Warranty</h2>
             <p>
               The Software is provided "AS IS", without warranty of any kind,
               expressed or implied, including, but not limited to, warranties of
@@ -116,7 +119,7 @@ export default function LincenseAgreement(): JSX.Element {
               available.
             </p>
 
-            <h3 className="mt-8">Limitations of Liability</h3>
+            <h2>Limitations of Liability</h2>
             <p>
               You assume all risk associated with the installation and use of
               the Software. In no event shall the authors or copyright holders
@@ -128,11 +131,11 @@ export default function LincenseAgreement(): JSX.Element {
               loss of data or software programs, or unavailability or
               interruption of operations.
             </p>
-          </main>
-        </div>
+          </article>
+        </main>
       </div>
       <footer className="docusaurus-mt-lg docs-footer">
-        <Footer />
+        <Footer showDeveloperSupport={false} />
       </footer>
     </Layout>
   );

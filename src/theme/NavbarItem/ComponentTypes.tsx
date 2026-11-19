@@ -12,10 +12,11 @@ import {
   PluginStore,
   MobileSideMenu,
   GithubUrl,
-  ProductsList,
+  LandingDocs,
 } from '@site/src/components/layout';
 
 import type { ComponentTypesObject } from '@theme/NavbarItem/ComponentTypes';
+import { NavbarPlatformMark } from '@site/src/theme/Logo';
 
 const ComponentTypes: ComponentTypesObject = {
   default: DefaultNavbarItem,
@@ -34,5 +35,6 @@ export default {
   'custom-pluginStore': PluginStore,
   'custom-mobileSideMenu': MobileSideMenu,
   'custom-githubUrl': GithubUrl,
-  'custom-productsList': ProductsList,
+  'custom-landingDocs': LandingDocs,
+  'custom-platformMark': NavbarPlatformMark,
 };

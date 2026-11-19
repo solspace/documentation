@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import { useLocation } from '@docusaurus/router';
-import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
+import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import type { Props } from '@theme/NavbarItem/DefaultNavbarItem';
 
 const stores = [
   {
@@ -41,7 +42,10 @@ const stores = [
   },
 ];
 
-export function PluginStore(): React.JSX.Element | null {
+export function PluginStore({
+  mobile,
+  onClick,
+}: Pick<Props, 'mobile' | 'onClick'>): React.JSX.Element | null {
   const { pathname } = useLocation();
   const matchedStore = stores.find((l) => pathname.startsWith(l.pathname));
 
@@ -49,26 +53,29 @@ export function PluginStore(): React.JSX.Element | null {
     return null;
   }
 
-  const isDarkModeIntro = /^\/craft\/dark-mode\/v1\/?$/.test(pathname);
+  const isExternal = matchedStore.link.startsWith('https://');
+  const iconClass = isExternal ? 'navbar-store' : 'navbar-store navbar-store--download';
 
-  return (<>
+  if (mobile) {
+    return (
+      <DefaultNavbarItem
+        mobile
+        label={matchedStore.title}
+        onClick={onClick}
+        className={iconClass}
+        {...(isExternal ? { href: matchedStore.link } : { to: matchedStore.link })}
+      />
+    );
+  }
+
+  return (
     <Link
-      className={`hidden lg:inline-block bg-[#ff6624] text-white text-md font-bold rounded-2xl px-2 py-1 ml-5 hover:text-white hover:opacity-90 plugin-store-link${isDarkModeIntro ? ' dark-mode-store-link' : ''}`}
+      className={`navbar__item plugin-store-link ${iconClass}`}
       to={matchedStore.link}
-      target={matchedStore.link.startsWith('https://') ? '_blank' : undefined}
-      rel={matchedStore.link.startsWith('https://') ? 'noopener noreferrer' : undefined}
+      target={isExternal ? '_blank' : undefined}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
     >
-      <span>{matchedStore.title}</span>
+      {matchedStore.title}
     </Link>
-    {isDarkModeIntro && <DropdownNavbarItem
-      label="Docs"
-      className="hidden md:block"
-      items={[
-        { label: 'Installation & Updates', to: '/craft/dark-mode/v1/setup/installation/' },
-        { label: 'Using darkMode', to: '/craft/dark-mode/v1/users/' },
-        { label: 'Plugin Compatibility', to: '/craft/dark-mode/v1/compatibility/' },
-        { label: 'Plugin Development', to: '/craft/dark-mode/v1/developer/' },
-      ]}
-    />}
-  </>);
+  );
 }

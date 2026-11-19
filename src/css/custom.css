@@ -4,6 +4,8 @@
  * work well for content-centric websites.
  */
 
+@import './navbar.css';
+
 /* Tailwind css */
 @tailwind base;
 @tailwind components;
@@ -329,11 +331,6 @@ html[data-theme='dark'] {
   --ifm-menu-color-active: var(--ifm-color-primary);
 }
 
-html[data-theme='dark'] .navbar .navbar__link,
-html[data-theme='dark'] .navbar .navbar__title {
-  color: var(--ifm-navbar-link-color);
-}
-
 html[data-theme='dark'] .theme-doc-sidebar-container .menu__link {
   color: var(--ifm-menu-color);
 }
@@ -565,13 +562,11 @@ html {
   background-color: rgba(255, 102, 36, 0.8);
 }
 
-.primary-btn > span,
-.plugin-store-link > span {
+.primary-btn > span {
   @apply relative transition-all duration-500;
   padding: 0 15px;
 }
-.primary-btn:hover > span,
-.plugin-store-link:hover > span {
+.primary-btn:hover > span {
   padding: 0 25px 0 5px;
 }
 
@@ -580,27 +575,8 @@ html {
   content: '';
   margin-top: -2px;
 }
-.docs-doc-id-landing-page .plugin-store-link {
-  margin-right: 90px;
-}
-
-.plugin-store-link:hover > span::after {
-  @apply transition-all duration-500 absolute opacity-0 -right-2;
-  content: url('data:image/svg+xml;base64, PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiNGRkZGRkYiIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCI+PHBhdGggZD0iTSAxOCA1IEwgMTggNyBMIDIzLjU2MjUgNyBMIDExLjI4MTI1IDE5LjI4MTI1IEwgMTIuNzE4NzUgMjAuNzE4NzUgTCAyNSA4LjQzNzUgTCAyNSAxNCBMIDI3IDE0IEwgMjcgNSBaIE0gNSA5IEwgNSAyNyBMIDIzIDI3IEwgMjMgMTQgTCAyMSAxNiBMIDIxIDI1IEwgNyAyNSBMIDcgMTEgTCAxNiAxMSBMIDE4IDkgWiIvPjwvc3ZnPg==');
-  width: 14px;
-  top: 0.3px;
-}
-
-.primary-btn:hover > span::after,
-.plugin-store-link:hover > span::after {
-  @apply opacity-100 right-0;
-}
-
-.plugin-store-link:hover > span::after {
-  @apply opacity-100 right-1;
-}
-
 .primary-btn:hover > span::after {
+  @apply opacity-100 right-0;
   content: '→';
 }
 
@@ -1557,107 +1533,6 @@ html[data-theme='dark'] .compare-future {
   padding-left: 0;
 }
 
-/* Version Badge */
-.version .navbar__link:after {
-  top: 4px;
-}
-
-/* Navbar Github Icon */
-.github-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 44px;
-  height: 32px;
-  padding-right: 15px;
-  transition: all 0.3s;
-}
-
-.github-icon svg {
-  transition: all 0.3s;
-}
-
-.github-icon:hover svg {
-  fill: var(--ifm-color-primary);
-}
-
-@media (max-width: 996px) {
-  .navbar__item {
-    display: none !important;
-  }
-
-  .github-icon {
-    margin-top: 2px;
-    margin-left: 12px;
-    margin-right: 40px;
-  }
-}
-
-.dropdown__menu ul {
-  margin-bottom: 0;
-}
-.dropdown__menu > div {
-  margin-bottom: 10px;
-}
-.dropdown__menu > div:last-of-type {
-  margin-bottom: 0;
-}
-.dropdown__menu ul li a {
-  border-bottom: 1px solid transparent;
-  transition: all 0.25s;
-}
-.dropdown__menu ul li a:hover {
-  border-bottom: 1px solid #ff6624;
-}
-
-/* Navbar Search icon */
-.navbar-search-icon > button:hover {
-  box-shadow: none;
-}
-
-.navbar-search-icon svg {
-  transition: all 0.3s;
-}
-
-.navbar-search-icon:hover svg {
-  color: var(--ifm-color-primary);
-}
-
-.navbar-search-icon .DocSearch-Button-Placeholder,
-.navbar-search-icon .DocSearch-Button-Keys,
-.navbar-search-icon .DocSearch-Button-Placeholder {
-  display: none !important;
-}
-
-@media (min-width: 997px) {
-  .navbar-search-icon {
-    width: 32px;
-    height: 32px;
-    padding: 0 25px 29px 10px !important;
-    margin-left: 10px;
-    margin-right: 25px;
-    border-left: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .navbar-search-icon .DocSearch-Button {
-    background-color: transparent;
-    border: none;
-  }
-
-  .navbar-search-icon svg {
-    margin-bottom: 2px;
-  }
-
-  .navbar-search-icon .DocSearch-Button-Keys,
-  .navbar-search-icon .DocSearch-Button-Placeholder {
-    display: none !important;
-  }
-
-  html[data-theme='dark'] .navbar-search-icon {
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
-  }
-}
-
 /* Changelog Styles */
 html[class*='docs-doc-id-setup/changelog'] h3 + ul li {
   list-style: none;
@@ -1898,27 +1773,6 @@ html[data-theme='dark']
 }
 
 
-/* Navbar Style */
-.navbar__title {
-  font-size: 25px;
-}
-
-.logo-line {
-  font-size: 18px;
-  font-weight: 300;
-  font-style: italic;
-  margin-top: 5px;
-}
-
-.version {
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
-  margin-top: 6px;
-}
-
-html[data-theme='dark'] .version {
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-}
-
 /* Padding adjustments content & body */
 .padding-top--md {
   padding-top: 1.75rem !important;
@@ -1958,13 +1812,6 @@ html[data-theme='dark'] .version {
   margin-top: -180px;
 }
 
-.landing-nav-docs {
-  display: block;
-  z-index: 201;
-  position: fixed;
-  top: 9px;
-  right: 355px;
-}
 .landing-header {
   background: linear-gradient(350deg, #0073ff 40%, #058ffe 100%);
   padding: 1px 0 200px 0 !important;
@@ -2338,20 +2185,6 @@ details.hidden-heading .tabs-container:last-of-type {
   margin-bottom: 0;
 }
 
-.docs-footer .social-icons a svg {
-  height: 2rem;
-  width: 2rem;
-  transition: all 0.5s;
-}
-
-html[data-theme='dark'] .docs-footer .social-icons a svg {
-  fill: white;
-}
-
-.docs-footer .social-icons a:hover svg {
-  fill: #058ffe !important;
-}
-
 .plugin-id-default.docs-doc-id-intro
   h2:not(.section-title):not(.feature-table h2):not(#faq):not(
     #why-freeform
@@ -2624,21 +2457,6 @@ html[data-theme='dark'] .top-notice .latest-version-link:hover {
   margin-left: 20px;
 } */
 
-/* Solspace Logo */
-.solspace-logo img {
-  height: 40px !important;
-  width: 40px !important;
-  border-radius: 50% !important;
-  box-shadow: none !important;
-  transition: all 0.5s;
-  margin-right: 3px !important;
-  margin-top: -4px;
-}
-
-.solspace-logo img:hover {
-  transform: scale(1.005);
-}
-
 /* EE Renewals Chart */
 .ee-renewals-chart {
   display: flex;
@@ -2851,17 +2669,6 @@ h2 + h4 {
   padding: 0 !important;
 }
 
-.search-page-wrapper h2 {
-  border: none;
-  margin: 0 0 6px 0 !important;
-  padding: 0;
-}
-
-/* Product Dropdown */
-div:has(> a#plugin_products-list) {
-  display: none;
-}
-
 /* Main Article */
 @media (min-width: 997px) {
   main .container article {
@@ -2943,12 +2750,10 @@ h2 + h3 .custom-anchor-link {
     font-size: 0.9rem;
     padding: 0.5rem 15px !important;
   }
-  .primary-btn > span,
-  .plugin-store-link > span {
+  .primary-btn > span {
     padding: 0 10px;
   }
-  .primary-btn:hover > span,
-  .plugin-store-link:hover > span {
+  .primary-btn:hover > span {
     padding: 0 20px 0 0px;
   }
   .mobile-hidden {
@@ -2971,9 +2776,6 @@ h2 + h3 .custom-anchor-link {
   }
   .faq-list {
     grid-template-columns: 100%;
-  }
-  .github-icon {
-    display: none;
   }
   .landing-logo {
     max-width: 25rem;
@@ -3038,14 +2840,6 @@ h2 + h3 .custom-anchor-link {
   }
   .intro-cta .primary-btn:hover > span {
     padding: 0 20px 0 0px;
-  }
-  .docs-footer .social-icons a svg {
-    height: 1.3rem;
-    width: 1.3rem;
-  }
-  .footer-links {
-    width: 50%;
-    font-size: 0.8rem;
   }
 }
 
@@ -3181,9 +2975,4 @@ html[data-theme='dark'] {
 
 .annotated-override-map pre {
   overflow: visible;
-}
-
-/* The darkMode intro uses an in-flow Docs menu instead of a fixed shortcut. */
-.docs-doc-id-landing-page .plugin-store-link.dark-mode-store-link {
-  margin-right: 0;
 }
