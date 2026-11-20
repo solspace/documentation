@@ -113,9 +113,9 @@ Freeform uses Craft's queue for scheduled cleanup. Run these commands from your 
 
 ### Purge options
 
-- Use `--form` (`-f`) with a form handle or ID to limit a submissions or spam purge to one form. Omit it to include all forms.
-- Use `--all` to include records of any age. Choose either `--all` or the command's age option.
-- Run `--all` in an interactive terminal. A red warning shows the current number of matching records before asking you to continue. Type `yes` to proceed, or press Enter to accept the default of No. If the count is zero, the command exits without a prompt.
+- `--form` (`-f`) <Badge type="feature" text="5.18.5+" /> Use a form handle or ID to limit a submissions or spam purge to one form. Omit it to include all forms.
+- `--all` <Badge type="feature" text="5.18.5+" /> Include records of any age. Choose either `--all` or the command's age option.
+  Run `--all` in an interactive terminal. A red warning shows the current number of matching records before asking you to continue. Type `yes` to proceed, or press Enter to accept the default of No. If the count is zero, the command exits without a prompt.
 
 This example shows a form-scoped purge that the operator cancels by typing `no`.
 
@@ -126,7 +126,7 @@ Continue? (yes|no) [no]:no
 Purge cancelled.
 ```
 
-### Purge Submissions<Badge type="pro" text="Pro" />
+### Purge Submissions<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.18.5+" />
 
 Permanently deletes regular submissions and their associated uploads. Freeform uses the **Automatically Purge Submission Data** setting for scheduled cleanup.
 
@@ -143,7 +143,7 @@ To purge submissions of any age from `contactForm`, use the following command. O
 php craft freeform/purge/submissions --form=contactForm --all
 ```
 
-### Purge Spam<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
+### Purge Spam<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup><Badge type="feature" text="Improved in 5.18.5+" />
 
 Permanently deletes spam submissions and their associated uploads. Freeform uses the **Automatically Purge Spam Submissions** setting for scheduled cleanup.
 
@@ -160,7 +160,7 @@ To purge spam submissions of any age from the form with ID `12`, use the followi
 php craft freeform/purge/spam --form=12 --all
 ```
 
-### Purge Unfinalized Assets
+### Purge Unfinalized Assets<Badge type="feature" text="Improved in 5.18.5+" />
 
 Permanently deletes unfinalized Freeform uploads site-wide because some uploads have no form association. Freeform attempts this cleanup automatically every three hours.
 
