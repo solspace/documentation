@@ -24,5 +24,21 @@ export default function prismIncludeLanguages(PrismObject) {
     require(`prismjs/components/prism-${lang}`);
   });
 
+  // Shell transcripts use Bash for the command and a separate grammar for output.
+  require('prismjs/components/prism-bash');
+  // Prism's default Bash pattern skips hyphenated options such as --age-in-days.
+  PrismObject.languages.bash.parameter.pattern = /(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:[.-]\w+)*(?=[=\s]|$)/;
+  require('prismjs/components/prism-shell-session');
+
+  const shellSession = PrismObject.languages['shell-session'];
+  if (shellSession?.output instanceof RegExp) {
+    shellSession.output = {
+      pattern: shellSession.output,
+      inside: {
+        'terminal-warning': /^WARNING:[^\r\n]*/m,
+      },
+    };
+  }
+
   delete globalThis.Prism;
 }
