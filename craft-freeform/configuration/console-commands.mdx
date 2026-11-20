@@ -109,30 +109,71 @@ php craft freeform/submissions/generate -f=quoteRequest -c=50 -l=en -s="open,ope
 
 ## Purge Commands
 
-Freeform automatically attempts to routinely execute all of the below commands as Craft jobs, but they are available in the event you need to correct or troubleshoot an issue.
+Freeform uses Craft's queue for scheduled cleanup. Run these commands from your Craft project directory when you need a different cutoff or scope.
+
+### Purge options
+
+- Use `--form` (`-f`) with a form handle or ID to limit a submissions or spam purge to one form. Omit it to include all forms.
+- Use `--all` to include records of any age. Choose either `--all` or the command's age option.
+- Run `--all` in an interactive terminal. A red warning shows the current number of matching records before asking you to continue. Type `yes` to proceed, or press Enter to accept the default of No. If the count is zero, the command exits without a prompt.
+
+This example shows a form-scoped purge that the operator cancels by typing `no`.
+
+```text
+$ php craft freeform/purge/submissions --form=contactForm --all
+WARNING: You're about to permanently delete 3,452 submissions for form "contactForm" (ID 12) and any associated uploads.
+Continue? (yes|no) [no]:no
+Purge cancelled.
+```
 
 ### Purge Submissions<Badge type="pro" text="Pro" />
 
-Allows you to purge all submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Submission Data** setting.
+Permanently deletes regular submissions and their associated uploads. Freeform uses the **Automatically Purge Submission Data** setting for scheduled cleanup.
+
+Use `--age-in-days` (`-d`) with a positive number to purge submissions older than that many days.
 
 ```nix
 php craft freeform/purge/submissions --age-in-days=30
+php craft freeform/purge/submissions --form=contactForm --age-in-days=30
+```
+
+To purge submissions of any age from `contactForm`, use the following command. Omit `--form` to purge submissions of any age across all forms.
+
+```nix
+php craft freeform/purge/submissions --form=contactForm --all
 ```
 
 ### Purge Spam<BadgeGroup><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></BadgeGroup>
 
-Allows you to purge all spam submissions older than a specific number of days. Freeform automatically attempts to execute this service based on the specified number of days for the **Automatically Purge Spam Submissions** setting.
+Permanently deletes spam submissions and their associated uploads. Freeform uses the **Automatically Purge Spam Submissions** setting for scheduled cleanup.
+
+Use `--age-in-days` (`-d`) with a positive number to purge spam submissions older than that many days.
 
 ```nix
 php craft freeform/purge/spam --age-in-days=30
+php craft freeform/purge/spam --form=12 --age-in-days=30
+```
+
+To purge spam submissions of any age from the form with ID `12`, use the following command. Omit `--form` to purge spam submissions of any age across all forms.
+
+```nix
+php craft freeform/purge/spam --form=12 --all
 ```
 
 ### Purge Unfinalized Assets
 
-Allows you to purge all unfinalized assets older than a specific number of minutes. Freeform automatically attempts to execute this service every 3 hours.
+Permanently deletes unfinalized Freeform uploads site-wide because some uploads have no form association. Freeform attempts this cleanup automatically every three hours.
+
+Use `--age-in-minutes` (`-m`) with a positive number to purge unfinalized assets older than that many minutes.
 
 ```nix
 php craft freeform/purge/unfinalized-assets --age-in-minutes=180
+```
+
+To purge unfinalized assets of any age, including recent uploads, use the following command.
+
+```nix
+php craft freeform/purge/unfinalized-assets --all
 ```
 
 
