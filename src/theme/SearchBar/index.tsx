@@ -38,6 +38,7 @@ type DocSearchProps = Omit<
 };
 
 let DocSearchModal: typeof DocSearchModalType | null = null;
+let activeSearchButton: HTMLButtonElement | null = null;
 
 function Hit({
   hit,
@@ -196,6 +197,15 @@ function DocSearch({
     undefined
   );
 
+  useEffect(() => {
+    const button = searchButtonRef.current;
+    return () => {
+      if (activeSearchButton === button) activeSearchButton = null;
+      searchContainer.current?.remove();
+      searchContainer.current = null;
+    };
+  }, []);
+
   const importDocSearchModalIfNeeded = useCallback(() => {
     if (DocSearchModal) {
       return Promise.resolve();
@@ -219,11 +229,24 @@ function DocSearch({
   }, []);
 
   const openModal = useCallback(() => {
+    const button = searchButtonRef.current;
+    if (!button?.getClientRects().length || activeSearchButton) return;
+
+    // Each search button receives the shortcut. Claim it before the modal loads.
+    activeSearchButton = button;
     prepareSearchContainer();
-    importDocSearchModalIfNeeded().then(() => setIsOpen(true));
+    importDocSearchModalIfNeeded()
+      .then(() => {
+        if (activeSearchButton === button) setIsOpen(true);
+      })
+      .catch(error => {
+        if (activeSearchButton === button) activeSearchButton = null;
+        console.error('Unable to load documentation search.', error);
+      });
   }, [importDocSearchModalIfNeeded, prepareSearchContainer]);
 
   const closeModal = useCallback(() => {
+    if (activeSearchButton === searchButtonRef.current) activeSearchButton = null;
     setIsOpen(false);
     searchButtonRef.current?.focus();
   }, []);

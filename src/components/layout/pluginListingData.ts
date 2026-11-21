@@ -97,6 +97,8 @@ export const craftPlugins: readonly PluginListingItem[] = [
   },
 ];
 
+export const craftPluginIcons = Object.fromEntries(craftPlugins.map(({ name, icon, id }) => [name, icon ?? id]));
+
 export const expressionEngineAddOns: readonly PluginListingItem[] = [
   {
     id: 'freeform',

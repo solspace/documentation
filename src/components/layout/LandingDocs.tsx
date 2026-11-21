@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from '@docusaurus/router';
 import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import type { Props } from '@theme/NavbarItem/DropdownNavbarItem';
+import { getDocSectionIconClass } from '@site/src/components/docs/DocSectionIcons';
 
 const landingDocs: Record<string, [label: string, path: string][]> = {
   '/craft/freeform/v5': [
@@ -75,7 +76,11 @@ export function LandingDocs({
       mobile={mobile}
       onClick={onClick}
       label="Docs"
-      items={links.map(([label, path]) => ({ label, to: `${landingPath}/${path}` }))}
+      items={links.map(([label, path]) => ({
+        label,
+        to: `${landingPath}/${path}`,
+        className: getDocSectionIconClass(label, 'dropdownLink'),
+      }))}
     />
   );
 }

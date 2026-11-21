@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import type { ReactFieldRendererProps } from '@solspace/freeform-react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import { craftPluginIcons } from '@site/src/components/layout/pluginListingData';
 import styles from './SupportPage.module.css';
 
 const subjectIcons: Record<string, string> = {
@@ -9,13 +10,6 @@ const subjectIcons: Record<string, string> = {
   'Upgrade help': 'M12 16V3m-5 5 5-5 5 5M4 16v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4',
   'Feature request': 'm12 3 2.4 6.6L21 12l-6.6 2.4L12 21l-2.4-6.6L3 12l6.6-2.4L12 3Zm7-2v4m-2-2h4',
   'Account or license help': 'M20 21v-2a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v2M16 6a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z',
-};
-
-const productIcons: Record<string, string> = {
-  Freeform: 'freeform',
-  Calendar: 'calendar',
-  'AI Assistant': 'ai-assistant',
-  darkMode: 'dark-mode',
 };
 
 const cmsFamily = (label: string) => /^craft(?:\s|\d|$)/i.test(label.trim())
@@ -36,7 +30,7 @@ function SelectIcon({ handle, value, label = value }: { handle: string; value: s
   if (handle === 'cms' && cmsFamily(label) === 1) {
     return <img src={`${icons}/support/expressionengine-mark.svg`} alt="" width={18} height={18} aria-hidden="true" />;
   }
-  const productIcon = productIcons[label] ?? productIcons[value];
+  const productIcon = craftPluginIcons[label] ?? craftPluginIcons[value];
   if (handle === 'product' && productIcon) {
     return <img src={`${icons}/cards/${productIcon}.svg`} alt="" width={18} height={18} aria-hidden="true" />;
   }

@@ -1,104 +1,61 @@
-import React, { useEffect } from 'react';
+import { useState } from 'react';
 import clsx from 'clsx';
+import { translate } from '@docusaurus/Translate';
+import { useThemeConfig } from '@docusaurus/theme-common';
+import { useScrollPosition } from '@docusaurus/theme-common/internal';
 import TOCItems from '@theme/TOCItems';
 import type { Props } from '@theme/TOC';
 
-import { FeedbackButton } from 'pushfeedback-react';
-import { defineCustomElements } from 'pushfeedback/loader';
-
 import styles from './styles.module.css';
-import 'pushfeedback/dist/pushfeedback/pushfeedback.css';
 
-// Using a custom className
-// This prevents TOCInline/TOCCollapsible getting highlighted by mistake
+// Keep scroll highlighting scoped to the desktop table of contents.
 const LINK_CLASS_NAME = 'table-of-contents__link toc-highlight';
 const LINK_ACTIVE_CLASS_NAME = 'table-of-contents__link--active';
 
-const buttonThumbsUp = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-  </svg>
-);
-const buttonThumbsDown = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
-  </svg>
-);
+export default function TOC({ className, toc, minHeadingLevel, maxHeadingLevel }: Props) {
+  const { tableOfContents } = useThemeConfig();
+  const minLevel = minHeadingLevel ?? tableOfContents.minHeadingLevel;
+  const maxLevel = maxHeadingLevel ?? tableOfContents.maxHeadingLevel;
+  const headings = toc.filter(({ level }) => level >= minLevel && level <= maxLevel);
+  const [atTop, setAtTop] = useState(true);
+  useScrollPosition(({ scrollY }) => setAtTop(scrollY <= 1));
 
-export default function TOC({
-  className,
-  ...props
-}: Props): React.JSX.Element {
-  const projectId = 'o9vrsuaik2';
+  if (!headings.length) {
+    return null;
+  }
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      defineCustomElements(window);
-    }
-  }, []);
+  const title = translate({
+    id: 'theme.TOC.title',
+    message: 'On this page',
+    description: 'The title of the desktop table of contents',
+  });
+  const overview = translate({
+    id: 'theme.TOC.overview',
+    message: 'Overview',
+    description: 'The table of contents link to the top of the page',
+  });
+  const topLabel = headings.some(({ value }) => value.trim().toLowerCase() === overview.toLowerCase())
+    ? translate({ id: 'theme.TOC.topOfPage', message: 'Top of page' })
+    : overview;
+
+  // An empty fragment returns to the top. The maximum level keeps this entry a leaf.
+  const entries = [{ id: '', value: topLabel, level: maxLevel }, ...toc];
 
   return (
-    <div className={clsx(styles.tableOfContents, 'thin-scrollbar', className)}>
+    <nav
+      aria-label={title}
+      className={clsx(styles.tableOfContents, 'thin-scrollbar', className)}
+      data-at-top={atTop ? '' : undefined}
+    >
+      <p className={styles.title}>{title}</p>
       <TOCItems
-        {...props}
+        toc={entries}
+        minHeadingLevel={minLevel}
+        maxHeadingLevel={maxLevel}
+        className={clsx('table-of-contents', styles.list)}
         linkClassName={LINK_CLASS_NAME}
         linkActiveClassName={LINK_ACTIVE_CLASS_NAME}
       />
-      <div className="flex flex-wrap lg:justify-between bg-[var(--ifm-breadcrumb-item-background-active)] rounded-lg p-3 mt-6 ">
-        <div>
-          <b>Page Feedback</b>
-        </div>
-        <div className="flex items-center gap-1">
-          <FeedbackButton
-            project={projectId}
-            rating={1}
-            custom-font="True"
-            button-style="default"
-            modal-position="center"
-          >
-            <div
-              className="flex justify-center  rounded-md px-1.5 py-1 transition-all duration-500 bg-gray-200 hover:bg-gray-400 dark:bg-slate-700 dark:hover:bg-slate-900"
-              title="Yes"
-            >
-              {buttonThumbsUp}
-            </div>
-          </FeedbackButton>
-          <FeedbackButton
-            project={projectId}
-            rating={0}
-            custom-font="True"
-            button-style="default"
-            modal-position="center"
-          >
-            <div
-              className="flex justify-center  rounded-md px-1.5 py-1 transition-all duration-500 bg-gray-200 hover:bg-gray-400 dark:bg-slate-700 dark:hover:bg-slate-900"
-              title="No"
-            >
-              {buttonThumbsDown}
-            </div>
-          </FeedbackButton>
-        </div>
-      </div>
-    </div>
+    </nav>
   );
 }

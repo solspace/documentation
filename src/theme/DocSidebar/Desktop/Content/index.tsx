@@ -6,10 +6,9 @@ import {
   useScrollPosition,
 } from '@docusaurus/theme-common/internal';
 import { translate } from '@docusaurus/Translate';
-import DocSidebarItems from '@theme/DocSidebarItems';
 import type { Props } from '@theme/DocSidebar/Desktop/Content';
 import SearchBar from '@theme/SearchBar';
-import NavbarSearch from '@theme/Navbar/Search';
+import DocSidebarItems from '@site/src/theme/DocSidebarItems';
 
 import styles from './styles.module.css';
 
@@ -43,15 +42,15 @@ export default function DocSidebarDesktopContent({
         description: 'The ARIA label for the sidebar navigation',
       })}
       className={clsx(
-        'menu thin-scrollbar',
+        'menu',
         styles.menu,
         showAnnouncementBar && styles.menuWithAnnouncementBar,
         className
       )}
     >
-      <NavbarSearch className="mr-6">
+      <div className={clsx(styles.search, 'docs-sidebar-search')}>
         <SearchBar />
-      </NavbarSearch>
+      </div>
       <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, 'menu__list')}>
         <DocSidebarItems items={sidebar} activePath={path} level={1} />
       </ul>

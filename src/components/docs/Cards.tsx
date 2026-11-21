@@ -1,9 +1,11 @@
 import { useId } from 'react';
+import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Image from '@theme/IdealImage';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { SimpleTextLink, Badge } from '@site/src/components/utils';
 import fieldStyles from './FieldCards.module.css';
+import navigationStyles from './NavigationCards.module.css';
 
 interface CardProps {
   fullCardLink?: string;
@@ -14,6 +16,10 @@ interface CardProps {
   description?: string;
   icon?: string;
   filterIcon?: boolean;
+}
+
+interface NavigationCardProps extends CardProps {
+  proOnly?: boolean;
 }
 
 interface FieldProps {
@@ -158,7 +164,7 @@ const AnswerCard: React.FC<ChildrenProps> = ({ children }) => {
   );
 };
 
-const Card: React.FC<CardProps> = ({
+const Card: React.FC<NavigationCardProps> = ({
   fullCardLink,
   linkWithDescription,
   linkWithDescriptionLabel,
@@ -166,34 +172,38 @@ const Card: React.FC<CardProps> = ({
   titleBadge,
   description,
   icon,
-  filterIcon
+  filterIcon,
+  proOnly,
 }) => {
-  const iconSrc = icon && useBaseUrl(`/icons/cards/${icon}.svg`);
+  const iconSrc = useBaseUrl(icon ? `/icons/cards/${icon}.svg` : '');
 
   if (fullCardLink) {
     return (
-      <Link
-        to={fullCardLink}
-        className="relative p-3 rounded-2xl bg-slate-500/5 hover:bg-slate-500/10"
-      >
-        <div className="relative pl-9">
-          <dt className="font-semibold text-lg text-black dark:text-white">
-            {icon && (
-              <img
-                src={iconSrc}
-                className={`absolute top-1 left-1 size-5 mb-2 ${filterIcon ? 'filter-icons' : ''}`}
-                alt={title || 'Freeform'}
-              />
-            )}
-            {title}{' '}
+      <Link to={fullCardLink} className={navigationStyles.card}>
+        {icon && (
+          <img
+            src={iconSrc}
+            className={clsx(navigationStyles.icon, filterIcon && 'filter-icons')}
+            alt=""
+            width={22}
+            height={22}
+          />
+        )}
+        <span className={navigationStyles.copy}>
+          <span className={navigationStyles.heading}>
+            <span>{title}</span>
             {titleBadge && (
               <Badge type="feature" text={titleBadge} />
             )}
-          </dt>
-          <dd className="ml-0 text-black/60 dark:text-white/60">
-            {description}
-          </dd>
-        </div>
+            {proOnly && (
+              <span className={fieldStyles.proBadge} aria-label="Available in Freeform Pro only">
+                Pro
+              </span>
+            )}
+          </span>
+          {description && <span className={navigationStyles.description}>{description}</span>}
+        </span>
+        <span className={navigationStyles.chevron} aria-hidden="true" />
       </Link>
     );
   }
@@ -295,8 +305,8 @@ const FlexCards: React.FC<CardSectionProps> = ({ items, promo, navCards }) => {
     );
   }
 
-  return (
-    <div className={`max-w-none text-sm/5 text-gray-700 dark:text-gray-300 mx-auto my-10 grid max-w-2xl grid-cols-1 ${navCards ? 'gap-3' : 'gap-6'} sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3`}>
+  const cards = (
+    <div className={navCards ? navigationStyles.grid : 'max-w-none text-sm/5 text-gray-700 dark:text-gray-300 mx-auto my-10 grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3'}>
       {items.map((item, index) => (
         <Card
           key={`flex-cards-${index}`}
@@ -312,6 +322,8 @@ const FlexCards: React.FC<CardSectionProps> = ({ items, promo, navCards }) => {
       ))}
     </div>
   );
+
+  return navCards ? <div className={navigationStyles.collection}>{cards}</div> : cards;
 };
 
 const IntroCard: React.FC<CardProps> = ({
@@ -379,7 +391,7 @@ const IntroCards: React.FC<CardSectionProps> = ({ items, layout }) => {
 };
 
 interface CatalogCardProps extends FieldProps {
-  iconDirectory?: 'fields' | 'integrations' | 'cards';
+  iconDirectory?: 'fields' | 'integrations';
 }
 
 const CatalogCard: React.FC<CatalogCardProps> = ({ iconDirectory = 'fields', ...item }) => {
@@ -477,9 +489,9 @@ const FieldCards: React.FC<FieldCardsProps> = ({ items, catalog = false, heading
 
 const SettingsCards: React.FC<FieldCardsProps> = ({ items }) => (
   <div className={fieldStyles.catalog}>
-    <div className={fieldStyles.grid}>
+    <div className={navigationStyles.grid}>
       {items.map((item) => (
-        <CatalogCard key={item.link} {...item} iconDirectory="cards" />
+        <Card key={item.link} {...item} fullCardLink={item.link} />
       ))}
     </div>
   </div>

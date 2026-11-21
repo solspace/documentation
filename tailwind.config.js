@@ -6,7 +6,7 @@ module.exports = {
   content: [
     'docusaurus.config.ts',
     './src/**/*.{js,jsx,ts,tsx,md,mdx}',
-    './craft-freeform/**/*.{md,mdx}',
+    './craft-freeform/**/*.{ts,tsx,md,mdx}',
     './craft-calendar/**/*.{md,mdx}',
     './ee-calendar/**/*.{md,mdx}',
     './ee-freeform/**/*.{md,mdx}',

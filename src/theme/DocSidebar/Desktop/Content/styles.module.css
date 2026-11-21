@@ -1,13 +1,24 @@
 @media (min-width: 997px) {
   .menu {
     flex-grow: 1;
-    padding: 0.5rem;
+    padding: 0 0.85rem 0.85rem;
+    scroll-padding-block-start: 4.25rem;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    background: var(--ifm-background-color);
   }
-  @supports (scrollbar-gutter: stable) {
-    .menu {
-      padding: 0.5rem 0 0.5rem 0.5rem;
-      scrollbar-gutter: stable;
-    }
+
+  .menu:is(:hover, :focus-within) {
+    scrollbar-color: var(--docs-sidebar-rule) transparent;
+  }
+
+  .search {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 1;
+    padding-block: 0.9rem 0.85rem;
+    background: inherit;
   }
 
   .menuWithAnnouncementBar {

@@ -26,7 +26,7 @@ const logos: LogoItem[] = [
     latestVersionSlug: '/craft/freeform/v5',
     title: 'Freeform',
     platform: 'Craft',
-    src: 'logos/icons/freeform.png',
+    src: 'icons/cards/freeform-blue.svg',
   },
   {
     pathname: '/craft/calendar',
@@ -60,7 +60,7 @@ const logos: LogoItem[] = [
     latestVersionSlug: '/expressionengine/freeform/v3',
     title: 'Freeform',
     platform: 'ExpressionEngine',
-    src: 'logos/icons/freeform.png',
+    src: 'icons/cards/freeform-blue.svg',
   },
   {
     pathname: '/expressionengine/calendar',
@@ -85,15 +85,18 @@ export function NavbarPlatformMark({
   }
 
   return (
-    <span className="navbar-product-platform" aria-hidden="true">
-      <img src={src} alt="" width={24} height={24} />
-      {platform === 'ExpressionEngine' ? (
-        <>
-          <span className="hidden sm:inline">{platform}</span>
-          <span className="sm:hidden">EE</span>
-        </>
-      ) : platform}
-    </span>
+    <>
+      <span className="navbar-product-platform" aria-hidden="true">
+        <img src={src} alt="" width={24} height={24} />
+        {platform === 'ExpressionEngine' ? (
+          <>
+            <span className="hidden sm:inline">{platform}</span>
+            <span className="sm:hidden">EE</span>
+          </>
+        ) : platform}
+      </span>
+      <div id="navbar-doc-breadcrumbs" className="navbar-doc-breadcrumbs" />
+    </>
   );
 }
 

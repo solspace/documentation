@@ -7,6 +7,10 @@ import TagsListInline from '@theme/TagsListInline';
 import { Footer } from '@site/src/components/layout';
 
 export default function DocItemFooter() {
+  const { frontMatter } = useDoc();
+  const hideDeveloperSupport =
+    'hide_developer_support' in frontMatter && frontMatter.hide_developer_support === true;
+
   // const { metadata } = useDoc();
   // const { editUrl, lastUpdatedAt, lastUpdatedBy, tags } = metadata;
 
@@ -48,7 +52,7 @@ export default function DocItemFooter() {
           lastUpdatedBy={lastUpdatedBy}
         />
       )} */}
-      <Footer />
+      <Footer showDeveloperSupport={!hideDeveloperSupport} />
     </footer>
   );
 }

@@ -12,6 +12,7 @@ import { builtinComponents } from '@solspace/freeform-react';
 import { darkTheme, lightTheme } from '@solspace/freeform-theme-default';
 import DocsFreeform from '@site/src/components/forms/DocsFreeform';
 import { Footer } from '@site/src/components/layout';
+import { craftPluginIcons } from '@site/src/components/layout/pluginListingData';
 import allPlugins from '@site/allPlugins.json';
 import DevelopmentServices from './DevelopmentServices';
 import SupportSelect from './SupportSelect';
@@ -298,13 +299,6 @@ const communityDestinations: Record<string, CommunityDestinations> = {
   },
 };
 
-const pluginIcons: Record<string, string> = {
-  Freeform: 'freeform',
-  Calendar: 'calendar',
-  'AI Assistant': 'ai-assistant',
-  darkMode: 'dark-mode',
-};
-
 const communityPlatforms = allPlugins.map((platform) => ({
   ...platform,
   name: platform.name === 'Craft' ? 'Craft CMS' : platform.name,
@@ -348,7 +342,7 @@ function PublicSupport() {
         <summary ref={trigger}>
           {plugin ? (
             <>
-              <img src={`${icons}/${pluginIcons[plugin.name] ?? 'support'}.svg`} alt="" width={24} height={24} />
+              <img src={`${icons}/${craftPluginIcons[plugin.name] ?? 'support'}.svg`} alt="" width={24} height={24} />
               <span className={styles.pluginSelection}>{plugin.name}<small>{platform.name}</small></span>
             </>
           ) : (
@@ -370,7 +364,7 @@ function PublicSupport() {
                     closePicker();
                   }}
                 >
-                  <img src={`${icons}/${pluginIcons[pluginName] ?? 'support'}.svg`} alt="" width={24} height={24} />
+                  <img src={`${icons}/${craftPluginIcons[pluginName] ?? 'support'}.svg`} alt="" width={24} height={24} />
                   <span>{pluginName}</span>
                   {slug === pluginSlug && <span className={styles.pluginCheck} aria-hidden="true">✓</span>}
                 </button>
