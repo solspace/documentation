@@ -4,6 +4,17 @@ import DropdownNavbarItem from '@theme/NavbarItem/DropdownNavbarItem';
 import type { Props } from '@theme/NavbarItem/DropdownNavbarItem';
 import { getDocSectionIconClass } from '@site/src/components/docs/DocSectionIcons';
 
+const calendarDocs: [label: string, path: string][] = [
+  ['Installing & Updating', 'setup/installing-updating/'],
+  ['User Guides', 'guides/getting-started/'],
+  ['Configuration', 'configuration/settings/'],
+  ['Events', 'events/'],
+  ['Calendars', 'calendars/'],
+  ['Templating', 'templates/queries/events/'],
+  ['Headless', 'headless/graphql/'],
+  ['Developer', 'developer/events/'],
+];
+
 const landingDocs: Record<string, [label: string, path: string][]> = {
   '/craft/freeform/v5': [
     ['Installing & Updating', 'setup/'],
@@ -17,16 +28,8 @@ const landingDocs: Record<string, [label: string, path: string][]> = {
     ['Headless', 'headless/'],
     ['Developer', 'developer/'],
   ],
-  '/craft/calendar/v5': [
-    ['Installing & Updating', 'setup/installing-updating/'],
-    ['User Guides', 'guides/getting-started/'],
-    ['Configuration', 'configuration/settings/'],
-    ['Events', 'events/'],
-    ['Calendars', 'calendars/'],
-    ['Templating', 'templates/queries/events/'],
-    ['Headless', 'headless/graphql/'],
-    ['Developer', 'developer/events/'],
-  ],
+  '/craft/calendar/v5': calendarDocs,
+  '/craft/calendar/v6': calendarDocs,
   '/craft/ai-assistant/v1': [
     ['Installing & Updating', 'setup/installing-updating/'],
     ['User Guides', 'guides/getting-started/'],

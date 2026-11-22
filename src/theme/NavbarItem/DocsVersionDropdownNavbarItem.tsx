@@ -43,7 +43,17 @@ export default function DocsVersionDropdownNavbarItem({
   );
   const versionBadgeList = versionData ? versionsBadge[versionData] : [];
 
-  const versionLinks = versions.map((version) => {
+  const getVersionOrder = (version: GlobalVersion) => {
+    const badgeIndex = versionBadgeList.findIndex(
+      (v) => v.version === version.name
+    );
+
+    return badgeIndex === -1 ? Number.MAX_SAFE_INTEGER : badgeIndex;
+  };
+
+  const versionLinks = [...versions].sort(
+    (a, b) => getVersionOrder(a) - getVersionOrder(b)
+  ).map((version) => {
     const versionDoc =
       activeDocContext.alternateDocVersions[version.name] ??
       getVersionMainDoc(version);
