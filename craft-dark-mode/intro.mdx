@@ -1,0 +1,144 @@
+---
+sidebar_position: 1
+title: Overview
+description: A consistent dark theme for the Craft CMS 5 control panel.
+slug: /
+id: landing-page
+hide_title: true
+hide_table_of_contents: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import { FlexButton } from '@site/src/components/utils';
+import { ControlPanelTour, PluginLogoCloud } from '@site/src/components/docs/DarkModeOverview';
+import styles from '@site/src/components/docs/DarkModeOverview/styles.module.css';
+import IntroTheme from '@site/src/components/docs/DarkModeOverview/IntroTheme';
+import ScreenshotShowcase from '@site/src/components/docs/DarkModeOverview/ScreenshotShowcase';
+import compatibility from './users/_compatibility.json';
+
+<IntroTheme />
+
+<div className={styles.root}>
+  <section className={styles.hero}>
+    <svg className={styles.heroIllustration} viewBox="0 0 1440 560" fill="none" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="dark-mode-hero-fade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="white" />
+          <stop offset="0.45" stopColor="white" />
+          <stop offset="1" stopColor="black" />
+        </linearGradient>
+        <mask id="dark-mode-hero-mask">
+          <rect width="1440" height="560" fill="url(#dark-mode-hero-fade)" />
+        </mask>
+      </defs>
+      <g mask="url(#dark-mode-hero-mask)">
+        <g stroke="currentColor" strokeWidth="1">
+          <ellipse cx="-10" cy="270" rx="200" ry="240" transform="rotate(-18 -10 270)" />
+          <ellipse cx="-10" cy="270" rx="242" ry="282" transform="rotate(-18 -10 270)" />
+          <ellipse cx="-10" cy="270" rx="284" ry="324" transform="rotate(-18 -10 270)" />
+          <path d="M-100 500C25 245 205 60 430 15" />
+          <path d="M1130 610c212-90 325-280 375-520" />
+          <path d="M1200 610c162-118 255-289 286-450" />
+          <circle cx="1280" cy="162" r="138" strokeDasharray="1 13" strokeLinecap="round" />
+        </g>
+        <path d="M1272 57a103 103 0 1 0 105 163 93 93 0 0 1-105-163Z" fill="currentColor" fillOpacity="0.12" stroke="currentColor" strokeWidth="1" />
+        <g fill="currentColor">
+          <circle cx="1120" cy="358" r="1.4" opacity="0.45" />
+          <circle cx="69" cy="147" r="1.8" opacity="1" />
+          <circle cx="1415" cy="390" r="1.8" opacity="0.6" />
+          <circle cx="1142" cy="51" r="1.1" opacity="0.6" />
+          <circle cx="323" cy="471" r="1.1" opacity="0.8" />
+          <circle cx="1119" cy="83" r="0.9" opacity="0.8" />
+          <circle cx="1411" cy="435" r="1.8" opacity="0.8" />
+          <circle cx="50" cy="241" r="1.4" opacity="0.45" />
+          <circle cx="1201" cy="416" r="0.9" opacity="1" />
+          <circle cx="1154" cy="129" r="1.1" opacity="0.8" />
+          <circle cx="133" cy="156" r="0.9" opacity="0.8" />
+          <circle cx="408" cy="402" r="1.1" opacity="0.8" />
+          <circle cx="363" cy="190" r="0.9" opacity="0.8" />
+          <circle cx="117" cy="405" r="1.4" opacity="0.45" />
+          <circle cx="1310" cy="47" r="1.1" opacity="0.8" />
+          <circle cx="1285" cy="308" r="1.1" opacity="1" />
+          <circle cx="1222" cy="438" r="1.8" opacity="0.6" />
+          <circle cx="414" cy="148" r="1.1" opacity="0.45" />
+          <circle cx="1113" cy="176" r="1.4" opacity="0.8" />
+          <circle cx="115" cy="102" r="1.8" opacity="0.45" />
+          <circle cx="167" cy="297" r="0.9" opacity="0.6" />
+          <circle cx="348" cy="430" r="1.4" opacity="0.45" />
+          <circle cx="1148" cy="228" r="1.8" opacity="0.45" />
+          <circle cx="400" cy="206" r="0.9" opacity="1" />
+          <circle cx="123" cy="477" r="1.4" opacity="0.6" />
+          <circle cx="205" cy="285" r="0.9" opacity="0.45" />
+          <circle cx="407" cy="314" r="1.1" opacity="1" />
+          <circle cx="1112" cy="301" r="1.8" opacity="1" />
+          <circle cx="38" cy="170" r="1.4" opacity="0.6" />
+          <circle cx="30" cy="443" r="1.8" opacity="0.8" />
+          <circle cx="1380" cy="378" r="0.9" opacity="0.45" />
+          <path d="M350 108l1 3 3 1-3 1-1 3-1-3-3-1 3-1Z" opacity="0.75" />
+          <path d="M1160 61l1 3 3 1-3 1-1 3-1-3-3-1 3-1Z" opacity="0.75" />
+          <path d="M1408 342l1 3 3 1-3 1-1 3-1-3-3-1 3-1Z" opacity="0.75" />
+        </g>
+      </g>
+    </svg>
+    <div className={styles.brand}>
+      <img src={useBaseUrl('/logos/icons/dark-mode.svg')} alt="" width="48" height="48" />
+      <span>darkMode for Craft CMS 5</span>
+    </div>
+    <h1 className={styles.heroTitle}>Craft, after hours.</h1>
+    <p className={styles.lede}>A consistent dark theme for the entire Craft control panel.</p>
+    <div className={styles.heroActions}>
+      <FlexButton items={[
+        { to: './setup/installation/', label: 'Install darkMode' },
+        { to: '#tour', label: 'Take a look', outline: true },
+      ]} />
+    </div>
+  </section>
+
+  <div className={styles.content}>
+    <section className={styles.tour} id="tour">
+      <h2 className={styles.sectionTitle}>See darkMode in action.</h2>
+      <p className={styles.sectionIntro}>Switch between Light and Dark, then work with the same Craft controls and shortcuts.</p>
+      <ControlPanelTour />
+    </section>
+
+    <section className={styles.compatibility} id="compatibility">
+      <h2 className={styles.sectionTitle}>Fits your Craft setup.</h2>
+      <p className={styles.sectionIntro}>From content and forms to orders, calendars, and SEO, darkMode keeps your workspace consistent.</p>
+      <PluginLogoCloud plugins={compatibility} names={[
+        'Freeform', 'Commerce', 'Calendar', 'Formie', 'SEOmatic', 'Blitz', 'Feed Me', 'CKEditor',
+        'Campaign', 'Navigation', 'Neo', 'Retour', 'Sprig', 'Hyper', 'Imager X', 'Vizy',
+      ]} />
+      <a href="./compatibility/">See the full compatibility list</a>
+      <ScreenshotShowcase />
+    </section>
+
+    <div className={styles.featureHighlights}>
+      <section className={styles.featureCopy}>
+        <h2 className={styles.sectionTitle}>Choose your appearance.</h2>
+        <p>Use Auto to follow your system setting, or select Light or Dark from Craft’s top bar.</p>
+        <p>Your preference is saved to your account.</p>
+      </section>
+      <section className={styles.featureCopy}>
+        <h2 className={styles.sectionTitle}>Consistent throughout Craft.</h2>
+        <p>A shared dark palette for fields, menus, tables, dialogs, and slideouts.</p>
+        <p>Your images and content keep their original colors, including in front-end previews.</p>
+      </section>
+    </div>
+
+    <section className={styles.closing}>
+      <h2 className={styles.sectionTitle}>Install darkMode.</h2>
+      <p className={styles.sectionIntro}>Install darkMode for free from the Plugin Store or with Composer.</p>
+      <div className={styles.heroActions}>
+        <FlexButton items={[
+          { to: './setup/installation/', label: 'Installation guide' },
+          { to: './users/#frequently-asked-questions', label: 'Read the FAQ', outline: true },
+        ]} />
+      </div>
+      <div className={styles.docLinks}>
+        <a href="./users/">Using darkMode</a>
+        <a href="./compatibility/">Plugin compatibility</a>
+        <a href="./developer/">Building a plugin?</a>
+      </div>
+    </section>
+  </div>
+</div>

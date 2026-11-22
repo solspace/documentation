@@ -3,6 +3,8 @@ sidebar_position: 1
 description: Extend Freeform 5.x forms in Craft CMS using events like Before/After Submit, Validation, Render Tag, AJAX responses, and more.
 ---
 
+import { Badge } from '@site/src/components/utils';
+
 # Form Events
 
 If you wish to extend the capabilities of Forms in Freeform, feel free to use any of the events listed below:
@@ -433,3 +435,60 @@ Event::on(
   }
 )
 ```
+
+## Saved-Form Cleanup<Badge type="feature" text="New in 5.17.7+" />
+
+
+`SaveForm::EVENT_AFTER_PURGE_SAVED_FORMS` fires after Save & Continue Later
+records are removed by TTL or session-limit cleanup. It also covers session-limit
+cleanup for headless drafts. This event cannot cancel deletion.
+
+Register the listener during your module/plugin's `init()`, before Craft finishes
+initializing. TTL cleanup runs after Craft initialization, subject to Freeform's
+existing one-hour cleanup lock. It is request-driven, not an exact expiration timer.
+The configured TTL (or Freeform's default when the setting is non-positive) still
+uses each record's `dateUpdated` timestamp.
+
+```php
+use Solspace\Freeform\Bundles\Form\SaveForm\Events\SavedFormsPurgedEvent;
+use Solspace\Freeform\Bundles\Form\SaveForm\SaveForm;
+use yii\base\Event;
+
+Event::on(
+    SaveForm::class,
+    SaveForm::EVENT_AFTER_PURGE_SAVED_FORMS,
+    function (SavedFormsPurgedEvent $event): void {
+        foreach ($event->records as $record) {
+            // Queue your reconciliation job using:
+            // $record['id'], $record['token'], $record['formId'], $event->reason
+        }
+    }
+);
+```
+
+The `SavedFormsPurgedEvent` payload contains:
+
+| Property | Value |
+| --- | --- |
+| `records` | Up to 100 deleted records, each with integer `id`, string `token`, and integer `formId`. |
+| `reason` | `REASON_TTL_EXPIRED` (`ttl_expired`) or `REASON_SESSION_LIMIT` (`session_limit`). |
+| `cutoff` | UTC TTL cutoff in `Y-m-d H:i:s` format. `null` for session-limit cleanup. |
+| `ttlDays` | Effective TTL in days. `null` for session-limit cleanup. |
+
+Encrypted form payloads, session IDs, and decryption keys are not included.
+Empty cleanup runs and failed deletions emit no event. Large purges emit one event
+per successful batch. Completion of a resumed form, form deletion, and unrelated
+database maintenance do not emit this cleanup-specific event.
+
+With listeners registered, each batch reads and deletes its records in a short
+transaction with row locks on MySQL/PostgreSQL. The event runs after that batch's
+transaction finishes. If custom code wraps cleanup in an outer transaction, the
+event runs inside it. Wait for the outer transaction to commit before triggering
+external side effects.
+
+Listeners should queue work quickly and safely handle repeated reconciliation.
+Exceptions are logged through Yii without stopping the request or remaining
+cleanup batches, but may prevent later listeners from receiving the same batch.
+Events have no automatic retry or guaranteed external delivery. Use your own
+queue and reconciliation process when delivery matters. Without listeners,
+cleanup uses bulk deletion.

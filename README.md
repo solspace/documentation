@@ -8,6 +8,34 @@ This website is built using [Docusaurus](https://docusaurus.io/), a modern stati
 $ pnpm install
 ```
 
+### Dependency security
+
+Run `pnpm audit` to check the lockfile for known vulnerabilities. Security overrides in
+`pnpm-workspace.yaml` keep Docusaurus's transitive dependencies on patched releases;
+retain them until the upstream dependency ranges include those fixes.
+
+`deepmerge` 4.3.1 has no published fix for
+[CVE-2026-93753 / GHSA-gcqx-w48m-w2h4](https://github.com/advisories/GHSA-gcqx-w48m-w2h4).
+The pnpm patch in `patches/deepmerge@4.3.1.patch` rejects `__proto__` keys before
+copying either input, including null-prototype targets and nested primitive
+placeholders. It covers the source, CommonJS and browser distributions, following
+the narrowly scoped change proposed in [upstream PR #274](https://github.com/TehShrike/deepmerge/pull/274).
+`pnpm install --frozen-lockfile` applies it automatically. Run `pnpm test:security`
+to check the regression cases and SVG/video configuration compatibility.
+Keep the patch until a verified upstream fix replaces it. Package audits and
+Dependabot may continue flagging version 4.3.1 because they do not evaluate local
+patches; the advisory is not suppressed or dismissed.
+
+The `minimatch` override uses the patched 11.x API. The pnpm patch for
+`serve-handler` updates its import to that API so Docusaurus preview routes,
+rewrites and glob-based headers keep working. `pnpm test:security` also checks
+that cross-origin redirects strip credentials and that Joi email validation
+handles long whitespace inputs without blocking.
+
+The previous `braces` advisory,
+[GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm), was withdrawn
+on October 23, 2026, and is no longer reported by the package audit.
+
 ### Local Development
 
 ```
@@ -41,6 +69,16 @@ $ GIT_USER=<Your GitHub username> pnpm deploy
 If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
 
 ### Update Changelogs
+
+Fetch the configured plugins' `CHANGELOG.md` files from GitHub and regenerate their
+documentation changelogs, including darkMode 1.x from `solspace/craft-dark-mode`'s
+`v1` branch into `craft-dark-mode/users/changelog.mdx`.
+
+Freeform for ExpressionEngine 1.x, 2.x, and 3.x use the complete
+`solspace/ee-freeform` changelog on the `v3` branch. The fetcher filters releases by
+major version and writes `ee-freeform_versioned_docs/version-v1/setup/changelog.mdx`,
+`ee-freeform_versioned_docs/version-v2/setup/changelog.mdx`, and
+`ee-freeform/setup/changelog.mdx`, respectively:
 
 ```
 $ pnpm fetch-github-remote-content

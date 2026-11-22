@@ -2,7 +2,38 @@
   "cleanUrls": true,
   "trailingSlash": true,
   "installCommand": "corepack enable && pnpm install",
+  "rewrites": [
+    {
+      "source": "/freeform/tokens/",
+      "destination": "https://support.solspace.com/freeform/tokens"
+    },
+    {
+      "source": "/freeform/api/forms/support/:path*/",
+      "destination": "https://support.solspace.com/freeform/api/forms/support/:path*"
+    },
+    {
+      "source": "/freeform/api/forms/customDevelopment/:path*/",
+      "destination": "https://support.solspace.com/freeform/api/forms/customDevelopment/:path*"
+    },
+    {
+      "source": "/freeform/payments/stripe/payment-intents/",
+      "destination": "https://support.solspace.com/freeform/payments/stripe/payment-intents"
+    },
+    {
+      "source": "/freeform/payments/stripe/payment-intents/:path+/",
+      "destination": "https://support.solspace.com/freeform/payments/stripe/payment-intents/:path*"
+    },
+    {
+      "source": "/freeform/payments/stripe/callback/",
+      "destination": "https://support.solspace.com/freeform/payments/stripe/callback"
+    }
+  ],
   "redirects": [
+    {
+      "source": "/craft/freeform/v5/integrations/pardot/",
+      "destination": "/craft/freeform/v5/integrations/salesforce-account-engagement-pardot/",
+      "permanent": true
+    },
     {
       "destination": "/craft/freeform/v5/",
       "source": "/craft/freeform"

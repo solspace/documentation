@@ -1,16 +1,108 @@
 .tableOfContents {
+  --toc-guide-inset: 0.4rem;
+  --toc-link-inset: 0.55rem;
   max-height: calc(100vh - (var(--ifm-navbar-height) + 2rem));
   overflow-y: auto;
   position: sticky;
   top: calc(var(--ifm-navbar-height) + 1rem);
+  scrollbar-color: var(--docs-sidebar-rule) transparent;
+}
+
+.title {
+  margin-block-end: 0.95rem;
+  color: var(--docs-sidebar-muted);
+  font-size: 0.8125rem;
+  font-weight: 550;
+  line-height: 1.3;
+}
+
+.tableOfContents .list {
+  padding-inline-start: var(--toc-guide-inset);
+  border-inline-start: 1px solid var(--docs-sidebar-rule);
+}
+
+.tableOfContents .list ul {
+  --toc-depth: 1;
+  margin-block-start: 0.1rem;
+  padding-inline-start: 0;
+}
+
+.tableOfContents .list ul ul {
+  --toc-depth: 2;
+}
+
+.tableOfContents .list ul ul ul {
+  --toc-depth: 3;
+}
+
+.tableOfContents .list ul ul ul ul {
+  --toc-depth: 4;
+}
+
+.list > li + li {
+  margin-block-start: 0.35rem;
+}
+
+.tableOfContents .list :global(.table-of-contents__link) {
+  --toc-label-inset: calc(var(--toc-link-inset) + var(--toc-depth, 0) * 0.75rem);
+  padding-block: 0.3rem;
+  padding-inline: var(--toc-label-inset) var(--toc-link-inset);
+  border: 0;
+  border-radius: 0.45rem;
+  color: var(--docs-sidebar-text);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.tableOfContents .list > li > :global(.table-of-contents__link) {
+  color: var(--docs-sidebar-group);
+  font-weight: 650;
+}
+
+.tableOfContents .list :global(.table-of-contents__link):hover {
+  background-color: var(--docs-sidebar-hover);
+  color: var(--docs-sidebar-active);
+}
+
+.tableOfContents .list a:focus-visible {
+  outline: 2px solid var(--docs-sidebar-active);
+  outline-offset: -2px;
+}
+
+.tableOfContents:not([data-at-top]) .list li:has(> ul :global(.table-of-contents__link--active)) > a {
+  background-color: color-mix(in srgb, var(--docs-sidebar-selected) 42%, transparent);
+  color: var(--docs-sidebar-active);
+}
+
+.tableOfContents:not([data-at-top]) .list :global(.table-of-contents__link--active),
+.tableOfContents:is([data-at-top], :not(:has(:global(.table-of-contents__link--active)))) .list > li:first-child > a {
+  --toc-guide-offset: calc(var(--toc-guide-inset) + 1px);
+  position: relative;
+  margin-inline-start: calc(-1 * var(--toc-guide-offset));
+  padding-inline-start: calc(var(--toc-label-inset) + var(--toc-guide-offset));
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  background-color: var(--docs-sidebar-selected);
+  color: var(--docs-sidebar-active);
+  font-weight: 650;
+}
+
+.tableOfContents:not([data-at-top]) .list :global(.table-of-contents__link--active)::before,
+.tableOfContents:is([data-at-top], :not(:has(:global(.table-of-contents__link--active)))) .list > li:first-child > a::before {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 2px;
+  background: var(--docs-sidebar-active);
+  content: '';
+}
+
+.tableOfContents .list a code {
+  color: inherit;
 }
 
 @media (max-width: 996px) {
   .tableOfContents {
     display: none;
-  }
-
-  .docItemContainer {
-    padding: 0 0.3rem;
   }
 }

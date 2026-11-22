@@ -83,9 +83,12 @@ export default function IdealImage(props: Props): ReactNode {
   }
 
   // Prod build: forward standard props (className/alt/style/...) to legacy impl
+  // MDX styles can come from another rendering context. Copy them so the
+  // legacy image component's instanceof Object check accepts them.
   return (
     <ReactIdealImage
       {...propsRest}
+      style={propsRest.style ? {...propsRest.style} : undefined}
       height={img.src.height ?? 100}
       width={img.src.width ?? 100}
       placeholder={{lqip: img.preSrc}}

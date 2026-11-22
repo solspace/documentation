@@ -1,39 +1,40 @@
-import React, { type ReactNode } from 'react';
+import React, { useState, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import { ThemeClassNames } from '@docusaurus/theme-common';
-import { useHomePageRoute } from '@docusaurus/theme-common/internal';
+import { isSamePath } from '@docusaurus/theme-common/internal';
 import {
+  useActivePluginAndVersion,
   useSidebarBreadcrumbs,
   useDoc,
 } from '@docusaurus/plugin-content-docs/client';
 import Link from '@docusaurus/Link';
 import Translate, { translate } from '@docusaurus/Translate';
-import HomeBreadcrumbItem from '@theme/DocBreadcrumbs/Items/Home';
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import useIsomorphicLayoutEffect from '@docusaurus/useIsomorphicLayoutEffect';
 
 import styles from './styles.module.css';
 
 // TODO move to design system folder
 function BreadcrumbsItemLink({
-  children,
+  label,
   href,
   isLast,
 }: {
-  children: ReactNode;
+  label: string;
   href: string | undefined;
   isLast: boolean;
 }): React.JSX.Element {
   const className = 'breadcrumbs__link';
   if (isLast) {
     return (
-      <span className={className} itemProp="name">
-        {children}
+      <span className={className} itemProp="name" aria-current="page" title={label}>
+        {label}
       </span>
     );
   }
   return href ? (
-    <Link className={className} href={href} itemProp="item">
-      <span itemProp="name">{children}</span>
+    <Link className={className} href={href} itemProp="item" title={label}>
+      <span itemProp="name">{label}</span>
     </Link>
   ) : (
     // TODO Google search console doesn't like breadcrumb items without href.
@@ -41,7 +42,7 @@ function BreadcrumbsItemLink({
     // insist to infer one, even if it's invalid. Removing `itemProp="item
     // name"` for now, since I don't know how to properly fix it.
     // See https://github.com/facebook/docusaurus/issues/7241
-    <span className={className}>{children}</span>
+    <span className={className} title={label}>{label}</span>
   );
 }
 
@@ -76,33 +77,34 @@ function BreadcrumbsItem({
 
 export default function DocBreadcrumbs(): React.JSX.Element | null {
   const { metadata } = useDoc();
-  const { editUrl } = metadata;
+  const { editUrl, permalink } = metadata;
   const breadcrumbs = useSidebarBreadcrumbs();
-  const homePageRoute = useHomePageRoute();
+  const version = useActivePluginAndVersion()?.activeVersion;
+  const [navbarSlot, setNavbarSlot] = useState<HTMLElement | null>(null);
+
+  useIsomorphicLayoutEffect(() => {
+    setNavbarSlot(document.getElementById('navbar-doc-breadcrumbs'));
+  }, [permalink]);
 
   if (!breadcrumbs) {
     return null;
   }
 
-  return (
+  const trail = breadcrumbs.length > 0 && !isSamePath(permalink, version?.path) ? (
     <nav
-      className={clsx(
-        ThemeClassNames.docs.docBreadcrumbs,
-        styles.breadcrumbsContainer,
-        'flex flex-col sm:flex-row gap-2 sm:justify-between'
-      )}
+      className={clsx(ThemeClassNames.docs.docBreadcrumbs, styles.path)}
+      hidden={!navbarSlot}
       aria-label={translate({
         id: 'theme.docs.breadcrumbs.navAriaLabel',
         message: 'Breadcrumbs',
         description: 'The ARIA label for the breadcrumbs',
       })}
     >
-      <ul
+      <ol
         className="breadcrumbs"
         itemScope
         itemType="https://schema.org/BreadcrumbList"
       >
-        {homePageRoute && <HomeBreadcrumbItem />}
         {breadcrumbs.map((item, idx) => {
           const isLast = idx === breadcrumbs.length - 1;
           const href =
@@ -117,30 +119,36 @@ export default function DocBreadcrumbs(): React.JSX.Element | null {
               index={idx}
               addMicrodata={!!href}
             >
-              <BreadcrumbsItemLink href={href} isLast={isLast}>
-                {item.label}
-              </BreadcrumbsItemLink>
+              <BreadcrumbsItemLink href={href} isLast={isLast} label={item.label} />
             </BreadcrumbsItem>
           );
         })}
-      </ul>
-      <Link
-        to={editUrl}
-        className={clsx(styles.editPage, 'edit-page mobile-hidden text-xs sm:h-fit sm:w-fit')}
-      >
-        <img
-          src={useBaseUrl('/icons/cards/edit.svg')}
-          className="h-6 w-3"
-          alt="Suggest an Edit"
-        />
-
-        <Translate
-          id="theme.common.editThisPage"
-          description="The link label to edit the current page"
-        >
-          Suggest an Edit
-        </Translate>
-      </Link>
+      </ol>
     </nav>
+  ) : null;
+
+  return (
+    <>
+      {navbarSlot ? createPortal(trail, navbarSlot) : trail}
+      {editUrl && (
+        <div className={styles.pageTools}>
+          <Link to={editUrl} className={styles.editPage}>
+            <span className={styles.editIcon} aria-hidden="true" />
+            <span className={styles.editLabel}>
+              <span className={styles.editLabelClip}>
+                <span className={styles.editLabelText}>
+                  <Translate
+                    id="theme.common.editThisPage"
+                    description="The link label to edit the current page"
+                  >
+                    Suggest an edit
+                  </Translate>
+                </span>
+              </span>
+            </span>
+          </Link>
+        </div>
+      )}
+    </>
   );
 }

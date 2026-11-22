@@ -1,21 +1,29 @@
 import type { JSX } from 'react';
+import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
-import { LeftNav, Footer } from '@site/src/components/layout';
-import { PrimaryButtonWithLink } from '@site/src/components/utils';
+import { Footer } from '@site/src/components/layout';
+import landingStyles from '@site/src/components/layout/LandingPage.module.css';
+import styles from './LegacyAccount.module.css';
 
 export default function LegacyAccount(): JSX.Element {
   return (
     <Layout
       title="Legacy Account"
-      description="The most dependable and user-friendly forms plugin for Craft CMS."
+      description="Access licenses purchased through the original Solspace store."
     >
-      <div className="flex">
-        <LeftNav />
-        <div className="flex flex-col gap-3 md:ml-72 p-8">
-          <main className="max-w-6xl m-auto my-3">
+      <div className={landingStyles.shell}>
+        <main className={`${landingStyles.page} ${landingStyles.readingPage}`}>
+          <header className={landingStyles.intro}>
             <h1>Legacy Account</h1>
+          </header>
+
+          <div className={landingStyles.readingPanel}>
             <p>
-              Before the{' '}
+              The legacy account is only for older licenses purchased directly
+              from Solspace through its original online store.
+            </p>
+            <p>
+              If you bought your license through the{' '}
               <a
                 href="https://plugins.craftcms.com/"
                 target="_blank"
@@ -24,7 +32,7 @@ export default function LegacyAccount(): JSX.Element {
               >
                 Craft Plugin Store
               </a>{' '}
-              and{' '}
+              or the{' '}
               <a
                 href="https://expressionengine.com/add-ons/"
                 target="_blank"
@@ -32,23 +40,16 @@ export default function LegacyAccount(): JSX.Element {
                 className="external-link"
               >
                 ExpressionEngine Add-ons Store
-              </a>{' '}
-              existed, Solspace managed all purchases and downloads of licenses
-              on its own website. It has been several years since it's been in
-              operation, so chances are, you likely already have your license
-              purchases or moved to the Craft/EE stores. In the event you still
-              need to access old licenses on the Solspace store, you can view
-              them by visiting your Solspace account here:
+              </a>, use your account on that store.
             </p>
-            <PrimaryButtonWithLink
-              to="https://accounts.solspace.com/"
-              label="Solspace Legacy Account"
-            />
-          </main>
-        </div>
+            <Link to="https://accounts.solspace.com/" className={styles.accountLink}>
+              Open legacy account
+            </Link>
+          </div>
+        </main>
       </div>
       <footer className="docusaurus-mt-lg docs-footer">
-        <Footer />
+        <Footer showDeveloperSupport={false} />
       </footer>
     </Layout>
   );

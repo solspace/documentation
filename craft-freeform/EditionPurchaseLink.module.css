@@ -1,0 +1,39 @@
+.link {
+  --edition-action-bg: #1d5bc6;
+  --edition-action-hover: #154ba9;
+  --edition-action-ink: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  background: var(--edition-action-bg);
+  color: var(--edition-action-ink);
+  font-size: 0.9rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+.link:hover {
+  background: var(--edition-action-hover);
+  color: var(--edition-action-ink);
+  text-decoration: none;
+}
+
+.link[data-edition='Pro'] {
+  --edition-action-bg: var(--orange-button);
+  --edition-action-hover: var(--orange-button-hover);
+  --edition-action-ink: var(--orange-button-text);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .link {
+    transition: scale 180ms ease-out;
+  }
+
+  .link:hover {
+    scale: 1.04;
+  }
+}

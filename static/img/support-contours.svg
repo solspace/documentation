@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 760" fill="none" stroke-linecap="round">
+  <style>
+    @media (prefers-reduced-motion: no-preference) {
+      path {
+        animation: line-drift calc(var(--period) * .8) ease-in-out var(--delay) infinite alternate;
+      }
+    }
+
+    @keyframes line-drift {
+      from { transform: translate(calc(var(--x) * -.55), calc(var(--y) * -.55)); }
+      50% { transform: translate(calc(var(--y) * .35), calc(var(--x) * -.25)); }
+      to { transform: translate(var(--x), var(--y)); }
+    }
+  </style>
+  <defs>
+    <linearGradient id="tide" x1="20" y1="400" x2="1550" y2="115" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5b8ed7" stop-opacity=".10"/>
+      <stop offset=".37" stop-color="#6da5d6" stop-opacity=".24"/>
+      <stop offset=".76" stop-color="#7eb8db" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#77d7cb" stop-opacity=".39"/>
+    </linearGradient>
+    <linearGradient id="current" x1="340" y1="680" x2="1470" y2="140" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#607ac1" stop-opacity="0"/>
+      <stop offset=".58" stop-color="#78a2e4" stop-opacity=".25"/>
+      <stop offset="1" stop-color="#76d3ca" stop-opacity=".58"/>
+    </linearGradient>
+  </defs>
+  <g stroke="url(#tide)">
+    <path style="--x:13px;--y:-6px;--period:28s;--delay:-8s" stroke-width=".45" stroke-opacity=".92" d="M-80 342C174 126 376 96 610 156c243 62 365 292 641 199 172-58 268-242 427-249"/>
+    <path style="--x:8px;--y:11px;--period:35s;--delay:-18s" stroke-width="1.25" stroke-opacity=".85" d="M-80 371C180 155 390 117 618 174c244 60 371 280 637 190 170-57 253-224 423-233"/>
+    <path style="--x:19px;--y:-9px;--period:32s;--delay:-23s" stroke-width="10.8" stroke-opacity=".72" d="M-80 410C184 189 400 140 626 195c230 55 370 260 633 177 167-53 247-206 419-216"/>
+    <path style="--x:-10px;--y:7px;--period:41s;--delay:-4s" stroke-width=".75" stroke-opacity=".92" d="M-80 463C171 238 400 171 636 219c226 46 366 245 624 164 178-55 250-192 418-205"/>
+    <path style="--x:16px;--y:-13px;--period:38s;--delay:-31s" stroke-width="4.5" stroke-opacity=".78" d="M-80 530C159 295 411 211 652 252c223 37 365 216 625 140 166-49 238-172 401-185"/>
+    <path style="--x:-12px;--y:-4px;--period:30s;--delay:-15s" stroke-width=".5" stroke-opacity=".9" d="M-80 608C153 360 425 252 667 291c221 36 377 177 620 117 176-43 245-150 391-177"/>
+    <path style="--x:7px;--y:12px;--period:40s;--delay:-27s" stroke-width="2.0" stroke-opacity=".78" d="M-80 693C154 441 449 300 686 334c231 33 375 147 616 93 177-39 242-130 376-161"/>
+  </g>
+  <g stroke="url(#current)">
+    <path style="--x:-15px;--y:7px;--period:34s;--delay:-19s" stroke-width=".5" stroke-opacity=".96" d="M281 783C592 801 685 480 951 389c185-63 344 9 486-111 94-80 120-183 207-206"/>
+    <path style="--x:-21px;--y:13px;--period:45s;--delay:-32s" stroke-width="3.15" stroke-opacity=".83" d="M339 783C624 801 721 500 969 414c178-61 351 3 489-119 87-77 121-179 203-199"/>
+    <path style="--x:14px;--y:-9px;--period:37s;--delay:-8s" stroke-width="1.15" stroke-opacity=".85" d="M408 783C655 796 762 526 993 445c178-62 346-5 485-127 83-73 116-173 202-191"/>
+    <path style="--x:-16px;--y:-11px;--period:42s;--delay:-25s" stroke-width="12.3" stroke-opacity=".76" d="M490 783C702 790 795 556 1017 481c173-58 340-16 473-128 94-79 119-175 201-193"/>
+    <path style="--x:11px;--y:8px;--period:40s;--delay:-15s" stroke-width=".7" stroke-opacity=".91" d="M571 783C744 780 846 581 1055 515c169-53 329-25 452-132 91-79 113-156 190-185"/>
+  </g>
+</svg>

@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import { useLocation } from '@docusaurus/router';
+import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
+import type { Props } from '@theme/NavbarItem/DefaultNavbarItem';
 
 const stores = [
   {
@@ -12,6 +14,11 @@ const stores = [
     pathname: '/craft/calendar',
     title: 'Buy Now',
     link: 'https://plugins.craftcms.com/calendar',
+  },
+  {
+    pathname: '/craft/dark-mode',
+    title: 'Get darkMode',
+    link: '/craft/dark-mode/v1/setup/installation/',
   },
   {
     pathname: '/craft/ai-assistant',
@@ -35,7 +42,10 @@ const stores = [
   },
 ];
 
-export function PluginStore(): React.JSX.Element | null {
+export function PluginStore({
+  mobile,
+  onClick,
+}: Pick<Props, 'mobile' | 'onClick'>): React.JSX.Element | null {
   const { pathname } = useLocation();
   const matchedStore = stores.find((l) => pathname.startsWith(l.pathname));
 
@@ -43,14 +53,29 @@ export function PluginStore(): React.JSX.Element | null {
     return null;
   }
 
+  const isExternal = matchedStore.link.startsWith('https://');
+  const iconClass = isExternal ? 'navbar-store' : 'navbar-store navbar-store--download';
+
+  if (mobile) {
+    return (
+      <DefaultNavbarItem
+        mobile
+        label={matchedStore.title}
+        onClick={onClick}
+        className={iconClass}
+        {...(isExternal ? { href: matchedStore.link } : { to: matchedStore.link })}
+      />
+    );
+  }
+
   return (
     <Link
-      className="hidden lg:inline-block bg-[#ff6624] text-white text-md font-bold rounded-2xl px-2 py-1 ml-5 hover:text-white hover:opacity-90 plugin-store-link"
+      className={`navbar__item plugin-store-link ${iconClass}`}
       to={matchedStore.link}
-      target="_blank"
-      rel="noopener noreferrer"
+      target={isExternal ? '_blank' : undefined}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
     >
-      <span>{matchedStore.title}</span>
+      {matchedStore.title}
     </Link>
   );
 }

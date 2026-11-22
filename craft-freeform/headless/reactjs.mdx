@@ -4,6 +4,8 @@ sidebar_position: 3
 description: Build headless Freeform forms with the official React packages for Craft CMS.
 ---
 
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { Badge, BadgeGroup } from '@site/src/components/utils';
@@ -26,6 +28,12 @@ Import the default theme CSS once in your app entry:
 ```tsx
 import '@solspace/freeform-theme-default/styles.css';
 ```
+
+### Package Update for Freeform 5.17.3
+
+Update the installed `@solspace/freeform-*` packages together to **1.2.1** for the latest React/Vue renderer and theme improvements. These npm package versions are separate from the **5.17.3** Craft plugin version.
+
+Version 1.2.1 refines checkbox required indicators, Opinion Scale option layouts, dropdown arrows, searchable selects, and file-upload styling across the Default, Tailwind, and Bootstrap themes. It also fixes extension cleanup during remounts, including React StrictMode, so an older mount cannot clear a newer drag-and-drop upload control.
 
 ## Render with `<Freeform />`<Badge type="recommended" text="Recommended" />
 
@@ -85,6 +93,20 @@ import '@solspace/freeform-theme-default/styles.css';
 ```
 
 By default the theme follows the visitor’s OS preference (`system`).
+
+### Required Indicator Styling
+
+In **1.2.1+**, set `classNames.requiredMark` to style the required indicator independently of the label:
+
+```tsx
+import { createTheme } from '@solspace/freeform-theme-default';
+
+const theme = createTheme({
+  classNames: { requiredMark: 'my-required-mark' },
+});
+```
+
+Define `.my-required-mark` in your app's CSS and pass `theme` to `<Freeform />`. The slot applies to standard field labels and required single-checkbox labels. Custom Label renderers receive it as `requiredMarkClassName`.
 
 ## Tailwind Theme
 
@@ -242,12 +264,36 @@ export function ContactFormWithSave() {
 
 #### Customer Flow
 
-1. Enable Save in Freeform → set Save label (Redirect URL optional).
-2. Visitor clicks **Save** → your app stores `token` + `key` in the URL (as above).
-3. Visitor returns via that URL → pass `draftToken` / `draftKey` → fields restore.
-4. Visitor clicks **Submit** → real submission; draft is removed.
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Enable Save in Freeform and set its label. A Redirect URL is optional.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Visitor clicks **Save** → your app stores `token` + `key` in the URL (as above).
+
+</StepMarkdown>
+<StepMarkdown>
+
+Visitor returns via that URL → pass `draftToken` / `draftKey` → fields restore.
+
+</StepMarkdown>
+<StepMarkdown>
+
+On **Submit**, Freeform submits the form and removes the draft.
+
+</StepMarkdown>
+</VerticalStepWrapper>
 
 Optional: set the form’s Save **Redirect URL** to `https://your-app.com/contact?session-token={token}&key={key}` so the API also returns `draft.resumeUrl` for emails or custom UI.
+
+## Freeform 5.18 Fields and CAPTCHA
+
+Freeform 5.18 adds structured **Location** fields, expanded date/time picker configuration, consistent Number precision, and Website URL normalization. Update compatible core, renderer, extension, and theme packages together when using these features. Craft plugin and npm package versions are separate.
+
+[Location](../forms/fields/location.mdx) supports manual address inputs or Google Places autocomplete. **reCAPTCHA** can use Google Cloud Enterprise verification for Score-based and Checkbox keys, while Invisible v2 retains Legacy verification. See [Field Configuration](./rest-api.mdx#field-configuration) and [reCAPTCHA setup](../integrations/recaptcha.mdx) for manifest and token details.
 
 ## Captchas and Advanced Fields
 
@@ -305,6 +351,8 @@ Configure captcha integrations in the Freeform control panel. Site keys are expo
 For **table** fields: enable the field in Freeform as usual. Row limits and required columns come from the form builder. File columns upload through the same headless multipart path as standalone file fields.
 
 For **signature** fields: visitors draw on the canvas; the value is stored as a PNG data URL. Clear resets the pad.
+
+**Signature updates**<Badge type="feature" text="Improved in 5.17.3+" /> - the field manifest includes `frontend.config.customizeAppearance` and `frontend.config.showPenCursor`. The built-in renderer honors these settings and saves newly drawn ink as black on a transparent background, independently of display colors. Required validation rejects blank taps without a drawn stroke, and form resets restore the canvas value. Existing valid PNG and JPEG signatures can still be loaded and cleared. See [Signature](../forms/fields/signature.mdx) for appearance settings and saved-image behavior.
 
 ## Payments
 

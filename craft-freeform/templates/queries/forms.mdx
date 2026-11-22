@@ -19,6 +19,7 @@ Filters the results by one or more form groups. You can pass the **group ID**, t
 ## Examples
 
 - [Get All Forms](#get-all-forms)
+- [Display Form Icons](#display-form-icons)
 - [Get Forms by Group ID](#get-forms-by-group-id)
 - [Get Forms by Multiple Groups](#get-forms-by-multiple-groups)
 - [Get Forms by Group Label](#get-forms-by-group-label)
@@ -33,6 +34,25 @@ Filters the results by one or more form groups. You can pass the **group ID**, t
   <p>{{ form.name }}</p>
 {% endfor %}
 ```
+
+### Display Form Icons<Badge type="feature" text="New in 5.17.3+" /> {#display-form-icons}
+
+Each returned [Form object](../objects/form.mdx#icon) provides `form.icon` for its configured Craft icon name and `form.iconSvg` for Twig-safe SVG markup:
+
+```twig
+<ul>
+  {% for form in freeform.forms %}
+    <li>
+      {% if form.iconSvg %}
+        <span aria-hidden="true">{{ form.iconSvg }}</span>
+      {% endif %}
+      {{ form.name }}
+    </li>
+  {% endfor %}
+</ul>
+```
+
+No `|raw` filter is needed. `form.iconSvg` returns `null` on Craft 4 or when the icon is blank, invalid, or unavailable. Add your own icon dimensions and color styles. These properties are also available when retrieving a single form with `freeform.form()`.
 
 ### Get Forms by Group ID<Badge type="feature" text="New in 5.13+" />
 

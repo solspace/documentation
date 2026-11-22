@@ -1,208 +1,231 @@
 ---
-title: 'Salesforce'
+title: "Salesforce CRM"
 sidebar_position: 30
-description: Salesforce integration for Freeform 5.x in Craft CMS.
+description: Connect Freeform to Salesforce CRM and map submissions to leads, accounts, contacts, opportunities, and support cases.
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import { Badge, PrimaryButtonWithLink } from '@site/src/components/utils';
-import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs';
+import { VerticalStepWrapper, StepMarkdown } from '@site/src/components/docs'
 
-# Salesforce<Badge type="pro" text="Pro" /><Badge type="feature" text="Revised in 5.0+" />
+import { Badge } from '@site/src/components/utils'
 
-This guide assumes you have a [Salesforce](http://salesforce.com) account already.
+# Salesforce CRM<Badge type="pro" text="Pro" /><Badge type="feature" text="Improved in 5.18+" />
 
-:::info
-This integration will not work with the _Salesforce **Essentials**_ plan as it does not have access to the API.
-:::
+Send submissions to Salesforce **Leads**, **Accounts**, **Contacts**,
+**Opportunities**, and **Cases**. To create marketing prospects, use
+[Salesforce Account Engagement (Pardot)](/craft/freeform/v5/integrations/salesforce-account-engagement-pardot/).
 
-:::warning
-As of Spring 2026, [Salesforce now requires new integrations to use **External Client Apps** instead of legacy Connected Apps](https://help.salesforce.com/s/articleView?id=005228017&type=1), which are being phased out and can no longer be created by default in newer releases. External Client Apps provide improved security and governance (including a more controlled, “closed” access model and better separation of configuration and policies), and are now the recommended standard for OAuth-based integrations.
+Your Salesforce organization must support API access, and the authorizing user
+needs access to the records and fields you map. See
+[Salesforce's API access requirements](https://developer.salesforce.com/docs/platform/api-rest/guide/intro-rest-compatible-editions.html).
 
-If you are setting up or updating a Salesforce integration, you should migrate from the older Connected App approach to the External Client App model to ensure compatibility with current and future Salesforce requirements.
+<span id="setup-instructions" />
 
-👉 The [setup guide](#setup-instructions) below has been updated to reflect the new **External Client Apps** approach.
-:::
-
-## Compatibility
-
-Uses OAuth flow with Salesforce's **External Client App** (required in 2026) on `v58` of the REST API.
-
-### Endpoints
-
-Maps data to the following endpoints:
-
-<div class="horizontal-list">
-  - **Leads**
-  - **Opportunity**
-  - **Account**
-  - **Contact**
-  - **Files** (see below)
-</div>
-
-<br />
-Does your project require something else? &nbsp; <PrimaryButtonWithLink to='/support/' label='Contact Us' size='sm' />
-
-### Fields
-
-Maps data to the following field types:
-
-- **Text**
-  - String, Encrypted String, Textarea, Email, URL, Address, Picklist, Multipicklist, Date/Time fields
-- **Numeric**
-  - Number, Phone, Currency
-- **Other**
-  - Reference/relationship
-- **Files**<Badge type="feature" text="New in 5.6.7+" />
-  - Map uploaded files to Salesforce and relate them to _Leads_, _Opportunities_, _Accounts_, and _Contacts_.
-
-:::info
-There are some limitations to types of fields that can be mapped, such as **Lookup** fields.
-:::
-
-## Duplicate Check & Update
-
-The following duplicate logic applies to the **Opportunity**/**Account**/**Contact** approach (not **Leads**).
-
-<Tabs>
-  <TabItem value="duplicate-check-default" label="Default Logic" default>
-    A duplicate check on records is done in the following way:
-
-    1. Check whether the _Account_ already exists:
-      - Check against the **Name** field as the identifier.
-      - If no match, create a new _Account_.
-    2. Check whether the _Contact_ already exists:
-      - Check against the **Email address** as the identifier.
-      - If email address exists in Salesforce _Contact_, update the existing Contact with other details.
-      - If no email address match, check if **first name** and **last name** exist in Salesforce _Contact_, then update the existing _Contact_ with all other values including the new email address.
-      - If no matches at all, create a new Salesforce _Contact_.
-      - If _Account_ **Name** matched, assign the new Contact to the existing Salesforce Account.
-    3. Create new _Opportunity_.
-      - Attach _Opportunity_ to existing or newly created Salesforce _Account_.
-  </TabItem>
-  <TabItem value="duplicate-check-alternate" label="Alternate Logic">
-    An alternate duplicate check on records is also available. When the **Check Contact email address and Account website when checking for duplicates?** setting is enabled, the following logic will happen instead:
-
-    1. Check whether the _Contact_ already exists:
-      - Check against **Email address** as the identifier.
-      - If there's a match, update the _Contact_ with new values, where supplied.
-      - If no match, create a new _Contact_.
-    2. Check whether the _Account_ already exists:
-      - Check against the **Website** field domain. If you are not mapping a domain to the **Website** field, Freeform will automatically sniff the _Contact_ email address, take the domain from it, and pass it off to the Salesforce _Account_ as the **Website** field value.
-      - If there's a match, update the _Account_ with new values, where supplied.
-      - If no match, create a new Salesforce _Account_.
-      - If a new _Contact_ was created, link the contact to the _Account_.
-    3. Create new _Opportunity_.
-      - Attach _Opportunity_ to existing or newly created Salesforce _Account_.
-  </TabItem>
-</Tabs>
-
-## Setup Instructions
+## Connect your account
 
 <VerticalStepWrapper>
-  <StepMarkdown>
-    ### Prepare Freeform's end for Integration
+<StepMarkdown>
 
-    - Go to the [Integrations](index.mdx#control-panel-settings) section in Freeform Settings (**Freeform** → **Integrations**).
-    - Find _Salesforce_ in the list of **service providers**.
-    - Copy the URL value generated in the **OAuth 2.0 Return URI** field, e.g. `https://mysite.net/admin/freeform/oauth/authorize`.
-    - Leave this page open and open a new tab to go to the Salesforce site...
-  </StepMarkdown>
-  <StepMarkdown>
-    ### Prepare Salesforce's end for Integration
+Copy Freeform's **OAuth Callback URL**. Follow the app setup instructions below.
 
-    - Open another browser tab and go to [Salesforce website](https://login.salesforce.com) and log into your account.
-    - On the left navigation menu, click on **Apps**, then click **External Client Apps** → **External Client App Manager**.
-    - At the top right corner of the page, click the **New External Client App** button.
-    - Fill out the fields in the **Basic Information** section.
-    - In the **API (Enable OAuth Settings)** section, click the **Enable OAuth Settings** checkbox. More fields will appear...
-      - In the **App Settings** area:
-        - In the **Callback URL** field, paste the value from the **OAuth 2.0 Return URI** field in Freeform's settings for the integration.
-        - In the **Selected OAuth Scopes** field, select the following permissions from the list and click **Add** arrow button:
-            - _Manage user data via APIs (api)_
-            - _Perform requests on your behalf at any time (refresh_token, offline_access)_
-      - In the **Flow Enablement** area:
-        - Check _Enable Authorization Code and Client Credentials Flow_
-      - In the **Security** area:
-        - Check _Require secret for Web Server Flow_
-        - Check _Require secret for Refresh Token Flow_
-        - Check _Require Proof Key for Code Exchange (PKCE) extension for Supported Authorization Flows_
-        - Check _Enable Refresh Token Rotation_
-      - You shouldn't need to fill out any further fields, and then click the **Create** button.
-    - You will be taken to a new page that lists info about your newly created app.
-    - To get your **Consumer Key** and **Consumer Secret** values, follow the steps below:
-      - Click on the **Settings** tab.
-      - Click on **OAuth Settings**.
-      - Click the **Consumer Key and Secret** button.
-        - On the page that loads, copy the **Consumer Key** and **Consumer Secret** values.
-  </StepMarkdown>
-  <StepMarkdown>
-    ### Continue the Integration on your site
+</StepMarkdown>
+<StepMarkdown>
 
-    - Flip back to the Freeform CP browser tab.
-    - Paste the Salesforce **Consumer Key** value into the **Client ID** field in Freeform.
-    - Paste the Salesforce **Consumer Secret** value into the **Client Secret** field in Freeform.
-  </StepMarkdown>
-  <StepMarkdown>
-    ### Additional Configuration
-    Additional configuration instructions (if applicable) are provided below:
+Enter the app's consumer key as **Client ID** and consumer secret as **Client Secret**.
 
-    <Tabs>
-      <TabItem value="additional-config-leads" label="Leads" default>
-        If you plan to use the _Leads_ endpoint, the following settings are available:
+</StepMarkdown>
+<StepMarkdown>
 
-        - **Assign Lead Owner?**
-          - Enabling this will make Salesforce assign a lead owner based on lead owner assignment rules in Salesforce.
-        - **Sandbox Mode**
-          - Enable this if your Salesforce account is in Sandbox mode.
-        - **Using custom URL?**
-          - Enable this if you connect to your Salesforce account with a custom company URL such as `mycompany.my.salesforce.com`.
-      </TabItem>
-      <TabItem value="additional-config-opportunity" label="Opportunity">
-        If you plan to use the _Opportunity_ endpoint, the following settings are available:
+Keep the default **Salesforce login options** unless you use a sandbox or your
+administrator specifies a custom login URL.
 
-        - **Close Date**
-          - Enter a relative textual date string for the Close Date of the newly created Opportunity (e.g. `7 days`).
-        - **Stage Name**
-          - Enter the Stage Name the newly created Opportunity should be assigned to (e.g. `Prospecting`).
-        - **Sandbox Mode**
-          - Enable this if your Salesforce account is in Sandbox mode.
-        - **Append checkboxes field values on Contact update?**
-          - If a Contact already exists in Salesforce, enabling this will append additional checkboxes field values to the Contact inside Salesforce, instead of overwriting the options.
-        - **Append checkboxes field values on Account update?**
-          - If an Account already exists in Salesforce, enabling this will append additional checkboxes field values to the Account inside Salesforce, instead of overwriting the options.
-        - **Check Contact email address and Account website when checking for duplicates?**
-          - By default, Freeform will check against Contact first name, last name and email address, as well as and Account name. If enabled, Freeform will instead check against Contact email address only and Account website. If no website is mapped, Freeform will gather the website domain from the Contact email address mapped.
-      </TabItem>
-    </Tabs>
-  </StepMarkdown>
-  <StepMarkdown>
-    ### Finish the Integration
+</StepMarkdown>
+<StepMarkdown>
 
-    - Click the **Save** button.
-    - After the integration is saved, you will see an **Authorize** button appear.
-    - Click the **Authorize** button.
-      - A popup will load the Salesforce OAuth page to allow permissions.
-        - If not currently logged in, fill in your credentials.
-        - Click **Allow** when asked for permissions.
-      - The popup will then close and you're be back at the **Integration** page.
-    - If authorized successfully, you'll see a green _Authorized_ status at the top beside the integration name.
-  </StepMarkdown>
-  <StepMarkdown>
-    ### Configure the Form
-    To use this integration on your form(s), you'll need to configure each form individually.
+Save the integration and click **Authorize**. Sign in with the Salesforce user
+Freeform should use and approve the requested permissions.
 
-    - Visit the form inside the form builder.
-    - Click on the **Integrations** tab.
-    - Click on **Salesforce** in the list of available integrations.
-    - On the right side of the page:
-      - Enable the integration.
-      - Select the API endpoints you wish to map to.
-      - Map Freeform fields to the Salesforce fields as needed.
-  </StepMarkdown>
+</StepMarkdown>
 </VerticalStepWrapper>
 
-:::warning
-Please note that if you set this up initially on a development environment, you will need to update your callback URL and reauthorize the connection on your production environment. However, your settings and field mappings will remain intact.
-:::
+Existing connections keep their authorization, credentials, and field mappings.
+
+<details className="hidden-heading">
+<summary>Set up a Salesforce app</summary>
+
+For a new connection, search for **External Client Apps** in Salesforce Setup
+and open the app manager.
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+Create an app for Freeform and enable OAuth.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Paste Freeform's exact **OAuth Callback URL** into the callback URL field.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Add `api` for API access and `refresh_token` to keep the connection authorized.
+Salesforce may show `refresh_token` alongside `offline_access`.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Enable the authorization code / web server flow. Keep the client secret and
+PKCE requirements enabled.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Save the app and copy its consumer key and secret from the OAuth settings
+into Freeform.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+Your organization's policies must allow the authorizing user to access the app.
+See [Salesforce's OAuth settings guide](https://help.salesforce.com/s/articleView?id=sf.configure_external_client_app_oauth_settings.htm&language=en_US&type=5).
+
+</details>
+
+<details className="hidden-heading">
+<summary>Use an existing Connected App</summary>
+
+You can keep a working **Connected App**. In Salesforce **App Manager**, check
+that OAuth is enabled, the callback URL matches Freeform's, and `api` and
+`refresh_token` are included. Use the consumer key and secret as **Client ID**
+and **Client Secret**.
+
+Use an External Client App for new connections. See
+[Salesforce's Connected App guidance](https://help.salesforce.com/s/articleView?id=sf.connected_app_create_api_integration.htm&language=en_US).
+
+</details>
+
+<details className="hidden-heading">
+<summary>Choose a Salesforce login server</summary>
+
+Under **Salesforce login options**, choose where to authorize the connection:
+
+- **Standard login:** leave both options off to use `https://login.salesforce.com`.
+- **Use Salesforce sandbox login:** use `https://test.salesforce.com`.
+- **Use custom Salesforce login URL:** enter a full URL in **Salesforce login URL**,
+  such as `https://mycompany.my.salesforce.com`. This overrides the sandbox option.
+
+After authorization, Freeform sends API requests to the Salesforce instance
+returned by OAuth.
+
+</details>
+
+## Map your form
+
+<VerticalStepWrapper>
+<StepMarkdown>
+
+In the form builder, open **Integrations** and choose **Salesforce CRM** or the
+name you gave the connection.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Enable the integration and the objects that should receive submissions.
+You can use multiple objects on one form.
+
+</StepMarkdown>
+<StepMarkdown>
+
+Map your form fields to Salesforce fields and save the form.
+
+</StepMarkdown>
+</VerticalStepWrapper>
+
+<details className="hidden-heading">
+<summary>Leads and follow-up tasks</summary>
+
+**Map to Leads** creates a Lead from the mapped fields.
+
+- **Update Duplicate Leads** updates a Lead with a matching email address.
+- **Assign Lead Owner** applies Salesforce's lead assignment rules.
+- **Convert Leads to Contact Tasks for Returning Customers** creates a Task
+  instead of a Lead when a Contact has the submitted email address. Set
+  **Task Subject** and **Task Due Date**, using a relative date such as `2 days`.
+
+</details>
+
+<details className="hidden-heading">
+<summary>Accounts, Contacts, and Opportunities</summary>
+
+**Accounts:** Freeform matches by Account name and updates a match. If no
+Account name is mapped, it uses the mapped Contact's first and last name.
+
+**Contacts:** Freeform matches by email, then name. It updates a match or creates
+a Contact, linking it to an Account when one was matched or created.
+
+**Opportunities:** Each submission creates a new Opportunity, linked to the
+Account when available. Set **Close Date** with a relative date such as `7 days`
+and use a **Stage Name** that exists in Salesforce.
+
+</details>
+
+<details className="hidden-heading">
+<summary>Cases and support requests</summary>
+
+**Map to Cases** creates a new Case for each submission, even from the same
+email address. Cases can be used on their own without other objects.
+
+- Map **Subject**, **Description**, and any supplied contact details. Use
+  **SuppliedEmail** for the visitor's email address.
+- For **Status**, **Origin**, **Priority**, and custom fields, use values from
+  your Salesforce organization, such as `Web` for Origin. Fields with defaults
+  can stay unmapped. Include required custom fields and any fields required by record types or validation rules.
+- **Apply Case Assignment Rules** is on by default. Turn it off when mapping an
+  **Owner ID** directly.
+- **Attach Uploaded Files to Cases** links submission uploads to the Case.
+- Accounts and Contacts matched or created by this integration are linked
+  automatically. Mapped **Account ID** and **Contact ID** values take precedence
+  and must be Salesforce record IDs. An email address alone does not look up or
+  create a Contact.
+
+The integration does not update existing Cases or synchronize replies.
+
+</details>
+
+<details className="hidden-heading">
+<summary id="duplicate-check--update">Duplicate matching and checkbox values</summary>
+
+**Check Contact email address and Account website when checking for Duplicates**
+changes Account matching from name to website. Without a website, Freeform uses
+the mapped Contact's email domain. Contacts still match by email, then name.
+
+**Append Checkboxes field values** adds mapped selections to existing Account
+or Contact values instead of replacing them.
+
+These settings do not prevent new Opportunities or Cases.
+
+</details>
+
+<details className="hidden-heading">
+<summary>Uploaded files and field types</summary>
+
+Enable **Attach Uploaded Files** for each object that should receive uploads.
+
+Supported fields include text, email, phone, URLs, picklists, multi-select
+picklists, numbers, currency, booleans, dates, and date/times. Reference fields
+require Salesforce record IDs. Available fields depend on the authorizing
+user's permissions.
+
+</details>
+
+<details className="hidden-heading">
+<summary>Troubleshoot authorization</summary>
+
+- Match the Salesforce callback URL exactly to Freeform's **OAuth Callback URL**.
+- Use the app's consumer key and secret, not a Salesforce username and password.
+- Check API access and the user's permissions for mapped objects and fields.
+- Allow the user to access the app and include `api` and `refresh_token` scopes.
+- When moving to production, update the callback URL and authorize the
+  connection on the production site.
+
+</details>

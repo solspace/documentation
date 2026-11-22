@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { DocSearchButton, useDocSearchKeyboardEvents } from '@docsearch/react';
 import Head from '@docusaurus/Head';
@@ -12,9 +12,10 @@ import {
   useAlgoliaContextualFacetFilters,
   useSearchResultUrlProcessor,
 } from '@docusaurus/theme-search-algolia/client';
-import Translate from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import translations from '@theme/SearchTranslations';
+import { searchSectionLabel } from '@site/src/utils/searchSectionLabel';
 
 import type {
   DocSearchModal as DocSearchModalType,
@@ -25,6 +26,7 @@ import type {
 import type { LiteClient as SearchClient } from 'algoliasearch/lite';
 
 import docsTag from '@site/docsTag.json';
+import allPlugins from '@site/allPlugins.json';
 
 type DocSearchProps = Omit<
   DocSearchModalProps,
@@ -36,6 +38,7 @@ type DocSearchProps = Omit<
 };
 
 let DocSearchModal: typeof DocSearchModalType | null = null;
+let activeSearchButton: HTMLButtonElement | null = null;
 
 function Hit({
   hit,
@@ -47,62 +50,98 @@ function Hit({
   return <Link to={hit.url}>{children}</Link>;
 }
 
-type ResultsFooterProps = {
-  state: any;
-  onClose: () => void;
-};
+function getSearchScope(pathname: string) {
+  const [platformSlug, pluginSlug, versionSlug] = pathname.split('/').filter(Boolean);
+  const pluginPath = `/${platformSlug}/${pluginSlug}`;
+  const tags: { version: string; id: string }[] | undefined = docsTag[pluginPath];
+  const platform = allPlugins.find(({ slug }) => slug === `/${platformSlug}`);
+  const plugin = platform?.items.find(({ slug }) => slug === pluginPath);
 
-function ResultsFooter({ state, onClose }: ResultsFooterProps) {
+  if (!tags || !platform || !plugin) return null;
+
+  const tag = tags.find(({ version }) => version === versionSlug);
+  return {
+    pluginPath,
+    label: `${platform.name} ${plugin.name}`,
+    version: tag?.version,
+    facetFilters: (tag ? [tag] : tags).map(({ id }) => `docusaurus_tag:${id}`),
+  };
+}
+
+type SearchScope = ReturnType<typeof getSearchScope>;
+
+function useModalSlot(container: HTMLDivElement | null, selector: string) {
+  const [slot, setSlot] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    setSlot(container?.querySelector<HTMLElement>(selector) ?? null);
+  }, [container, selector]);
+  return slot;
+}
+
+function SearchScopeLabel({ container, scope }: {
+  container: HTMLDivElement;
+  scope: SearchScope;
+}) {
+  const header = useModalSlot(container, '.DocSearch-SearchBar');
+  if (!header) return null;
+
+  return createPortal(
+    <div className="DocSearch-Scope">
+      {scope ? (
+        <>
+          <Translate id="theme.SearchBar.searching">Searching</Translate>{' '}
+          <strong>{scope.label}{scope.version && ` · ${scope.version}`}</strong>
+        </>
+      ) : (
+        <Translate id="theme.SearchBar.allDocumentation">Searching all documentation</Translate>
+      )}
+    </div>,
+    header,
+  );
+}
+
+type ResultsFooterProps =
+  Parameters<NonNullable<DocSearchProps['resultsFooterComponent']>>[0] & {
+    container: HTMLDivElement | null;
+    scope: SearchScope;
+    onClose: () => void;
+  };
+
+function ResultsFooter({ state, container, scope, onClose }: ResultsFooterProps) {
   const createSearchLink = useSearchLinkCreator();
-  const { pathname } = useLocation();
+  const footer = useModalSlot(container, '.DocSearch-Footer');
+  const url = new URL(createSearchLink(state.query), window.location.origin);
 
-  const [currentSection, currentVersion] = useMemo(() => {
-    const pathSegments = pathname.split('/').filter(Boolean);
-    const section =
-      pathSegments.length > 1 ? `/${pathSegments[0]}/${pathSegments[1]}` : null;
-    const version = pathSegments[2];
-    return [section, version];
-  }, [pathname]);
+  if (scope) {
+    url.searchParams.set('plugin', scope.pluginPath);
+    if (scope.version) url.searchParams.set('version', scope.version);
+  }
 
-  const query = state.query;
-
-  const tagVersion = useMemo(() => {
-    if (currentSection && currentVersion && docsTag[currentSection]) {
-      const tag = docsTag[currentSection].find(
-        (t) => t.version === currentVersion
-      );
-      return tag?.version || null;
-    }
-    return null;
-  }, [currentSection, currentVersion]);
-
-  const searchLink = useMemo(() => {
-    let baseLink = createSearchLink(query);
-
-    const url = new URL(baseLink, window.location.origin);
-
-    if (currentSection) {
-      url.searchParams.append('plugin', currentSection);
-    }
-
-    if (tagVersion) {
-      url.searchParams.append('version', tagVersion);
-    }
-
-    baseLink = url.toString();
-    return baseLink;
-  }, [query, tagVersion, currentSection]);
-
-  return (
-    <Link to={searchLink} onClick={onClose}>
+  const link = (
+    <Link className="DocSearch-AllResults" to={`${url.pathname}${url.search}`} onClick={onClose}>
       <Translate
         id="theme.SearchBar.seeAll"
         values={{ count: state.context.nbHits }}
       >
         {'See all {count} results'}
       </Translate>
+      <svg
+        viewBox="0 0 16 16"
+        width="16"
+        height="16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M3 8h10m-4-4 4 4-4 4" />
+      </svg>
     </Link>
   );
+
+  return footer ? createPortal(link, footer) : link;
 }
 
 type FacetFilters = Required<
@@ -126,23 +165,7 @@ function DocSearch({
 
   const { pathname } = useLocation();
 
-  const versionTags = useMemo(() => {
-    const matchingKey = Object.keys(docsTag).find((key) =>
-      pathname.startsWith(key)
-    );
-
-    if (!matchingKey) return [];
-
-    const matchingTag = docsTag[matchingKey].find((tag) =>
-      pathname.startsWith(`${matchingKey}/${tag.version}`)
-    );
-
-    if (matchingTag) {
-      return [`docusaurus_tag:${matchingTag.id}`];
-    }
-
-    return docsTag[matchingKey].map((tag) => `docusaurus_tag:${tag.id}`);
-  }, [pathname]);
+  const scope = useMemo(() => getSearchScope(pathname), [pathname]);
 
   const contextualSearchFacetFilters =
     (useAlgoliaContextualFacetFilters() || []) as FacetFilters;
@@ -153,9 +176,9 @@ function DocSearch({
     () =>
       mergeFacetFilters(
         mergeFacetFilters(contextualSearchFacetFilters, configFacetFilters),
-        versionTags
+        scope?.facetFilters ?? []
       ),
-    [contextualSearchFacetFilters, configFacetFilters, versionTags]
+    [contextualSearchFacetFilters, configFacetFilters, scope]
   );
 
   const searchParameters = useMemo(
@@ -173,6 +196,15 @@ function DocSearch({
   const [initialQuery, setInitialQuery] = useState<string | undefined>(
     undefined
   );
+
+  useEffect(() => {
+    const button = searchButtonRef.current;
+    return () => {
+      if (activeSearchButton === button) activeSearchButton = null;
+      searchContainer.current?.remove();
+      searchContainer.current = null;
+    };
+  }, []);
 
   const importDocSearchModalIfNeeded = useCallback(() => {
     if (DocSearchModal) {
@@ -197,11 +229,24 @@ function DocSearch({
   }, []);
 
   const openModal = useCallback(() => {
+    const button = searchButtonRef.current;
+    if (!button?.getClientRects().length || activeSearchButton) return;
+
+    // Each search button receives the shortcut. Claim it before the modal loads.
+    activeSearchButton = button;
     prepareSearchContainer();
-    importDocSearchModalIfNeeded().then(() => setIsOpen(true));
+    importDocSearchModalIfNeeded()
+      .then(() => {
+        if (activeSearchButton === button) setIsOpen(true);
+      })
+      .catch(error => {
+        if (activeSearchButton === button) activeSearchButton = null;
+        console.error('Unable to load documentation search.', error);
+      });
   }, [importDocSearchModalIfNeeded, prepareSearchContainer]);
 
   const closeModal = useCallback(() => {
+    if (activeSearchButton === searchButtonRef.current) activeSearchButton = null;
     setIsOpen(false);
     searchButtonRef.current?.focus();
   }, []);
@@ -228,22 +273,43 @@ function DocSearch({
     },
   }).current;
 
-  const transformItems = useRef<DocSearchModalProps['transformItems']>(
-    (items) =>
-      props.transformItems
-        ? props.transformItems(items)
-        : items.map((item) => ({
-            ...item,
-            url: processSearchResultUrl(item.url),
-          }))
-  ).current;
+  const transformItems = useRef<DocSearchModalProps['transformItems']>((items) => {
+    const results = props.transformItems
+      ? props.transformItems(items)
+      : items.map((item) => ({ ...item, url: processSearchResultUrl(item.url) }));
+
+    return results.map((item) => {
+      if (typeof item.hierarchy?.lvl0 !== 'string') return item;
+      const label = searchSectionLabel(item.hierarchy.lvl0);
+      if (label === item.hierarchy.lvl0) return item;
+
+      const highlight = item._highlightResult;
+      const section = highlight?.hierarchy?.lvl0;
+      return {
+        ...item,
+        hierarchy: { ...item.hierarchy, lvl0: label },
+        _highlightResult: section
+          ? {
+              ...highlight,
+              hierarchy: { ...highlight.hierarchy, lvl0: { ...section, value: label } },
+            }
+          : highlight,
+      };
+    });
+  }).current;
 
   const resultsFooterComponent: DocSearchProps['resultsFooterComponent'] =
     useMemo(
       () =>
-        (footerProps: Omit<ResultsFooterProps, 'onClose'>): React.JSX.Element =>
-          <ResultsFooter {...footerProps} onClose={closeModal} />,
-      [closeModal]
+        (footerProps): React.JSX.Element => (
+          <ResultsFooter
+            {...footerProps}
+            container={searchContainer.current}
+            scope={scope}
+            onClose={closeModal}
+          />
+        ),
+      [closeModal, scope]
     );
 
   const transformSearchClient = useCallback(
@@ -291,22 +357,31 @@ function DocSearch({
         DocSearchModal &&
         searchContainer.current &&
         createPortal(
-          <DocSearchModal
-            onClose={closeModal}
-            initialScrollY={window.scrollY}
-            initialQuery={initialQuery}
-            navigator={navigator}
-            transformItems={transformItems}
-            hitComponent={Hit}
-            transformSearchClient={transformSearchClient}
-            {...(props.searchPagePath && {
-              resultsFooterComponent,
-            })}
-            {...props}
-            searchParameters={searchParameters}
-            placeholder={translations.placeholder}
-            translations={translations.modal}
-          />,
+          <>
+            <DocSearchModal
+              onClose={closeModal}
+              initialScrollY={window.scrollY}
+              initialQuery={initialQuery}
+              navigator={navigator}
+              transformItems={transformItems}
+              hitComponent={Hit}
+              transformSearchClient={transformSearchClient}
+              {...(props.searchPagePath && {
+                resultsFooterComponent,
+              })}
+              {...props}
+              searchParameters={searchParameters}
+              placeholder={translations.placeholder}
+              translations={{
+                ...translations.modal,
+                searchBox: {
+                  ...translations.modal?.searchBox,
+                  clearButtonTitle: translate({ id: 'theme.SearchBar.clear', message: 'Clear' }),
+                },
+              }}
+            />
+            <SearchScopeLabel container={searchContainer.current} scope={scope} />
+          </>,
           searchContainer.current
         )}
     </>

@@ -36,6 +36,22 @@ A regular file upload field, using [Craft Assets](https://craftcms.com/docs/5.x/
 - **Show Upload Requirements**<Badge type="feature" text="New in 5.17+" />
   - Displays the allowed file kinds, maximum number of files, and maximum size per file beneath the upload field. The text is generated automatically from the field's settings.
 
+### Optimize Photos<Badge type="feature" text="New in 5.17.6+" /> {#optimize-photos}
+
+Enable **Optimize Photos** to convert supported JPG, PNG, WebP, and HEIC/HEIF photos to JPEG before storage. Freeform applies orientation, removes photo metadata, and replaces transparency with white. Leave it disabled when transparency or original photo data must be retained.
+
+| Setting | Default | Allowed range |
+| --- | --- | --- |
+| **Maximum Photo Dimension** | 2,000 px | 320–8,000 px on the longest side. Photos are never enlarged. |
+| **JPEG Quality** | 85 | 40–95. Lower values produce smaller files. |
+| **Maximum Optimized Photo Size** | 2,048 KB | 64–16,384 KB. Quality and dimensions may be reduced to meet the limit. |
+
+HEIC/HEIF conversion requires **Imagick with HEIC support**. JPEG orientation when using GD requires PHP's **EXIF** extension. Upload restrictions, including the maximum file size, apply to the **original upload** before optimization.
+
+### Allowed Upload Volumes<Badge type="feature" text="New in 5.18+" />
+
+Administrators can restrict destination choices in [General Settings → Allowed Upload Volumes](../../configuration/settings/general.mdx#allowed-upload-volumes). Existing forms retain saved destinations. The same restriction applies to File Upload columns in Table fields.
+
 ## Behavior & Limitations
 
 - In [multi-page forms](../builder/layout.mdx#multi-page-forms), if an earlier page contains file upload field(s), files will actually be uploaded before the form is officially submitted.

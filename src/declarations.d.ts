@@ -22,3 +22,8 @@ declare module '*.svg' {
   const value: string;
   export default value;
 }
+
+declare module '@generated/search-descriptions/default/descriptions.json' {
+  const descriptions: Record<string, string>;
+  export default descriptions;
+}

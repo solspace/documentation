@@ -223,6 +223,19 @@ While most traditional fields that are similar to each other should be able to c
 - If using **multipage forms**, any element fields that are not mapped to on the current page will be validated at the end of the form instead.<Badge type="feature" text="Improved in 5.5.2+" />
 - If the submission is blocked or flagged as spam, there's currently **no way to retroactively map submission data to the element**. The best option for avoiding this would be using [Captchas](../forms/spam-protection.mdx) instead of Keyword Blocking, etc.
 
+## Craft 5 Addresses Fields<Badge type="feature" text="New in 5.18+" />
+
+Native Craft 5 **Addresses** fields expose components in **Field Mapping**, such as **Mailing Address — Address Line 1**, **City / Locality**, and **Country Code**. Map them to Freeform fields, fixed values, or Twig expressions. Use two-letter country codes, such as `CA` or `US`, and the country's subdivision codes for states or provinces, such as `MB` or `NY`.
+
+Mapping creates an address or updates the field's first address. New addresses use the Craft field's name as their label unless you map **Label**. Additional addresses, unmapped components, and custom address fields are preserved. Blank mapped values clear components, but an entirely blank optional address creates nothing. Craft validates and saves the address with the entry. Element editing prefills mapped Freeform fields from the first address.
+
+This maps to an Addresses custom field on the entry, rather than creating a standalone address element. Multiple address fields on the same entry can each be mapped independently.
+
+For **Location** fields using **Include fields**, map components directly from the integration's field picker. Use **Location — City** for **City / Locality**, **Location — Country Code** for **Country Code**, and **Location — State / Province Code** for **State / Province**. Recognized names and codes resolve through Craft's address data. Unknown names return an empty code. **Location — Full Address** gives formatted text, while **Location** returns the full structured value. With **Map fields**, choose the destination form fields instead.
+
+
+The same component mapping is available for native Addresses custom fields on **Users**. User account address ownership and access remain governed by Craft and the User integration.
+
 ## Email Notification Templates
 
 When using the Elements integration, you can use the `element` object to display data from the newly created Craft Element such as ID, title, username, etc.
@@ -372,11 +385,11 @@ If you already have a Freeform form to handle creating Craft elements (e.g. User
   - Logged in users / groups with the **Edit users** Craft permission may modify other user accounts.
 - There are currently some **limitations with User account editing**:
   - Users cannot be asked to enter their current password to update their profile.
-  - Users currently can update their email address, but there will currently be no additional validation from Craft (such as having the user verify their email address, etc). <secret>A future version may address this.</secret>
+  - Users currently can update their email address, but there will currently be no additional validation from Craft (such as having the user verify their email address, etc). <span className="secret">A future version may address this.</span>
   - Users may see redundant error messages for fields like _Email Address_, as some of Craft's validation will be show up in addition to Freeform validation.
   - If you have users / groups with the **Edit users** Craft permission but do not want them editing users on the front end, you'll need to use template conditionals to prevent it (in the event you provide a dynamic way of doing so for Admins, e.g. URI segments).
   - For self-serve "profile update" forms, you should be using something like `elementId: currentUser.id` (see docs example below).
-  - Users currently cannot have their user group(s) changed when they are updated through a Freeform form with Elements integration. <secret>A future version may address extra settings and handling to accomodate user group changes.</secret>
+  - Users currently cannot have their user group(s) changed when they are updated through a Freeform form with Elements integration. <span className="secret">A future version may address extra settings and handling to accomodate user group changes.</span>
 :::
 
 ### Examples

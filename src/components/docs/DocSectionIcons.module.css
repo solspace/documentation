@@ -1,0 +1,44 @@
+.dropdownLink::before,
+.sidebarItem > :global(.menu__link)::before,
+.sidebarItem > :global(.menu__list-item-collapsible) > :global(.menu__link)::before {
+  flex: 0 0 1rem;
+  block-size: 1rem;
+  margin-inline-end: 0.55rem;
+  background-color: var(--doc-section-icon-color, var(--docs-sidebar-muted));
+  mask: var(--doc-section-icon) center / contain no-repeat;
+  content: '';
+}
+
+.sidebarItem > :global(.menu__link--active)::before,
+.sidebarItem > :global(.menu__list-item-collapsible) > :global(.menu__link--active)::before {
+  background-color: var(--docs-sidebar-active);
+}
+
+:global(.navbar) .dropdownLink {
+  --doc-section-icon-color: var(--nav-muted);
+  display: flex;
+  align-items: center;
+}
+
+.dropdownLink:is(:hover, :focus-visible, :global(.dropdown__link--active), :global(.menu__link--active))::before {
+  background-color: currentColor;
+}
+
+.overview { --doc-section-icon: url('/icons/cards/dashboard.svg'); }
+.purchase { --doc-section-icon: url('/icons/cards/credit-card.svg'); }
+.install { --doc-section-icon: url('/icons/cards/update-arrows.svg'); }
+.guides { --doc-section-icon: url('/icons/cards/pages.svg'); }
+.configuration { --doc-section-icon: url('/icons/cards/settings.svg'); }
+.forms { --doc-section-icon: url('/icons/cards/clipboard.svg'); }
+.fields { --doc-section-icon: url('/icons/cards/field-text.svg'); }
+.submissions { --doc-section-icon: url('/icons/cards/database.svg'); }
+.monitoring { --doc-section-icon: url('/icons/cards/form-monitor.svg'); }
+.integrations { --doc-section-icon: url('/icons/cards/cloud-api.svg'); }
+.compatibility { --doc-section-icon: url('/icons/cards/list-checks.svg'); }
+.templating { --doc-section-icon: url('/icons/cards/starter-templates.svg'); }
+.headless { --doc-section-icon: url('/icons/cards/headless.svg'); }
+.developer { --doc-section-icon: url('/icons/cards/code.svg'); }
+.events { --doc-section-icon: url('/icons/cards/event-management.svg'); }
+.calendars { --doc-section-icon: url('/icons/cards/date-time.svg'); }
+.migrations { --doc-section-icon: url('/icons/cards/swap.svg'); }
+.document { --doc-section-icon: url('/icons/cards/page.svg'); }

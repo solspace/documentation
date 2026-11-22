@@ -10,7 +10,7 @@ import { Badge } from '@site/src/components/utils';
 
 Freeform settings can all be controlled via Craft's [Project Config](https://craftcms.com/docs/5.x/system/project-config.html) file.
 
-## Available Config Settings<Badge type="feature" text="Improved in 5.13+, 5.14+" />
+## Available Config Settings<Badge type="feature" text="Improved in 5.13+, 5.14+, 5.18+" />
 
 The following example shows how Freeform settings are structured in Craft's Project Config. These values illustrate a configured site; they are not the installation defaults. See the [Settings reference](./settings/index.mdx) for configuration keys and defaults.
 
@@ -35,7 +35,15 @@ freeform:
     badgeType: all
     sitesEnabled: true
     queuePriority: ''
-    loggingLevel: 'debug'
+    allowedUploadVolumes: '*'
+    loggingStyle: activity
+    loggingLevel: error
+    activityMode: standard
+    activityEvents: []
+    activityRetentionDays: 30
+    activityMaxRows: 100000
+    externalIntegrationIcon: ''
+    externalIntegrations: {}
 
 // highlight-start
     # ELEMENT FIELD TYPE
@@ -436,7 +444,15 @@ GENERAL SETTINGS
 ← Plugin Badge. Options are: '', 'all', 'notices', 'errors', 'submissions', or 'spam'.
 ← Site-Aware Forms
 ← Queue Job Priority. Leave empty to use the Craft default of '1024' (NEW IN 5.5.6+)
-← Logging Level. Options are: 'error', 'info' or 'debug' (NEW IN 5.9.7+)
+← Allowed Upload Volumes for all File Upload fields (NEW IN 5.18+)
+← Logging Style to be used (NEW IN 5.18+)
+← Level for Classic logging. Options are: 'error', 'info' or 'debug'
+← How detailed of activities should be recorded (NEW IN 5.18+)
+← Custom event activity choices. Empty uses Standard's selection (NEW IN 5.18+)
+← Days to keep logging activity (NEW IN 5.18+)
+← Maximum rows of logging activity to keep (NEW IN 5.18+)
+← Icon to be used for External Integrations. Defaults to Freeform icon when empty (NEW IN 5.18+)
+← Which external integrations are enabled. Defaults to ALL enabled when empty (NEW IN 5.18+)
 
 // highlight-start
 ELEMENT FIELD TYPE

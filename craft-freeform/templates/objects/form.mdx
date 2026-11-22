@@ -38,6 +38,23 @@ Outputs the unique ID of the form.
 
 Outputs the description of the form.
 
+### `icon`<Badge type="feature" text="New in 5.17.3+" /> {#icon}
+
+Returns the configured Craft system icon name, such as `envelope`, or an empty string when no icon is selected. The saved name remains available on Craft 4, where the icon picker is hidden.
+
+### `iconSvg`<Badge type="feature" text="New in 5.17.3+" /> {#iconsvg}
+
+Returns Twig-safe SVG markup for the form's icon. Render it directly without `|raw`. Returns `null` on Craft 4 or when the icon is blank, invalid, or unavailable. SVGs are resolved only when this property is accessed and cached by icon name across forms.
+
+```twig
+{% if form.iconSvg %}
+  <span aria-hidden="true">{{ form.iconSvg }}</span>
+{% endif %}
+{{ form.name }}
+```
+
+Add dimensions and color styles to suit your layout. Both icon properties are available on forms returned by `freeform.form()` and `freeform.forms()`. See [Displaying Form Icons](../queries/forms.mdx#display-form-icons) for a list example.
+
 ### `submissionTitleFormat`
 
 Outputs the submission title format used when creating new submissions based on this form.

@@ -271,6 +271,12 @@ This option allows you to block [Gibberish](https://en.wikipedia.org/wiki/Gibber
   - Enter words or abbreviations that should be ignored by gibberish detection. Add one per line (e.g., `RFP`, `ABB`, `KUKA`, or other technical terms).
   - The values entered here will apply to all forms that use this integration. Additionally, form-specific blocks can be set inside the form builder.
 
+## Starter Lists<Badge type="feature" text="New in 5.18+" />
+
+Blocked emails, blocked keywords, and allowed gibberish terms offer editable starter lists. Review the proposed entries for your audience before applying them. Existing duplicates are skipped, and **Undo** reverses the starter-list change. Email block-list patterns match complete addresses, so a `.ru` suffix rule does not also match `.ru.com`.
+
+CAPTCHA service failures, invalid credentials, and provider outages produce retryable errors instead of classifying visitors as spam. See [reCAPTCHA](../integrations/recaptcha.mdx) for Legacy and Enterprise verification, score, hostname, and quota behavior.
+
 ## Throttling
 
 If your site is being attacked by spammers or you're concerned about it, you can enable the [Form Submission Throttling](../configuration/settings/spam-protection.mdx#submission-throttling-count) setting. This will globally (affecting all users) prevent spam or attacks by limiting the number of times all forms can be submitted within a given timeframe.
@@ -287,9 +293,9 @@ Freeform currently supports the following **Captcha** services:
 In Freeform 5.9+, all captcha options became available to all editions of Freeform.
 :::
 
-### reCAPTCHA
+### reCAPTCHA<Badge type="feature" text="Improved in 5.18+" />
 
-The options below are compatible with the Enterprise API and the Classic legacy keys:
+In 5.18+, **Google Cloud** setup uses Enterprise API verification for Checkbox and Score-based keys. **Legacy** supports all three types below, including Invisible v2. Existing integrations keep Legacy verification. See [reCAPTCHA setup](../integrations/recaptcha.mdx).
 
 - [Challenge - Checkbox (v2)](../integrations/recaptcha.mdx)
 - [Challenge - Invisible (v2)](../integrations/recaptcha.mdx)

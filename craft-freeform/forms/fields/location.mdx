@@ -1,0 +1,134 @@
+---
+title: "Location"
+sidebar_position: 39
+toc_max_heading_level: 3
+description: "Location field settings, address autocomplete, component mapping, validation, and Twig customization for Freeform in Craft CMS."
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Location<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.18+" /> {#location}
+
+The Location field collects a structured address using included address inputs or your own mapped fields. It can work as a manual address group, or offer autocomplete through the [Google Places integration](../../integrations/google-places.mdx). Fresh installs list Location under **Special** field types.
+
+The `field.type` property value is `location`. Use the mapped component fields as conditional-rule sources; the compound Location field is not a rule source.
+
+## Settings
+
+### Choosing a setup
+
+| Goal | Suggested configuration |
+| --- | --- |
+| A quick address group without Google | **Manual entry only** + **Include fields** |
+| Search with editable address details | **Include fields** + **Always show** |
+| A compact lookup that submits structured details | **Include fields** + **Search only** |
+| Let visitors review details after choosing an address | **Include fields** + **Show after selection** |
+| Custom labels, placeholders, requirements, dropdowns, or layout | **Map fields** to your own fields |
+
+Included inputs intentionally use simple text fields, including State / Province and Country, to accommodate international addresses. If Address Line 2 is excluded, Address Line 1 is labeled **Address**. Use mapped fields when you need individual field settings or a controlled list of states or countries.
+
+When **Require this field** is enabled, **Required Components** lets you choose which included address inputs must be filled. Leave the selection empty to keep the default: any non-empty address value is sufficient. Only included components are checked; mapped fields use their own validation settings. Missing components receive the formatting template's input error styles and accessible error markers.
+
+With Google Places selected, **Address Field Display** offers **Always show** (search and editable components), **Search only** (components are populated and submitted while hidden), or **Show after selection** (reveal editable components after choosing an address). Clearing or resetting the address hides the components again in the latter mode. **Search only** keeps components hidden after validation errors and highlights the search input instead. Its default validation message asks visitors to enter an address, or choose a complete address from the suggestions when required details are missing. Custom validation messages take precedence. **Show after selection** also reveals components when validation reports missing information. In either mode, address fields become visible for manual entry if the provider is unavailable or returns no suggestions. Without a Google Places integration, included fields stay visible for manual entry.
+
+**Include fields** displays editable inputs for the selected components. With **Manual entry only**, the search input is hidden so Location can serve as an address group. Selecting Google Places adds the search input above the components. Mapped mode keeps a manual address input available when no integration is selected. Components can be hidden individually. **Map fields** fills Text, Hidden, or Dropdown fields using one optional picker per component. Map each component to a separate target. Use those mapped component fields as conditional-rule sources; the compound Location field is not a rule source. Dropdowns match the configured full name or code against their option values or labels. An unmatched option is cleared rather than retaining the previous address. Targets must be in the same form and rendered on the same page to be filled in standard Twig forms.
+
+State/province and country can use full names or codes. Country restrictions accept up to 15 comma-separated two-letter country codes. Leave blank for worldwide search. Apartment information often needs manual entry. Selecting another suggestion replaces the address components; clearing the search clears its components and configured targets. Visitors can submit manual input when Google is unavailable. Autocomplete assists entry; it does not verify deliverability.
+
+Require only the components your supported countries use: some addresses have no postal code or state/province, and Google may omit apartment details. **Require this field** alone accepts a manually typed address; it does not require choosing a suggestion. **Required Components** checks for non-empty values, rather than verifying an address against Google.
+
+### Editing submissions
+
+In CP submission details, included address components appear in a two-column group with required markers. The inactive search input is hidden. In **Map fields** mode, edit the mapped fields in their normal positions; Freeform hides the duplicate Location group and preserves its stored value. CP edits do not run Google autocomplete or synchronize mapped-field edits back into the original Location value. Use the mapped fields in templates and integrations when those edited values should be authoritative.
+
+### Languages and translations
+
+Location's default component labels, search placeholder, status announcements, validation messages, and builder text use Freeform's translation system. The shipped catalogs cover English, German, French, Italian, and Dutch. Craft project translations in `translations/<language>/freeform.php` can override the default strings. A custom field placeholder and custom validation message take precedence; translate those through the form's normal translation settings.
+
+Google supplies the suggested address text and address names. These are separate from Freeform's UI translations. Freeform respects the browser's language when loading Google Maps and reuses an existing Maps loader if another script has already loaded it; that loader's language settings also apply. See [Google's localization guide](https://developers.google.com/maps/documentation/javascript/localization). Keep the **Google Maps** attribution unchanged and visible.
+
+For Google Cloud setup, pricing, loading behavior, and troubleshooting, see [Google Places](../../integrations/google-places.mdx).
+
+## Values and templates
+
+A Location handle such as `address` stores a structured value:
+
+```twig
+{{ form.address.value.line1 }}
+{{ form.address.value.line2 }}
+{{ form.address.value.city }}
+{{ form.address.value.state }}
+{{ form.address.value.postalCode }}
+{{ form.address.value.country }}
+```
+
+In notification templates use `submission.address.value.city`, for example. In integration **Custom Value** mappings, use `{{ address.city }}` (the context contains the field's value). Mapping into existing Freeform fields also makes those fields available through the usual pickers. CSV exports contain the address search text plus six separate component columns, preserving manually entered addresses even when no suggestion is selected. JSON exports and GraphQL retain the structured value; React and Vue renderers support the same field configuration.
+
+The suggestion dropdown automatically matches the search input's font, colors, border, corner radius, and row sizing. Hover and keyboard selection share the same highlight, and longer lists scroll. Custom templates can override `--ff-location-background`, `--ff-location-color`, `--ff-location-border`, `--ff-location-radius`, `--ff-location-highlight`, `--ff-location-shadow`, and `--ff-location-option-padding` on the form or Location field wrapper. Use `.freeform-location-suggestions`, `.freeform-location-suggestion`, and `.freeform-location-attribution` for additional styling; keep Google Maps attribution visible.
+
+### Customizing Location markup and styles
+
+Like Table's `tableAttributes`, **`locationAttributes`** accepts nested HTML attributes through `field.render()`, `field.renderInput()`, `field.setParameters()`, or the form's `fields` selectors (such as `@location` or a field handle). It uses the standard attribute modifiers: `class` / `+class` append, `=class` replaces, and `-class` removes classes. The input and label slots inherit the formatting template's regular field attributes before the Location overrides are applied.
+
+| Attribute slot | Element |
+| --- | --- |
+| `wrapper` | Location's outer wrapper |
+| `searchContainer` | Wrapper around the visible search input |
+| `searchInput` | Search input |
+| `searchLabel` | Main label when rendered inside the search wrapper |
+| `searchIcon` | Decorative search/location icon wrapper |
+| `components` | Included address group |
+| `componentContainer` | Each included component's wrapper |
+| `componentInput` | Address component inputs, including hidden components |
+| `componentLabel` | Included component labels |
+
+For example, a custom template can supply its own address grid and controls:
+
+```twig
+{{ field.render({
+    locationAttributes: {
+        wrapper: { '+class': 'checkout-address' },
+        components: { '=class': 'checkout-address-grid' },
+        componentContainer: { '+class': 'address-part-{{ component }}' },
+        searchInput: { '+class': 'checkout-input' },
+        componentInput: { '+class': 'checkout-input' },
+        componentLabel: { '+class': 'checkout-label' },
+    },
+}) }}
+```
+
+Wrapper slots support `tag` (for example, `components: { tag: 'section' }`). Component container, input, and label attribute values can use `{{ component }}` (`line1`, `line2`, `city`, `state`, `postalCode`, or `country`). Freeform preserves the generated names, IDs, stored values, validation markers, and JavaScript hooks when applying styling overrides.
+
+The default two-column responsive layout lives in Location's stylesheet rather than inline PHP styles. Override `--ff-location-columns`, `--ff-location-gap`, or `--ff-location-components-spacing`, or replace the default classes and supply your own CSS. JavaScript preserves the chosen layout when revealing address fields. Hidden components remain hidden until the configured behavior reveals them.
+
+The search icon uses `.freeform-location-search-icon` and `data-state="search"` / `data-state="selected"`. Customize it through `locationAttributes.searchIcon`, `--ff-location-icon-color`, and `--ff-location-icon-space` (the extra space reserved beside the text).
+
+Floating-label templates explicitly choose **`locationLabelPosition: 'after'`** and **`locationSearchLabel: true`**, and supply their own wrapper classes. The field does not detect a CSS framework or choose framework classes. Because the main label is rendered inside the search wrapper, these templates render the input, instructions, and errors without separately rendering the main label:
+
+```twig
+{% do field.setParameters({
+    locationLabelPosition: 'after',
+    locationSearchLabel: true,
+    locationAttributes: {
+        searchContainer: { '+class': 'form-floating' },
+        componentContainer: { '+class': 'form-floating' },
+    },
+}) %}
+{{ field.renderContainerOpeningTag }}
+    {{ field.renderInput }}
+    {{ field.renderInstructions }}
+    {{ field.renderErrors }}
+{{ field.renderContainerClosingTag }}
+```
+
+Labels otherwise appear before address component inputs. The Basic Floating Labels and Bootstrap 5 Floating Labels samples demonstrate the full template-specific styling. PHP integrations can customize `LocationAttributesCollection` through the existing field `EVENT_COMPILE_ATTRIBUTES` event, checking the event's collection class as they would for Table.
+
+When using custom Twig markup, render `field.renderInput()` or preserve its `data-freeform-location`, `data-freeform-location-search`, component names, and `data-location-component` attributes. Include the form's collected scripts. Freeform never stores suggestion lists, raw Google responses, or coordinates.
+
+## Resources
+
+- [Google Places Setup](../../integrations/google-places.mdx)
+- [Standard Field Settings](./standard-settings.mdx)
+- [Field Object Reference](../../templates/objects/field.mdx)
+- [Formatting Templates](../../templates/formatting/index.mdx)
+- [Headless Forms](../../headless/index.mdx)

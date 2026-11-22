@@ -1,8 +1,11 @@
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import type {} from 'webpack-dev-server';
 
+import allPlugins from './allPlugins.json';
 import tailwind from './plugins/tailwind-config.cjs';
 import docusaurusGithubRemoteContent from './plugins/docusaurus-github-remote-content';
+import searchDescriptions from './plugins/search-descriptions';
 
 import type { Options as IdealImageOptions } from '@docusaurus/plugin-ideal-image';
 
@@ -10,6 +13,12 @@ import PrismLight from './src/utils/prismLight';
 import PrismDark from './src/utils/prismDark';
 
 const config: Config = {
+  future: {
+    faster: true,
+    v4: {
+      removeLegacyPostBuildHeadAttribute: true,
+    },
+  },
   title: 'Solspace',
   tagline: 'Clients need Solspace when websites are complex.',
   favicon: 'img/favicon.ico',
@@ -86,6 +95,43 @@ const config: Config = {
   ],
 
   plugins: [
+    searchDescriptions,
+    () => ({
+      name: 'support-ticket-routes',
+      contentLoaded({ actions: { addRoute } }) {
+        const component = '@site/src/components/support/SupportPage';
+        // Keep the ticket form mounted when switching support levels.
+        addRoute({
+          path: '/support/',
+          component,
+          exact: false,
+          routes: [
+            { path: '/support/', component, exact: true },
+            { path: '/support/priority/', component, exact: true },
+          ],
+        });
+      },
+    }),
+    () => ({
+      name: 'support-form-proxy',
+      configureWebpack: () => ({
+        devServer: {
+          proxy: [
+            {
+              context: [
+                '/freeform/tokens',
+                '/freeform/api/forms/support',
+                '/freeform/api/forms/customDevelopment',
+                '/freeform/payments/stripe/payment-intents',
+                '/freeform/payments/stripe/callback',
+              ],
+              target: 'https://support.solspace.com',
+              changeOrigin: true,
+            },
+          ],
+        },
+      }),
+    }),
     [
       docusaurusGithubRemoteContent,
       {
@@ -143,6 +189,45 @@ const config: Config = {
             },
           },
           {
+            version: 3,
+            saveDir: 'ee-freeform/setup',
+            file: 'changelog.mdx',
+            url: 'https://raw.githubusercontent.com/solspace/ee-freeform/v3/CHANGELOG.md',
+            meta: {
+              title: 'Changelog',
+              sidebar_label: 'Changelog',
+              sidebar_position: 5,
+              toc_max_heading_level: 2,
+              description: 'Changelog for Solspace Freeform 3.x for ExpressionEngine.',
+            },
+          },
+          {
+            version: 2,
+            saveDir: 'ee-freeform_versioned_docs/version-v2/setup',
+            file: 'changelog.mdx',
+            url: 'https://raw.githubusercontent.com/solspace/ee-freeform/v3/CHANGELOG.md',
+            meta: {
+              title: 'Changelog',
+              sidebar_label: 'Changelog',
+              sidebar_position: 5,
+              toc_max_heading_level: 2,
+              description: 'Changelog for Solspace Freeform 2.x for ExpressionEngine.',
+            },
+          },
+          {
+            version: 1,
+            saveDir: 'ee-freeform_versioned_docs/version-v1/setup',
+            file: 'changelog.mdx',
+            url: 'https://raw.githubusercontent.com/solspace/ee-freeform/v3/CHANGELOG.md',
+            meta: {
+              title: 'Changelog',
+              sidebar_label: 'Changelog',
+              sidebar_position: 5,
+              toc_max_heading_level: 2,
+              description: 'Changelog for Solspace Freeform 1.x for ExpressionEngine.',
+            },
+          },
+          {
             version: 5,
             saveDir: 'craft-calendar/setup',
             file: 'changelog.mdx',
@@ -192,6 +277,20 @@ const config: Config = {
               sidebar_position: 5,
               toc_max_heading_level: 2,
               description: 'Changelog for Solspace AI Assistant 1.x for Craft CMS.',
+            },
+          },
+          {
+            version: 1,
+            saveDir: 'craft-dark-mode/users',
+            file: 'changelog.mdx',
+            url: 'https://raw.githubusercontent.com/solspace/craft-dark-mode/v1/CHANGELOG.md',
+            meta: {
+              title: 'Changelog',
+              sidebar_label: 'Changelog',
+              sidebar_position: 4,
+              slug: '/setup/changelog',
+              toc_max_heading_level: 2,
+              description: 'Changelog for Solspace darkMode 1.x for Craft CMS.',
             },
           },
         ],
@@ -259,6 +358,25 @@ const config: Config = {
         id: 'craft-ai-assistant',
         path: 'craft-ai-assistant',
         routeBasePath: '/craft/ai-assistant',
+        editUrl: 'https://github.com/solspace/documentation/edit/main',
+        sidebarPath: './sidebars.ts',
+        sidebarCollapsed: false,
+        lastVersion: 'current',
+        versions: {
+          current: {
+            label: '1.x',
+            path: 'v1',
+            badge: false,
+          },
+        },
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'craft-dark-mode',
+        path: 'craft-dark-mode',
+        routeBasePath: '/craft/dark-mode',
         editUrl: 'https://github.com/solspace/documentation/edit/main',
         sidebarPath: './sidebars.ts',
         sidebarCollapsed: false,
@@ -350,6 +468,10 @@ const config: Config = {
       {
         redirects: [
           {
+            from: '/craft/freeform/v5/integrations/pardot/',
+            to: '/craft/freeform/v5/integrations/salesforce-account-engagement-pardot/',
+          },
+          {
             from: '/craft/freeform/v5/guides/database-integrity/',
             to: '/craft/freeform/v5/configuration/console-commands/#repair-database-foreign-keys',
           },
@@ -400,6 +522,11 @@ const config: Config = {
         },
         {
           type: 'docsVersionDropdown',
+          docsPluginId: 'craft-dark-mode',
+          position: 'left',
+        },
+        {
+          type: 'docsVersionDropdown',
           docsPluginId: 'ee-freeform',
           position: 'left',
         },
@@ -409,58 +536,42 @@ const config: Config = {
           position: 'left',
         },
         {
-          type: 'custom-pluginStore',
+          type: 'custom-platformMark',
+          position: 'left',
+        },
+        {
+          type: 'custom-landingDocs',
           position: 'right',
         },
         {
           type: 'dropdown',
           position: 'right',
           label: 'Plugins',
-          id: 'plugin_products-list',
-          items: [
+          className: 'navbar-plugins',
+          items: allPlugins.flatMap((platform) => [
             {
-              label: 'Craft',
-              to: `/craft`,
-              activeBaseRegex: '/craft',
-              className: 'craft',
-              id: 'craft-products',
+              label: platform.name,
+              to: platform.slug,
+              exact: true,
+              className: 'navbar-platform',
             },
-            {
-              label: 'Freeform',
-              to: `/craft/freeform/v5`,
-            },
-            {
-              label: 'Calendar',
-              to: `/craft/calendar/v5`,
-            },
-            {
-              label: 'Express Forms',
-              to: `https://discontinued-docs.solspace.com/express-forms`,
-            },
-            {
-              label: 'ExpressionEngine',
-              to: `/expressionengine`,
-              className: 'expressionengine',
-              id: 'expressionengine-products',
-              activeBaseRegex: '/expressionengine',
-            },
-            {
-              label: 'Freeform',
-              to: `/expressionengine/freeform/v3`,
-            },
-            {
-              label: 'Calendar',
-              to: `/expressionengine/calendar/v5`,
-            },
-          ],
-        },
-        {
-          type: 'custom-productsList',
-          position: 'right',
+            ...platform.items.map((plugin) => ({
+              label: plugin.name,
+              to: plugin.latestVersionSlug,
+              activeBasePath: plugin.slug,
+              className: `navbar-plugin-link navbar-plugin-link--${plugin.slug.split('/').at(-1)}`,
+            })),
+          ]),
         },
         {
           to: '/support/',
+          activeBasePath: '/support/',
           label: 'Support',
+          className: 'navbar-support',
+          position: 'right',
+        },
+        {
+          type: 'custom-pluginStore',
           position: 'right',
         },
         {

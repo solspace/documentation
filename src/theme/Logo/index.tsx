@@ -7,12 +7,16 @@ import ThemedImage from '@theme/ThemedImage';
 import type { Props } from '@theme/Logo';
 import { useLocation } from '@docusaurus/router';
 
+const platformIcons = {
+  Craft: 'logos/icons/craft-mark.svg',
+  ExpressionEngine: 'icons/support/expressionengine-mark.svg',
+};
+
 interface LogoItem {
   pathname: string;
   latestVersionSlug?: string;
   title: string;
-  logoLine: string;
-  logoLineShort?: string;
+  platform?: keyof typeof platformIcons;
   src: string;
 }
 
@@ -21,50 +25,80 @@ const logos: LogoItem[] = [
     pathname: '/craft/freeform',
     latestVersionSlug: '/craft/freeform/v5',
     title: 'Freeform',
-    logoLine: 'for Craft',
-    logoLineShort: '',
-    src: 'logos/icons/freeform.png',
+    platform: 'Craft',
+    src: 'icons/cards/freeform-blue.svg',
   },
   {
     pathname: '/craft/calendar',
     latestVersionSlug: '/craft/calendar/v5',
     title: 'Calendar',
-    logoLine: 'for Craft',
-    logoLineShort: '',
+    platform: 'Craft',
     src: 'logos/icons/calendar.png',
   },
   {
     pathname: '/craft/ai-assistant',
     latestVersionSlug: '/craft/ai-assistant/v1',
     title: 'AI Assistant',
-    logoLine: 'for Craft',
-    logoLineShort: '',
-    src: 'logos/icons/ai.png',
+    platform: 'Craft',
+    src: 'icons/cards/ai-assistant.svg',
+  },
+  {
+    pathname: '/craft/dark-mode',
+    latestVersionSlug: '/craft/dark-mode/v1',
+    title: 'darkMode',
+    platform: 'Craft',
+    src: 'logos/icons/dark-mode.svg',
   },
   {
     pathname: 'https://discontinued-docs.solspace.com/express-forms/',
     title: 'Express Forms',
-    logoLine: 'for Craft',
-    logoLineShort: '',
+    platform: 'Craft',
     src: 'logos/icons/express-forms.png',
   },
   {
     pathname: '/expressionengine/freeform',
     latestVersionSlug: '/expressionengine/freeform/v3',
     title: 'Freeform',
-    logoLine: 'for ExpressionEngine',
-    logoLineShort: 'for EE',
-    src: 'logos/icons/freeform.png',
+    platform: 'ExpressionEngine',
+    src: 'icons/cards/freeform-blue.svg',
   },
   {
     pathname: '/expressionengine/calendar',
     latestVersionSlug: '/expressionengine/calendar/v5',
     title: 'Calendar',
-    logoLine: 'for ExpressionEngine',
-    logoLineShort: 'for EE',
+    platform: 'ExpressionEngine',
     src: 'logos/icons/calendar.png',
   },
 ];
+
+export function NavbarPlatformMark({
+  mobile,
+}: {
+  mobile?: boolean;
+}): React.JSX.Element | null {
+  const { pathname } = useLocation();
+  const platform = logos.find((logo) => pathname.startsWith(logo.pathname))?.platform;
+  const src = useBaseUrl(platform ? platformIcons[platform] : '');
+
+  if (mobile || !platform) {
+    return null;
+  }
+
+  return (
+    <>
+      <span className="navbar-product-platform" aria-hidden="true">
+        <img src={src} alt="" width={24} height={24} />
+        {platform === 'ExpressionEngine' ? (
+          <>
+            <span className="hidden sm:inline">{platform}</span>
+            <span className="sm:hidden">EE</span>
+          </>
+        ) : platform}
+      </span>
+      <div id="navbar-doc-breadcrumbs" className="navbar-doc-breadcrumbs" />
+    </>
+  );
+}
 
 function LogoThemedImage({
   logo,
@@ -115,8 +149,6 @@ export default function Logo(props: Props): React.JSX.Element {
   const defaultLogo: LogoItem = {
     pathname: '/',
     title: navbarTitle || 'Solspace',
-    logoLine: '',
-    logoLineShort: '',
     src: logo?.src || 'logos/icons/solspace.png',
   };
 
@@ -127,6 +159,7 @@ export default function Logo(props: Props): React.JSX.Element {
   return (
     <Link
       to={currentLogo.latestVersionSlug ?? '/'}
+      aria-label={matchedLogo && `${matchedLogo.title} for ${matchedLogo.platform}`}
       {...propsRest}
       {...(logo?.target && { target: logo.target })}
     >
@@ -134,25 +167,15 @@ export default function Logo(props: Props): React.JSX.Element {
         <>
           <LogoThemedImage
             logo={currentLogo}
-            alt={currentLogo.alt || alt}
+            alt={matchedLogo || navbarTitle ? '' : alt}
             imageClassName={`${imageClassName} ${
               !matchedLogo && 'solspace-logo'
             }`}
           />
           {matchedLogo && (
-            <div className="flex items-center gap-2">
-              <b className="navbar__title text--truncate">
-                {matchedLogo.title}
-              </b>
-              {matchedLogo.logoLineShort ? (
-                <>
-                  <span className="logo-line hidden sm:block">{matchedLogo.logoLine}</span>
-                  <span className="logo-line block sm:hidden">{matchedLogo.logoLineShort}</span>
-                </>
-              ) : (
-                <span className="logo-line text--truncate">{matchedLogo.logoLine}</span>
-              )}
-            </div>
+            <b className="navbar__title navbar-product-title text--truncate">
+              {matchedLogo.title}
+            </b>
           )}
         </>
       )}

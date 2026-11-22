@@ -1,7 +1,7 @@
 ---
 title: "Form Settings"
 sidebar_position: 2
-description: "Per-form settings reference for general options, data storage, processing, success behavior, limits, scheduling, embedding, and element usage."
+description: "Per-form settings reference for storage, processing, success behavior, limits, embedding, submission statistics, element usage, and support diagnostics."
 ---
 
 import Player from 'react-player';
@@ -26,9 +26,34 @@ These settings apply to the form you are editing. Open **Settings** in the form 
 - **Formatting Template** - if using the [render() method](../../templates/queries/form.mdx#automated-rendering-of-forms), this essentially allows you to "attach" a formatting template to a form so that you don't need to include formatting inside the template(s) you place the form inside.
   - Select from an existing sample or custom template.
 - **Description** - a description for the form to store notes or help identify what it's used for, etc.
-- **Form Color** - used for form cards in the dashboard as well as features like charts in Freeform dashboard widgets.
+- **Form Color** - used for form cards, form icons, and charts in Freeform dashboard widgets.
+- **Form Icon**<Badge type="feature" text="New in 5.17.3+" /> - an optional icon for dashboard cards and List view, shown in the form's color.
+  - Use Craft's icon picker to choose, change, or remove it.
+  - Suggested starting points assign a default icon.
+  - Available on Craft 5, hidden and ignored on Craft 4.
 - **Form tag Attributes** - add any `<form>` tag attributes for the form here, e.g. `novalidate`, `data-my-attribute` and `autocomplete="on"`.
 
+
+<Photo
+  style={{ width: 620, maxWidth: '100%', height: 'auto' }}
+  img={require('@site/static/img/craft/freeform/v5/cp/form-icon-5.17.3.jpg')}
+  alt="Form Color and Form Icon settings with a pen icon and matching Change and Remove controls"
+/>
+
+### Displaying a Form Icon in Twig<Badge type="feature" text="New in 5.17.3+" />
+
+Use `form.icon` for the configured Craft icon name and `form.iconSvg` to render its SVG. Both properties are available on forms returned by `freeform.form()` and `freeform.forms()`:
+
+```twig
+{% for form in freeform.forms %}
+  {% if form.iconSvg %}
+    <span aria-hidden="true">{{ form.iconSvg }}</span>
+  {% endif %}
+  {{ form.name }}
+{% endfor %}
+```
+
+`form.iconSvg` returns safe SVG markup without needing `|raw`, or `null` when no icon can be resolved, including on Craft 4. SVGs are resolved only when requested and cached by icon name. Add your own dimensions and color styles to suit your layout. See the [Form object reference](../../templates/objects/form.mdx#iconsvg) for details.
 
 ## Data Storage
 
@@ -93,10 +118,15 @@ These settings apply to the form you are editing. Open **Settings** in the form 
   - The text to be shown at the top of the form if there are any errors upon submit (AJAX), or load in your template with `form.errorMessage`.
 
 
+### Custom Success and Error Colors<Badge type="feature" text="New in 5.18+" />
+
+Enable **Custom Success and Error Colors** under **Success & Errors** to override the formatting template's colors. Choose **Success Color**, **Error Color**, and a **Banner Style**: **Soft** uses a tinted background and **Bold** uses a solid color. Error Color also applies to invalid field borders and validation messages.
+
+Existing forms keep their template colors until this option is enabled. Administrators can set defaults in [Form Builder settings](../../configuration/settings/form-builder.mdx), lock them, and control access through [Limited Users](../../configuration/limited-users.mdx). Custom templates should preserve Freeform's rendering and error hooks to use the configured presentation.
+
 ## Limits
 
 - **Duplicate Check**<Badge type="pro" text="Pro" />
-
   - Allows you to limit the number of times a user can submit the form.
   - Options are:
     - _No restrictions_ (default)
@@ -106,12 +136,10 @@ These settings apply to the form you are editing. Open **Settings** in the form 
       - This will check any _Email_ field type for a matching email address (across all Email fields if using more than one in the same form).
     - _Anyone — once per user or cookie_
     - _Anyone — once per user, IP, or cookie_
-
 - **Scope by Field**<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.17+" />
   - For a once-only **Duplicate Check** mode, limit repeat submissions to the same value of a selected field, such as a product or entry ID.
   - Leave blank for the existing form-wide restriction. Requires stored submissions and a nonempty scope value.
   - See [Scoped Duplicate Checking](../../submissions/scoped-duplicate-checking.mdx) for supported fields, examples, and cookie behavior.
-
 - **Schedule Form** <span className="badge-group"><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></span><Badge type="feature" text="New in 5.17+" />
   - Enable an opening date, an expiry date, or both. Turning this off ignores the saved dates without clearing them.
   - **Schedule Start Date** - when the form becomes available, including the time. Leave blank for immediate availability.
@@ -119,7 +147,6 @@ These settings apply to the form you are editing. Open **Settings** in the form 
   - **Pending Message** / **Expired Message** - the text shown instead of the form outside its scheduled period. Leave a message blank to hide the form without displaying text.
   - Dates and times use the timezone shown beneath the controls. If both are set, the end must be after the start.
   - See [Form Scheduling](../../submissions/form-scheduling.mdx) for rendering, custom Twig layouts, and API behavior.
-
 - **Limit Submissions** <span className="badge-group"><Badge type="lite" text="Lite" /><Badge type="pro" text="Pro" /></span><Badge type="feature" text="New in 5.17+" />
   - Set a cap on stored submissions. Requires **Store Submitted Data** to be enabled.
   - **Number of Submissions** - a whole number greater than zero; defaults to `50`.
@@ -142,6 +169,24 @@ See [Submission Limits](../../submissions/overview.mdx#submission-limits) to com
 />
 
 
-## Usage in Elements<Badge type="feature" text="New in 5.7.2+" />
+## Usage & Stats<Badge type="feature" text="New in 5.17.3+" /> {#usage-and-stats}
 
-The **Usage in Elements** tab displays a list of other Craft elements that use that form in the [Freeform Form element field type](../fieldtype.mdx) (Craft 5 only).
+Open **Settings → Usage & Stats** to review activity, configuration, and support diagnostics. Save new forms before viewing submission statistics or element usage.
+
+<Photo
+  img={require('@site/static/img/craft/freeform/v5/cp/builder-usage-stats.jpg')}
+  alt="Form Usage & Stats"
+/>
+
+- **Totals and Submission Activity**
+  - Summary cards show submission and spam totals, fields, enabled rules, notifications, and integrations. Use **View submissions** or **Review spam** to open the form's entries.
+  - Choose an activity period from **Last 7 days** to **Last year**, with **Last 90 days** selected by default. Click the legend to hide or show each line.
+  - Statistics cover stored data across all sites, excluding drafts, hidden submissions, and deleted submissions. Chart dates use UTC. When spam storage is disabled, the **Spam** card shows blocked attempts, while the chart includes only stored spam.
+- **Form Configuration**
+  - Review notifications, integrations, field types, pages, and sites. Status dots indicate enabled and disabled items. Use **Show disabled** to reveal hidden items.
+  - Configuration reflects current builder settings and may include unsaved changes.
+- **Usage in Elements**<Badge type="feature" text="New in 5.7.2+" />
+  - On **Craft 5**, view elements that reference the form through the [Freeform Form field type](../fieldtype.mdx). Click a title to open the element, or **Show more** to load additional results. Twig calls and headless embeds are not included.
+- **Copy Diagnostics**
+  - Click **Copy diagnostics** to copy a support report containing the form's details, software versions, configuration, and statistics. You can also share a screenshot of this page.
+  - For installation-wide information and health checks, use [Settings → Diagnostics](../../configuration/diagnostics.mdx).
