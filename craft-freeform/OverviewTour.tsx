@@ -36,6 +36,15 @@ const features = [
     link: './forms/conditional-rules/', linkLabel: 'Set up conditional rules',
   },
   {
+    id: 'translations', headingId: 'translations-heading', tone: 'translation', title: 'Build multilingual forms', navLabel: 'Translations',
+    video: '/videos/craft/freeform/v5/builder-translations.mp4',
+    poster: '/img/craft/freeform/v5/feature/builder-translations-poster.jpg',
+    width: 1888, height: 1016,
+    alt: 'Freeform demo switching to the French site and translating a dropdown’s label, instructions, and choices.',
+    description: 'Use Freeform’s control panel in English, French, Dutch, German, or Italian. With Pro, translate field labels, choices, buttons, and messages for each Craft site directly in the builder.',
+    link: './configuration/sites/#translations', linkLabel: 'Explore form translations',
+  },
+  {
     id: 'ai', headingId: 'builder-ai-heading', tone: 'purple', title: 'Create forms with AI', navLabel: 'AI',
     video: '/videos/craft/freeform/v5/ai-form-demo.mp4',
     poster: '/img/craft/freeform/v5/feature/ai-form-demo-poster.webp',
@@ -62,6 +71,7 @@ const illustrationViewBoxes = {
   blue: '28 0 200 80',
   warm: '16 0 200 80',
   purple: '16 0 272 80',
+  translation: '10 0 200 80',
 };
 
 function BuilderIllustration({ tone }: { tone: typeof features[number]['tone'] }) {
@@ -110,6 +120,17 @@ function BuilderIllustration({ tone }: { tone: typeof features[number]['tone'] }
         <circle cx="163" cy="41" r="16" className={styles.builderArtSurface} />
         <path d="m155 41 5 5 10-10" strokeWidth="2" />
         <circle className={styles.notificationSignal} cx="90" cy="41" r="3" fill="currentColor" stroke="none" />
+      </>}
+      {tone === 'translation' && <>
+        <rect x="17" y="17" width="71" height="46" rx="8" className={styles.builderArtSurface} />
+        <path d="m35 51 9-22 9 22m-15-7h12m11-9h13m-13 9h10" />
+        <path d="M96 40h22m-6-6 6 6-6 6" opacity=".52" />
+        <circle cx="97" cy="40" r="2.7" className={styles.translationSignal} fill="currentColor" stroke="none" />
+        <rect x="126" y="17" width="71" height="46" rx="8" className={styles.translationSurface} />
+        <circle cx="147" cy="40" r="11" />
+        <ellipse cx="147" cy="40" rx="4.5" ry="11" />
+        <path d="M136 40h22" />
+        <path d="M167 36h16m-16 9h12" pathLength="1" className={styles.translationLines} />
       </>}
       {tone === 'purple' && <>
         <g>

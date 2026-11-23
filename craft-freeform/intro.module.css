@@ -367,6 +367,7 @@
   --tour-blue: #3476b8;
   --tour-purple: #7543b0;
   --tour-teal: #28796f;
+  --tour-translation: #21738f;
   background:
     radial-gradient(ellipse 65rem 56rem at 100% 16%, var(--content-wash), transparent),
     radial-gradient(ellipse 60rem 50rem at 0% 68%, var(--content-wash), transparent),
@@ -390,6 +391,7 @@
   --tour-blue: #82b2e2;
   --tour-purple: #c5a9ec;
   --tour-teal: #64c9bc;
+  --tour-translation: #80d5ee;
 }
 
 .monitorInner,
@@ -576,6 +578,7 @@
 
 .featureStory[data-tone='teal'] { --tour-tone: var(--tour-teal); }
 .featureStory[data-tone='warm'] { --tour-tone: var(--warm-ink); }
+.featureStory[data-tone='translation'] { --tour-tone: var(--tour-translation); }
 :is(.featureStory, .testDiagram [data-tone])[data-tone='blue'] { --tour-tone: var(--tour-blue); }
 :is(.featureStory, .testDiagram [data-tone])[data-tone='purple'] { --tour-tone: var(--tour-purple); }
 
@@ -604,8 +607,13 @@
   opacity: 0;
 }
 
-.notificationSignal {
+.notificationSignal,
+.translationSignal {
   opacity: 0;
+}
+
+.translationSurface {
+  fill: color-mix(in srgb, currentColor 14%, var(--tour-art-surface));
 }
 
 .featureStory {
@@ -873,6 +881,15 @@
     animation: notificationSend 6.8s ease-in-out infinite;
   }
 
+  .translationSignal {
+    animation: translationTransfer 6.8s ease-in-out infinite;
+  }
+
+  .translationLines {
+    stroke-dasharray: 1;
+    animation: translationWrite 6.8s ease-in-out infinite;
+  }
+
   .builderPrompt {
     stroke-dasharray: 1;
     animation: builderPromptWrite var(--prompt-cycle) ease-in-out infinite;
@@ -997,6 +1014,20 @@
   20% { opacity: 1; }
   49% { opacity: 1; translate: 52px 0; }
   56%, 100% { opacity: 0; translate: 52px 0; }
+}
+
+@keyframes translationTransfer {
+  0%, 14% { opacity: 0; translate: 0 0; }
+  20% { opacity: 1; }
+  42% { opacity: 1; translate: 19px 0; }
+  48%, 100% { opacity: 0; translate: 19px 0; }
+}
+
+@keyframes translationWrite {
+  0%, 36% { opacity: 0; stroke-dashoffset: 1; }
+  43% { opacity: 1; }
+  60%, 88% { opacity: 1; stroke-dashoffset: 0; }
+  98%, 100% { opacity: 0; stroke-dashoffset: 0; }
 }
 
 @keyframes builderPromptWrite {

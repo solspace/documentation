@@ -3,8 +3,7 @@ import { ThemedIdealImage } from '@site/src/components/utils';
 import CalendarIntroLight from '@site/static/img/intro/calendar-light.png';
 import CalendarIntroDark from '@site/static/img/intro/calendar-dark.png';
 
-import FreeformIntroLight from '@site/static/img/intro/freeform-light.png';
-import FreeformIntroDark from '@site/static/img/intro/freeform-dark.png';
+import FreeformWordmark from './FreeformWordmark';
 
 import { SimpleTextLink, FlexButton } from '@site/src/components/utils';
 
@@ -104,11 +103,7 @@ export function EEFreeformPageHeader() {
     <section className="landing-header bg-[#1a3e6f]">
       <div className="container">
         <div className="flex flex-col px-4 m-auto items-center gap-6 mt-10 max-w-7xl">
-          <ThemedIdealImage
-            sources={{
-              light: FreeformIntroLight,
-              dark: FreeformIntroDark,
-            }}
+          <FreeformWordmark
             className="max-w-3xl"
             alt="Freeform for ExpressionEngine CMS"
           />
