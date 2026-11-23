@@ -39,7 +39,7 @@ const features = [
     id: 'translations', headingId: 'translations-heading', tone: 'translation', title: 'Build multilingual forms', navLabel: 'Translations',
     video: '/videos/craft/freeform/v5/builder-translations.mp4',
     poster: '/img/craft/freeform/v5/feature/builder-translations-poster.jpg',
-    width: 1888, height: 1016,
+    width: 1600, height: 1000,
     alt: 'Freeform demo switching to the French site and translating a dropdown’s label, instructions, and choices.',
     description: 'Use Freeform’s control panel in English, French, Dutch, German, or Italian. With Pro, translate field labels, choices, buttons, and messages for each Craft site directly in the builder.',
     link: './configuration/sites/#translations', linkLabel: 'Explore form translations',
