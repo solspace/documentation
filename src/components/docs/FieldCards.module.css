@@ -4,6 +4,55 @@
   margin: 1.5rem auto 2rem;
 }
 
+.search {
+  position: relative;
+  max-width: 24rem;
+  margin-bottom: 1.25rem;
+}
+
+.search svg {
+  position: absolute;
+  inset-inline-start: 0.75rem;
+  inset-block-start: 50%;
+  width: 1.25rem;
+  height: 1.25rem;
+  transform: translateY(-50%);
+  color: var(--nav-muted);
+  pointer-events: none;
+}
+
+.search input {
+  display: block;
+  width: 100%;
+  min-height: 2.625rem;
+  padding: 0.45rem 0.75rem;
+  padding-inline-start: 2.5rem;
+  border: 1px solid var(--doc-search-border, var(--nav-border));
+  border-radius: var(--nav-control-radius);
+  background: var(--doc-search-surface, var(--nav-soft));
+  color: var(--ifm-font-color-base);
+  font: inherit;
+}
+
+.search input::placeholder {
+  color: var(--nav-muted);
+}
+
+.searchMatch {
+  border-radius: 0.15rem;
+  background: var(--doc-search-match-background);
+  color: var(--doc-search-match-text);
+}
+
+.searchStatus {
+  color: var(--ifm-color-emphasis-700);
+}
+
+.search input:focus-visible {
+  outline: 2px solid var(--nav-accent);
+  outline-offset: -2px;
+}
+
 .section + .section {
   margin-top: 1.5rem;
 }
@@ -37,6 +86,15 @@
   text-align: left;
   text-decoration: none;
   transition: background-color 150ms;
+}
+
+:global([data-theme='light']) .card {
+  background-color: var(--doc-card-surface);
+  box-shadow: inset 0 0 0 1px var(--doc-card-border);
+}
+
+:global([data-theme='light']) .card:is(:hover, :focus-visible) {
+  background-color: var(--doc-card-hover-surface);
 }
 
 .card:hover {
@@ -113,27 +171,15 @@
   gap: 0.35rem;
 }
 
-.proBadge {
-  flex-shrink: 0;
-  padding: 0.12rem 0.4rem;
-  border: 1px solid color-mix(in srgb, var(--edition-pro) 25%, transparent);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--edition-pro) 12%, transparent);
-  color: #963609;
-  font-size: 0.7rem;
-  font-weight: 600;
-  line-height: 1.3;
-}
-
-:global([data-theme='dark']) .proBadge {
-  color: #ff9867;
+.heading :global(.docs-badge) {
+  margin: 0;
 }
 
 .description {
   margin-top: 0.2rem;
   font-size: 0.78rem;
   line-height: 1.5;
-  color: var(--ifm-color-emphasis-700);
+  color: var(--doc-card-description-color);
   overflow-wrap: anywhere;
 }
 

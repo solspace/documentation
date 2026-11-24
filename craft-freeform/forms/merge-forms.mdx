@@ -1,0 +1,62 @@
+---
+sidebar_position: 9
+title: Merge Forms
+description: Merge two Freeform forms in Craft CMS by mapping fields, combining text, merging choice options, and moving submissions.
+---
+
+import { Badge } from '@site/src/components/utils';
+
+# Merge Forms<Badge type="pro" text="Pro" /><Badge type="feature" text="New in 5.18.7+" />
+
+Use **Merge Forms** to consolidate two regular forms in the same Craft installation. You can add fields or choices to the receiving form, move submissions into it, and send the original form to the trash once it’s empty.
+
+In this walkthrough, **Venue Rental Inquiry** is merged into **Event Space Inquiry**. First name and Last name become one Name field. The merge adds an Estimated guest count field and three Event type choices, excludes the referral field, and moves 108 submissions.
+
+<video
+  src={require('@site/static/videos/craft/freeform/v5/merge-forms.mp4').default}
+  aria-label="Merge Forms walkthrough showing field mapping, three Event type choices, and a completed submission move"
+  autoPlay
+  loop
+  muted
+  playsInline
+  disablePictureInPicture
+  disableRemotePlayback
+  preload="metadata"
+  width={1440}
+  height={900}
+  style={{ width: '100%', height: 'auto' }}
+/>
+
+## Before you start
+
+You’ll need Freeform Pro, **Access Import/Export Data Utility**, and permission to manage both forms and edit their fields. Moving submissions also requires permission to manage submissions for both forms. Sending the original form to the trash requires **Delete Forms**. See [Permissions](../configuration/permissions.mdx) for help setting up access.
+
+Back up your site database before moving submissions. Freeform asks you to confirm the backup before the move, and there’s no automatic undo.
+
+## Choose and map the forms
+
+1. In the Craft control panel, open **Freeform → Import / Export → Merge Forms**.
+2. Select **Merge from** and **Merge into**, then click **Continue**.
+3. Review the suggested mapping for each field and choose the action you want.
+
+| Mapping action | What it does |
+| --- | --- |
+| **Map to existing field** | Moves values into a compatible field on the receiving form. |
+| **Merge options** | Adds missing choices to a compatible field with custom options. Choices with the same stored value use the receiving form’s existing option. |
+| **Add as a new field** | Copies a supported field to the page you choose on the receiving form. |
+| **Split** or **Combine** | Transforms values when moving submissions. Use **Split** to separate a text value into multiple fields, or **Combine** to join values from multiple fields using a separator. |
+| **Exclude field and values** | Skips the field. Its stored values are permanently lost from submissions you move. |
+
+For a fields-only merge, turn off **Move submissions to the receiving form** and add fields or merge choices. With submission moving enabled, you can also turn on **Move the original form to trash after the merge**.
+
+## Review and complete the merge
+
+Click **Review Merge** to check the field mappings, the submission count, and any exclusions. Expand **Examples** on a Split or Combine rule to see sample values before and after the transformation. For **Merge options**, review the list of choices Freeform will add to the receiving field.
+
+Confirm the review and, when moving submissions, the database backup. Click **Merge Forms** and wait for the result.
+
+Large moves run through Craft’s queue. Once the background review is ready, confirm it and click **Move Submissions**. You can leave the page after the move starts and return to **Merge Forms** to check progress. If a batch fails, **Resume Merge** continues from the last completed batch. If you stop a move, submissions already moved stay in the receiving form and the rest stay on the original form.
+
+## Restore the original form
+
+If the original form is empty after the move and you opted to send it to the trash, it appears under **Recently merged forms**. Select **Restore** to bring back the original form and its settings. Moved submissions and any added fields stay in the receiving form.

@@ -1,48 +1,180 @@
-.admonition {
-  margin-bottom: 1em;
-  position: relative;
-  padding: 0.9rem 0.9rem 0.9rem 1.5rem;
+.admonition:global(.alert--warning) {
+  --banner-fill: #fff2d0;
+  --banner-border: #eabc68;
+  --banner-icon: #915900;
+}
+
+.admonition:global(.alert--danger) {
+  --banner-fill: #ffedeb;
+  --banner-border: #eeaaa7;
+  --banner-icon: #a8323a;
+}
+
+:global(html[data-theme='dark']) .admonition:global(.alert--warning) {
+  --banner-fill: #2d220e;
+  --banner-border: #725216;
+  --banner-icon: #ffc45c;
+}
+
+:global(html[data-theme='dark']) .admonition:global(.alert--danger) {
+  --banner-fill: #28191b;
+  --banner-border: #63363b;
+  --banner-icon: #ff9b9e;
+}
+
+.admonition:global(.alert--info) {
+  --banner-fill: #e7f5ff;
+  --banner-border: #a6cbeb;
+  --banner-icon: #235e98;
+}
+
+.admonition:global(.alert--success) {
+  --banner-fill: #e5f9eb;
+  --banner-border: #a0d3b0;
+  --banner-icon: #276745;
+}
+
+:global(html[data-theme='dark']) .admonition:global(.alert--info) {
+  --banner-fill: #142435;
+  --banner-border: #2d4d6d;
+  --banner-icon: #9ac8f4;
+}
+
+:global(html[data-theme='dark']) .admonition:global(.alert--success) {
+  --banner-fill: #172a20;
+  --banner-border: #335b42;
+  --banner-icon: #8bd3a6;
+}
+
+.admonition:global(.alert) {
+  --banner-link: #303b4a;
+  --banner-prose: #435168;
+  --banner-glow-strength: 12%;
+  --banner-surface: linear-gradient(90deg, var(--banner-fill) 18%,
+    color-mix(in srgb,
+      var(--banner-fill) var(--banner-end-tint, 60%),
+      var(--banner-fade-into, var(--ifm-background-color))));
+  padding: 0.75rem 0.875rem;
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  background:
+    radial-gradient(ellipse 12rem 7rem at 1.4rem 1.15rem,
+      color-mix(in srgb, var(--banner-icon) var(--banner-glow-strength), transparent),
+      color-mix(in srgb, var(--banner-icon) 5%, transparent) 43%,
+      transparent 90%) padding-box,
+    linear-gradient(105deg, color-mix(in srgb, var(--banner-icon) 3%, transparent), transparent 55%) padding-box,
+    var(--banner-surface) padding-box,
+    radial-gradient(ellipse 48rem 12rem at top left,
+      color-mix(in srgb, var(--banner-icon) 33%, var(--banner-border)),
+      color-mix(in srgb, var(--banner-border) 34%, transparent) 42%,
+      transparent 92%) border-box,
+    var(--banner-surface) border-box;
   box-shadow: none;
+  color: color-mix(in srgb, var(--banner-prose) 76%, var(--banner-icon));
+  font-size: 0.9375rem;
+  line-height: 1.6;
 }
 
-.admonitionHeading {
-  font: var(--ifm-heading-font-weight) var(--ifm-h5-font-size) /
-    var(--ifm-heading-line-height) var(--ifm-heading-font-family);
-  text-transform: uppercase;
-  position: absolute;
-  border-radius: 50%;
-  background-color: white;
-  width: 32px;
-  height: 32px;
+:global(html[data-theme='dark']) .admonition:global(.alert) {
+  --banner-link: #f0f3f6;
+  --banner-prose: #bac6d5;
+  --banner-glow-strength: 14%;
+}
+
+.admonition:global(.alert):has(> .admonitionHeading) {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  align-items: start;
+  gap: 0.75rem;
+  padding-inline-start: 0.625rem;
+}
+
+.admonition:global(.alert) > .admonitionHeading {
+  position: static;
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0;
+  background: transparent;
+  color: var(--banner-icon);
+  animation: none;
+}
+
+.admonition:global(.alert) > .admonitionHeading > .admonitionIcon {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: var(--ifm-alert-border-color);
-  left: -20px;
-  top: 11px;
+  animation: none;
 }
 
-/* Heading alone without content (does not handle fragment content) */
-.admonitionHeading:not(:last-child) {
-  margin-bottom: 0.3rem;
+.admonition:global(.alert) > .admonitionHeading svg {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  margin: 0;
+  transform: none;
+  fill: currentColor;
 }
 
-.admonitionHeading code {
-  text-transform: none;
+.admonition:global(.alert) > .admonitionContent {
+  min-width: 0;
 }
 
-.admonitionIcon {
-  display: flex;
-  align-items: center;
+.admonition:global(.alert) > .admonitionContent
+  > :where(p, ul, ol, blockquote, :global(.theme-code-block)) {
+  margin-block: 0;
 }
 
-.admonitionIcon svg {
-  display: inline-block;
-  height: 1.3em;
-  width: 1.3em;
-  fill: var(--svg-foreground-color);
+.admonition:global(.alert) > .admonitionContent
+  > * + :where(p, ul, ol, blockquote, :global(.theme-code-block)) {
+  margin-block-start: 0.5rem;
 }
 
-.admonitionContent > :last-child {
-  margin-bottom: 0;
+.admonition:global(.alert) > .admonitionContent > :is(h3, h4) {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0;
+  color: color-mix(in srgb, var(--ifm-font-color-base) 82%, var(--banner-icon));
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.5rem;
+}
+
+.admonition:global(.alert) > .admonitionContent > h3 {
+  font-size: 1.125rem;
+}
+
+.admonition:global(.alert) > .admonitionContent > :is(h3, h4) + p {
+  margin-block-start: 0.25rem;
+}
+
+.admonition:global(.alert) > .admonitionContent > :is(ul, ol) {
+  padding-inline-start: 1.25rem;
+}
+
+.admonition:global(.alert) > .admonitionContent :is(ul, ol) > li + li {
+  margin-block-start: 0.125rem;
+}
+
+.admonition:global(.alert) > .admonitionContent
+  > :is(p, ul, ol, blockquote, h3, h4) a:not(:global(.custom-anchor-link)) {
+  border-bottom: 0 !important;
+  color: color-mix(in srgb, var(--banner-link) 78%, var(--banner-icon)) !important;
+  text-decoration: underline !important;
+  text-decoration-color: currentColor !important;
+  text-underline-offset: 0.14em;
+}
+
+.admonition:global(.alert) > .admonitionContent
+  > :is(p, ul, ol, blockquote, h3, h4) a:not(:global(.custom-anchor-link)):is(:hover, :focus-visible) {
+  text-decoration-thickness: 2px !important;
+}
+
+.admonition:global(.alert) > .admonitionContent > .admonition {
+  margin-block: 0.625rem 0 !important;
+}
+
+@media (forced-colors: active) {
+  .admonition:global(.alert) {
+    border-color: CanvasText;
+  }
 }

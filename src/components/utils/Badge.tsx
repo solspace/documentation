@@ -3,34 +3,22 @@ type BadgeType = 'lite' | 'pro' | 'feature' | 'addon' | 'recommended' | 'depreca
 interface BadgeProps {
   type: BadgeType;
   text?: string;
+  ariaLabel?: string;
 }
 
 interface BadgeGroupProps {
   children: React.ReactNode;
 }
 
-const badgeStyles: { [key in BadgeType]: string } = {
-  lite: 'bg-gradient-to-r from-amber-500 to-yellow-400 text-gray-800',
-  pro: 'bg-gradient-to-r from-red-500 to-orange-500 text-white',
-  feature: 'bg-gradient-to-r from-blue-800 to-violet-600 text-white',
-  addon: 'bg-gradient-to-r from-amber-300 to-yellow-600 text-black',
-  recommended: 'bg-gradient-to-r from-lime-700 to-lime-500 text-black',
-  deprecated: 'bg-gradient-to-r from-pink-700 to-pink-500 text-white',
-};
+const Badge: React.FC<BadgeProps> = ({ type, text, ariaLabel }) => (
+  <span className={`badge docs-badge ${type}`} title={text} aria-label={ariaLabel}>
+    <span className="docs-badge-icon" aria-hidden="true" />
+    <span className="docs-badge-label">{text}</span>
+  </span>
+);
 
-const Badge: React.FC<BadgeProps> = ({ type, text }) => {
-  return (
-    <span
-      className={`badge align-top !text-[10px] !font-bold tracking-normal mt-0.5 mx-1 max-w-full px-2 py-1 rounded-full inline-block text-center leading-snug break-words ${badgeStyles[type]} ${type}`}
-      title={text}
-    >
-      {text}
-    </span>
-  );
-};
-
-const BadgeGroup: React.FC<BadgeGroupProps> = ({ children }) => {
-  return <div className="inline-table rounded badge-group">{children}</div>;
-};
+const BadgeGroup: React.FC<BadgeGroupProps> = ({ children }) => (
+  <span className="badge-group">{children}</span>
+);
 
 export { Badge, BadgeGroup };

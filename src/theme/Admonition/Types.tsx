@@ -1,6 +1,9 @@
 import Player from 'react-player';
 
 import DefaultAdmonitionTypes from '@theme-original/Admonition/Types';
+import type { ComponentType } from 'react';
+import type { Props } from '@theme/Admonition';
+import { DangerIcon, InfoIcon, TipIcon, WarningIcon } from './BannerIcons';
 
 function YoutubeAdmonition(props) {
   return (
@@ -18,11 +21,25 @@ function YoutubeAdmonition(props) {
   );
 }
 
+function withIcon(Admonition: ComponentType<Props>, Icon: ComponentType) {
+  return function AdmonitionWithIcon(props: Props) {
+    return <Admonition icon={<Icon />} {...props} />;
+  };
+}
+
+const InfoAdmonition = withIcon(DefaultAdmonitionTypes.info, InfoIcon);
+
 const AdmonitionTypes = {
   ...DefaultAdmonitionTypes,
-
-  // Add all your custom admonition types here...
-  // You can also override the default ones if you want
+  info: InfoAdmonition,
+  note: InfoAdmonition,
+  secondary: InfoAdmonition,
+  important: withIcon(DefaultAdmonitionTypes.important, InfoIcon),
+  warning: withIcon(DefaultAdmonitionTypes.warning, WarningIcon),
+  caution: withIcon(DefaultAdmonitionTypes.caution, WarningIcon),
+  danger: withIcon(DefaultAdmonitionTypes.danger, DangerIcon),
+  tip: withIcon(DefaultAdmonitionTypes.tip, TipIcon),
+  success: withIcon(DefaultAdmonitionTypes.success, TipIcon),
   youtube: YoutubeAdmonition,
 };
 

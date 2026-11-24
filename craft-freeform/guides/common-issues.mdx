@@ -6,8 +6,53 @@ description: Troubleshooting guide for common issues with Freeform 5.x in Craft 
 
 import Admonition from '@theme/Admonition';
 import { Badge, Photo } from '@site/src/components/utils';
-import { FlexCards, AnswerCard, AnswerChecklist } from '@site/src/components/docs';
+import { FlexCards, AnswerCard, AnswerChecklist, SearchableIssues } from '@site/src/components/docs';
 import Icons from '@site/static/icons/cards';
+
+export const issueShortcuts = [
+  {
+    title: 'Installing & Upgrading',
+    description: 'Issues with installing and upgrading Freeform.',
+    icon: Icons.BoxIcon,
+    fullCardLink: '#installing--upgrading',
+  },
+  {
+    title: 'Forms',
+    description: 'Issues with loading and submitting forms.',
+    icon: Icons.ClipboardIcon,
+    fullCardLink: '#forms',
+  },
+  {
+    title: 'Submissions',
+    description: 'Issues with submission data.',
+    icon: Icons.ArchiveIcon,
+    fullCardLink: '#submissions',
+  },
+  {
+    title: 'Emails',
+    description: 'Issues with sending and recieving email notifications.',
+    icon: Icons.OpenLetterIcon,
+    fullCardLink: '#emails',
+  },
+  {
+    title: 'Integrations',
+    description: 'Issues connecting to or sending data to integrations.',
+    icon: Icons.CloudApiIcon,
+    fullCardLink: '#integrations',
+  },
+  {
+    title: 'Control Panel',
+    description: 'Issues in the control panel including form builder.',
+    icon: Icons.ConfigPageIcon,
+    fullCardLink: '#control-panel',
+  },
+  {
+    title: 'Licenses & Renewals',
+    description: 'Common questions regarding licenses and renewals.',
+    icon: Icons.BagIcon,
+    fullCardLink: '#licenses--renewals',
+  }
+];
 
 # Common Issues & Questions
 
@@ -17,55 +62,9 @@ Check out this documentation resource to troubleshoot common problems or find an
 [Quick troubleshooting the most commonly reported issues with your form's appearance, behavior, or submission of the form on the front end.](./guide/troubleshooting-form-issues.mdx)
 :::
 
-<FlexCards
-  navCards
-  items={[
-    {
-      title: 'Installing & Upgrading',
-      description: 'Issues with installing and upgrading Freeform.',
-      icon: Icons.BoxIcon,
-      fullCardLink: '#installing--upgrading',
-    },
-    {
-      title: 'Forms',
-      description: 'Issues with loading and submitting forms.',
-      icon: Icons.ClipboardIcon,
-      fullCardLink: '#forms',
-    },
-    {
-      title: 'Submissions',
-      description: 'Issues with submission data.',
-      icon: Icons.ArchiveIcon,
-      fullCardLink: '#submissions',
-    },
-    {
-      title: 'Emails',
-      description: 'Issues with sending and recieving email notifications.',
-      icon: Icons.OpenLetterIcon,
-      fullCardLink: '#emails',
-    },
-    {
-      title: 'Integrations',
-      description: 'Issues connecting to or sending data to integrations.',
-      icon: Icons.CloudApiIcon,
-      fullCardLink: '#integrations',
-    },
-    {
-      title: 'Control Panel',
-      description: 'Issues in the control panel including form builder.',
-      icon: Icons.ConfigPageIcon,
-      fullCardLink: '#control-panel',
-    },
-    {
-      title: 'Licenses & Renewals',
-      description: 'Common questions regarding licenses and renewals.',
-      icon: Icons.BagIcon,
-      fullCardLink: '#licenses--renewals',
-    }
-  ]}
-/>
+<SearchableIssues shortcuts={<FlexCards navCards items={issueShortcuts} /> }>
 
-<div className="common-issues">
+<section>
 
 ## Installing & Upgrading
 
@@ -110,6 +109,10 @@ Check out this documentation resource to troubleshoot common problems or find an
     </details>
   </AnswerCard>
 </details>
+
+</section>
+
+<section>
 
 ## Forms
 
@@ -324,6 +327,10 @@ Check out this documentation resource to troubleshoot common problems or find an
   </details>
 </details>
 
+</section>
+
+<section>
+
 ## Submissions
 
 <details>
@@ -357,6 +364,10 @@ Check out this documentation resource to troubleshoot common problems or find an
       }]} />
   </AnswerCard>
 </details>
+
+</section>
+
+<section>
 
 ## Emails
 
@@ -520,6 +531,10 @@ Check out this documentation resource to troubleshoot common problems or find an
   </AnswerCard>
 </details>
 
+</section>
+
+<section>
+
 ## Integrations
 
 <details>
@@ -610,6 +625,10 @@ Check out this documentation resource to troubleshoot common problems or find an
   </AnswerCard>
 </details>
 
+</section>
+
+<section>
+
 ## Control Panel
 
 <details>
@@ -674,6 +693,10 @@ Check out this documentation resource to troubleshoot common problems or find an
     It could be caused by a migration during a Freeform update. If this just happened after updating Freeform, try fully restoring your database using the backup you created before initiating the update again. A failed migration may leave the database partially changed or other migrations may have occurred. Downgrading to an earlier version could corrupt the database and make it unrecoverable.
   </AnswerCard>
 </details>
+
+</section>
+
+<section>
 
 ## Licenses & Renewals
 
@@ -740,4 +763,6 @@ Check out this documentation resource to troubleshoot common problems or find an
   </AnswerCard>
 </details>
 
-</div>
+</section>
+
+</SearchableIssues>

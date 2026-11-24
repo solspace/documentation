@@ -11,18 +11,60 @@ See https://x.com/JoshWComeau/status/1332015868725891076
   scroll-margin-top: 0.5rem;
 }
 
-:global(.hash-link) {
+.headingContent {
+  position: relative;
+  display: block;
+  font: inherit;
+}
+
+.headingContent > :is(:global(.docs-badge), :global(.badge-group)) {
+  position: relative;
+  inset-block-start: var(--heading-badge-offset, 0);
+}
+
+.link {
+  position: absolute;
+  inset-block-start: 0.5lh;
+  inset-inline-end: calc(100% + 0.25rem);
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  transform: translateY(-50%);
+  border: 1px solid transparent;
+  border-radius: 0.4rem;
+  background: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+  color: var(--ifm-link-color);
+  font: inherit;
   opacity: 0;
-  padding-left: 0.5rem;
-  transition: opacity var(--ifm-transition-fast);
-  user-select: none;
+  transition: opacity 120ms ease, background-color 120ms ease, border-color 120ms ease;
 }
 
-:global(.hash-link::before) {
-  content: '#';
+.link svg {
+  width: 0.9rem;
+  height: 0.9rem;
 }
 
-:global(.hash-link:focus),
-:global(*:hover > .hash-link) {
+.anchorWithStickyNavbar:hover .link,
+.anchorWithHideOnScrollNavbar:hover .link,
+.link:focus-visible {
   opacity: 1;
+}
+
+.link:hover,
+.link:focus-visible {
+  border-color: color-mix(in srgb, var(--ifm-color-primary) 35%, transparent);
+  background: color-mix(in srgb, var(--ifm-color-primary) 17%, transparent);
+  color: var(--ifm-link-color);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link {
+    transition: none;
+  }
 }

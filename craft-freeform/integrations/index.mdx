@@ -6,8 +6,7 @@ description: Browse Freeform integrations for CRM, email marketing, payments, AI
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { Photo } from '@site/src/components/utils';
-import { IntegrationCards } from '@site/src/components/docs';
-import cardStyles from '@site/src/components/docs/FieldCards.module.css';
+import { IntegrationCatalogGroup, SearchableIntegrationCatalog } from '@site/src/components/docs';
 import { integrationGroups, alphabeticalIntegrations, customIntegrations } from './catalog';
 
 # Integrations
@@ -16,62 +15,82 @@ Connect your forms to the services you use. Browse by type or alphabetically, th
 
 Integrations marked **Pro** require Freeform Pro.
 
-<div className={cardStyles.integrationLanding}>
+<SearchableIntegrationCatalog items={[...alphabeticalIntegrations, ...customIntegrations]}>
 
 <Tabs>
   <TabItem value="integrations-type" label="By Type" default>
 
-    ## CRM
+    <IntegrationCatalogGroup items={integrationGroups.crm}>
 
-    <IntegrationCards layout="catalog" items={integrationGroups.crm} />
+      ## CRM
 
-    ## Email Marketing
+    </IntegrationCatalogGroup>
 
-    <IntegrationCards layout="catalog" items={integrationGroups.emailMarketing} />
+    <IntegrationCatalogGroup items={integrationGroups.emailMarketing}>
 
-    ## Craft Elements
+      ## Email Marketing
 
-    <IntegrationCards layout="catalog" items={integrationGroups.elements} />
+    </IntegrationCatalogGroup>
 
-    ## Captchas / Spam Protection
+    <IntegrationCatalogGroup items={integrationGroups.elements}>
 
-    <IntegrationCards layout="catalog" items={integrationGroups.spam} />
+      ## Craft Elements
 
-    ## Webhooks
+    </IntegrationCatalogGroup>
 
-    <IntegrationCards layout="catalog" items={integrationGroups.webhooks} />
+    <IntegrationCatalogGroup items={integrationGroups.spam}>
 
-    ## AI
+      ## Captchas / Spam Protection
 
-    <IntegrationCards layout="catalog" items={integrationGroups.ai} />
+    </IntegrationCatalogGroup>
 
-    ## Payments
+    <IntegrationCatalogGroup items={integrationGroups.webhooks}>
 
-    <IntegrationCards layout="catalog" items={integrationGroups.payments} />
+      ## Webhooks
 
-    ## Form Processing
+    </IntegrationCatalogGroup>
 
-    <IntegrationCards layout="catalog" items={integrationGroups.processing} />
+    <IntegrationCatalogGroup items={integrationGroups.ai}>
 
-    ## Other
+      ## AI
 
-    <IntegrationCards layout="catalog" items={integrationGroups.other} />
+    </IntegrationCatalogGroup>
+
+    <IntegrationCatalogGroup items={integrationGroups.payments}>
+
+      ## Payments
+
+    </IntegrationCatalogGroup>
+
+    <IntegrationCatalogGroup items={integrationGroups.processing}>
+
+      ## Form Processing
+
+    </IntegrationCatalogGroup>
+
+    <IntegrationCatalogGroup items={integrationGroups.other}>
+
+      ## Other
+
+    </IntegrationCatalogGroup>
 
   </TabItem>
   <TabItem value="integrations-alpha" label="Alphabetically">
 
-    <IntegrationCards layout="catalog" items={alphabeticalIntegrations} />
+    <IntegrationCatalogGroup items={alphabeticalIntegrations} />
 
   </TabItem>
 </Tabs>
+
+<IntegrationCatalogGroup items={customIntegrations}>
 
 ## Custom Integrations
 
 Need a connection that is not listed? Build your own integration or [hire us](/support/custom-development/) to create one for your project.
 
-<IntegrationCards layout="catalog" items={customIntegrations} />
+</IntegrationCatalogGroup>
 
-</div>
+</SearchableIntegrationCatalog>
 
 ## Control Panel Settings
 

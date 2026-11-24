@@ -8,7 +8,7 @@ type Props = {
 
 export function SettingMeta({configKey, defaultValue, example}: Props) {
   return (
-    <dl className={styles.metadata}>
+    <dl className={styles.metadata} data-setting-meta="">
       <div><dt>Configuration key</dt><dd><code>{configKey}</code></dd></div>
       <div><dt>Default</dt><dd><code>{defaultValue}</code></dd></div>
       {example && <div><dt>Example</dt><dd><code>{example}</code></dd></div>}

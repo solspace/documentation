@@ -1,4 +1,4 @@
-import { useId } from 'react';
+import { createContext, useContext, useEffect, useId, useRef, useState } from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Image from '@theme/IdealImage';
@@ -69,6 +69,7 @@ interface CardSectionProps {
 interface FieldCardsProps {
   items: FieldProps[];
   catalog?: boolean;
+  searchable?: boolean;
   headingLevel?: 3 | 4;
 }
 
@@ -191,17 +192,17 @@ const Card: React.FC<NavigationCardProps> = ({
         )}
         <span className={navigationStyles.copy}>
           <span className={navigationStyles.heading}>
-            <span>{title}</span>
+            <span><CatalogMatchText text={title} /></span>
             {titleBadge && (
               <Badge type="feature" text={titleBadge} />
             )}
             {proOnly && (
-              <span className={fieldStyles.proBadge} aria-label="Available in Freeform Pro only">
-                Pro
-              </span>
+              <Badge type="pro" text="Pro" ariaLabel="Available in Freeform Pro only" />
             )}
           </span>
-          {description && <span className={navigationStyles.description}>{description}</span>}
+          {description && (
+            <span className={navigationStyles.description}><CatalogMatchText text={description} /></span>
+          )}
         </span>
         <span className={navigationStyles.chevron} aria-hidden="true" />
       </Link>
@@ -223,7 +224,7 @@ const Card: React.FC<NavigationCardProps> = ({
           <Badge type="feature" text={titleBadge} />
         )}
       </dt>
-      <dd className="ml-0">
+      <dd className={clsx("ml-0", navigationStyles.descriptionTone)}>
         {description}{' '}
         {linkWithDescription && (
           <span className="whitespace-nowrap">
@@ -278,7 +279,7 @@ const PromoCard: React.FC<CardProps> = ({
           {titleBadge &&<Badge type="feature" text={titleBadge} />}
         </h3>
         {description && (
-          <p className="text-sm text-gray-700 mb-1 dark:text-gray-300 transition-all duration-500 dark:group-hover:text-gray-50 ">
+          <p className={clsx("text-sm mb-1", navigationStyles.descriptionTone, navigationStyles.descriptionOnTint)}>
             {description}
           </p>
         )}
@@ -352,7 +353,7 @@ const IntroCard: React.FC<CardProps> = ({
           <Badge type="feature" text={titleBadge} />
         )}
       </dt>
-      <dd className="ml-0">
+      <dd className={clsx("ml-0", navigationStyles.descriptionTone)}>
         {description}{' '}
         {linkWithDescription && (
           <span className="whitespace-nowrap">
@@ -392,9 +393,10 @@ const IntroCards: React.FC<CardSectionProps> = ({ items, layout }) => {
 
 interface CatalogCardProps extends FieldProps {
   iconDirectory?: 'fields' | 'integrations';
+  searchQuery?: string;
 }
 
-const CatalogCard: React.FC<CatalogCardProps> = ({ iconDirectory = 'fields', ...item }) => {
+const CatalogCard: React.FC<CatalogCardProps> = ({ iconDirectory = 'fields', searchQuery, ...item }) => {
   const iconSrc = useBaseUrl(`/icons/${iconDirectory}/${item.icon}.svg`);
 
   return (
@@ -410,26 +412,218 @@ const CatalogCard: React.FC<CatalogCardProps> = ({ iconDirectory = 'fields', ...
       )}
       <span className={fieldStyles.copy}>
         <span className={fieldStyles.heading}>
-          <span className={fieldStyles.title}>{item.title}</span>
+          <span className={fieldStyles.title}><CatalogMatchText text={item.title} query={searchQuery} /></span>
           {item.proOnly && (
-            <span className={fieldStyles.proBadge} aria-label="Available in Freeform Pro only">
-              Pro
-            </span>
+            <Badge type="pro" text="Pro" ariaLabel="Available in Freeform Pro only" />
           )}
         </span>
-        <span className={fieldStyles.description}>{item.description}</span>
+        <span className={fieldStyles.description}><CatalogMatchText text={item.description} query={searchQuery} /></span>
       </span>
     </Link>
   );
 };
 
-const FieldCards: React.FC<FieldCardsProps> = ({ items, catalog = false, headingLevel = 3 }) => {
+interface CatalogSearchItem {
+  title: string;
+  description?: string;
+}
+
+function filterCatalogItems<T extends CatalogSearchItem>(items: T[], query: string): T[] {
+  const normalizedQuery = query.trim().toLowerCase();
+  if (!normalizedQuery) return items;
+
+  const terms = normalizedQuery.split(/\s+/);
+  return items.filter(({ title, description = '' }) => {
+    const searchableText = `${title} ${description}`.toLowerCase();
+    return terms.every((term) => searchableText.includes(term));
+  });
+}
+
+interface CatalogSearchProps {
+  label: string;
+  query: string;
+  onQueryChange: (query: string) => void;
+  emptyMessage: string;
+}
+
+function CatalogSearch({ label, query, onQueryChange, emptyMessage }: CatalogSearchProps) {
+  return (
+    <>
+      <div className={clsx(fieldStyles.search, "docs-catalog-search")} role="search" aria-label={label}>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="11" cy="11" r="8" strokeWidth="1.4" />
+          <path d="m21 21-4.3-4.3" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <input
+          type="search"
+          aria-label={label}
+          placeholder={`${label}…`}
+          value={query}
+          onChange={(event) => onQueryChange(event.target.value)}
+        />
+      </div>
+      <div className={fieldStyles.searchStatus} role="status">{emptyMessage}</div>
+    </>
+  );
+}
+
+const CatalogSearchContext = createContext('');
+
+interface SearchableCardCatalogProps extends ChildrenProps {
+  items: CatalogSearchItem[];
+  label: string;
+  emptyMessage: string;
+  shortcuts?: React.ReactNode;
+}
+
+function SearchableCardCatalog({ items, label, emptyMessage, shortcuts, children }: SearchableCardCatalogProps) {
+  const [query, setQuery] = useState('');
+  const hasResults = filterCatalogItems(items, query).length > 0;
+
+  return (
+    <>
+      <CatalogSearch
+        label={label}
+        query={query}
+        onQueryChange={setQuery}
+        emptyMessage={hasResults ? '' : emptyMessage}
+      />
+      {!query.trim() && shortcuts}
+      <CatalogSearchContext.Provider value={query}>
+        {children}
+      </CatalogSearchContext.Provider>
+    </>
+  );
+}
+
+const issueHighlightName = 'common-issue-search';
+
+function getCatalogSearchExpression(query: string) {
+  const terms = query.trim().split(/\s+/).sort((a, b) => b.length - a.length);
+  const alternatives = terms.map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+  return new RegExp(`(${alternatives})`, 'gi');
+}
+
+function CatalogMatchText({ text, query }: { text: string; query?: string }) {
+  const contextQuery = useContext(CatalogSearchContext);
+  const activeQuery = query ?? contextQuery;
+  if (!activeQuery.trim()) return text;
+
+  return text.split(getCatalogSearchExpression(activeQuery)).map((part, index) => (
+    index % 2 === 0 ? part : <mark key={index} className={fieldStyles.searchMatch}>{part}</mark>
+  ));
+}
+
+function collectIssueHighlights(root: HTMLElement, expression: RegExp, ranges: Range[], panels: Set<HTMLDetailsElement>) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    const text = node as Text;
+    const matches = Array.from(text.data.matchAll(expression));
+    if (!matches.length) continue;
+
+    for (const match of matches) {
+      const range = document.createRange();
+      range.setStart(text, match.index);
+      range.setEnd(text, match.index + match[0].length);
+      ranges.push(range);
+    }
+
+    const parent = text.parentElement;
+    let panel = parent?.closest<HTMLDetailsElement>('details');
+    if (panel && parent?.closest('summary')?.parentElement === panel) {
+      panel = panel.parentElement?.closest<HTMLDetailsElement>('details');
+    }
+    while (panel && root.contains(panel)) {
+      panels.add(panel);
+      panel = panel.parentElement?.closest<HTMLDetailsElement>('details');
+    }
+  }
+}
+
+function isIssueOpen(panel: HTMLDetailsElement) {
+  // Docusaurus keeps `open` set until the closing animation ends.
+  const collapsed = panel.getAttribute('data-collapsed');
+  return collapsed === null ? panel.open : collapsed === 'false';
+}
+
+function SearchableIssues({ children, shortcuts }: ChildrenProps & { shortcuts: React.ReactNode }) {
+  const [query, setQuery] = useState('');
+  const [hasResults, setHasResults] = useState(true);
+  const issuesRef = useRef<HTMLDivElement>(null);
+  const autoOpened = useRef(new Set<HTMLDetailsElement>());
+
+  useEffect(() => {
+    const sections = issuesRef.current?.querySelectorAll<HTMLElement>(':scope > section');
+    if (!sections) return;
+
+    const expression = query.trim() ? getCatalogSearchExpression(query) : null;
+    const ranges: Range[] = [];
+    const panelsToOpen = new Set<HTMLDetailsElement>();
+    let hasMatches = false;
+    sections.forEach((section) => {
+      const heading = section.querySelector('h2');
+      const title = heading?.textContent ?? '';
+      const issues = Array.from(section.querySelectorAll<HTMLDetailsElement>(':scope > details'), (element) => ({
+        element,
+        title,
+        description: element.textContent ?? '',
+      }));
+      const matches = new Set(filterCatalogItems(issues, query));
+      issues.forEach((issue) => { issue.element.hidden = !matches.has(issue); });
+      section.hidden = matches.size === 0;
+      hasMatches ||= matches.size > 0;
+
+      if (expression && matches.size) {
+        if (heading) collectIssueHighlights(heading, expression, ranges, panelsToOpen);
+        matches.forEach(({ element }) => collectIssueHighlights(element, expression, ranges, panelsToOpen));
+      }
+    });
+
+    for (const panel of autoOpened.current) {
+      if (panelsToOpen.has(panel)) continue;
+      // Let a hidden panel close when it becomes visible so Details can finish its transition.
+      if (panel.closest('[hidden]')) continue;
+      if (isIssueOpen(panel)) panel.querySelector<HTMLElement>(':scope > summary')?.click();
+      autoOpened.current.delete(panel);
+    }
+    for (const panel of panelsToOpen) {
+      if (isIssueOpen(panel)) continue;
+      panel.querySelector<HTMLElement>(':scope > summary')?.click();
+      autoOpened.current.add(panel);
+    }
+
+    const highlights = CSS.highlights as HighlightRegistry & Pick<Map<string, Highlight>, 'set' | 'delete'>;
+    if (typeof Highlight === 'function' && highlights && ranges.length) {
+      highlights.set(issueHighlightName, new Highlight(...ranges));
+    }
+    setHasResults(hasMatches);
+    return () => { highlights?.delete(issueHighlightName); };
+  }, [children, query]);
+
+  return (
+    <>
+      <CatalogSearch
+        label="Search common issues"
+        query={query}
+        onQueryChange={setQuery}
+        emptyMessage={hasResults ? '' : 'No issues match your search.'}
+      />
+      {!query.trim() && shortcuts}
+      <div ref={issuesRef} className="common-issues">
+        {children}
+      </div>
+    </>
+  );
+}
+
+const FieldCards: React.FC<FieldCardsProps> = ({ items, catalog = false, searchable = false, headingLevel = 3 }) => {
   const id = useId();
+  const [query, setQuery] = useState('');
   const CategoryHeading = headingLevel === 4 ? 'h4' : 'h3';
 
   if (catalog) {
     const categories = new Map<string, FieldProps[]>();
-    items.forEach((item) => {
+    filterCatalogItems(items, query).forEach((item) => {
       const category = item.category || 'Fields';
       const group = categories.get(category) || [];
       group.push(item);
@@ -438,6 +632,14 @@ const FieldCards: React.FC<FieldCardsProps> = ({ items, catalog = false, heading
 
     return (
       <div className={fieldStyles.catalog}>
+        {searchable && (
+          <CatalogSearch
+            label="Search fields"
+            query={query}
+            onQueryChange={setQuery}
+            emptyMessage={categories.size === 0 ? 'No fields match your search.' : ''}
+          />
+        )}
         {Array.from(categories, ([category, fields], index) => (
           <section
             key={category}
@@ -449,7 +651,7 @@ const FieldCards: React.FC<FieldCardsProps> = ({ items, catalog = false, heading
             </CategoryHeading>
             <div className={fieldStyles.grid}>
               {fields.map((item) => (
-                <CatalogCard key={item.link} {...item} />
+                <CatalogCard key={item.link} searchQuery={query} {...item} />
               ))}
             </div>
           </section>
@@ -496,6 +698,19 @@ const SettingsCards: React.FC<FieldCardsProps> = ({ items }) => (
     </div>
   </div>
 );
+
+function SettingsCatalogGroup({ items, children }: ChildrenProps & Pick<FieldCardsProps, 'items'>) {
+  const query = useContext(CatalogSearchContext);
+  const matches = filterCatalogItems(items, query);
+  if (!matches.length) return null;
+
+  return (
+    <>
+      {children}
+      <SettingsCards items={matches} />
+    </>
+  );
+}
 
 const IntegrationCards: React.FC<IntegrationCardsProps> = ({ items, layout }) => {
 
@@ -575,29 +790,83 @@ const IntegrationCards: React.FC<IntegrationCardsProps> = ({ items, layout }) =>
   );
 };
 
-const GuideCards: React.FC<GuideCardsProps> = ({ items }) => {
+interface IntegrationCatalogProps extends ChildrenProps {
+  items: IntegrationProps[];
+}
+
+function SearchableIntegrationCatalog({ items, children }: IntegrationCatalogProps) {
   return (
-    <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
-      {items.map((item, index) => (
-        <Link
-          key={`guide-cards-${index}`}
-          to={item.link}
-          className="relative flex flex-col rounded-lg p-4 m-1 hover:m-0 hover:p-5 transition-all duration-500 bg-[rgba(0,127,230,0.2)] dark:bg-[rgba(0,105,190,0.25)] hover:bg-[#87c9ff] hover:dark:bg-[#0069be]"
-        >
-          <h4 className="!text-[1.1rem] font-bold text-black dark:text-white !mt-0 !pt-0 !mb-2">
-            {item.title}{' '}
-            {item.popular && (
-              <Badge type="recommended" text="Popular!" />
-            )}
-          </h4>
-          <p className="text-[0.8rem] text-black/80 dark:text-white/80 mb-0">
-            {item.description}
-          </p>
-        </Link>
-      ))}
+    <div className={fieldStyles.integrationLanding}>
+      <SearchableCardCatalog
+        items={items}
+        label="Search integrations"
+        emptyMessage="No integrations match your search."
+      >
+        {children}
+      </SearchableCardCatalog>
     </div>
   );
-};
+}
+
+function IntegrationCatalogGroup({ items, children }: Omit<IntegrationCatalogProps, 'children'> & { children?: React.ReactNode }) {
+  const query = useContext(CatalogSearchContext);
+  const matches = filterCatalogItems(items, query);
+  if (!matches.length) return null;
+
+  return (
+    <>
+      {children}
+      <IntegrationCards layout="catalog" items={matches} />
+    </>
+  );
+}
+
+type GuideTone = 'blue' | 'teal' | 'violet' | 'rose' | 'amber';
+
+type GuideCollectionProps = GuideCardsProps & { tone?: GuideTone };
+
+function GuideIllustration({ icon }: { icon: string }) {
+  const iconUrl = useBaseUrl(`/icons/cards/${icon}.svg`);
+
+  return (
+    <span className={navigationStyles.guideIllustration} aria-hidden="true">
+      <span className={navigationStyles.guideGlyph} style={{ maskImage: `url("${iconUrl}")` }} />
+    </span>
+  );
+}
+
+const GuideCards: React.FC<GuideCollectionProps> = ({ items, tone = 'blue' }) => (
+  <div className={navigationStyles.guideCollection} data-tone={tone}>
+    <ul className={navigationStyles.guideList} role="list">
+      {items.map((item) => (
+        <li key={item.link}>
+          <Link to={item.link} className={navigationStyles.guideLink}>
+            {item.icon && <GuideIllustration icon={item.icon} />}
+            <span className={navigationStyles.heading}>
+              <span><CatalogMatchText text={item.title} /></span>
+              {item.popular && <span className={navigationStyles.guideBadge}>Popular</span>}
+            </span>
+            <span className={navigationStyles.description}><CatalogMatchText text={item.description} /></span>
+            <span className={navigationStyles.chevron} aria-hidden="true" />
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+function GuideCatalogGroup({ items, tone, children }: ChildrenProps & GuideCollectionProps) {
+  const query = useContext(CatalogSearchContext);
+  const matches = filterCatalogItems(items, query);
+  if (!matches.length) return null;
+
+  return (
+    <>
+      {children}
+      <GuideCards items={matches} tone={tone} />
+    </>
+  );
+}
 
 const ReviewCards: React.FC<GuideCardsProps> = ({ items }) => {
   return (
@@ -693,10 +962,16 @@ export {
   IntroCards,
   FieldCards,
   SettingsCards,
+  SettingsCatalogGroup,
+  SearchableCardCatalog,
+  SearchableIssues,
   ReviewCards,
   FaqCards,
   GuideCards,
+  GuideCatalogGroup,
   IntegrationCards,
+  IntegrationCatalogGroup,
+  SearchableIntegrationCatalog,
   OldIntegrationCards,
   AnswerCard,
   AnswerChecklist,

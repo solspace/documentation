@@ -47,15 +47,19 @@ export default function Heading({
       )}
       id={id}
     >
-      <Link
-        className="hash-link custom-anchor-link"
-        to={`#${id}`}
-        aria-label={anchorTitle}
-        title={anchorTitle}
-      >
-        &#8203;
-      </Link>
-      {props.children}
+      <span className={styles.headingContent}>
+        <Link
+          className={clsx('custom-anchor-link', styles.link)}
+          to={`#${id}`}
+          aria-label={anchorTitle}
+          title={anchorTitle}
+        >
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <path d="M10 13.5a3.5 3.5 0 0 0 5 .1l4-4a3.5 3.5 0 0 0-5-5l-1.7 1.7m1.7 4.2a3.5 3.5 0 0 0-5-.1l-4 4a3.5 3.5 0 0 0 5 5l1.7-1.7" />
+          </svg>
+        </Link>
+        {props.children}
+      </span>
     </As>
   );
 }

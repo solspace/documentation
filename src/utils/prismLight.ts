@@ -2,63 +2,63 @@ import { type PrismTheme } from 'prism-react-renderer';
 
 const theme: PrismTheme = {
   plain: {
-    color: '#ffffff',
-    backgroundColor: '#161b22',
+    color: '#26364b',
+    backgroundColor: '#fbfcfd',
   },
   styles: [
     {
       types: ['comment', 'prolog', 'doctype', 'cdata', 'block-comment'],
       style: {
-        color: '#999',
+        color: '#52637a',
       },
     },
     {
       types: ['punctuation'],
       style: {
-        color: '#ccc',
+        color: '#465870',
       },
     },
     {
       types: ['tag', 'deleted', 'attr-name', 'namespace'],
       style: {
-        color: '#e2777a',
+        color: '#ad304d',
       },
     },
     {
       types: ['function-name'],
       style: {
-        color: '#6196cc',
+        color: '#1955b5',
       },
     },
     {
       types: ['function', 'boolean', 'number'],
       style: {
-        color: '#f08d49',
+        color: '#a63810',
       },
     },
     {
       types: ['class-name', 'constant', 'property', 'symbol'],
       style: {
-        color: '#f8c555',
+        color: '#805100',
       },
     },
     {
       types: ['atrule', 'builtin', 'important', 'keyword', 'selector'],
       style: {
-        color: '#cc99cd',
+        color: '#7831a8',
       },
     },
     {
       types: ['attr-value', 'char', 'regex', 'string', 'variable'],
       style: {
-        color: '#7ec699',
+        color: '#08734f',
       },
     },
 
     {
       types: ['entity', 'operator', 'url'],
       style: {
-        color: '#67cdcc',
+        color: '#126382',
       },
     },
     {
@@ -82,25 +82,26 @@ const theme: PrismTheme = {
     {
       types: ['namespace'],
       style: {
-        opacity: 0.7,
+        color: '#52637a',
       },
     },
     {
       types: ['deleted'],
       style: {
-        backgroundColor: 'rgba(255,0,24,.15)',
+        backgroundColor: '#f7e1e7',
       },
     },
     {
       types: ['inserted'],
       style: {
-        backgroundColor: 'rgba(60,255,0,.15)',
+        color: '#08734f',
+        backgroundColor: '#deeee5',
       },
     },
     {
       types: ['line-highlight'],
       style: {
-        backgroundColor: 'rgb(9 19 32)',
+        backgroundColor: '#dee9f7',
       },
     },
   ],

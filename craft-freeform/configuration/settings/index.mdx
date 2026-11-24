@@ -5,9 +5,33 @@ slug: /configuration/settings
 description: Find Freeform control panel settings, configuration references, and related setup guides.
 ---
 
-import { SettingsCards } from '@site/src/components/docs';
+import { SearchableCardCatalog, SettingsCatalogGroup } from '@site/src/components/docs';
 import LegacyReferenceRedirect from '@site/src/components/docs/LegacyReferenceRedirect';
 import legacyAnchors from './legacy-anchors.json';
+
+export const settingsGroups = {
+  core: [
+    {"title": "General Settings", "description": "Plugin behavior, sites, exports, and cleanup", "icon": "config-page", "link": "./general/"},
+    {"title": "Form Behavior", "description": "Submission behavior, scripts, and saved progress", "icon": "computer", "link": "./form-behavior/"},
+    {"title": "Form Builder", "description": "Defaults for forms, fields, and notifications", "icon": "widgets", "link": "./form-builder/"},
+    {"title": "Queue Processing", "description": "Background tasks and automatic queue pinging", "icon": "queue", "link": "./queue-processing/"},
+  ],
+  templates: [
+    {"title": "Template Manager", "description": "Formatting, email, and success templates", "icon": "code", "link": "./template-manager/"},
+    {"title": "PDF Templates", "description": "Generate PDF attachments for notifications", "icon": "pdf", "link": "./pdf-templates/", "proOnly": true},
+    {"title": "Statuses", "description": "Create and manage submission statuses", "icon": "category", "link": "./statuses/"},
+  ],
+  access: [
+    {"title": "Limited Users", "description": "Simplify the builder for users and groups", "icon": "padlock", "link": "../limited-users/", "proOnly": true},
+    {"title": "Integrations", "description": "Connect forms to services and Craft Elements", "icon": "cloud-api", "link": "../../integrations/"},
+    {"title": "Spam Protection", "description": "Spam handling, throttling, and retention", "icon": "carrot", "link": "./spam-protection/"},
+  ],
+  maintenance: [
+    {"title": "Demo Templates", "description": "Install examples and explore Freeform", "icon": "starter-templates", "link": "../demo-templates/"},
+    {"title": "Notices & Alerts", "description": "Updates, email alerts, and weekly digests", "icon": "email-report", "link": "../notices-alerts/"},
+    {"title": "Logs", "description": "Troubleshoot errors, integrations, and emails", "icon": "review", "link": "./logs/"},
+  ],
+};
 
 # Settings
 
@@ -19,46 +43,37 @@ Sections marked **Pro** require Freeform Pro. Other sections identify edition re
 
 Start with the [Setup Guide](../setup-guide.mdx) for recommended site defaults. On Craft 5, use [Content Integrations](../content-integrations.mdx) to enable form authoring inside content editors, link fields, and navigation.
 
+<SearchableCardCatalog
+  label="Search settings"
+  items={Object.values(settingsGroups).flat()}
+  emptyMessage="No settings match your search."
+>
+
+<SettingsCatalogGroup items={settingsGroups.core}>
+
 ## Core settings
 
-<SettingsCards
-  items={[
-    {"title": "General Settings", "description": "Plugin behavior, sites, exports, and cleanup", "icon": "config-page", "link": "./general/"},
-    {"title": "Form Behavior", "description": "Submission behavior, scripts, and saved progress", "icon": "computer", "link": "./form-behavior/"},
-    {"title": "Form Builder", "description": "Defaults for forms, fields, and notifications", "icon": "widgets", "link": "./form-builder/"},
-    {"title": "Queue Processing", "description": "Background tasks and automatic queue pinging", "icon": "queue", "link": "./queue-processing/"},
-  ]}
-/>
+</SettingsCatalogGroup>
+
+<SettingsCatalogGroup items={settingsGroups.templates}>
 
 ## Templates & content
 
-<SettingsCards
-  items={[
-    {"title": "Template Manager", "description": "Formatting, email, and success templates", "icon": "code", "link": "./template-manager/"},
-    {"title": "PDF Templates", "description": "Generate PDF attachments for notifications", "icon": "pdf", "link": "./pdf-templates/", "proOnly": true},
-    {"title": "Statuses", "description": "Create and manage submission statuses", "icon": "category", "link": "./statuses/"},
-  ]}
-/>
+</SettingsCatalogGroup>
+
+<SettingsCatalogGroup items={settingsGroups.access}>
 
 ## Access & connections
 
-<SettingsCards
-  items={[
-    {"title": "Limited Users", "description": "Simplify the builder for users and groups", "icon": "padlock", "link": "../limited-users/", "proOnly": true},
-    {"title": "Integrations", "description": "Connect forms to services and Craft Elements", "icon": "cloud-api", "link": "../../integrations/"},
-    {"title": "Spam Protection", "description": "Spam handling, throttling, and retention", "icon": "carrot", "link": "./spam-protection/"},
-  ]}
-/>
+</SettingsCatalogGroup>
+
+<SettingsCatalogGroup items={settingsGroups.maintenance}>
 
 ## Maintenance
 
-<SettingsCards
-  items={[
-    {"title": "Demo Templates", "description": "Install examples and explore Freeform", "icon": "starter-templates", "link": "../demo-templates/"},
-    {"title": "Notices & Alerts", "description": "Updates, email alerts, and weekly digests", "icon": "email-report", "link": "../notices-alerts/"},
-    {"title": "Logs", "description": "Troubleshoot errors, integrations, and emails", "icon": "review", "link": "./logs/"},
-  ]}
-/>
+</SettingsCatalogGroup>
+
+</SearchableCardCatalog>
 
 ## Managing Configuration
 
